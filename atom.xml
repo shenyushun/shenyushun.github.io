@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.hi-roy.com/"/>
-  <updated>2019-11-28T07:18:15.619Z</updated>
+  <updated>2019-12-03T06:52:06.056Z</updated>
   <id>http://www.hi-roy.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何更好的Code Review</title>
+    <link href="http://www.hi-roy.com/2019/12/03/%E5%A6%82%E4%BD%95%E6%9B%B4%E5%A5%BD%E7%9A%84code-review/"/>
+    <id>http://www.hi-roy.com/2019/12/03/如何更好的code-review/</id>
+    <published>2019-12-03T03:05:03.000Z</published>
+    <updated>2019-12-03T06:52:06.056Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://levelup.gitconnected.com/how-to-do-good-code-reviews-ee481f73b11b" target="_blank" rel="noopener">原文</a>，向原作者表示感谢。不过不知道作者是不是在国内学过作文，让我想起了小学时老师教的作文要多引用名人名言哈哈。</p><hr><p>几年前当我还是个菜鸟的时候，我过得十分潇洒。</p><p>写代码——交给别人review——改代码，绳命是多磨美好！工作内容就是仔细阅读我收到的评论、建议，学着成为一个更优秀的开发者。如今我成长为了一名高级开发人员，给别人做code review成为了我的职责之一，这时我意识到我的经验还不足以完成这种职责转变。</p><p>每次给别人做code review时我都感觉到害怕，感觉自己像是一个骗子，很多问题都困扰着我：</p><p><em>我该给这行代码提建议吗？</em></p><p><em>应该有更好的办法写这段代码，我应该告诉他吗？</em></p><p><em>他会怎么想？他的经验比我丰富。</em></p><p><em>改了这一行代码会不会使程序崩溃？</em></p><p>这时我的导师给了我建议。</p><p>好的code review聚焦于获得额外的产出，而非仅仅是找到bug。别把review当做是审讯，而当做是一种提高代码质量、发现其他方案、增加学习能力以及加强友谊的办法。</p><p>作为reviewer，你对代码的反馈是将渴望贡献的开发者组建成社区的一种主要方法。通过培养一个活跃的社区，你将提升产品、团队、和人生的质量。</p><p>这里有一些做好code review的建议。</p><a id="more"></a><h2 id="设置目标以及测量指标"><a href="#设置目标以及测量指标" class="headerlink" title="设置目标以及测量指标"></a>设置目标以及测量指标</h2><p>Scott M. Graffiu说过：</p><blockquote><p>如果你不收集任何指标，你是在瞎搞。如果你收集的指标过多，则会干扰你的视野。(If you don’t collect any metrics, you’re flying blind. If you collect and focus on too many, they may be obstructing your field of view)</p></blockquote><p>取得平衡的关键在于你如何收集指标，太多的指标是在浪费时间，没有指标则是在一艘没有舵的船上航行。当开始之前，你的团队应该决定如何衡量code review的效果并列举一些具体的目标。一般来说，好的代码应该：</p><p>首先是完成功能——像预期那样工作。</p><p>其次是整洁可维护——可读性很重要。</p><p>最后是优化——像在生产环境那样运行。</p><p>定义的指标应该在review前后进行测量和追踪，比如“减少客服15%的工作量”，或者“减少开发期间50%的错误率”。</p><p>记住，目标应该是你提高代码质量的测量图。“修bug”并不是一个具体的目标，不会产生任何价值。正如Albert Einstein说的:</p><blockquote><p>只有测量才能带来管控。(What gets measured will only get managed.)</p></blockquote><h2 id="对事不对人"><a href="#对事不对人" class="headerlink" title="对事不对人"></a>对事不对人</h2><p>Frank A. Clark说:</p><blockquote><p>批评就像是雨，应该温和的促使人成长而不是摧毁他。(Criticism, like rain, should be gentle enough to nourish a man’s growth without destroying his roots)</p></blockquote><p>为啥有时候code review会跑偏变成批评大会？</p><p>这种情况往往发生于我们停止讨论这个主意的优劣而开始讨论想出这个主意的人的时候。我们总是很容易的说出:“某某，你个傻B，为啥不用并发”，但我们需要的是更优雅、中立、成熟的说：“我很好奇这段代码，如果使用并发实现会怎样？”</p><p>这2种说法区别是很明显的，第一种你是在羞辱他并且激怒他进行反击。第二种你仅仅是在说代码，没有评论或者指责，只是朴素的讨论。</p><p>记住，谦虚和礼貌的和人交流是十分有意义的，确保你们聚焦于主意的优劣而非消耗在其他无关问题上。</p><p><strong>保持专业，别情绪化。</strong></p><h2 id="不懂就问"><a href="#不懂就问" class="headerlink" title="不懂就问"></a>不懂就问</h2><p>Kubra Sait说：</p><blockquote><p>提问是改变的第一步。(Asking questions is the first way to begin change)</p></blockquote><p>如果你对项目没有足够的熟悉，你不可能做好code review，奏是这么简单。</p><p>不管别人怎么样，你需要去观察你能想得到的任何相关的事。这要求你看的更深，问各种问题，确保你理解每一步。</p><p>你就好像一个医生，要问各种问题——患者的习惯、吃了什么东西，压力如何，吃过什么药等等，这样才能提高疗效。人体是一个十分复杂的系统，除非医生十分执着，否则他不会找到引发问题的根本原因。</p><p>code review和上面原理类似，Nigel Munoz建议reviewer思考“这个改变将导致大或小什么样的情况”。大的包括发现任何重复的代码，非模块化，或者没遵守约定俗成的一些惯例——以及分析对代码架构的修改。</p><h2 id="不要填鸭式教育"><a href="#不要填鸭式教育" class="headerlink" title="不要填鸭式教育"></a>不要填鸭式教育</h2><p>Maimonides说过:</p><blockquote><p>授人以鱼不如授人以渔。(Give a man a fish and you feed him for a day; teach a man to fish and you feed him for a lifetime)</p></blockquote><p>当你做code review时你在扮演的是一名指导者，好的指导者从来不进行填鸭式教育。</p><p>你要做的是引导他们解决问题并且激励他们。相像自己是寻宝游戏中的NPC，你给玩家指出线索，指明正确的路线，而最终由他们自己去解决问题。这样做有很多优点：</p><ol><li>code review成为学习和分享的机会。</li><li>开发人员对代码有完整的所有权而不是依赖你帮他们解决问题。（Roy注：说白了就是控制自己改别人代码的冲动。）</li><li>你将创造和培养下一任高级开发人员。</li></ol><p>一旦团队采纳了这种学习态度，你很快就会发现团队的智力资本在不断上升。这也健康的使用了开发人员的自我驱动力。<strong>“自我成就感”天然的促使开发人员写出更整洁的代码，因为这给他们展示自己能力的机会</strong>。</p><h2 id="控制时长"><a href="#控制时长" class="headerlink" title="控制时长"></a>控制时长</h2><p>Garry Kasparov说过:</p><blockquote><p>能努力工作几天还保持专注是一种天赋，能长久学习后还不断吸收新知识也是一种天赋。(The ability to work hard for days on end without losing focus is a talent. The ability to keep absorbing new information after many hours of study is a talent)</p></blockquote><p>别把code review当做苦差事，如果你发现自己吸收知识的能力每时每刻都在下降，那么你需要停下来活动一下清空脑子。做review时不要超过60分钟，超过这个时间效率和关注细节的能力都会下降，最好是在短时间内进行review。</p><p>不要一次性review很多行代码，你不太可能会发现缺陷，保持每次review的代码在400行以内，设定一个行数限制和设置时间限制一样重要。这确保你在review时保持最佳状态。</p><p>经常做code review不仅仅能提高代码质量，还让你有时间去想每个问题的最佳解决方案去替换脑子中最先想到的方案。</p><p>最后，让code review变成一件积极的事，事实上bug在进入生产环境之前就被发现总比造成客户抱怨好得多。谁如何导致了bug并不重要，重要的是你和团队在创造更优秀产品中的作用。</p><p>培养这种积极的想法，使code review成为一种集体协作行为，这有助于团队感激(而不是害怕)code review。</p><p>正如Hellen Keller所说:</p><blockquote><p>人多力量大。(Alone we can do so little; together we can do so much)</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://levelup.gitconnected.com/how-to-do-good-code-reviews-ee481f73b11b&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;原文&lt;/a&gt;，向原作者表示感谢。不过不知道作者是不是在国内学过作文，让我想起了小学时老师教的作文要多引用名人名言哈哈。&lt;/p&gt;&lt;hr&gt;&lt;p&gt;几年前当我还是个菜鸟的时候，我过得十分潇洒。&lt;/p&gt;&lt;p&gt;写代码——交给别人review——改代码，绳命是多磨美好！工作内容就是仔细阅读我收到的评论、建议，学着成为一个更优秀的开发者。如今我成长为了一名高级开发人员，给别人做code review成为了我的职责之一，这时我意识到我的经验还不足以完成这种职责转变。&lt;/p&gt;&lt;p&gt;每次给别人做code review时我都感觉到害怕，感觉自己像是一个骗子，很多问题都困扰着我：&lt;/p&gt;&lt;p&gt;&lt;em&gt;我该给这行代码提建议吗？&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;应该有更好的办法写这段代码，我应该告诉他吗？&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;他会怎么想？他的经验比我丰富。&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;改了这一行代码会不会使程序崩溃？&lt;/em&gt;&lt;/p&gt;&lt;p&gt;这时我的导师给了我建议。&lt;/p&gt;&lt;p&gt;好的code review聚焦于获得额外的产出，而非仅仅是找到bug。别把review当做是审讯，而当做是一种提高代码质量、发现其他方案、增加学习能力以及加强友谊的办法。&lt;/p&gt;&lt;p&gt;作为reviewer，你对代码的反馈是将渴望贡献的开发者组建成社区的一种主要方法。通过培养一个活跃的社区，你将提升产品、团队、和人生的质量。&lt;/p&gt;&lt;p&gt;这里有一些做好code review的建议。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="菜鸟翻译屋" scheme="http://www.hi-roy.com/source/all-categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/"/>
+    
+    
+      <category term="code review" scheme="http://www.hi-roy.com/source/all-tags/code-review/"/>
+    
+  </entry>
   
   <entry>
     <title>设计模式-适配器模式</title>
@@ -442,28 +464,6 @@
     <summary type="html">
     
       &lt;h2 id=&quot;环境搭建&quot;&gt;&lt;a href=&quot;#环境搭建&quot; class=&quot;headerlink&quot; title=&quot;环境搭建&quot;&gt;&lt;/a&gt;环境搭建&lt;/h2&gt;&lt;p&gt;前提需要电脑中存在&lt;code&gt;git&lt;/code&gt;、&lt;code&gt;docker&lt;/code&gt;、&lt;code&gt;docker-compose&lt;/code&gt;命令以及有&lt;code&gt;golang&lt;/code&gt;开发环境。&lt;/p&gt;&lt;p&gt;首先创建目录存放Fabric代码，&lt;strong&gt;注意路径和权限&lt;/strong&gt;，在启动服务时候会向其中写一些文件，最开始我就是没注意到这点报错了。&lt;br&gt;&lt;/p&gt;&lt;figure class=&quot;highlight sh&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo mkdir /opt/gopath/src/github.com/hyperledger/&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;进入刚才创建的目录后拉取代码：&lt;br&gt;&lt;/p&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;cd /opt/gopath/src/github.com/hyperledger&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git clone https://github.com/hyperledger/fabric.git&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;当前版本是1.1。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="区块链" scheme="http://www.hi-roy.com/source/all-categories/%E5%8C%BA%E5%9D%97%E9%93%BE/"/>
-    
-    
-      <category term="区块链" scheme="http://www.hi-roy.com/source/all-tags/%E5%8C%BA%E5%9D%97%E9%93%BE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Raft算法</title>
-    <link href="http://www.hi-roy.com/2018/06/07/Raft%E7%AE%97%E6%B3%95/"/>
-    <id>http://www.hi-roy.com/2018/06/07/Raft算法/</id>
-    <published>2018-06-07T14:26:33.000Z</published>
-    <updated>2019-09-16T08:11:51.469Z</updated>
-    
-    <content type="html"><![CDATA[<p>相比与Paxos算法，Raft更容易理解。首先推荐个<a href="http://thesecretlivesofdata.com/raft/" target="_blank" rel="noopener">动画视频</a> (注意这个动画真的基于raft算法，所以每次选举出的节点都是不同的，我观看某些章节时候甚至出现过3次选举过程)，然后是<a href="http://www.infoq.com/cn/articles/raft-paper" target="_blank" rel="noopener">raft论文中文版</a>和<a href="https://raft.github.io/" target="_blank" rel="noopener">raft主页</a>，基本结合这3个网站就能理解raft了。</p><p>在Raft算法中，有3种角色：</p><ul><li>Leader</li><li>Follower</li><li>Candidate</li></ul><p>大体分为2个过程：</p><ol><li>选举(Leader Election)</li><li>日志同步(Log Replication)<a id="more"></a></li></ol><h2 id="选举"><a href="#选举" class="headerlink" title="选举"></a>选举</h2><p>选举和现实社会中的民主选举制度很像，当Follower超过选举超时时间(election timeout)没收到来自Leader的心跳报文，则成为Candidate，增加任期(Term)并向其他节点发起新的选举请求。接收到请求的节点如果还没投票则投票给该节点，并重置自己的超时时间。如果获取到了超过一半的赞同票，则成为新的Leader。每隔一定时间向Follower发送心跳报文来维持自己的”统治”地位。</p><p>那么，万一有多个节点获得了同样的投票怎么办呢？</p><p>此时则等待各自的超时时间后，增加Term后再次发起投票。解决这个问题的关键在于 <strong>每个节点的election timeout</strong> 是不同的。</p><h2 id="日志同步"><a href="#日志同步" class="headerlink" title="日志同步"></a>日志同步</h2><p>当选举完成后，客户端进行的操作都要通过Leader来进行。首先Leader接受到客户端发来的操作请求后记录到日志中，此时为uncommitted状态。然后在下一个心跳报文中通知所有Follower，当大多数Follower响应后，Leader响应客户端，进入committed阶段，并向Follower发送通知应用(apply)操作。</p><h2 id="脑裂"><a href="#脑裂" class="headerlink" title="脑裂"></a>脑裂</h2><p>如果由于网络分区(network partition)造成同时有多个Leader，这种情况下某些Leader由于获取不到大多数的投票，所以数据永远不会提交成功。当网络故障恢复后，旧的Leader发现有Term更新的Leader存在，则自动降级为Follower并从最新的Leader同步数据达成集群一致。</p><h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>如果在日志同步阶段，Leader响应客户端后进入committed阶段，但没来得及向Follower发送通知就挂掉了，重新选举后这次修改会不会丢失？</p><p>答案是不会丢失。具体解释可以参考<a href="https://stackoverflow.com/questions/34672331/what-will-happen-to-replicated-but-uncommited-logs-in-raft-protocol" target="_blank" rel="noopener">这里</a>。</p><hr><p>最后再推荐一个<a href="https://www.cnblogs.com/mindwind/p/5231986.html" target="_blank" rel="noopener">文章</a>，里面关于什么时候Leader挂掉的图解很清晰。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;相比与Paxos算法，Raft更容易理解。首先推荐个&lt;a href=&quot;http://thesecretlivesofdata.com/raft/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;动画视频&lt;/a&gt; (注意这个动画真的基于raft算法，所以每次选举出的节点都是不同的，我观看某些章节时候甚至出现过3次选举过程)，然后是&lt;a href=&quot;http://www.infoq.com/cn/articles/raft-paper&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;raft论文中文版&lt;/a&gt;和&lt;a href=&quot;https://raft.github.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;raft主页&lt;/a&gt;，基本结合这3个网站就能理解raft了。&lt;/p&gt;&lt;p&gt;在Raft算法中，有3种角色：&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Leader&lt;/li&gt;&lt;li&gt;Follower&lt;/li&gt;&lt;li&gt;Candidate&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;大体分为2个过程：&lt;/p&gt;&lt;ol&gt;&lt;li&gt;选举(Leader Election)&lt;/li&gt;&lt;li&gt;日志同步(Log Replication)
     
     </summary>
     

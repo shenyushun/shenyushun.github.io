@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.hi-roy.com/2019/12/03/%E5%A6%82%E4%BD%95%E6%9B%B4%E5%A5%BD%E7%9A%84code-review/</loc>
+    
+    <lastmod>2019-12-03T06:52:06.056Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.hi-roy.com/2019/11/28/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</loc>
     
     <lastmod>2019-11-28T07:18:15.619Z</lastmod>
@@ -107,14 +114,14 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2013/11/07/%E9%82%A3%E4%B8%AA%E4%B8%8D%E5%AB%8C%E4%BD%A0%E7%A9%B7%E7%9A%84%E5%A7%91%E5%A8%98%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E6%B2%A1%E9%99%AA%E4%BD%A0%E8%B5%B0%E5%88%B0%E6%9C%80%E5%90%8E/</loc>
+    <loc>http://www.hi-roy.com/2015/01/08/%E9%80%89%E6%8B%A9%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F%E5%99%A8%E6%97%B6%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E5%87%A0%E7%82%B9%EF%BC%88%E7%BF%BB%E8%AF%91%EF%BC%89/</loc>
     
     <lastmod>2019-09-16T08:11:51.538Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2015/01/08/%E9%80%89%E6%8B%A9%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F%E5%99%A8%E6%97%B6%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E5%87%A0%E7%82%B9%EF%BC%88%E7%BF%BB%E8%AF%91%EF%BC%89/</loc>
+    <loc>http://www.hi-roy.com/2013/11/07/%E9%82%A3%E4%B8%AA%E4%B8%8D%E5%AB%8C%E4%BD%A0%E7%A9%B7%E7%9A%84%E5%A7%91%E5%A8%98%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E6%B2%A1%E9%99%AA%E4%BD%A0%E8%B5%B0%E5%88%B0%E6%9C%80%E5%90%8E/</loc>
     
     <lastmod>2019-09-16T08:11:51.538Z</lastmod>
     
@@ -135,14 +142,14 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2016/02/24/%E8%A7%A3%E5%86%B3flower-Substantial-drift-from-may-mean-clocks-are-out-of-sync%E9%94%99%E8%AF%AF/</loc>
+    <loc>http://www.hi-roy.com/2014/06/25/%E8%A7%A3%E5%86%B3ipad%E6%9C%AA%E8%83%BD%E6%89%BE%E5%88%B0%E4%BD%BF%E7%94%A8%E6%8C%87%E5%AE%9A%E4%B8%BB%E6%9C%BA%E5%90%8D%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8/</loc>
     
     <lastmod>2019-09-16T08:11:51.536Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2014/06/25/%E8%A7%A3%E5%86%B3ipad%E6%9C%AA%E8%83%BD%E6%89%BE%E5%88%B0%E4%BD%BF%E7%94%A8%E6%8C%87%E5%AE%9A%E4%B8%BB%E6%9C%BA%E5%90%8D%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8/</loc>
+    <loc>http://www.hi-roy.com/2016/02/24/%E8%A7%A3%E5%86%B3flower-Substantial-drift-from-may-mean-clocks-are-out-of-sync%E9%94%99%E8%AF%AF/</loc>
     
     <lastmod>2019-09-16T08:11:51.536Z</lastmod>
     
@@ -156,13 +163,6 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2017/04/13/%E8%A7%A3%E5%86%B3apahce%E9%83%A8%E7%BD%B2python%E7%A8%8B%E5%BA%8F503%E9%94%99%E8%AF%AF/</loc>
-    
-    <lastmod>2019-09-16T08:11:51.535Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.hi-roy.com/2016/06/21/%E8%A7%A3%E5%86%B3django%E4%BD%BF%E7%94%A8logging%E6%97%B6%E2%80%9Ccharacter-mapping-must-return-integer-None-or-unicode%E2%80%9D%E9%94%99%E8%AF%AF/</loc>
     
     <lastmod>2019-09-16T08:11:51.535Z</lastmod>
@@ -170,14 +170,21 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2014/07/09/%E8%A1%80%E6%B3%AA%E7%8E%96%E7%91%B0%EF%BC%88%E8%BD%AC%EF%BC%89/</loc>
+    <loc>http://www.hi-roy.com/2017/04/13/%E8%A7%A3%E5%86%B3apahce%E9%83%A8%E7%BD%B2python%E7%A8%8B%E5%BA%8F503%E9%94%99%E8%AF%AF/</loc>
+    
+    <lastmod>2019-09-16T08:11:51.535Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.hi-roy.com/2013/11/01/%E8%A3%85%E9%A5%B0%E5%99%A8/</loc>
     
     <lastmod>2019-09-16T08:11:51.534Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2013/11/01/%E8%A3%85%E9%A5%B0%E5%99%A8/</loc>
+    <loc>http://www.hi-roy.com/2014/07/09/%E8%A1%80%E6%B3%AA%E7%8E%96%E7%91%B0%EF%BC%88%E8%BD%AC%EF%BC%89/</loc>
     
     <lastmod>2019-09-16T08:11:51.534Z</lastmod>
     
@@ -198,13 +205,6 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2014/07/09/%E8%8A%B1%E9%AC%BC%EF%BC%88%E8%BD%AC%EF%BC%89/</loc>
-    
-    <lastmod>2019-09-16T08:11:51.532Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.hi-roy.com/2014/07/09/%E8%94%B7%E8%96%87%E5%9B%AD(%E8%BD%AC)/</loc>
     
     <lastmod>2019-09-16T08:11:51.532Z</lastmod>
@@ -212,14 +212,21 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2016/06/29/%E8%87%AA%E5%AE%9A%E4%B9%89Django%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9E%8B/</loc>
+    <loc>http://www.hi-roy.com/2014/07/09/%E8%8A%B1%E9%AC%BC%EF%BC%88%E8%BD%AC%EF%BC%89/</loc>
+    
+    <lastmod>2019-09-16T08:11:51.532Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.hi-roy.com/2013/11/13/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98python%E7%89%88/</loc>
     
     <lastmod>2019-09-16T08:11:51.531Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2013/11/13/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98python%E7%89%88/</loc>
+    <loc>http://www.hi-roy.com/2016/06/29/%E8%87%AA%E5%AE%9A%E4%B9%89Django%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9E%8B/</loc>
     
     <lastmod>2019-09-16T08:11:51.531Z</lastmod>
     
@@ -233,13 +240,6 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2015/04/26/%E7%90%86%E8%B4%A2%E8%AE%B0%E5%BD%953/</loc>
-    
-    <lastmod>2019-09-16T08:11:51.529Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.hi-roy.com/2015/04/19/%E7%90%86%E8%B4%A2%E8%AE%B0%E5%BD%952/</loc>
     
     <lastmod>2019-09-16T08:11:51.529Z</lastmod>
@@ -247,9 +247,9 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2015/04/10/%E7%90%86%E8%B4%A2%E7%BA%AA%E5%BD%951/</loc>
+    <loc>http://www.hi-roy.com/2015/04/26/%E7%90%86%E8%B4%A2%E8%AE%B0%E5%BD%953/</loc>
     
-    <lastmod>2019-09-16T08:11:51.528Z</lastmod>
+    <lastmod>2019-09-16T08:11:51.529Z</lastmod>
     
   </url>
   
@@ -261,7 +261,14 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2015/03/29/%E6%BB%95%E7%8E%8B%E9%98%81%E5%BA%8F/</loc>
+    <loc>http://www.hi-roy.com/2015/04/10/%E7%90%86%E8%B4%A2%E7%BA%AA%E5%BD%951/</loc>
+    
+    <lastmod>2019-09-16T08:11:51.528Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.hi-roy.com/2014/07/09/%E6%9E%AF%E8%90%8E%E7%9A%84%E8%8A%B1%EF%BC%88%E8%BD%AC%EF%BC%89/</loc>
     
     <lastmod>2019-09-16T08:11:51.527Z</lastmod>
     
@@ -275,7 +282,7 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2014/07/09/%E6%9E%AF%E8%90%8E%E7%9A%84%E8%8A%B1%EF%BC%88%E8%BD%AC%EF%BC%89/</loc>
+    <loc>http://www.hi-roy.com/2015/03/29/%E6%BB%95%E7%8E%8B%E9%98%81%E5%BA%8F/</loc>
     
     <lastmod>2019-09-16T08:11:51.527Z</lastmod>
     
@@ -331,13 +338,6 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2018/07/30/%E5%A2%A8%E5%8D%A1%E6%89%98%E5%9D%90%E6%A0%87%E8%BD%AC%E7%BB%8F%E7%BA%AC%E5%BA%A6/</loc>
-    
-    <lastmod>2019-09-16T08:11:51.523Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.hi-roy.com/2013/11/08/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%88%AC%E8%99%AB/</loc>
     
     <lastmod>2019-09-16T08:11:51.523Z</lastmod>
@@ -345,9 +345,9 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2017/12/01/%E5%9F%BA%E4%BA%8E%E8%99%9A%E6%8B%9F%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9A%84%E7%BD%91%E9%A1%B5%E5%88%86%E5%89%B2/</loc>
+    <loc>http://www.hi-roy.com/2018/07/30/%E5%A2%A8%E5%8D%A1%E6%89%98%E5%9D%90%E6%A0%87%E8%BD%AC%E7%BB%8F%E7%BA%AC%E5%BA%A6/</loc>
     
-    <lastmod>2019-09-16T08:11:51.522Z</lastmod>
+    <lastmod>2019-09-16T08:11:51.523Z</lastmod>
     
   </url>
   
@@ -360,6 +360,13 @@
   
   <url>
     <loc>http://www.hi-roy.com/2018/05/25/%E5%9F%BA%E4%BA%8EDocker%E7%9A%84%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</loc>
+    
+    <lastmod>2019-09-16T08:11:51.522Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.hi-roy.com/2017/12/01/%E5%9F%BA%E4%BA%8E%E8%99%9A%E6%8B%9F%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9A%84%E7%BD%91%E9%A1%B5%E5%88%86%E5%89%B2/</loc>
     
     <lastmod>2019-09-16T08:11:51.522Z</lastmod>
     
@@ -380,14 +387,14 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2016/06/23/%E5%90%AF%E7%94%A8https%E6%8F%90%E9%AB%98%E7%BD%91%E7%AB%99%E5%AE%89%E5%85%A8%E6%80%A7/</loc>
+    <loc>http://www.hi-roy.com/2016/03/16/%E5%90%8D%E8%AF%8D%E7%8E%8B%E5%9B%BD%E9%87%8C%E7%9A%84%E6%AD%BB%E5%88%91%EF%BC%88%E7%BF%BB%E8%AF%91%EF%BC%89/</loc>
     
     <lastmod>2019-09-16T08:11:51.520Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2016/03/16/%E5%90%8D%E8%AF%8D%E7%8E%8B%E5%9B%BD%E9%87%8C%E7%9A%84%E6%AD%BB%E5%88%91%EF%BC%88%E7%BF%BB%E8%AF%91%EF%BC%89/</loc>
+    <loc>http://www.hi-roy.com/2016/06/23/%E5%90%AF%E7%94%A8https%E6%8F%90%E9%AB%98%E7%BD%91%E7%AB%99%E5%AE%89%E5%85%A8%E6%80%A7/</loc>
     
     <lastmod>2019-09-16T08:11:51.520Z</lastmod>
     
@@ -402,6 +409,13 @@
   
   <url>
     <loc>http://www.hi-roy.com/2014/07/09/%E5%8D%88%E5%A4%9C%E5%85%B0%E8%8A%B1%EF%BC%88%E8%BD%AC%EF%BC%89/</loc>
+    
+    <lastmod>2019-09-16T08:11:51.517Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.hi-roy.com/2018/05/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/</loc>
     
     <lastmod>2019-09-16T08:11:51.517Z</lastmod>
     
@@ -429,13 +443,6 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2018/05/14/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/</loc>
-    
-    <lastmod>2019-09-16T08:11:51.517Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.hi-roy.com/2014/03/21/%E5%85%B3%E4%BA%8E%E6%9C%80%E4%BC%98%E4%BB%B7%E6%A0%BC%E8%AE%A1%E7%AE%97%E7%9A%84%E6%83%B3%E6%B3%95/</loc>
     
     <lastmod>2019-09-16T08:11:51.516Z</lastmod>
@@ -443,14 +450,14 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2016/01/12/%E5%85%B3%E4%BA%8Efunctools-wraps%E7%9A%84%E4%BD%9C%E7%94%A8/</loc>
+    <loc>http://www.hi-roy.com/2013/11/12/%E5%85%B3%E4%BA%8Elambda-s-s/</loc>
     
     <lastmod>2019-09-16T08:11:51.514Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2013/11/12/%E5%85%B3%E4%BA%8Elambda-s-s/</loc>
+    <loc>http://www.hi-roy.com/2016/01/12/%E5%85%B3%E4%BA%8Efunctools-wraps%E7%9A%84%E4%BD%9C%E7%94%A8/</loc>
     
     <lastmod>2019-09-16T08:11:51.514Z</lastmod>
     
@@ -548,14 +555,14 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2014/09/26/tightvnc%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AEkali%E6%A1%8C%E9%9D%A2%E7%B3%BB%E7%BB%9F/</loc>
+    <loc>http://www.hi-roy.com/2014/10/14/svn%E9%94%99%E8%AF%AF-a-peg-revision-is-not-allowed-here%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</loc>
     
     <lastmod>2019-09-16T08:11:51.508Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2014/10/14/svn%E9%94%99%E8%AF%AF-a-peg-revision-is-not-allowed-here%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</loc>
+    <loc>http://www.hi-roy.com/2014/09/26/tightvnc%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AEkali%E6%A1%8C%E9%9D%A2%E7%B3%BB%E7%BB%9F/</loc>
     
     <lastmod>2019-09-16T08:11:51.508Z</lastmod>
     
@@ -583,14 +590,14 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2017/12/29/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/</loc>
+    <loc>http://www.hi-roy.com/2018/01/06/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%982/</loc>
     
     <lastmod>2019-09-16T08:11:51.505Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2018/01/06/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%982/</loc>
+    <loc>http://www.hi-roy.com/2017/12/29/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/</loc>
     
     <lastmod>2019-09-16T08:11:51.505Z</lastmod>
     
@@ -604,6 +611,13 @@
   </url>
   
   <url>
+    <loc>http://www.hi-roy.com/2015/12/22/python%E8%84%9A%E6%9C%AC%E6%A8%A1%E6%8B%9Ftail%E5%91%BD%E4%BB%A4/</loc>
+    
+    <lastmod>2019-09-16T08:11:51.504Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.hi-roy.com/2014/02/17/python%E7%9A%84sh%E5%BA%93%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B/</loc>
     
     <lastmod>2019-09-16T08:11:51.504Z</lastmod>
@@ -611,9 +625,9 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2015/12/22/python%E8%84%9A%E6%9C%AC%E6%A8%A1%E6%8B%9Ftail%E5%91%BD%E4%BB%A4/</loc>
+    <loc>http://www.hi-roy.com/2013/11/07/python%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97%E3%80%81%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</loc>
     
-    <lastmod>2019-09-16T08:11:51.504Z</lastmod>
+    <lastmod>2019-09-16T08:11:51.503Z</lastmod>
     
   </url>
   
@@ -632,13 +646,6 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2013/11/07/python%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97%E3%80%81%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</loc>
-    
-    <lastmod>2019-09-16T08:11:51.503Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.hi-roy.com/2016/01/26/python%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0%E4%B9%8B%E4%BD%BF%E7%94%A8%E5%AD%97%E5%85%B8%E5%88%86%E6%B4%BE%E5%87%BD%E6%95%B0/</loc>
     
     <lastmod>2019-09-16T08:11:51.503Z</lastmod>
@@ -646,14 +653,14 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2014/04/09/python%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/</loc>
+    <loc>http://www.hi-roy.com/2013/11/12/python%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E7%B1%BB%E5%B1%9E%E6%80%A7%E3%80%81%E5%AE%9E%E4%BE%8B%E5%B1%9E%E6%80%A7/</loc>
     
     <lastmod>2019-09-16T08:11:51.502Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2013/11/12/python%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E7%B1%BB%E5%B1%9E%E6%80%A7%E3%80%81%E5%AE%9E%E4%BE%8B%E5%B1%9E%E6%80%A7/</loc>
+    <loc>http://www.hi-roy.com/2014/04/09/python%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/</loc>
     
     <lastmod>2019-09-16T08:11:51.502Z</lastmod>
     
@@ -674,14 +681,14 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2015/02/05/python%E4%B8%AD%E7%9A%84md5%E4%BB%A5%E5%8F%8Abase64%E5%8A%A0%E5%AF%86/</loc>
+    <loc>http://www.hi-roy.com/2016/03/18/python%E4%B8%AD%E9%97%AD%E5%8C%85%E7%A4%BA%E4%BE%8B/</loc>
     
     <lastmod>2019-09-16T08:11:51.500Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2016/03/18/python%E4%B8%AD%E9%97%AD%E5%8C%85%E7%A4%BA%E4%BE%8B/</loc>
+    <loc>http://www.hi-roy.com/2015/02/05/python%E4%B8%AD%E7%9A%84md5%E4%BB%A5%E5%8F%8Abase64%E5%8A%A0%E5%AF%86/</loc>
     
     <lastmod>2019-09-16T08:11:51.500Z</lastmod>
     
@@ -702,6 +709,13 @@
   </url>
   
   <url>
+    <loc>http://www.hi-roy.com/2013/11/15/python-%E8%8E%B7%E5%8F%96%E7%BD%91%E7%AB%99cookie/</loc>
+    
+    <lastmod>2019-09-16T08:11:51.498Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.hi-roy.com/2013/12/01/python-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3yield/</loc>
     
     <lastmod>2019-09-16T08:11:51.498Z</lastmod>
@@ -710,13 +724,6 @@
   
   <url>
     <loc>http://www.hi-roy.com/2013/11/14/python-traceback%E6%A8%A1%E5%9D%97/</loc>
-    
-    <lastmod>2019-09-16T08:11:51.498Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.hi-roy.com/2013/11/15/python-%E8%8E%B7%E5%8F%96%E7%BD%91%E7%AB%99cookie/</loc>
     
     <lastmod>2019-09-16T08:11:51.498Z</lastmod>
     
@@ -828,13 +835,6 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2016/05/20/linux%E7%B3%BB%E7%BB%9F%E7%9A%843%E7%A7%8D%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E6%96%B9%E5%BC%8F/</loc>
-    
-    <lastmod>2019-09-16T08:11:51.491Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.hi-roy.com/2013/12/06/linux%E7%94%A8vps%E7%BF%BB%E5%A2%99-ssh%E7%AF%87/</loc>
     
     <lastmod>2019-09-16T08:11:51.491Z</lastmod>
@@ -845,6 +845,20 @@
     <loc>http://www.hi-roy.com/2014/10/24/metasploit%E5%91%BD%E4%BB%A4%E5%8F%82%E8%80%83/</loc>
     
     <lastmod>2019-09-16T08:11:51.491Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.hi-roy.com/2016/05/20/linux%E7%B3%BB%E7%BB%9F%E7%9A%843%E7%A7%8D%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E6%96%B9%E5%BC%8F/</loc>
+    
+    <lastmod>2019-09-16T08:11:51.491Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.hi-roy.com/2014/11/17/iptables%E7%A6%81%E6%AD%A2%E6%9F%90Ip/</loc>
+    
+    <lastmod>2019-09-16T08:11:51.490Z</lastmod>
     
   </url>
   
@@ -863,9 +877,9 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2014/11/17/iptables%E7%A6%81%E6%AD%A2%E6%9F%90Ip/</loc>
+    <loc>http://www.hi-roy.com/2015/12/29/flask-socketio%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/</loc>
     
-    <lastmod>2019-09-16T08:11:51.490Z</lastmod>
+    <lastmod>2019-09-16T08:11:51.489Z</lastmod>
     
   </url>
   
@@ -877,14 +891,7 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2015/12/29/flask-socketio%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/</loc>
-    
-    <lastmod>2019-09-16T08:11:51.489Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.hi-roy.com/2015/11/24/fedora21%E6%97%A0%E7%BC%9D%E5%8D%87%E7%BA%A7%E5%88%B023/</loc>
+    <loc>http://www.hi-roy.com/2014/12/26/fedora21%E5%BC%80%E6%9C%BA%E6%89%A7%E8%A1%8C%E6%9F%90%E5%91%BD%E4%BB%A4/</loc>
     
     <lastmod>2019-09-16T08:11:51.488Z</lastmod>
     
@@ -898,7 +905,7 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2014/12/26/fedora21%E5%BC%80%E6%9C%BA%E6%89%A7%E8%A1%8C%E6%9F%90%E5%91%BD%E4%BB%A4/</loc>
+    <loc>http://www.hi-roy.com/2015/11/24/fedora21%E6%97%A0%E7%BC%9D%E5%8D%87%E7%BA%A7%E5%88%B023/</loc>
     
     <lastmod>2019-09-16T08:11:51.488Z</lastmod>
     
@@ -940,14 +947,14 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2013/12/04/fedora19%E5%AE%89%E8%A3%85codeblocks/</loc>
+    <loc>http://www.hi-roy.com/2013/12/06/fedora19%E6%9B%B4%E6%8D%A2fcitx%E8%BE%93%E5%85%A5%E6%B3%95/</loc>
     
     <lastmod>2019-09-16T08:11:51.485Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2013/12/06/fedora19%E6%9B%B4%E6%8D%A2fcitx%E8%BE%93%E5%85%A5%E6%B3%95/</loc>
+    <loc>http://www.hi-roy.com/2013/12/04/fedora19%E5%AE%89%E8%A3%85codeblocks/</loc>
     
     <lastmod>2019-09-16T08:11:51.485Z</lastmod>
     
@@ -961,7 +968,7 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2013/11/17/fedora19%E5%AE%89%E8%A3%85cairo-dock/</loc>
+    <loc>http://www.hi-roy.com/2014/01/27/fedora19%E5%8D%87%E7%BA%A720/</loc>
     
     <lastmod>2019-09-16T08:11:51.484Z</lastmod>
     
@@ -975,7 +982,7 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2014/01/27/fedora19%E5%8D%87%E7%BA%A720/</loc>
+    <loc>http://www.hi-roy.com/2013/11/17/fedora19%E5%AE%89%E8%A3%85cairo-dock/</loc>
     
     <lastmod>2019-09-16T08:11:51.484Z</lastmod>
     
@@ -1017,14 +1024,14 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2013/12/04/django%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%8A%9F%E8%83%BD/</loc>
+    <loc>http://www.hi-roy.com/2014/03/25/django%E7%9A%84view%E4%B8%AD%E5%B8%B8%E7%94%A8return%E6%96%B9%E6%B3%95/</loc>
     
     <lastmod>2019-09-16T08:11:51.481Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2014/03/25/django%E7%9A%84view%E4%B8%AD%E5%B8%B8%E7%94%A8return%E6%96%B9%E6%B3%95/</loc>
+    <loc>http://www.hi-roy.com/2013/12/04/django%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%8A%9F%E8%83%BD/</loc>
     
     <lastmod>2019-09-16T08:11:51.481Z</lastmod>
     
@@ -1045,14 +1052,14 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2015/11/20/django%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/</loc>
+    <loc>http://www.hi-roy.com/2014/02/11/django%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E5%BA%93/</loc>
     
     <lastmod>2019-09-16T08:11:51.480Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2014/02/11/django%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E5%BA%93/</loc>
+    <loc>http://www.hi-roy.com/2015/11/20/django%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/</loc>
     
     <lastmod>2019-09-16T08:11:51.480Z</lastmod>
     
@@ -1062,6 +1069,13 @@
     <loc>http://www.hi-roy.com/2013/11/19/django%E4%B8%AD%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
     
     <lastmod>2019-09-16T08:11:51.479Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.hi-roy.com/2014/04/01/django%E4%B8%AD%E7%94%B1%E7%B1%BB%E5%AE%9E%E4%BE%8B%E5%BC%95%E8%B5%B7%E7%9A%84%E5%B0%8F%E5%9D%91/</loc>
+    
+    <lastmod>2019-09-16T08:11:51.478Z</lastmod>
     
   </url>
   
@@ -1080,9 +1094,9 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2014/04/01/django%E4%B8%AD%E7%94%B1%E7%B1%BB%E5%AE%9E%E4%BE%8B%E5%BC%95%E8%B5%B7%E7%9A%84%E5%B0%8F%E5%9D%91/</loc>
+    <loc>http://www.hi-roy.com/2013/11/01/django-groundwork%E4%B8%AA%E4%BA%BA1-5-3%E4%BF%AE%E6%94%B9%E7%89%88/</loc>
     
-    <lastmod>2019-09-16T08:11:51.478Z</lastmod>
+    <lastmod>2019-09-16T08:11:51.477Z</lastmod>
     
   </url>
   
@@ -1094,14 +1108,7 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2013/11/01/django-groundwork%E4%B8%AA%E4%BA%BA1-5-3%E4%BF%AE%E6%94%B9%E7%89%88/</loc>
-    
-    <lastmod>2019-09-16T08:11:51.477Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.hi-roy.com/2016/02/23/django-Celery-Rabbitmq-Flower%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/</loc>
+    <loc>http://www.hi-roy.com/2016/06/27/django-REST-framework%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3%E6%95%99%E7%A8%8B/</loc>
     
     <lastmod>2019-09-16T08:11:51.476Z</lastmod>
     
@@ -1115,21 +1122,21 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2016/06/27/django-REST-framework%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3%E6%95%99%E7%A8%8B/</loc>
+    <loc>http://www.hi-roy.com/2016/02/23/django-Celery-Rabbitmq-Flower%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/</loc>
     
     <lastmod>2019-09-16T08:11:51.476Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2014/09/29/centos%E6%90%AD%E5%BB%BAdns%E6%9C%8D%E5%8A%A1%E5%99%A8/</loc>
+    <loc>http://www.hi-roy.com/2014/11/28/centos%E9%83%A8%E7%BD%B2Ganglia/</loc>
     
     <lastmod>2019-09-16T08:11:51.475Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2014/11/28/centos%E9%83%A8%E7%BD%B2Ganglia/</loc>
+    <loc>http://www.hi-roy.com/2014/09/29/centos%E6%90%AD%E5%BB%BAdns%E6%9C%8D%E5%8A%A1%E5%99%A8/</loc>
     
     <lastmod>2019-09-16T08:11:51.475Z</lastmod>
     
@@ -1143,13 +1150,6 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2015/12/28/centos7%E5%AE%89%E8%A3%85Metasploit%E6%A1%86%E6%9E%B6/</loc>
-    
-    <lastmod>2019-09-16T08:11:51.474Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.hi-roy.com/2014/10/20/centos%E5%AE%89%E8%A3%85denyhosts/</loc>
     
     <lastmod>2019-09-16T08:11:51.474Z</lastmod>
@@ -1157,14 +1157,21 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2015/05/17/centos6%E6%90%AD%E5%BB%BA%E5%9C%A8%E7%BA%BFweb%E4%BB%A3%E7%90%86/</loc>
+    <loc>http://www.hi-roy.com/2015/12/28/centos7%E5%AE%89%E8%A3%85Metasploit%E6%A1%86%E6%9E%B6/</loc>
+    
+    <lastmod>2019-09-16T08:11:51.474Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.hi-roy.com/2016/01/21/celery%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/</loc>
     
     <lastmod>2019-09-16T08:11:51.473Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2016/01/21/celery%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/</loc>
+    <loc>http://www.hi-roy.com/2015/05/17/centos6%E6%90%AD%E5%BB%BA%E5%9C%A8%E7%BA%BFweb%E4%BB%A3%E7%90%86/</loc>
     
     <lastmod>2019-09-16T08:11:51.473Z</lastmod>
     
@@ -1220,13 +1227,6 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2017/04/14/RNA%E7%BE%8E%E5%A6%86%E6%91%84%E5%BD%B1%E5%B7%A5%E4%BD%9C%E5%AE%A4%E6%88%90%E7%AB%8B%E5%95%A6/</loc>
-    
-    <lastmod>2019-09-16T08:11:51.469Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.hi-roy.com/2013/11/01/SVN%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</loc>
     
     <lastmod>2019-09-16T08:11:51.469Z</lastmod>
@@ -1234,9 +1234,9 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2017/10/14/Python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB6/</loc>
+    <loc>http://www.hi-roy.com/2017/04/14/RNA%E7%BE%8E%E5%A6%86%E6%91%84%E5%BD%B1%E5%B7%A5%E4%BD%9C%E5%AE%A4%E6%88%90%E7%AB%8B%E5%95%A6/</loc>
     
-    <lastmod>2019-09-16T08:11:51.468Z</lastmod>
+    <lastmod>2019-09-16T08:11:51.469Z</lastmod>
     
   </url>
   
@@ -1248,9 +1248,23 @@
   </url>
   
   <url>
+    <loc>http://www.hi-roy.com/2017/10/14/Python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB6/</loc>
+    
+    <lastmod>2019-09-16T08:11:51.468Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.hi-roy.com/2015/01/18/RMBP%E6%88%91%E7%9A%84%E8%AE%B0%E5%BD%95/</loc>
     
     <lastmod>2019-09-16T08:11:51.468Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.hi-roy.com/2017/09/20/Python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB2/</loc>
+    
+    <lastmod>2019-09-16T08:11:51.467Z</lastmod>
     
   </url>
   
@@ -1269,9 +1283,9 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2017/09/20/Python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB2/</loc>
+    <loc>http://www.hi-roy.com/2017/09/19/Python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/</loc>
     
-    <lastmod>2019-09-16T08:11:51.467Z</lastmod>
+    <lastmod>2019-09-16T08:11:51.466Z</lastmod>
     
   </url>
   
@@ -1283,21 +1297,14 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2017/09/19/Python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/</loc>
-    
-    <lastmod>2019-09-16T08:11:51.466Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.hi-roy.com/2017/07/26/Pyflame%E5%AE%89%E8%A3%85%E5%B0%8F%E8%AE%B0/</loc>
+    <loc>http://www.hi-roy.com/2015/01/06/Percona-XtraDB-Cluster-HAProxy%E9%85%8D%E7%BD%AE/</loc>
     
     <lastmod>2019-09-16T08:11:51.465Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2015/01/06/Percona-XtraDB-Cluster-HAProxy%E9%85%8D%E7%BD%AE/</loc>
+    <loc>http://www.hi-roy.com/2017/07/26/Pyflame%E5%AE%89%E8%A3%85%E5%B0%8F%E8%AE%B0/</loc>
     
     <lastmod>2019-09-16T08:11:51.465Z</lastmod>
     
@@ -1332,14 +1339,14 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2014/09/27/Nginx-Uwsgi%E9%83%A8%E7%BD%B2Django%E7%A8%8B%E5%BA%8F/</loc>
+    <loc>http://www.hi-roy.com/2017/07/24/Mysql%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%E5%B0%8F%E8%AE%B0/</loc>
     
     <lastmod>2019-09-16T08:11:51.463Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2017/07/24/Mysql%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%E5%B0%8F%E8%AE%B0/</loc>
+    <loc>http://www.hi-roy.com/2014/09/27/Nginx-Uwsgi%E9%83%A8%E7%BD%B2Django%E7%A8%8B%E5%BA%8F/</loc>
     
     <lastmod>2019-09-16T08:11:51.463Z</lastmod>
     
@@ -1367,14 +1374,14 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2015/03/03/MONGODB%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E2%80%94%E2%80%94Replica-Set/</loc>
+    <loc>http://www.hi-roy.com/2014/03/18/KaliLinux%E5%AE%89%E8%A3%85%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</loc>
     
     <lastmod>2019-09-16T08:11:51.461Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2014/03/18/KaliLinux%E5%AE%89%E8%A3%85%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</loc>
+    <loc>http://www.hi-roy.com/2015/03/03/MONGODB%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E2%80%94%E2%80%94Replica-Set/</loc>
     
     <lastmod>2019-09-16T08:11:51.461Z</lastmod>
     
@@ -1402,14 +1409,14 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2018/06/15/Hyperledger-Fabric%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E7%AC%94%E8%AE%B0/</loc>
+    <loc>http://www.hi-roy.com/2015/01/19/HAPROXY-KEEPALIVE%E6%9E%84%E5%BB%BA%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4/</loc>
     
     <lastmod>2019-09-16T08:11:51.459Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2015/01/19/HAPROXY-KEEPALIVE%E6%9E%84%E5%BB%BA%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4/</loc>
+    <loc>http://www.hi-roy.com/2018/06/15/Hyperledger-Fabric%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E7%AC%94%E8%AE%B0/</loc>
     
     <lastmod>2019-09-16T08:11:51.459Z</lastmod>
     
@@ -1472,14 +1479,14 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2018/06/04/GO%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-Channels/</loc>
+    <loc>http://www.hi-roy.com/2013/11/06/GIL%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B/</loc>
     
     <lastmod>2019-09-16T08:11:51.455Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2013/11/06/GIL%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B/</loc>
+    <loc>http://www.hi-roy.com/2018/06/04/GO%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-Channels/</loc>
     
     <lastmod>2019-09-16T08:11:51.455Z</lastmod>
     
