@@ -2,30 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://www.hi-roy.com/2019/12/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/</loc>
+    <loc>http://www.hi-roy.com/2019/10/14/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</loc>
     
-    <lastmod>2019-12-12T03:17:07.939Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.hi-roy.com/2019/11/28/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</loc>
-    
-    <lastmod>2019-12-12T02:19:48.317Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.hi-roy.com/2019/10/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/</loc>
-    
-    <lastmod>2019-12-12T02:18:12.261Z</lastmod>
+    <lastmod>2019-12-12T03:29:10.539Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.hi-roy.com/2019/10/09/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</loc>
     
-    <lastmod>2019-12-12T02:16:21.984Z</lastmod>
+    <lastmod>2019-12-12T03:24:36.613Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.hi-roy.com/2019/10/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/</loc>
+    
+    <lastmod>2019-12-12T03:24:23.404Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.hi-roy.com/2019/11/28/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</loc>
+    
+    <lastmod>2019-12-12T03:24:03.011Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.hi-roy.com/2019/12/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/</loc>
+    
+    <lastmod>2019-12-12T03:23:54.158Z</lastmod>
     
   </url>
   
@@ -72,13 +79,6 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/2019/10/14/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</loc>
-    
-    <lastmod>2019-10-15T03:26:00.175Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.hi-roy.com/2019/09/18/OpenStack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/</loc>
     
     <lastmod>2019-09-18T11:04:59.410Z</lastmod>
@@ -93,14 +93,14 @@
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/all-tags/index.html</loc>
+    <loc>http://www.hi-roy.com/all-categories/index.html</loc>
     
     <lastmod>2019-09-16T08:11:51.542Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.hi-roy.com/all-categories/index.html</loc>
+    <loc>http://www.hi-roy.com/all-tags/index.html</loc>
     
     <lastmod>2019-09-16T08:11:51.542Z</lastmod>
     
