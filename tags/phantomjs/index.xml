@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>phantomjs on Hi~Roy!</title>
+    <link>/tags/phantomjs/</link>
+    <description>Recent content in phantomjs on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 15 Jun 2015 15:32:11 +0000</lastBuildDate><atom:link href="/tags/phantomjs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Selenium&#43;phantomjs模拟网页自动化操作</title>
+      <link>/posts/selenium-phantomjs%E6%A8%A1%E6%8B%9F%E7%BD%91%E9%A1%B5%E8%87%AA%E5%8A%A8%E5%8C%96%E6%93%8D%E4%BD%9C/</link>
+      <pubDate>Mon, 15 Jun 2015 15:32:11 +0000</pubDate>
+      
+      <guid>/posts/selenium-phantomjs%E6%A8%A1%E6%8B%9F%E7%BD%91%E9%A1%B5%E8%87%AA%E5%8A%A8%E5%8C%96%E6%93%8D%E4%BD%9C/</guid>
+      <description>N久之前使用这对好伙伴实现支持抓取ajax数据的爬虫，最近有个需求是完全模拟某网站的购物操作，结果这个网站比较奇葩，对于表单中某些文本框、复选框等修改后会触发post操作并更改页面内容，而且这些控件之间还会互相影响，直接使用post方式的话比较困难，于是再次祭出神器： selenium 和phantomjs,此外还可以尝试selenium-ide。
+这里phantomjs2.0版本并没提供编译好的通用Linux版，所以本文依然使用1.9版，但在2.0版上测试通过。
+# coding=utf-8 from selenium import webdriver def main(): dcap = dict(DesiredCapabilities.</description>
+    </item>
+    
+    <item>
+      <title>python&#43;selenium&#43;phantomjs抓取ajax动态页面</title>
+      <link>/posts/python-selenium-phantomjs%E6%8A%93%E5%8F%96ajax%E5%8A%A8%E6%80%81%E9%A1%B5%E9%9D%A2/</link>
+      <pubDate>Wed, 05 Nov 2014 14:52:09 +0000</pubDate>
+      
+      <guid>/posts/python-selenium-phantomjs%E6%8A%93%E5%8F%96ajax%E5%8A%A8%E6%80%81%E9%A1%B5%E9%9D%A2/</guid>
+      <description>一般情况下，python爬虫遇到ajax动态页面一般都是直接分析后模拟ajax请求获得数据。不过今天遇到个网站，由于某些原因不透露网址了，点击搜索按钮后，它先跳转到a页面，然后从a页面跳转到b页面，再由b页面跳回a页面。当完成这2次跳转后，ajax向a页面提交的请求才会返回结果。
+也怀疑是不是cookie或者refenen的问题，但最终证实不是因为这个。即便伪造了请求头再访问a页面，返回的也不是真实的结果页面而是一段跳转到b页面的js代码。
+既然不知道跳转过程中网站到底干了写什么，那就直接上大杀器吧。
+phantomjs可以简单的理解为js解释器，selenium更不用多介绍了，用pip安装即可。 从 http://phantomjs.org/download.html 下载编译后的包（当然你可以自己下源码），解压后的bin目录中就是我们需要的东西。
+import sys reload(sys) sys.</description>
+    </item>
+    
+  </channel>
+</rss>

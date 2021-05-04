@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>web代理 on Hi~Roy!</title>
+    <link>/tags/web%E4%BB%A3%E7%90%86/</link>
+    <description>Recent content in web代理 on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 17 May 2015 16:12:00 +0000</lastBuildDate><atom:link href="/tags/web%E4%BB%A3%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>centos6搭建在线web代理</title>
+      <link>/posts/centos6%E6%90%AD%E5%BB%BA%E5%9C%A8%E7%BA%BFweb%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Sun, 17 May 2015 16:12:00 +0000</pubDate>
+      
+      <guid>/posts/centos6%E6%90%AD%E5%BB%BA%E5%9C%A8%E7%BA%BFweb%E4%BB%A3%E7%90%86/</guid>
+      <description>最近有个需求需要搭建一个在线web代理，懒得自己写就找到两个php程序：
+ knProxy:https://github.com/jabbany/knProxy glype:https://www.glype.com/download.php  从部署角度来讲这两个都很简单，功能上也很类似，这里我就以第二个为例吧，使用nginx来部署。先来安装nginx和php-fpm
+yum install nginxyum install php-fpm&amp;lt;/pre&amp;gt;下载glype后解压到/var/www/html/glype目录，并在/etc/nginx/conf.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>minecraft on Hi~Roy!</title>
+    <link>/tags/minecraft/</link>
+    <description>Recent content in minecraft on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 17 Sep 2015 23:58:41 +0000</lastBuildDate><atom:link href="/tags/minecraft/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>fedora21架设minecraft服务器</title>
+      <link>/posts/fedora21%E6%9E%B6%E8%AE%BEminecraft%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+      <pubDate>Thu, 17 Sep 2015 23:58:41 +0000</pubDate>
+      
+      <guid>/posts/fedora21%E6%9E%B6%E8%AE%BEminecraft%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+      <description>上周刚刚从dota2的坑中跳出来，这周就又跳入了mincraft的大坑中。作为买不起官网服务的穷人，自己玩单机也未免过于孤单。虽然网上有很多现成的“私服”，不过又不想受别人限制，那就自己搭建一个呗！
+首先安装jdk，fedora执行： sudo yum install java-1.8.0-openjdk.x86_64 ubuntu则是： suso apt-get install openjdk-7-jre-headless 安装完成后可以执行java命令看是否成功，然后下载minecraft的服务端：</description>
+    </item>
+    
+  </channel>
+</rss>

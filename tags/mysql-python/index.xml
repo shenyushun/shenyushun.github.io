@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mysql-python on Hi~Roy!</title>
+    <link>/tags/mysql-python/</link>
+    <description>Recent content in mysql-python on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 06 Jul 2014 09:01:14 +0000</lastBuildDate><atom:link href="/tags/mysql-python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>64位win7安装mysql-python</title>
+      <link>/posts/64%E4%BD%8Dwin7%E5%AE%89%E8%A3%85mysql-python/</link>
+      <pubDate>Sun, 06 Jul 2014 09:01:14 +0000</pubDate>
+      
+      <guid>/posts/64%E4%BD%8Dwin7%E5%AE%89%E8%A3%85mysql-python/</guid>
+      <description>64位win7使用pip安装mysql-python时提示unable to find vcvarsall.bat， 网上很多说这个解决这个需要安装那个MinGW，不过我安装并设置环境变量后依然没解决这个问题， 错误提示倒是变成了什么gcc错误一类的。 而从网上下载的win安装包都是32位，在我的机器上提示找不到python，找了很久后终于发现一个地方:http://www.lfd.uci.edu/~gohlke/pythonlibs/ 上有64位的， 而且这上面还有很多其他的64位三方包。 方便国内同学下载我把mysql-python转存到了我的网盘：http://pan.baidu.com/s/13vgjs</description>
+    </item>
+    
+  </channel>
+</rss>

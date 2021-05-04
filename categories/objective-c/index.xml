@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Objective-C on Hi~Roy!</title>
+    <link>/categories/objective-c/</link>
+    <description>Recent content in Objective-C on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 11 Feb 2015 22:01:04 +0000</lastBuildDate><atom:link href="/categories/objective-c/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OC学习第2天——CLASS</title>
+      <link>/posts/oc%E5%AD%A6%E4%B9%A0%E7%AC%AC2%E5%A4%A9class/</link>
+      <pubDate>Wed, 11 Feb 2015 22:01:04 +0000</pubDate>
+      
+      <guid>/posts/oc%E5%AD%A6%E4%B9%A0%E7%AC%AC2%E5%A4%A9class/</guid>
+      <description>在新建文件时选择os x列表下的“source”，再从右面的选项中选择“cocoa class”，填写类名以及选择存储位置后会自动生成2个文件：一个.h文件和一个.m文件，格式如下
+student.h:
+#import &amp;lt;Foundation/Foundation.h&amp;gt; @interface Student : NSObject @end&amp;lt;/pre&amp;gt; student.</description>
+    </item>
+    
+    <item>
+      <title>OC学习第1天——hello world</title>
+      <link>/posts/oc%E5%AD%A6%E4%B9%A0%E7%AC%AC1%E5%A4%A9hello-world/</link>
+      <pubDate>Mon, 09 Feb 2015 23:36:27 +0000</pubDate>
+      
+      <guid>/posts/oc%E5%AD%A6%E4%B9%A0%E7%AC%AC1%E5%A4%A9hello-world/</guid>
+      <description>很多人为了学习ios开发而买了mac，而我却正好相反——买了mac后觉得只拿来看看网页、管理服务器什么的太浪费了，就顺便把ios开发也学学吧。由于本人是oc初学者，若有错误的地方还请指正。本文使用os x 10.10.2以及xcode 6.1.1。
+这里首先面临的就是语言的选择——oc和swift。经过“深思熟虑”我还是选择了oc，因为相关的资料比较多，遇到问题google起来效果较好。很多人觉得ios开发很难学是因为oc——别的不敢讲，就我这两天的学习来看，oc虽说是c的超集，不过语法看起来题确实挺奇怪，但对于任何有其他语言开发基础的人来说，语法仅仅是一个需要习惯的过程。ios开发的真正难点在于cocos引擎部分，所以对于英语好的来说swift也是不错的选择（英语硬伤还是啊……）。
+直接从appstore中安装xcode，安装完成后运行选择“create a new Xcode project”，再选择os x列表下的“application”，然后在右边的窗口中选择“command line tool”，点击“next”后输入项目名称等相关信息，语言选择“Objective－c”，再选择保存位置后点击“finish”即可。</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>iptables on Hi~Roy!</title>
+    <link>/tags/iptables/</link>
+    <description>Recent content in iptables on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 17 Nov 2014 09:55:58 +0000</lastBuildDate><atom:link href="/tags/iptables/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>iptables禁止某Ip</title>
+      <link>/posts/iptables%E7%A6%81%E6%AD%A2%E6%9F%90ip/</link>
+      <pubDate>Mon, 17 Nov 2014 09:55:58 +0000</pubDate>
+      
+      <guid>/posts/iptables%E7%A6%81%E6%AD%A2%E6%9F%90ip/</guid>
+      <description>今天登录服务器一看，好家伙：
+tcp 0 0 198.74.121.150:80 38.103.160.12:33873 TIME_WAIT - tcp 0 0 198.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>docker on Hi~Roy!</title>
+    <link>/tags/docker/</link>
+    <description>Recent content in docker on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 25 May 2018 21:06:00 +0000</lastBuildDate><atom:link href="/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>基于Docker的以太坊开发环境搭建</title>
+      <link>/posts/%E5%9F%BA%E4%BA%8Edocker%E7%9A%84%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Fri, 25 May 2018 21:06:00 +0000</pubDate>
+      
+      <guid>/posts/%E5%9F%BA%E4%BA%8Edocker%E7%9A%84%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</guid>
+      <description>&lt;p&gt;本地开发环境可以使用&lt;code&gt;geth&lt;/code&gt;和&lt;code&gt;testrpc&lt;/code&gt;(已经改名成ganache-cli)2种，如果只是进行测试或者学习智能合约开发的话，建议使用第二个。至于docker怎么安装网上很多这里不再赘述。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>entOS6升级docker1.6</title>
+      <link>/posts/centos6%E5%8D%87%E7%BA%A7docker1-6/</link>
+      <pubDate>Thu, 18 Jun 2015 14:32:59 +0000</pubDate>
+      
+      <guid>/posts/centos6%E5%8D%87%E7%BA%A7docker1-6/</guid>
+      <description>&lt;p&gt;最近饱受Python版本、Django版本、系统不同导致部署方法不同这一类问题的折磨，虽然之前也有接触过docker但一直没抽出时间仔细学习，正好趁这个机会学习docker使用方法。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

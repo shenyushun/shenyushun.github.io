@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>python on Hi~Roy!</title>
+    <link>/tags/python/</link>
+    <description>Recent content in python on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 06 May 2019 16:31:37 +0000</lastBuildDate><atom:link href="/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Scrapy-Redis结合POST请求获取数据</title>
+      <link>/posts/scrapy-redis%E7%BB%93%E5%90%88post%E8%AF%B7%E6%B1%82%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE/</link>
+      <pubDate>Mon, 06 May 2019 16:31:37 +0000</pubDate>
+      
+      <guid>/posts/scrapy-redis%E7%BB%93%E5%90%88post%E8%AF%B7%E6%B1%82%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE/</guid>
+      <description>&lt;p&gt;能看到这篇文章的小伙伴肯定已经知道什么是Scrapy以及Scrapy-Redis了，基础概念这里就不再介绍。默认情况下Scrapy-Redis是发送GET请求获取数据的，对于某些使用POST请求的情况需要重写&lt;code&gt;make_request_from_data&lt;/code&gt;函数即可，但奇怪的是居然没在网上搜到简洁明了的答案，或许是太简单了？&lt;/p&gt;
+&lt;p&gt;这里我以&lt;code&gt;httpbin.org&lt;/code&gt;这个网站为例，首先在&lt;code&gt;settings.py&lt;/code&gt;中添加所需配置，这里需要根据实际情况进行修改：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-py&#34; data-lang=&#34;py&#34;&gt;SCHEDULER &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;scrapy_redis.scheduler.Scheduler&amp;#34;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;#启用Redis调度存储请求队列&lt;/span&gt;
+SCHEDULER_PERSIST &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; True    &lt;span style=&#34;color:#75715e&#34;&gt;#不清除Redis队列、这样可以暂停/恢复 爬取&lt;/span&gt;
+DUPEFILTER_CLASS &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;scrapy_redis.dupefilter.RFPDupeFilter&amp;#34;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;#确保所有的爬虫通过Redis去重&lt;/span&gt;
+SCHEDULER_QUEUE_CLASS &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;scrapy_redis.queue.SpiderPriorityQueue&amp;#39;&lt;/span&gt;
+REDIS_URL &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;redis://127.0.0.1:6379&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>提升keras准确率和速度的小tips</title>
+      <link>/posts/%E6%8F%90%E5%8D%87keras%E5%87%86%E7%A1%AE%E7%8E%87%E5%92%8C%E9%80%9F%E5%BA%A6%E7%9A%84tips/</link>
+      <pubDate>Thu, 14 Mar 2019 17:27:14 +0000</pubDate>
+      
+      <guid>/posts/%E6%8F%90%E5%8D%87keras%E5%87%86%E7%A1%AE%E7%8E%87%E5%92%8C%E9%80%9F%E5%BA%A6%E7%9A%84tips/</guid>
+      <description>&lt;p&gt;这里记录一下对于新手(对,说的就是本人)学习kears框架时用来提升准确率的一些tip,但这里都是&amp;quot;术&amp;quot;的层面,而对于&amp;quot;道&amp;quot;,还是要看数学.全文以深度学习界的&amp;quot;hello world&amp;quot;-&lt;a href=&#34;http://yann.lecun.com/exdb/mnist/&#34;&gt;手写数字识别&lt;/a&gt;为例.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>python验证码识别实战2</title>
+      <link>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%982/</link>
+      <pubDate>Sat, 06 Jan 2018 16:27:04 +0000</pubDate>
+      
+      <guid>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%982/</guid>
+      <description>&lt;p&gt;在&lt;a href=&#34;http://www.hi-roy.com/2017/12/29/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/&#34;&gt;上一篇文章&lt;/a&gt;中，我们使用sklearn对验证码进行了识别，为了提高识别率，今天来进行进一步优化。&lt;/p&gt;
+&lt;p&gt;观察验证码后，发现还可以对其进行旋转处理，这个验证码旋转角度在-30～30之间，那么如何判断旋转角度呢？这里我使用最简单粗暴的判断方式——如果旋转后的字符宽度小于旋转之前，则认为是合理的旋转。但这里还有一个问题需要处理，上一篇文章中我们为了简便直接根据固定的宽度对字符进行了分割，但是分割后字符在小图片中的位置不是固定的，需要手动将其放在中心位置。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>python验证码识别实战</title>
+      <link>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/</link>
+      <pubDate>Fri, 29 Dec 2017 19:07:39 +0000</pubDate>
+      
+      <guid>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/</guid>
+      <description>&lt;p&gt;陆陆续续的学习了验证码的灰度、二值化、分割等方法，还了解了机器学习中最基本的3个分类方式——KNN、决策树、朴素贝叶斯。基于这些，今天结合这些工具来写一个简单的验证码识别程序，本来想使用现有的库来生成验证码，但无意间发现了之前写某个程序时下载的200个验证码，正好可以拿来练手。另外，虽然之前已经实现了上面3种算法，但这里还是会使用&lt;code&gt;sklearn&lt;/code&gt;这个强大的三方库，学习原理是为了知其所以然，有现成工具还是要拿来用的。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>朴素贝叶斯</title>
+      <link>/posts/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/</link>
+      <pubDate>Thu, 21 Dec 2017 20:01:41 +0000</pubDate>
+      
+      <guid>/posts/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;朴素贝叶斯是贝叶斯决策理论的一部分，贝叶斯概率引入先验知识和逻辑推理来处理不确定命题。又可以称为“条件概率”（Conditional probability），与之相对的则是“频数概率”（frequency probability）。&lt;/p&gt;
+&lt;p&gt;强烈推荐看阮一峰大牛的这篇&lt;a href=&#34;http://www.ruanyifeng.com/blog/2011/08/bayesian_inference_part_one.html%5D&#34;&gt;文章&lt;/a&gt;，看完基本贝叶斯就明白了。&lt;/p&gt;
+&lt;p&gt;我们把\(P(A|B)\)称为在B条件下A的概率，若只有A、B两个事件那么\(P(A|B)= {P(AB) \over P(B)} \) 。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;全概率&lt;/strong&gt; 公式：
+$$P(B)=P(B|A)P(A) + P(B|\overline A)P(\overline A) $$&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;贝叶斯&lt;/strong&gt; 公式：&lt;/p&gt;
+&lt;p&gt;$$P(A|B)={P(B|A) × P(A) \over P(B)}$$&lt;/p&gt;
+&lt;p&gt;对公式进行变形：&lt;/p&gt;
+&lt;p&gt;$$P(A|B)={P(A){P(B|A) \over P(B)}}$$&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这里称P(A)为先验概率（Prior probability），即在B事件发生之前，我们对A事件概率的一个判断。P(A|B)称为后验概率（Posterior probability），即在B事件发生之后，我们对A事件概率的重新评估。P(B|A) / P(B) 称为可能性函数（Likelyhood），这是一个调整因子，使得预估概率更接近真实概率。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这里以贝叶斯界的&amp;quot;Hello World&amp;quot;为例，判断某种疾病患病概率问题：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;已知某种疾病的发病率是0.001，即1000人中会有1个人得病。现有一种试剂可以检验患者是否得病，它的准确率是0.99，即在患者确实得病的情况下，它有99%的可能呈现阳性。它的误报率是5%，即在患者没有得病的情况下，它有5%的可能呈现阳性。现有一个病人的检验结果为阳性，请问他确实得病的可能性有多大？&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我们假定阳性概率为P(B),发病的概率为P(A)=0.001，则没得病的概率\(P(\overline A)\)=0.999，确实得病且阳性概率为P(B|A)=0.99，没患病但阳性\(P(B|\overline A)\)=0.05，那么我们要求的问题就是P(A|B)了。&lt;/p&gt;
+&lt;p&gt;结合上面提到的全概率公式和贝叶斯公式，可以计算出他确实得病的概率仅为0.019，即“假阳性”。&lt;/p&gt;
+&lt;p&gt;如果把问题改成检验结果为阴性，问其患病的可能性。&lt;/p&gt;
+&lt;p&gt;我们假定阴性概率为P(B)，发病的概率为P(A)=0.001，没得病的概率\(P(\overline A)\)=0.999，确实得病但阴性概率为P(B|A)=0.01，没患病且阴性\(P(B|\overline A)\)=0.95，那么检查为阴性但患病的概率就是：&lt;/p&gt;
+&lt;p&gt;$$P(A|B)={0.001×0.01 \over {0.01×0.001 + 0.95×0.999}} \approx 0.000011 $$&lt;/p&gt;
+&lt;p&gt;即便阴性也是有患病几率的，但概率十分低。&lt;/p&gt;
+&lt;p&gt;还有一个重要的公式叫做 &lt;strong&gt;联合概率&lt;/strong&gt; ，作用就是在已知多个事件发生的情况下，另一个事件发生的概率:&lt;/p&gt;
+&lt;p&gt;$$P ={ {P_1P_2&amp;hellip;P_n } \over { {P_1P_2&amp;hellip;P_n}+{(1-P_1)(1-P_2)&amp;hellip;(1-P_n)} } } $$&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>基于虚拟可视化的网页分割</title>
+      <link>/posts/%E5%9F%BA%E4%BA%8E%E8%99%9A%E6%8B%9F%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9A%84%E7%BD%91%E9%A1%B5%E5%88%86%E5%89%B2/</link>
+      <pubDate>Fri, 01 Dec 2017 14:22:53 +0000</pubDate>
+      
+      <guid>/posts/%E5%9F%BA%E4%BA%8E%E8%99%9A%E6%8B%9F%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9A%84%E7%BD%91%E9%A1%B5%E5%88%86%E5%89%B2/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.mapado.com/web-page-segmentation-by-visual-clustering/&#34;&gt;原文地址&lt;/a&gt;，向原作者表示感谢。&lt;/p&gt;
+&lt;p&gt;我们在Mapado的工作就是收集世界上所有“要做的事”。&lt;/p&gt;
+&lt;p&gt;为了得到大量数据，我们抓取整个网络，就像Goole做的那样，搜集所有关于演唱会、演出、访问、景点……当我们发现一个有趣的页面，我们就尝试从这个页面提取“好”的数据。&lt;/p&gt;
+&lt;p&gt;我们面临的一个主要挑战就是如何从垃圾信息中(广告、导航栏、页脚、相关内容……)分离我们感兴趣的内容(标题、简介、图片、日期……)&lt;/p&gt;
+&lt;p&gt;在这个挑战中，一个任务就是重组在视觉上相近的内容。通常，组成页面主要部分的元素相互之间距离是很近的。&lt;/p&gt;
+&lt;p&gt;当我们开始进行任务时，很天真的以为可以操作DOM来实现。在DOM中，元素以层级结构存储，所以在同一个父元素中的元素很大可能是相关的。&lt;/p&gt;
+&lt;p&gt;一个非常有趣的介绍页面分割的论文可以在这里找到 &lt;a href=&#34;http://wims.vestforsk.no/slides/alcic.pdf&#34;&gt;Page Segmentation by Web Content Clustering&lt;/a&gt;。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>10分钟入门Pandas</title>
+      <link>/posts/10%E5%88%86%E9%92%9F%E5%85%A5%E9%97%A8pandas/</link>
+      <pubDate>Mon, 30 Oct 2017 11:38:23 +0000</pubDate>
+      
+      <guid>/posts/10%E5%88%86%E9%92%9F%E5%85%A5%E9%97%A8pandas/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://pandas.pydata.org/pandas-docs/stable/10min.html&#34;&gt;原文地址&lt;/a&gt;，是官网的《10 Minutes to pandas》翻译，代码中添加了个人的一些注释。&lt;/p&gt;
+&lt;p&gt;通常来说，我们像下面这样来引入包:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;In [&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]: &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; pandas &lt;span style=&#34;color:#f92672&#34;&gt;as&lt;/span&gt; pd
+
+In [&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]: &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; numpy &lt;span style=&#34;color:#f92672&#34;&gt;as&lt;/span&gt; np
+
+In [&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;]: &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; matplotlib.pyplot &lt;span style=&#34;color:#f92672&#34;&gt;as&lt;/span&gt; plt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>决策树</title>
+      <link>/posts/%E5%86%B3%E7%AD%96%E6%A0%91/</link>
+      <pubDate>Tue, 17 Oct 2017 20:55:02 +0000</pubDate>
+      
+      <guid>/posts/%E5%86%B3%E7%AD%96%E6%A0%91/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;决策树是机器学习中一种简单明了的分类算法，用程序语言描述就是&lt;code&gt;if...elif...else...&lt;/code&gt;，关键问题则是如何选择合适的特征对数据集进行切割，常见算法有： ID3、C4.5、CART等。&lt;/p&gt;
+&lt;p&gt;今天主要记录一下ID3这个算法，想使用这个算法首先要了解信息增益，想了解信息增益则要先明白什么是&amp;quot;熵&amp;quot;。熵描述了一个系统的混乱复杂程度，有一个理论叫做&amp;quot;熵增加&amp;quot;，含义就是一个没有外力干涉的系统混乱程度总是增加的，比如一个房间如果没人打扫的话只会越来越混乱，而不会自己变得整洁。&lt;/p&gt;
+&lt;p&gt;计算熵的公式如下：&lt;/p&gt;
+&lt;p&gt;$$H=-\sum_{i=i}^{n}P(x_i)log_2P(x_i)$$&lt;/p&gt;
+&lt;p&gt;其中\(P(x_i)\) 表示P发生的概率。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>python验证码识别6:kNN</title>
+      <link>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB6/</link>
+      <pubDate>Sat, 14 Oct 2017 11:30:49 +0000</pubDate>
+      
+      <guid>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB6/</guid>
+      <description>&lt;p&gt;什么是kNN?kNN(k-Nearest Neighbors)是机器学习中处理分类问题的一种简单明了的算法。核心精髓就是老祖宗几百年前留下的言语&amp;quot;物以类聚，人以群居&amp;quot;。忘记从哪里看到的一个说法：&amp;ldquo;你身边最好的6个朋友的平均薪资，就是你的薪资水平。&amp;ldquo;这就是kNN算法的一个应用了吧，另外我觉得之前几篇给验证码降噪用的连通域算法，分割用的滴水算法，都有kNN的味道在里面。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>python验证码识别5:滴水算法补充</title>
+      <link>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB5/</link>
+      <pubDate>Tue, 26 Sep 2017 15:51:23 +0000</pubDate>
+      
+      <guid>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB5/</guid>
+      <description>关于之前说的滴水算法，一直以为看不懂是因为智商不够，直到上周腾出时间看了原版论文才恍然大悟……之前看的都是“残篇”，怪不得很多地方看的都稀里糊涂的！
+所以有英语能力的还是要看一手资料才行啊！否则看二手甚至多手的东西有时候会让人怀疑智商。
+这里原版的论文链接 提供给各位，60280.pdf是最最原版的滴水算法，dropfall.pdf是经过改造的《基于惯性的滴水算法》和《基于惯性的大滴水算法》。另外改造版的算法是国人发表的，看的时候一种自豪感油然而生，虽然我也不知道自豪个什么劲……
+基于惯性的滴水算法为了解决传统滴水算法遇到有“毛边”的情况，在传统水滴算法基础上多考虑了之前一步的方向。比如周围5个点都是黑或者白时，传统算法是应该向下滴落，但如果之前一步的方向是向右，那么综合考虑后滴落方向就变成了右下。另外，在基于惯性的滴水算法中，“左”是受到“歧视”的。
+再进一步，对于类似字母Y这种凹陷情况，把判断范围扩大而不是仅仅考虑某一个像素点，就变成了基于惯性的大滴水算法了。
+另外，关于起始点的选择，原版论文中是从上到下、从左到右依次遍历所有像素，找到第一个 左侧为黑色像素、右侧有黑的像素的白色像素点 开始滴落（确实挺拗口，看论文中的图就明白了）。
+至于代码，先挖坑病好以后有空再和大家一起讨论分享。</description>
+    </item>
+    
+    <item>
+      <title>python验证码识别4:滴水算法分割图片</title>
+      <link>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB4/</link>
+      <pubDate>Fri, 22 Sep 2017 16:50:04 +0000</pubDate>
+      
+      <guid>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB4/</guid>
+      <description>&lt;p&gt;之前提过对于有粘连的字符可以使用滴水算法来解决分割，但智商捉急的我实在是领悟不了这个算法的精髓，幸好有小伙伴已经实现相关&lt;a href=&#34;https://github.com/lan2720/fuck-captcha/blob/master/fuck_sjtu_captcha.py&#34;&gt;代码&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;我对上面的代码进行了一些小修改，同时升级为python3的代码。&lt;/p&gt;
+&lt;p&gt;还是以这张图片为例：&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;在以前的我们已经知道这种简单的粘连可以通过控制阈值来实现分割，这里我们使用滴水算法。&lt;/p&gt;
+&lt;p&gt;首先使用&lt;a href=&#34;http://www.hi-roy.com/2017/09/20/Python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB2/&#34;&gt;之前文章&lt;/a&gt;中介绍的垂直投影或者连通域先进行一次切割处理，得到结果如下：&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;</description>
+    </item>
+    
+    <item>
+      <title>python验证码识别3:滑动验证码</title>
+      <link>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB3/</link>
+      <pubDate>Thu, 21 Sep 2017 20:38:00 +0000</pubDate>
+      
+      <guid>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB3/</guid>
+      <description>&lt;p&gt;上篇文章记录了2种分割验证码的方法，此外还有一种叫做&amp;quot;滴水算法&amp;quot;(Drop Fall Algorithm)的方法，但本人智商原因看这个算法看的云里雾里的，所以今天记录滑动验证码的处理吧。网上据说有大神已经破解了滑动验证码的算法，可以不使用selenium来破解，但本人能力不足还是使用笨方法吧。&lt;/p&gt;
+&lt;p&gt;基础原理很简单，首先点击验证码按钮后的图片是滑动后的完整结果，点击一下滑块后会出现拼图，对这2个分别截图后比较像素值来找出滑动距离，并结合selenium来实现拖拽效果。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>python验证码识别2:投影法、连通域法分割图片</title>
+      <link>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB2/</link>
+      <pubDate>Wed, 20 Sep 2017 10:45:10 +0000</pubDate>
+      
+      <guid>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB2/</guid>
+      <description>&lt;p&gt;今天这篇文章主要记录一下如何切分验证码，用到的主要库就是&lt;code&gt;Pillow&lt;/code&gt;和Linux下的图像处理工具GIMP。首先假设一个固定位置和宽度、无粘连、无干扰的例子学习一下如何使用&lt;code&gt;Pillow&lt;/code&gt;来切割图片。&lt;/p&gt;
+&lt;p&gt;使用GIMP打开图片后，按 &lt;em&gt;加号&lt;/em&gt; 放大图片，然后点击&lt;code&gt;View-&amp;gt;Show Grid&lt;/code&gt;来显示网格线：&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;其中，每个正方形边长为10像素，所以数字1切割坐标为左20、上20、右40、下70。以此类推可以知道剩下3个数字的切割位置。代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; PIL &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Image
+p &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Image&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;open(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1.png&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#75715e&#34;&gt;# 注意位置顺序为左、上、右、下&lt;/span&gt;
+cuts &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [(&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;40&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;70&lt;/span&gt;),(&lt;span style=&#34;color:#ae81ff&#34;&gt;60&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;90&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;70&lt;/span&gt;),(&lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;130&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;60&lt;/span&gt;),(&lt;span style=&#34;color:#ae81ff&#34;&gt;140&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;170&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;)]
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i,n &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; enumerate(cuts,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;):
+    temp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; p&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;crop(n) &lt;span style=&#34;color:#75715e&#34;&gt;# 调用crop函数进行切割&lt;/span&gt;
+    temp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;save(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;cut&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;.png&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; i)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;切割后得到4张图片：&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;那么，如果字符位置不固定怎么办呢？现在假设一种随机位置宽度、无粘连、无干扰线的情况。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>python验证码识别1:灰度处理、二值化、降噪、tesserocr识别</title>
+      <link>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/</link>
+      <pubDate>Tue, 19 Sep 2017 10:21:03 +0000</pubDate>
+      
+      <guid>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/</guid>
+      <description>&lt;p&gt;写爬虫有一个绕不过去的问题就是验证码，现在验证码分类大概有4种：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;图像类&lt;/li&gt;
+&lt;li&gt;滑动类&lt;/li&gt;
+&lt;li&gt;点击类&lt;/li&gt;
+&lt;li&gt;语音类&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;今天先来看看图像类，这类验证码大多是数字、字母的组合，国内也有使用汉字的。在这个基础上增加噪点、干扰线、变形、重叠、不同字体颜色等方法来增加识别难度。
+相应的，验证码识别大体可以分为下面几个步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;灰度处理&lt;/li&gt;
+&lt;li&gt;增加对比度(可选)&lt;/li&gt;
+&lt;li&gt;二值化&lt;/li&gt;
+&lt;li&gt;降噪&lt;/li&gt;
+&lt;li&gt;倾斜校正分割字符&lt;/li&gt;
+&lt;li&gt;建立训练库&lt;/li&gt;
+&lt;li&gt;识别&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python面试题2</title>
+      <link>/posts/python%E9%9D%A2%E8%AF%95%E9%A2%982/</link>
+      <pubDate>Fri, 18 Aug 2017 15:05:13 +0000</pubDate>
+      
+      <guid>/posts/python%E9%9D%A2%E8%AF%95%E9%A2%982/</guid>
+      <description>&lt;p&gt;最近面试了几家公司，各行各业的都有，涨了很多见识也发现了自己的技术盲点。这里来一个汇总简单纪录。&lt;/p&gt;
+&lt;h1 id=&#34;行列转换&#34;&gt;行列转换&lt;/h1&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;
+&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;已知有一个二维列表&lt;/span&gt;(&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;每一行的元素个数相同&lt;/span&gt;)&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;，写出函数对其行列转换并输出，比如：&lt;/span&gt;
+a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;],
+     [&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]]
+&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;输出：&lt;/span&gt;
+[
+[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;],
+[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;],
+[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;],
+[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]
+]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里建议笔试时候尽量使用简单清晰的写法，让面试官一眼就能看出答案对错：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;convert&lt;/span&gt;(alist):
+    result &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; []
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; x &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; range(len(alist[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;])):
+        tmp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; []
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; y &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; range(len(alist)):
+            tmp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(alist[y][x])
+        result&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(tmp)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt; result
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>Pyflame安装小记</title>
+      <link>/posts/pyflame%E5%AE%89%E8%A3%85%E5%B0%8F%E8%AE%B0/</link>
+      <pubDate>Wed, 26 Jul 2017 13:12:06 +0000</pubDate>
+      
+      <guid>/posts/pyflame%E5%AE%89%E8%A3%85%E5%B0%8F%E8%AE%B0/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.brendangregg.com/flamegraphs.html&#34;&gt;火焰图&lt;/a&gt;是一款性能调优工具，可以清晰的看出程序运行瓶颈在哪里。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://pyflame.readthedocs.io/en/latest/&#34;&gt;pyflame&lt;/a&gt;则是由Uber开源出来的针对python程序生成火焰图的工具。&lt;/p&gt;
+&lt;p&gt;这里记录一下安装过程以及遇到的错误。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>几道python面试题</title>
+      <link>/posts/%E5%87%A0%E9%81%93python%E9%9D%A2%E8%AF%95%E9%A2%98/</link>
+      <pubDate>Fri, 21 Jul 2017 09:41:36 +0000</pubDate>
+      
+      <guid>/posts/%E5%87%A0%E9%81%93python%E9%9D%A2%E8%AF%95%E9%A2%98/</guid>
+      <description>&lt;p&gt;前几天去笔试，这里记录一下遇到的几个编程题，比较基础。&lt;/p&gt;
+&lt;h1 id=&#34;生成斐波那契数列并取前10项&#34;&gt;生成斐波那契数列并取前10项&lt;/h1&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;func&lt;/span&gt;(m):
+  n,a,b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; m:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; a
+    a,b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; b,a&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;b
+    n &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; one &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; func(&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;):
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt; one
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个可以说是一道常见的简单算法题了，关键点就是理解&lt;code&gt;a,b=b,a+b&lt;/code&gt;以及yield的作用。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python常见操作时间复杂度</title>
+      <link>/posts/python%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/</link>
+      <pubDate>Sun, 16 Jul 2017 10:57:46 +0000</pubDate>
+      
+      <guid>/posts/python%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/</guid>
+      <description>&lt;p&gt;电话面试被问到了几个python常见操作的时间复杂度问题，这几年一直关注在业务逻辑的实现上这类基础反而记得不太清楚了，这里有必要重新复习一下，完整版：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://wiki.python.org/moin/TimeComplexity&#34; title=&#34;TimeComplexity&#34;&gt;TimeComplexity&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>使用python模拟POST请求提交图片</title>
+      <link>/posts/%E4%BD%BF%E7%94%A8python%E6%A8%A1%E6%8B%9Fpost%E8%AF%B7%E6%B1%82%E6%8F%90%E4%BA%A4%E5%9B%BE%E7%89%87/</link>
+      <pubDate>Wed, 14 Sep 2016 09:54:37 +0000</pubDate>
+      
+      <guid>/posts/%E4%BD%BF%E7%94%A8python%E6%A8%A1%E6%8B%9Fpost%E8%AF%B7%E6%B1%82%E6%8F%90%E4%BA%A4%E5%9B%BE%E7%89%87/</guid>
+      <description>&lt;p&gt;使用requests来模拟HTTP请求本来是一件非常轻松的事情，比如上传图片来说，简单的几行代码即可：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; requests
+files &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;attachment_file&amp;#39;&lt;/span&gt;: (&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1.png&amp;#39;&lt;/span&gt;, open(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1.png&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;rb&amp;#39;&lt;/span&gt;), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;image/png&amp;#39;&lt;/span&gt;, {})}
+values &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;next&amp;#39;&lt;/span&gt;:&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://www.xxxx.com/xxxx&amp;#34;&lt;/span&gt;}
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 成功&lt;/span&gt;
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;不过我今天在调试一个django程序的时候却遇到了大坑————为了偷懒，我直接在&lt;strong&gt;ipython&lt;/strong&gt;中执行了上述代码，第一次提交的时候一切正常，但第二次之后提交就怎么也通过不了django的form验证。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>解决django使用logging时“character mapping must return integer, None or unicode”错误</title>
+      <link>/posts/%E8%A7%A3%E5%86%B3django%E4%BD%BF%E7%94%A8logging%E6%97%B6character-mapping-must-return-integer-none-or-unicode%E9%94%99%E8%AF%AF/</link>
+      <pubDate>Tue, 21 Jun 2016 17:42:27 +0000</pubDate>
+      
+      <guid>/posts/%E8%A7%A3%E5%86%B3django%E4%BD%BF%E7%94%A8logging%E6%97%B6character-mapping-must-return-integer-none-or-unicode%E9%94%99%E8%AF%AF/</guid>
+      <description>&lt;p&gt;今天调试Django项目时候，使用Logging记录异常并发送邮件给网站管理人员，测试时候始终报错：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;Traceback (most recent call last):
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/wsgiref/handlers.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;85&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; run
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;result &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; application(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;environ, self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start_response)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/handlers/wsgi.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;177&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; __call__
+    response &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_response(request)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/handlers/base.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;230&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; get_response
+    response &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;handle_uncaught_exception(request, resolver, sys&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;exc_info())
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/handlers/base.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;284&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; handle_uncaught_exception
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;request&amp;#39;&lt;/span&gt;: request
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1185&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; error
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_log(ERROR, msg, args, &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;kwargs)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1278&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; _log
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;handle(record)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1288&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; handle
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;callHandlers(record)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1328&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; callHandlers
+    hdlr&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;handle(record)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;751&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; handle
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;emit(record)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/utils/log.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;117&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; emit
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;send_mail(subject, message, fail_silently&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;True, html_message&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;html_message)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/utils/log.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;120&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; send_mail
+    mail&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;mail_admins(subject, message, &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;args, connection&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connection(), &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;kwargs)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;97&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; mail_admins
+    mail&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;send(fail_silently&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;fail_silently)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/message.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;292&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; send
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_connection(fail_silently)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;send_messages([self])
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/backends/smtp.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; send_messages
+    new_conn_created &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;open()
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/backends/smtp.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;67&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; open
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connection&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;login(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;username, self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;password)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/smtplib.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;607&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; login
+    (code, resp) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;docmd(encode_cram_md5(resp, user, password))
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/smtplib.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;571&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; encode_cram_md5
+    response &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; user &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; &amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; hmac&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;HMAC(password, challenge)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hexdigest()
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/hmac.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;78&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; __init__
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;outer&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;update(key&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;translate(trans_5C))
+&lt;span style=&#34;color:#a6e22e&#34;&gt;TypeError&lt;/span&gt;: character mapping must &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; integer, None &lt;span style=&#34;color:#f92672&#34;&gt;or&lt;/span&gt; unicode
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;根据错误提示，追进了hmac.py中看了源码，发现key其实就是一个字符串，是配置在settings中的EMAIL_HOST_USER以及EMAIL_HOST_PASSWORD，而translate函数则是根据给出的参数表将字符串进行映射加密的，而且是最简单的凯撒加密法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>python中闭包示例</title>
+      <link>/posts/python%E4%B8%AD%E9%97%AD%E5%8C%85%E7%A4%BA%E4%BE%8B/</link>
+      <pubDate>Fri, 18 Mar 2016 11:44:58 +0000</pubDate>
+      
+      <guid>/posts/python%E4%B8%AD%E9%97%AD%E5%8C%85%E7%A4%BA%E4%BE%8B/</guid>
+      <description>&lt;p&gt;概念上的东西这里就不详细解释了，为什么需要闭包（Closures）呢？个人理解就是某些情况下你需要在外部访问函数内部的变量时，闭包就该大显身手了。闭包的一种典型表现就是函数内部定义了新的函数。这里举几个例子以记录使用闭包时的几个注意点，例子来源于&lt;a href=&#34;http://coolshell.cn/articles/6731.html&#34;&gt;这里&lt;/a&gt;，大神用javascript写的示例，这里改成python的，也顺便说说遇到的坑。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>关于functools.wraps的作用</title>
+      <link>/posts/%E5%85%B3%E4%BA%8Efunctools-wraps%E7%9A%84%E4%BD%9C%E7%94%A8/</link>
+      <pubDate>Tue, 12 Jan 2016 13:38:44 +0000</pubDate>
+      
+      <guid>/posts/%E5%85%B3%E4%BA%8Efunctools-wraps%E7%9A%84%E4%BD%9C%E7%94%A8/</guid>
+      <description>今天看代码时候有这么一段：
+from functools import wraps def http_basic_auth(func): &amp;#39;&amp;#39;&amp;#39;定义httpbasicauth装饰器&amp;#39;&amp;#39;&amp;#39; @wraps(func) def _decorator(request, *args, **kwargs): authorization = request.</description>
+    </item>
+    
+    <item>
+      <title>flask-socketio中文文档</title>
+      <link>/posts/flask-socketio%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/</link>
+      <pubDate>Tue, 29 Dec 2015 16:18:34 +0000</pubDate>
+      
+      <guid>/posts/flask-socketio%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/</guid>
+      <description>&lt;p&gt;官网在&lt;a href=&#34;https://flask-socketio.readthedocs.org/en/latest/&#34;&gt;这里&lt;/a&gt;，英语好的直接去看官网文档吧，我是英语渣只能翻译个大概;另外注意本文翻译时间，可能你看到的时候官网已经更新了。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;flask-socketio赋予了flask程序支持服务端和客户端间双向低延迟通讯的能力，客户端可以使用 &lt;a href=&#34;http://socket.io/&#34;&gt;SocketIO&lt;/a&gt; 库或任何支持与服务端建立长链接的兼容库。&lt;/p&gt;
+&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
+&lt;p&gt;可以直接使用pip安装：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pip install flask-socketio
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;依赖&#34;&gt;依赖&lt;/h2&gt;
+&lt;p&gt;自从1.0版开始，这个扩展完全兼容了python2.7和python3.3+版本。异步服务的支持基于下面3个选择中的一个：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://eventlet.net/&#34;&gt;eventlet&lt;/a&gt; 是3个选项中性能最高的，同时支持长轮循(long-polling)和WebSocket。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.gevent.org/&#34;&gt;gevent&lt;/a&gt; 是在以前版本中使用的框架，支持长轮循，如果想支持WebSocket的话需要同时安装&lt;a href=&#34;https://pypi.python.org/pypi/gevent-websocket/&#34;&gt;gevent-websocket&lt;/a&gt; 库。使用gevent和gevent-websocket结合性能也不错，但略低于eventlet。&lt;/li&gt;
+&lt;li&gt;flask 基于Werkzeug的开发服务也能用，不过性能上不如上面2个选项，所以它应该只用于开发时使用。这个选项只支持长轮循。
+本扩展将自动检测哪些异步框架被安装，默认首选eventlet，其次是gevent，最后是flask自带的开发服务。
+对于客户端来说，可以使用官方的Socket.Io来建立于服务端的链接，也有使用swift和c++写成的客户端。非官方的客户端也能工作，只要它实现了&lt;a href=&#34;https://github.com/socketio/socket.io-protocol&#34;&gt;Socket.IO&lt;/a&gt; 协议。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;目前的局限&#34;&gt;目前的局限&lt;/h2&gt;
+&lt;p&gt;目前flask-socketio只能同时运行在单个进程中（这里应该指的是一个进程中仅能存在一个实例的意思，而非只能开启一个进程吧&amp;hellip;），解决这个限制的工作正在进行中。
+（关于升级变化、以及从老版本迁移到新版的注意事项我就不翻译了，因为没用过老版本）&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>python-memcached源码小窥</title>
+      <link>/posts/python-memcached%E6%BA%90%E7%A0%81%E5%B0%8F%E7%AA%A5/</link>
+      <pubDate>Thu, 13 Aug 2015 18:47:40 +0000</pubDate>
+      
+      <guid>/posts/python-memcached%E6%BA%90%E7%A0%81%E5%B0%8F%E7%AA%A5/</guid>
+      <description>以前经常使用python-memcached对内存进行操作，但应用都比较简单，最近需要有一个分布式缓存系统于是看了看关于twemproxy 以及 mcrouter 这两款分别由twitter和facebook开源的软件文档。这2个软件都能容易的扩展缓存节点以及自动删除问题节点，并且提供不同的算法把数据缓存到各个节点中。这时候我想起来使用python-memcached的时候，也可以使用多个节点，并且某个节点挂掉后并不影响整个缓存程序的使用，那么它是怎么将数据分配到不同的节点呢？以及怎么处理的故障节点呢？ python-memcached的源码只有一个文件，不管是get或者set，取得服务节点Ip的函数如下：
+_SERVER_RETRIES = 10 # how many times to try finding a free server.</description>
+    </item>
+    
+    <item>
+      <title>python中的md5以及base64加密</title>
+      <link>/posts/python%E4%B8%AD%E7%9A%84md5%E4%BB%A5%E5%8F%8Abase64%E5%8A%A0%E5%AF%86/</link>
+      <pubDate>Thu, 05 Feb 2015 13:58:41 +0000</pubDate>
+      
+      <guid>/posts/python%E4%B8%AD%E7%9A%84md5%E4%BB%A5%E5%8F%8Abase64%E5%8A%A0%E5%AF%86/</guid>
+      <description>最近要和某公司进行系统对接，对方使用C#给出了这样一个加密函数：
+public static string MD5ToBase64String(string str) { MD5 md5 = new MD5CryptoServiceProvider(); byte[] temp = System.</description>
+    </item>
+    
+    <item>
+      <title>python&#43;selenium&#43;phantomjs抓取ajax动态页面</title>
+      <link>/posts/python-selenium-phantomjs%E6%8A%93%E5%8F%96ajax%E5%8A%A8%E6%80%81%E9%A1%B5%E9%9D%A2/</link>
+      <pubDate>Wed, 05 Nov 2014 14:52:09 +0000</pubDate>
+      
+      <guid>/posts/python-selenium-phantomjs%E6%8A%93%E5%8F%96ajax%E5%8A%A8%E6%80%81%E9%A1%B5%E9%9D%A2/</guid>
+      <description>一般情况下，python爬虫遇到ajax动态页面一般都是直接分析后模拟ajax请求获得数据。不过今天遇到个网站，由于某些原因不透露网址了，点击搜索按钮后，它先跳转到a页面，然后从a页面跳转到b页面，再由b页面跳回a页面。当完成这2次跳转后，ajax向a页面提交的请求才会返回结果。
+也怀疑是不是cookie或者refenen的问题，但最终证实不是因为这个。即便伪造了请求头再访问a页面，返回的也不是真实的结果页面而是一段跳转到b页面的js代码。
+既然不知道跳转过程中网站到底干了写什么，那就直接上大杀器吧。
+phantomjs可以简单的理解为js解释器，selenium更不用多介绍了，用pip安装即可。 从 http://phantomjs.org/download.html 下载编译后的包（当然你可以自己下源码），解压后的bin目录中就是我们需要的东西。
+import sys reload(sys) sys.</description>
+    </item>
+    
+    <item>
+      <title>postgresql学习记录3</title>
+      <link>/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%953/</link>
+      <pubDate>Thu, 07 Aug 2014 12:32:57 +0000</pubDate>
+      
+      <guid>/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%953/</guid>
+      <description>某些情况下需要向数据库中插入媒体文件，mysql中插入媒体文件时，数据字段应该是blob。而对于postgresql，则是bytea。这里注意的是打开文件时候应该用&amp;quot;rb wb&amp;quot;这种模式，示例如下：
+import psycopg2 #省略部分代码... def ins_pictures(self, name, position, explain, href, uploaddate, img, show_id): &amp;#39;&amp;#39;&amp;#39;向pictures表中插入数据(显示位置，说明，上传时间，图片的2进制) &amp;#39;&amp;#39;&amp;#39; strs = r&amp;#34;insert into pictures(p_name,p_position,p_explain,p_href,p_uploaddate,p_show,p_img,show_id) values (%(name)s,%(position)s,%(explain)s,%(href)s,%(uploaddate)s,&amp;#39;0&amp;#39;,%(img)s,%(show_id)s)&amp;#34; self.</description>
+    </item>
+    
+    <item>
+      <title>64位win7安装mysql-python</title>
+      <link>/posts/64%E4%BD%8Dwin7%E5%AE%89%E8%A3%85mysql-python/</link>
+      <pubDate>Sun, 06 Jul 2014 09:01:14 +0000</pubDate>
+      
+      <guid>/posts/64%E4%BD%8Dwin7%E5%AE%89%E8%A3%85mysql-python/</guid>
+      <description>64位win7使用pip安装mysql-python时提示unable to find vcvarsall.bat， 网上很多说这个解决这个需要安装那个MinGW，不过我安装并设置环境变量后依然没解决这个问题， 错误提示倒是变成了什么gcc错误一类的。 而从网上下载的win安装包都是32位，在我的机器上提示找不到python，找了很久后终于发现一个地方:http://www.lfd.uci.edu/~gohlke/pythonlibs/ 上有64位的， 而且这上面还有很多其他的64位三方包。 方便国内同学下载我把mysql-python转存到了我的网盘：http://pan.baidu.com/s/13vgjs</description>
+    </item>
+    
+    <item>
+      <title>调试python程序</title>
+      <link>/posts/%E8%B0%83%E8%AF%95python%E7%A8%8B%E5%BA%8F/</link>
+      <pubDate>Thu, 10 Apr 2014 18:06:03 +0000</pubDate>
+      
+      <guid>/posts/%E8%B0%83%E8%AF%95python%E7%A8%8B%E5%BA%8F/</guid>
+      <description>&lt;p&gt;怪不得这几天头疼的厉害，原来是发生了2件大事：官方的XP彻底和我们告别了and爆发了OpenSSL HeartBleed漏洞。这个漏洞可以说是一场大地震，不知道又会有多少网站被“扒光脱裤”，过一阵又得改密码玩了。面对这种网络安全问题，真的是一种待宰羔羊的无力感。&lt;/p&gt;
+&lt;p&gt;调试python程序我知道有3个东东：pdb,ipdb,pudb。&lt;/p&gt;
+&lt;p&gt;第一个是python自带模块，第二个如果安了ipython的话貌似自己就被安装了，最后一个有图形界面，十分复古的——蓝底，真是让人怀念。后2个都可以使用pip安装。
+ipdb支持语法高亮，不过貌似中文支持不太好。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>虚拟环境下安装mysql-python</title>
+      <link>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/</link>
+      <pubDate>Wed, 12 Mar 2014 17:54:50 +0000</pubDate>
+      
+      <guid>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/</guid>
+      <description>使用virtualenv虚拟环境的时候，mysql-python安装时报错：
+_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &amp;quot;my_config.</description>
+    </item>
+    
+    <item>
+      <title>pip下载经常超时的解决办法</title>
+      <link>/posts/pip%E4%B8%8B%E8%BD%BD%E7%BB%8F%E5%B8%B8%E8%B6%85%E6%97%B6%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</link>
+      <pubDate>Wed, 12 Mar 2014 17:51:08 +0000</pubDate>
+      
+      <guid>/posts/pip%E4%B8%8B%E8%BD%BD%E7%BB%8F%E5%B8%B8%E8%B6%85%E6%97%B6%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</guid>
+      <description>最近使用pip安装python模块的时候经常遇到超时而导致失败，解决办法有2个：
+ 使用-i参数指定url，例如：pip install flask -i http://pypi.v2ex.com/simple 修改pip的配置文件：  [global] timeout = 6000index-url = http://pypi.</description>
+    </item>
+    
+    <item>
+      <title>python的sh库使用案例</title>
+      <link>/posts/python%E7%9A%84sh%E5%BA%93%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B/</link>
+      <pubDate>Mon, 17 Feb 2014 09:23:09 +0000</pubDate>
+      
+      <guid>/posts/python%E7%9A%84sh%E5%BA%93%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B/</guid>
+      <description>sh 可让你调用任意程序，就好象是一个函数一般 http://amoffat.github.io/sh/
+这里我用unzip以及mv为例：
+#coding=utf-8 &amp;#39;&amp;#39;&amp;#39; @CreateDate： Fri Feb 14 15:48:13 CST 2014 @FileName：unzip.</description>
+    </item>
+    
+    <item>
+      <title>python线程小学习</title>
+      <link>/posts/python%E7%BA%BF%E7%A8%8B%E5%B0%8F%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Mon, 02 Dec 2013 18:07:11 +0000</pubDate>
+      
+      <guid>/posts/python%E7%BA%BF%E7%A8%8B%E5%B0%8F%E5%AD%A6%E4%B9%A0/</guid>
+      <description>以前我写多线程程序时候，经常把一个线程类单独封装，然后使用全局锁来控制竞争资源的处理。今天看了这样一段代码
+class Fetcher: def __init__(self,threads): self.opener = urllib2.build_opener(urllib2.HTTPHandler) self.lock = Lock() #线程锁 self.</description>
+    </item>
+    
+    <item>
+      <title>Python 深入理解yield</title>
+      <link>/posts/python-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3yield/</link>
+      <pubDate>Sun, 01 Dec 2013 23:38:27 +0000</pubDate>
+      
+      <guid>/posts/python-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3yield/</guid>
+      <description>不知道原文出处，向原作者表示感谢。
+yield的英文单词意思是生产，刚接触Python的时候感到非常困惑，一直没弄明白yield的用法。只是粗略的知道yield可以用来为一个函数返回值塞数据，比如下面的例子：
+def addlist(alist): for i in alist: yield i + 1 取出alist的每一项，然后把i + 1塞进去。然后通过调用取出每一项：</description>
+    </item>
+    
+    <item>
+      <title>python 获取网站cookie</title>
+      <link>/posts/python-%E8%8E%B7%E5%8F%96%E7%BD%91%E7%AB%99cookie/</link>
+      <pubDate>Fri, 15 Nov 2013 15:20:14 +0000</pubDate>
+      
+      <guid>/posts/python-%E8%8E%B7%E5%8F%96%E7%BD%91%E7%AB%99cookie/</guid>
+      <description>对于一般的网站来说，通过以下代码便可以获取到cookie：
+import urllib2 import urllib import cookielib logurl = &amp;#34;https://www.digikey.com/classic/RegisteredUser/Login.aspx?&amp;#34; cj = cookielib.</description>
+    </item>
+    
+    <item>
+      <title>python lxml模块</title>
+      <link>/posts/python-lxml%E6%A8%A1%E5%9D%97/</link>
+      <pubDate>Wed, 13 Nov 2013 18:11:17 +0000</pubDate>
+      
+      <guid>/posts/python-lxml%E6%A8%A1%E5%9D%97/</guid>
+      <description>继续分析那个爬虫程序，今天从中学习了lxml模块的基本使用。这个模块用来解析XML、HTML内容，据说速度上秒杀了&amp;quot;美丽的汤&amp;quot;。
+官网： http://lxml.de/api/index.html
+#coding=utf-8 &amp;#39;&amp;#39;&amp;#39; Created on 2013年11月13日 学习使用lxml @author: dear_shen &amp;#39;&amp;#39;&amp;#39; from lxml import etree if __name__ == &amp;#39;__main__&amp;#39;: broken_str = &amp;#39;&amp;#39;&amp;#39; &amp;lt;!</description>
+    </item>
+    
+    <item>
+      <title>Python：使用threading模块实现多线程编程</title>
+      <link>/posts/python%E4%BD%BF%E7%94%A8threading%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/</link>
+      <pubDate>Wed, 13 Nov 2013 11:44:22 +0000</pubDate>
+      
+      <guid>/posts/python%E4%BD%BF%E7%94%A8threading%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/</guid>
+      <description>原文链接找不到了，故整理格式后记录于此。
+常用函数 &amp;#39;&amp;#39;&amp;#39;&amp;#39;&amp;#39; Created on 2012-9-7 @author: walfred @module: thread.ThreadTest3 @description: &amp;#39;&amp;#39;&amp;#39; import threading class MyThread(threading.</description>
+    </item>
+    
+    <item>
+      <title>python threading模块</title>
+      <link>/posts/python-threading%E6%A8%A1%E5%9D%97/</link>
+      <pubDate>Wed, 13 Nov 2013 11:16:09 +0000</pubDate>
+      
+      <guid>/posts/python-threading%E6%A8%A1%E5%9D%97/</guid>
+      <description>threading模块  Thread 线程类，这是我们用的最多的一个类，你可以指定线程函数执行或者继承自它都可以实现子线程功能； Timer与Thread类似，但要等待一段时间后才开始运行； Lock 锁原语，这个我们可以对全局变量互斥时使用； RLock 可重入锁，使单线程可以再次获得已经获得的锁； Condition 条件变量，能让一个线程停下来，等待其他线程满足某个“条件”； Event 通用的条件变量。多个线程可以等待某个事件发生，在事件发生后，所有的线程都被激活； Semaphore为等待锁的线程提供一个类似“等候室”的结构； BoundedSemaphore 与semaphore类似，但不允许超过初始值；  Thread类  是你主要的线程类，可以创建进程实例。该类提供的函数包括： getName(self) 返回线程的名字 isAlive(self) 布尔标志，表示这个线程是否还在运行中 isDaemon(self) 返回线程的daemon标志 join(self, timeout=None) 程序挂起，直到线程结束，如果给出timeout，则最多阻塞timeout秒 run(self) 定义线程的功能函数 setDaemon(self, daemonic) 把线程的daemon标志设为daemonic setName(self, name) 设置线程的名字 start(self) 开始线程执行  关于join()和setDaemon join：如在一个线程B中调用threada.</description>
+    </item>
+    
+    <item>
+      <title>python queue模块</title>
+      <link>/posts/python-queue%E6%A8%A1%E5%9D%97/</link>
+      <pubDate>Wed, 13 Nov 2013 11:11:38 +0000</pubDate>
+      
+      <guid>/posts/python-queue%E6%A8%A1%E5%9D%97/</guid>
+      <description>创建一个“队列”对象 import Queue myqueue = Queue.Queue(maxsize = 10) Queue.Queue类即是一个队列的同步实现。队列长度可为无限或者有限。可通过Queue的构造函数的可选参数maxsize来设定队列长度。如果maxsize小于1就表示队列长度无限。
+将一个值放入队列中 myqueue.</description>
+    </item>
+    
+    <item>
+      <title>关于lambda s:s</title>
+      <link>/posts/%E5%85%B3%E4%BA%8Elambda-s-s/</link>
+      <pubDate>Tue, 12 Nov 2013 14:31:02 +0000</pubDate>
+      
+      <guid>/posts/%E5%85%B3%E4%BA%8Elambda-s-s/</guid>
+      <description>在某前辈的代码中发现这么一句：
+_=lambda s:s 当时不太理解这么写的目的，google之后明白了（顺便吐槽百度，搜“lambda s:s”出来的结果没几个有用的），记录如下：
+一般情况下出现这种写法应该是用在&amp;quot;and_or&amp;quot;技巧中，也可以叫做“逻辑短路”。相信学过C语言的一定很熟悉“and一假为假、or一真为真”这句话。
+python中lambda的bool值永远为真（这里指lambda本身而不是它的返回值），《dive into python》原文翻译：
+ lambda函数在布尔环境中总是为真。(这并不意味这lambda函数不能返回假值。这个函数对象的布尔值为真；它的返回值可以是任何东西。)</description>
+    </item>
+    
+    <item>
+      <title>Python optionParser模块</title>
+      <link>/posts/python-optionparser%E6%A8%A1%E5%9D%97/</link>
+      <pubDate>Mon, 11 Nov 2013 18:08:48 +0000</pubDate>
+      
+      <guid>/posts/python-optionparser%E6%A8%A1%E5%9D%97/</guid>
+      <description>用于生成模块说明。
+#coding=utf-8 from optparse import OptionParser def opt(): parser = OptionParser( description=&amp;#34;整个文件功能一类的帮助信息&amp;#34;) parser.</description>
+    </item>
+    
+    <item>
+      <title>多线程爬虫</title>
+      <link>/posts/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%88%AC%E8%99%AB/</link>
+      <pubDate>Fri, 08 Nov 2013 11:52:43 +0000</pubDate>
+      
+      <guid>/posts/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%88%AC%E8%99%AB/</guid>
+      <description>&lt;p&gt;原文链接：http://www.dongwm.com/archives/pa-chong-lian-xi/&lt;/p&gt;
+&lt;p&gt;正好最近学习多线程、爬虫相关的东西，这篇文章写的十分不错！&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

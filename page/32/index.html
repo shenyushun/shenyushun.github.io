@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta name="generator" content="Hugo 0.83.1" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="君以国士待我，我必以国士报君。">
+		<meta property="og:title" content="Hi~Roy!" />
+<meta property="og:description" content="君以国士待我，我必以国士报君。" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="/" />
+
+
+		<meta itemprop="name" content="Hi~Roy!">
+<meta itemprop="description" content="君以国士待我，我必以国士报君。">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+	<link rel="alternate" type="application/rss+xml" href="/index.xml" title="Hi~Roy!">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item menu__item--active">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main list" role="main">
+	<article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%953/" rel="bookmark">
+			postgresql学习记录3
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-08-07T12:32:57Z">2014-08-07</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="category">数据库</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		某些情况下需要向数据库中插入媒体文件，mysql中插入媒体文件时，数据字段应该是blob。而对于postgresql，则是bytea。这里注意的是打开文件时候应该用&quot;rb wb&quot;这种模式，示例如下：
+import psycopg2 #省略部分代码... def ins_pictures(self, name, position, explain, href, uploaddate, img, show_id): &#39;&#39;&#39;向pictures表中插入数据(显示位置，说明，上传时间，图片的2进制) &#39;&#39;&#39; strs = r&#34;insert into pictures(p_name,p_position,p_explain,p_href,p_uploaddate,p_show,p_img,show_id) values (%(name)s,%(position)s,%(explain)s,%(href)s,%(uploaddate)s,&#39;0&#39;,%(img)s,%(show_id)s)&#34; self.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%953/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%952/" rel="bookmark">
+			postgresql学习记录2
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-08-06T09:24:22Z">2014-08-06</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="category">数据库</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		想把mysql数据迁移到postgresql，推荐使用py-mysql2pgsql，使用pip安装即可。
+安装完毕后执行py-mysql2pgsql后会在当前目录生成一个yaml文件，根据实际情况修改，例如：
+# if a socket is specified we will use that# if tcp is chosen you can use compressionmysql:hostname: localhostport: 3306socket: /var/lib/mysql/mysql.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%952/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/" rel="bookmark">
+			postgresql学习记录1
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-08-06T09:14:31Z">2014-08-06</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="category">数据库</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		数据库9.3.5，系统fedora20,不同系统操作略有不同。
+使用yum 命令安装即可：sudo yum install postgresql,postgresql-server
+安装完毕后系统中会创建一个postgres的用户，切换到这个用户后进行数据库的初始化：
+initdb --encoding=UTF-8 --no-locale -D /var/lib/pgsql/data/或者使用postgresql-setup initdb 命令。
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/%E6%9E%AF%E8%90%8E%E7%9A%84%E8%8A%B1%E8%BD%AC/" rel="bookmark">
+			枯萎的花（转）
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-07-09T01:05:23Z">2014-07-09</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%81%90%E6%80%96%E6%95%85%E4%BA%8B/" rel="category">恐怖故事</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		碎碎第一次睁开眼时，一只小花蝴蝶正受惊般地从她眼前飞过，耳畔传来姐姐们欣喜的叫喊声:”妹妹醒啦，妹妹醒啦!” 碎碎茫然地看了看四周，初生的太阳放射出明亮的光芒，照耀在姐姐们娇艳的笑靥上，她们围在碎碎身边，欢喜地迎接妹妹的到来。这里到处是山，古藤绝壁，山涧幽鸣，石壁上有一座小而庄严的寺庙，庙前的小径蜿然伸向远方。 从那时起，碎碎来到了这个世界，开始了她的生活，每天在寺庙的钟声在醒过来，和姐妹们一同歌唱，同过路的蝴蝶翩翩起舞，夜晚就静静仰望着星空，在一片木鱼诵佛声中沉沉睡去。日子过得快乐而单调。 直到有一天，清晨的薄雾还没有消散。”的嗒”的马蹄声踏破了山间的寂静，惊醒了沉睡中的碎碎。她睁大眼睛，看到薄雾中出现了一个骑马的男子。他是个二十来岁的年轻人，穿着沾满灰尘的衣裳，有一双和气的大眼睛。他似乎赶了很久的路，又渴又饿，脸色苍白而憔悴。 他抬头看到绝壁下的古寺，惊喜在他的眼眸里闪过，就如漂浮在汪洋里的落水者看到了救命的木板，男子向寺庙驰去。可他毕竟太衰弱了，所以没等他摇摇晃晃地走上去叩响寺门，连日来的奔波，疲乏，病痛就把他击倒在了寺前的台阶上。 碎碎一动不动地注视着那个卧倒在地上的陌生人，直到天边露出朝霞，早起的僧人惊讶地发现了那个奄奄一息的旅人并把他扶了进去。接连几天，姐妹们都发现碎碎心事重重，落落寡欢。她们在她的身边纵情歌唱，可碎碎的目光却一直投向寺庙的方向。 终于有一天，碎碎又看到了那个年轻人。她全身一震，兴奋传遍了全身。男子的脸色依然苍白，可只要仔细看，你就会发现他的两颊已经隐隐透出了红润。男子站在寺门前，他看了看这边，眼睛一亮，就笔直地走了过来。他站在树下，深深地吸了一口香气:”好美的桃花!”他甚至还用手指碰了碰碎碎。碎碎羞涩地低下头去，脸儿都有红了。 碎碎默默地注视着男子的背影。她猛然便爱上了他。我在佛祖前求了五百年，才在他要经过的路上，伸展出最美丽的姿态，绽放出最妩媚的容颜。他，正是我这辈子要等待的人。 男子每天都会来树下站一会，黑蓝黑蓝的眼睛久久凝视着美丽的桃花，透露出无限的深情。他的身体一天天康复着，当青春和活力重新注入他的身体后，大家都发现原来他是一个十分好看的人。 那个夜晚，男子窗前的烛光久久未熄。分别的时刻到来了。碎碎做出了艰难的决择:她要跟着那个人走。忧心仲仲的姐妹们纷纷劝阻她:”离了枝头，你就活不了了。” “他是个人，你和他是没有结果的。” 碎碎坚定地沉默着。那一夜，繁星满天，在初夏的深山里，在一座百年的古刹前，一株开得灼灼其华的桃花，为她们即将远去姐妹的命运担忧着，一夜未眠。 当第一缕阳光照在峰头，寺门”吱呀”一声开了。牵着马的男子拱手做别了寺里的僧人，策马驰去。当他经过桃树时，碎碎用力一挣，脱离了枝头，在姐妹们悲伤的呼喊和叹息声中，一头扑进了男子的怀里，多么温暖!
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/%E6%9E%AF%E8%90%8E%E7%9A%84%E8%8A%B1%E8%BD%AC/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/%E8%8A%B1%E9%AC%BC%E8%BD%AC/" rel="bookmark">
+			花鬼（转）
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-07-09T01:01:15Z">2014-07-09</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%81%90%E6%80%96%E6%95%85%E4%BA%8B/" rel="category">恐怖故事</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		阴风阵阵 雨萋萋 夜色的深处某个不知名的角落里 或许正卷曲着一个 冤屈的灵魂 世界上真的有鬼吗 或许鬼只是人潜意识里某种无法自我的思维 也或许是一种科学还难以解释的现象 我还是很小的时候 听妈妈说我是个很爱哭爱闹的小调皮 特别到晚上总是爱哭 所以每天晚上妈妈总是唱歌谣 或讲故事给我听 很多都是些鬼故事 我想也许是因为比较恐怖吧所以 到现在有些还有很深的印象 以前我的姥姥（外婆）家是个不知名的小地方 而且那里是个叫偏僻的地方 所以一年到头那里也不会有什么外来人口 更别说什么游客了 只是偶尔会有张家的远方表亲来了 李家的远方XX来了 赵家的远方XX 来了 每年春天或快春节的时候小村子里会热闹些 不是谁家的姑娘出嫁 就是谁家的小子娶媳妇 要不就是 谁家的老人过世 又是一年的春天到了 不过这个春天来的有点晚因为是润月 所以都快四月了还是不大暖和 一大早还只有 七 八 岁的 妈妈起的很早 刚要吃早饭的妈妈 缠着我的外婆说 今天吃什么呀 姥姥说随便吃点吧 一会我要出去下 我门隔壁家的 张奶奶老了（死了） 妈妈说真的啊 不是前几天还好好的吗 是怎么死的呀 姥姥看看妈妈 说小孩子家不要打听那么多 妈妈很是不高兴的撇撇嘴走开了 过了后天妈妈才知道 原来那个张奶奶是 暴病死的 据说其中还有些古怪那 听人家说张奶奶年轻的时候可是十里八村出了名的美女 追她的 暗地里想他的小伙子可以说是排成了对 可是不知道为什么最后 这为美女最后却下嫁给了一个不怎么样的男人 或许有什么原因也或许是因为爱情 但是结婚后那些追求着还是 穷追不舍 最后张奶奶的老公 很早的就去世了 很多人说是 因为追她的人太多是被活活气死的 那年张奶奶才四十多岁 她一个人带着三个儿女 从此过着平淡的日子 虽然日子很清苦 但是儿女还算孝顺都很听话 就在她老头死了没多久老奶奶种了棵苦丁香 也许是处于对她老头子的怀念 不论晴天雨天 春天还是飘雪的冬天只要是吃过饭老奶奶都会做在树下望着丁香树 树也好像有了灵性 枝叶摇摆发出 沙沙的声音象是在和老奶奶对话 每年春天丁香花开 老奶奶都要大病一场 在床上一躺就是大班半个月甚至要将近一个月 时间过的真快随着燕子的悦耳鸣叫声 新的一年春天又来到了 可是老奶奶的身体却好像越来越差了 而她深爱的那棵丁香树显的越发精神 村子里的人议论也越来越多了 闲话也越传越神 有的说她家里闹鬼 说晚上 经常看到她死去很久的老头子蹲在门口抽烟 还说她家院子里的那棵丁香树就是她老头子的化身 说是因为那棵树在吸她的血所以树才长的那么郁郁葱葱 老奶奶的儿女一直说要把那棵树移走 或砍了 可是老奶奶就是不让 没次说到要砍树的事老奶奶总是闹着要死说 你们的爸爸死了也没人陪我了我现在只有这棵树陪我了 要是你们把树砍了那我也活着没什么意思了 所以儿女也拿她没有办法 可是老奶奶的身体真的是一天不如一天就象树上秋天的落叶一样随时都有凋谢的危险 春天的气候虽不一片骄阳但旷野处也到处生机萌生 随眼望去都不在是枯黄 而是淡淡的绿 田野里也都是忙着耕种的人们 但在这位老奶奶的家里却好似到了秋天一样冷冷清清 屋子里的气氛好像随时要停止凝结 老奶奶躺在床上咳的很是厉害 而且好像已经不在只是咳了 而是在吐血 她怕儿女担心她每咳一次都是用手帕捂着嘴 但是她嘴角的血却被细心的儿女察觉了 老奶奶最疼的小女儿哭着扑在老奶奶怀里 她强打精神笑着 摸着女儿的头说 别哭乖 我没事你们不要担心 如果我真的有事你们也不要伤心 我只是太思念你们的父亲 我早该去和他团聚去了 现在你们都大了我也没有什么放心不下的了 说到着老奶奶环顾了下屋子然后说这些年我身体一直不好 这个家全靠你们的大家操持了以后我要是去了你们要听她的话 知道吗不要让我在地下担心 说到这里儿女们哭的更是厉害了 风沙沙的 吹着丁香树 淡淡的香气 飘满了整个院子 飘到了老奶奶的房间 睡梦中的老奶奶闻到了香气 人也显的格外精神 一个多月没有下床的她 批上了衣服趁着夜色走出了屋外 老到了树下 手抚摸着树说 老头子我们就要团聚了 你当初一下子走了 真是狠心 你不知道我这么多年是怎么过来的 说着老奶奶抱着树哭了起来树也好象哭了一样枝叶也跟着抖动了起来 突然有一条象红色的线一样的血一样的从树的枝干上流了下来 老奶奶手摸到了 猛的抬头说老头子你怎么也哭了 这时候突然阴云密布 狂风突起 只见一道白光一闪 树象是被什么劈开了一样 断成了两节 只见树的中间鲜血淋淋 老奶奶被突来的状况一下子吓的晕了过去 不知道过了多久天边微蓝 早起的大女儿看到了躺在了地上的老奶奶还有段成两节的丁香树 吓的喊了出来 屋子里的弟弟妹妹也都被喊声惊醒都跑出了屋子 此时老奶奶已经浑身冰凉 僵硬了 可是老奶奶的表情很安祥还带着微笑手紧经的抱着那棵鲜血淋淋的树 老奶奶就这样走了 故事讲到这里按理说该是讲完了 可是自从儿女们把老奶奶安葬后 他们家的院子里又长出了两棵新的丁香树 人们都说 可能是 老奶奶和老爷爷放心不下他们的儿女 所以在次化为丁香树 每天守候着他们的儿女们 这正是 丁香有情 人有意 情缘难段 悲切切 思思春色 灌大地 人间处处都是春 
+	</div>
+</article>
+</main>
+
+<div class="pagination">
+	<a class="pagination__item pagination__item--prev btn" href="/page/31/">«</a>
+	<span class="pagination__item pagination__item--current">32/47</span>
+	<a class="pagination__item pagination__item--next btn" href="/page/33/">»</a>
+</div>
+
+			</div>
+			<aside class="sidebar sidebar--left"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH…" value="" name="q" aria-label="SEARCH…">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">golang小技巧</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/">新手可能会犯的50个Golang错误</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/%E9%9B%86%E6%88%90gin%E5%92%8Ccasbin/">集成gin和casbin</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06/">OpenStack源码学习笔记6</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/">设计模式-享元模式</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">OpenStack源码学习笔记5</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/">设计模式-外观模式</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/">设计模式-装饰器模式</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/">设计模式-组合模式</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/">设计模式-桥接模式</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/centos/">Centos</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">12</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/django/">Django</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">23</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/golang/">Golang</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">17</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/httpd/">httpd</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">1</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/kali/">Kali</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">4</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/linux/">Linux</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">33</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/mac/">Mac</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">4</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/nodejs/">Nodejs</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">1</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/objective-c/">Objective-C</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">2</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/openstack/">OpenStack</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">6</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/python/">Python</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">70</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">11</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E5%93%B2%E7%90%86%E7%BE%8E%E6%96%87/">哲理美文</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">3</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%81%90%E6%80%96%E6%95%85%E4%BA%8B/">恐怖故事</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">6</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%88%91%E7%9A%84%E8%B6%B3%E8%BF%B9/">我的足迹</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">1</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">7</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E4%B8%AD%E5%8C%BB/">有意思的中医</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">1</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">3</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%9D%82/">杂</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">10</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">26</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">11</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">5</span>
+				</li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/ajax/" title="ajax">ajax (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/angular/" title="angular">angular (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/celery/" title="celery">celery (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/centos/" title="centos">centos (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/code-review/" title="code review">code review (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/cors/" title="cors">cors (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/django/" title="django">django (25)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dns/" title="dns">dns (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/es6/" title="ES6">ES6 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/eventlet/" title="eventlet">eventlet (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fedora/" title="fedora">fedora (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/flask/" title="flask">flask (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/flower/" title="flower">flower (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ganglia/" title="ganglia">ganglia (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gevent/" title="gevent">gevent (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/glance/" title="Glance">Glance (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/go/" title="go">go (17)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/haproxy/" title="haproxy">haproxy (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/html5/" title="html5">html5 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iptables/" title="iptables">iptables (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ipython/" title="ipython">ipython (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/javascript/" title="javascript">javascript (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jwt/" title="jwt">jwt (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kali/" title="kali">kali (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kears/" title="kears">kears (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/keepalive/" title="keepalive">keepalive (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ldap/" title="ldap">ldap (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/lxml/" title="lxml">lxml (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/minecraft/" title="minecraft">minecraft (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mitmf/" title="MITMf">MITMf (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mongodb/" title="mongodb">mongodb (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql-python/" title="mysql-python">mysql-python (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/nginx/" title="nginx">nginx (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/nodejs/" title="nodejs">nodejs (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/nova/" title="Nova">Nova (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/numpy/" title="numpy">numpy (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/openerp7/" title="openerp7">openerp7 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/pandas/" title="pandas">pandas (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/phantomjs/" title="phantomjs">phantomjs (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/pip/" title="pip">pip (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/postgresql/" title="postgresql">postgresql (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python (42)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/queue/" title="queue">queue (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/rabbitmq/" title="rabbitmq">rabbitmq (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/redis/" title="redis">redis (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/requests/" title="requests">requests (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/selenium/" title="selenium">selenium (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sse/" title="sse">sse (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/systemtap/" title="systemtap">systemtap (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/threading/" title="threading">threading (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/uwsgi/" title="uwsgi">uwsgi (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/webpack/" title="webpack">webpack (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/web%E4%BB%A3%E7%90%86/" title="web代理">web代理 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yield/" title="yield">yield (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97/" title="任务队列">任务队列 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%88%9B%E4%B8%9A/" title="创业">创业 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" title="区块链">区块链 (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%93%B2%E7%90%86%E7%BE%8E%E6%96%87/" title="哲理美文">哲理美文 (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%82%E6%AD%A5%E9%98%9F%E5%88%97/" title="异步队列">异步队列 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E4%B8%AD%E5%8C%BB/" title="有意思的中医">有意思的中医 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" title="机器学习">机器学习 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%82/" title="杂">杂 (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" title="消息队列">消息队列 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%81%AB%E7%84%B0%E5%9B%BE/" title="火焰图">火焰图 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%88%AC%E8%99%AB/" title="爬虫">爬虫 (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" title="端口转发">端口转发 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%BA%BF%E7%A8%8B/" title="线程">线程 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" title="网络安全">网络安全 (9)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%8A%B1%E4%B9%8B%E9%AC%BC%E8%AF%9D/" title="花之鬼话">花之鬼话 (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式">设计模式 (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/" title="金融理财">金融理财 (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%97%AD%E5%8C%85/" title="闭包">闭包 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" title="验证码识别">验证码识别 (6)</a>
+	</div>
+</div>
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/shenyushun" target="_blank">
+				<svg class="widget-social__link-icon icon icon-github" width="24" height="24" viewBox="0 0 384 374"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:darkcooking@gmail.com">
+				<svg class="widget-social__link-icon icon icon-mail" width="24" height="24" viewBox="0 0 416 288"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>darkcooking@gmail.com</span>
+			</a>
+		</div>
+
+		
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2021 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

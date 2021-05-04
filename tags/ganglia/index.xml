@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ganglia on Hi~Roy!</title>
+    <link>/tags/ganglia/</link>
+    <description>Recent content in ganglia on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 28 Nov 2014 17:01:10 +0000</lastBuildDate><atom:link href="/tags/ganglia/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>centos部署Ganglia</title>
+      <link>/posts/centos%E9%83%A8%E7%BD%B2ganglia/</link>
+      <pubDate>Fri, 28 Nov 2014 17:01:10 +0000</pubDate>
+      
+      <guid>/posts/centos%E9%83%A8%E7%BD%B2ganglia/</guid>
+      <description>Ganglia+RRDTool这对组合可以说是不错的机群监控软件了，在centos6下安装是十分简单的，服务端安装
+yum install rrdtool-develyum install ganglia-gmetadyum install ganglia-web然后配置文件基本不用大量修改，位于/etc/ganglia/gmetad.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>httpd on Hi~Roy!</title>
+    <link>/categories/httpd/</link>
+    <description>Recent content in httpd on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 13 Apr 2017 11:30:09 +0000</lastBuildDate><atom:link href="/categories/httpd/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>解决apahce部署python程序503错误</title>
+      <link>/posts/%E8%A7%A3%E5%86%B3apahce%E9%83%A8%E7%BD%B2python%E7%A8%8B%E5%BA%8F503%E9%94%99%E8%AF%AF/</link>
+      <pubDate>Thu, 13 Apr 2017 11:30:09 +0000</pubDate>
+      
+      <guid>/posts/%E8%A7%A3%E5%86%B3apahce%E9%83%A8%E7%BD%B2python%E7%A8%8B%E5%BA%8F503%E9%94%99%E8%AF%AF/</guid>
+      <description>今天更新服务器后，发现使用apache部署的某个python程序无法访问了，返回503错误，报错日志如下：
+[Thu Apr 13 10:54:40 2017] [error] [client 127.0.0.1] (13)Permission denied: mod_wsgi (pid=1814): Unable to connect to WSGI daemon process &#39;trac&#39; on &#39;/etc/httpd/logs/wsgi.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>lxml on Hi~Roy!</title>
+    <link>/tags/lxml/</link>
+    <description>Recent content in lxml on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 13 Nov 2013 18:11:17 +0000</lastBuildDate><atom:link href="/tags/lxml/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>python lxml模块</title>
+      <link>/posts/python-lxml%E6%A8%A1%E5%9D%97/</link>
+      <pubDate>Wed, 13 Nov 2013 18:11:17 +0000</pubDate>
+      
+      <guid>/posts/python-lxml%E6%A8%A1%E5%9D%97/</guid>
+      <description>继续分析那个爬虫程序，今天从中学习了lxml模块的基本使用。这个模块用来解析XML、HTML内容，据说速度上秒杀了&amp;quot;美丽的汤&amp;quot;。
+官网： http://lxml.de/api/index.html
+#coding=utf-8 &amp;#39;&amp;#39;&amp;#39; Created on 2013年11月13日 学习使用lxml @author: dear_shen &amp;#39;&amp;#39;&amp;#39; from lxml import etree if __name__ == &amp;#39;__main__&amp;#39;: broken_str = &amp;#39;&amp;#39;&amp;#39; &amp;lt;!</description>
+    </item>
+    
+  </channel>
+</rss>

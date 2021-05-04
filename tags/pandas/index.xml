@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>pandas on Hi~Roy!</title>
+    <link>/tags/pandas/</link>
+    <description>Recent content in pandas on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 30 Oct 2017 11:38:23 +0000</lastBuildDate><atom:link href="/tags/pandas/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>10分钟入门Pandas</title>
+      <link>/posts/10%E5%88%86%E9%92%9F%E5%85%A5%E9%97%A8pandas/</link>
+      <pubDate>Mon, 30 Oct 2017 11:38:23 +0000</pubDate>
+      
+      <guid>/posts/10%E5%88%86%E9%92%9F%E5%85%A5%E9%97%A8pandas/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://pandas.pydata.org/pandas-docs/stable/10min.html&#34;&gt;原文地址&lt;/a&gt;，是官网的《10 Minutes to pandas》翻译，代码中添加了个人的一些注释。&lt;/p&gt;
+&lt;p&gt;通常来说，我们像下面这样来引入包:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;In [&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]: &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; pandas &lt;span style=&#34;color:#f92672&#34;&gt;as&lt;/span&gt; pd
+
+In [&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]: &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; numpy &lt;span style=&#34;color:#f92672&#34;&gt;as&lt;/span&gt; np
+
+In [&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;]: &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; matplotlib.pyplot &lt;span style=&#34;color:#f92672&#34;&gt;as&lt;/span&gt; plt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

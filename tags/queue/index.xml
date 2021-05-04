@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>queue on Hi~Roy!</title>
+    <link>/tags/queue/</link>
+    <description>Recent content in queue on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 13 Nov 2013 11:11:38 +0000</lastBuildDate><atom:link href="/tags/queue/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>python queue模块</title>
+      <link>/posts/python-queue%E6%A8%A1%E5%9D%97/</link>
+      <pubDate>Wed, 13 Nov 2013 11:11:38 +0000</pubDate>
+      
+      <guid>/posts/python-queue%E6%A8%A1%E5%9D%97/</guid>
+      <description>创建一个“队列”对象 import Queue myqueue = Queue.Queue(maxsize = 10) Queue.Queue类即是一个队列的同步实现。队列长度可为无限或者有限。可通过Queue的构造函数的可选参数maxsize来设定队列长度。如果maxsize小于1就表示队列长度无限。
+将一个值放入队列中 myqueue.</description>
+    </item>
+    
+  </channel>
+</rss>

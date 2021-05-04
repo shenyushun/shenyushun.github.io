@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ajax on Hi~Roy!</title>
+    <link>/tags/ajax/</link>
+    <description>Recent content in ajax on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 05 Nov 2014 14:52:09 +0000</lastBuildDate><atom:link href="/tags/ajax/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>python&#43;selenium&#43;phantomjs抓取ajax动态页面</title>
+      <link>/posts/python-selenium-phantomjs%E6%8A%93%E5%8F%96ajax%E5%8A%A8%E6%80%81%E9%A1%B5%E9%9D%A2/</link>
+      <pubDate>Wed, 05 Nov 2014 14:52:09 +0000</pubDate>
+      
+      <guid>/posts/python-selenium-phantomjs%E6%8A%93%E5%8F%96ajax%E5%8A%A8%E6%80%81%E9%A1%B5%E9%9D%A2/</guid>
+      <description>一般情况下，python爬虫遇到ajax动态页面一般都是直接分析后模拟ajax请求获得数据。不过今天遇到个网站，由于某些原因不透露网址了，点击搜索按钮后，它先跳转到a页面，然后从a页面跳转到b页面，再由b页面跳回a页面。当完成这2次跳转后，ajax向a页面提交的请求才会返回结果。
+也怀疑是不是cookie或者refenen的问题，但最终证实不是因为这个。即便伪造了请求头再访问a页面，返回的也不是真实的结果页面而是一段跳转到b页面的js代码。
+既然不知道跳转过程中网站到底干了写什么，那就直接上大杀器吧。
+phantomjs可以简单的理解为js解释器，selenium更不用多介绍了，用pip安装即可。 从 http://phantomjs.org/download.html 下载编译后的包（当然你可以自己下源码），解压后的bin目录中就是我们需要的东西。
+import sys reload(sys) sys.</description>
+    </item>
+    
+  </channel>
+</rss>

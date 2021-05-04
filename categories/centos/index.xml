@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Centos on Hi~Roy!</title>
+    <link>/categories/centos/</link>
+    <description>Recent content in Centos on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 27 Jul 2016 10:46:53 +0000</lastBuildDate><atom:link href="/categories/centos/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CentOS7安装systemtap</title>
+      <link>/posts/centos7%E5%AE%89%E8%A3%85systemtap/</link>
+      <pubDate>Wed, 27 Jul 2016 10:46:53 +0000</pubDate>
+      
+      <guid>/posts/centos7%E5%AE%89%E8%A3%85systemtap/</guid>
+      <description>&lt;p&gt;这两天突然对火焰图起了兴趣，至于什么是systemtap、什么是火焰图这里我不多说了，网上有很多介绍，这里说记录一下我的安装过程以及
+碰到的坑。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>解决flower Substantial drift from.. may mean clocks are out of sync错误</title>
+      <link>/posts/%E8%A7%A3%E5%86%B3flower-substantial-drift-from-may-mean-clocks-are-out-of-sync%E9%94%99%E8%AF%AF/</link>
+      <pubDate>Wed, 24 Feb 2016 14:27:30 +0000</pubDate>
+      
+      <guid>/posts/%E8%A7%A3%E5%86%B3flower-substantial-drift-from-may-mean-clocks-are-out-of-sync%E9%94%99%E8%AF%AF/</guid>
+      <description>打开flower的监控页面，发现monitor页的succeeded tasks图表始终为空，打印日志发现有下面的警告：
+[2016-02-24 12:00:21,799: WARNING/MainProcess] celery@localhost.localdomain ready.[2016-02-24 12:00:22,297: WARNING/MainProcess] Substantial drift from celery@centos7-181 may mean clocks are out of sync.</description>
+    </item>
+    
+    <item>
+      <title>centos7安装Metasploit框架</title>
+      <link>/posts/centos7%E5%AE%89%E8%A3%85metasploit%E6%A1%86%E6%9E%B6/</link>
+      <pubDate>Mon, 28 Dec 2015 17:56:42 +0000</pubDate>
+      
+      <guid>/posts/centos7%E5%AE%89%E8%A3%85metasploit%E6%A1%86%E6%9E%B6/</guid>
+      <description>Metasploit应该不用多说了吧？Kali自带、Win和Mac都提供了现成的安装包，不过我莫名的对apt系不感冒，这里记录一下在centos7上安装metasploit框架的步骤，理论上yum系的都应该通用。 首先执行
+curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb &amp;gt; msfinstallchmod 755 msfinstall./msfinstall然后安装postgresql：</description>
+    </item>
+    
+    <item>
+      <title>entOS6升级docker1.6</title>
+      <link>/posts/centos6%E5%8D%87%E7%BA%A7docker1-6/</link>
+      <pubDate>Thu, 18 Jun 2015 14:32:59 +0000</pubDate>
+      
+      <guid>/posts/centos6%E5%8D%87%E7%BA%A7docker1-6/</guid>
+      <description>&lt;p&gt;最近饱受Python版本、Django版本、系统不同导致部署方法不同这一类问题的折磨，虽然之前也有接触过docker但一直没抽出时间仔细学习，正好趁这个机会学习docker使用方法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>centos6搭建在线web代理</title>
+      <link>/posts/centos6%E6%90%AD%E5%BB%BA%E5%9C%A8%E7%BA%BFweb%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Sun, 17 May 2015 16:12:00 +0000</pubDate>
+      
+      <guid>/posts/centos6%E6%90%AD%E5%BB%BA%E5%9C%A8%E7%BA%BFweb%E4%BB%A3%E7%90%86/</guid>
+      <description>最近有个需求需要搭建一个在线web代理，懒得自己写就找到两个php程序：
+ knProxy:https://github.com/jabbany/knProxy glype:https://www.glype.com/download.php  从部署角度来讲这两个都很简单，功能上也很类似，这里我就以第二个为例吧，使用nginx来部署。先来安装nginx和php-fpm
+yum install nginxyum install php-fpm&amp;lt;/pre&amp;gt;下载glype后解压到/var/www/html/glype目录，并在/etc/nginx/conf.</description>
+    </item>
+    
+    <item>
+      <title>HAPROXY&#43;KEEPALIVE构建高可用集群</title>
+      <link>/posts/haproxy-keepalive%E6%9E%84%E5%BB%BA%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4/</link>
+      <pubDate>Mon, 19 Jan 2015 17:43:32 +0000</pubDate>
+      
+      <guid>/posts/haproxy-keepalive%E6%9E%84%E5%BB%BA%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4/</guid>
+      <description>新增一台HA节点192.168.0.155，虚拟IP192.168.0.160，其它IP见上文。
+安装KEEPALIVE:yum install keepalived
+分别在151和155 安装完成后，修改/etc/keepalived/keepalived.conf，我使用151作为主节点，155为备节点。
+151配置如下：
+! Configuration File for keepalivedglobal_defs {notification_email {test@xxx.</description>
+    </item>
+    
+    <item>
+      <title>Percona XtraDB Cluster&#43;HAProxy配置</title>
+      <link>/posts/percona-xtradb-cluster-haproxy%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Tue, 06 Jan 2015 17:33:37 +0000</pubDate>
+      
+      <guid>/posts/percona-xtradb-cluster-haproxy%E9%85%8D%E7%BD%AE/</guid>
+      <description>最近公司有个异地多机房数据同步需求，mysql原生支持双主同步，所以只能另寻他法，于是找到了Percona XtraDB Cluster。这个可以理解为给Mysql打了个补丁，以便支持多主同步。
+测试环境：centos 6.5
+IP分配:
+ 192.168.0.154(DB) 192.168.0.152(DB) 192.168.0.153(DB) 192.</description>
+    </item>
+    
+    <item>
+      <title>centos部署Ganglia</title>
+      <link>/posts/centos%E9%83%A8%E7%BD%B2ganglia/</link>
+      <pubDate>Fri, 28 Nov 2014 17:01:10 +0000</pubDate>
+      
+      <guid>/posts/centos%E9%83%A8%E7%BD%B2ganglia/</guid>
+      <description>Ganglia+RRDTool这对组合可以说是不错的机群监控软件了，在centos6下安装是十分简单的，服务端安装
+yum install rrdtool-develyum install ganglia-gmetadyum install ganglia-web然后配置文件基本不用大量修改，位于/etc/ganglia/gmetad.</description>
+    </item>
+    
+    <item>
+      <title>iptables禁止某Ip</title>
+      <link>/posts/iptables%E7%A6%81%E6%AD%A2%E6%9F%90ip/</link>
+      <pubDate>Mon, 17 Nov 2014 09:55:58 +0000</pubDate>
+      
+      <guid>/posts/iptables%E7%A6%81%E6%AD%A2%E6%9F%90ip/</guid>
+      <description>今天登录服务器一看，好家伙：
+tcp 0 0 198.74.121.150:80 38.103.160.12:33873 TIME_WAIT - tcp 0 0 198.</description>
+    </item>
+    
+    <item>
+      <title>centos安装denyhosts</title>
+      <link>/posts/centos%E5%AE%89%E8%A3%85denyhosts/</link>
+      <pubDate>Mon, 20 Oct 2014 17:37:42 +0000</pubDate>
+      
+      <guid>/posts/centos%E5%AE%89%E8%A3%85denyhosts/</guid>
+      <description>最近不知道得罪了哪路大神，一直都有坏人暴力破解本站的SSH登录密码。想安安静静的写博客就这么难么&amp;hellip;没办法，那就安个denyhosts吧。
+centos下直接使用Yum安装即可:yum install denyhosts.noarch
+当然也可以下载编译安装。安装好后，配置文件是/etc/denyhosts.conf,参数说明如下:
+SECURE_LOG = /var/log/secure#ssh日志文件
+HOSTS_DENY = /etc/hosts.</description>
+    </item>
+    
+    <item>
+      <title>centos搭建dns服务器</title>
+      <link>/posts/centos%E6%90%AD%E5%BB%BAdns%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+      <pubDate>Mon, 29 Sep 2014 11:17:13 +0000</pubDate>
+      
+      <guid>/posts/centos%E6%90%AD%E5%BB%BAdns%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+      <description>安装bind yum install bind
+编辑/etc/named.conf，添加域配置：
+zone &amp;quot;xxx.com&amp;quot; IN {type master;file &amp;quot;xxx.</description>
+    </item>
+    
+    <item>
+      <title>centos下部署openerp7</title>
+      <link>/posts/centos%E4%B8%8B%E9%83%A8%E7%BD%B2openerp7/</link>
+      <pubDate>Fri, 22 Aug 2014 11:26:53 +0000</pubDate>
+      
+      <guid>/posts/centos%E4%B8%8B%E9%83%A8%E7%BD%B2openerp7/</guid>
+      <description>首先需要注意的是openerp7需要python2.7+版本，而centos6下默认是python2.6，这里我使用centos7。
+首先安装postgresql
+yum install http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3-1.noarch.rpmyum install postgresql93-server postgresql93-contrib postgresql93-develcentos7中安装psql后初始化数据库和6不同，需要切换到postgres用户进入安装目录的bin文件夹执行手动初始化</description>
+    </item>
+    
+  </channel>
+</rss>

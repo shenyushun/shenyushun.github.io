@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>code review on Hi~Roy!</title>
+    <link>/tags/code-review/</link>
+    <description>Recent content in code review on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 03 Dec 2019 11:05:03 +0000</lastBuildDate><atom:link href="/tags/code-review/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>如何更好的Code Review</title>
+      <link>/posts/%E5%A6%82%E4%BD%95%E6%9B%B4%E5%A5%BD%E7%9A%84code-review/</link>
+      <pubDate>Tue, 03 Dec 2019 11:05:03 +0000</pubDate>
+      
+      <guid>/posts/%E5%A6%82%E4%BD%95%E6%9B%B4%E5%A5%BD%E7%9A%84code-review/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://levelup.gitconnected.com/how-to-do-good-code-reviews-ee481f73b11b&#34;&gt;原文&lt;/a&gt;，向原作者表示感谢。不过不知道作者是不是在国内学过作文，让我想起了小学时老师教的作文要多引用名人名言哈哈。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;几年前当我还是个菜鸟的时候，我过得十分潇洒。&lt;/p&gt;
+&lt;p&gt;写代码——交给别人review——改代码，绳命是多磨美好！工作内容就是仔细阅读我收到的评论、建议，学着成为一个更优秀的开发者。如今我成长为了一名高级开发人员，给别人做code review成为了我的职责之一，这时我意识到我的经验还不足以完成这种职责转变。&lt;/p&gt;
+&lt;p&gt;每次给别人做code review时我都感觉到害怕，感觉自己像是一个骗子，很多问题都困扰着我：&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;我该给这行代码提建议吗？&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;应该有更好的办法写这段代码，我应该告诉他吗？&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;他会怎么想？他的经验比我丰富。&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;改了这一行代码会不会使程序崩溃？&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;这时我的导师给了我建议。&lt;/p&gt;
+&lt;p&gt;好的code review聚焦于获得额外的产出，而非仅仅是找到bug。别把review当做是审讯，而当做是一种提高代码质量、发现其他方案、增加学习能力以及加强友谊的办法。&lt;/p&gt;
+&lt;p&gt;作为reviewer，你对代码的反馈是将渴望贡献的开发者组建成社区的一种主要方法。通过培养一个活跃的社区，你将提升产品、团队、和人生的质量。&lt;/p&gt;
+&lt;p&gt;这里有一些做好code review的建议。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

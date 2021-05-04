@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ipython on Hi~Roy!</title>
+    <link>/tags/ipython/</link>
+    <description>Recent content in ipython on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 14 Sep 2016 09:54:37 +0000</lastBuildDate><atom:link href="/tags/ipython/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用python模拟POST请求提交图片</title>
+      <link>/posts/%E4%BD%BF%E7%94%A8python%E6%A8%A1%E6%8B%9Fpost%E8%AF%B7%E6%B1%82%E6%8F%90%E4%BA%A4%E5%9B%BE%E7%89%87/</link>
+      <pubDate>Wed, 14 Sep 2016 09:54:37 +0000</pubDate>
+      
+      <guid>/posts/%E4%BD%BF%E7%94%A8python%E6%A8%A1%E6%8B%9Fpost%E8%AF%B7%E6%B1%82%E6%8F%90%E4%BA%A4%E5%9B%BE%E7%89%87/</guid>
+      <description>&lt;p&gt;使用requests来模拟HTTP请求本来是一件非常轻松的事情，比如上传图片来说，简单的几行代码即可：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; requests
+files &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;attachment_file&amp;#39;&lt;/span&gt;: (&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1.png&amp;#39;&lt;/span&gt;, open(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1.png&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;rb&amp;#39;&lt;/span&gt;), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;image/png&amp;#39;&lt;/span&gt;, {})}
+values &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;next&amp;#39;&lt;/span&gt;:&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://www.xxxx.com/xxxx&amp;#34;&lt;/span&gt;}
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 成功&lt;/span&gt;
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;不过我今天在调试一个django程序的时候却遇到了大坑————为了偷懒，我直接在&lt;strong&gt;ipython&lt;/strong&gt;中执行了上述代码，第一次提交的时候一切正常，但第二次之后提交就怎么也通过不了django的form验证。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

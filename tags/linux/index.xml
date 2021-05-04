@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linux on Hi~Roy!</title>
+    <link>/tags/linux/</link>
+    <description>Recent content in linux on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 13 Apr 2017 11:30:09 +0000</lastBuildDate><atom:link href="/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>解决apahce部署python程序503错误</title>
+      <link>/posts/%E8%A7%A3%E5%86%B3apahce%E9%83%A8%E7%BD%B2python%E7%A8%8B%E5%BA%8F503%E9%94%99%E8%AF%AF/</link>
+      <pubDate>Thu, 13 Apr 2017 11:30:09 +0000</pubDate>
+      
+      <guid>/posts/%E8%A7%A3%E5%86%B3apahce%E9%83%A8%E7%BD%B2python%E7%A8%8B%E5%BA%8F503%E9%94%99%E8%AF%AF/</guid>
+      <description>今天更新服务器后，发现使用apache部署的某个python程序无法访问了，返回503错误，报错日志如下：
+[Thu Apr 13 10:54:40 2017] [error] [client 127.0.0.1] (13)Permission denied: mod_wsgi (pid=1814): Unable to connect to WSGI daemon process &#39;trac&#39; on &#39;/etc/httpd/logs/wsgi.</description>
+    </item>
+    
+    <item>
+      <title>centos安装denyhosts</title>
+      <link>/posts/centos%E5%AE%89%E8%A3%85denyhosts/</link>
+      <pubDate>Mon, 20 Oct 2014 17:37:42 +0000</pubDate>
+      
+      <guid>/posts/centos%E5%AE%89%E8%A3%85denyhosts/</guid>
+      <description>最近不知道得罪了哪路大神，一直都有坏人暴力破解本站的SSH登录密码。想安安静静的写博客就这么难么&amp;hellip;没办法，那就安个denyhosts吧。
+centos下直接使用Yum安装即可:yum install denyhosts.noarch
+当然也可以下载编译安装。安装好后，配置文件是/etc/denyhosts.conf,参数说明如下:
+SECURE_LOG = /var/log/secure#ssh日志文件
+HOSTS_DENY = /etc/hosts.</description>
+    </item>
+    
+    <item>
+      <title>centos下部署openerp7</title>
+      <link>/posts/centos%E4%B8%8B%E9%83%A8%E7%BD%B2openerp7/</link>
+      <pubDate>Fri, 22 Aug 2014 11:26:53 +0000</pubDate>
+      
+      <guid>/posts/centos%E4%B8%8B%E9%83%A8%E7%BD%B2openerp7/</guid>
+      <description>首先需要注意的是openerp7需要python2.7+版本，而centos6下默认是python2.6，这里我使用centos7。
+首先安装postgresql
+yum install http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3-1.noarch.rpmyum install postgresql93-server postgresql93-contrib postgresql93-develcentos7中安装psql后初始化数据库和6不同，需要切换到postgres用户进入安装目录的bin文件夹执行手动初始化</description>
+    </item>
+    
+  </channel>
+</rss>

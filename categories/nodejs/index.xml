@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nodejs on Hi~Roy!</title>
+    <link>/categories/nodejs/</link>
+    <description>Recent content in Nodejs on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 19 Mar 2015 17:03:56 +0000</lastBuildDate><atom:link href="/categories/nodejs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NodeJS学习记录1</title>
+      <link>/posts/nodejs%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/</link>
+      <pubDate>Thu, 19 Mar 2015 17:03:56 +0000</pubDate>
+      
+      <guid>/posts/nodejs%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/</guid>
+      <description>本来学oc学的正爽，结果由于某些原因必须先学习NodeJS，所以oc的学习就先暂停一段时间吧。这几天恶补了相关基础知识，如果oc只是语法上让我不太习惯的话，那nodejs就是从编程思想上将原来所学的知识进行了颠覆。至于nodejs相关介绍、优缺点等这里就不多说了，如果想在学习过程中不“一头雾水”，就要理解几个概念：同步/异步、阻塞/非阻塞、闭包、回调、事件轮循。
+本人以前并没有任何javascript语言的学习经验，这里仅仅记录我这几天学习的理解，如有什么偏颇，还望大家指正。
+首先，nodejs是单线程的，同时只能进行一项任务。这点引起较大的批评就是无法利用多核CPU的能力，但同时在多个CPU运行程序也并不是完美的，因为想要多个CPU有效的拆分任务并执行，它们之间需要频繁的交换信息，比如当前执行状态、各自完成了哪些操作等。
+关于上面的几个概念，网上答案五花八门都有，不过我更倾向于下面的答案，引用于知乎，原文链接：
+ “阻塞”与&amp;quot;非阻塞&amp;quot;与&amp;quot;同步&amp;quot;与“异步&amp;quot;不能简单的从字面理解，提供一个从分布式系统角度的回答。
+  1.同步与异步
+  同步和异步关注的是消息通信机制 (synchronous communication/ asynchronous communication)</description>
+    </item>
+    
+  </channel>
+</rss>

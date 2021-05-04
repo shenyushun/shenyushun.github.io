@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ldap on Hi~Roy!</title>
+    <link>/tags/ldap/</link>
+    <description>Recent content in ldap on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 09 Sep 2016 10:08:51 +0000</lastBuildDate><atom:link href="/tags/ldap/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>django-auth-ldap中文文档</title>
+      <link>/posts/django-auth-ldap%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/</link>
+      <pubDate>Fri, 09 Sep 2016 10:08:51 +0000</pubDate>
+      
+      <guid>/posts/django-auth-ldap%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/</guid>
+      <description>最近在学习如何结合Django和LDAP服务进行用户认证，关于在Centos7上LDAP的服务器如何搭建可以参考这里。
+阅读文档的时候发现网上没有关于django-auth-ldap的完整翻译，所以把我阅读文档时的理解记录下来，如有错误还请指正。
+django-auth-ldap中文文档</description>
+    </item>
+    
+  </channel>
+</rss>

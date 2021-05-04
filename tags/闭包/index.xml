@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>闭包 on Hi~Roy!</title>
+    <link>/tags/%E9%97%AD%E5%8C%85/</link>
+    <description>Recent content in 闭包 on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 18 Mar 2016 11:44:58 +0000</lastBuildDate><atom:link href="/tags/%E9%97%AD%E5%8C%85/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>python中闭包示例</title>
+      <link>/posts/python%E4%B8%AD%E9%97%AD%E5%8C%85%E7%A4%BA%E4%BE%8B/</link>
+      <pubDate>Fri, 18 Mar 2016 11:44:58 +0000</pubDate>
+      
+      <guid>/posts/python%E4%B8%AD%E9%97%AD%E5%8C%85%E7%A4%BA%E4%BE%8B/</guid>
+      <description>&lt;p&gt;概念上的东西这里就不详细解释了，为什么需要闭包（Closures）呢？个人理解就是某些情况下你需要在外部访问函数内部的变量时，闭包就该大显身手了。闭包的一种典型表现就是函数内部定义了新的函数。这里举几个例子以记录使用闭包时的几个注意点，例子来源于&lt;a href=&#34;http://coolshell.cn/articles/6731.html&#34;&gt;这里&lt;/a&gt;，大神用javascript写的示例，这里改成python的，也顺便说说遇到的坑。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>端口转发 on Hi~Roy!</title>
+    <link>/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/</link>
+    <description>Recent content in 端口转发 on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 20 May 2016 11:47:08 +0000</lastBuildDate><atom:link href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>linux系统的3种端口转发方式</title>
+      <link>/posts/linux%E7%B3%BB%E7%BB%9F%E7%9A%843%E7%A7%8D%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E6%96%B9%E5%BC%8F/</link>
+      <pubDate>Fri, 20 May 2016 11:47:08 +0000</pubDate>
+      
+      <guid>/posts/linux%E7%B3%BB%E7%BB%9F%E7%9A%843%E7%A7%8D%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E6%96%B9%E5%BC%8F/</guid>
+      <description>&lt;p&gt;很多情况下我们都需要进行端口转发，这里以centos为例记录一下linux系统上端口转发的3种方式。&lt;/p&gt;
+&lt;h2 id=&#34;iptables&#34;&gt;iptables&lt;/h2&gt;
+&lt;p&gt;想利用iptables进行端口转发，首先要打开内核转发功能：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;echo &amp;quot;net.ipv4.ip_forward = 1&amp;quot; &amp;gt;&amp;gt; /etc/sysctl.conf
+sysctl -p
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后编辑转发的服务器的/etc/sysconfig/iptables文件，添加&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+-A PREROUTING -d 转发服务器的ip -p tcp --dport 转发服务器的端口 -j DNAT --to-destination 目标ip：端口
+-A POSTROUTING -d 目标ip -p tcp --dport 目标端口 -j SNAT --to 转发服务器的Ip
+COMMIT
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;重启Iptables后即可生效，在我们本机链接转发服务器的ip和端口实际上就是链接目标机器的ip和端口了。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

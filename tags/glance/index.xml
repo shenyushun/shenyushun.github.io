@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Glance on Hi~Roy!</title>
+    <link>/tags/glance/</link>
+    <description>Recent content in Glance on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 18 Sep 2019 12:46:29 +0000</lastBuildDate><atom:link href="/tags/glance/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OpenStack源码学习笔记2</title>
+      <link>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/</link>
+      <pubDate>Wed, 18 Sep 2019 12:46:29 +0000</pubDate>
+      
+      <guid>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/</guid>
+      <description>&lt;p&gt;上次学习了Nova创建虚拟机的过程，这次来看一下Glance是如何上传镜像的。相比于Nova，Glance源码使用了大量的代理模式和装饰器模式，阅读代码时候一个不仔细就会一脸懵X。根据上次说的Openstack套路，我们通过&lt;code&gt;setup.cfg&lt;/code&gt;直奔主题——&lt;code&gt;glance/cmd/api.py&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;():
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;:
+        config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;parse_args()
+        config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_config_defaults()
+        wsgi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_eventlet_hub()
+        logging&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;setup(CONF, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;glance&amp;#39;&lt;/span&gt;)
+        notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_defaults()
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; cfg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;profiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;enabled:
+            _notifier &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;create(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Messaging&amp;#34;&lt;/span&gt;,
+                                                   oslo_messaging, {},
+                                                   notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_transport(),
+                                                   &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;glance&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;api&amp;#34;&lt;/span&gt;,
+                                                   cfg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;bind_host)
+            osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set(_notifier)
+            osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;web&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;enable(cfg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;profiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hmac_keys)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+            osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;web&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;disable()
+        server &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; wsgi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Server(initialize_glance_store&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;True)
+        server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start(config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;load_paste_app(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;glance-api&amp;#39;&lt;/span&gt;), default_port&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;9292&lt;/span&gt;)
+        server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;wait()
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;except&lt;/span&gt; KNOWN_EXCEPTIONS &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; e:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt;(e)
+        fail(e)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

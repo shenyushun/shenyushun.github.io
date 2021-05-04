@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>haproxy on Hi~Roy!</title>
+    <link>/tags/haproxy/</link>
+    <description>Recent content in haproxy on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 19 Jan 2015 17:43:32 +0000</lastBuildDate><atom:link href="/tags/haproxy/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HAPROXY&#43;KEEPALIVE构建高可用集群</title>
+      <link>/posts/haproxy-keepalive%E6%9E%84%E5%BB%BA%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4/</link>
+      <pubDate>Mon, 19 Jan 2015 17:43:32 +0000</pubDate>
+      
+      <guid>/posts/haproxy-keepalive%E6%9E%84%E5%BB%BA%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4/</guid>
+      <description>新增一台HA节点192.168.0.155，虚拟IP192.168.0.160，其它IP见上文。
+安装KEEPALIVE:yum install keepalived
+分别在151和155 安装完成后，修改/etc/keepalived/keepalived.conf，我使用151作为主节点，155为备节点。
+151配置如下：
+! Configuration File for keepalivedglobal_defs {notification_email {test@xxx.</description>
+    </item>
+    
+    <item>
+      <title>Percona XtraDB Cluster&#43;HAProxy配置</title>
+      <link>/posts/percona-xtradb-cluster-haproxy%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Tue, 06 Jan 2015 17:33:37 +0000</pubDate>
+      
+      <guid>/posts/percona-xtradb-cluster-haproxy%E9%85%8D%E7%BD%AE/</guid>
+      <description>最近公司有个异地多机房数据同步需求，mysql原生支持双主同步，所以只能另寻他法，于是找到了Percona XtraDB Cluster。这个可以理解为给Mysql打了个补丁，以便支持多主同步。
+测试环境：centos 6.5
+IP分配:
+ 192.168.0.154(DB) 192.168.0.152(DB) 192.168.0.153(DB) 192.</description>
+    </item>
+    
+  </channel>
+</rss>

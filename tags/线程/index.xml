@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>线程 on Hi~Roy!</title>
+    <link>/tags/%E7%BA%BF%E7%A8%8B/</link>
+    <description>Recent content in 线程 on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 02 Dec 2013 18:07:11 +0000</lastBuildDate><atom:link href="/tags/%E7%BA%BF%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>python线程小学习</title>
+      <link>/posts/python%E7%BA%BF%E7%A8%8B%E5%B0%8F%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Mon, 02 Dec 2013 18:07:11 +0000</pubDate>
+      
+      <guid>/posts/python%E7%BA%BF%E7%A8%8B%E5%B0%8F%E5%AD%A6%E4%B9%A0/</guid>
+      <description>以前我写多线程程序时候，经常把一个线程类单独封装，然后使用全局锁来控制竞争资源的处理。今天看了这样一段代码
+class Fetcher: def __init__(self,threads): self.opener = urllib2.build_opener(urllib2.HTTPHandler) self.lock = Lock() #线程锁 self.</description>
+    </item>
+    
+  </channel>
+</rss>

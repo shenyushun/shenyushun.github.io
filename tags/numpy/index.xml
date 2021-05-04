@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>numpy on Hi~Roy!</title>
+    <link>/tags/numpy/</link>
+    <description>Recent content in numpy on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 13 Oct 2017 15:55:31 +0000</lastBuildDate><atom:link href="/tags/numpy/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>numpy学习笔记2</title>
+      <link>/posts/numpy%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/</link>
+      <pubDate>Fri, 13 Oct 2017 15:55:31 +0000</pubDate>
+      
+      <guid>/posts/numpy%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;之前一直有个疑惑，为什么要使用numpy？更本质的说，为什么要使用矩阵？矩阵是什么？意味着什么？关于关于矩阵的问题，这里推荐一个&lt;a href=&#34;https://www.bilibili.com/video/av6731067/&#34;&gt;系列视频&lt;/a&gt;，讲的非常非常好。至于为什么用numpy，从程序的角度来讲，我认为最大的好处就是减少代码量以及提高效率(恩，写此文的时候觉得这是一句废话，但确实困扰了我一阵&amp;hellip;&amp;hellip;)&lt;/p&gt;
+&lt;p&gt;比如，在学习KNN算法时需要计算欧式距离，公式如下：&lt;/p&gt;
+&lt;p&gt;$$d=\sqrt{ {({A_0}-{B_0})^2}+{({A_1}-{B_1})^2}+{({A_2}-{B_2})^2}+{({A_3}-{B_3})^2}+&amp;hellip; }$$&lt;/p&gt;
+&lt;p&gt;这里用2维为例，公式变成：&lt;/p&gt;
+&lt;p&gt;$$d=\sqrt{ {({A_0}-{B_0})^2}+{({A_1}-{B_1})^2} }$$&lt;/p&gt;
+&lt;p&gt;这货貌似是已知直角三角形直角边求斜边长啊？&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>numpy学习笔记</title>
+      <link>/posts/numpy%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Mon, 06 Mar 2017 11:09:19 +0000</pubDate>
+      
+      <guid>/posts/numpy%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>&lt;h1 id=&#34;简介&#34;&gt;简介&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://docs.scipy.org/doc/numpy-dev/user/quickstart.html&#34;&gt;Numpy&lt;/a&gt;(发音&amp;quot;南派&amp;quot;而不是&amp;quot;努屁&amp;quot;)是一款用来进行科学计算的python库，可以方便快速的计算平均值、最大值、最小值、方差、标准差、向量运行等。相关库还有
+&lt;code&gt;Pandas&lt;/code&gt;,&lt;code&gt;Scypi&lt;/code&gt;等。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

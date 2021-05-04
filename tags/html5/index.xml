@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>html5 on Hi~Roy!</title>
+    <link>/tags/html5/</link>
+    <description>Recent content in html5 on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 04 Aug 2016 13:59:38 +0000</lastBuildDate><atom:link href="/tags/html5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Flask&#43;HTML5实现服务器推送事件</title>
+      <link>/posts/flask-html5%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8E%A8%E9%80%81%E4%BA%8B%E4%BB%B6/</link>
+      <pubDate>Thu, 04 Aug 2016 13:59:38 +0000</pubDate>
+      
+      <guid>/posts/flask-html5%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8E%A8%E9%80%81%E4%BA%8B%E4%BB%B6/</guid>
+      <description>&lt;p&gt;服务器推送事件(server-sent events，SSE)是一种除websocket、ajax简单轮寻外另一种实现服务器数据主动推送数据到浏览器的方式。&lt;/p&gt;
+&lt;p&gt;这里，举一个的例子来说明如何使用基于pyhon的服务端来实现，为了简单我使用flask框架来实现。关键点有2个：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;HTTP响应头中包含&lt;code&gt;content-type:text/event-stream&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;流响应&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

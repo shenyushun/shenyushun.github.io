@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>dns on Hi~Roy!</title>
+    <link>/tags/dns/</link>
+    <description>Recent content in dns on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 29 Sep 2014 11:17:13 +0000</lastBuildDate><atom:link href="/tags/dns/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>centos搭建dns服务器</title>
+      <link>/posts/centos%E6%90%AD%E5%BB%BAdns%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+      <pubDate>Mon, 29 Sep 2014 11:17:13 +0000</pubDate>
+      
+      <guid>/posts/centos%E6%90%AD%E5%BB%BAdns%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+      <description>安装bind yum install bind
+编辑/etc/named.conf，添加域配置：
+zone &amp;quot;xxx.com&amp;quot; IN {type master;file &amp;quot;xxx.</description>
+    </item>
+    
+  </channel>
+</rss>

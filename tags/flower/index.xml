@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>flower on Hi~Roy!</title>
+    <link>/tags/flower/</link>
+    <description>Recent content in flower on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 24 Feb 2016 14:27:30 +0000</lastBuildDate><atom:link href="/tags/flower/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>解决flower Substantial drift from.. may mean clocks are out of sync错误</title>
+      <link>/posts/%E8%A7%A3%E5%86%B3flower-substantial-drift-from-may-mean-clocks-are-out-of-sync%E9%94%99%E8%AF%AF/</link>
+      <pubDate>Wed, 24 Feb 2016 14:27:30 +0000</pubDate>
+      
+      <guid>/posts/%E8%A7%A3%E5%86%B3flower-substantial-drift-from-may-mean-clocks-are-out-of-sync%E9%94%99%E8%AF%AF/</guid>
+      <description>打开flower的监控页面，发现monitor页的succeeded tasks图表始终为空，打印日志发现有下面的警告：
+[2016-02-24 12:00:21,799: WARNING/MainProcess] celery@localhost.localdomain ready.[2016-02-24 12:00:22,297: WARNING/MainProcess] Substantial drift from celery@centos7-181 may mean clocks are out of sync.</description>
+    </item>
+    
+    <item>
+      <title>Django&#43;Celery&#43;Rabbitmq&#43;Flower使用小记</title>
+      <link>/posts/django-celery-rabbitmq-flower%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/</link>
+      <pubDate>Tue, 23 Feb 2016 15:30:02 +0000</pubDate>
+      
+      <guid>/posts/django-celery-rabbitmq-flower%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/</guid>
+      <description>&lt;p&gt;之前的博客中简单的介绍了celery的安装配置以及如何在python程序中使用，这里记录一下我使用django结合celery以及rabbitmq提供web服务，同时使用flower进行监控的过程。至于这几样东西是什么、怎么安装这里就不再细说了。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

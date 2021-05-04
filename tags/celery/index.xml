@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>celery on Hi~Roy!</title>
+    <link>/tags/celery/</link>
+    <description>Recent content in celery on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 23 Feb 2016 15:30:02 +0000</lastBuildDate><atom:link href="/tags/celery/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Django&#43;Celery&#43;Rabbitmq&#43;Flower使用小记</title>
+      <link>/posts/django-celery-rabbitmq-flower%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/</link>
+      <pubDate>Tue, 23 Feb 2016 15:30:02 +0000</pubDate>
+      
+      <guid>/posts/django-celery-rabbitmq-flower%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/</guid>
+      <description>&lt;p&gt;之前的博客中简单的介绍了celery的安装配置以及如何在python程序中使用，这里记录一下我使用django结合celery以及rabbitmq提供web服务，同时使用flower进行监控的过程。至于这几样东西是什么、怎么安装这里就不再细说了。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>celery使用小记</title>
+      <link>/posts/celery%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/</link>
+      <pubDate>Thu, 21 Jan 2016 12:32:12 +0000</pubDate>
+      
+      <guid>/posts/celery%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/</guid>
+      <description>&lt;p&gt;之前的博客有关于celery以及相关概念的介绍，不过那篇文章没有具体的使用示例，今天补充一下。&lt;/p&gt;
+&lt;p&gt;目前celery的版本是&lt;a href=&#34;http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html#first-steps&#34;&gt;3.1.19&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;这里我使用rabbitmq作为broker以及banckend。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>uwsgi on Hi~Roy!</title>
+    <link>/tags/uwsgi/</link>
+    <description>Recent content in uwsgi on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 27 Sep 2014 17:44:03 +0000</lastBuildDate><atom:link href="/tags/uwsgi/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Nginx&#43;Uwsgi部署Django程序</title>
+      <link>/posts/nginx-uwsgi%E9%83%A8%E7%BD%B2django%E7%A8%8B%E5%BA%8F/</link>
+      <pubDate>Sat, 27 Sep 2014 17:44:03 +0000</pubDate>
+      
+      <guid>/posts/nginx-uwsgi%E9%83%A8%E7%BD%B2django%E7%A8%8B%E5%BA%8F/</guid>
+      <description>原来使用apache进行部署，感觉内存占用大以及速度比较慢就换成了nginx+uwsgi的方式，结果完爆apache啊！
+首先安装nginx以及uwsgi：
+yum install nginxpip install uwsgi然后编辑uwsgi的配置文件，这里我使用ini文件格式，示例如下：
+[uwsgi]socket = 127.</description>
+    </item>
+    
+  </channel>
+</rss>

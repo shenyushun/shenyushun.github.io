@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>yield on Hi~Roy!</title>
+    <link>/tags/yield/</link>
+    <description>Recent content in yield on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 01 Dec 2013 23:38:27 +0000</lastBuildDate><atom:link href="/tags/yield/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python 深入理解yield</title>
+      <link>/posts/python-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3yield/</link>
+      <pubDate>Sun, 01 Dec 2013 23:38:27 +0000</pubDate>
+      
+      <guid>/posts/python-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3yield/</guid>
+      <description>不知道原文出处，向原作者表示感谢。
+yield的英文单词意思是生产，刚接触Python的时候感到非常困惑，一直没弄明白yield的用法。只是粗略的知道yield可以用来为一个函数返回值塞数据，比如下面的例子：
+def addlist(alist): for i in alist: yield i + 1 取出alist的每一项，然后把i + 1塞进去。然后通过调用取出每一项：</description>
+    </item>
+    
+  </channel>
+</rss>

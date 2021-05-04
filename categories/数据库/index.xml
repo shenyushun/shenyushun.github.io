@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>数据库 on Hi~Roy!</title>
+    <link>/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+    <description>Recent content in 数据库 on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 16 Jan 2018 10:56:48 +0000</lastBuildDate><atom:link href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>redis主从复制-切换配置</title>
+      <link>/posts/redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6-%E5%88%87%E6%8D%A2%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Tue, 16 Jan 2018 10:56:48 +0000</pubDate>
+      
+      <guid>/posts/redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6-%E5%88%87%E6%8D%A2%E9%85%8D%E7%BD%AE/</guid>
+      <description>&lt;p&gt;首先从官网下载源码进行安装:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;wget http://download.redis.io/releases/redis-3.2.1.tar.gz
+tar -zxvf redis-3.2.1.tar.gz
+make &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; make test
+sudo make install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;默认安装到&lt;code&gt;/usr/local/bin&lt;/code&gt;目录。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>MySQL索引优化小记</title>
+      <link>/posts/mysql%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%E5%B0%8F%E8%AE%B0/</link>
+      <pubDate>Mon, 24 Jul 2017 14:40:04 +0000</pubDate>
+      
+      <guid>/posts/mysql%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%E5%B0%8F%E8%AE%B0/</guid>
+      <description>&lt;p&gt;有2种数据类型，一种重复率高、一种重复率低，选择这2种类型哪个建立索引好？为什么？&lt;/p&gt;
+&lt;p&gt;之前确实没考虑过这个问题，但觉得既然是使用空间换时间，数据结构本身重复率那么高索引的作用应该就不大了吧。&lt;/p&gt;
+&lt;p&gt;后来结束到家查看资料后，发现这个名词叫做&amp;quot;离散率&amp;quot;。对于DBA这个问题应该是最最基础的了。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>MySQL数据库修复</title>
+      <link>/posts/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BF%AE%E5%A4%8D/</link>
+      <pubDate>Mon, 18 Jul 2016 22:28:36 +0000</pubDate>
+      
+      <guid>/posts/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BF%AE%E5%A4%8D/</guid>
+      <description>&lt;p&gt;把博客服务器搬到香港之后，发现这个供应商的服务器经常自动重启，不过mysql、nginx都设定了开机自启动，所以也就没当事。结果今天出了大问题：服务器ip可以ping的通，但博客就是无法访问，登录到服务器一看，我擦——整个数据盘不见了！由于把网站放在了/home目录下，而现在home目录空荡荡的啥也没有。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>postgresql无法启动问题</title>
+      <link>/posts/postgresql%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Wed, 27 May 2015 10:52:36 +0000</pubDate>
+      
+      <guid>/posts/postgresql%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%E9%97%AE%E9%A2%98/</guid>
+      <description>今天升级系统后，发现postgresql无法启动了，报错/etc/ssl/private/ssl-cert-snakeoil.key: Permission denied。
+一看就是权限问题，首先看这个文件是什么权限：
+# ls -al /etc/ssl/private/ssl-cert-snakeoil.key -rw-r----- 1 root ssl-cert 1704 Jul 22 2014 /etc/ssl/private/ssl-cert-snakeoil.</description>
+    </item>
+    
+    <item>
+      <title>postgresql学习记录3</title>
+      <link>/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%953/</link>
+      <pubDate>Thu, 07 Aug 2014 12:32:57 +0000</pubDate>
+      
+      <guid>/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%953/</guid>
+      <description>某些情况下需要向数据库中插入媒体文件，mysql中插入媒体文件时，数据字段应该是blob。而对于postgresql，则是bytea。这里注意的是打开文件时候应该用&amp;quot;rb wb&amp;quot;这种模式，示例如下：
+import psycopg2 #省略部分代码... def ins_pictures(self, name, position, explain, href, uploaddate, img, show_id): &amp;#39;&amp;#39;&amp;#39;向pictures表中插入数据(显示位置，说明，上传时间，图片的2进制) &amp;#39;&amp;#39;&amp;#39; strs = r&amp;#34;insert into pictures(p_name,p_position,p_explain,p_href,p_uploaddate,p_show,p_img,show_id) values (%(name)s,%(position)s,%(explain)s,%(href)s,%(uploaddate)s,&amp;#39;0&amp;#39;,%(img)s,%(show_id)s)&amp;#34; self.</description>
+    </item>
+    
+    <item>
+      <title>postgresql学习记录2</title>
+      <link>/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%952/</link>
+      <pubDate>Wed, 06 Aug 2014 09:24:22 +0000</pubDate>
+      
+      <guid>/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%952/</guid>
+      <description>想把mysql数据迁移到postgresql，推荐使用py-mysql2pgsql，使用pip安装即可。
+安装完毕后执行py-mysql2pgsql后会在当前目录生成一个yaml文件，根据实际情况修改，例如：
+# if a socket is specified we will use that# if tcp is chosen you can use compressionmysql:hostname: localhostport: 3306socket: /var/lib/mysql/mysql.</description>
+    </item>
+    
+    <item>
+      <title>postgresql学习记录1</title>
+      <link>/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/</link>
+      <pubDate>Wed, 06 Aug 2014 09:14:31 +0000</pubDate>
+      
+      <guid>/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/</guid>
+      <description>数据库9.3.5，系统fedora20,不同系统操作略有不同。
+使用yum 命令安装即可：sudo yum install postgresql,postgresql-server
+安装完毕后系统中会创建一个postgres的用户，切换到这个用户后进行数据库的初始化：
+initdb --encoding=UTF-8 --no-locale -D /var/lib/pgsql/data/或者使用postgresql-setup initdb 命令。</description>
+    </item>
+    
+  </channel>
+</rss>
