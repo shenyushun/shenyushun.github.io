@@ -9,30 +9,7 @@
 	<meta name="description" content="">
 		<meta property="og:title" content="朴素贝叶斯" />
 <meta property="og:description" content="
-朴素贝叶斯是贝叶斯决策理论的一部分，贝叶斯概率引入先验知识和逻辑推理来处理不确定命题。又可以称为“条件概率”（Conditional probability），与之相对的则是“频数概率”（frequency probability）。
-强烈推荐看阮一峰大牛的这篇文章，看完基本贝叶斯就明白了。
-我们把\(P(A|B)\)称为在B条件下A的概率，若只有A、B两个事件那么\(P(A|B)= {P(AB) \over P(B)} \) 。
-全概率 公式：
-$$P(B)=P(B|A)P(A) &#43; P(B|\overline A)P(\overline A) $$
-贝叶斯 公式：
-$$P(A|B)={P(B|A) × P(A) \over P(B)}$$
-对公式进行变形：
-$$P(A|B)={P(A){P(B|A) \over P(B)}}$$
-
-这里称P(A)为先验概率（Prior probability），即在B事件发生之前，我们对A事件概率的一个判断。P(A|B)称为后验概率（Posterior probability），即在B事件发生之后，我们对A事件概率的重新评估。P(B|A) / P(B) 称为可能性函数（Likelyhood），这是一个调整因子，使得预估概率更接近真实概率。
-
-这里以贝叶斯界的&quot;Hello World&quot;为例，判断某种疾病患病概率问题：
-
-已知某种疾病的发病率是0.001，即1000人中会有1个人得病。现有一种试剂可以检验患者是否得病，它的准确率是0.99，即在患者确实得病的情况下，它有99%的可能呈现阳性。它的误报率是5%，即在患者没有得病的情况下，它有5%的可能呈现阳性。现有一个病人的检验结果为阳性，请问他确实得病的可能性有多大？
-
-我们假定阳性概率为P(B),发病的概率为P(A)=0.001，则没得病的概率\(P(\overline A)\)=0.999，确实得病且阳性概率为P(B|A)=0.99，没患病但阳性\(P(B|\overline A)\)=0.05，那么我们要求的问题就是P(A|B)了。
-结合上面提到的全概率公式和贝叶斯公式，可以计算出他确实得病的概率仅为0.019，即“假阳性”。
-如果把问题改成检验结果为阴性，问其患病的可能性。
-我们假定阴性概率为P(B)，发病的概率为P(A)=0.001，没得病的概率\(P(\overline A)\)=0.999，确实得病但阴性概率为P(B|A)=0.01，没患病且阴性\(P(B|\overline A)\)=0.95，那么检查为阴性但患病的概率就是：
-$$P(A|B)={0.001×0.01 \over {0.01×0.001 &#43; 0.95×0.999}} \approx 0.000011 $$
-即便阴性也是有患病几率的，但概率十分低。
-还有一个重要的公式叫做 联合概率 ，作用就是在已知多个事件发生的情况下，另一个事件发生的概率:
-$$P ={ {P_1P_2&hellip;P_n } \over { {P_1P_2&hellip;P_n}&#43;{(1-P_1)(1-P_2)&hellip;(1-P_n)} } } $$" />
+朴素贝叶斯是贝叶斯决策理论的一部分，贝叶斯概率引入先验知识和逻辑推理来处理不确定命题。又可以称为“条件概率”（Conditional probability），与之相对的则是“频数概率”（frequency probability）。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2017-12-21T20:01:41&#43;00:00" />
@@ -41,30 +18,7 @@ $$P ={ {P_1P_2&hellip;P_n } \over { {P_1P_2&hellip;P_n}&#43;{(1-P_1)(1-P_2)&hell
 
 		<meta itemprop="name" content="朴素贝叶斯">
 <meta itemprop="description" content="
-朴素贝叶斯是贝叶斯决策理论的一部分，贝叶斯概率引入先验知识和逻辑推理来处理不确定命题。又可以称为“条件概率”（Conditional probability），与之相对的则是“频数概率”（frequency probability）。
-强烈推荐看阮一峰大牛的这篇文章，看完基本贝叶斯就明白了。
-我们把\(P(A|B)\)称为在B条件下A的概率，若只有A、B两个事件那么\(P(A|B)= {P(AB) \over P(B)} \) 。
-全概率 公式：
-$$P(B)=P(B|A)P(A) &#43; P(B|\overline A)P(\overline A) $$
-贝叶斯 公式：
-$$P(A|B)={P(B|A) × P(A) \over P(B)}$$
-对公式进行变形：
-$$P(A|B)={P(A){P(B|A) \over P(B)}}$$
-
-这里称P(A)为先验概率（Prior probability），即在B事件发生之前，我们对A事件概率的一个判断。P(A|B)称为后验概率（Posterior probability），即在B事件发生之后，我们对A事件概率的重新评估。P(B|A) / P(B) 称为可能性函数（Likelyhood），这是一个调整因子，使得预估概率更接近真实概率。
-
-这里以贝叶斯界的&quot;Hello World&quot;为例，判断某种疾病患病概率问题：
-
-已知某种疾病的发病率是0.001，即1000人中会有1个人得病。现有一种试剂可以检验患者是否得病，它的准确率是0.99，即在患者确实得病的情况下，它有99%的可能呈现阳性。它的误报率是5%，即在患者没有得病的情况下，它有5%的可能呈现阳性。现有一个病人的检验结果为阳性，请问他确实得病的可能性有多大？
-
-我们假定阳性概率为P(B),发病的概率为P(A)=0.001，则没得病的概率\(P(\overline A)\)=0.999，确实得病且阳性概率为P(B|A)=0.99，没患病但阳性\(P(B|\overline A)\)=0.05，那么我们要求的问题就是P(A|B)了。
-结合上面提到的全概率公式和贝叶斯公式，可以计算出他确实得病的概率仅为0.019，即“假阳性”。
-如果把问题改成检验结果为阴性，问其患病的可能性。
-我们假定阴性概率为P(B)，发病的概率为P(A)=0.001，没得病的概率\(P(\overline A)\)=0.999，确实得病但阴性概率为P(B|A)=0.01，没患病且阴性\(P(B|\overline A)\)=0.95，那么检查为阴性但患病的概率就是：
-$$P(A|B)={0.001×0.01 \over {0.01×0.001 &#43; 0.95×0.999}} \approx 0.000011 $$
-即便阴性也是有患病几率的，但概率十分低。
-还有一个重要的公式叫做 联合概率 ，作用就是在已知多个事件发生的情况下，另一个事件发生的概率:
-$$P ={ {P_1P_2&hellip;P_n } \over { {P_1P_2&hellip;P_n}&#43;{(1-P_1)(1-P_2)&hellip;(1-P_n)} } } $$"><meta itemprop="datePublished" content="2017-12-21T20:01:41&#43;00:00" />
+朴素贝叶斯是贝叶斯决策理论的一部分，贝叶斯概率引入先验知识和逻辑推理来处理不确定命题。又可以称为“条件概率”（Conditional probability），与之相对的则是“频数概率”（frequency probability）。"><meta itemprop="datePublished" content="2017-12-21T20:01:41&#43;00:00" />
 <meta itemprop="dateModified" content="2017-12-21T20:01:41&#43;00:00" />
 <meta itemprop="wordCount" content="328">
 <meta itemprop="keywords" content="python," />
@@ -163,6 +117,7 @@ $$P(B)=P(B|A)P(A) + P(B|\overline A)P(\overline A) $$</p>
 <p>即便阴性也是有患病几率的，但概率十分低。</p>
 <p>还有一个重要的公式叫做 <strong>联合概率</strong> ，作用就是在已知多个事件发生的情况下，另一个事件发生的概率:</p>
 <p>$$P ={ {P_1P_2&hellip;P_n } \over { {P_1P_2&hellip;P_n}+{(1-P_1)(1-P_2)&hellip;(1-P_n)} } } $$</p>
+<!-- raw HTML omitted -->
 <p>接下来编写一个简陋的朴素贝叶斯分类器，这里还需要引用 <strong>条件独立性假设</strong> ，即若各个条件互相独立，那么：
 $$ P(w_1,w_2,&hellip;w_n|c_i) = P(w_1|c_i)P(w_2|c_i)&hellip;P(w_n|c_i) $$</p>
 <p>现在假设有一句话，要判断这句话是消极的还是积极的，已知数据集如下：</p>
@@ -331,5 +286,7 @@ this_doc <span style="color:#f92672">=</span> np<span style="color:#f92672">.</s
 </footer>
 	</div>
 <script async defer src="/js/menu.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
 </body>
 </html>

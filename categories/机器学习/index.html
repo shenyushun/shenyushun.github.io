@@ -116,29 +116,6 @@ if (!doNotTrack) {
 	<div class="content list__excerpt post__content clearfix">
 		<!-- raw HTML omitted -->
 <p>朴素贝叶斯是贝叶斯决策理论的一部分，贝叶斯概率引入先验知识和逻辑推理来处理不确定命题。又可以称为“条件概率”（Conditional probability），与之相对的则是“频数概率”（frequency probability）。</p>
-<p>强烈推荐看阮一峰大牛的这篇<a href="http://www.ruanyifeng.com/blog/2011/08/bayesian_inference_part_one.html%5D">文章</a>，看完基本贝叶斯就明白了。</p>
-<p>我们把\(P(A|B)\)称为在B条件下A的概率，若只有A、B两个事件那么\(P(A|B)= {P(AB) \over P(B)} \) 。</p>
-<p><strong>全概率</strong> 公式：
-$$P(B)=P(B|A)P(A) + P(B|\overline A)P(\overline A) $$</p>
-<p><strong>贝叶斯</strong> 公式：</p>
-<p>$$P(A|B)={P(B|A) × P(A) \over P(B)}$$</p>
-<p>对公式进行变形：</p>
-<p>$$P(A|B)={P(A){P(B|A) \over P(B)}}$$</p>
-<blockquote>
-<p>这里称P(A)为先验概率（Prior probability），即在B事件发生之前，我们对A事件概率的一个判断。P(A|B)称为后验概率（Posterior probability），即在B事件发生之后，我们对A事件概率的重新评估。P(B|A) / P(B) 称为可能性函数（Likelyhood），这是一个调整因子，使得预估概率更接近真实概率。</p>
-</blockquote>
-<p>这里以贝叶斯界的&quot;Hello World&quot;为例，判断某种疾病患病概率问题：</p>
-<blockquote>
-<p>已知某种疾病的发病率是0.001，即1000人中会有1个人得病。现有一种试剂可以检验患者是否得病，它的准确率是0.99，即在患者确实得病的情况下，它有99%的可能呈现阳性。它的误报率是5%，即在患者没有得病的情况下，它有5%的可能呈现阳性。现有一个病人的检验结果为阳性，请问他确实得病的可能性有多大？</p>
-</blockquote>
-<p>我们假定阳性概率为P(B),发病的概率为P(A)=0.001，则没得病的概率\(P(\overline A)\)=0.999，确实得病且阳性概率为P(B|A)=0.99，没患病但阳性\(P(B|\overline A)\)=0.05，那么我们要求的问题就是P(A|B)了。</p>
-<p>结合上面提到的全概率公式和贝叶斯公式，可以计算出他确实得病的概率仅为0.019，即“假阳性”。</p>
-<p>如果把问题改成检验结果为阴性，问其患病的可能性。</p>
-<p>我们假定阴性概率为P(B)，发病的概率为P(A)=0.001，没得病的概率\(P(\overline A)\)=0.999，确实得病但阴性概率为P(B|A)=0.01，没患病且阴性\(P(B|\overline A)\)=0.95，那么检查为阴性但患病的概率就是：</p>
-<p>$$P(A|B)={0.001×0.01 \over {0.01×0.001 + 0.95×0.999}} \approx 0.000011 $$</p>
-<p>即便阴性也是有患病几率的，但概率十分低。</p>
-<p>还有一个重要的公式叫做 <strong>联合概率</strong> ，作用就是在已知多个事件发生的情况下，另一个事件发生的概率:</p>
-<p>$$P ={ {P_1P_2&hellip;P_n } \over { {P_1P_2&hellip;P_n}+{(1-P_1)(1-P_2)&hellip;(1-P_n)} } } $$</p>
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/">Read more…</a>
@@ -162,9 +139,6 @@ $$P(B)=P(B|A)P(A) + P(B|\overline A)P(\overline A) $$</p>
 		<!-- raw HTML omitted -->
 <p>决策树是机器学习中一种简单明了的分类算法，用程序语言描述就是<code>if...elif...else...</code>，关键问题则是如何选择合适的特征对数据集进行切割，常见算法有： ID3、C4.5、CART等。</p>
 <p>今天主要记录一下ID3这个算法，想使用这个算法首先要了解信息增益，想了解信息增益则要先明白什么是&quot;熵&quot;。熵描述了一个系统的混乱复杂程度，有一个理论叫做&quot;熵增加&quot;，含义就是一个没有外力干涉的系统混乱程度总是增加的，比如一个房间如果没人打扫的话只会越来越混乱，而不会自己变得整洁。</p>
-<p>计算熵的公式如下：</p>
-<p>$$H=-\sum_{i=i}^{n}P(x_i)log_2P(x_i)$$</p>
-<p>其中\(P(x_i)\) 表示P发生的概率。</p>
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/%E5%86%B3%E7%AD%96%E6%A0%91/">Read more…</a>
