@@ -33,6 +33,21 @@ sudo make install
     </item>
     
     <item>
+      <title>在MySQL中存储树状结构</title>
+      <link>/posts/%E5%9C%A8mysql%E4%B8%AD%E5%AD%98%E5%82%A8%E6%A0%91%E7%BB%93%E6%9E%84/</link>
+      <pubDate>Mon, 15 Aug 2016 17:46:18 +0000</pubDate>
+      
+      <guid>/posts/%E5%9C%A8mysql%E4%B8%AD%E5%AD%98%E5%82%A8%E6%A0%91%E7%BB%93%E6%9E%84/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://mikehillyer.com/articles/managing-hierarchical-data-in-mysql/&#34;&gt;原文地址&lt;/a&gt;，原文中&lt;code&gt;Hierarchical Data&lt;/code&gt;直译为 &lt;em&gt;分层结构&lt;/em&gt;，这里我翻译成 &lt;em&gt;树状结构&lt;/em&gt;。&lt;/p&gt;
+&lt;p&gt;补充资源：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://django-mptt.github.io/django-mptt/&#34;&gt;https://django-mptt.github.io/django-mptt/&lt;/a&gt; ，如果你也使用python和django，这个是现成的APP。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;另外，个人觉得这种方法对于搜索的效率提升最大，而相应的新增、删除等操作则会变慢，个人猜测未经测试。&lt;/p&gt;
+&lt;p&gt;个人总结的核心：如果一个节点A是节点B的子节点，那么A的左值一定大于B的左值，A的右值一定小于B的右值。或者说，A的左值一定在B的左值和右值之间。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>MySQL数据库修复</title>
       <link>/posts/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BF%AE%E5%A4%8D/</link>
       <pubDate>Mon, 18 Jul 2016 22:28:36 +0000</pubDate>
@@ -50,6 +65,31 @@ sudo make install
       <description>今天升级系统后，发现postgresql无法启动了，报错/etc/ssl/private/ssl-cert-snakeoil.key: Permission denied。
 一看就是权限问题，首先看这个文件是什么权限：
 # ls -al /etc/ssl/private/ssl-cert-snakeoil.key -rw-r----- 1 root ssl-cert 1704 Jul 22 2014 /etc/ssl/private/ssl-cert-snakeoil.</description>
+    </item>
+    
+    <item>
+      <title>MongoDB集群部署——Replica Set</title>
+      <link>/posts/mongodb%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2replica-set/</link>
+      <pubDate>Tue, 03 Mar 2015 13:07:28 +0000</pubDate>
+      
+      <guid>/posts/mongodb%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2replica-set/</guid>
+      <description>mongodb的集群部署有3种方式，这里记录我在使用Replica Set（副本集）部署时的步骤。
+首先这种方式至少需要3个节点——主、备、仲裁节点。主备节点存储数据，仲裁节点不存储数据，负责决定主节点挂掉之后哪个备节点升级为主节点。客户端同时连接主节点与备节点，不连接仲裁节点。
+安装mongodb，CentOS下安装rpmfusion源后使用yum安装即可:yum install mongodb mongodb-server
+安装完成后，修改/etc/mongodb.conf 这个配置文件。
+bind_ip = 192.</description>
+    </item>
+    
+    <item>
+      <title>Percona XtraDB Cluster&#43;HAProxy配置</title>
+      <link>/posts/percona-xtradb-cluster-haproxy%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Tue, 06 Jan 2015 17:33:37 +0000</pubDate>
+      
+      <guid>/posts/percona-xtradb-cluster-haproxy%E9%85%8D%E7%BD%AE/</guid>
+      <description>最近公司有个异地多机房数据同步需求，mysql原生支持双主同步，所以只能另寻他法，于是找到了Percona XtraDB Cluster。这个可以理解为给Mysql打了个补丁，以便支持多主同步。
+测试环境：centos 6.5
+IP分配:
+ 192.168.0.154(DB) 192.168.0.152(DB) 192.168.0.153(DB) 192.</description>
     </item>
     
     <item>
@@ -83,6 +123,39 @@ import psycopg2 #省略部分代码... def ins_pictures(self, name, position, ex
 使用yum 命令安装即可：sudo yum install postgresql,postgresql-server
 安装完毕后系统中会创建一个postgres的用户，切换到这个用户后进行数据库的初始化：
 initdb --encoding=UTF-8 --no-locale -D /var/lib/pgsql/data/或者使用postgresql-setup initdb 命令。</description>
+    </item>
+    
+    <item>
+      <title>Mongodb初用记录</title>
+      <link>/posts/mongodb%E5%88%9D%E7%94%A8%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Wed, 09 Apr 2014 09:06:23 +0000</pubDate>
+      
+      <guid>/posts/mongodb%E5%88%9D%E7%94%A8%E8%AE%B0%E5%BD%95/</guid>
+      <description>关于介绍以及缺点等网上介绍很多，这里记录一下我遇到的问题：
+首先就是使用yum install安装后的mongodb无法设定开机启动。其次，即使修改了/etc/monggdb.conf文件的相关路径，运行时还必须手动指定dbpath参数才可运行。
+于是按照官方指南说明的方法，添加了mongodb的源，安装yum install mongo-10gen mongo-10gen-server之后chkconfig mongod on才能设定成为开机启动。不过使用service mongod start启动、停止、重起服务会出现假死。但是不影响使用。</description>
+    </item>
+    
+    <item>
+      <title>mysql-python:not all arguments converted during string formatting</title>
+      <link>/posts/mysql-python-not-all-arguments-converted-during-string-formatting/</link>
+      <pubDate>Thu, 27 Mar 2014 18:07:49 +0000</pubDate>
+      
+      <guid>/posts/mysql-python-not-all-arguments-converted-during-string-formatting/</guid>
+      <description>今天把django从1.5.5升级到了1.6.2，结果使用mysql-python查询数据库时候就报了这个错误：“not all arguments converted during string formatting”
+貌似这个问题应该和django没什么关系，正好今天就看看mysql-python的源码吧。想看如何解决的请直接跳到最后。
+查询部分简化后如下：
+posistion = &amp;#34;top&amp;#34; order = r&amp;#34;select id,p_name,p_explain,p_href from pictures where p_position = %s and p_show = 1 order by -id&amp;#34; self.</description>
+    </item>
+    
+    <item>
+      <title>虚拟环境下安装mysql-python</title>
+      <link>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/</link>
+      <pubDate>Wed, 12 Mar 2014 17:54:50 +0000</pubDate>
+      
+      <guid>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/</guid>
+      <description>使用virtualenv虚拟环境的时候，mysql-python安装时报错：
+_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &amp;quot;my_config.</description>
     </item>
     
   </channel>

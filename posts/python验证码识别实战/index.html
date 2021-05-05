@@ -19,7 +19,7 @@
 <meta itemprop="description" content="陆陆续续的学习了验证码的灰度、二值化、分割等方法，还了解了机器学习中最基本的3个分类方式——KNN、决策树、朴素贝叶斯。基于这些，今天结合这些工具来写一个简单的验证码识别程序，本来想使用现有的库来生成验证码，但无意间发现了之前写某个程序时下载的200个验证码，正好可以拿来练手。另外，虽然之前已经实现了上面3种算法，但这里还是会使用sklearn这个强大的三方库，学习原理是为了知其所以然，有现成工具还是要拿来用的。"><meta itemprop="datePublished" content="2017-12-29T19:07:39&#43;00:00" />
 <meta itemprop="dateModified" content="2017-12-29T19:07:39&#43;00:00" />
 <meta itemprop="wordCount" content="391">
-<meta itemprop="keywords" content="python,机器学习," />
+<meta itemprop="keywords" content="爬虫,python,验证码识别," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
 	<link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -86,7 +86,7 @@ if (!doNotTrack) {
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-12-29T19:07:39Z">2017-12-29</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/python/" rel="category">Python</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-12-29T19:07:39Z">2017-12-29</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
 	</span>
 </div></div>
 		</header><div class="content post__content clearfix">
@@ -215,10 +215,13 @@ description tree score: <span style="color:#ae81ff">0.79</span>
 	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
 	<ul class="tags__list">
 		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a>
+		</li>
+		<li class="tags__item">
 			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
 		</li>
 		<li class="tags__item">
-			<a class="tags__link btn" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a>
+			<a class="tags__link btn" href="/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" rel="tag">验证码识别</a>
 		</li>
 	</ul>
 </div>

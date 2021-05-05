@@ -8,6 +8,27 @@
     <language>zh-cn</language>
     <lastBuildDate>Wed, 16 Dec 2020 21:32:59 +0000</lastBuildDate><atom:link href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Golang小技巧</title>
+      <link>/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Wed, 16 Dec 2020 21:32:59 +0000</pubDate>
+      
+      <guid>/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/</guid>
+      <description>&lt;h3 id=&#34;下划线的妙用&#34;&gt;下划线的妙用&lt;/h3&gt;
+&lt;p&gt;大多数情况下，下划线&lt;code&gt;_&lt;/code&gt;都用于忽略函数返回值的情况。最近查看&lt;code&gt;authboss&lt;/code&gt;这个开源库的代码时，发现&lt;a href=&#34;https://github.com/volatiletech/authboss-sample/blob/c13bdabe709387b66806bf12dbe12ad71bb17d17/storer.go#L63&#34;&gt;这样&lt;/a&gt;一种用法:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt; {
+    &lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; (
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;assertUser&lt;/span&gt;   = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt;{}
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;assertStorer&lt;/span&gt; = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;MemStorer&lt;/span&gt;{}
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;_&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;authboss&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt;            = &lt;span style=&#34;color:#a6e22e&#34;&gt;assertUser&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;_&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;authboss&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;AuthableUser&lt;/span&gt;    = &lt;span style=&#34;color:#a6e22e&#34;&gt;assertUser&lt;/span&gt;
+)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
       <title>新手可能会犯的50个Golang错误</title>
       <link>/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/</link>
       <pubDate>Wed, 16 Dec 2020 21:32:59 +0000</pubDate>
@@ -370,17 +391,6 @@ In [&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;]: &lt;span style=&#
     </item>
     
     <item>
-      <title>Django-REST-framework中文文档教程</title>
-      <link>/posts/django-rest-framework%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3%E6%95%99%E7%A8%8B/</link>
-      <pubDate>Mon, 27 Jun 2016 13:44:46 +0000</pubDate>
-      
-      <guid>/posts/django-rest-framework%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3%E6%95%99%E7%A8%8B/</guid>
-      <description>目前网上的关于Django-REST-framework中文文档教程大多数都是你抄我我抄你，也找不出到底是出自谁手以及哪个版本的文档翻译了。于是我决定将自己阅读文档的翻译记录下来，供有需要的人阅读。
-但经过排版，发现这种由多章组成的系列教程，在博客上怎么弄都不方便看，所以教程直接放到gitbook上，请移步至:
-https://darkcooking.gitbooks.io/django-rest-framework-cn/content/</description>
-    </item>
-    
-    <item>
       <title>名词王国里的死刑（翻译）</title>
       <link>/posts/%E5%90%8D%E8%AF%8D%E7%8E%8B%E5%9B%BD%E9%87%8C%E7%9A%84%E6%AD%BB%E5%88%91%E7%BF%BB%E8%AF%91/</link>
       <pubDate>Wed, 16 Mar 2016 17:02:02 +0000</pubDate>
@@ -436,8 +446,7 @@ public:为在公共场所准备，你不相信网络中的其他电脑不会对�
       <pubDate>Thu, 22 Jan 2015 18:22:24 +0000</pubDate>
       
       <guid>/posts/%E5%AE%89%E8%A3%85mysql%E5%90%8E%E7%9A%8410%E7%A7%8D%E8%B0%83%E4%BC%98%E6%96%B9%E6%B3%95%E7%BF%BB%E8%AF%91/</guid>
-      <description>&lt;p&gt;原文：http://www.percona.com/blog/2014/01/28/10-mysql-settings-to-tune-after-installation/&lt;/p&gt;
-&lt;hr&gt;
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.percona.com/blog/2014/01/28/10-mysql-settings-to-tune-after-installation/&#34;&gt;原文&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;当我们被聘请去做MYSQL性能审计时，我们被期望审查MYSQL配置文件并提出改进建议。在大多数情况下很多人都感到惊奇，因为我们仅仅在成百上千的变量中改变了很少的一部分。这篇文章的目的就是告诉你一些至关重要的设置项。
 我们在几年前曾经在博客中给出过一些建议，但从那之后MYSQL的世界发生了很多改变！&lt;/p&gt;</description>
     </item>

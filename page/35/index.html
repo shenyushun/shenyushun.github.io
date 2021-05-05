@@ -79,128 +79,142 @@ if (!doNotTrack) {
 	<article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/%E8%B6%A3%E6%96%87%E8%BF%BDmm%E7%9A%84%E5%90%84%E7%A7%8D%E7%AE%97%E6%B3%95/" rel="bookmark">
-			趣文：追MM的各种算法
+			<a href="/posts/python-lxml%E6%A8%A1%E5%9D%97/" rel="bookmark">
+			python lxml模块
 			</a>
 		</h2>
 		<div class="list__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-04-21T09:05:12Z">2014-04-21</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%9D%82/" rel="category">杂</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-13T18:11:17Z">2013-11-13</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		<p>转自：http://blog.jobbole.com/65500/</p>
-<h3 id="动态规划">动态规划</h3>
-<p>基本上就是说：你追一个MM的时候，需要对该MM身边的各闺中密友都好，这样你追MM这个问题就分解为对其MM朋友的问题，只有把这些问题都解决 了，最终你才能追到MM。因此，该问题适用于聪明的MM，懂得“看一个人，不是看他如何对你，而是看他如何对他人。”的道理，并且对付这样的MM总能得到 最优解。但确定是开销较大，因为每个子问题都要好好对待……</p>
-<h3 id="贪心法">贪心法</h3>
-<p>基本上就是：你追一个MM的时候，从相识到相知，每次都采用最aggressive的方式，进攻进攻再进攻！从不采用迂回战术或是欲擒故纵之法！目标是以最快的速度确立两人的关系。该法优点是代价小，速度快，但缺点是不是每次都能得到最优解……、</p>
-<h3 id="回溯算法">回溯算法</h3>
-<p>基本上就是：追一个MM，但也许你还是情窦初开的新手，不知道如何才能讨得MM的欢心，于 是你只好一条路一条路的试，MM不开心了，你就回溯回去换另一种方式。当然其间你也许会从某些途径得到一些经验，能够判断哪些路径不好，会剪枝（这就是分 支估界了）。你也可以随机选择一些路径来实施，说不定能立杆见影（这就是回溯的优化了）但总的来说，你都需要一场持久战……该算法一般也能得到最优解，因 为大多数MM会感动滴！！但其缺点是开销大除非你是非要谈一场恋爱不可，否则不推荐使用。特别是你可能还有许多其他的事情要做，比如学习，比如事业……</p>
+		继续分析那个爬虫程序，今天从中学习了lxml模块的基本使用。这个模块用来解析XML、HTML内容，据说速度上秒杀了&quot;美丽的汤&quot;。
+官网： http://lxml.de/api/index.html
+#coding=utf-8 &#39;&#39;&#39; Created on 2013年11月13日 学习使用lxml @author: dear_shen &#39;&#39;&#39; from lxml import etree if __name__ == &#39;__main__&#39;: broken_str = &#39;&#39;&#39; &lt;!
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E8%B6%A3%E6%96%87%E8%BF%BDmm%E7%9A%84%E5%90%84%E7%A7%8D%E7%AE%97%E6%B3%95/">Read more…</a>
+		<a class="list__footer-readmore btn" href="/posts/python-lxml%E6%A8%A1%E5%9D%97/">Read more…</a>
 	</div>
 </article><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83pycurl%E7%9A%84import%E9%94%99%E8%AF%AF/" rel="bookmark">
-			虚拟环境pycurl的import错误
+			<a href="/posts/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98python%E7%89%88/" rel="bookmark">
+			生产者消费者问题python版
 			</a>
 		</h2>
 		<div class="list__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-04-14T11:56:49Z">2014-04-14</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/python/" rel="category">Python</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-13T15:17:54Z">2013-11-13</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		今天需要在虚拟环境下使用pycurl，使用pip安装时候没问题，不过再代码中import后则报错：
-ImportError: pycurl: libcurl link-time ssl backend (nss) is different from compile-time ssl backend (none/other)解决方法：
+		记得学操作系统这门课的时候就打算自己写一个，居然一眨眼过了一年才写，真是对不起老师阿！
+#coding=utf-8 &#39;&#39;&#39; Created on 2013年11月13日 生产者与消费者python版 @author: dear_shen &#39;&#39;&#39; import threading import Queue import time condition = threading.
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83pycurl%E7%9A%84import%E9%94%99%E8%AF%AF/">Read more…</a>
+		<a class="list__footer-readmore btn" href="/posts/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98python%E7%89%88/">Read more…</a>
 	</div>
 </article><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/%E8%B0%83%E8%AF%95python%E7%A8%8B%E5%BA%8F/" rel="bookmark">
-			调试python程序
+			<a href="/posts/python%E4%BD%BF%E7%94%A8threading%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" rel="bookmark">
+			Python：使用threading模块实现多线程编程
 			</a>
 		</h2>
 		<div class="list__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-04-10T18:06:03Z">2014-04-10</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/python/" rel="category">Python</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-13T11:44:22Z">2013-11-13</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		<p>怪不得这几天头疼的厉害，原来是发生了2件大事：官方的XP彻底和我们告别了and爆发了OpenSSL HeartBleed漏洞。这个漏洞可以说是一场大地震，不知道又会有多少网站被“扒光脱裤”，过一阵又得改密码玩了。面对这种网络安全问题，真的是一种待宰羔羊的无力感。</p>
-<p>调试python程序我知道有3个东东：pdb,ipdb,pudb。</p>
-<p>第一个是python自带模块，第二个如果安了ipython的话貌似自己就被安装了，最后一个有图形界面，十分复古的——蓝底，真是让人怀念。后2个都可以使用pip安装。
-ipdb支持语法高亮，不过貌似中文支持不太好。</p>
+		原文链接找不到了，故整理格式后记录于此。
+常用函数 &#39;&#39;&#39;&#39;&#39; Created on 2012-9-7 @author: walfred @module: thread.ThreadTest3 @description: &#39;&#39;&#39; import threading class MyThread(threading.
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E8%B0%83%E8%AF%95python%E7%A8%8B%E5%BA%8F/">Read more…</a>
+		<a class="list__footer-readmore btn" href="/posts/python%E4%BD%BF%E7%94%A8threading%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/">Read more…</a>
 	</div>
 </article><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/python%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/" rel="bookmark">
-			python列表展开
+			<a href="/posts/python-threading%E6%A8%A1%E5%9D%97/" rel="bookmark">
+			python threading模块
 			</a>
 		</h2>
 		<div class="list__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-04-09T16:27:16Z">2014-04-09</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/python/" rel="category">Python</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-13T11:16:09Z">2013-11-13</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		某网站今年笔试题，本质就是把某多维数组变成一维数组并去重。本来要求用JS实现，不过用python更简洁一点，就是对列表进行展开操作，递归就KO了。
-首先来个不简洁的：
-arr = [1, [1, 2, [2, 3]], [4], [4]] final=[] def change(x): print &#34;x is:&#34;,x if isinstance(x, list): for l in x: print &#34;l is:&#34;,l change(l) else: final.
+		threading模块  Thread 线程类，这是我们用的最多的一个类，你可以指定线程函数执行或者继承自它都可以实现子线程功能； Timer与Thread类似，但要等待一段时间后才开始运行； Lock 锁原语，这个我们可以对全局变量互斥时使用； RLock 可重入锁，使单线程可以再次获得已经获得的锁； Condition 条件变量，能让一个线程停下来，等待其他线程满足某个“条件”； Event 通用的条件变量。多个线程可以等待某个事件发生，在事件发生后，所有的线程都被激活； Semaphore为等待锁的线程提供一个类似“等候室”的结构； BoundedSemaphore 与semaphore类似，但不允许超过初始值；  Thread类  是你主要的线程类，可以创建进程实例。该类提供的函数包括： getName(self) 返回线程的名字 isAlive(self) 布尔标志，表示这个线程是否还在运行中 isDaemon(self) 返回线程的daemon标志 join(self, timeout=None) 程序挂起，直到线程结束，如果给出timeout，则最多阻塞timeout秒 run(self) 定义线程的功能函数 setDaemon(self, daemonic) 把线程的daemon标志设为daemonic setName(self, name) 设置线程的名字 start(self) 开始线程执行  关于join()和setDaemon join：如在一个线程B中调用threada.
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/python%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/">Read more…</a>
+		<a class="list__footer-readmore btn" href="/posts/python-threading%E6%A8%A1%E5%9D%97/">Read more…</a>
 	</div>
 </article><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/mongodb%E5%88%9D%E7%94%A8%E8%AE%B0%E5%BD%95/" rel="bookmark">
-			Mongodb初用记录
+			<a href="/posts/python-queue%E6%A8%A1%E5%9D%97/" rel="bookmark">
+			python queue模块
 			</a>
 		</h2>
 		<div class="list__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-04-09T09:06:23Z">2014-04-09</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/linux/" rel="category">Linux</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-13T11:11:38Z">2013-11-13</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		关于介绍以及缺点等网上介绍很多，这里记录一下我遇到的问题：
-首先就是使用yum install安装后的mongodb无法设定开机启动。其次，即使修改了/etc/monggdb.conf文件的相关路径，运行时还必须手动指定dbpath参数才可运行。
-于是按照官方指南说明的方法，添加了mongodb的源，安装yum install mongo-10gen mongo-10gen-server之后chkconfig mongod on才能设定成为开机启动。不过使用service mongod start启动、停止、重起服务会出现假死。但是不影响使用。
+		创建一个“队列”对象 import Queue myqueue = Queue.Queue(maxsize = 10) Queue.Queue类即是一个队列的同步实现。队列长度可为无限或者有限。可通过Queue的构造函数的可选参数maxsize来设定队列长度。如果maxsize小于1就表示队列长度无限。
+将一个值放入队列中 myqueue.
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/mongodb%E5%88%9D%E7%94%A8%E8%AE%B0%E5%BD%95/">Read more…</a>
+		<a class="list__footer-readmore btn" href="/posts/python-queue%E6%A8%A1%E5%9D%97/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/django-i18n-%E5%9B%BD%E9%99%85%E5%8C%96%E8%AF%AD%E8%A8%80/" rel="bookmark">
+			django-I18n-国际化语言
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-12T14:58:47Z">2013-11-12</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		上一篇文章提到了django 的语言问题，查阅资料后发现刚才的解释不是十分准确，看到一篇介绍相关内容的博客感觉不错，节选部分全文
+先来看两个概念：
+ 国际化：是指为了该软件在任何地区的潜在使用而进行程序设计的过程。 它包括了为将来翻译而标记的文本（比如用户界面要素和错误信息等）、日期和时间的抽象显示以便保证不同地区的标准得到遵循、为不同时区提供支持，并且一般 确保代码中不会存在关于使用者所在地区的假设。 您会经常看到国际化被缩写为“I18N” (18表示Internationlization这个单词首字母I和结尾字母N之间的字母有18个)。 本地化： 是指使一个国际化的程序为了在某个特定地区使用而进行实际翻译的过程。 有时，本地化缩写为L10N 。  使用Django 国际化  第一步：在你的Python代码和模板中嵌入待翻译的字符串。 第二步：把那些字符串翻译成你要支持的语言。 第三步：在你的Django settings文件中激活本地中间件。  如何嵌入待翻译的字符串 使用函数django.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/django-i18n-%E5%9B%BD%E9%99%85%E5%8C%96%E8%AF%AD%E8%A8%80/">Read more…</a>
 	</div>
 </article>
 </main>
 
 <div class="pagination">
 	<a class="pagination__item pagination__item--prev btn" href="/page/34/">«</a>
-	<span class="pagination__item pagination__item--current">35/47</span>
+	<span class="pagination__item pagination__item--current">35/39</span>
 	<a class="pagination__item pagination__item--next btn" href="/page/36/">»</a>
 </div>
 
@@ -218,7 +232,7 @@ arr = [1, [1, 2, [2, 3]], [4], [4]] final=[] def change(x): print &#34;x is:&#34
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
-			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">golang小技巧</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">Golang小技巧</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/">新手可能会犯的50个Golang错误</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E9%9B%86%E6%88%90gin%E5%92%8Ccasbin/">集成gin和casbin</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06/">OpenStack源码学习笔记6</a></li>
@@ -231,88 +245,36 @@ arr = [1, [1, 2, [2, 3]], [4], [4]] final=[] def change(x): print &#34;x is:&#34
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/centos/">Centos</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">12</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/django/">Django</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">23</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/golang/">Golang</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">17</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/httpd/">httpd</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">1</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/kali/">Kali</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">4</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/linux/">Linux</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">33</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/mac/">Mac</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">4</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/nodejs/">Nodejs</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">1</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/objective-c/">Objective-C</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">2</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/openstack/">OpenStack</a>&nbsp;
+				<a class="widget__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>&nbsp;
 				<span class="widget__counter widget__counter--bubble">6</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/python/">Python</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">70</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">11</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E5%93%B2%E7%90%86%E7%BE%8E%E6%96%87/">哲理美文</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">3</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E6%81%90%E6%80%96%E6%95%85%E4%BA%8B/">恐怖故事</a>&nbsp;
 				<span class="widget__counter widget__counter--bubble">6</span>
 				</li>
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E6%88%91%E7%9A%84%E8%B6%B3%E8%BF%B9/">我的足迹</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">1</span>
+				<a class="widget__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">47</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">7</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E4%B8%AD%E5%8C%BB/">有意思的中医</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">1</span>
+				<span class="widget__counter widget__counter--bubble">13</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>&nbsp;
 				<span class="widget__counter widget__counter--bubble">3</span>
 				</li>
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E6%9D%82/">杂</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">10</span>
+				<a class="widget__link" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">22</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">131</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
 				<span class="widget__counter widget__counter--bubble">26</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">11</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;
@@ -324,82 +286,29 @@ arr = [1, [1, 2, [2, 3]], [4], [4]] final=[] def change(x): print &#34;x is:&#34
 <div class="widget-taglist widget">
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
-		<a class="widget-taglist__link widget__link btn" href="/tags/ajax/" title="ajax">ajax (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/angular/" title="angular">angular (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/celery/" title="celery">celery (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/centos/" title="centos">centos (7)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/code-review/" title="code review">code review (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/cors/" title="cors">cors (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/django/" title="django">django (25)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/dns/" title="dns">dns (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/es6/" title="ES6">ES6 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/eventlet/" title="eventlet">eventlet (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/fedora/" title="fedora">fedora (19)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/flask/" title="flask">flask (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/flower/" title="flower">flower (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ganglia/" title="ganglia">ganglia (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/gevent/" title="gevent">gevent (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/glance/" title="Glance">Glance (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/go/" title="go">go (17)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/haproxy/" title="haproxy">haproxy (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/html5/" title="html5">html5 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/iptables/" title="iptables">iptables (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ipython/" title="ipython">ipython (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/javascript/" title="javascript">javascript (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/jwt/" title="jwt">jwt (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/kali/" title="kali">kali (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/kears/" title="kears">kears (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/keepalive/" title="keepalive">keepalive (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ldap/" title="ldap">ldap (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/lxml/" title="lxml">lxml (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/minecraft/" title="minecraft">minecraft (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mitmf/" title="MITMf">MITMf (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mongodb/" title="mongodb">mongodb (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mysql-python/" title="mysql-python">mysql-python (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/nginx/" title="nginx">nginx (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/nodejs/" title="nodejs">nodejs (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/nova/" title="Nova">Nova (5)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/numpy/" title="numpy">numpy (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/openerp7/" title="openerp7">openerp7 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/pandas/" title="pandas">pandas (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/phantomjs/" title="phantomjs">phantomjs (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/pip/" title="pip">pip (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/postgresql/" title="postgresql">postgresql (5)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python (42)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/queue/" title="queue">queue (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/rabbitmq/" title="rabbitmq">rabbitmq (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/redis/" title="redis">redis (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/requests/" title="requests">requests (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/selenium/" title="selenium">selenium (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/sse/" title="sse">sse (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/systemtap/" title="systemtap">systemtap (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/threading/" title="threading">threading (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/uwsgi/" title="uwsgi">uwsgi (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/webpack/" title="webpack">webpack (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/web%E4%BB%A3%E7%90%86/" title="web代理">web代理 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yield/" title="yield">yield (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97/" title="任务队列">任务队列 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%88%9B%E4%B8%9A/" title="创业">创业 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" title="区块链">区块链 (11)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%93%B2%E7%90%86%E7%BE%8E%E6%96%87/" title="哲理美文">哲理美文 (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%82%E6%AD%A5%E9%98%9F%E5%88%97/" title="异步队列">异步队列 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E4%B8%AD%E5%8C%BB/" title="有意思的中医">有意思的中医 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" title="机器学习">机器学习 (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%82/" title="杂">杂 (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" title="消息队列">消息队列 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%81%AB%E7%84%B0%E5%9B%BE/" title="火焰图">火焰图 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%88%AC%E8%99%AB/" title="爬虫">爬虫 (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" title="端口转发">端口转发 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%BA%BF%E7%A8%8B/" title="线程">线程 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" title="网络安全">网络安全 (9)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%8A%B1%E4%B9%8B%E9%AC%BC%E8%AF%9D/" title="花之鬼话">花之鬼话 (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式">设计模式 (11)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/" title="金融理财">金融理财 (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%97%AD%E5%8C%85/" title="闭包">闭包 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" title="验证码识别">验证码识别 (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/centos/" title="centos">centos</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/django/" title="django">django</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fedora/" title="fedora">fedora</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/flask/" title="flask">flask</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/golang/" title="golang">golang</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ipfs/" title="ipfs">ipfs</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="java">java</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kali/" title="kali">kali</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kears/" title="kears">kears</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mac/" title="mac">mac</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mongodb/" title="mongodb">mongodb</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/openstack/" title="openstack">openstack</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/postgresql/" title="postgresql">postgresql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/redis/" title="redis">redis</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" title="区块链">区块链</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" title="机器学习">机器学习</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%81%AB%E7%84%B0%E5%9B%BE/" title="火焰图">火焰图</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%88%AC%E8%99%AB/" title="爬虫">爬虫</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%AE%97%E6%B3%95/" title="算法">算法</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式">设计模式</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" title="验证码识别">验证码识别</a>
 	</div>
 </div>
 <div class="widget-social widget">

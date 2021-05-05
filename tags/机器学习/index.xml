@@ -6,24 +6,26 @@
     <description>Recent content in 机器学习 on Hi~Roy!</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 06 Jan 2018 16:27:04 +0000</lastBuildDate><atom:link href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 21 Dec 2017 20:01:41 +0000</lastBuildDate><atom:link href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>python验证码识别实战2</title>
-      <link>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%982/</link>
-      <pubDate>Sat, 06 Jan 2018 16:27:04 +0000</pubDate>
+      <title>朴素贝叶斯</title>
+      <link>/posts/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/</link>
+      <pubDate>Thu, 21 Dec 2017 20:01:41 +0000</pubDate>
       
-      <guid>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%982/</guid>
-      <description>&lt;p&gt;在&lt;a href=&#34;http://www.hi-roy.com/2017/12/29/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/&#34;&gt;上一篇文章&lt;/a&gt;中，我们使用sklearn对验证码进行了识别，为了提高识别率，今天来进行进一步优化。&lt;/p&gt;
-&lt;p&gt;观察验证码后，发现还可以对其进行旋转处理，这个验证码旋转角度在-30～30之间，那么如何判断旋转角度呢？这里我使用最简单粗暴的判断方式——如果旋转后的字符宽度小于旋转之前，则认为是合理的旋转。但这里还有一个问题需要处理，上一篇文章中我们为了简便直接根据固定的宽度对字符进行了分割，但是分割后字符在小图片中的位置不是固定的，需要手动将其放在中心位置。&lt;/p&gt;</description>
+      <guid>/posts/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;朴素贝叶斯是贝叶斯决策理论的一部分，贝叶斯概率引入先验知识和逻辑推理来处理不确定命题。又可以称为“条件概率”（Conditional probability），与之相对的则是“频数概率”（frequency probability）。&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>python验证码识别实战</title>
-      <link>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/</link>
-      <pubDate>Fri, 29 Dec 2017 19:07:39 +0000</pubDate>
+      <title>决策树</title>
+      <link>/posts/%E5%86%B3%E7%AD%96%E6%A0%91/</link>
+      <pubDate>Tue, 17 Oct 2017 20:55:02 +0000</pubDate>
       
-      <guid>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/</guid>
-      <description>&lt;p&gt;陆陆续续的学习了验证码的灰度、二值化、分割等方法，还了解了机器学习中最基本的3个分类方式——KNN、决策树、朴素贝叶斯。基于这些，今天结合这些工具来写一个简单的验证码识别程序，本来想使用现有的库来生成验证码，但无意间发现了之前写某个程序时下载的200个验证码，正好可以拿来练手。另外，虽然之前已经实现了上面3种算法，但这里还是会使用&lt;code&gt;sklearn&lt;/code&gt;这个强大的三方库，学习原理是为了知其所以然，有现成工具还是要拿来用的。&lt;/p&gt;</description>
+      <guid>/posts/%E5%86%B3%E7%AD%96%E6%A0%91/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;决策树是机器学习中一种简单明了的分类算法，用程序语言描述就是&lt;code&gt;if...elif...else...&lt;/code&gt;，关键问题则是如何选择合适的特征对数据集进行切割，常见算法有： ID3、C4.5、CART等。&lt;/p&gt;
+&lt;p&gt;今天主要记录一下ID3这个算法，想使用这个算法首先要了解信息增益，想了解信息增益则要先明白什么是&amp;quot;熵&amp;quot;。熵描述了一个系统的混乱复杂程度，有一个理论叫做&amp;quot;熵增加&amp;quot;，含义就是一个没有外力干涉的系统混乱程度总是增加的，比如一个房间如果没人打扫的话只会越来越混乱，而不会自己变得整洁。&lt;/p&gt;</description>
     </item>
     
   </channel>

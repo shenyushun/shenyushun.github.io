@@ -80,159 +80,202 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%B8%8D%E4%BD%BF%E7%94%A8%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0/" rel="bookmark">
-			什么时候不使用箭头函数
+			<a href="/posts/%E8%A7%A3%E5%86%B3django%E4%BD%BF%E7%94%A8logging%E6%97%B6character-mapping-must-return-integer-none-or-unicode%E9%94%99%E8%AF%AF/" rel="bookmark">
+			解决django使用logging时“character mapping must return integer, None or unicode”错误
 			</a>
 		</h2>
 		<div class="list__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-12-22T17:07:08Z">2016-12-22</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-06-21T17:42:27Z">2016-06-21</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		<p>作为一个前端渣渣，最近在写js代码的时候，开始使用一些ES6的新特性，结果到箭头函数部分“掉坑”了。网上大部分都说箭头函数怎么用，而很少说箭头什么时候 <em>不要用</em>，所以这里翻译一篇文章来说说什么时候不要用的问题。</p>
-<p><a href="https://rainsoft.io/when-not-to-use-arrow-functions-in-javascript/">原文地址</a>，向原作者表示感谢。</p>
+		<p>今天调试Django项目时候，使用Logging记录异常并发送邮件给网站管理人员，测试时候始终报错：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">Traceback (most recent call last):
+  File <span style="color:#e6db74">&#34;/usr/lib64/python2.7/wsgiref/handlers.py&#34;</span>, line <span style="color:#ae81ff">85</span>, <span style="color:#f92672">in</span> run
+    self<span style="color:#f92672">.</span>result <span style="color:#f92672">=</span> application(self<span style="color:#f92672">.</span>environ, self<span style="color:#f92672">.</span>start_response)
+  File <span style="color:#e6db74">&#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/handlers/wsgi.py&#34;</span>, line <span style="color:#ae81ff">177</span>, <span style="color:#f92672">in</span> __call__
+    response <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>get_response(request)
+  File <span style="color:#e6db74">&#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/handlers/base.py&#34;</span>, line <span style="color:#ae81ff">230</span>, <span style="color:#f92672">in</span> get_response
+    response <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>handle_uncaught_exception(request, resolver, sys<span style="color:#f92672">.</span>exc_info())
+  File <span style="color:#e6db74">&#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/handlers/base.py&#34;</span>, line <span style="color:#ae81ff">284</span>, <span style="color:#f92672">in</span> handle_uncaught_exception
+    <span style="color:#e6db74">&#39;request&#39;</span>: request
+  File <span style="color:#e6db74">&#34;/usr/lib64/python2.7/logging/__init__.py&#34;</span>, line <span style="color:#ae81ff">1185</span>, <span style="color:#f92672">in</span> error
+    self<span style="color:#f92672">.</span>_log(ERROR, msg, args, <span style="color:#f92672">**</span>kwargs)
+  File <span style="color:#e6db74">&#34;/usr/lib64/python2.7/logging/__init__.py&#34;</span>, line <span style="color:#ae81ff">1278</span>, <span style="color:#f92672">in</span> _log
+    self<span style="color:#f92672">.</span>handle(record)
+  File <span style="color:#e6db74">&#34;/usr/lib64/python2.7/logging/__init__.py&#34;</span>, line <span style="color:#ae81ff">1288</span>, <span style="color:#f92672">in</span> handle
+    self<span style="color:#f92672">.</span>callHandlers(record)
+  File <span style="color:#e6db74">&#34;/usr/lib64/python2.7/logging/__init__.py&#34;</span>, line <span style="color:#ae81ff">1328</span>, <span style="color:#f92672">in</span> callHandlers
+    hdlr<span style="color:#f92672">.</span>handle(record)
+  File <span style="color:#e6db74">&#34;/usr/lib64/python2.7/logging/__init__.py&#34;</span>, line <span style="color:#ae81ff">751</span>, <span style="color:#f92672">in</span> handle
+    self<span style="color:#f92672">.</span>emit(record)
+  File <span style="color:#e6db74">&#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/utils/log.py&#34;</span>, line <span style="color:#ae81ff">117</span>, <span style="color:#f92672">in</span> emit
+    self<span style="color:#f92672">.</span>send_mail(subject, message, fail_silently<span style="color:#f92672">=</span>True, html_message<span style="color:#f92672">=</span>html_message)
+  File <span style="color:#e6db74">&#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/utils/log.py&#34;</span>, line <span style="color:#ae81ff">120</span>, <span style="color:#f92672">in</span> send_mail
+    mail<span style="color:#f92672">.</span>mail_admins(subject, message, <span style="color:#f92672">*</span>args, connection<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>connection(), <span style="color:#f92672">**</span>kwargs)
+  File <span style="color:#e6db74">&#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/__init__.py&#34;</span>, line <span style="color:#ae81ff">97</span>, <span style="color:#f92672">in</span> mail_admins
+    mail<span style="color:#f92672">.</span>send(fail_silently<span style="color:#f92672">=</span>fail_silently)
+  File <span style="color:#e6db74">&#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/message.py&#34;</span>, line <span style="color:#ae81ff">292</span>, <span style="color:#f92672">in</span> send
+    <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>get_connection(fail_silently)<span style="color:#f92672">.</span>send_messages([self])
+  File <span style="color:#e6db74">&#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/backends/smtp.py&#34;</span>, line <span style="color:#ae81ff">100</span>, <span style="color:#f92672">in</span> send_messages
+    new_conn_created <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>open()
+  File <span style="color:#e6db74">&#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/backends/smtp.py&#34;</span>, line <span style="color:#ae81ff">67</span>, <span style="color:#f92672">in</span> open
+    self<span style="color:#f92672">.</span>connection<span style="color:#f92672">.</span>login(self<span style="color:#f92672">.</span>username, self<span style="color:#f92672">.</span>password)
+  File <span style="color:#e6db74">&#34;/usr/lib64/python2.7/smtplib.py&#34;</span>, line <span style="color:#ae81ff">607</span>, <span style="color:#f92672">in</span> login
+    (code, resp) <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>docmd(encode_cram_md5(resp, user, password))
+  File <span style="color:#e6db74">&#34;/usr/lib64/python2.7/smtplib.py&#34;</span>, line <span style="color:#ae81ff">571</span>, <span style="color:#f92672">in</span> encode_cram_md5
+    response <span style="color:#f92672">=</span> user <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">+</span> hmac<span style="color:#f92672">.</span>HMAC(password, challenge)<span style="color:#f92672">.</span>hexdigest()
+  File <span style="color:#e6db74">&#34;/usr/lib64/python2.7/hmac.py&#34;</span>, line <span style="color:#ae81ff">78</span>, <span style="color:#f92672">in</span> __init__
+    self<span style="color:#f92672">.</span>outer<span style="color:#f92672">.</span>update(key<span style="color:#f92672">.</span>translate(trans_5C))
+<span style="color:#a6e22e">TypeError</span>: character mapping must <span style="color:#66d9ef">return</span> integer, None <span style="color:#f92672">or</span> unicode
+</code></pre></div><p>根据错误提示，追进了hmac.py中看了源码，发现key其实就是一个字符串，是配置在settings中的EMAIL_HOST_USER以及EMAIL_HOST_PASSWORD，而translate函数则是根据给出的参数表将字符串进行映射加密的，而且是最简单的凯撒加密法。</p>
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%B8%8D%E4%BD%BF%E7%94%A8%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0/">Read more…</a>
+		<a class="list__footer-readmore btn" href="/posts/%E8%A7%A3%E5%86%B3django%E4%BD%BF%E7%94%A8logging%E6%97%B6character-mapping-must-return-integer-none-or-unicode%E9%94%99%E8%AF%AF/">Read more…</a>
 	</div>
 </article><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/%E5%B0%86django%E6%A8%A1%E6%9D%BF%E5%8F%98%E9%87%8F%E4%BC%A0%E9%80%92%E7%BB%99%E5%A4%96%E9%83%A8js%E8%B0%83%E7%94%A8%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/" rel="bookmark">
-			将Django模板变量传递给外部JS调用的几种方式
+			<a href="/posts/django%E5%B8%B8%E7%94%A8%E4%B8%89%E6%96%B9%E5%BA%93/" rel="bookmark">
+			Django常用三方库
 			</a>
 		</h2>
 		<div class="list__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-12-20T11:55:19Z">2016-12-20</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/django/" rel="category">Django</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-06-15T13:55:06Z">2016-06-15</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		<p>最近一直在思考如何更好的组织Django中的静态资源，比如JS、CSS一类，如何结合前端构建工具写出更好的代码以及结构呢？</p>
-<p>首先需要解决的一个问题就是某些时候需要把JS代码写在模板里来获取后台传递过来的变量，比如：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span>&gt;
-&lt;<span style="color:#f92672">h1</span>&gt;Test&lt;/<span style="color:#f92672">h1</span>&gt;
-&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;my-test&#34;</span> &gt;&lt;/<span style="color:#f92672">div</span>&gt;
-&lt;/<span style="color:#f92672">div</span>&gt;
-&lt;<span style="color:#f92672">script</span>&gt;
-<span style="color:#a6e22e">$</span>(<span style="color:#66d9ef">function</span>(){
-  <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;#my-test&#39;</span>).<span style="color:#a6e22e">html</span>(<span style="color:#e6db74">&#34;{{ some_var_from_view }}&#34;</span>)
-});
-&lt;/<span style="color:#f92672">script</span>&gt;
-</code></pre></div><p>这么写代码的话，别扭不说，前端的那些构建工具比如webpack，gulp的使用范围也将大大降低。</p>
-<p>首先说结论，想完全剥离JS和模板而又需要使用模板渲染的数据，我是没想到什么好办法。如果读者有好办法希望赐教。
-既然不能完全剥离，那么就进最大的努力分离JS所需的数据和代码吧。</p>
+		<p>更新于2017.01.10</p>
+<p>首先安利本书《two scoops of django1.8》目前还没有中文版，不过是我看过关于django的书中收获最大的一本。本来有机会和作者面基，可惜我大天朝的签证太难办了，只得作罢。</p>
+<p>这里推荐三方库的大部分出自这本书，移除了部分失效或者不维护的库，添加了一些其他库，强烈建议大家阅读原书。</p>
+<p>下面的模块有些是django模块，有些则是python模块，可以脱离django直接使用。</p>
+<p>话说那些复制到别地方然后标注“原创”的，敢加个本文链接不？手工整理很累的好不？</p>
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E5%B0%86django%E6%A8%A1%E6%9D%BF%E5%8F%98%E9%87%8F%E4%BC%A0%E9%80%92%E7%BB%99%E5%A4%96%E9%83%A8js%E8%B0%83%E7%94%A8%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/">Read more…</a>
+		<a class="list__footer-readmore btn" href="/posts/django%E5%B8%B8%E7%94%A8%E4%B8%89%E6%96%B9%E5%BA%93/">Read more…</a>
 	</div>
 </article><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/%E6%88%91%E7%89%B9%E4%B9%88%E6%98%AF%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8django-django-rest-framework-angular-1-1-x%E5%92%8Cwebpack%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE%E7%9A%84/" rel="bookmark">
-			我特么是如何利用Django, Django REST Framework, Angular 1.1.x和Webpack构建一个项目的
+			<a href="/posts/linux%E7%B3%BB%E7%BB%9F%E7%9A%843%E7%A7%8D%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E6%96%B9%E5%BC%8F/" rel="bookmark">
+			linux系统的3种端口转发方式
 			</a>
 		</h2>
 		<div class="list__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-11-08T13:50:46Z">2016-11-08</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-05-20T11:47:08Z">2016-05-20</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		<p><a href="http://gregblogs.com/how-the-do-i-build-a-django-django-rest-framework-angular-1-1-x-and-webpack-project/#prereq">原文地址</a>，向原作者表示感谢。由于本人并没学习过angular，所以翻译有误的地方恳请指正。</p>
-<hr>
-<p>我已经受够了JS社区的那帮二货，我只是想使用Django作为后端结合Angular做一个简单的、可复用的项目，却没有一个简明的指导教我如何做到。如果你也为此挣扎，这里有一份指南教你如何构建一个由Django作为后端、Webpack进行组织的Angular程序。</p>
-<h2 id="问题">问题</h2>
-<p>我想开发一个Angular1.1.x的项目并使用Django作为后端提供数据，我喜欢使用Django REST Framework(DRF)来构造RESTful API。我也想打包需要的JavaScript资源。目前，我打算使用单一的服务器上运行这个程序。</p>
-<h2 id="依赖">依赖</h2>
-<ul>
-<li>Python 2.x</li>
-<li>a virtual Python environment</li>
-<li>Django 1.9.x (pip install django)</li>
-<li>npm 2.15.8+</li>
-<li>Webpack 1.13.x (sudo npm i -g webpack)</li>
-<li>ESLint 2.13.1+ (sudo npm i -g eslint)</li>
-<li>NodeJS 4.4.7+</li>
-</ul>
+		<p>很多情况下我们都需要进行端口转发，这里以centos为例记录一下linux系统上端口转发的3种方式。</p>
+<h2 id="iptables">iptables</h2>
+<p>想利用iptables进行端口转发，首先要打开内核转发功能：</p>
+<pre><code>echo &quot;net.ipv4.ip_forward = 1&quot; &gt;&gt; /etc/sysctl.conf
+sysctl -p
+</code></pre><p>然后编辑转发的服务器的/etc/sysconfig/iptables文件，添加</p>
+<pre><code>*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+-A PREROUTING -d 转发服务器的ip -p tcp --dport 转发服务器的端口 -j DNAT --to-destination 目标ip：端口
+-A POSTROUTING -d 目标ip -p tcp --dport 目标端口 -j SNAT --to 转发服务器的Ip
+COMMIT
+</code></pre><p>重启Iptables后即可生效，在我们本机链接转发服务器的ip和端口实际上就是链接目标机器的ip和端口了。</p>
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E6%88%91%E7%89%B9%E4%B9%88%E6%98%AF%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8django-django-rest-framework-angular-1-1-x%E5%92%8Cwebpack%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE%E7%9A%84/">Read more…</a>
+		<a class="list__footer-readmore btn" href="/posts/linux%E7%B3%BB%E7%BB%9F%E7%9A%843%E7%A7%8D%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E6%96%B9%E5%BC%8F/">Read more…</a>
 	</div>
 </article><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/django%E8%A7%A3%E6%9E%90%E7%94%A8%E6%88%B7%E4%B8%8A%E4%BC%A0%E7%9A%84excel%E6%96%87%E4%BB%B6/" rel="bookmark">
-			django解析用户上传的excel文件
+			<a href="/posts/eventletdjangorequests%E9%97%AE%E9%A2%98%E6%9D%82%E8%AE%B0/" rel="bookmark">
+			eventlet，django，requests问题杂记
 			</a>
 		</h2>
 		<div class="list__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-10-13T09:09:46Z">2016-10-13</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/django/" rel="category">Django</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-05-03T13:28:49Z">2016-05-03</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		有些时候我们会有这种需求：用户上传一个格式固定excel表格到网站上，然后程序负债解析内容并进行处理。 举一个简单的栗子，比如我们有这样一个HTML：
-&lt;!DOCTYPE html&gt; &lt;html&gt; &lt;head&gt; &lt;meta charset=&#34;utf-8&#34;&gt; &lt;/head&gt; &lt;body&gt; &lt;p&gt;上传EXCEL表格&lt;/p&gt; &lt;form class=&#34;&#34; action=&#34;&#34; method=&#34;post&#34; enctype=&#34;multipart/form-data&#34; &gt; {% csrf_token %} &lt;input type=&#34;file&#34; name=&#34;excel&#34;&gt; &lt;input type=&#34;submit&#34; value=&#34;上传&#34;&gt; &lt;/form&gt; &lt;/body&gt; &lt;/html&gt; forms.
+		<p>最近使用django+requests+eventlet做了个小程序，eventlet用来替代原生的多线程，最后发现有关manage.py的功能全都不能用了，报错信息类似：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">django<span style="color:#f92672">.</span>db<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>DatabaseError: DatabaseWrapper objects created <span style="color:#f92672">in</span> a thread can only be used <span style="color:#f92672">in</span> that same thread<span style="color:#f92672">.</span> The object <span style="color:#66d9ef">with</span> alias <span style="color:#e6db74">&#39;default&#39;</span> was created <span style="color:#f92672">in</span> thread id <span style="color:#ae81ff">139911009593152</span> <span style="color:#f92672">and</span> this <span style="color:#f92672">is</span> thread id <span style="color:#ae81ff">51055504.</span>
+</code></pre></div><p>产生这个问题的原因在于我的monky_patch()是在爬虫模块中执行，而希望这个爬虫模块能够保持独立性不希望和django融合的太深，所以解决问题只需根据实际需求在manage.py或settings.py或wsgi.py中先把monkey_patch()执行了即可。</p>
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/django%E8%A7%A3%E6%9E%90%E7%94%A8%E6%88%B7%E4%B8%8A%E4%BC%A0%E7%9A%84excel%E6%96%87%E4%BB%B6/">Read more…</a>
+		<a class="list__footer-readmore btn" href="/posts/eventletdjangorequests%E9%97%AE%E9%A2%98%E6%9D%82%E8%AE%B0/">Read more…</a>
 	</div>
 </article><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/%E4%BD%BF%E7%94%A8python%E6%A8%A1%E6%8B%9Fpost%E8%AF%B7%E6%B1%82%E6%8F%90%E4%BA%A4%E5%9B%BE%E7%89%87/" rel="bookmark">
-			使用python模拟POST请求提交图片
+			<a href="/posts/virtualbox%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%92%E9%80%9A%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91/" rel="bookmark">
+			VirtualBOX虚拟机网络互通同时访问外网
 			</a>
 		</h2>
 		<div class="list__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-09-14T09:54:37Z">2016-09-14</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/python/" rel="category">Python</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-04-29T13:54:35Z">2016-04-29</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		<p>使用requests来模拟HTTP请求本来是一件非常轻松的事情，比如上传图片来说，简单的几行代码即可：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> requests
-files <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;attachment_file&#39;</span>: (<span style="color:#e6db74">&#39;1.png&#39;</span>, open(<span style="color:#e6db74">&#39;1.png&#39;</span>, <span style="color:#e6db74">&#39;rb&#39;</span>), <span style="color:#e6db74">&#39;image/png&#39;</span>, {})}
-values <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;next&#39;</span>:<span style="color:#e6db74">&#34;http://www.xxxx.com/xxxx&#34;</span>}
-r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 成功</span>
-r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 失败</span>
-r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 失败</span>
-r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 失败</span>
-r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 失败</span>
-<span style="color:#f92672">...</span>
-</code></pre></div><p>不过我今天在调试一个django程序的时候却遇到了大坑————为了偷懒，我直接在<strong>ipython</strong>中执行了上述代码，第一次提交的时候一切正常，但第二次之后提交就怎么也通过不了django的form验证。</p>
+		<p>对于爱好网络安全而又不想非法入侵的小伙伴来说，VirtualBOX可是神器级别的工具，这里记录一下我是怎么配置网络使虚拟机之间可以互通同时可以通过物理机访问外网的。</p>
+<p>第一台虚拟机是kali linux，启动之前需要在设置中启用2块网卡，<strong>第一块网卡设置为“Internal Network”，第二块设置为&quot;Bridged Adapter&quot;</strong>。</p>
+<p>第二台是OWASP提供的漏洞测试虚拟机镜像，基于ubuntu的系统，<strong>第一块网卡设置为“Internal Network”即可</strong>。</p>
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E4%BD%BF%E7%94%A8python%E6%A8%A1%E6%8B%9Fpost%E8%AF%B7%E6%B1%82%E6%8F%90%E4%BA%A4%E5%9B%BE%E7%89%87/">Read more…</a>
+		<a class="list__footer-readmore btn" href="/posts/virtualbox%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%92%E9%80%9A%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/python%E4%B8%AD%E9%97%AD%E5%8C%85%E7%A4%BA%E4%BE%8B/" rel="bookmark">
+			python中闭包示例
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-03-18T11:44:58Z">2016-03-18</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>概念上的东西这里就不详细解释了，为什么需要闭包（Closures）呢？个人理解就是某些情况下你需要在外部访问函数内部的变量时，闭包就该大显身手了。闭包的一种典型表现就是函数内部定义了新的函数。这里举几个例子以记录使用闭包时的几个注意点，例子来源于<a href="http://coolshell.cn/articles/6731.html">这里</a>，大神用javascript写的示例，这里改成python的，也顺便说说遇到的坑。</p>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/python%E4%B8%AD%E9%97%AD%E5%8C%85%E7%A4%BA%E4%BE%8B/">Read more…</a>
 	</div>
 </article>
 </main>
 
 <div class="pagination">
 	<a class="pagination__item pagination__item--prev btn" href="/posts/page/14/">«</a>
-	<span class="pagination__item pagination__item--current">15/47</span>
+	<span class="pagination__item pagination__item--current">15/39</span>
 	<a class="pagination__item pagination__item--next btn" href="/posts/page/16/">»</a>
 </div>
 
 			</div>
 			
-<aside class="sidebar"><div class="widget-search widget">
+<aside class="sidebar sidebar--left"><div class="widget-search widget">
 	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
 		<label>
 			<input class="widget-search__field" type="search" placeholder="SEARCH…" value="" name="q" aria-label="SEARCH…">
@@ -245,7 +288,7 @@ r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</sp
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
-			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">golang小技巧</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">Golang小技巧</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/">新手可能会犯的50个Golang错误</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E9%9B%86%E6%88%90gin%E5%92%8Ccasbin/">集成gin和casbin</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06/">OpenStack源码学习笔记6</a></li>
@@ -258,88 +301,36 @@ r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</sp
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/centos/">Centos</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">12</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/django/">Django</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">23</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/golang/">Golang</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">17</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/httpd/">httpd</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">1</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/kali/">Kali</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">4</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/linux/">Linux</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">33</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/mac/">Mac</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">4</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/nodejs/">Nodejs</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">1</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/objective-c/">Objective-C</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">2</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/openstack/">OpenStack</a>&nbsp;
+				<a class="widget__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>&nbsp;
 				<span class="widget__counter widget__counter--bubble">6</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/python/">Python</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">70</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">11</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E5%93%B2%E7%90%86%E7%BE%8E%E6%96%87/">哲理美文</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">3</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E6%81%90%E6%80%96%E6%95%85%E4%BA%8B/">恐怖故事</a>&nbsp;
 				<span class="widget__counter widget__counter--bubble">6</span>
 				</li>
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E6%88%91%E7%9A%84%E8%B6%B3%E8%BF%B9/">我的足迹</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">1</span>
+				<a class="widget__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">47</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">7</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E4%B8%AD%E5%8C%BB/">有意思的中医</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">1</span>
+				<span class="widget__counter widget__counter--bubble">13</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>&nbsp;
 				<span class="widget__counter widget__counter--bubble">3</span>
 				</li>
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E6%9D%82/">杂</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">10</span>
+				<a class="widget__link" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">22</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">131</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
 				<span class="widget__counter widget__counter--bubble">26</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">11</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;
@@ -351,82 +342,29 @@ r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</sp
 <div class="widget-taglist widget">
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
-		<a class="widget-taglist__link widget__link btn" href="/tags/ajax/" title="ajax">ajax (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/angular/" title="angular">angular (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/celery/" title="celery">celery (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/centos/" title="centos">centos (7)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/code-review/" title="code review">code review (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/cors/" title="cors">cors (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/django/" title="django">django (25)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/dns/" title="dns">dns (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/es6/" title="ES6">ES6 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/eventlet/" title="eventlet">eventlet (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/fedora/" title="fedora">fedora (19)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/flask/" title="flask">flask (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/flower/" title="flower">flower (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ganglia/" title="ganglia">ganglia (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/gevent/" title="gevent">gevent (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/glance/" title="Glance">Glance (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/go/" title="go">go (17)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/haproxy/" title="haproxy">haproxy (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/html5/" title="html5">html5 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/iptables/" title="iptables">iptables (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ipython/" title="ipython">ipython (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/javascript/" title="javascript">javascript (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/jwt/" title="jwt">jwt (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/kali/" title="kali">kali (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/kears/" title="kears">kears (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/keepalive/" title="keepalive">keepalive (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ldap/" title="ldap">ldap (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/lxml/" title="lxml">lxml (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/minecraft/" title="minecraft">minecraft (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mitmf/" title="MITMf">MITMf (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mongodb/" title="mongodb">mongodb (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mysql-python/" title="mysql-python">mysql-python (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/nginx/" title="nginx">nginx (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/nodejs/" title="nodejs">nodejs (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/nova/" title="Nova">Nova (5)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/numpy/" title="numpy">numpy (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/openerp7/" title="openerp7">openerp7 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/pandas/" title="pandas">pandas (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/phantomjs/" title="phantomjs">phantomjs (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/pip/" title="pip">pip (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/postgresql/" title="postgresql">postgresql (5)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python (42)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/queue/" title="queue">queue (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/rabbitmq/" title="rabbitmq">rabbitmq (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/redis/" title="redis">redis (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/requests/" title="requests">requests (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/selenium/" title="selenium">selenium (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/sse/" title="sse">sse (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/systemtap/" title="systemtap">systemtap (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/threading/" title="threading">threading (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/uwsgi/" title="uwsgi">uwsgi (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/webpack/" title="webpack">webpack (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/web%E4%BB%A3%E7%90%86/" title="web代理">web代理 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yield/" title="yield">yield (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97/" title="任务队列">任务队列 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%88%9B%E4%B8%9A/" title="创业">创业 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" title="区块链">区块链 (11)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%93%B2%E7%90%86%E7%BE%8E%E6%96%87/" title="哲理美文">哲理美文 (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%82%E6%AD%A5%E9%98%9F%E5%88%97/" title="异步队列">异步队列 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E4%B8%AD%E5%8C%BB/" title="有意思的中医">有意思的中医 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" title="机器学习">机器学习 (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%82/" title="杂">杂 (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" title="消息队列">消息队列 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%81%AB%E7%84%B0%E5%9B%BE/" title="火焰图">火焰图 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%88%AC%E8%99%AB/" title="爬虫">爬虫 (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" title="端口转发">端口转发 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%BA%BF%E7%A8%8B/" title="线程">线程 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" title="网络安全">网络安全 (9)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%8A%B1%E4%B9%8B%E9%AC%BC%E8%AF%9D/" title="花之鬼话">花之鬼话 (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式">设计模式 (11)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/" title="金融理财">金融理财 (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%97%AD%E5%8C%85/" title="闭包">闭包 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" title="验证码识别">验证码识别 (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/centos/" title="centos">centos</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/django/" title="django">django</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fedora/" title="fedora">fedora</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/flask/" title="flask">flask</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/golang/" title="golang">golang</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ipfs/" title="ipfs">ipfs</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="java">java</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kali/" title="kali">kali</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kears/" title="kears">kears</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mac/" title="mac">mac</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mongodb/" title="mongodb">mongodb</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/openstack/" title="openstack">openstack</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/postgresql/" title="postgresql">postgresql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/redis/" title="redis">redis</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" title="区块链">区块链</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" title="机器学习">机器学习</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%81%AB%E7%84%B0%E5%9B%BE/" title="火焰图">火焰图</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%88%AC%E8%99%AB/" title="爬虫">爬虫</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%AE%97%E6%B3%95/" title="算法">算法</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式">设计模式</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" title="验证码识别">验证码识别</a>
 	</div>
 </div>
 <div class="widget-social widget">

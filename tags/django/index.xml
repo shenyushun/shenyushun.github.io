@@ -8,7 +8,7 @@
     <language>zh-cn</language>
     <lastBuildDate>Fri, 28 Jul 2017 11:55:08 +0000</lastBuildDate><atom:link href="/tags/django/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Django中的Session和Cookie</title>
+      <title>django中的Session和Cookie</title>
       <link>/posts/django%E4%B8%AD%E7%9A%84session%E5%92%8Ccookie/</link>
       <pubDate>Fri, 28 Jul 2017 11:55:08 +0000</pubDate>
       
@@ -19,11 +19,11 @@
     </item>
     
     <item>
-      <title>基于cookie的django-rest-jwt认证</title>
-      <link>/posts/%E5%9F%BA%E4%BA%8Ecookie%E7%9A%84django-rest-jwt%E8%AE%A4%E8%AF%81/</link>
+      <title>django-rest-jwt认证</title>
+      <link>/posts/django-rest-jwt%E8%AE%A4%E8%AF%81/</link>
       <pubDate>Wed, 11 Jan 2017 10:37:34 +0000</pubDate>
       
-      <guid>/posts/%E5%9F%BA%E4%BA%8Ecookie%E7%9A%84django-rest-jwt%E8%AE%A4%E8%AF%81/</guid>
+      <guid>/posts/django-rest-jwt%E8%AE%A4%E8%AF%81/</guid>
       <description>&lt;p&gt;关于JWT(Json Web Token)是一种较新的用户认证方式，官网在&lt;a href=&#34;https://jwt.io/&#34;&gt;这里&lt;/a&gt;，网上有篇中文解释写的很好，&lt;a href=&#34;http://blog.leapoahead.com/2015/09/06/understanding-jwt/&#34;&gt;点此跳转&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;用户认证(Authentication)和用户授权(Authorization)是两个不同的概念，认证解决的是“有没有”的问题，而授权解决的是“能不能”的问题。&lt;/p&gt;
 &lt;p&gt;一般用到JWT认证的情况大多都是配合REST框架使用，比如我大Django的Django-REST-framework框架，就已经有了现成的三方库&lt;a href=&#34;http://getblimp.github.io/django-rest-framework-jwt/&#34;&gt;django-rest-framework-jwt&lt;/a&gt;。不过这个库默认只支持基于&lt;code&gt;Header&lt;/code&gt;传递信息，所以改成基于Cookie方式还需要我们来手动处理一下。&lt;/p&gt;</description>
@@ -115,6 +115,16 @@ django-auth-ldap中文文档</description>
     </item>
     
     <item>
+      <title>django自定义用户模型</title>
+      <link>/posts/django%E8%87%AA%E5%AE%9A%E4%B9%89%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Wed, 29 Jun 2016 10:13:27 +0000</pubDate>
+      
+      <guid>/posts/django%E8%87%AA%E5%AE%9A%E4%B9%89%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9E%8B/</guid>
+      <description>&lt;p&gt;Django最方便的一点可以说就是自带的用户系统了，不过某些情况下自带的用户系统不太符合项目需求，比如你想添加几个字段怎么办？当然可以使用自定Model然后外键关联User类来实现，不过一方面关联查询的效率比直接查询效率要低，另一方面想删除系统自带用户系统的某些字段怎么办呢？&lt;/p&gt;
+&lt;p&gt;所以，自定义用户模型可以说是一种很常见的需求。这里以Django1.9为例，记录一下自定义用户模型的方法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Django-REST-framework中文文档教程</title>
       <link>/posts/django-rest-framework%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3%E6%95%99%E7%A8%8B/</link>
       <pubDate>Mon, 27 Jun 2016 13:44:46 +0000</pubDate>
@@ -174,6 +184,19 @@ https://darkcooking.gitbooks.io/django-rest-framework-cn/content/</description>
     </item>
     
     <item>
+      <title>Django常用三方库</title>
+      <link>/posts/django%E5%B8%B8%E7%94%A8%E4%B8%89%E6%96%B9%E5%BA%93/</link>
+      <pubDate>Wed, 15 Jun 2016 13:55:06 +0000</pubDate>
+      
+      <guid>/posts/django%E5%B8%B8%E7%94%A8%E4%B8%89%E6%96%B9%E5%BA%93/</guid>
+      <description>&lt;p&gt;更新于2017.01.10&lt;/p&gt;
+&lt;p&gt;首先安利本书《two scoops of django1.8》目前还没有中文版，不过是我看过关于django的书中收获最大的一本。本来有机会和作者面基，可惜我大天朝的签证太难办了，只得作罢。&lt;/p&gt;
+&lt;p&gt;这里推荐三方库的大部分出自这本书，移除了部分失效或者不维护的库，添加了一些其他库，强烈建议大家阅读原书。&lt;/p&gt;
+&lt;p&gt;下面的模块有些是django模块，有些则是python模块，可以脱离django直接使用。&lt;/p&gt;
+&lt;p&gt;话说那些复制到别地方然后标注“原创”的，敢加个本文链接不？手工整理很累的好不？&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>eventlet，django，requests问题杂记</title>
       <link>/posts/eventletdjangorequests%E9%97%AE%E9%A2%98%E6%9D%82%E8%AE%B0/</link>
       <pubDate>Tue, 03 May 2016 13:28:49 +0000</pubDate>
@@ -225,26 +248,25 @@ https://darkcooking.gitbooks.io/django-rest-framework-cn/content/</description>
     </item>
     
     <item>
-      <title>重写model的save方法实现同时写2个数据库</title>
-      <link>/posts/%E9%87%8D%E5%86%99model%E7%9A%84save%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%90%8C%E6%97%B6%E5%86%992%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+      <title>django重写model的save方法实现同时写2个数据库</title>
+      <link>/posts/django%E9%87%8D%E5%86%99model%E7%9A%84save%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%90%8C%E6%97%B6%E5%86%992%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
       <pubDate>Sat, 28 Feb 2015 11:10:28 +0000</pubDate>
       
-      <guid>/posts/%E9%87%8D%E5%86%99model%E7%9A%84save%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%90%8C%E6%97%B6%E5%86%992%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/</guid>
+      <guid>/posts/django%E9%87%8D%E5%86%99model%E7%9A%84save%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%90%8C%E6%97%B6%E5%86%992%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/</guid>
       <description>最近有个需求就是当执行save时需要把数据写入2个数据库，查看文档后发现直接重写save方法比较简单。
 首先建立2个测试数据库testa和testb，然后在settings中配置数据库：
 DATABASES = { &amp;#39;default&amp;#39;: { &amp;#39;ENGINE&amp;#39;: &amp;#39;django.db.backends.mysql&amp;#39;, &amp;#39;NAME&amp;#39;: &amp;#39;testa&amp;#39;, &amp;#39;USER&amp;#39;: &amp;#39;root&amp;#39;, &amp;#39;PASSWORD&amp;#39;: &amp;#39;asdasd&amp;#39;, &amp;#39;HOST&amp;#39;: &amp;#39;192.</description>
     </item>
     
     <item>
-      <title>Nginx&#43;Uwsgi部署Django程序</title>
-      <link>/posts/nginx-uwsgi%E9%83%A8%E7%BD%B2django%E7%A8%8B%E5%BA%8F/</link>
-      <pubDate>Sat, 27 Sep 2014 17:44:03 +0000</pubDate>
+      <title>Windows下的django批处理运行脚本</title>
+      <link>/posts/windows%E4%B8%8B%E7%9A%84django%E6%89%B9%E5%A4%84%E7%90%86%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/</link>
+      <pubDate>Thu, 15 May 2014 12:03:58 +0000</pubDate>
       
-      <guid>/posts/nginx-uwsgi%E9%83%A8%E7%BD%B2django%E7%A8%8B%E5%BA%8F/</guid>
-      <description>原来使用apache进行部署，感觉内存占用大以及速度比较慢就换成了nginx+uwsgi的方式，结果完爆apache啊！
-首先安装nginx以及uwsgi：
-yum install nginxpip install uwsgi然后编辑uwsgi的配置文件，这里我使用ini文件格式，示例如下：
-[uwsgi]socket = 127.</description>
+      <guid>/posts/windows%E4%B8%8B%E7%9A%84django%E6%89%B9%E5%A4%84%E7%90%86%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/</guid>
+      <description>回来半个月，终于抽出时间写点东西了。最近这天气真是让人不开心阿～不过昨天居然见到了彩虹，突然想起来在飞机上看见的彩虹是直立在太阳两边而不是桥形的，各有各的美感。
+至于在win下如何安装python、setuptools、pip等网上很多这里不再重复，可是那些大小姐们向我反映说她们不会“运行cmd,输入python manage.py runserver”。正所谓收人钱财替人消灾，干脆写个批处理让她们双击运行算了，内容如下：
+@echo offpython %cd%\manage.py runserverpause真是被微软“惯坏了”的孩子们阿&amp;hellip;.</description>
     </item>
     
     <item>
@@ -279,6 +301,27 @@ DEBUG---- 2014/03/31 10:38:13:!!DEBUG---- 2014/03/31 10:38:13:!!DEBUG---- 20
 貌似这个问题应该和django没什么关系，正好今天就看看mysql-python的源码吧。想看如何解决的请直接跳到最后。
 查询部分简化后如下：
 posistion = &amp;#34;top&amp;#34; order = r&amp;#34;select id,p_name,p_explain,p_href from pictures where p_position = %s and p_show = 1 order by -id&amp;#34; self.</description>
+    </item>
+    
+    <item>
+      <title>Django的view中常用return方法</title>
+      <link>/posts/django%E7%9A%84view%E4%B8%AD%E5%B8%B8%E7%94%A8return%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Tue, 25 Mar 2014 18:28:00 +0000</pubDate>
+      
+      <guid>/posts/django%E7%9A%84view%E4%B8%AD%E5%B8%B8%E7%94%A8return%E6%96%B9%E6%B3%95/</guid>
+      <description>&lt;p&gt;第一种HttpResponse，最基本的返回方式，可以直接返回字符:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; django.http &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; HttpResponse
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;index&lt;/span&gt;(request):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; HttpResponse(&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;“&lt;/span&gt;a test&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;”&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;或者结合contextloder返回网页：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; django.template &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Context, loader  
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; polls.models &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Poll
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;index&lt;/span&gt;(request):  
+    latest_poll_list &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Poll&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;objects&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;order_by(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-pub_date&amp;#39;&lt;/span&gt;)[:&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;]  
+    template &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; loader&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_template(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;polls/index.html&amp;#39;&lt;/span&gt;)
+    context &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Context({ &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;latest_poll_list&amp;#39;&lt;/span&gt;: latest_poll_list, })  
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; HttpResponse(template&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;render(context))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>

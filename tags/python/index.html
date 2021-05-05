@@ -78,130 +78,265 @@ if (!doNotTrack) {
 	<header class="main__header">
 		<h1 class="main__title">python</h1>
 	</header><article class="list__item post">
+	<figure class="list__thumbnail">
+		<a href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06/">
+			<img src="https://www.openstack.org/themes/openstack/home_images/Hero/OpenStack_SFAs.svg" alt="OpenStack源码学习笔记6" />
+		</a>
+	</figure>
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/scrapy-redis%E7%BB%93%E5%90%88post%E8%AF%B7%E6%B1%82%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE/" rel="bookmark">
-			Scrapy-Redis结合POST请求获取数据
+			<a href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06/" rel="bookmark">
+			OpenStack源码学习笔记6
 			</a>
 		</h2>
 		<div class="list__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-05-06T16:31:37Z">2019-05-06</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/python/" rel="category">Python</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-07-20T17:46:29Z">2020-07-20</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/" rel="category">云计算</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		<p>能看到这篇文章的小伙伴肯定已经知道什么是Scrapy以及Scrapy-Redis了，基础概念这里就不再介绍。默认情况下Scrapy-Redis是发送GET请求获取数据的，对于某些使用POST请求的情况需要重写<code>make_request_from_data</code>函数即可，但奇怪的是居然没在网上搜到简洁明了的答案，或许是太简单了？</p>
-<p>这里我以<code>httpbin.org</code>这个网站为例，首先在<code>settings.py</code>中添加所需配置，这里需要根据实际情况进行修改：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">SCHEDULER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;scrapy_redis.scheduler.Scheduler&#34;</span>  <span style="color:#75715e">#启用Redis调度存储请求队列</span>
-SCHEDULER_PERSIST <span style="color:#f92672">=</span> True    <span style="color:#75715e">#不清除Redis队列、这样可以暂停/恢复 爬取</span>
-DUPEFILTER_CLASS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;scrapy_redis.dupefilter.RFPDupeFilter&#34;</span>  <span style="color:#75715e">#确保所有的爬虫通过Redis去重</span>
-SCHEDULER_QUEUE_CLASS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;scrapy_redis.queue.SpiderPriorityQueue&#39;</span>
-REDIS_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;redis://127.0.0.1:6379&#34;</span>
+		<p>很久之前发现一个现象，在生产环境中配置了保留内存<code>reserved_host_memory_mb</code>以及 <strong>没配置</strong> 内存超分比<code>ram_allocation_ratio</code>的情况下，虚拟机使用的内存居然已经快将物理内存耗尽了。</p>
+<p>比如物理机内存300G，方便举例忽略掉一些系统占用，当设置了<code>reserved_host_memory_mb</code>为20G，那么理论上所有虚拟机最大占用内存量为280G，而查看居然已经使用了290G的内存，还是在虚拟机并没有将各自申请的内存全部使用掉的情况下(比如申请一台4G的虚拟机，但物理机操作系统层面并没有分配4G给对应的进程，除非虚拟机内部把内存占满)。</p>
+<p>单单就nova而言，如果在集群启动时就指定了保留内存大小和超分比为1的话，是不应该出现上述情形的。除非后期对这2个参数进行过修改，但由于年代久远已经没法追溯，这也就成了一桩悬案。</p>
+<p>不过在追踪这个问题的过程中，顺便也学习了下主机热迁移的过程，这里的代码是 <em><strong>N版</strong></em> 。</p>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<figure class="list__thumbnail">
+		<a href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">
+			<img src="https://www.openstack.org/themes/openstack/home_images/Hero/OpenStack_SFAs.svg" alt="OpenStack源码学习笔记5" />
+		</a>
+	</figure>
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/" rel="bookmark">
+			OpenStack源码学习笔记5
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-03-30T17:46:29Z">2020-03-30</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/" rel="category">云计算</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>今天遇到一个诡异的问题，对某个有问题的计算节点进行疏散，结果有些虚拟机的根磁盘居然消！失！了？首先能够确定的是ceph不会自动删除，那么一定是某个地方触发了删除根磁盘的操作。</p>
+<p>这如果发生在生产环境可是一个极其严重的问题，正好借此排查的机会梳理一下nova关于主机疏散的流程。</p>
+<p>以下代码为N版，但大体流程相差应该不大。</p>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<figure class="list__thumbnail">
+		<a href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">
+			<img src="https://www.openstack.org/themes/openstack/home_images/Hero/OpenStack_SFAs.svg" alt="OpenStack源码学习笔记4" />
+		</a>
+	</figure>
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/" rel="bookmark">
+			OpenStack源码学习笔记4
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-12-09T12:46:29Z">2019-12-09</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/" rel="category">云计算</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>这篇文章记录nova创建快照时候的过程，根据<a href="https://docs.openstack.org/api-ref/compute/?expanded=create-image-createimage-action-detail#create-image-createimage-action">文档</a>，创建快照其实是向<code>/servers/{server_id}/action</code>发送了一个POST的请求，内容则是类似:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;createImage&#34;</span> : {
+        <span style="color:#f92672">&#34;name&#34;</span> : <span style="color:#e6db74">&#34;image-name&#34;</span>,
+        <span style="color:#f92672">&#34;metadata&#34;</span>: {}
+    }
+}
 </code></pre></div>
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/scrapy-redis%E7%BB%93%E5%90%88post%E8%AF%B7%E6%B1%82%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE/">Read more…</a>
+		<a class="list__footer-readmore btn" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">Read more…</a>
 	</div>
 </article><article class="list__item post">
+	<figure class="list__thumbnail">
+		<a href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">
+			<img src="https://www.openstack.org/themes/openstack/home_images/Hero/OpenStack_SFAs.svg" alt="OpenStack源码学习笔记3" />
+		</a>
+	</figure>
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/%E6%8F%90%E5%8D%87keras%E5%87%86%E7%A1%AE%E7%8E%87%E5%92%8C%E9%80%9F%E5%BA%A6%E7%9A%84tips/" rel="bookmark">
-			提升keras准确率和速度的小tips
+			<a href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/" rel="bookmark">
+			OpenStack源码学习笔记3
 			</a>
 		</h2>
 		<div class="list__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-03-14T17:27:14Z">2019-03-14</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/python/" rel="category">Python</a>, <a class="meta__link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="category">机器学习</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-11-04T12:46:29Z">2019-11-04</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/" rel="category">云计算</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		<p>这里记录一下对于新手(对,说的就是本人)学习kears框架时用来提升准确率的一些tip,但这里都是&quot;术&quot;的层面,而对于&quot;道&quot;,还是要看数学.全文以深度学习界的&quot;hello world&quot;-<a href="http://yann.lecun.com/exdb/mnist/">手写数字识别</a>为例.</p>
+		<p>最近看了下关于OpenStack如何统计更新CPU、内存、硬盘等硬件资源的部分，由于历史原因下面的代码来自<code>newton</code>版。</p>
+<p>简单说，OpenStack先通过定时任务进行资源统计，入口代码位于<code>nova\compute\manager.py</code>中<code>ComputeManager</code>类的<code>update_available_resource</code>函数。默认情况下每分钟更新一次：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">
+<span style="color:#a6e22e">@periodic_task.periodic_task</span>(spacing<span style="color:#f92672">=</span>CONF<span style="color:#f92672">.</span>update_resources_interval)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">update_available_resource</span>(self, context):
+    <span style="color:#e6db74">&#34;&#34;&#34;See driver.get_available_resource()
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Periodic process that keeps that the compute host&#39;s understanding of
+</span><span style="color:#e6db74">    resource availability and usage in sync with the underlying hypervisor.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    :param context: security context
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+
+    compute_nodes_in_db <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_compute_nodes_in_db(context,
+                                                        use_slave<span style="color:#f92672">=</span>True)
+    nodenames <span style="color:#f92672">=</span> set(self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>get_available_nodes())
+    <span style="color:#66d9ef">for</span> nodename <span style="color:#f92672">in</span> nodenames:
+        self<span style="color:#f92672">.</span>update_available_resource_for_node(context, nodename)
+
+    self<span style="color:#f92672">.</span>_resource_tracker_dict <span style="color:#f92672">=</span> {
+        k: v <span style="color:#66d9ef">for</span> k, v <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>_resource_tracker_dict<span style="color:#f92672">.</span>items()
+        <span style="color:#66d9ef">if</span> k <span style="color:#f92672">in</span> nodenames}
+
+    <span style="color:#75715e"># Delete orphan compute node not reported by driver but still in db</span>
+    <span style="color:#66d9ef">for</span> cn <span style="color:#f92672">in</span> compute_nodes_in_db:
+        <span style="color:#66d9ef">if</span> cn<span style="color:#f92672">.</span>hypervisor_hostname <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> nodenames:
+            LOG<span style="color:#f92672">.</span>info(_LI(<span style="color:#e6db74">&#34;Deleting orphan compute node </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span>), cn<span style="color:#f92672">.</span>id)
+            cn<span style="color:#f92672">.</span>destroy()
+</code></pre></div><p>首先获取所有节点，然后维护了一个名为<code>_resource_tracker_dict</code>的字典用来记录host和<code>ResourceTracker</code>实例的对应关系，所有的资源更新行为都在<code>ResourceTracker</code>中进行处理。</p>
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E6%8F%90%E5%8D%87keras%E5%87%86%E7%A1%AE%E7%8E%87%E5%92%8C%E9%80%9F%E5%BA%A6%E7%9A%84tips/">Read more…</a>
+		<a class="list__footer-readmore btn" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">Read more…</a>
 	</div>
 </article><article class="list__item post">
+	<figure class="list__thumbnail">
+		<a href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">
+			<img src="https://www.openstack.org/themes/openstack/home_images/Hero/OpenStack_SFAs.svg" alt="OpenStack源码学习笔记2" />
+		</a>
+	</figure>
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%982/" rel="bookmark">
-			python验证码识别实战2
+			<a href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" rel="bookmark">
+			OpenStack源码学习笔记2
 			</a>
 		</h2>
 		<div class="list__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-01-06T16:27:04Z">2018-01-06</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/python/" rel="category">Python</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-09-18T12:46:29Z">2019-09-18</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/" rel="category">云计算</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		<p>在<a href="http://www.hi-roy.com/2017/12/29/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/">上一篇文章</a>中，我们使用sklearn对验证码进行了识别，为了提高识别率，今天来进行进一步优化。</p>
-<p>观察验证码后，发现还可以对其进行旋转处理，这个验证码旋转角度在-30～30之间，那么如何判断旋转角度呢？这里我使用最简单粗暴的判断方式——如果旋转后的字符宽度小于旋转之前，则认为是合理的旋转。但这里还有一个问题需要处理，上一篇文章中我们为了简便直接根据固定的宽度对字符进行了分割，但是分割后字符在小图片中的位置不是固定的，需要手动将其放在中心位置。</p>
+		<p>上次学习了Nova创建虚拟机的过程，这次来看一下Glance是如何上传镜像的。相比于Nova，Glance源码使用了大量的代理模式和装饰器模式，阅读代码时候一个不仔细就会一脸懵X。根据上次说的Openstack套路，我们通过<code>setup.cfg</code>直奔主题——<code>glance/cmd/api.py</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    <span style="color:#66d9ef">try</span>:
+        config<span style="color:#f92672">.</span>parse_args()
+        config<span style="color:#f92672">.</span>set_config_defaults()
+        wsgi<span style="color:#f92672">.</span>set_eventlet_hub()
+        logging<span style="color:#f92672">.</span>setup(CONF, <span style="color:#e6db74">&#39;glance&#39;</span>)
+        notifier<span style="color:#f92672">.</span>set_defaults()
+        <span style="color:#66d9ef">if</span> cfg<span style="color:#f92672">.</span>CONF<span style="color:#f92672">.</span>profiler<span style="color:#f92672">.</span>enabled:
+            _notifier <span style="color:#f92672">=</span> osprofiler<span style="color:#f92672">.</span>notifier<span style="color:#f92672">.</span>create(<span style="color:#e6db74">&#34;Messaging&#34;</span>,
+                                                   oslo_messaging, {},
+                                                   notifier<span style="color:#f92672">.</span>get_transport(),
+                                                   <span style="color:#e6db74">&#34;glance&#34;</span>, <span style="color:#e6db74">&#34;api&#34;</span>,
+                                                   cfg<span style="color:#f92672">.</span>CONF<span style="color:#f92672">.</span>bind_host)
+            osprofiler<span style="color:#f92672">.</span>notifier<span style="color:#f92672">.</span>set(_notifier)
+            osprofiler<span style="color:#f92672">.</span>web<span style="color:#f92672">.</span>enable(cfg<span style="color:#f92672">.</span>CONF<span style="color:#f92672">.</span>profiler<span style="color:#f92672">.</span>hmac_keys)
+        <span style="color:#66d9ef">else</span>:
+            osprofiler<span style="color:#f92672">.</span>web<span style="color:#f92672">.</span>disable()
+        server <span style="color:#f92672">=</span> wsgi<span style="color:#f92672">.</span>Server(initialize_glance_store<span style="color:#f92672">=</span>True)
+        server<span style="color:#f92672">.</span>start(config<span style="color:#f92672">.</span>load_paste_app(<span style="color:#e6db74">&#39;glance-api&#39;</span>), default_port<span style="color:#f92672">=</span><span style="color:#ae81ff">9292</span>)
+        server<span style="color:#f92672">.</span>wait()
+    <span style="color:#66d9ef">except</span> KNOWN_EXCEPTIONS <span style="color:#66d9ef">as</span> e:
+        <span style="color:#66d9ef">print</span>(e)
+        fail(e)
+</code></pre></div>
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%982/">Read more…</a>
+		<a class="list__footer-readmore btn" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">Read more…</a>
 	</div>
 </article><article class="list__item post">
+	<figure class="list__thumbnail">
+		<a href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">
+			<img src="https://www.openstack.org/themes/openstack/home_images/Hero/OpenStack_SFAs.svg" alt="OpenStack源码学习笔记1" />
+		</a>
+	</figure>
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/" rel="bookmark">
-			python验证码识别实战
+			<a href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" rel="bookmark">
+			OpenStack源码学习笔记1
 			</a>
 		</h2>
 		<div class="list__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-12-29T19:07:39Z">2017-12-29</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/python/" rel="category">Python</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-09-16T17:46:29Z">2019-09-16</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/" rel="category">云计算</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		<p>陆陆续续的学习了验证码的灰度、二值化、分割等方法，还了解了机器学习中最基本的3个分类方式——KNN、决策树、朴素贝叶斯。基于这些，今天结合这些工具来写一个简单的验证码识别程序，本来想使用现有的库来生成验证码，但无意间发现了之前写某个程序时下载的200个验证码，正好可以拿来练手。另外，虽然之前已经实现了上面3种算法，但这里还是会使用<code>sklearn</code>这个强大的三方库，学习原理是为了知其所以然，有现成工具还是要拿来用的。</p>
+		<ul>
+<li><a href="#%e9%a2%84%e5%a4%87%e7%9f%a5%e8%af%86">预备知识</a>
+<ul>
+<li><a href="#%e8%99%9a%e6%8b%9f%e5%8c%96">虚拟化</a></li>
+<li><a href="#wsgi">WSGI</a></li>
+<li><a href="#paste-deployment">Paste Deployment</a></li>
+</ul>
+</li>
+<li><a href="#%e9%80%9a%e7%94%a8%e5%a5%97%e8%b7%af">通用套路</a></li>
+<li><a href="#%e9%85%8d%e7%bd%ae%e5%8a%a0%e8%bd%bd%e4%b8%8e%e8%b7%af%e7%94%b1%e7%bb%91%e5%ae%9a">配置加载与路由绑定</a></li>
+<li><a href="#%e5%88%9b%e5%bb%ba%e8%99%9a%e6%8b%9f%e6%9c%ba">创建虚拟机</a>
+<ul>
+<li><a href="#nova-api">Nova-Api</a></li>
+<li><a href="#nova-conductor-1">Nova-Conductor-1</a></li>
+<li><a href="#nova-scheduler">Nova-Scheduler</a></li>
+<li><a href="#nova-conductor-2">Nova-Conductor-2</a></li>
+<li><a href="#nova-compute">Nova-Compute</a></li>
+</ul>
+</li>
+</ul>
+<p>作为已经比较成熟的IAAS开源解决方案，OpenStack已经发布了19个版本，目前稳定版是Stein，并且下一个版本Train也预计在10月发布。可以说，从代码架构角度来说对于初学者来说已经略微复杂，但最核心的组件有以下几个：</p>
+<ol>
+<li>Nova：负责虚拟机相关。</li>
+<li>Glance：负责镜像相关。</li>
+<li>Cinder：负责存储相关。</li>
+<li>Neutron：负责网络相关。</li>
+<li>Keystone：负责鉴权以及服务注册。</li>
+</ol>
+<p>大体架构如下图：</p>
+<p><img src="https://mypic-1252424367.cos.ap-hongkong.myqcloud.com/opstack/openstack-arch-kilo-logical-v1.png" alt="all.png"></p>
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/">Read more…</a>
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/" rel="bookmark">
-			朴素贝叶斯
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-12-21T20:01:41Z">2017-12-21</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/python/" rel="category">Python</a>, <a class="meta__link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="category">机器学习</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<!-- raw HTML omitted -->
-<p>朴素贝叶斯是贝叶斯决策理论的一部分，贝叶斯概率引入先验知识和逻辑推理来处理不确定命题。又可以称为“条件概率”（Conditional probability），与之相对的则是“频数概率”（frequency probability）。</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/">Read more…</a>
+		<a class="list__footer-readmore btn" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">Read more…</a>
 	</div>
 </article>
 </main>
 
 <div class="pagination">
-	<span class="pagination__item pagination__item--current">1/9</span>
+	<span class="pagination__item pagination__item--current">1/17</span>
 	<a class="pagination__item pagination__item--next btn" href="/tags/python/page/2/">»</a>
 </div>
 
 			</div>
 			
-<aside class="sidebar"><div class="widget-search widget">
+<aside class="sidebar sidebar--left"><div class="widget-search widget">
 	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
 		<label>
 			<input class="widget-search__field" type="search" placeholder="SEARCH…" value="" name="q" aria-label="SEARCH…">
@@ -214,7 +349,7 @@ REDIS_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
-			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">golang小技巧</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">Golang小技巧</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/">新手可能会犯的50个Golang错误</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E9%9B%86%E6%88%90gin%E5%92%8Ccasbin/">集成gin和casbin</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06/">OpenStack源码学习笔记6</a></li>
@@ -227,88 +362,36 @@ REDIS_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/centos/">Centos</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">12</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/django/">Django</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">23</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/golang/">Golang</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">17</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/httpd/">httpd</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">1</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/kali/">Kali</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">4</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/linux/">Linux</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">33</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/mac/">Mac</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">4</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/nodejs/">Nodejs</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">1</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/objective-c/">Objective-C</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">2</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/openstack/">OpenStack</a>&nbsp;
+				<a class="widget__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>&nbsp;
 				<span class="widget__counter widget__counter--bubble">6</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/python/">Python</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">70</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">11</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E5%93%B2%E7%90%86%E7%BE%8E%E6%96%87/">哲理美文</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">3</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E6%81%90%E6%80%96%E6%95%85%E4%BA%8B/">恐怖故事</a>&nbsp;
 				<span class="widget__counter widget__counter--bubble">6</span>
 				</li>
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E6%88%91%E7%9A%84%E8%B6%B3%E8%BF%B9/">我的足迹</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">1</span>
+				<a class="widget__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">47</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">7</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E4%B8%AD%E5%8C%BB/">有意思的中医</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">1</span>
+				<span class="widget__counter widget__counter--bubble">13</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>&nbsp;
 				<span class="widget__counter widget__counter--bubble">3</span>
 				</li>
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E6%9D%82/">杂</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">10</span>
+				<a class="widget__link" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">22</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">131</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
 				<span class="widget__counter widget__counter--bubble">26</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">11</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;
@@ -320,82 +403,29 @@ REDIS_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;
 <div class="widget-taglist widget">
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
-		<a class="widget-taglist__link widget__link btn" href="/tags/ajax/" title="ajax">ajax (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/angular/" title="angular">angular (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/celery/" title="celery">celery (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/centos/" title="centos">centos (7)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/code-review/" title="code review">code review (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/cors/" title="cors">cors (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/django/" title="django">django (25)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/dns/" title="dns">dns (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/es6/" title="ES6">ES6 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/eventlet/" title="eventlet">eventlet (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/fedora/" title="fedora">fedora (19)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/flask/" title="flask">flask (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/flower/" title="flower">flower (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ganglia/" title="ganglia">ganglia (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/gevent/" title="gevent">gevent (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/glance/" title="Glance">Glance (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/go/" title="go">go (17)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/haproxy/" title="haproxy">haproxy (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/html5/" title="html5">html5 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/iptables/" title="iptables">iptables (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ipython/" title="ipython">ipython (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/javascript/" title="javascript">javascript (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/jwt/" title="jwt">jwt (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/kali/" title="kali">kali (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/kears/" title="kears">kears (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/keepalive/" title="keepalive">keepalive (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ldap/" title="ldap">ldap (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/lxml/" title="lxml">lxml (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/minecraft/" title="minecraft">minecraft (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mitmf/" title="MITMf">MITMf (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mongodb/" title="mongodb">mongodb (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mysql-python/" title="mysql-python">mysql-python (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/nginx/" title="nginx">nginx (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/nodejs/" title="nodejs">nodejs (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/nova/" title="Nova">Nova (5)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/numpy/" title="numpy">numpy (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/openerp7/" title="openerp7">openerp7 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/pandas/" title="pandas">pandas (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/phantomjs/" title="phantomjs">phantomjs (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/pip/" title="pip">pip (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/postgresql/" title="postgresql">postgresql (5)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python (42)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/queue/" title="queue">queue (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/rabbitmq/" title="rabbitmq">rabbitmq (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/redis/" title="redis">redis (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/requests/" title="requests">requests (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/selenium/" title="selenium">selenium (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/sse/" title="sse">sse (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/systemtap/" title="systemtap">systemtap (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/threading/" title="threading">threading (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/uwsgi/" title="uwsgi">uwsgi (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/webpack/" title="webpack">webpack (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/web%E4%BB%A3%E7%90%86/" title="web代理">web代理 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yield/" title="yield">yield (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97/" title="任务队列">任务队列 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%88%9B%E4%B8%9A/" title="创业">创业 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" title="区块链">区块链 (11)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%93%B2%E7%90%86%E7%BE%8E%E6%96%87/" title="哲理美文">哲理美文 (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%82%E6%AD%A5%E9%98%9F%E5%88%97/" title="异步队列">异步队列 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E4%B8%AD%E5%8C%BB/" title="有意思的中医">有意思的中医 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" title="机器学习">机器学习 (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%82/" title="杂">杂 (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" title="消息队列">消息队列 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%81%AB%E7%84%B0%E5%9B%BE/" title="火焰图">火焰图 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%88%AC%E8%99%AB/" title="爬虫">爬虫 (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" title="端口转发">端口转发 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%BA%BF%E7%A8%8B/" title="线程">线程 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" title="网络安全">网络安全 (9)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%8A%B1%E4%B9%8B%E9%AC%BC%E8%AF%9D/" title="花之鬼话">花之鬼话 (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式">设计模式 (11)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/" title="金融理财">金融理财 (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%97%AD%E5%8C%85/" title="闭包">闭包 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" title="验证码识别">验证码识别 (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/centos/" title="centos">centos</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/django/" title="django">django</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fedora/" title="fedora">fedora</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/flask/" title="flask">flask</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/golang/" title="golang">golang</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ipfs/" title="ipfs">ipfs</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="java">java</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kali/" title="kali">kali</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kears/" title="kears">kears</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mac/" title="mac">mac</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mongodb/" title="mongodb">mongodb</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/openstack/" title="openstack">openstack</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/postgresql/" title="postgresql">postgresql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/redis/" title="redis">redis</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" title="区块链">区块链</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" title="机器学习">机器学习</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%81%AB%E7%84%B0%E5%9B%BE/" title="火焰图">火焰图</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%88%AC%E8%99%AB/" title="爬虫">爬虫</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%AE%97%E6%B3%95/" title="算法">算法</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式">设计模式</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" title="验证码识别">验证码识别</a>
 	</div>
 </div>
 <div class="widget-social widget">

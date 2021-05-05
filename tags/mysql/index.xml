@@ -48,8 +48,7 @@
       <pubDate>Thu, 22 Jan 2015 18:22:24 +0000</pubDate>
       
       <guid>/posts/%E5%AE%89%E8%A3%85mysql%E5%90%8E%E7%9A%8410%E7%A7%8D%E8%B0%83%E4%BC%98%E6%96%B9%E6%B3%95%E7%BF%BB%E8%AF%91/</guid>
-      <description>&lt;p&gt;原文：http://www.percona.com/blog/2014/01/28/10-mysql-settings-to-tune-after-installation/&lt;/p&gt;
-&lt;hr&gt;
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.percona.com/blog/2014/01/28/10-mysql-settings-to-tune-after-installation/&#34;&gt;原文&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;当我们被聘请去做MYSQL性能审计时，我们被期望审查MYSQL配置文件并提出改进建议。在大多数情况下很多人都感到惊奇，因为我们仅仅在成百上千的变量中改变了很少的一部分。这篇文章的目的就是告诉你一些至关重要的设置项。
 我们在几年前曾经在博客中给出过一些建议，但从那之后MYSQL的世界发生了很多改变！&lt;/p&gt;</description>
     </item>
@@ -67,6 +66,15 @@ IP分配:
     </item>
     
     <item>
+      <title>64位win7安装mysql-python</title>
+      <link>/posts/64%E4%BD%8Dwin7%E5%AE%89%E8%A3%85mysql-python/</link>
+      <pubDate>Sun, 06 Jul 2014 09:01:14 +0000</pubDate>
+      
+      <guid>/posts/64%E4%BD%8Dwin7%E5%AE%89%E8%A3%85mysql-python/</guid>
+      <description>64位win7使用pip安装mysql-python时提示unable to find vcvarsall.bat， 网上很多说这个解决这个需要安装那个MinGW，不过我安装并设置环境变量后依然没解决这个问题， 错误提示倒是变成了什么gcc错误一类的。 而从网上下载的win安装包都是32位，在我的机器上提示找不到python，找了很久后终于发现一个地方:http://www.lfd.uci.edu/~gohlke/pythonlibs/ 上有64位的， 而且这上面还有很多其他的64位三方包。 方便国内同学下载我把mysql-python转存到了我的网盘：http://pan.baidu.com/s/13vgjs</description>
+    </item>
+    
+    <item>
       <title>mysql-python:not all arguments converted during string formatting</title>
       <link>/posts/mysql-python-not-all-arguments-converted-during-string-formatting/</link>
       <pubDate>Thu, 27 Mar 2014 18:07:49 +0000</pubDate>
@@ -76,6 +84,16 @@ IP分配:
 貌似这个问题应该和django没什么关系，正好今天就看看mysql-python的源码吧。想看如何解决的请直接跳到最后。
 查询部分简化后如下：
 posistion = &amp;#34;top&amp;#34; order = r&amp;#34;select id,p_name,p_explain,p_href from pictures where p_position = %s and p_show = 1 order by -id&amp;#34; self.</description>
+    </item>
+    
+    <item>
+      <title>虚拟环境下安装mysql-python</title>
+      <link>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/</link>
+      <pubDate>Wed, 12 Mar 2014 17:54:50 +0000</pubDate>
+      
+      <guid>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/</guid>
+      <description>使用virtualenv虚拟环境的时候，mysql-python安装时报错：
+_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &amp;quot;my_config.</description>
     </item>
     
   </channel>

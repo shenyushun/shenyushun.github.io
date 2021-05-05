@@ -80,134 +80,154 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/%E6%BB%95%E7%8E%8B%E9%98%81%E5%BA%8F/" rel="bookmark">
-			滕王阁序
+			<a href="/posts/nginx-uwsgi%E9%83%A8%E7%BD%B2django%E7%A8%8B%E5%BA%8F/" rel="bookmark">
+			Nginx&#43;Uwsgi部署Django程序
 			</a>
 		</h2>
 		<div class="list__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-03-29T23:58:12Z">2015-03-29</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%9D%82/" rel="category">杂</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-09-27T17:44:03Z">2014-09-27</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		时隔多年，又偶然看见了高中课堂上学过的《滕王阁序》，突然明白了当时语文老师为什么能那么充满激情的讲解，有些东西——没有一定的年龄和阅历是看不懂的。 以前只是觉得这是要求背诵的课文，真讨厌。但是现在读到
- “嗟乎！时运不齐，命途多舛。**冯唐易老，李广难封。**屈贾谊于长沙，非无圣主；窜梁鸿于海曲，岂乏明时？所赖君子见机，达人知命。**老当益壮，宁移白首之心？穷且益坚，不坠青云之志。**酌贪泉而觉爽，处涸辙以犹欢。北海虽赊，扶摇可接；东隅已逝，桑榆非晚。孟尝高洁，空余报国之情；阮籍猖狂，岂效穷途之哭！” 心中却有了不可名状的触动。每个人都渴望做出名留青史的一番事业，但更多数的人却过完了普普通通的一生。或许是因为最近有些焦躁，觉得自己都这个年龄了却还一事无成才会有所触动吧。明知道这种事急不来，却依然恨不得明天就能做出一番轰轰烈烈的大事来。最近最明显的一个感觉就是，以前日子是一天一天过的，现在是一周一周过的，再过几年就是一个月一个月过的了吧。 突然想起丰子恺的一句话：孩子，我多么羡慕你们！羡慕你们的现在的生活！但是当你们明白我这句话的时候，你们已经不再令我羡慕了。就好像，长大了才知道《麦兜》不是给孩子看的，《幽游白书》的结局为什么那么平淡。
- 有人说，以前看《大话西游》看着看着就笑了，现在却是看着看着就哭了。虽然再次重温经典的时候我没有哭，却笑不出来了。以前一直觉得片尾夕阳武士对着悟空背影说的那句“他好像一条狗”十分突兀，不明所以。现在明白，电影中表明至尊宝最后顿悟了，带上头箍是为了保护唐僧取经，让大众脱离苦海，而非单单为了拯救紫霞。选择事业放弃爱情，却抹不掉心中的那个人影，这也就是最后悟空借夕阳武士之口对自己说“你好像一条狗”的原因吧。
-你好像一条狗。
+		原来使用apache进行部署，感觉内存占用大以及速度比较慢就换成了nginx+uwsgi的方式，结果完爆apache啊！
+首先安装nginx以及uwsgi：
+yum install nginxpip install uwsgi然后编辑uwsgi的配置文件，这里我使用ini文件格式，示例如下：
+[uwsgi]socket = 127.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/nginx-uwsgi%E9%83%A8%E7%BD%B2django%E7%A8%8B%E5%BA%8F/">Read more…</a>
 	</div>
 </article><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/nodejs%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/" rel="bookmark">
-			NodeJS学习记录1
+			<a href="/posts/tightvnc%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AEkali%E6%A1%8C%E9%9D%A2%E7%B3%BB%E7%BB%9F/" rel="bookmark">
+			tightvnc远程访问kali桌面系统
 			</a>
 		</h2>
 		<div class="list__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-03-19T17:03:56Z">2015-03-19</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/nodejs/" rel="category">Nodejs</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-09-26T18:23:36Z">2014-09-26</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		本来学oc学的正爽，结果由于某些原因必须先学习NodeJS，所以oc的学习就先暂停一段时间吧。这几天恶补了相关基础知识，如果oc只是语法上让我不太习惯的话，那nodejs就是从编程思想上将原来所学的知识进行了颠覆。至于nodejs相关介绍、优缺点等这里就不多说了，如果想在学习过程中不“一头雾水”，就要理解几个概念：同步/异步、阻塞/非阻塞、闭包、回调、事件轮循。
-本人以前并没有任何javascript语言的学习经验，这里仅仅记录我这几天学习的理解，如有什么偏颇，还望大家指正。
-首先，nodejs是单线程的，同时只能进行一项任务。这点引起较大的批评就是无法利用多核CPU的能力，但同时在多个CPU运行程序也并不是完美的，因为想要多个CPU有效的拆分任务并执行，它们之间需要频繁的交换信息，比如当前执行状态、各自完成了哪些操作等。
-关于上面的几个概念，网上答案五花八门都有，不过我更倾向于下面的答案，引用于知乎，原文链接：
- “阻塞”与&quot;非阻塞&quot;与&quot;同步&quot;与“异步&quot;不能简单的从字面理解，提供一个从分布式系统角度的回答。
-  1.同步与异步
-  同步和异步关注的是消息通信机制 (synchronous communication/ asynchronous communication)
+		安装完kali系统后应该已经默认安装了这个程序，如果没有的话使用apt-get install tightvncserver
+安装完成后执行
+tightvncserver -depth 24 -geometry 1440x900 :1-depth 24 使用24位颜色，这里一般用16或者24
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/nodejs%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/">Read more…</a>
+		<a class="list__footer-readmore btn" href="/posts/tightvnc%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AEkali%E6%A1%8C%E9%9D%A2%E7%B3%BB%E7%BB%9F/">Read more…</a>
 	</div>
 </article><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/mongodb%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2replica-set/" rel="bookmark">
-			MongoDB集群部署——Replica Set
+			<a href="/posts/python%E4%B8%ADand-or%E5%B0%8F%E6%8A%80%E5%B7%A7/" rel="bookmark">
+			python中and-or小技巧
 			</a>
 		</h2>
 		<div class="list__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-03-03T13:07:28Z">2015-03-03</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/linux/" rel="category">Linux</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-09-11T16:22:43Z">2014-09-11</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		mongodb的集群部署有3种方式，这里记录我在使用Replica Set（副本集）部署时的步骤。
-首先这种方式至少需要3个节点——主、备、仲裁节点。主备节点存储数据，仲裁节点不存储数据，负责决定主节点挂掉之后哪个备节点升级为主节点。客户端同时连接主节点与备节点，不连接仲裁节点。
-安装mongodb，CentOS下安装rpmfusion源后使用yum安装即可:yum install mongodb mongodb-server
-安装完成后，修改/etc/mongodb.conf 这个配置文件。
-bind_ip = 192.
+		首先，python中逻辑运算从左到右进行，and运算返回第一个假值，若都为真则返回最后一个真值。or运算返回第一个真值，若都为假则返回最后一个假值。
+其次，python中0,(),[],{},None,空字符串都是假。
+下面用简单的例子说明一下：
+def f(): print &#34;in f&#34; return False def t(): print &#34;in t&#34; return True def n(): print &#34;in n&#34; In [105]: r = t() and f() or n() in t in f in n In [106]: r In [107]: r = t() and n() or f() in t in n in f In [108]: r Out[108]: False In [111]: r = f() and n() or t() in f in t In [112]: r Out[112]: True 上面我们定义了3个函数，没返回值的情况下函数会默认返回None。这里有个地方需要注意，虽然函数可以返回true、false、none，但函数本身都是为真的，比如：
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/mongodb%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2replica-set/">Read more…</a>
+		<a class="list__footer-readmore btn" href="/posts/python%E4%B8%ADand-or%E5%B0%8F%E6%8A%80%E5%B7%A7/">Read more…</a>
 	</div>
 </article><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/%E9%87%8D%E5%86%99model%E7%9A%84save%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%90%8C%E6%97%B6%E5%86%992%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="bookmark">
-			重写model的save方法实现同时写2个数据库
+			<a href="/posts/centos%E4%B8%8B%E9%83%A8%E7%BD%B2openerp7/" rel="bookmark">
+			centos下部署openerp7
 			</a>
 		</h2>
 		<div class="list__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-02-28T11:10:28Z">2015-02-28</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/django/" rel="category">Django</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-08-22T11:26:53Z">2014-08-22</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		最近有个需求就是当执行save时需要把数据写入2个数据库，查看文档后发现直接重写save方法比较简单。
-首先建立2个测试数据库testa和testb，然后在settings中配置数据库：
-DATABASES = { &#39;default&#39;: { &#39;ENGINE&#39;: &#39;django.db.backends.mysql&#39;, &#39;NAME&#39;: &#39;testa&#39;, &#39;USER&#39;: &#39;root&#39;, &#39;PASSWORD&#39;: &#39;asdasd&#39;, &#39;HOST&#39;: &#39;192.
+		首先需要注意的是openerp7需要python2.7+版本，而centos6下默认是python2.6，这里我使用centos7。
+首先安装postgresql
+yum install http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3-1.noarch.rpmyum install postgresql93-server postgresql93-contrib postgresql93-develcentos7中安装psql后初始化数据库和6不同，需要切换到postgres用户进入安装目录的bin文件夹执行手动初始化
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E9%87%8D%E5%86%99model%E7%9A%84save%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%90%8C%E6%97%B6%E5%86%992%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/">Read more…</a>
+		<a class="list__footer-readmore btn" href="/posts/centos%E4%B8%8B%E9%83%A8%E7%BD%B2openerp7/">Read more…</a>
 	</div>
 </article><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/oc%E5%AD%A6%E4%B9%A0%E7%AC%AC2%E5%A4%A9class/" rel="bookmark">
-			OC学习第2天——CLASS
+			<a href="/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%953/" rel="bookmark">
+			postgresql学习记录3
 			</a>
 		</h2>
 		<div class="list__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-02-11T22:01:04Z">2015-02-11</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/objective-c/" rel="category">Objective-C</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-08-07T12:32:57Z">2014-08-07</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="category">数据库</a>
 	</span>
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		在新建文件时选择os x列表下的“source”，再从右面的选项中选择“cocoa class”，填写类名以及选择存储位置后会自动生成2个文件：一个.h文件和一个.m文件，格式如下
-student.h:
-#import &lt;Foundation/Foundation.h&gt; @interface Student : NSObject @end&lt;/pre&gt; student.
+		某些情况下需要向数据库中插入媒体文件，mysql中插入媒体文件时，数据字段应该是blob。而对于postgresql，则是bytea。这里注意的是打开文件时候应该用&quot;rb wb&quot;这种模式，示例如下：
+import psycopg2 #省略部分代码... def ins_pictures(self, name, position, explain, href, uploaddate, img, show_id): &#39;&#39;&#39;向pictures表中插入数据(显示位置，说明，上传时间，图片的2进制) &#39;&#39;&#39; strs = r&#34;insert into pictures(p_name,p_position,p_explain,p_href,p_uploaddate,p_show,p_img,show_id) values (%(name)s,%(position)s,%(explain)s,%(href)s,%(uploaddate)s,&#39;0&#39;,%(img)s,%(show_id)s)&#34; self.
 	</div>
 	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/oc%E5%AD%A6%E4%B9%A0%E7%AC%AC2%E5%A4%A9class/">Read more…</a>
+		<a class="list__footer-readmore btn" href="/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%953/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%952/" rel="bookmark">
+			postgresql学习记录2
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-08-06T09:24:22Z">2014-08-06</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="category">数据库</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		想把mysql数据迁移到postgresql，推荐使用py-mysql2pgsql，使用pip安装即可。
+安装完毕后执行py-mysql2pgsql后会在当前目录生成一个yaml文件，根据实际情况修改，例如：
+# if a socket is specified we will use that# if tcp is chosen you can use compressionmysql:hostname: localhostport: 3306socket: /var/lib/mysql/mysql.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%952/">Read more…</a>
 	</div>
 </article>
 </main>
 
 <div class="pagination">
 	<a class="pagination__item pagination__item--prev btn" href="/posts/page/25/">«</a>
-	<span class="pagination__item pagination__item--current">26/47</span>
+	<span class="pagination__item pagination__item--current">26/39</span>
 	<a class="pagination__item pagination__item--next btn" href="/posts/page/27/">»</a>
 </div>
 
 			</div>
 			
-<aside class="sidebar"><div class="widget-search widget">
+<aside class="sidebar sidebar--left"><div class="widget-search widget">
 	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
 		<label>
 			<input class="widget-search__field" type="search" placeholder="SEARCH…" value="" name="q" aria-label="SEARCH…">
@@ -220,7 +240,7 @@ student.h:
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
-			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">golang小技巧</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">Golang小技巧</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/">新手可能会犯的50个Golang错误</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E9%9B%86%E6%88%90gin%E5%92%8Ccasbin/">集成gin和casbin</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06/">OpenStack源码学习笔记6</a></li>
@@ -233,88 +253,36 @@ student.h:
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/centos/">Centos</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">12</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/django/">Django</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">23</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/golang/">Golang</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">17</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/httpd/">httpd</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">1</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/kali/">Kali</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">4</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/linux/">Linux</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">33</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/mac/">Mac</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">4</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/nodejs/">Nodejs</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">1</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/objective-c/">Objective-C</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">2</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/openstack/">OpenStack</a>&nbsp;
+				<a class="widget__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>&nbsp;
 				<span class="widget__counter widget__counter--bubble">6</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/python/">Python</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">70</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">11</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E5%93%B2%E7%90%86%E7%BE%8E%E6%96%87/">哲理美文</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">3</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E6%81%90%E6%80%96%E6%95%85%E4%BA%8B/">恐怖故事</a>&nbsp;
 				<span class="widget__counter widget__counter--bubble">6</span>
 				</li>
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E6%88%91%E7%9A%84%E8%B6%B3%E8%BF%B9/">我的足迹</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">1</span>
+				<a class="widget__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">47</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">7</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E4%B8%AD%E5%8C%BB/">有意思的中医</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">1</span>
+				<span class="widget__counter widget__counter--bubble">13</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>&nbsp;
 				<span class="widget__counter widget__counter--bubble">3</span>
 				</li>
 			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E6%9D%82/">杂</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">10</span>
+				<a class="widget__link" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">22</span>
+				</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
+				<span class="widget__counter widget__counter--bubble">131</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
 				<span class="widget__counter widget__counter--bubble">26</span>
-				</li>
-			<li class="widget__item">
-				<a class="widget__link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">11</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;
@@ -326,82 +294,29 @@ student.h:
 <div class="widget-taglist widget">
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
-		<a class="widget-taglist__link widget__link btn" href="/tags/ajax/" title="ajax">ajax (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/angular/" title="angular">angular (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/celery/" title="celery">celery (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/centos/" title="centos">centos (7)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/code-review/" title="code review">code review (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/cors/" title="cors">cors (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/django/" title="django">django (25)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/dns/" title="dns">dns (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/es6/" title="ES6">ES6 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/eventlet/" title="eventlet">eventlet (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/fedora/" title="fedora">fedora (19)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/flask/" title="flask">flask (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/flower/" title="flower">flower (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ganglia/" title="ganglia">ganglia (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/gevent/" title="gevent">gevent (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/glance/" title="Glance">Glance (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/go/" title="go">go (17)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/haproxy/" title="haproxy">haproxy (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/html5/" title="html5">html5 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/iptables/" title="iptables">iptables (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ipython/" title="ipython">ipython (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/javascript/" title="javascript">javascript (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/jwt/" title="jwt">jwt (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/kali/" title="kali">kali (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/kears/" title="kears">kears (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/keepalive/" title="keepalive">keepalive (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ldap/" title="ldap">ldap (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="linux">linux (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/lxml/" title="lxml">lxml (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/minecraft/" title="minecraft">minecraft (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mitmf/" title="MITMf">MITMf (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mongodb/" title="mongodb">mongodb (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mysql-python/" title="mysql-python">mysql-python (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/nginx/" title="nginx">nginx (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/nodejs/" title="nodejs">nodejs (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/nova/" title="Nova">Nova (5)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/numpy/" title="numpy">numpy (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/openerp7/" title="openerp7">openerp7 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/pandas/" title="pandas">pandas (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/phantomjs/" title="phantomjs">phantomjs (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/pip/" title="pip">pip (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/postgresql/" title="postgresql">postgresql (5)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python (42)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/queue/" title="queue">queue (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/rabbitmq/" title="rabbitmq">rabbitmq (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/redis/" title="redis">redis (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/requests/" title="requests">requests (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/selenium/" title="selenium">selenium (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/sse/" title="sse">sse (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/systemtap/" title="systemtap">systemtap (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/threading/" title="threading">threading (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/uwsgi/" title="uwsgi">uwsgi (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/webpack/" title="webpack">webpack (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/web%E4%BB%A3%E7%90%86/" title="web代理">web代理 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yield/" title="yield">yield (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97/" title="任务队列">任务队列 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%88%9B%E4%B8%9A/" title="创业">创业 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" title="区块链">区块链 (11)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%93%B2%E7%90%86%E7%BE%8E%E6%96%87/" title="哲理美文">哲理美文 (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BC%82%E6%AD%A5%E9%98%9F%E5%88%97/" title="异步队列">异步队列 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E4%B8%AD%E5%8C%BB/" title="有意思的中医">有意思的中医 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" title="机器学习">机器学习 (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%82/" title="杂">杂 (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" title="消息队列">消息队列 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%81%AB%E7%84%B0%E5%9B%BE/" title="火焰图">火焰图 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%88%AC%E8%99%AB/" title="爬虫">爬虫 (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" title="端口转发">端口转发 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%BA%BF%E7%A8%8B/" title="线程">线程 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" title="网络安全">网络安全 (9)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%8A%B1%E4%B9%8B%E9%AC%BC%E8%AF%9D/" title="花之鬼话">花之鬼话 (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式">设计模式 (11)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/" title="金融理财">金融理财 (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%97%AD%E5%8C%85/" title="闭包">闭包 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" title="验证码识别">验证码识别 (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/centos/" title="centos">centos</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/django/" title="django">django</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/fedora/" title="fedora">fedora</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/flask/" title="flask">flask</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/golang/" title="golang">golang</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ipfs/" title="ipfs">ipfs</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="java">java</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kali/" title="kali">kali</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kears/" title="kears">kears</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mac/" title="mac">mac</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mongodb/" title="mongodb">mongodb</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/openstack/" title="openstack">openstack</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/postgresql/" title="postgresql">postgresql</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/redis/" title="redis">redis</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" title="区块链">区块链</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" title="机器学习">机器学习</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%81%AB%E7%84%B0%E5%9B%BE/" title="火焰图">火焰图</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%88%AC%E8%99%AB/" title="爬虫">爬虫</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%AE%97%E6%B3%95/" title="算法">算法</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式">设计模式</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" title="验证码识别">验证码识别</a>
 	</div>
 </div>
 <div class="widget-social widget">

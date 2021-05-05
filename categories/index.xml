@@ -8,11 +8,11 @@
     <language>zh-cn</language>
     <lastBuildDate>Wed, 16 Dec 2020 21:32:59 +0000</lastBuildDate><atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Golang</title>
-      <link>/categories/golang/</link>
+      <title>编程技术</title>
+      <link>/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/</link>
       <pubDate>Wed, 16 Dec 2020 21:32:59 +0000</pubDate>
       
-      <guid>/categories/golang/</guid>
+      <guid>/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/</guid>
       <description></description>
     </item>
     
@@ -26,29 +26,11 @@
     </item>
     
     <item>
-      <title>OpenStack</title>
-      <link>/categories/openstack/</link>
+      <title>云计算</title>
+      <link>/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/</link>
       <pubDate>Mon, 20 Jul 2020 17:46:29 +0000</pubDate>
       
-      <guid>/categories/openstack/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Python</title>
-      <link>/categories/python/</link>
-      <pubDate>Mon, 20 Jul 2020 17:46:29 +0000</pubDate>
-      
-      <guid>/categories/python/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>设计模式</title>
-      <link>/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
-      <pubDate>Wed, 20 May 2020 16:58:08 +0000</pubDate>
-      
-      <guid>/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</guid>
+      <guid>/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/</guid>
       <description></description>
     </item>
     
@@ -80,65 +62,20 @@
     </item>
     
     <item>
-      <title>Django</title>
-      <link>/categories/django/</link>
-      <pubDate>Fri, 28 Jul 2017 11:55:08 +0000</pubDate>
-      
-      <guid>/categories/django/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Linux</title>
-      <link>/categories/linux/</link>
+      <title>操作系统</title>
+      <link>/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
       <pubDate>Tue, 02 May 2017 17:54:53 +0000</pubDate>
       
-      <guid>/categories/linux/</guid>
+      <guid>/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>httpd</title>
-      <link>/categories/httpd/</link>
-      <pubDate>Thu, 13 Apr 2017 11:30:09 +0000</pubDate>
+      <title>杂谈</title>
+      <link>/categories/%E6%9D%82%E8%B0%88/</link>
+      <pubDate>Fri, 22 Jul 2016 11:35:19 +0000</pubDate>
       
-      <guid>/categories/httpd/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Centos</title>
-      <link>/categories/centos/</link>
-      <pubDate>Wed, 27 Jul 2016 10:46:53 +0000</pubDate>
-      
-      <guid>/categories/centos/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Kali</title>
-      <link>/categories/kali/</link>
-      <pubDate>Fri, 29 Apr 2016 13:54:35 +0000</pubDate>
-      
-      <guid>/categories/kali/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>杂</title>
-      <link>/categories/%E6%9D%82/</link>
-      <pubDate>Sun, 03 Jan 2016 14:26:24 +0000</pubDate>
-      
-      <guid>/categories/%E6%9D%82/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Mac</title>
-      <link>/categories/mac/</link>
-      <pubDate>Sat, 17 Oct 2015 12:04:27 +0000</pubDate>
-      
-      <guid>/categories/mac/</guid>
+      <guid>/categories/%E6%9D%82%E8%B0%88/</guid>
       <description></description>
     </item>
     
@@ -148,60 +85,6 @@
       <pubDate>Thu, 28 May 2015 23:36:14 +0000</pubDate>
       
       <guid>/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Nodejs</title>
-      <link>/categories/nodejs/</link>
-      <pubDate>Thu, 19 Mar 2015 17:03:56 +0000</pubDate>
-      
-      <guid>/categories/nodejs/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Objective-C</title>
-      <link>/categories/objective-c/</link>
-      <pubDate>Wed, 11 Feb 2015 22:01:04 +0000</pubDate>
-      
-      <guid>/categories/objective-c/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>哲理美文</title>
-      <link>/categories/%E5%93%B2%E7%90%86%E7%BE%8E%E6%96%87/</link>
-      <pubDate>Sun, 07 Dec 2014 11:29:48 +0000</pubDate>
-      
-      <guid>/categories/%E5%93%B2%E7%90%86%E7%BE%8E%E6%96%87/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>恐怖故事</title>
-      <link>/categories/%E6%81%90%E6%80%96%E6%95%85%E4%BA%8B/</link>
-      <pubDate>Wed, 09 Jul 2014 01:05:23 +0000</pubDate>
-      
-      <guid>/categories/%E6%81%90%E6%80%96%E6%95%85%E4%BA%8B/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>有意思的中医</title>
-      <link>/categories/%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E4%B8%AD%E5%8C%BB/</link>
-      <pubDate>Mon, 07 Jul 2014 21:51:45 +0000</pubDate>
-      
-      <guid>/categories/%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E4%B8%AD%E5%8C%BB/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>我的足迹</title>
-      <link>/categories/%E6%88%91%E7%9A%84%E8%B6%B3%E8%BF%B9/</link>
-      <pubDate>Fri, 08 Nov 2013 13:44:09 +0000</pubDate>
-      
-      <guid>/categories/%E6%88%91%E7%9A%84%E8%B6%B3%E8%BF%B9/</guid>
       <description></description>
     </item>
     

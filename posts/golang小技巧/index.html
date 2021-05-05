@@ -4,10 +4,10 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>golang小技巧 - Hi~Roy!</title>
+	<title>Golang小技巧 - Hi~Roy!</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="golang小技巧" />
+		<meta property="og:title" content="Golang小技巧" />
 <meta property="og:description" content="下划线的妙用
 大多数情况下，下划线_都用于忽略函数返回值的情况。最近查看authboss这个开源库的代码时，发现这样一种用法:
 struct User {
@@ -27,7 +27,7 @@ var (
 <meta property="article:modified_time" content="2020-12-16T21:32:59&#43;00:00" />
 
 
-		<meta itemprop="name" content="golang小技巧">
+		<meta itemprop="name" content="Golang小技巧">
 <meta itemprop="description" content="下划线的妙用
 大多数情况下，下划线_都用于忽略函数返回值的情况。最近查看authboss这个开源库的代码时，发现这样一种用法:
 struct User {
@@ -43,7 +43,7 @@ var (
 "><meta itemprop="datePublished" content="2020-12-16T21:32:59&#43;00:00" />
 <meta itemprop="dateModified" content="2020-12-16T21:32:59&#43;00:00" />
 <meta itemprop="wordCount" content="211">
-<meta itemprop="keywords" content="go," />
+<meta itemprop="keywords" content="golang," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
 	<link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -105,16 +105,16 @@ if (!doNotTrack) {
 <main class="main" role="main">
 	<article class="post">
 		<header class="post__header">
-			<h1 class="post__title">golang小技巧</h1>
+			<h1 class="post__title">Golang小技巧</h1>
 			<div class="post__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-12-16T21:32:59Z">2020-12-16</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/golang/" rel="category">Golang</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-12-16T21:32:59Z">2020-12-16</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
 	</span>
 </div></div>
 		</header><div class="content post__content clearfix">
-			<h2 id="下划线的妙用">下划线的妙用</h2>
+			<h3 id="下划线的妙用">下划线的妙用</h3>
 <p>大多数情况下，下划线<code>_</code>都用于忽略函数返回值的情况。最近查看<code>authboss</code>这个开源库的代码时，发现<a href="https://github.com/volatiletech/authboss-sample/blob/c13bdabe709387b66806bf12dbe12ad71bb17d17/storer.go#L63">这样</a>一种用法:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">User</span> {
     <span style="color:#f92672">...</span>
@@ -147,7 +147,7 @@ if (!doNotTrack) {
     <span style="color:#e6db74">&#34;context&#34;</span>
     <span style="color:#a6e22e">_</span> <span style="color:#e6db74">&#34;github.com/xxx/xxxx&#34;</span> <span style="color:#75715e">// 这里仅需要执行其init函数而非需要使用其中的方法、结构等。
 </span><span style="color:#75715e"></span>)
-</code></pre></div><h2 id="关于errors">关于errors</h2>
+</code></pre></div><h3 id="关于errors">关于errors</h3>
 <p>使用<code>github.com/pkg/errors</code>替换原生的<code>errors</code>包，这个包有3个关键函数：</p>
 <ol>
 <li><code>Warp</code>用于对底层错误进行包装，添加上下文以及调用栈信息。通常建议用这个包装其他人的三方库或者标准库错误。</li>
@@ -195,7 +195,7 @@ if (!doNotTrack) {
 </span><span style="color:#75715e">runtime.main
 </span><span style="color:#75715e">    ...
 </span><span style="color:#75715e">*/</span>
-</code></pre></div><h2 id="优雅结束任务">优雅结束任务</h2>
+</code></pre></div><h3 id="优雅结束任务">优雅结束任务</h3>
 <p>对外提供API服务时很重要的一点就是处理完当前链接后再退出程序，这里就可以使用信号机制：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">gracefulStop</span> = make(<span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Signal</span>)
 <span style="color:#a6e22e">signal</span>.<span style="color:#a6e22e">Notify</span>(<span style="color:#a6e22e">gracefulStop</span>, <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">SIGTERM</span>) <span style="color:#75715e">// kill
@@ -217,7 +217,7 @@ if (!doNotTrack) {
 }()
 </code></pre></div><p>那么问题就是，怎么知道清理完成可以退出了呢？最简单的直接<code>sleep</code>几秒钟，但这个时间设定多久合适呢？</p>
 <p>这里其实可以结合<code>channel</code>来实现，比如这里的<a href="https://github.com/gorilla/websocket/blob/c3dd95aea9779669bb3daafbd84ee0530c8ce1c1/examples/echo/client.go#L68">例子</a>，这里就不贴代码了。</p>
-<h2 id="关于接口">关于接口</h2>
+<h3 id="关于接口">关于接口</h3>
 <p>关于接口，如果只需要有一种实现的话就别用接口了。另外定义接口时尽量分割成小的部分，保持<code>最小知识原则LOD</code>，或者叫迪米特法则。</p>
 		</div>
 		<footer class="post__footer">
@@ -226,7 +226,7 @@ if (!doNotTrack) {
 	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
 	<ul class="tags__list">
 		<li class="tags__item">
-			<a class="tags__link btn" href="/tags/go/" rel="tag">go</a>
+			<a class="tags__link btn" href="/tags/golang/" rel="tag">golang</a>
 		</li>
 	</ul>
 </div>

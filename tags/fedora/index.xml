@@ -8,7 +8,7 @@
     <language>zh-cn</language>
     <lastBuildDate>Tue, 02 May 2017 17:54:53 +0000</lastBuildDate><atom:link href="/tags/fedora/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Fedora25批量转换NEF为JPG</title>
+      <title>fedora25批量转换NEF为JPG</title>
       <link>/posts/fedora25%E6%89%B9%E9%87%8F%E8%BD%AC%E6%8D%A2nef%E4%B8%BAjpg/</link>
       <pubDate>Tue, 02 May 2017 17:54:53 +0000</pubDate>
       
@@ -51,11 +51,11 @@ sudo dnf updatesudo dnf system-upgrade download --releasever 23经过漫长的
     </item>
     
     <item>
-      <title>Freora21使用vpn翻墙同时访问内网</title>
-      <link>/posts/freora21%E4%BD%BF%E7%94%A8vpn%E7%BF%BB%E5%A2%99%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91/</link>
+      <title>Fedora21使用vpn翻墙同时访问内网</title>
+      <link>/posts/fedora21%E4%BD%BF%E7%94%A8vpn%E7%BF%BB%E5%A2%99%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91/</link>
       <pubDate>Thu, 16 Jul 2015 12:13:50 +0000</pubDate>
       
-      <guid>/posts/freora21%E4%BD%BF%E7%94%A8vpn%E7%BF%BB%E5%A2%99%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91/</guid>
+      <guid>/posts/fedora21%E4%BD%BF%E7%94%A8vpn%E7%BF%BB%E5%A2%99%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91/</guid>
       <description>本来用浏览器插件+ss翻墙翻的好好的，结果最近不知道哪里抽风，一访问google就给我跳转到&amp;quot;We are sorry&amp;quot;页面，提示说电脑自动向google发送了一些奇怪的东西，不过使用vpn则没有这个问题。
 但使用vpn则无法访问公司内网，关于这点mac上处理的就非常好，当同时使用多个vpn时mac会自动根据访问目标不同而切换不同的vpn线路。既然fedora上没有自动切换功能，但同为的*unix系统肯定是有解决办法的。
 目标：使用vpn翻墙同时能访问公司内网
@@ -112,6 +112,16 @@ fedora20安装后需要启动服务：sudo service nessusd start
     </item>
     
     <item>
+      <title>虚拟环境下安装mysql-python</title>
+      <link>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/</link>
+      <pubDate>Wed, 12 Mar 2014 17:54:50 +0000</pubDate>
+      
+      <guid>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/</guid>
+      <description>使用virtualenv虚拟环境的时候，mysql-python安装时报错：
+_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &amp;quot;my_config.</description>
+    </item>
+    
+    <item>
       <title>fedora19升级20</title>
       <link>/posts/fedora19%E5%8D%87%E7%BA%A720/</link>
       <pubDate>Mon, 27 Jan 2014 13:14:09 +0000</pubDate>
@@ -130,7 +140,7 @@ fedora20安装后需要启动服务：sudo service nessusd start
       <pubDate>Fri, 10 Jan 2014 14:42:30 +0000</pubDate>
       
       <guid>/posts/fedora19%E4%B8%ADvim%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4%E5%88%B0%E7%B3%BB%E7%BB%9F%E5%89%AA%E5%88%87%E6%9D%BF/</guid>
-      <description>如果用的是freoar，你会发现yum没有vim-gnomevim-gtk这类东西，而且使用:reg也没有+和*这两个寄存器。gvim又感觉太难看，难道fedora中vim复制到系统剪切板是个坑？？
+      <description>如果用的是fedoar，你会发现yum没有vim-gnomevim-gtk这类东西，而且使用:reg也没有+和*这两个寄存器。gvim又感觉太难看，难道fedora中vim复制到系统剪切板是个坑？？
 不过，咱们却有一个神器——vimx!这个就包含了+和*这两个寄存器了！(如果你没有这个vimx就安个gvim)
 使用VIMX打开编辑文件，想复制的时候，先按V进入可视模式，然后选中要复制的东西后 依次按“+y这三个按键就复制到剪贴版了。
 至于vim中寄存器介绍或者其他复制粘贴方式可以自行google，这里就不介绍了。</description>
@@ -160,11 +170,11 @@ Settings-&amp;gt;Environment-&amp;gt;&amp;quot;Terminal to launch console progra
     </item>
     
     <item>
-      <title>fedora19下装XMind</title>
-      <link>/posts/fedora-19%E4%B8%8B%E5%AE%89%E8%A3%85xmind/</link>
+      <title>fedora19装XMind</title>
+      <link>/posts/fedora19%E5%AE%89%E8%A3%85xmind/</link>
       <pubDate>Tue, 03 Dec 2013 11:40:20 +0000</pubDate>
       
-      <guid>/posts/fedora-19%E4%B8%8B%E5%AE%89%E8%A3%85xmind/</guid>
+      <guid>/posts/fedora19%E5%AE%89%E8%A3%85xmind/</guid>
       <description>本来用bubbl这个在线的思维导图还凑合，不过他这个未付费用户只能存储3张，只好换回本地应用。
 安装freemind很简单，直接yum即可，不过界面和功能上有待加强。
 换成xmind这个强大的跨平台软件，发现只有deb包，那么想在fedora中使用进行下面操作即可：

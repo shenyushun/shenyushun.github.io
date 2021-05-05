@@ -4,10 +4,10 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Django中的Session和Cookie - Hi~Roy!</title>
+	<title>django中的Session和Cookie - Hi~Roy!</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Django中的Session和Cookie" />
+		<meta property="og:title" content="django中的Session和Cookie" />
 <meta property="og:description" content="简单来说，Cookie和Session都是为了记录用户相关信息的方式，最大的区别就是Cookie在客户端记录而Session在服务端记录内容。
 那么Cookie和Session之间的联系是怎么建立的呢？换言之，当服务器接收到一个请求时候，根据什么来判断读取哪个Session的呢？
 对于Django默认情况来说，当用户登录后就可以发现Cookie里有一个sessionid的字段，根据这个key就可以取得在服务器端记录的详细内容。如果将这个字段删除，刷新页面就会发现变成未登录状态了。" />
@@ -17,13 +17,13 @@
 <meta property="article:modified_time" content="2017-07-28T11:55:08&#43;00:00" />
 
 
-		<meta itemprop="name" content="Django中的Session和Cookie">
+		<meta itemprop="name" content="django中的Session和Cookie">
 <meta itemprop="description" content="简单来说，Cookie和Session都是为了记录用户相关信息的方式，最大的区别就是Cookie在客户端记录而Session在服务端记录内容。
 那么Cookie和Session之间的联系是怎么建立的呢？换言之，当服务器接收到一个请求时候，根据什么来判断读取哪个Session的呢？
 对于Django默认情况来说，当用户登录后就可以发现Cookie里有一个sessionid的字段，根据这个key就可以取得在服务器端记录的详细内容。如果将这个字段删除，刷新页面就会发现变成未登录状态了。"><meta itemprop="datePublished" content="2017-07-28T11:55:08&#43;00:00" />
 <meta itemprop="dateModified" content="2017-07-28T11:55:08&#43;00:00" />
 <meta itemprop="wordCount" content="302">
-<meta itemprop="keywords" content="django," />
+<meta itemprop="keywords" content="django,python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
 	<link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -85,12 +85,12 @@ if (!doNotTrack) {
 <main class="main" role="main">
 	<article class="post">
 		<header class="post__header">
-			<h1 class="post__title">Django中的Session和Cookie</h1>
+			<h1 class="post__title">django中的Session和Cookie</h1>
 			<div class="post__meta meta"><div class="meta__item-author meta__item">
 	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
 </div>
 <div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-07-28T11:55:08Z">2017-07-28</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/django/" rel="category">Django</a>
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-07-28T11:55:08Z">2017-07-28</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
 	</span>
 </div></div>
 		</header><div class="content post__content clearfix">
@@ -185,6 +185,9 @@ if (!doNotTrack) {
 	<ul class="tags__list">
 		<li class="tags__item">
 			<a class="tags__link btn" href="/tags/django/" rel="tag">django</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
 		</li>
 	</ul>
 </div>

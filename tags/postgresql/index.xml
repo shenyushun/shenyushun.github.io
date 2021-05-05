@@ -19,17 +19,6 @@
     </item>
     
     <item>
-      <title>centos下部署openerp7</title>
-      <link>/posts/centos%E4%B8%8B%E9%83%A8%E7%BD%B2openerp7/</link>
-      <pubDate>Fri, 22 Aug 2014 11:26:53 +0000</pubDate>
-      
-      <guid>/posts/centos%E4%B8%8B%E9%83%A8%E7%BD%B2openerp7/</guid>
-      <description>首先需要注意的是openerp7需要python2.7+版本，而centos6下默认是python2.6，这里我使用centos7。
-首先安装postgresql
-yum install http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3-1.noarch.rpmyum install postgresql93-server postgresql93-contrib postgresql93-develcentos7中安装psql后初始化数据库和6不同，需要切换到postgres用户进入安装目录的bin文件夹执行手动初始化</description>
-    </item>
-    
-    <item>
       <title>postgresql学习记录3</title>
       <link>/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%953/</link>
       <pubDate>Thu, 07 Aug 2014 12:32:57 +0000</pubDate>
