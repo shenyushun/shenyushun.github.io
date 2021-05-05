@@ -6,7 +6,21 @@
     <description>Recent content in 杂谈 on Hi~Roy!</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 22 Jul 2016 11:35:19 +0000</lastBuildDate><atom:link href="/categories/%E6%9D%82%E8%B0%88/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 05 May 2021 16:55:06 +0800</lastBuildDate><atom:link href="/categories/%E6%9D%82%E8%B0%88/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>博客迁移</title>
+      <link>/posts/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/</link>
+      <pubDate>Wed, 05 May 2021 16:55:06 +0800</pubDate>
+      
+      <guid>/posts/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/</guid>
+      <description>断断续续写博客居然有8年时间了啊……
+5年前，博客从wordpress迁移到了hexo+github静态页面，用着不错之后就一直懒得折腾。但五一假期想写博客发现安装nodejs和hexo3版本怎么也搞不定，看报错提示似乎是某些依赖库已经不支持老版本了，干脆一不做二不休整体替换成hugo+Mainroad主题。要不电脑里又得装python又得装golang还得装nodejs，也是麻烦。
+从选主题到微调样式到改一些文章的格式、分类，弄了一晚上，看自己之前写的东西还真是挺稚嫩的哈哈。
+切换遇到的最大的问题就是 文章的URL链接地址变化导致404，有需要的筒子们暂时根据分类或者标签翻页吧， 其他比如没有archive功能了、标签功能有点丑但懒得改了。
+顺手添加了google analysis和开启了disqus评论，这个博客仅仅是我记录技术或者其他方面的日记本，启用这2个插件可以让我知道到底有没有对其他人产生些许的帮助。
+猛然发现进入2021年还没发布过新博客，貌似现在更习惯直接记录到云笔记而不是更新这里了，可能是年龄大了、分享的意愿也降低了？</description>
+    </item>
+    
     <item>
       <title>博客迁移记录</title>
       <link>/posts/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%E8%AE%B0%E5%BD%95/</link>

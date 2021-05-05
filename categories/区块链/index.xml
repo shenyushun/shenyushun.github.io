@@ -49,6 +49,16 @@
     </item>
     
     <item>
+      <title>200行GO代码实现区块链3</title>
+      <link>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE3/</link>
+      <pubDate>Fri, 22 Jun 2018 17:35:36 +0000</pubDate>
+      
+      <guid>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE3/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://medium.com/@mycoralhealth/code-your-own-blockchain-mining-algorithm-in-go-82c6a71aba1f&#34;&gt;原文&lt;/a&gt;，阅读之前请先看&lt;a href=&#34;http://www.hi-roy.com/2018/05/18/200%E8%A1%8CGO%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE1/&#34;&gt;200行GO代码实现区块链1&lt;/a&gt; 和 &lt;a href=&#34;http://www.hi-roy.com/2018/05/21/200%E8%A1%8CGO%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE2/&#34;&gt;200行GO代码实现区块链2&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;如果看到这了相信你已经知道什么是加密算法等背景了，所以忽略关于这部分的翻译，直接从编码开始。这篇文章在前两篇的文章基础上添加了工作量证明(POW)挖矿算法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Hyperledger-Fabric环境搭建笔记</title>
       <link>/posts/hyperledger-fabric%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E7%AC%94%E8%AE%B0/</link>
       <pubDate>Fri, 15 Jun 2018 10:43:49 +0000</pubDate>
@@ -71,6 +81,40 @@ git clone https://github.com/hyperledger/fabric.git
       
       <guid>/posts/%E5%9F%BA%E4%BA%8Edocker%E7%9A%84%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</guid>
       <description>&lt;p&gt;本地开发环境可以使用&lt;code&gt;geth&lt;/code&gt;和&lt;code&gt;testrpc&lt;/code&gt;(已经改名成ganache-cli)2种，如果只是进行测试或者学习智能合约开发的话，建议使用第二个。至于docker怎么安装网上很多这里不再赘述。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>200行GO代码实现区块链2</title>
+      <link>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE2/</link>
+      <pubDate>Mon, 21 May 2018 21:32:59 +0000</pubDate>
+      
+      <guid>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE2/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://medium.com/@mycoralhealth/part-2-networking-code-your-own-blockchain-in-less-than-200-lines-of-go-17fe1dad46e1&#34;&gt;原文&lt;/a&gt;，需要科学上网。省略了一些无关的内容。&lt;/p&gt;
+&lt;p&gt;上篇文章我们学习了如何编写区块链并且对进行Hash运算和验证，但所有都运行在一个节点。我们如何让其他的节点连接到我们的主节点并让这些新节点贡献新区块呢？并且，我们如何通知所有的节点区块链有更新呢？&lt;/p&gt;
+&lt;p&gt;这篇文章将进行就解答。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>200行GO代码实现区块链1</title>
+      <link>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE1/</link>
+      <pubDate>Fri, 18 May 2018 14:42:11 +0000</pubDate>
+      
+      <guid>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE1/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://medium.com/@mycoralhealth/code-your-own-blockchain-in-less-than-200-lines-of-go-e296282bcffc&#34;&gt;原文&lt;/a&gt;，需要科学上网。省略了一些无关的内容。&lt;/p&gt;
+&lt;p&gt;世界上很多开发者听说过区块链却不知道它是怎么工作的，他们或许仅仅听过比特币或者智能合约一类的名词。这篇文章尝试用简明的语言说明区块链并且用不到200行的代码来实现你自己的区块链！文章的最后，你应该可以运行并且添加区块到区块链中并从浏览器中看到结果。&lt;/p&gt;
+&lt;p&gt;有什么学习区块链的方法比你亲自实现一个更好呢？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;文章讲了什么&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如何创建自己的区块链&lt;/li&gt;
+&lt;li&gt;如何使用Hash来维护区块链的完整性&lt;/li&gt;
+&lt;li&gt;如何添加新区块&lt;/li&gt;
+&lt;li&gt;如何解决多个节点同时生成区块导致冲突问题&lt;/li&gt;
+&lt;li&gt;如何在浏览器中查看区块链&lt;/li&gt;
+&lt;li&gt;如何生成新区块&lt;/li&gt;
+&lt;li&gt;了解区块链的基础知识后，你可以决定你的未来发展方向&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;文章没讲什么&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;为了保持简单，我们并没介绍更高级的概念比如pow和pos的对比，我们模拟了网络交互所以你可以看到区块链并且添加区块，但网络广播部分将以后再讲。&lt;/p&gt;</description>
     </item>
     
     <item>

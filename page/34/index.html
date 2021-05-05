@@ -79,6 +79,28 @@ if (!doNotTrack) {
 	<article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/django%E4%B8%AD%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="bookmark">
+			django中静态文件的使用
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-19T18:04:21Z">2013-11-19</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		记得我刚刚开始接触django的时候，对于静态文件的引用始终一头雾水，按照网上说明的添加代码就是不好使。 今天再回头看看，突然发现以前自己还真是笨阿！补一篇记录算是弥补以前的缺憾了～ django版本1.5.3 目录结构：
+projectname----projectname--------templates------------base.html------------appname----------------a.html--------media------------mp3------------flv--------static------------img----------------s.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/django%E4%B8%AD%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/fedora19%E5%AE%89%E8%A3%85cairo-dock/" rel="bookmark">
 			fedora19安装cairo-dock
 			</a>
@@ -189,29 +211,6 @@ import urllib2 import urllib import cookielib logurl = &#34;https://www.digikey.
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/%E5%A6%82%E4%BD%95%E4%B8%BAgnome3%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/python-traceback%E6%A8%A1%E5%9D%97/" rel="bookmark">
-			python traceback模块
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-14T09:52:51Z">2013-11-14</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		如果我们再程序中写出一个会引发异常的代码，比如1/0，就会引发一个异常，程序中止。
-输出：
-Traceback (most recent call last):File &quot;trackbacks.py&quot;, line 1, in &lt;module&gt;1/0ZeroDivisionError: integer division or modulo by zeroShell 已返回1为了程序的健壮性，我们常常加入异常处理。
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/python-traceback%E6%A8%A1%E5%9D%97/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -235,11 +234,11 @@ Traceback (most recent call last):File &quot;trackbacks.py&quot;, line 1, in &l
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">博客迁移</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">Golang小技巧</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/">新手可能会犯的50个Golang错误</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E9%9B%86%E6%88%90gin%E5%92%8Ccasbin/">集成gin和casbin</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06/">OpenStack源码学习笔记6</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/">设计模式-享元模式</a></li>
 		</ul>
 	</div>
 </div>
@@ -253,7 +252,7 @@ Traceback (most recent call last):File &quot;trackbacks.py&quot;, line 1, in &l
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">6</span>
+				<span class="widget__counter widget__counter--bubble">9</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>&nbsp;
@@ -269,11 +268,11 @@ Traceback (most recent call last):File &quot;trackbacks.py&quot;, line 1, in &l
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">22</span>
+				<span class="widget__counter widget__counter--bubble">23</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">128</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
@@ -305,7 +304,6 @@ Traceback (most recent call last):File &quot;trackbacks.py&quot;, line 1, in &l
 		<a class="widget-taglist__link widget__link btn" href="/tags/postgresql/" title="postgresql">postgresql</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/redis/" title="redis">redis</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" title="区块链">区块链</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" title="机器学习">机器学习</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%81%AB%E7%84%B0%E5%9B%BE/" title="火焰图">火焰图</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%88%AC%E8%99%AB/" title="爬虫">爬虫</a>

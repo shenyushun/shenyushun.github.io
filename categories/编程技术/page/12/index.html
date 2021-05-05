@@ -80,71 +80,6 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/eventletdjangorequests%E9%97%AE%E9%A2%98%E6%9D%82%E8%AE%B0/" rel="bookmark">
-			eventlet，django，requests问题杂记
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-05-03T13:28:49Z">2016-05-03</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>最近使用django+requests+eventlet做了个小程序，eventlet用来替代原生的多线程，最后发现有关manage.py的功能全都不能用了，报错信息类似：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">django<span style="color:#f92672">.</span>db<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>DatabaseError: DatabaseWrapper objects created <span style="color:#f92672">in</span> a thread can only be used <span style="color:#f92672">in</span> that same thread<span style="color:#f92672">.</span> The object <span style="color:#66d9ef">with</span> alias <span style="color:#e6db74">&#39;default&#39;</span> was created <span style="color:#f92672">in</span> thread id <span style="color:#ae81ff">139911009593152</span> <span style="color:#f92672">and</span> this <span style="color:#f92672">is</span> thread id <span style="color:#ae81ff">51055504.</span>
-</code></pre></div><p>产生这个问题的原因在于我的monky_patch()是在爬虫模块中执行，而希望这个爬虫模块能够保持独立性不希望和django融合的太深，所以解决问题只需根据实际需求在manage.py或settings.py或wsgi.py中先把monkey_patch()执行了即可。</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/eventletdjangorequests%E9%97%AE%E9%A2%98%E6%9D%82%E8%AE%B0/">Read more…</a>
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/python%E4%B8%AD%E9%97%AD%E5%8C%85%E7%A4%BA%E4%BE%8B/" rel="bookmark">
-			python中闭包示例
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-03-18T11:44:58Z">2016-03-18</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>概念上的东西这里就不详细解释了，为什么需要闭包（Closures）呢？个人理解就是某些情况下你需要在外部访问函数内部的变量时，闭包就该大显身手了。闭包的一种典型表现就是函数内部定义了新的函数。这里举几个例子以记录使用闭包时的几个注意点，例子来源于<a href="http://coolshell.cn/articles/6731.html">这里</a>，大神用javascript写的示例，这里改成python的，也顺便说说遇到的坑。</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/python%E4%B8%AD%E9%97%AD%E5%8C%85%E7%A4%BA%E4%BE%8B/">Read more…</a>
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/%E5%90%8D%E8%AF%8D%E7%8E%8B%E5%9B%BD%E9%87%8C%E7%9A%84%E6%AD%BB%E5%88%91%E7%BF%BB%E8%AF%91/" rel="bookmark">
-			名词王国里的死刑（翻译）
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-03-16T17:02:02Z">2016-03-16</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>, <a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>真是惭愧，直到今日才读到这篇文章，原文在<a href="http://steve-yegge.blogspot.hk/2006/03/execution-in-kingdom-of-nouns.html">这里</a>。我本人大学课程中唯一没选修的语言就是Java，不知什么原因对于Java就是不感冒。虽然由于某些原因做了一阵android的开发，但是这段经历更是让我坚定了“能不写java程序就不写java程序”的想法。这里无意引起“语言之战”，仅是个人喜好问题罢了。</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E5%90%8D%E8%AF%8D%E7%8E%8B%E5%9B%BD%E9%87%8C%E7%9A%84%E6%AD%BB%E5%88%91%E7%BF%BB%E8%AF%91/">Read more…</a>
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
 			<a href="/posts/%E8%A7%A3%E5%86%B3flower-substantial-drift-from-may-mean-clocks-are-out-of-sync%E9%94%99%E8%AF%AF/" rel="bookmark">
 			解决flower Substantial drift from.. may mean clocks are out of sync错误
 			</a>
@@ -229,6 +164,89 @@ nf <span style="color:#f92672">=</span> number_of_felines
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/python%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0%E4%B9%8B%E4%BD%BF%E7%94%A8%E5%AD%97%E5%85%B8%E5%88%86%E6%B4%BE%E5%87%BD%E6%95%B0/">Read more…</a>
 	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/celery%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/" rel="bookmark">
+			celery使用小记
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-01-21T12:32:12Z">2016-01-21</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>之前的博客有关于celery以及相关概念的介绍，不过那篇文章没有具体的使用示例，今天补充一下。</p>
+<p>目前celery的版本是<a href="http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html#first-steps">3.1.19</a>。</p>
+<p>这里我使用rabbitmq作为broker以及banckend。</p>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/celery%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/%E5%85%B3%E4%BA%8Efunctools-wraps%E7%9A%84%E4%BD%9C%E7%94%A8/" rel="bookmark">
+			关于functools.wraps的作用
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-01-12T13:38:44Z">2016-01-12</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		今天看代码时候有这么一段：
+from functools import wraps def http_basic_auth(func): &#39;&#39;&#39;定义httpbasicauth装饰器&#39;&#39;&#39; @wraps(func) def _decorator(request, *args, **kwargs): authorization = request.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/%E5%85%B3%E4%BA%8Efunctools-wraps%E7%9A%84%E4%BD%9C%E7%94%A8/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/flask-socketio%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/" rel="bookmark">
+			flask-socketio中文文档
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-12-29T16:18:34Z">2015-12-29</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>, <a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>官网在<a href="https://flask-socketio.readthedocs.org/en/latest/">这里</a>，英语好的直接去看官网文档吧，我是英语渣只能翻译个大概;另外注意本文翻译时间，可能你看到的时候官网已经更新了。</p>
+<hr>
+<p>flask-socketio赋予了flask程序支持服务端和客户端间双向低延迟通讯的能力，客户端可以使用 <a href="http://socket.io/">SocketIO</a> 库或任何支持与服务端建立长链接的兼容库。</p>
+<h2 id="安装">安装</h2>
+<p>可以直接使用pip安装：</p>
+<pre><code>pip install flask-socketio
+</code></pre><h2 id="依赖">依赖</h2>
+<p>自从1.0版开始，这个扩展完全兼容了python2.7和python3.3+版本。异步服务的支持基于下面3个选择中的一个：</p>
+<ul>
+<li><a href="http://eventlet.net/">eventlet</a> 是3个选项中性能最高的，同时支持长轮循(long-polling)和WebSocket。</li>
+<li><a href="http://www.gevent.org/">gevent</a> 是在以前版本中使用的框架，支持长轮循，如果想支持WebSocket的话需要同时安装<a href="https://pypi.python.org/pypi/gevent-websocket/">gevent-websocket</a> 库。使用gevent和gevent-websocket结合性能也不错，但略低于eventlet。</li>
+<li>flask 基于Werkzeug的开发服务也能用，不过性能上不如上面2个选项，所以它应该只用于开发时使用。这个选项只支持长轮循。
+本扩展将自动检测哪些异步框架被安装，默认首选eventlet，其次是gevent，最后是flask自带的开发服务。
+对于客户端来说，可以使用官方的Socket.Io来建立于服务端的链接，也有使用swift和c++写成的客户端。非官方的客户端也能工作，只要它实现了<a href="https://github.com/socketio/socket.io-protocol">Socket.IO</a> 协议。</li>
+</ul>
+<h2 id="目前的局限">目前的局限</h2>
+<p>目前flask-socketio只能同时运行在单个进程中（这里应该指的是一个进程中仅能存在一个实例的意思，而非只能开启一个进程吧&hellip;），解决这个限制的工作正在进行中。
+（关于升级变化、以及从老版本迁移到新版的注意事项我就不翻译了，因为没用过老版本）</p>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/flask-socketio%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/">Read more…</a>
+	</div>
 </article>
 </main>
 
@@ -253,11 +271,11 @@ nf <span style="color:#f92672">=</span> number_of_felines
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">博客迁移</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">Golang小技巧</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/">新手可能会犯的50个Golang错误</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E9%9B%86%E6%88%90gin%E5%92%8Ccasbin/">集成gin和casbin</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06/">OpenStack源码学习笔记6</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/">设计模式-享元模式</a></li>
 		</ul>
 	</div>
 </div>
@@ -271,7 +289,7 @@ nf <span style="color:#f92672">=</span> number_of_felines
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">6</span>
+				<span class="widget__counter widget__counter--bubble">9</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>&nbsp;
@@ -287,11 +305,11 @@ nf <span style="color:#f92672">=</span> number_of_felines
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">22</span>
+				<span class="widget__counter widget__counter--bubble">23</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">128</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
@@ -323,7 +341,6 @@ nf <span style="color:#f92672">=</span> number_of_felines
 		<a class="widget-taglist__link widget__link btn" href="/tags/postgresql/" title="postgresql">postgresql</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/redis/" title="redis">redis</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" title="区块链">区块链</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" title="机器学习">机器学习</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%81%AB%E7%84%B0%E5%9B%BE/" title="火焰图">火焰图</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%88%AC%E8%99%AB/" title="爬虫">爬虫</a>

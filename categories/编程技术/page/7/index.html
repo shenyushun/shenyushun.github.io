@@ -80,88 +80,6 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
-			<a href="/posts/effective-go%E4%B8%AD%E6%96%87%E7%BF%BB%E8%AF%91/" rel="bookmark">
-			Effective-Go中文翻译
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-05-07T17:59:59Z">2018-05-07</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<!-- raw HTML omitted -->
-<ul>
-<li><a href="#%E4%BB%8B%E7%BB%8D">介绍</a>
-<ul>
-<li><a href="#%E4%BE%8B%E5%AD%90">例子</a></li>
-</ul>
-</li>
-<li><a href="#%E4%BB%A3%E7%A0%81%E9%A3%8E%E6%A0%BC">代码风格</a></li>
-<li><a href="#%E6%B3%A8%E9%87%8A">注释</a></li>
-<li><a href="#%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83">命名规范</a></li>
-</ul>
-<!-- raw HTML omitted -->
-<p><a href="https://golang.google.cn/doc/effective_go.html">原文链接</a>，省略了一些无关的句子。</p>
-<p><a href="https://go-zh.org/doc/effective_go.html">这里</a>有别人翻译好的，需要翻墙。</p>
-<h1 id="介绍">介绍</h1>
-<p>Go是一种新的语言，尽管它从其他语言中借鉴了很多特性，但有些不同寻常的特性让Go语言程序和其他程序有所不同。想要直接把C++或者Java代码转换成Go不会得到令人满意的结果，Java程序是用Java写的而不是GO。另一方面，从GO的角度来考虑问题可以写出成功运行但略有不同的程序。换句话说，想要写出好的GO程序，了解其特性是很重要的。同样，了解约定俗成的惯例也很重要，比如命名、格式、项目结构，这样你写的代码才能方便其他GO语言程序员理解。</p>
-<p>这篇文档给你一些小建议以便写出简洁且符合规范的GO代码。看这篇文档前建议先看<a href="https://golang.google.cn/ref/spec">language specification</a>，<a href="https://tour.golang.org/">the Tour of Go</a>，和 <a href="https://golang.google.cn/doc/code.html">How to Write Go Code</a>。</p>
-<h2 id="例子">例子</h2>
-<p><a href="https://golang.google.cn/src/">GO源码</a>不仅仅是作为核心库来使用，更可以用作写代码的实例参考。此外，你可以直接在<a href="https://golang.org/">官网</a>上运行那些没有额外依赖的程序，比如<a href="https://golang.org/pkg/strings/#example_Map">这个</a>。如果你有关于如何解决或实现某个问题的疑问，标准库中的文档、代码、例子可以提供答案或者思路。</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/effective-go%E4%B8%AD%E6%96%87%E7%BF%BB%E8%AF%91/">Read more…</a>
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%982/" rel="bookmark">
-			python验证码识别实战2
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-01-06T16:27:04Z">2018-01-06</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>在<a href="http://www.hi-roy.com/2017/12/29/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/">上一篇文章</a>中，我们使用sklearn对验证码进行了识别，为了提高识别率，今天来进行进一步优化。</p>
-<p>观察验证码后，发现还可以对其进行旋转处理，这个验证码旋转角度在-30～30之间，那么如何判断旋转角度呢？这里我使用最简单粗暴的判断方式——如果旋转后的字符宽度小于旋转之前，则认为是合理的旋转。但这里还有一个问题需要处理，上一篇文章中我们为了简便直接根据固定的宽度对字符进行了分割，但是分割后字符在小图片中的位置不是固定的，需要手动将其放在中心位置。</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%982/">Read more…</a>
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/" rel="bookmark">
-			python验证码识别实战
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-12-29T19:07:39Z">2017-12-29</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>陆陆续续的学习了验证码的灰度、二值化、分割等方法，还了解了机器学习中最基本的3个分类方式——KNN、决策树、朴素贝叶斯。基于这些，今天结合这些工具来写一个简单的验证码识别程序，本来想使用现有的库来生成验证码，但无意间发现了之前写某个程序时下载的200个验证码，正好可以拿来练手。另外，虽然之前已经实现了上面3种算法，但这里还是会使用<code>sklearn</code>这个强大的三方库，学习原理是为了知其所以然，有现成工具还是要拿来用的。</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/">Read more…</a>
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
 			<a href="/posts/%E5%9F%BA%E4%BA%8E%E8%99%9A%E6%8B%9F%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9A%84%E7%BD%91%E9%A1%B5%E5%88%86%E5%89%B2/" rel="bookmark">
 			基于虚拟可视化的网页分割
 			</a>
@@ -235,6 +153,84 @@ In [<span style="color:#ae81ff">3</span>]: <span style="color:#f92672">import</s
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB6/">Read more…</a>
 	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/numpy%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" rel="bookmark">
+			numpy学习笔记2
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-10-13T15:55:31Z">2017-10-13</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<!-- raw HTML omitted -->
+<p>之前一直有个疑惑，为什么要使用numpy？更本质的说，为什么要使用矩阵？矩阵是什么？意味着什么？关于关于矩阵的问题，这里推荐一个<a href="https://www.bilibili.com/video/av6731067/">系列视频</a>，讲的非常非常好。至于为什么用numpy，从程序的角度来讲，我认为最大的好处就是减少代码量以及提高效率(恩，写此文的时候觉得这是一句废话，但确实困扰了我一阵&hellip;&hellip;)</p>
+<p>比如，在学习KNN算法时需要计算欧式距离，公式如下：</p>
+<p>$$d=\sqrt{ {({A_0}-{B_0})^2}+{({A_1}-{B_1})^2}+{({A_2}-{B_2})^2}+{({A_3}-{B_3})^2}+&hellip; }$$</p>
+<p>这里用2维为例，公式变成：</p>
+<p>$$d=\sqrt{ {({A_0}-{B_0})^2}+{({A_1}-{B_1})^2} }$$</p>
+<p>这货貌似是已知直角三角形直角边求斜边长啊？</p>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/numpy%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB5/" rel="bookmark">
+			python验证码识别5:滴水算法补充
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-09-26T15:51:23Z">2017-09-26</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		关于之前说的滴水算法，一直以为看不懂是因为智商不够，直到上周腾出时间看了原版论文才恍然大悟……之前看的都是“残篇”，怪不得很多地方看的都稀里糊涂的！
+所以有英语能力的还是要看一手资料才行啊！否则看二手甚至多手的东西有时候会让人怀疑智商。
+这里原版的论文链接 提供给各位，60280.pdf是最最原版的滴水算法，dropfall.pdf是经过改造的《基于惯性的滴水算法》和《基于惯性的大滴水算法》。另外改造版的算法是国人发表的，看的时候一种自豪感油然而生，虽然我也不知道自豪个什么劲……
+基于惯性的滴水算法为了解决传统滴水算法遇到有“毛边”的情况，在传统水滴算法基础上多考虑了之前一步的方向。比如周围5个点都是黑或者白时，传统算法是应该向下滴落，但如果之前一步的方向是向右，那么综合考虑后滴落方向就变成了右下。另外，在基于惯性的滴水算法中，“左”是受到“歧视”的。
+再进一步，对于类似字母Y这种凹陷情况，把判断范围扩大而不是仅仅考虑某一个像素点，就变成了基于惯性的大滴水算法了。
+另外，关于起始点的选择，原版论文中是从上到下、从左到右依次遍历所有像素，找到第一个 左侧为黑色像素、右侧有黑的像素的白色像素点 开始滴落（确实挺拗口，看论文中的图就明白了）。
+至于代码，先挖坑病好以后有空再和大家一起讨论分享。
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB4/" rel="bookmark">
+			python验证码识别4:滴水算法分割图片
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-09-22T16:50:04Z">2017-09-22</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>之前提过对于有粘连的字符可以使用滴水算法来解决分割，但智商捉急的我实在是领悟不了这个算法的精髓，幸好有小伙伴已经实现相关<a href="https://github.com/lan2720/fuck-captcha/blob/master/fuck_sjtu_captcha.py">代码</a>。</p>
+<p>我对上面的代码进行了一些小修改，同时升级为python3的代码。</p>
+<p>还是以这张图片为例：</p>
+<!-- raw HTML omitted -->
+<p>在以前的我们已经知道这种简单的粘连可以通过控制阈值来实现分割，这里我们使用滴水算法。</p>
+<p>首先使用<a href="http://www.hi-roy.com/2017/09/20/Python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB2/">之前文章</a>中介绍的垂直投影或者连通域先进行一次切割处理，得到结果如下：</p>
+<!-- raw HTML omitted -->
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB4/">Read more…</a>
+	</div>
 </article>
 </main>
 
@@ -259,11 +255,11 @@ In [<span style="color:#ae81ff">3</span>]: <span style="color:#f92672">import</s
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">博客迁移</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">Golang小技巧</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/">新手可能会犯的50个Golang错误</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E9%9B%86%E6%88%90gin%E5%92%8Ccasbin/">集成gin和casbin</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06/">OpenStack源码学习笔记6</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/">设计模式-享元模式</a></li>
 		</ul>
 	</div>
 </div>
@@ -277,7 +273,7 @@ In [<span style="color:#ae81ff">3</span>]: <span style="color:#f92672">import</s
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">6</span>
+				<span class="widget__counter widget__counter--bubble">9</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>&nbsp;
@@ -293,11 +289,11 @@ In [<span style="color:#ae81ff">3</span>]: <span style="color:#f92672">import</s
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">22</span>
+				<span class="widget__counter widget__counter--bubble">23</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">128</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
@@ -329,7 +325,6 @@ In [<span style="color:#ae81ff">3</span>]: <span style="color:#f92672">import</s
 		<a class="widget-taglist__link widget__link btn" href="/tags/postgresql/" title="postgresql">postgresql</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="python">python</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/redis/" title="redis">redis</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" title="区块链">区块链</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" title="机器学习">机器学习</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%81%AB%E7%84%B0%E5%9B%BE/" title="火焰图">火焰图</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%88%AC%E8%99%AB/" title="爬虫">爬虫</a>
