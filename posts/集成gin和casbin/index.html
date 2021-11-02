@@ -12,14 +12,14 @@
 如果你搜到这篇文章，那么什么是gin以及casbin应该不用过多解释了。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/%E9%9B%86%E6%88%90gin%E5%92%8Ccasbin/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2020-09-28T21:32:59&#43;00:00" />
-<meta property="article:modified_time" content="2020-09-28T21:32:59&#43;00:00" />
+<meta property="article:published_time" content="2020-09-28T21:32:59+00:00" />
+<meta property="article:modified_time" content="2020-09-28T21:32:59+00:00" />
 
 
 		<meta itemprop="name" content="集成gin和casbin">
 <meta itemprop="description" content="原文，省略了一些无关的内容。
-如果你搜到这篇文章，那么什么是gin以及casbin应该不用过多解释了。"><meta itemprop="datePublished" content="2020-09-28T21:32:59&#43;00:00" />
-<meta itemprop="dateModified" content="2020-09-28T21:32:59&#43;00:00" />
+如果你搜到这篇文章，那么什么是gin以及casbin应该不用过多解释了。"><meta itemprop="datePublished" content="2020-09-28T21:32:59+00:00" />
+<meta itemprop="dateModified" content="2020-09-28T21:32:59+00:00" />
 <meta itemprop="wordCount" content="757">
 <meta itemprop="keywords" content="golang," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -95,7 +95,7 @@ if (!doNotTrack) {
 			<p><a href="https://dev.to/maxwellhertz/tutorial-integrate-gin-with-cabsin-56m0">原文</a>，省略了一些无关的内容。</p>
 <p>如果你搜到这篇文章，那么什么是gin以及casbin应该不用过多解释了。</p>
 <h2 id="项目结构">项目结构</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">root/
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">root/
     main.go              <span style="color:#75715e"># entry point of application</span>
     handler/             <span style="color:#75715e"># Gin handler functions</span>
     middleware/          <span style="color:#75715e"># Gin middlewares</span>
@@ -103,7 +103,7 @@ if (!doNotTrack) {
     component/           <span style="color:#75715e"># global components like GORM DB instance</span>
 </code></pre></div><h2 id="初始化数据库和缓存">初始化数据库和缓存</h2>
 <p>在<code>component</code>目录下创建<code>persistence.go</code>用于初始化，这里使用<code>GORM</code>来处理数据库，<code>BigCache</code>处理缓存：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">import</span> (
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">import</span> (
     <span style="color:#e6db74">&#34;fmt&#34;</span>
     <span style="color:#e6db74">&#34;github.com/allegro/bigcache&#34;</span>
     <span style="color:#a6e22e">_</span> <span style="color:#e6db74">&#34;github.com/go-sql-driver/mysql&#34;</span>
@@ -134,7 +134,7 @@ if (!doNotTrack) {
 <h2 id="配置casbin">配置Casbin</h2>
 <h3 id="model-configuration-file">Model Configuration File</h3>
 <p>首先，你也许会发现casbin中有些概念让你很困惑，比如<code>Model Configuration File</code>。这里我不想讨论太多原理(因为我也不熟)，直接举个例子，使用基于角色的权限控制(RBAC，Role-based access control)。所以首先在<code>config</code>目录创建<code>rbac_model.conf</code>：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">[<span style="color:#a6e22e">request_definition</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">[<span style="color:#a6e22e">request_definition</span>]
 <span style="color:#a6e22e">r</span> = <span style="color:#a6e22e">sub</span>, <span style="color:#a6e22e">obj</span>, <span style="color:#a6e22e">act</span>
 
 [<span style="color:#a6e22e">policy_definition</span>]
@@ -168,7 +168,7 @@ m = g(r.sub, p.sub) == true<br>
 </blockquote>
 <h3 id="polices">Polices</h3>
 <p>举个例子：</p>
-<pre><code>p, user, data, read
+<pre tabindex="0"><code>p, user, data, read
 p, admin, data, read
 p, admin, data, write
 g, Alice, admin
@@ -185,7 +185,7 @@ g, Bob, user
 <li>Bob属于user</li>
 </ol>
 <p>所以Alice有数据的所有权限而Bob只能读取数据。官网教程中casbin使用csv来简单的存储策略，这里我们使用数据库。casbin通常把表名命名为<code>casbin_rule</code>，结构语句如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> casbin_rule (
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> casbin_rule (
     p_type VARCHAR(<span style="color:#ae81ff">100</span>),
     v0 VARCHAR(<span style="color:#ae81ff">100</span>),
     v1 VARCHAR(<span style="color:#ae81ff">100</span>),
@@ -196,7 +196,7 @@ g, Bob, user
 <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> casbin_rule(p_type, v0, v1) <span style="color:#66d9ef">VALUES</span>(<span style="color:#e6db74">&#39;g&#39;</span>, <span style="color:#e6db74">&#39;Bob&#39;</span>, <span style="color:#e6db74">&#39;user&#39;</span>);
 </code></pre></div><h2 id="实现gin的handler">实现Gin的Handler</h2>
 <p>首先实现登录逻辑</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// handler/user_handler.go
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// handler/user_handler.go
 </span><span style="color:#75715e"></span>
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Login</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
     <span style="color:#a6e22e">username</span>, <span style="color:#a6e22e">password</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">PostForm</span>(<span style="color:#e6db74">&#34;username&#34;</span>), <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">PostForm</span>(<span style="color:#e6db74">&#34;password&#34;</span>)
@@ -216,7 +216,7 @@ g, Bob, user
     <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#ae81ff">200</span>, <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">RestResponse</span>{<span style="color:#a6e22e">Code</span>: <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">Message</span>:<span style="color:#a6e22e">username</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; logged in successfully&#34;</span>})
 }
 </code></pre></div><p>如果登录成功，我们存储用户(或者叫sub)信息到缓存中，这里不要忘记将sessionId写回cookie中。casbin只负责鉴权不负责认证，所以我们要自己实现认证逻辑。接下来实现读、写逻辑：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// handler/resource_handler.go
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// handler/resource_handler.go
 </span><span style="color:#75715e"></span>
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">ReadResource</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
         <span style="color:#75715e">// some stuff
@@ -232,7 +232,7 @@ g, Bob, user
     <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#ae81ff">200</span>, <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">RestResponse</span>{<span style="color:#a6e22e">Code</span>: <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">Message</span>: <span style="color:#e6db74">&#34;write resource successfully&#34;</span>, <span style="color:#a6e22e">Data</span>: <span style="color:#e6db74">&#34;resource&#34;</span>})
 }
 </code></pre></div><p>然后实现<code>main.go</code>：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// main.go
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// main.go
 </span><span style="color:#75715e"></span>
 <span style="color:#66d9ef">var</span> (
     <span style="color:#a6e22e">router</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Engine</span>
@@ -264,7 +264,7 @@ g, Bob, user
 <h2 id="启用casbin策略">启用casbin策略</h2>
 <h3 id="从数据库加载polices">从数据库加载polices</h3>
 <p>第一个问题就是，我们如何从数据库动态加载策略？我们可以使用<code>Casbin Adapters</code>，更精确的说我们使用的是<code>Gorm Adapter</code>。首先进行初始化：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// main.go
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// main.go
 </span><span style="color:#75715e"></span>
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
     <span style="color:#75715e">// Initialize  casbin adapter
@@ -284,7 +284,7 @@ g, Bob, user
         <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/resource&#34;</span>, <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">WriteResource</span>)
 }
 </code></pre></div><p>显然的，在进行任何操作前都需要经过鉴权，所以更优雅的方式是使用gin提供的<code>middlewares</code>和<code>grouping routes</code>：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// middleware/access_control.go
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// middleware/access_control.go
 </span><span style="color:#75715e"></span>
 <span style="color:#75715e">// Authorize determines if current subject has been authorized to take an action on an object.
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Authorize</span>(<span style="color:#a6e22e">obj</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">act</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">adapter</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gormadapter</span>.<span style="color:#a6e22e">Adapter</span>) <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">HandlerFunc</span> {
@@ -326,7 +326,7 @@ g, Bob, user
     <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ok</span>, <span style="color:#a6e22e">err</span>
 }
 </code></pre></div><p>最后进行一些修改：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// main.go
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// main.go
 </span><span style="color:#75715e"></span>
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
     <span style="color:#75715e">// Initialize  casbin adapter

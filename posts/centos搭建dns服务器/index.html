@@ -13,15 +13,15 @@
 zone &quot;xxx.com&quot; IN {type master;file &quot;xxx." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/centos%E6%90%AD%E5%BB%BAdns%E6%9C%8D%E5%8A%A1%E5%99%A8/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2014-09-29T11:17:13&#43;00:00" />
-<meta property="article:modified_time" content="2014-09-29T11:17:13&#43;00:00" />
+<meta property="article:published_time" content="2014-09-29T11:17:13+00:00" />
+<meta property="article:modified_time" content="2014-09-29T11:17:13+00:00" />
 
 
 		<meta itemprop="name" content="centos搭建dns服务器">
 <meta itemprop="description" content="安装bind yum install bind
 编辑/etc/named.conf，添加域配置：
-zone &quot;xxx.com&quot; IN {type master;file &quot;xxx."><meta itemprop="datePublished" content="2014-09-29T11:17:13&#43;00:00" />
-<meta itemprop="dateModified" content="2014-09-29T11:17:13&#43;00:00" />
+zone &quot;xxx.com&quot; IN {type master;file &quot;xxx."><meta itemprop="datePublished" content="2014-09-29T11:17:13+00:00" />
+<meta itemprop="dateModified" content="2014-09-29T11:17:13+00:00" />
 <meta itemprop="wordCount" content="212">
 <meta itemprop="keywords" content="centos," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -97,7 +97,7 @@ if (!doNotTrack) {
 			<p>安装bind
 <code>yum install bind</code></p>
 <p>编辑<code>/etc/named.conf</code>，添加域配置：</p>
-<pre><code>zone &quot;xxx.com&quot; IN {
+<pre tabindex="0"><code>zone &quot;xxx.com&quot; IN {
         type master;
         file &quot;xxx.com.zone&quot;;
 };
@@ -108,7 +108,7 @@ zone &quot;2.168.192.in-addr.arpa&quot; IN {
 </code></pre><p>这里注意修改options中的listen-on port 以及allow-query，默认是localhost，测试的话可以修改成any。</p>
 <p>在相应目录下建立 xxx.com.zone和2.168.192.zone文件：</p>
 <p>xxx.com.zone</p>
-<pre><code>$TTL 1D
+<pre tabindex="0"><code>$TTL 1D
 @       IN SOA  xxx.com.       root (
                                         20140929        ; serial
                                         1D      ; refresh
@@ -119,7 +119,7 @@ zone &quot;2.168.192.in-addr.arpa&quot; IN {
 ns1     IN      A       192.168.2.26
 www     IN      A       192.168.2.26
 </code></pre><p>2.168.192.zone</p>
-<pre><code>TTL 1D
+<pre tabindex="0"><code>TTL 1D
 @       IN SOA  xxx.com.       root (
                                         20140929        ; serial
                                         1D      ; refresh
@@ -133,7 +133,7 @@ www     IN      A       192.168.2.26
 <p>然后修改防火墙配置以及selinux。</p>
 <p>启动服务<code>service named start</code></p>
 <p>验证正向解析：</p>
-<pre><code>root@xsy:~# host www.xxx.com
+<pre tabindex="0"><code>root@xsy:~# host www.xxx.com
 www.xxx.com has address 192.168.2.26
 root@xsy:~# nslookup www.xxx.com
 Server:         192.168.2.222
@@ -141,7 +141,7 @@ Address:        192.168.2.222#53
 Name:   www.xxx.com
 Address: 192.168.2.26
 </code></pre><p>反向解析：</p>
-<pre><code>root@xsy:~# nslookup 192.168.2.26
+<pre tabindex="0"><code>root@xsy:~# nslookup 192.168.2.26
 Server:         192.168.2.222
 Address:        192.168.2.222#53
 26.2.168.192.in-addr.arpa       name = ns1.xxx.com.
@@ -154,7 +154,7 @@ Address:        192.168.2.222#53
 <li>options中listen-on port 以及allow-query设置。
 其中1、2看日志有明显输出，比如：</li>
 </ol>
-<pre><code>[root@localhost named]# tail -f /var/log/messages
+<pre tabindex="0"><code>[root@localhost named]# tail -f /var/log/messages
 Sep 28 17:15:04 localhost named[13020]: command channel listening on ::1#953
 Sep 28 17:15:04 localhost named[13020]: zone 0.in-addr.arpa/IN: loaded serial 0
 Sep 28 17:15:04 localhost named[13020]: zone 1.0.0.127.in-addr.arpa/IN: loaded serial 0

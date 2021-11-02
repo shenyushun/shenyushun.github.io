@@ -11,13 +11,13 @@
 <meta property="og:description" content="在python中有一个非常常用的语法糖@，本质上就是装饰器。这种模式可以不改变原文件的情况下动态的扩展一个对象的功能而不用创建子类，避免了类膨胀，是一种比较常用的模式，有个细节需要注意的就是装饰的顺序。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2020-01-02T16:58:08&#43;00:00" />
-<meta property="article:modified_time" content="2020-01-02T16:58:08&#43;00:00" />
+<meta property="article:published_time" content="2020-01-02T16:58:08+00:00" />
+<meta property="article:modified_time" content="2020-01-02T16:58:08+00:00" />
 
 
 		<meta itemprop="name" content="设计模式-装饰器模式">
-<meta itemprop="description" content="在python中有一个非常常用的语法糖@，本质上就是装饰器。这种模式可以不改变原文件的情况下动态的扩展一个对象的功能而不用创建子类，避免了类膨胀，是一种比较常用的模式，有个细节需要注意的就是装饰的顺序。"><meta itemprop="datePublished" content="2020-01-02T16:58:08&#43;00:00" />
-<meta itemprop="dateModified" content="2020-01-02T16:58:08&#43;00:00" />
+<meta itemprop="description" content="在python中有一个非常常用的语法糖@，本质上就是装饰器。这种模式可以不改变原文件的情况下动态的扩展一个对象的功能而不用创建子类，避免了类膨胀，是一种比较常用的模式，有个细节需要注意的就是装饰的顺序。"><meta itemprop="datePublished" content="2020-01-02T16:58:08+00:00" />
+<meta itemprop="dateModified" content="2020-01-02T16:58:08+00:00" />
 <meta itemprop="wordCount" content="124">
 <meta itemprop="keywords" content="设计模式," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -101,7 +101,7 @@ if (!doNotTrack) {
 </ol>
 <p>当只有一个被装饰者时，也可以吧Component和ConcreateComponent合并成一个，灵活运用而不要死板。</p>
 <p>示例代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (
 	<span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -151,7 +151,7 @@ if (!doNotTrack) {
 	<span style="color:#a6e22e">cd</span>.<span style="color:#a6e22e">show</span>()
 }
 </code></pre></div><p>程序输出：</p>
-<pre><code>In ConcreteDecorator show func! im 10 old!
+<pre tabindex="0"><code>In ConcreteDecorator show func! im 10 old!
 This is concrete_component
 </code></pre><h2 id="使用场景">使用场景</h2>
 <ol>

@@ -22,8 +22,8 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/ipfs%E5%88%9D%E7%AA%A52/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2018-09-19T10:52:06&#43;00:00" />
-<meta property="article:modified_time" content="2018-09-19T10:52:06&#43;00:00" />
+<meta property="article:published_time" content="2018-09-19T10:52:06+00:00" />
+<meta property="article:modified_time" content="2018-09-19T10:52:06+00:00" />
 
 
 		<meta itemprop="name" content="IPFS初窥2">
@@ -38,8 +38,8 @@
 对象：带有链接的、内容寻址的不可变对象组成的Merkle DAG，可以代表任意数据结构。比如文件层级和通信系统。
 文件：受到Git启发的版本控制文件层级系统。
 命名：自验证的可变命名系统。
-"><meta itemprop="datePublished" content="2018-09-19T10:52:06&#43;00:00" />
-<meta itemprop="dateModified" content="2018-09-19T10:52:06&#43;00:00" />
+"><meta itemprop="datePublished" content="2018-09-19T10:52:06+00:00" />
+<meta itemprop="dateModified" content="2018-09-19T10:52:06+00:00" />
 <meta itemprop="wordCount" content="536">
 <meta itemprop="keywords" content="ipfs," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -127,7 +127,7 @@ if (!doNotTrack) {
 <h2 id="身份">身份</h2>
 <p>节点间通过<code>NodeID</code>来识别彼此之间的身份，而<code>NodeID</code>是根据公钥和<code>S/Kademlia</code>静态加密算法生成的，一个节点可以生成多个<code>NodeID</code>，但这种行为将失去某些“好处”，至于什么好处在BitSwap时候细说。</p>
 <p>文中还给了生成<code>NodeID</code>的伪代码：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">difficulty</span> = &lt;<span style="color:#a6e22e">integet</span> <span style="color:#a6e22e">parameter</span>&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">difficulty</span> = &lt;<span style="color:#a6e22e">integet</span> <span style="color:#a6e22e">parameter</span>&gt;
 <span style="color:#a6e22e">n</span> = <span style="color:#a6e22e">Node</span>{}
 
 <span style="color:#a6e22e">do</span>{
@@ -136,7 +136,7 @@ if (!doNotTrack) {
   <span style="color:#a6e22e">p</span> = <span style="color:#a6e22e">count_preceding_zero_bits</span>((<span style="color:#a6e22e">hash</span>(<span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">NodeId</span>)))
 }<span style="color:#a6e22e">while</span> (<span style="color:#a6e22e">p</span> &lt; <span style="color:#a6e22e">difficulty</span>)
 </code></pre></div><p>代码比较好理解这里就不多解释，当节点间第一次建立链接时候会交换公钥，并且计算哈希值，如果不匹配则终止链接。另外IPFS更倾向于使用能自解释的哈希格式，比如使用了哪个哈希函数、摘要长度：</p>
-<pre><code>&lt;function code&gt;&lt;digest length&gt;&lt;digest bytes&gt;
+<pre tabindex="0"><code>&lt;function code&gt;&lt;digest length&gt;&lt;digest bytes&gt;
 </code></pre><p>这样做的好处有2个：</p>
 <ol>
 <li>可以根据实际情况选择合适的函数(安全性Vs高性能)</li>
@@ -146,7 +146,7 @@ if (!doNotTrack) {
 <p>这两个相对好理解就放一起记录了。</p>
 <p>IPFS可以使用任何传输协议，但最适合的是<code>WebRTC DataChannels</code>和<code>uTP</code>，同时基于<code>uTP</code>提供了可靠传输。并且支持<code>ICE NAT</code>穿透技术，还可以选择检查哈希值来保证消息完整性，并通过使用HAMC以及发送方的公钥来保证真实性。</p>
 <p>正是因为可以使用各种传输协议，所以IPFS也可使用<code>覆盖网络(overlay networks)</code>。因此IPFS使用多层地址的格式来存储地址信息。比如：</p>
-<pre><code># sctp/ipv4链接
+<pre tabindex="0"><code># sctp/ipv4链接
 
 /ip4/10.20.30.40/sctp/1234/
 
@@ -166,7 +166,7 @@ if (!doNotTrack) {
 <p>分母加1防止出现除以0的异常。已知r后，发送数据的概率P为：</p>
 <p>$$P(send|r)=1-\frac{1}{1+\exp(6-3r)}$$</p>
 <p>这里有个点要注意，节点A的负债(debt)就是节点B的信用(credit)，以<code>go-bitswap</code>中关于账本的代码为例，来源于<code>decision\ledger.go</code>：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ledger</span> <span style="color:#66d9ef">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ledger</span> <span style="color:#66d9ef">struct</span> {
 	<span style="color:#75715e">// Partner is the remote Peer.
 </span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Partner</span> <span style="color:#a6e22e">peer</span>.<span style="color:#a6e22e">ID</span>
 
@@ -226,7 +226,7 @@ if (!doNotTrack) {
 <p>这里Roy我有个疑惑，在<code>go-ipfs</code>源码中找了很多地方都没找到这个&quot;概率性忽略或接受请求&quot;以及对比账本是否一致部分的代码，甚至上面计算概率的公式都没找到，希望知道这部分代码实现位置的大佬能够指点一下小弟，先谢谢了。</p>
 </blockquote>
 <p>建立链接后就可以开始交换数据了。在<code>go-ipfs</code>中，want_list是一个字典，定义如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Wantlist</span> <span style="color:#66d9ef">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Wantlist</span> <span style="color:#66d9ef">struct</span> {
 	<span style="color:#a6e22e">set</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#f92672">*</span><span style="color:#a6e22e">Entry</span>
 }
 
@@ -237,12 +237,12 @@ if (!doNotTrack) {
 	<span style="color:#a6e22e">SesTrk</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">uint64</span>]<span style="color:#66d9ef">struct</span>{}
 }
 </code></pre></div><p>block则更简洁:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">BasicBlock</span> <span style="color:#66d9ef">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">BasicBlock</span> <span style="color:#66d9ef">struct</span> {
 	<span style="color:#a6e22e">cid</span>  <span style="color:#a6e22e">cid</span>.<span style="color:#a6e22e">Cid</span>
 	<span style="color:#a6e22e">data</span> []<span style="color:#66d9ef">byte</span>
 }
 </code></pre></div><p>在IPFS中，文件被分为若干Blocks，Block使用一个叫做<code>CID</code>标识符来索引，这是一个自描述的索引结构体，用来唯一标识一个Block。所以要想从节点下载一个Block，只需在知道<code>CID</code>即可，定义如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Cid represents a self-describing content adressed
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Cid represents a self-describing content adressed
 </span><span style="color:#75715e">// identifier. It is formed by a Version, a Codec (which indicates
 </span><span style="color:#75715e">// a multicodec-packed content type) and a Multihash.
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Cid</span> <span style="color:#66d9ef">struct</span>{ <span style="color:#a6e22e">str</span> <span style="color:#66d9ef">string</span> }
@@ -280,7 +280,7 @@ if (!doNotTrack) {
 	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Cid</span>{string(<span style="color:#a6e22e">buf</span>[:<span style="color:#a6e22e">n</span><span style="color:#f92672">+</span><span style="color:#a6e22e">hashlen</span>])}
 }
 </code></pre></div><p>当执行<code>ipfs daemon</code>后，可以使用<code>ipfs bitswap stat</code>来查看整体的情况：</p>
-<pre><code>-&gt; % ipfs bitswap stat
+<pre tabindex="0"><code>-&gt; % ipfs bitswap stat
 bitswap status
 	provides buffer: 0 / 256
 	blocks received: 760
@@ -307,7 +307,7 @@ bitswap status
 		QmNV721hfbzxuLdBvLaBpzmKtnPP4duf59SZ3AU1fV5CrK
 </code></pre><p>也可以使用<code>ipfs bitswap ledger NodeID</code>来具体查看和某个节点之间的债务关系。</p>
 <p>本文最后来个彩蛋吧：</p>
-<pre><code>%ipfs get Qmdsrpg2oXZTWGjat98VgpFQb5u1Vdw5Gun2rgQ2Xhxa2t                                                                                                                 
+<pre tabindex="0"><code>%ipfs get Qmdsrpg2oXZTWGjat98VgpFQb5u1Vdw5Gun2rgQ2Xhxa2t                                                                                                                 
 Saving file(s) to Qmdsrpg2oXZTWGjat98VgpFQb5u1Vdw5Gun2rgQ2Xhxa2t
 322.39 MiB / 322.39 MiB[====================================================================================================================================================] 100.00% 17m47s
 </code></pre><p>然后把下载好的文件后缀改成<code>mp4</code>，慢慢欣赏。</p>

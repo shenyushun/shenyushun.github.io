@@ -13,15 +13,15 @@
 yum install http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3-1.noarch.rpmyum install postgresql93-server postgresql93-contrib postgresql93-develcentos7中安装psql后初始化数据库和6不同，需要切换到postgres用户进入安装目录的bin文件夹执行手动初始化" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/centos%E4%B8%8B%E9%83%A8%E7%BD%B2openerp7/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2014-08-22T11:26:53&#43;00:00" />
-<meta property="article:modified_time" content="2014-08-22T11:26:53&#43;00:00" />
+<meta property="article:published_time" content="2014-08-22T11:26:53+00:00" />
+<meta property="article:modified_time" content="2014-08-22T11:26:53+00:00" />
 
 
 		<meta itemprop="name" content="centos下部署openerp7">
 <meta itemprop="description" content="首先需要注意的是openerp7需要python2.7&#43;版本，而centos6下默认是python2.6，这里我使用centos7。
 首先安装postgresql
-yum install http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3-1.noarch.rpmyum install postgresql93-server postgresql93-contrib postgresql93-develcentos7中安装psql后初始化数据库和6不同，需要切换到postgres用户进入安装目录的bin文件夹执行手动初始化"><meta itemprop="datePublished" content="2014-08-22T11:26:53&#43;00:00" />
-<meta itemprop="dateModified" content="2014-08-22T11:26:53&#43;00:00" />
+yum install http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3-1.noarch.rpmyum install postgresql93-server postgresql93-contrib postgresql93-develcentos7中安装psql后初始化数据库和6不同，需要切换到postgres用户进入安装目录的bin文件夹执行手动初始化"><meta itemprop="datePublished" content="2014-08-22T11:26:53+00:00" />
+<meta itemprop="dateModified" content="2014-08-22T11:26:53+00:00" />
 <meta itemprop="wordCount" content="148">
 <meta itemprop="keywords" content="centos," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -96,13 +96,13 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<p>首先需要注意的是openerp7需要python2.7+版本，而centos6下默认是python2.6，这里我使用centos7。</p>
 <p>首先安装postgresql</p>
-<pre><code>yum install http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3-1.noarch.rpm
+<pre tabindex="0"><code>yum install http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3-1.noarch.rpm
 yum install postgresql93-server postgresql93-contrib postgresql93-devel
 </code></pre><p>centos7中安装psql后初始化数据库和6不同，需要切换到postgres用户进入安装目录的bin文件夹执行手动初始化</p>
-<pre><code>[root@localhost bin]# su postgres
+<pre tabindex="0"><code>[root@localhost bin]# su postgres
 bash-4.2$ ./initdb -D /var/lib/pgsql/9.3/data/
 </code></pre><p>初始化完毕后启动服务以及设置开机启动</p>
-<pre><code>[root@localhost bin]# chkconfig postgresql-9.3 on
+<pre tabindex="0"><code>[root@localhost bin]# chkconfig postgresql-9.3 on
 Note: Forwarding request to 'systemctl enable postgresql-9.3.service'.
 ln -s '/usr/lib/systemd/system/postgresql-9.3.service' '/etc/systemd/system/multi-user.target.wants/postgresql-9.3.service'
 [root@localhost bin]# systemctl enable postgresql-9.3.service
@@ -110,28 +110,28 @@ ln -s '/usr/lib/systemd/system/postgresql-9.3.service' '/etc/systemd/system/mult
 Redirecting to /bin/systemctl start  postgresql-9.3.service
 </code></pre><p>可以看到，即使使用centos6的命令也会变成centos7的systemctl命令。</p>
 <p>创建openerp用户以及数据库用户</p>
-<pre><code>[root@localhost bin]#useradd openerp
+<pre tabindex="0"><code>[root@localhost bin]#useradd openerp
 [root@localhost bin]#psql -U postgres postgres
 postgres=# CREATE ROLE openerp WITH SUPERUSER LOGIN PASSWORD 'asdasd';
 </code></pre><p>创建链接（重要）
 <code>ln -s /usr/pgsql-9.3/bin/pg_config /usr/bin/pg_config</code>
 安装可能缺失的开发包</p>
-<pre><code>yum install openldap-devel libxslt-devel libxml2-devel
+<pre tabindex="0"><code>yum install openldap-devel libxslt-devel libxml2-devel
 </code></pre><p>接下来自己安装几个所需的python包，因为下面这几个使用openerp自动安装很慢</p>
-<pre><code>Babel==1.3 #
+<pre tabindex="0"><code>Babel==1.3 #
 feedparser==5.1.3  #
 gdata==2.0.18 #
 lxml==3.3.5#
 PIL==1.1.7 #这个用easy_install
 PyWebDAV==0.9.4.1#这个用easy_install
 </code></pre><p>准备工作完成后开始安装openerp</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget http://nightly.openerp.com/7.0/nightly/src/openerp-7.0-latest.tar.gz
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget http://nightly.openerp.com/7.0/nightly/src/openerp-7.0-latest.tar.gz
 tar xvf openerp-7.0-latest.tar.gz
 cd openerp
 python setup.py install
 </code></pre></div><p>如果安装过程中有什么三方依赖安装失败就用pip或者easy_install安装。
 接下来配置</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /root/openerp/openerp-server /usr/local/bin/openerp-server
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /root/openerp/openerp-server /usr/local/bin/openerp-server
 cp install/openerp-server.init /etc/init.d/openerp
 cp install/openerp-server.conf /etc   （数据库配置信息）
 chown openerp:openerp /etc/openerp-server.conf

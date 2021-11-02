@@ -18,8 +18,8 @@ In [3]: import matplotlib.pyplot as plt
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/10%E5%88%86%E9%92%9F%E5%85%A5%E9%97%A8pandas/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2017-10-30T11:38:23&#43;00:00" />
-<meta property="article:modified_time" content="2017-10-30T11:38:23&#43;00:00" />
+<meta property="article:published_time" content="2017-10-30T11:38:23+00:00" />
+<meta property="article:modified_time" content="2017-10-30T11:38:23+00:00" />
 
 
 		<meta itemprop="name" content="10分钟入门Pandas">
@@ -30,8 +30,8 @@ In [1]: import pandas as pd
 In [2]: import numpy as np
 
 In [3]: import matplotlib.pyplot as plt
-"><meta itemprop="datePublished" content="2017-10-30T11:38:23&#43;00:00" />
-<meta itemprop="dateModified" content="2017-10-30T11:38:23&#43;00:00" />
+"><meta itemprop="datePublished" content="2017-10-30T11:38:23+00:00" />
+<meta itemprop="dateModified" content="2017-10-30T11:38:23+00:00" />
 <meta itemprop="wordCount" content="3161">
 <meta itemprop="keywords" content="python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -106,14 +106,14 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<p><a href="http://pandas.pydata.org/pandas-docs/stable/10min.html">原文地址</a>，是官网的《10 Minutes to pandas》翻译，代码中添加了个人的一些注释。</p>
 <p>通常来说，我们像下面这样来引入包:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">1</span>]: <span style="color:#f92672">import</span> pandas <span style="color:#f92672">as</span> pd
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">1</span>]: <span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
 
-In [<span style="color:#ae81ff">2</span>]: <span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+In [<span style="color:#ae81ff">2</span>]: <span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
 
-In [<span style="color:#ae81ff">3</span>]: <span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+In [<span style="color:#ae81ff">3</span>]: <span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
 </code></pre></div><h2 id="创建对象">创建对象</h2>
 <p>通过列表来创建<code>Series</code>对象，pandas默认创建整型索引：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">4</span>]: s <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Series([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">5</span>,np<span style="color:#f92672">.</span>nan,<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">8</span>])
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">4</span>]: s <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Series([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">5</span>,np<span style="color:#f92672">.</span>nan,<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">8</span>])
 
 In [<span style="color:#ae81ff">5</span>]: s
 Out[<span style="color:#ae81ff">5</span>]:
@@ -125,7 +125,7 @@ Out[<span style="color:#ae81ff">5</span>]:
 <span style="color:#ae81ff">5</span>    <span style="color:#ae81ff">8.0</span>
 dtype: float64
 </code></pre></div><p>通过numpy数组来创建<code>DataFrame</code>，并使用时间作为索引和有标签的列名：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">6</span>]: dates <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>date_range(<span style="color:#e6db74">&#39;20130101&#39;</span>, periods<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>)  <span style="color:#75715e"># periods定义行数</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">6</span>]: dates <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>date_range(<span style="color:#e6db74">&#39;20130101&#39;</span>, periods<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>)  <span style="color:#75715e"># periods定义行数</span>
 
 In [<span style="color:#ae81ff">7</span>]: dates
 Out[<span style="color:#ae81ff">7</span>]:
@@ -149,7 +149,7 @@ Out[<span style="color:#ae81ff">9</span>]:
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">05</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.424972</span>  <span style="color:#ae81ff">0.567020</span>  <span style="color:#ae81ff">0.276232</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.087401</span>
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">06</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.673690</span>  <span style="color:#ae81ff">0.113648</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.478427</span>  <span style="color:#ae81ff">0.524988</span>
 </code></pre></div><p>也可以使用字典来创建<code>DataFrame</code>，就像创建<code>Series</code>那样：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
 <span style="color:#75715e"># pd.Timestamp创建日期类型数据</span>
 <span style="color:#75715e"># pd.Categorical创建类别 这种数据类型</span>
 <span style="color:#75715e"># 使用dtype参数指定数据类型，注意A列和C列的区别</span>
@@ -170,7 +170,7 @@ Out[<span style="color:#ae81ff">11</span>]:
 <span style="color:#ae81ff">2</span>  <span style="color:#ae81ff">1.0</span> <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span>  <span style="color:#ae81ff">1.0</span>  <span style="color:#ae81ff">3</span>   test  foo
 <span style="color:#ae81ff">3</span>  <span style="color:#ae81ff">1.0</span> <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span>  <span style="color:#ae81ff">1.0</span>  <span style="color:#ae81ff">3</span>  train  foo
 </code></pre></div><p>使用<code>dtypes</code>属性来查看列的类型：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
 <span style="color:#75715e"># 字符串的type是object</span>
 
 In [<span style="color:#ae81ff">12</span>]: df2<span style="color:#f92672">.</span>dtypes
@@ -183,7 +183,7 @@ E          category
 F            object
 dtype: object
 </code></pre></div><p>如果你使用Ipython，Tab键可以自动补全列名和公有属性，下面是一些示例：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">13</span>]: df2<span style="color:#f92672">.&lt;</span>TAB<span style="color:#f92672">&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">13</span>]: df2<span style="color:#f92672">.&lt;</span>TAB<span style="color:#f92672">&gt;</span>
 df2<span style="color:#f92672">.</span>A                  df2<span style="color:#f92672">.</span>bool
 df2<span style="color:#f92672">.</span>abs                df2<span style="color:#f92672">.</span>boxplot
 df2<span style="color:#f92672">.</span>add                df2<span style="color:#f92672">.</span>C
@@ -199,7 +199,7 @@ df2<span style="color:#f92672">.</span>D
 </code></pre></div><p>正如上图所示，列A,B,C,D都自动显示出来了，E也是（不过没显示出来），其余属性被截断了。</p>
 <h2 id="查看数据">查看数据</h2>
 <p>查看前几条或者后几条数据：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">14</span>]: df<span style="color:#f92672">.</span>head()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">14</span>]: df<span style="color:#f92672">.</span>head()
 Out[<span style="color:#ae81ff">14</span>]:
                    A         B         C         D
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span>  <span style="color:#ae81ff">0.469112</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.282863</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.509059</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.135632</span>
@@ -215,7 +215,7 @@ Out[<span style="color:#ae81ff">15</span>]:
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">05</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.424972</span>  <span style="color:#ae81ff">0.567020</span>  <span style="color:#ae81ff">0.276232</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.087401</span>
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">06</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.673690</span>  <span style="color:#ae81ff">0.113648</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.478427</span>  <span style="color:#ae81ff">0.524988</span>
 </code></pre></div><p>查看索引、列名、值：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">16</span>]: df<span style="color:#f92672">.</span>index
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">16</span>]: df<span style="color:#f92672">.</span>index
 Out[<span style="color:#ae81ff">16</span>]:
 DatetimeIndex([<span style="color:#e6db74">&#39;2013-01-01&#39;</span>, <span style="color:#e6db74">&#39;2013-01-02&#39;</span>, <span style="color:#e6db74">&#39;2013-01-03&#39;</span>, <span style="color:#e6db74">&#39;2013-01-04&#39;</span>,
                <span style="color:#e6db74">&#39;2013-01-05&#39;</span>, <span style="color:#e6db74">&#39;2013-01-06&#39;</span>],
@@ -233,7 +233,7 @@ array([[ <span style="color:#ae81ff">0.4691</span>, <span style="color:#f92672">
        [<span style="color:#f92672">-</span><span style="color:#ae81ff">0.425</span> ,  <span style="color:#ae81ff">0.567</span> ,  <span style="color:#ae81ff">0.2762</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0874</span>],
        [<span style="color:#f92672">-</span><span style="color:#ae81ff">0.6737</span>,  <span style="color:#ae81ff">0.1136</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.4784</span>,  <span style="color:#ae81ff">0.525</span> ]])
 </code></pre></div><p>查看统计信息：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">19</span>]: df<span style="color:#f92672">.</span>describe()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">19</span>]: df<span style="color:#f92672">.</span>describe()
 Out[<span style="color:#ae81ff">19</span>]:
               A         B         C         D
 count  <span style="color:#ae81ff">6.000000</span>  <span style="color:#ae81ff">6.000000</span>  <span style="color:#ae81ff">6.000000</span>  <span style="color:#ae81ff">6.000000</span>
@@ -245,7 +245,7 @@ min   <span style="color:#f92672">-</span><span style="color:#ae81ff">0.861849</
 <span style="color:#ae81ff">75</span><span style="color:#f92672">%</span>    <span style="color:#ae81ff">0.658444</span>  <span style="color:#ae81ff">0.041933</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.034326</span>  <span style="color:#ae81ff">0.461706</span>
 max    <span style="color:#ae81ff">1.212112</span>  <span style="color:#ae81ff">0.567020</span>  <span style="color:#ae81ff">0.276232</span>  <span style="color:#ae81ff">1.071804</span>
 </code></pre></div><p>转置数据：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">20</span>]: df<span style="color:#f92672">.</span>T
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">20</span>]: df<span style="color:#f92672">.</span>T
 Out[<span style="color:#ae81ff">20</span>]:
    <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span>  <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span>  <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span>  <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span>  <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">05</span>  <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">06</span>
 A    <span style="color:#ae81ff">0.469112</span>    <span style="color:#ae81ff">1.212112</span>   <span style="color:#f92672">-</span><span style="color:#ae81ff">0.861849</span>    <span style="color:#ae81ff">0.721555</span>   <span style="color:#f92672">-</span><span style="color:#ae81ff">0.424972</span>   <span style="color:#f92672">-</span><span style="color:#ae81ff">0.673690</span>
@@ -253,10 +253,10 @@ B   <span style="color:#f92672">-</span><span style="color:#ae81ff">0.282863</sp
 C   <span style="color:#f92672">-</span><span style="color:#ae81ff">1.509059</span>    <span style="color:#ae81ff">0.119209</span>   <span style="color:#f92672">-</span><span style="color:#ae81ff">0.494929</span>   <span style="color:#f92672">-</span><span style="color:#ae81ff">1.039575</span>    <span style="color:#ae81ff">0.276232</span>   <span style="color:#f92672">-</span><span style="color:#ae81ff">1.478427</span>
 D   <span style="color:#f92672">-</span><span style="color:#ae81ff">1.135632</span>   <span style="color:#f92672">-</span><span style="color:#ae81ff">1.044236</span>    <span style="color:#ae81ff">1.071804</span>    <span style="color:#ae81ff">0.271860</span>   <span style="color:#f92672">-</span><span style="color:#ae81ff">1.087401</span>    <span style="color:#ae81ff">0.524988</span>
 </code></pre></div><p>根据行名排序：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 注意参数axis指定1为行名，0时为列名，在此例子中则代表根据时间正序或者逆序</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 注意参数axis指定1为行名，0时为列名，在此例子中则代表根据时间正序或者逆序</span>
 <span style="color:#75715e"># ascending代表是否逆序</span>
 
-In [<span style="color:#ae81ff">21</span>]: df<span style="color:#f92672">.</span>sort_index(axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, ascending<span style="color:#f92672">=</span>False)
+In [<span style="color:#ae81ff">21</span>]: df<span style="color:#f92672">.</span>sort_index(axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, ascending<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
 Out[<span style="color:#ae81ff">21</span>]:
                    D         C         B         A
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.135632</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.509059</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.282863</span>  <span style="color:#ae81ff">0.469112</span>
@@ -272,7 +272,7 @@ Out[<span style="color:#ae81ff">21</span>]:
 <p>更多说明请参考 Indexing and Selecting Data 和 MultiIndex / Advanced Indexing 。</p>
 <h3 id="获得数据">获得数据</h3>
 <p>选择一列，返回<code>Series</code>对象，等价于df.A：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">23</span>]: df[<span style="color:#e6db74">&#39;A&#39;</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">23</span>]: df[<span style="color:#e6db74">&#39;A&#39;</span>]
 Out[<span style="color:#ae81ff">23</span>]:
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span>    <span style="color:#ae81ff">0.469112</span>
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span>    <span style="color:#ae81ff">1.212112</span>
@@ -282,7 +282,7 @@ Out[<span style="color:#ae81ff">23</span>]:
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">06</span>   <span style="color:#f92672">-</span><span style="color:#ae81ff">0.673690</span>
 Freq: D, Name: A, dtype: float64
 </code></pre></div><p>使用<code>[]</code>选择数据，返回行的切片：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">24</span>]: df[<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">3</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">24</span>]: df[<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">3</span>]
 Out[<span style="color:#ae81ff">24</span>]:
                    A         B         C         D
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span>  <span style="color:#ae81ff">0.469112</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.282863</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.509059</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.135632</span>
@@ -297,7 +297,7 @@ Out[<span style="color:#ae81ff">25</span>]:
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span>  <span style="color:#ae81ff">0.721555</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.706771</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.039575</span>  <span style="color:#ae81ff">0.271860</span>
 </code></pre></div><h3 id="使用标签获得数据">使用标签获得数据</h3>
 <p>通过标签获取第一行：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">26</span>]: df<span style="color:#f92672">.</span>loc[dates[<span style="color:#ae81ff">0</span>]]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">26</span>]: df<span style="color:#f92672">.</span>loc[dates[<span style="color:#ae81ff">0</span>]]
 Out[<span style="color:#ae81ff">26</span>]:
 A    <span style="color:#ae81ff">0.469112</span>
 B   <span style="color:#f92672">-</span><span style="color:#ae81ff">0.282863</span>
@@ -305,7 +305,7 @@ C   <span style="color:#f92672">-</span><span style="color:#ae81ff">1.509059</sp
 D   <span style="color:#f92672">-</span><span style="color:#ae81ff">1.135632</span>
 Name: <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span> <span style="color:#ae81ff">00</span>:<span style="color:#ae81ff">00</span>:<span style="color:#ae81ff">00</span>, dtype: float64
 </code></pre></div><p>通过标签获取多个列：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">27</span>]: df<span style="color:#f92672">.</span>loc[:,[<span style="color:#e6db74">&#39;A&#39;</span>,<span style="color:#e6db74">&#39;B&#39;</span>]]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">27</span>]: df<span style="color:#f92672">.</span>loc[:,[<span style="color:#e6db74">&#39;A&#39;</span>,<span style="color:#e6db74">&#39;B&#39;</span>]]
 Out[<span style="color:#ae81ff">27</span>]:
                    A         B
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span>  <span style="color:#ae81ff">0.469112</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.282863</span>
@@ -315,27 +315,27 @@ Out[<span style="color:#ae81ff">27</span>]:
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">05</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.424972</span>  <span style="color:#ae81ff">0.567020</span>
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">06</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.673690</span>  <span style="color:#ae81ff">0.113648</span>
 </code></pre></div><p>获取一定标签范围的数据，<strong>包含起始和结尾两条数据</strong> （这个注意和Python的切片操作有略微不同，Python切片是不包含结尾的）:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">28</span>]: df<span style="color:#f92672">.</span>loc[<span style="color:#e6db74">&#39;20130102&#39;</span>:<span style="color:#e6db74">&#39;20130104&#39;</span>,[<span style="color:#e6db74">&#39;A&#39;</span>,<span style="color:#e6db74">&#39;B&#39;</span>]]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">28</span>]: df<span style="color:#f92672">.</span>loc[<span style="color:#e6db74">&#39;20130102&#39;</span>:<span style="color:#e6db74">&#39;20130104&#39;</span>,[<span style="color:#e6db74">&#39;A&#39;</span>,<span style="color:#e6db74">&#39;B&#39;</span>]]
 Out[<span style="color:#ae81ff">28</span>]:
                    A         B
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span>  <span style="color:#ae81ff">1.212112</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.173215</span>
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.861849</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">2.104569</span>
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span>  <span style="color:#ae81ff">0.721555</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.706771</span>
 </code></pre></div><p>减少返回数据量：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">29</span>]: df<span style="color:#f92672">.</span>loc[<span style="color:#e6db74">&#39;20130102&#39;</span>,[<span style="color:#e6db74">&#39;A&#39;</span>,<span style="color:#e6db74">&#39;B&#39;</span>]]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">29</span>]: df<span style="color:#f92672">.</span>loc[<span style="color:#e6db74">&#39;20130102&#39;</span>,[<span style="color:#e6db74">&#39;A&#39;</span>,<span style="color:#e6db74">&#39;B&#39;</span>]]
 Out[<span style="color:#ae81ff">29</span>]:
 A    <span style="color:#ae81ff">1.212112</span>
 B   <span style="color:#f92672">-</span><span style="color:#ae81ff">0.173215</span>
 Name: <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span> <span style="color:#ae81ff">00</span>:<span style="color:#ae81ff">00</span>:<span style="color:#ae81ff">00</span>, dtype: float64
 </code></pre></div><p>获取一个标量值(scalar value)：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">30</span>]: df<span style="color:#f92672">.</span>loc[dates[<span style="color:#ae81ff">0</span>],<span style="color:#e6db74">&#39;A&#39;</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">30</span>]: df<span style="color:#f92672">.</span>loc[dates[<span style="color:#ae81ff">0</span>],<span style="color:#e6db74">&#39;A&#39;</span>]
 Out[<span style="color:#ae81ff">30</span>]: <span style="color:#ae81ff">0.46911229990718628</span>
 </code></pre></div><p>快速获取一个标量(等同前面的方法)：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">31</span>]: df<span style="color:#f92672">.</span>at[dates[<span style="color:#ae81ff">0</span>],<span style="color:#e6db74">&#39;A&#39;</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">31</span>]: df<span style="color:#f92672">.</span>at[dates[<span style="color:#ae81ff">0</span>],<span style="color:#e6db74">&#39;A&#39;</span>]
 Out[<span style="color:#ae81ff">31</span>]: <span style="color:#ae81ff">0.46911229990718628</span>
 </code></pre></div><h3 id="使用下标获取数据">使用下标获取数据</h3>
 <p>通过整数下标来选择数据：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">32</span>]: df<span style="color:#f92672">.</span>iloc[<span style="color:#ae81ff">3</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">32</span>]: df<span style="color:#f92672">.</span>iloc[<span style="color:#ae81ff">3</span>]
 Out[<span style="color:#ae81ff">32</span>]:
 A    <span style="color:#ae81ff">0.721555</span>
 B   <span style="color:#f92672">-</span><span style="color:#ae81ff">0.706771</span>
@@ -343,26 +343,26 @@ C   <span style="color:#f92672">-</span><span style="color:#ae81ff">1.039575</sp
 D    <span style="color:#ae81ff">0.271860</span>
 Name: <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span> <span style="color:#ae81ff">00</span>:<span style="color:#ae81ff">00</span>:<span style="color:#ae81ff">00</span>, dtype: float64
 </code></pre></div><p>通过下标切片来获取数据，和python/numpy类似：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">33</span>]: df<span style="color:#f92672">.</span>iloc[<span style="color:#ae81ff">3</span>:<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">2</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">33</span>]: df<span style="color:#f92672">.</span>iloc[<span style="color:#ae81ff">3</span>:<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">2</span>]
 Out[<span style="color:#ae81ff">33</span>]:
                    A         B
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span>  <span style="color:#ae81ff">0.721555</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.706771</span>
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">05</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.424972</span>  <span style="color:#ae81ff">0.567020</span>
 </code></pre></div><p>通过下标数组来获取数据，和python/numpy类似：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">34</span>]: df<span style="color:#f92672">.</span>iloc[[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">4</span>],[<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">2</span>]]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">34</span>]: df<span style="color:#f92672">.</span>iloc[[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">4</span>],[<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">2</span>]]
 Out[<span style="color:#ae81ff">34</span>]:
                    A         C
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span>  <span style="color:#ae81ff">1.212112</span>  <span style="color:#ae81ff">0.119209</span>
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.861849</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.494929</span>
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">05</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.424972</span>  <span style="color:#ae81ff">0.276232</span>
 </code></pre></div><p>显式的指定行：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">35</span>]: df<span style="color:#f92672">.</span>iloc[<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>,:]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">35</span>]: df<span style="color:#f92672">.</span>iloc[<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>,:]
 Out[<span style="color:#ae81ff">35</span>]:
                    A         B         C         D
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span>  <span style="color:#ae81ff">1.212112</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.173215</span>  <span style="color:#ae81ff">0.119209</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.044236</span>
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.861849</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">2.104569</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.494929</span>  <span style="color:#ae81ff">1.071804</span>
 </code></pre></div><p>显式的指定列：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">36</span>]: df<span style="color:#f92672">.</span>iloc[:,<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">36</span>]: df<span style="color:#f92672">.</span>iloc[:,<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>]
 Out[<span style="color:#ae81ff">36</span>]:
                    B         C
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.282863</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.509059</span>
@@ -372,21 +372,21 @@ Out[<span style="color:#ae81ff">36</span>]:
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">05</span>  <span style="color:#ae81ff">0.567020</span>  <span style="color:#ae81ff">0.276232</span>
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">06</span>  <span style="color:#ae81ff">0.113648</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.478427</span>
 </code></pre></div><p>显式指定值：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">37</span>]: df<span style="color:#f92672">.</span>iloc[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">37</span>]: df<span style="color:#f92672">.</span>iloc[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>]
 Out[<span style="color:#ae81ff">37</span>]: <span style="color:#f92672">-</span><span style="color:#ae81ff">0.17321464905330858</span>
 </code></pre></div><p>或者更快的方法：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">38</span>]: df<span style="color:#f92672">.</span>iat[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">38</span>]: df<span style="color:#f92672">.</span>iat[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>]
 Out[<span style="color:#ae81ff">38</span>]: <span style="color:#f92672">-</span><span style="color:#ae81ff">0.17321464905330858</span>
 </code></pre></div><h3 id="根据布尔值选择">根据布尔值选择</h3>
 <p>根据某列值来选择：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">39</span>]: df[df<span style="color:#f92672">.</span>A <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">39</span>]: df[df<span style="color:#f92672">.</span>A <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>]
 Out[<span style="color:#ae81ff">39</span>]:
                    A         B         C         D
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span>  <span style="color:#ae81ff">0.469112</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.282863</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.509059</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.135632</span>
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span>  <span style="color:#ae81ff">1.212112</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.173215</span>  <span style="color:#ae81ff">0.119209</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.044236</span>
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span>  <span style="color:#ae81ff">0.721555</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.706771</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.039575</span>  <span style="color:#ae81ff">0.271860</span>
 </code></pre></div><p>根据布尔值在整个<code>DataFrame</code>上选择数据：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">40</span>]: df[df <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">40</span>]: df[df <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>]
 Out[<span style="color:#ae81ff">40</span>]:
                    A         B         C         D
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span>  <span style="color:#ae81ff">0.469112</span>       NaN       NaN       NaN
@@ -396,7 +396,7 @@ Out[<span style="color:#ae81ff">40</span>]:
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">05</span>       NaN  <span style="color:#ae81ff">0.567020</span>  <span style="color:#ae81ff">0.276232</span>       NaN
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">06</span>       NaN  <span style="color:#ae81ff">0.113648</span>       NaN  <span style="color:#ae81ff">0.524988</span>
 </code></pre></div><p>使用<code>isin()</code>函数进行过滤：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">41</span>]: df2 <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>copy()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">41</span>]: df2 <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>copy()
 
 In [<span style="color:#ae81ff">42</span>]: df2[<span style="color:#e6db74">&#39;E&#39;</span>] <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;one&#39;</span>, <span style="color:#e6db74">&#39;one&#39;</span>,<span style="color:#e6db74">&#39;two&#39;</span>,<span style="color:#e6db74">&#39;three&#39;</span>,<span style="color:#e6db74">&#39;four&#39;</span>,<span style="color:#e6db74">&#39;three&#39;</span>]
 
@@ -417,7 +417,7 @@ Out[<span style="color:#ae81ff">44</span>]:
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">05</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.424972</span>  <span style="color:#ae81ff">0.567020</span>  <span style="color:#ae81ff">0.276232</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.087401</span>  four
 </code></pre></div><h3 id="赋值">赋值</h3>
 <p>创建一个新列并自动根据索引将数据对其：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">45</span>]: s1 <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Series([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">6</span>], index<span style="color:#f92672">=</span>pd<span style="color:#f92672">.</span>date_range(<span style="color:#e6db74">&#39;20130102&#39;</span>, periods<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>))
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">45</span>]: s1 <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Series([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">6</span>], index<span style="color:#f92672">=</span>pd<span style="color:#f92672">.</span>date_range(<span style="color:#e6db74">&#39;20130102&#39;</span>, periods<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>))
 
 In [<span style="color:#ae81ff">46</span>]: s1
 Out[<span style="color:#ae81ff">46</span>]:
@@ -431,13 +431,13 @@ Freq: D, dtype: int64
 
 In [<span style="color:#ae81ff">47</span>]: df[<span style="color:#e6db74">&#39;F&#39;</span>] <span style="color:#f92672">=</span> s1
 </code></pre></div><p>根据标签赋值：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">48</span>]: df<span style="color:#f92672">.</span>at[dates[<span style="color:#ae81ff">0</span>],<span style="color:#e6db74">&#39;A&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">48</span>]: df<span style="color:#f92672">.</span>at[dates[<span style="color:#ae81ff">0</span>],<span style="color:#e6db74">&#39;A&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
 </code></pre></div><p>根据下标赋值：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">49</span>]: df<span style="color:#f92672">.</span>iat[<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">49</span>]: df<span style="color:#f92672">.</span>iat[<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
 </code></pre></div><p>使用numpy数组赋值：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">50</span>]: df<span style="color:#f92672">.</span>loc[:,<span style="color:#e6db74">&#39;D&#39;</span>] <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">5</span>] <span style="color:#f92672">*</span> len(df))
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">50</span>]: df<span style="color:#f92672">.</span>loc[:,<span style="color:#e6db74">&#39;D&#39;</span>] <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">5</span>] <span style="color:#f92672">*</span> len(df))
 </code></pre></div><p>上面操作后结果如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">
 <span style="color:#75715e"># 注意F列，声明时候从1月2日开始，所以第一行为NAN</span>
 In [<span style="color:#ae81ff">51</span>]: df
 Out[<span style="color:#ae81ff">51</span>]:
@@ -449,7 +449,7 @@ Out[<span style="color:#ae81ff">51</span>]:
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">05</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.424972</span>  <span style="color:#ae81ff">0.567020</span>  <span style="color:#ae81ff">0.276232</span>  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">4.0</span>
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">06</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.673690</span>  <span style="color:#ae81ff">0.113648</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.478427</span>  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">5.0</span>
 </code></pre></div><p>使用<code>where</code>操作：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">52</span>]: df2 <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>copy()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">52</span>]: df2 <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>copy()
 <span style="color:#75715e"># 把所有大于0的数据取反</span>
 In [<span style="color:#ae81ff">53</span>]: df2[df2 <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>df2
 
@@ -465,7 +465,7 @@ Out[<span style="color:#ae81ff">54</span>]:
 </code></pre></div><h2 id="数据缺失">数据缺失</h2>
 <p>pandas使用<code>np.nan</code>来填充缺失的数据，默认情况下这些数值不会被计算，细节参考Missing Data section。</p>
 <p><code>Reindexing</code>函数准许你 改变/添加/删除 指定轴上的索引，并返回数据的副本：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">55</span>]: df1 <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>reindex(index<span style="color:#f92672">=</span>dates[<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">4</span>], columns<span style="color:#f92672">=</span>list(df<span style="color:#f92672">.</span>columns) <span style="color:#f92672">+</span> [<span style="color:#e6db74">&#39;E&#39;</span>])
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">55</span>]: df1 <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>reindex(index<span style="color:#f92672">=</span>dates[<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">4</span>], columns<span style="color:#f92672">=</span>list(df<span style="color:#f92672">.</span>columns) <span style="color:#f92672">+</span> [<span style="color:#e6db74">&#39;E&#39;</span>])
 
 In [<span style="color:#ae81ff">56</span>]: df1<span style="color:#f92672">.</span>loc[dates[<span style="color:#ae81ff">0</span>]:dates[<span style="color:#ae81ff">1</span>],<span style="color:#e6db74">&#39;E&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
 
@@ -477,12 +477,12 @@ Out[<span style="color:#ae81ff">57</span>]:
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.861849</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">2.104569</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.494929</span>  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2.0</span>  NaN
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span>  <span style="color:#ae81ff">0.721555</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.706771</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.039575</span>  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">3.0</span>  NaN
 </code></pre></div><p>删除所有包含<code>NaN</code>数据的行：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">58</span>]: df1<span style="color:#f92672">.</span>dropna(how<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;any&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">58</span>]: df1<span style="color:#f92672">.</span>dropna(how<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;any&#39;</span>)
 Out[<span style="color:#ae81ff">58</span>]:
                    A         B         C  D    F    E
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span>  <span style="color:#ae81ff">1.212112</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.173215</span>  <span style="color:#ae81ff">0.119209</span>  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">1.0</span>  <span style="color:#ae81ff">1.0</span>
 </code></pre></div><p>填充缺失的数据：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">59</span>]: df1<span style="color:#f92672">.</span>fillna(value<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">59</span>]: df1<span style="color:#f92672">.</span>fillna(value<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)
 Out[<span style="color:#ae81ff">59</span>]:
                    A         B         C  D    F    E
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span>  <span style="color:#ae81ff">0.000000</span>  <span style="color:#ae81ff">0.000000</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.509059</span>  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">5.0</span>  <span style="color:#ae81ff">1.0</span>
@@ -490,18 +490,18 @@ Out[<span style="color:#ae81ff">59</span>]:
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.861849</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">2.104569</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.494929</span>  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2.0</span>  <span style="color:#ae81ff">5.0</span>
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span>  <span style="color:#ae81ff">0.721555</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.706771</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.039575</span>  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">3.0</span>  <span style="color:#ae81ff">5.0</span>
 </code></pre></div><p>根据是否是<code>NaN</code>来获取布尔值：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">60</span>]: pd<span style="color:#f92672">.</span>isna(df1)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">60</span>]: pd<span style="color:#f92672">.</span>isna(df1)
 Out[<span style="color:#ae81ff">60</span>]:
                 A      B      C      D      F      E
-<span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span>  False  False  False  False   True  False
-<span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span>  False  False  False  False  False  False
-<span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span>  False  False  False  False  False   True
-<span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span>  False  False  False  False  False   True
+<span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span>  <span style="color:#66d9ef">False</span>  <span style="color:#66d9ef">False</span>  <span style="color:#66d9ef">False</span>  <span style="color:#66d9ef">False</span>   <span style="color:#66d9ef">True</span>  <span style="color:#66d9ef">False</span>
+<span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span>  <span style="color:#66d9ef">False</span>  <span style="color:#66d9ef">False</span>  <span style="color:#66d9ef">False</span>  <span style="color:#66d9ef">False</span>  <span style="color:#66d9ef">False</span>  <span style="color:#66d9ef">False</span>
+<span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span>  <span style="color:#66d9ef">False</span>  <span style="color:#66d9ef">False</span>  <span style="color:#66d9ef">False</span>  <span style="color:#66d9ef">False</span>  <span style="color:#66d9ef">False</span>   <span style="color:#66d9ef">True</span>
+<span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span>  <span style="color:#66d9ef">False</span>  <span style="color:#66d9ef">False</span>  <span style="color:#66d9ef">False</span>  <span style="color:#66d9ef">False</span>  <span style="color:#66d9ef">False</span>   <span style="color:#66d9ef">True</span>
 </code></pre></div><h2 id="操作">操作</h2>
 <p>细节请查看Basic section on Binary Ops</p>
 <h3 id="统计数据">统计数据</h3>
 <p>所有的操作都 <em><strong>排除缺失</strong></em> 的数据。执行一个统计函数：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">61</span>]: df<span style="color:#f92672">.</span>mean()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">61</span>]: df<span style="color:#f92672">.</span>mean()
 Out[<span style="color:#ae81ff">61</span>]:
 A   <span style="color:#f92672">-</span><span style="color:#ae81ff">0.004474</span>
 B   <span style="color:#f92672">-</span><span style="color:#ae81ff">0.383981</span>
@@ -510,7 +510,7 @@ D    <span style="color:#ae81ff">5.000000</span>
 F    <span style="color:#ae81ff">3.000000</span>
 dtype: float64
 </code></pre></div><p>在别的轴上执行相同的操作：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">62</span>]: df<span style="color:#f92672">.</span>mean(<span style="color:#ae81ff">1</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">62</span>]: df<span style="color:#f92672">.</span>mean(<span style="color:#ae81ff">1</span>)
 Out[<span style="color:#ae81ff">62</span>]:
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span>    <span style="color:#ae81ff">0.872735</span>
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span>    <span style="color:#ae81ff">1.431621</span>
@@ -520,7 +520,7 @@ Out[<span style="color:#ae81ff">62</span>]:
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">06</span>    <span style="color:#ae81ff">1.592306</span>
 Freq: D, dtype: float64
 </code></pre></div><p>操作有不同的维度，因此需要对齐数据。此外pandas会自动根据指定的维度进行扩展：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">63</span>]: s <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Series([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">5</span>,np<span style="color:#f92672">.</span>nan,<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">8</span>], index<span style="color:#f92672">=</span>dates)<span style="color:#f92672">.</span>shift(<span style="color:#ae81ff">2</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">63</span>]: s <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Series([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">5</span>,np<span style="color:#f92672">.</span>nan,<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">8</span>], index<span style="color:#f92672">=</span>dates)<span style="color:#f92672">.</span>shift(<span style="color:#ae81ff">2</span>)
 
 In [<span style="color:#ae81ff">64</span>]: s
 Out[<span style="color:#ae81ff">64</span>]:
@@ -543,7 +543,7 @@ Out[<span style="color:#ae81ff">65</span>]:
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">06</span>       NaN       NaN       NaN  NaN  NaN
 </code></pre></div><h3 id="应用函数">应用函数</h3>
 <p>在数据集上应用函数：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">66</span>]: df<span style="color:#f92672">.</span>apply(np<span style="color:#f92672">.</span>cumsum)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">66</span>]: df<span style="color:#f92672">.</span>apply(np<span style="color:#f92672">.</span>cumsum)
 Out[<span style="color:#ae81ff">66</span>]:
                    A         B         C   D     F
 <span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span>  <span style="color:#ae81ff">0.000000</span>  <span style="color:#ae81ff">0.000000</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.509059</span>   <span style="color:#ae81ff">5</span>   NaN
@@ -563,7 +563,7 @@ F    <span style="color:#ae81ff">4.000000</span>
 dtype: float64
 </code></pre></div><h3 id="直方图">直方图</h3>
 <p>更多细节查看Histogramming and Discretization</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">68</span>]: s <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Series(np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">7</span>, size<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>))
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">68</span>]: s <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Series(np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">7</span>, size<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>))
 
 In [<span style="color:#ae81ff">69</span>]: s
 Out[<span style="color:#ae81ff">69</span>]:
@@ -588,7 +588,7 @@ Out[<span style="color:#ae81ff">70</span>]:
 dtype: int64
 </code></pre></div><h3 id="字符串方法">字符串方法</h3>
 <p>在<code>Series</code>上可以通过<code>str</code>属性方便的在数组每一个元素上使用一系列字符串处理函数，如下面所示。注意在<code>str</code>上默认使用正则表达式来进行模式匹配。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">71</span>]: s <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Series([<span style="color:#e6db74">&#39;A&#39;</span>, <span style="color:#e6db74">&#39;B&#39;</span>, <span style="color:#e6db74">&#39;C&#39;</span>, <span style="color:#e6db74">&#39;Aaba&#39;</span>, <span style="color:#e6db74">&#39;Baca&#39;</span>, np<span style="color:#f92672">.</span>nan, <span style="color:#e6db74">&#39;CABA&#39;</span>, <span style="color:#e6db74">&#39;dog&#39;</span>, <span style="color:#e6db74">&#39;cat&#39;</span>])
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">71</span>]: s <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Series([<span style="color:#e6db74">&#39;A&#39;</span>, <span style="color:#e6db74">&#39;B&#39;</span>, <span style="color:#e6db74">&#39;C&#39;</span>, <span style="color:#e6db74">&#39;Aaba&#39;</span>, <span style="color:#e6db74">&#39;Baca&#39;</span>, np<span style="color:#f92672">.</span>nan, <span style="color:#e6db74">&#39;CABA&#39;</span>, <span style="color:#e6db74">&#39;dog&#39;</span>, <span style="color:#e6db74">&#39;cat&#39;</span>])
 
 In [<span style="color:#ae81ff">72</span>]: s<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>lower()
 Out[<span style="color:#ae81ff">72</span>]:
@@ -606,7 +606,7 @@ dtype: object
 <p>pandas提供了很多种方法合并<code>Series</code>、<code>DataFrame</code>和<code>Panel</code>，并且提供了各种各样的关系代数函数可以应用在索引上，比如<code>join/merge-type</code>操作。</p>
 <h3 id="concat">concat</h3>
 <p>使用<code>concat</code>函数来连接pandas数据类型：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">73</span>]: df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>randn(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">4</span>))
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">73</span>]: df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>randn(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">4</span>))
 
 In [<span style="color:#ae81ff">74</span>]: df
 Out[<span style="color:#ae81ff">74</span>]:
@@ -640,7 +640,7 @@ Out[<span style="color:#ae81ff">76</span>]:
 <span style="color:#ae81ff">9</span>  <span style="color:#ae81ff">1.193555</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.077118</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.408530</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.862495</span>
 </code></pre></div><h3 id="join">join</h3>
 <p>类似SQL中的join操作：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">77</span>]: left <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;key&#39;</span>: [<span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;foo&#39;</span>], <span style="color:#e6db74">&#39;lval&#39;</span>: [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>]})
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">77</span>]: left <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;key&#39;</span>: [<span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;foo&#39;</span>], <span style="color:#e6db74">&#39;lval&#39;</span>: [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>]})
 
 In [<span style="color:#ae81ff">78</span>]: right <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;key&#39;</span>: [<span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;foo&#39;</span>], <span style="color:#e6db74">&#39;rval&#39;</span>: [<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>]})
 
@@ -664,7 +664,7 @@ Out[<span style="color:#ae81ff">81</span>]:
 <span style="color:#ae81ff">2</span>  foo     <span style="color:#ae81ff">2</span>     <span style="color:#ae81ff">4</span>
 <span style="color:#ae81ff">3</span>  foo     <span style="color:#ae81ff">2</span>     <span style="color:#ae81ff">5</span>
 </code></pre></div><p>另一种显示方式：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">82</span>]: left <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;key&#39;</span>: [<span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;bar&#39;</span>], <span style="color:#e6db74">&#39;lval&#39;</span>: [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>]})
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">82</span>]: left <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;key&#39;</span>: [<span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;bar&#39;</span>], <span style="color:#e6db74">&#39;lval&#39;</span>: [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>]})
 
 In [<span style="color:#ae81ff">83</span>]: right <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;key&#39;</span>: [<span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;bar&#39;</span>], <span style="color:#e6db74">&#39;rval&#39;</span>: [<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>]})
 
@@ -687,7 +687,7 @@ Out[<span style="color:#ae81ff">86</span>]:
 <span style="color:#ae81ff">1</span>  bar     <span style="color:#ae81ff">2</span>     <span style="color:#ae81ff">5</span>
 </code></pre></div><h3 id="append">Append</h3>
 <p>追加一行到数据中：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">87</span>]: df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>randn(<span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">4</span>), columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;A&#39;</span>,<span style="color:#e6db74">&#39;B&#39;</span>,<span style="color:#e6db74">&#39;C&#39;</span>,<span style="color:#e6db74">&#39;D&#39;</span>])
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">87</span>]: df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>randn(<span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">4</span>), columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;A&#39;</span>,<span style="color:#e6db74">&#39;B&#39;</span>,<span style="color:#e6db74">&#39;C&#39;</span>,<span style="color:#e6db74">&#39;D&#39;</span>])
 
 In [<span style="color:#ae81ff">88</span>]: df
 Out[<span style="color:#ae81ff">88</span>]:
@@ -704,7 +704,7 @@ Out[<span style="color:#ae81ff">88</span>]:
 In [<span style="color:#ae81ff">89</span>]: s <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>iloc[<span style="color:#ae81ff">3</span>]
 
 <span style="color:#75715e"># 注意后面的ignore_index参数</span>
-In [<span style="color:#ae81ff">90</span>]: df<span style="color:#f92672">.</span>append(s, ignore_index<span style="color:#f92672">=</span>True)
+In [<span style="color:#ae81ff">90</span>]: df<span style="color:#f92672">.</span>append(s, ignore_index<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 Out[<span style="color:#ae81ff">90</span>]:
           A         B         C         D
 <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">1.346061</span>  <span style="color:#ae81ff">1.511763</span>  <span style="color:#ae81ff">1.627081</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.990582</span>
@@ -723,7 +723,7 @@ Out[<span style="color:#ae81ff">90</span>]:
 <li>对每个组 <strong>应用</strong> 函数</li>
 <li>将结果 <strong>组合</strong> 起来到一个数据结构中</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">91</span>]: df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;A&#39;</span> : [<span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;bar&#39;</span>, <span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;bar&#39;</span>,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">91</span>]: df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;A&#39;</span> : [<span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;bar&#39;</span>, <span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;bar&#39;</span>,
    <span style="color:#f92672">....</span>:                           <span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;bar&#39;</span>, <span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;foo&#39;</span>],
    <span style="color:#f92672">....</span>:                    <span style="color:#e6db74">&#39;B&#39;</span> : [<span style="color:#e6db74">&#39;one&#39;</span>, <span style="color:#e6db74">&#39;one&#39;</span>, <span style="color:#e6db74">&#39;two&#39;</span>, <span style="color:#e6db74">&#39;three&#39;</span>,
    <span style="color:#f92672">....</span>:                           <span style="color:#e6db74">&#39;two&#39;</span>, <span style="color:#e6db74">&#39;two&#39;</span>, <span style="color:#e6db74">&#39;one&#39;</span>, <span style="color:#e6db74">&#39;three&#39;</span>],
@@ -743,14 +743,14 @@ Out[<span style="color:#ae81ff">92</span>]:
 <span style="color:#ae81ff">6</span>  foo    one  <span style="color:#ae81ff">0.007207</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.561757</span>
 <span style="color:#ae81ff">7</span>  foo  three  <span style="color:#ae81ff">1.928123</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1.623033</span>
 </code></pre></div><p>分组并求和：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">93</span>]: df<span style="color:#f92672">.</span>groupby(<span style="color:#e6db74">&#39;A&#39;</span>)<span style="color:#f92672">.</span>sum()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">93</span>]: df<span style="color:#f92672">.</span>groupby(<span style="color:#e6db74">&#39;A&#39;</span>)<span style="color:#f92672">.</span>sum()
 Out[<span style="color:#ae81ff">93</span>]:
             C        D
 A                     
 bar <span style="color:#f92672">-</span><span style="color:#ae81ff">2.802588</span>  <span style="color:#ae81ff">2.42611</span>
 foo  <span style="color:#ae81ff">3.146492</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.63958</span>
 </code></pre></div><p>根据多个列分组：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">94</span>]: df<span style="color:#f92672">.</span>groupby([<span style="color:#e6db74">&#39;A&#39;</span>,<span style="color:#e6db74">&#39;B&#39;</span>])<span style="color:#f92672">.</span>sum()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">94</span>]: df<span style="color:#f92672">.</span>groupby([<span style="color:#e6db74">&#39;A&#39;</span>,<span style="color:#e6db74">&#39;B&#39;</span>])<span style="color:#f92672">.</span>sum()
 Out[<span style="color:#ae81ff">94</span>]:
                   C         D
 A   B                        
@@ -763,7 +763,7 @@ foo one   <span style="color:#f92672">-</span><span style="color:#ae81ff">1.1956
 </code></pre></div><h2 id="reshaping">Reshaping</h2>
 <p>更多细节参考 <code>Hierarchical Indexing</code>和<code>Reshaping</code>。</p>
 <h3 id="stack">Stack</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">95</span>]: tuples <span style="color:#f92672">=</span> list(zip(<span style="color:#f92672">*</span>[[<span style="color:#e6db74">&#39;bar&#39;</span>, <span style="color:#e6db74">&#39;bar&#39;</span>, <span style="color:#e6db74">&#39;baz&#39;</span>, <span style="color:#e6db74">&#39;baz&#39;</span>,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">95</span>]: tuples <span style="color:#f92672">=</span> list(zip(<span style="color:#f92672">*</span>[[<span style="color:#e6db74">&#39;bar&#39;</span>, <span style="color:#e6db74">&#39;bar&#39;</span>, <span style="color:#e6db74">&#39;baz&#39;</span>, <span style="color:#e6db74">&#39;baz&#39;</span>,
    <span style="color:#f92672">....</span>:                      <span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;qux&#39;</span>, <span style="color:#e6db74">&#39;qux&#39;</span>],
    <span style="color:#f92672">....</span>:                     [<span style="color:#e6db74">&#39;one&#39;</span>, <span style="color:#e6db74">&#39;two&#39;</span>, <span style="color:#e6db74">&#39;one&#39;</span>, <span style="color:#e6db74">&#39;two&#39;</span>,
    <span style="color:#f92672">....</span>:                      <span style="color:#e6db74">&#39;one&#39;</span>, <span style="color:#e6db74">&#39;two&#39;</span>, <span style="color:#e6db74">&#39;one&#39;</span>, <span style="color:#e6db74">&#39;two&#39;</span>]]))
@@ -784,7 +784,7 @@ bar   one     <span style="color:#ae81ff">0.029399</span> <span style="color:#f9
 baz   one    <span style="color:#f92672">-</span><span style="color:#ae81ff">1.575170</span>  <span style="color:#ae81ff">1.771208</span>
       two     <span style="color:#ae81ff">0.816482</span>  <span style="color:#ae81ff">1.100230</span>
 </code></pre></div><p><code>stack()</code>方法将数据集列进行了压缩：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">100</span>]: stacked <span style="color:#f92672">=</span> df2<span style="color:#f92672">.</span>stack()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">100</span>]: stacked <span style="color:#f92672">=</span> df2<span style="color:#f92672">.</span>stack()
 
 In [<span style="color:#ae81ff">101</span>]: stacked
 Out[<span style="color:#ae81ff">101</span>]:
@@ -799,7 +799,7 @@ baz    one     A   <span style="color:#f92672">-</span><span style="color:#ae81f
                B    <span style="color:#ae81ff">1.100230</span>
 dtype: float64
 </code></pre></div><p>对于使用<code>MultiIndex</code>作为索引的 DataFrame 或者 Series，<code>stack()</code>的逆操作是<code>unstack()</code>，默认转换到 <strong>最后一级</strong>。(last level 我也不知道怎么翻译合适了。)</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">102</span>]: stacked<span style="color:#f92672">.</span>unstack()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">102</span>]: stacked<span style="color:#f92672">.</span>unstack()
 Out[<span style="color:#ae81ff">102</span>]:
                      A         B
 first second                    
@@ -826,7 +826,7 @@ one    A  <span style="color:#ae81ff">0.029399</span> <span style="color:#f92672
 two    A  <span style="color:#ae81ff">0.282696</span>  <span style="color:#ae81ff">0.816482</span>
        B <span style="color:#f92672">-</span><span style="color:#ae81ff">0.087302</span>  <span style="color:#ae81ff">1.100230</span>
 </code></pre></div><h3 id="pivot-tables">Pivot Tables</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">105</span>]: df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;A&#39;</span> : [<span style="color:#e6db74">&#39;one&#39;</span>, <span style="color:#e6db74">&#39;one&#39;</span>, <span style="color:#e6db74">&#39;two&#39;</span>, <span style="color:#e6db74">&#39;three&#39;</span>] <span style="color:#f92672">*</span> <span style="color:#ae81ff">3</span>,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">105</span>]: df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;A&#39;</span> : [<span style="color:#e6db74">&#39;one&#39;</span>, <span style="color:#e6db74">&#39;one&#39;</span>, <span style="color:#e6db74">&#39;two&#39;</span>, <span style="color:#e6db74">&#39;three&#39;</span>] <span style="color:#f92672">*</span> <span style="color:#ae81ff">3</span>,
    <span style="color:#f92672">.....</span>:                    <span style="color:#e6db74">&#39;B&#39;</span> : [<span style="color:#e6db74">&#39;A&#39;</span>, <span style="color:#e6db74">&#39;B&#39;</span>, <span style="color:#e6db74">&#39;C&#39;</span>] <span style="color:#f92672">*</span> <span style="color:#ae81ff">4</span>,
    <span style="color:#f92672">.....</span>:                    <span style="color:#e6db74">&#39;C&#39;</span> : [<span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;bar&#39;</span>, <span style="color:#e6db74">&#39;bar&#39;</span>, <span style="color:#e6db74">&#39;bar&#39;</span>] <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>,
    <span style="color:#f92672">.....</span>:                    <span style="color:#e6db74">&#39;D&#39;</span> : np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>randn(<span style="color:#ae81ff">12</span>),
@@ -849,7 +849,7 @@ Out[<span style="color:#ae81ff">106</span>]:
 <span style="color:#ae81ff">10</span>    two  B  bar <span style="color:#f92672">-</span><span style="color:#ae81ff">1.170653</span>  <span style="color:#ae81ff">0.595974</span>
 <span style="color:#ae81ff">11</span>  three  C  bar  <span style="color:#ae81ff">0.648740</span>  <span style="color:#ae81ff">1.167115</span>
 </code></pre></div><p>我们可以很简单的生成透视表：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">107</span>]: pd<span style="color:#f92672">.</span>pivot_table(df, values<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;D&#39;</span>, index<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;A&#39;</span>, <span style="color:#e6db74">&#39;B&#39;</span>], columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;C&#39;</span>])
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">107</span>]: pd<span style="color:#f92672">.</span>pivot_table(df, values<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;D&#39;</span>, index<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;A&#39;</span>, <span style="color:#e6db74">&#39;B&#39;</span>], columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;C&#39;</span>])
 Out[<span style="color:#ae81ff">107</span>]:
 C             bar       foo
 A     B                    
@@ -864,7 +864,7 @@ two   A       NaN  <span style="color:#ae81ff">0.100900</span>
       C       NaN  <span style="color:#ae81ff">0.536826</span>
 </code></pre></div><h2 id="时间序列">时间序列</h2>
 <p>pandas提供了简单、强大、有效的函数在频率转换时进行重采样操作（比如将每秒数据转换为每5分钟数据），这在金融领域是一种很常见的需求，但不限于此。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">108</span>]: rng <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>date_range(<span style="color:#e6db74">&#39;1/1/2012&#39;</span>, periods<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>, freq<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;S&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">108</span>]: rng <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>date_range(<span style="color:#e6db74">&#39;1/1/2012&#39;</span>, periods<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>, freq<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;S&#39;</span>)
 
 In [<span style="color:#ae81ff">109</span>]: ts <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Series(np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">500</span>, len(rng)), index<span style="color:#f92672">=</span>rng)
 
@@ -873,7 +873,7 @@ Out[<span style="color:#ae81ff">110</span>]:
 <span style="color:#ae81ff">2012</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span>    <span style="color:#ae81ff">25083</span>
 Freq: <span style="color:#ae81ff">5</span>T, dtype: int64
 </code></pre></div><p>时区表示：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">111</span>]: rng <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>date_range(<span style="color:#e6db74">&#39;3/6/2012 00:00&#39;</span>, periods<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>, freq<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;D&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">111</span>]: rng <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>date_range(<span style="color:#e6db74">&#39;3/6/2012 00:00&#39;</span>, periods<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>, freq<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;D&#39;</span>)
 
 In [<span style="color:#ae81ff">112</span>]: ts <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Series(np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>randn(len(rng)), rng)
 
@@ -897,7 +897,7 @@ Out[<span style="color:#ae81ff">115</span>]:
 <span style="color:#ae81ff">2012</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">10</span> <span style="color:#ae81ff">00</span>:<span style="color:#ae81ff">00</span>:<span style="color:#ae81ff">00</span><span style="color:#f92672">+</span><span style="color:#ae81ff">00</span>:<span style="color:#ae81ff">00</span>   <span style="color:#f92672">-</span><span style="color:#ae81ff">2.290613</span>
 Freq: D, dtype: float64
 </code></pre></div><p>转换时区：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">116</span>]: ts_utc<span style="color:#f92672">.</span>tz_convert(<span style="color:#e6db74">&#39;US/Eastern&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">116</span>]: ts_utc<span style="color:#f92672">.</span>tz_convert(<span style="color:#e6db74">&#39;US/Eastern&#39;</span>)
 Out[<span style="color:#ae81ff">116</span>]:
 <span style="color:#ae81ff">2012</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">05</span> <span style="color:#ae81ff">19</span>:<span style="color:#ae81ff">00</span>:<span style="color:#ae81ff">00</span><span style="color:#f92672">-</span><span style="color:#ae81ff">05</span>:<span style="color:#ae81ff">00</span>    <span style="color:#ae81ff">0.464000</span>
 <span style="color:#ae81ff">2012</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">06</span> <span style="color:#ae81ff">19</span>:<span style="color:#ae81ff">00</span>:<span style="color:#ae81ff">00</span><span style="color:#f92672">-</span><span style="color:#ae81ff">05</span>:<span style="color:#ae81ff">00</span>    <span style="color:#ae81ff">0.227371</span>
@@ -906,7 +906,7 @@ Out[<span style="color:#ae81ff">116</span>]:
 <span style="color:#ae81ff">2012</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">09</span> <span style="color:#ae81ff">19</span>:<span style="color:#ae81ff">00</span>:<span style="color:#ae81ff">00</span><span style="color:#f92672">-</span><span style="color:#ae81ff">05</span>:<span style="color:#ae81ff">00</span>   <span style="color:#f92672">-</span><span style="color:#ae81ff">2.290613</span>
 Freq: D, dtype: float64
 </code></pre></div><p>修改时间跨度：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#75715e">#比如数据中某个月的具体日期不同，想统一成每个月1号</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#75715e">#比如数据中某个月的具体日期不同，想统一成每个月1号</span>
 
 In [<span style="color:#ae81ff">117</span>]: rng <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>date_range(<span style="color:#e6db74">&#39;1/1/2012&#39;</span>, periods<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>, freq<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;M&#39;</span>)
 
@@ -941,7 +941,7 @@ Out[<span style="color:#ae81ff">122</span>]:
 <span style="color:#ae81ff">2012</span><span style="color:#f92672">-</span><span style="color:#ae81ff">05</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span>    <span style="color:#ae81ff">1.523962</span>
 Freq: MS, dtype: float64
 </code></pre></div><p>在进行时区和时间戳之间的转换时可以使用一些算数函数，下面的例子中我们将季度结尾设定为11月并且设定时间为9点（这里翻译的很别扭，不确定文档错了还是我翻译的问题，可以将加法去掉对比来看）：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">123</span>]: prng <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>period_range(<span style="color:#e6db74">&#39;1990Q1&#39;</span>, <span style="color:#e6db74">&#39;2000Q4&#39;</span>, freq<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Q-NOV&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">123</span>]: prng <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>period_range(<span style="color:#e6db74">&#39;1990Q1&#39;</span>, <span style="color:#e6db74">&#39;2000Q4&#39;</span>, freq<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Q-NOV&#39;</span>)
 
 In [<span style="color:#ae81ff">124</span>]: ts <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Series(np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>randn(len(prng)), prng)
 
@@ -957,9 +957,9 @@ Out[<span style="color:#ae81ff">126</span>]:
 Freq: H, dtype: float64
 </code></pre></div><h2 id="categoricals">Categoricals</h2>
 <p>pandas可以在<code>DataFrame</code>中包含分类数据：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">127</span>]: df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#34;id&#34;</span>:[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">6</span>], <span style="color:#e6db74">&#34;raw_grade&#34;</span>:[<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;e&#39;</span>]})
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">127</span>]: df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#34;id&#34;</span>:[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">6</span>], <span style="color:#e6db74">&#34;raw_grade&#34;</span>:[<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;e&#39;</span>]})
 </code></pre></div><p>将原始的等级信息转换为分类：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">128</span>]: df[<span style="color:#e6db74">&#34;grade&#34;</span>] <span style="color:#f92672">=</span> df[<span style="color:#e6db74">&#34;raw_grade&#34;</span>]<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#34;category&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">128</span>]: df[<span style="color:#e6db74">&#34;grade&#34;</span>] <span style="color:#f92672">=</span> df[<span style="color:#e6db74">&#34;raw_grade&#34;</span>]<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#34;category&#34;</span>)
 
 In [<span style="color:#ae81ff">129</span>]: df[<span style="color:#e6db74">&#34;grade&#34;</span>]
 Out[<span style="color:#ae81ff">129</span>]:
@@ -972,11 +972,11 @@ Out[<span style="color:#ae81ff">129</span>]:
 Name: grade, dtype: category
 Categories (<span style="color:#ae81ff">3</span>, object): [a, b, e]
 </code></pre></div><p>将分类转换为更易读的名称：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#75715e">#这里可以输出df[&#34;grade&#34;].cat.categories看到对应的原始值</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#75715e">#这里可以输出df[&#34;grade&#34;].cat.categories看到对应的原始值</span>
 
 In [<span style="color:#ae81ff">130</span>]: df[<span style="color:#e6db74">&#34;grade&#34;</span>]<span style="color:#f92672">.</span>cat<span style="color:#f92672">.</span>categories <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;very good&#34;</span>, <span style="color:#e6db74">&#34;good&#34;</span>, <span style="color:#e6db74">&#34;very bad&#34;</span>]
 </code></pre></div><p>根据分类排序并且添加缺失的类别（默认情况下<code>Series .cat</code>返回一个新的<code>Series</code>对象）：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">131</span>]: df[<span style="color:#e6db74">&#34;grade&#34;</span>] <span style="color:#f92672">=</span> df[<span style="color:#e6db74">&#34;grade&#34;</span>]<span style="color:#f92672">.</span>cat<span style="color:#f92672">.</span>set_categories([<span style="color:#e6db74">&#34;very bad&#34;</span>, <span style="color:#e6db74">&#34;bad&#34;</span>, <span style="color:#e6db74">&#34;medium&#34;</span>, <span style="color:#e6db74">&#34;good&#34;</span>, <span style="color:#e6db74">&#34;very good&#34;</span>])
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">131</span>]: df[<span style="color:#e6db74">&#34;grade&#34;</span>] <span style="color:#f92672">=</span> df[<span style="color:#e6db74">&#34;grade&#34;</span>]<span style="color:#f92672">.</span>cat<span style="color:#f92672">.</span>set_categories([<span style="color:#e6db74">&#34;very bad&#34;</span>, <span style="color:#e6db74">&#34;bad&#34;</span>, <span style="color:#e6db74">&#34;medium&#34;</span>, <span style="color:#e6db74">&#34;good&#34;</span>, <span style="color:#e6db74">&#34;very good&#34;</span>])
 
 In [<span style="color:#ae81ff">132</span>]: df[<span style="color:#e6db74">&#34;grade&#34;</span>]
 Out[<span style="color:#ae81ff">132</span>]:
@@ -989,7 +989,7 @@ Out[<span style="color:#ae81ff">132</span>]:
 Name: grade, dtype: category
 Categories (<span style="color:#ae81ff">5</span>, object): [very bad, bad, medium, good, very good]
 </code></pre></div><p>排序取决于分类的顺序，而不是词法：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">133</span>]: df<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;grade&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">133</span>]: df<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;grade&#34;</span>)
 Out[<span style="color:#ae81ff">133</span>]:
    id raw_grade      grade
 <span style="color:#ae81ff">5</span>   <span style="color:#ae81ff">6</span>         e   very bad
@@ -999,7 +999,7 @@ Out[<span style="color:#ae81ff">133</span>]:
 <span style="color:#ae81ff">3</span>   <span style="color:#ae81ff">4</span>         a  very good
 <span style="color:#ae81ff">4</span>   <span style="color:#ae81ff">5</span>         a  very good
 </code></pre></div><p>通过分类进行分组也会显示出没数据的组：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">134</span>]: df<span style="color:#f92672">.</span>groupby(<span style="color:#e6db74">&#34;grade&#34;</span>)<span style="color:#f92672">.</span>size()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">134</span>]: df<span style="color:#f92672">.</span>groupby(<span style="color:#e6db74">&#34;grade&#34;</span>)<span style="color:#f92672">.</span>size()
 Out[<span style="color:#ae81ff">134</span>]:
 grade
 very bad     <span style="color:#ae81ff">1</span>
@@ -1010,7 +1010,7 @@ very good    <span style="color:#ae81ff">3</span>
 dtype: int64
 </code></pre></div><h2 id="plotting">Plotting</h2>
 <p>绘图</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">135</span>]: ts <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Series(np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>randn(<span style="color:#ae81ff">1000</span>), index<span style="color:#f92672">=</span>pd<span style="color:#f92672">.</span>date_range(<span style="color:#e6db74">&#39;1/1/2000&#39;</span>, periods<span style="color:#f92672">=</span><span style="color:#ae81ff">1000</span>))
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">135</span>]: ts <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>Series(np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>randn(<span style="color:#ae81ff">1000</span>), index<span style="color:#f92672">=</span>pd<span style="color:#f92672">.</span>date_range(<span style="color:#e6db74">&#39;1/1/2000&#39;</span>, periods<span style="color:#f92672">=</span><span style="color:#ae81ff">1000</span>))
 
 In [<span style="color:#ae81ff">136</span>]: ts <span style="color:#f92672">=</span> ts<span style="color:#f92672">.</span>cumsum()
 
@@ -1018,7 +1018,7 @@ In [<span style="color:#ae81ff">137</span>]: ts<span style="color:#f92672">.</sp
 Out[<span style="color:#ae81ff">137</span>]: <span style="color:#f92672">&lt;</span>matplotlib<span style="color:#f92672">.</span>axes<span style="color:#f92672">.</span>_subplots<span style="color:#f92672">.</span>AxesSubplot at <span style="color:#ae81ff">0x1122ad630</span><span style="color:#f92672">&gt;</span>
 </code></pre></div><p><img src="http://pandas.pydata.org/pandas-docs/stable/_images/series_plot_basic.png" alt="1">
 对于<code>DataFrame</code>，<code>plot()</code>函数将所有的列都绘制出来：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">138</span>]: df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>randn(<span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">4</span>), index<span style="color:#f92672">=</span>ts<span style="color:#f92672">.</span>index,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">138</span>]: df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>randn(<span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">4</span>), index<span style="color:#f92672">=</span>ts<span style="color:#f92672">.</span>index,
    <span style="color:#f92672">.....</span>:                   columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;A&#39;</span>, <span style="color:#e6db74">&#39;B&#39;</span>, <span style="color:#e6db74">&#39;C&#39;</span>, <span style="color:#e6db74">&#39;D&#39;</span>])
    <span style="color:#f92672">.....</span>:
 
@@ -1030,9 +1030,9 @@ Out[<span style="color:#ae81ff">140</span>]: <span style="color:#f92672">&lt;</s
 <h2 id="输入输出数据">输入/输出数据</h2>
 <h3 id="csv格式">CSV格式</h3>
 <p>写入：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">141</span>]: df<span style="color:#f92672">.</span>to_csv(<span style="color:#e6db74">&#39;foo.csv&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">141</span>]: df<span style="color:#f92672">.</span>to_csv(<span style="color:#e6db74">&#39;foo.csv&#39;</span>)
 </code></pre></div><p>读取：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">142</span>]: pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;foo.csv&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">142</span>]: pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;foo.csv&#39;</span>)
 Out[<span style="color:#ae81ff">142</span>]:
      Unnamed: <span style="color:#ae81ff">0</span>          A          B         C          D
 <span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">2000</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span>   <span style="color:#ae81ff">0.266457</span>  <span style="color:#f92672">-</span><span style="color:#ae81ff">0.399641</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.219582</span>   <span style="color:#ae81ff">1.186860</span>
@@ -1054,9 +1054,9 @@ Out[<span style="color:#ae81ff">142</span>]:
 [<span style="color:#ae81ff">1000</span> rows x <span style="color:#ae81ff">5</span> columns]
 </code></pre></div><h3 id="hdf5格式">HDF5格式</h3>
 <p>写入：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">143</span>]: df<span style="color:#f92672">.</span>to_hdf(<span style="color:#e6db74">&#39;foo.h5&#39;</span>,<span style="color:#e6db74">&#39;df&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">143</span>]: df<span style="color:#f92672">.</span>to_hdf(<span style="color:#e6db74">&#39;foo.h5&#39;</span>,<span style="color:#e6db74">&#39;df&#39;</span>)
 </code></pre></div><p>读取：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">144</span>]: pd<span style="color:#f92672">.</span>read_hdf(<span style="color:#e6db74">&#39;foo.h5&#39;</span>,<span style="color:#e6db74">&#39;df&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">144</span>]: pd<span style="color:#f92672">.</span>read_hdf(<span style="color:#e6db74">&#39;foo.h5&#39;</span>,<span style="color:#e6db74">&#39;df&#39;</span>)
 Out[<span style="color:#ae81ff">144</span>]:
                     A          B         C          D
 <span style="color:#ae81ff">2000</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span>   <span style="color:#ae81ff">0.266457</span>  <span style="color:#f92672">-</span><span style="color:#ae81ff">0.399641</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.219582</span>   <span style="color:#ae81ff">1.186860</span>
@@ -1078,9 +1078,9 @@ Out[<span style="color:#ae81ff">144</span>]:
 [<span style="color:#ae81ff">1000</span> rows x <span style="color:#ae81ff">4</span> columns]
 </code></pre></div><h3 id="excel格式">EXCEL格式</h3>
 <p>写入：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">145</span>]: df<span style="color:#f92672">.</span>to_excel(<span style="color:#e6db74">&#39;foo.xlsx&#39;</span>, sheet_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Sheet1&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">145</span>]: df<span style="color:#f92672">.</span>to_excel(<span style="color:#e6db74">&#39;foo.xlsx&#39;</span>, sheet_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Sheet1&#39;</span>)
 </code></pre></div><p>读取：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">146</span>]: pd<span style="color:#f92672">.</span>read_excel(<span style="color:#e6db74">&#39;foo.xlsx&#39;</span>, <span style="color:#e6db74">&#39;Sheet1&#39;</span>, index_col<span style="color:#f92672">=</span>None, na_values<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;NA&#39;</span>])
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">In [<span style="color:#ae81ff">146</span>]: pd<span style="color:#f92672">.</span>read_excel(<span style="color:#e6db74">&#39;foo.xlsx&#39;</span>, <span style="color:#e6db74">&#39;Sheet1&#39;</span>, index_col<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, na_values<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;NA&#39;</span>])
 Out[<span style="color:#ae81ff">146</span>]:
                     A          B         C          D
 <span style="color:#ae81ff">2000</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span>   <span style="color:#ae81ff">0.266457</span>  <span style="color:#f92672">-</span><span style="color:#ae81ff">0.399641</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.219582</span>   <span style="color:#ae81ff">1.186860</span>
@@ -1102,8 +1102,8 @@ Out[<span style="color:#ae81ff">146</span>]:
 [<span style="color:#ae81ff">1000</span> rows x <span style="color:#ae81ff">4</span> columns]
 </code></pre></div><h3 id="陷阱">陷阱</h3>
 <p>如果在操作是报错：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">if</span> pd<span style="color:#f92672">.</span>Series([False, True, False]):
-    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;I was true&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">if</span> pd<span style="color:#f92672">.</span>Series([<span style="color:#66d9ef">False</span>, <span style="color:#66d9ef">True</span>, <span style="color:#66d9ef">False</span>]):
+    print(<span style="color:#e6db74">&#34;I was true&#34;</span>)
 Traceback
     <span style="color:#f92672">...</span>
 <span style="color:#a6e22e">ValueError</span>: The truth value of an array <span style="color:#f92672">is</span> ambiguous<span style="color:#f92672">.</span> Use a<span style="color:#f92672">.</span>empty, a<span style="color:#f92672">.</span>any() <span style="color:#f92672">or</span> a<span style="color:#f92672">.</span>all()<span style="color:#f92672">.</span>

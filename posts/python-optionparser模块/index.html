@@ -12,14 +12,14 @@
 #coding=utf-8 from optparse import OptionParser def opt(): parser = OptionParser( description=&#34;整个文件功能一类的帮助信息&#34;) parser." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/python-optionparser%E6%A8%A1%E5%9D%97/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2013-11-11T18:08:48&#43;00:00" />
-<meta property="article:modified_time" content="2013-11-11T18:08:48&#43;00:00" />
+<meta property="article:published_time" content="2013-11-11T18:08:48+00:00" />
+<meta property="article:modified_time" content="2013-11-11T18:08:48+00:00" />
 
 
 		<meta itemprop="name" content="Python optionParser模块">
 <meta itemprop="description" content="用于生成模块说明。
-#coding=utf-8 from optparse import OptionParser def opt(): parser = OptionParser( description=&#34;整个文件功能一类的帮助信息&#34;) parser."><meta itemprop="datePublished" content="2013-11-11T18:08:48&#43;00:00" />
-<meta itemprop="dateModified" content="2013-11-11T18:08:48&#43;00:00" />
+#coding=utf-8 from optparse import OptionParser def opt(): parser = OptionParser( description=&#34;整个文件功能一类的帮助信息&#34;) parser."><meta itemprop="datePublished" content="2013-11-11T18:08:48+00:00" />
+<meta itemprop="dateModified" content="2013-11-11T18:08:48+00:00" />
 <meta itemprop="wordCount" content="102">
 <meta itemprop="keywords" content="python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -93,7 +93,7 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>用于生成模块说明。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#coding=utf-8</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#coding=utf-8</span>
 <span style="color:#f92672">from</span> optparse <span style="color:#f92672">import</span> OptionParser
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">opt</span>():
     parser <span style="color:#f92672">=</span> OptionParser(
@@ -105,17 +105,17 @@ if (!doNotTrack) {
     parser<span style="color:#f92672">.</span>add_option(<span style="color:#e6db74">&#34;-t&#34;</span>, <span style="color:#e6db74">&#34;--settrue&#34;</span>, dest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;testbool&#34;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;store_true&#34;</span>,<span style="color:#75715e">#这个类型的添加metavar无效，用于判断是否出现了某个参数，如果出现了为ture</span>
                   help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Test bool&#34;</span>)
     parser<span style="color:#f92672">.</span>add_option(<span style="color:#e6db74">&#34;-f&#34;</span>, <span style="color:#e6db74">&#34;--setfalse&#34;</span>, dest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;testbool&#34;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;store_false&#34;</span>,<span style="color:#75715e">#这个类型的添加metavar无效，用于判断是否出现了某个参数，如果出现了为false</span>
-                  help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Test bool&#34;</span>, default<span style="color:#f92672">=</span>False)                       <span style="color:#75715e">#如果都出现以最后的出现为准,如果都没出现以有default的为准</span>
+                  help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Test bool&#34;</span>, default<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)                       <span style="color:#75715e">#如果都出现以最后的出现为准,如果都没出现以有default的为准</span>
     (options, args) <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()  
     <span style="color:#66d9ef">return</span> options
 <span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
     m <span style="color:#f92672">=</span> opt()
-    <span style="color:#66d9ef">print</span> m<span style="color:#f92672">.</span>xxx
-    <span style="color:#66d9ef">print</span> m<span style="color:#f92672">.</span>num
-    <span style="color:#66d9ef">print</span> type(m<span style="color:#f92672">.</span>num)
-    <span style="color:#66d9ef">print</span> m<span style="color:#f92672">.</span>testbool
+    print m<span style="color:#f92672">.</span>xxx
+    print m<span style="color:#f92672">.</span>num
+    print type(m<span style="color:#f92672">.</span>num)
+    print m<span style="color:#f92672">.</span>testbool
 </code></pre></div><p>参数为-h时候输出：</p>
-<pre><code>Usage: options.py [options]
+<pre tabindex="0"><code>Usage: options.py [options]
 整个文件功能一类的帮助信息
 Options:
   -h, --help            show this help message and exit
@@ -126,7 +126,7 @@ Options:
   -t, --settrue         Test bool
   -f, --setfalse        Test bool
 </code></pre><p>参数是-x test -n 5 -f 时候输出</p>
-<pre><code>test
+<pre tabindex="0"><code>test
 5
 &lt;type 'int'&gt;
 False

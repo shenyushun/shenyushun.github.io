@@ -14,16 +14,16 @@
 同时部署在github以及coding上，并使用dnspod进行域名解析，dnspod最大的好处就是支持国内外不同的来源解析到不同的地址，对于国外的IP解析到github，对于国内的IP则解析到coding。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%E8%AE%B0%E5%BD%95/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2016-07-22T11:35:19&#43;00:00" />
-<meta property="article:modified_time" content="2016-07-22T11:35:19&#43;00:00" />
+<meta property="article:published_time" content="2016-07-22T11:35:19+00:00" />
+<meta property="article:modified_time" content="2016-07-22T11:35:19+00:00" />
 
 
 		<meta itemprop="name" content="博客迁移记录">
 <meta itemprop="description" content="经过3天的不懈努力，终于完成了博客的迁移工作，同时删除了一些无病呻吟的、没干货的文章。
 现在本博客基于 hexo 以及使用主题 tranquilpeak 构建，这个主题原生支持百度统计以及多说评论，而且不使用google相关资源，对于我这种前端盲很是友好。
 唯一不足就是这个主题使用cloudflare的CDN，速度相对于国内的CDN还是慢一些，可以修改成国内自己喜欢的，代码位于themes/tranquilpeak/layout/_partial/script.ejs 第50行。
-同时部署在github以及coding上，并使用dnspod进行域名解析，dnspod最大的好处就是支持国内外不同的来源解析到不同的地址，对于国外的IP解析到github，对于国内的IP则解析到coding。"><meta itemprop="datePublished" content="2016-07-22T11:35:19&#43;00:00" />
-<meta itemprop="dateModified" content="2016-07-22T11:35:19&#43;00:00" />
+同时部署在github以及coding上，并使用dnspod进行域名解析，dnspod最大的好处就是支持国内外不同的来源解析到不同的地址，对于国外的IP解析到github，对于国内的IP则解析到coding。"><meta itemprop="datePublished" content="2016-07-22T11:35:19+00:00" />
+<meta itemprop="dateModified" content="2016-07-22T11:35:19+00:00" />
 <meta itemprop="wordCount" content="38">
 <meta itemprop="keywords" content="" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -103,7 +103,7 @@ if (!doNotTrack) {
 <p>关于github怎么进行CNAME配置来绑定域名网上说的很清楚，而在coding上更简单，建立好项目后直接点击“Pages服务”——“添加自定义域名”后按照提示操作即可.</p>
 <p>这里有一个地方需要注意，默认情况它会指定一个coding-pages分支，为了方便我手动改成了master方便写配置文件。</p>
 <p>然后在hexo配置文件<code>_config.yml</code>中添加：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#f92672">deploy</span>:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#f92672">deploy</span>:
   <span style="color:#f92672">type</span>: <span style="color:#ae81ff">git</span>
   <span style="color:#f92672">repo</span>:
       <span style="color:#f92672">github</span>: <span style="color:#ae81ff">git@github.com:项目地址.git</span>
@@ -117,7 +117,7 @@ if (!doNotTrack) {
 <li>会产生一个叫做id的不识别tag</li>
 </ol>
 <p>对于第一个问题，估计这种转换行为也就使用一次，所以安装完这个插件后我就直接按照<a href="https://github.com/hexojs/hexo-migrator-wordpress/issues/12">这里</a>的办法改了源码：</p>
-<pre><code>index.js (line 56)： slug = item.title[0]
+<pre tabindex="0"><code>index.js (line 56)： slug = item.title[0]
 </code></pre><p>对于第二个问题我没找出来什么好的解决办法，只好一个个的手动修改，说多了都是泪……</p>
 <p>对于第三个问题，直接使用编辑器或者VIM批量删除就好了。</p>
 <p>搜索功能由<a href="www.algolia.com">algolia</a>以及hexo-algoliasearch插件支持，不过我发现使用搜索功能搜关键字是没问题，也能搜出来，但在搜索页面点击文章则会跳转到404页面，不知道是BUG还是我使用姿势不对。不过反正我不常用搜索功能，也就无所谓啦。</p>

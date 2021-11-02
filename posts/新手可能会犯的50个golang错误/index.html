@@ -33,8 +33,8 @@ func main() {
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2020-12-16T21:32:59&#43;00:00" />
-<meta property="article:modified_time" content="2020-12-16T21:32:59&#43;00:00" />
+<meta property="article:published_time" content="2020-12-16T21:32:59+00:00" />
+<meta property="article:modified_time" content="2020-12-16T21:32:59+00:00" />
 
 
 		<meta itemprop="name" content="新手可能会犯的50个Golang错误">
@@ -60,8 +60,8 @@ import &#34;fmt&#34;
 func main() {  
     fmt.Println(&#34;works!&#34;)
 }
-"><meta itemprop="datePublished" content="2020-12-16T21:32:59&#43;00:00" />
-<meta itemprop="dateModified" content="2020-12-16T21:32:59&#43;00:00" />
+"><meta itemprop="datePublished" content="2020-12-16T21:32:59+00:00" />
+<meta itemprop="dateModified" content="2020-12-16T21:32:59+00:00" />
 <meta itemprop="wordCount" content="5290">
 <meta itemprop="keywords" content="golang," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -138,7 +138,7 @@ if (!doNotTrack) {
 <h2 id="左花括号不能单独一行">左花括号不能单独一行</h2>
 <p>在大多数语言中你可以随便放置花括号的位置，但go语言不一样，你可以理解为为go会自动注入分号（automatic semicolon injection）：</p>
 <p>错误代码：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -147,9 +147,9 @@ if (!doNotTrack) {
 </span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;hello there!&#34;</span>)
 }
 </code></pre></div><p>编译错误：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">/</span><span style="color:#a6e22e">tmp</span><span style="color:#f92672">/</span><span style="color:#a6e22e">sandbox826898458</span><span style="color:#f92672">/</span><span style="color:#a6e22e">main</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">6</span>: <span style="color:#a6e22e">syntax</span> <span style="color:#66d9ef">error</span>: <span style="color:#a6e22e">unexpected</span> <span style="color:#a6e22e">semicolon</span> <span style="color:#a6e22e">or</span> <span style="color:#a6e22e">newline</span> <span style="color:#a6e22e">before</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">/</span><span style="color:#a6e22e">tmp</span><span style="color:#f92672">/</span><span style="color:#a6e22e">sandbox826898458</span><span style="color:#f92672">/</span><span style="color:#a6e22e">main</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">6</span>: <span style="color:#a6e22e">syntax</span> <span style="color:#66d9ef">error</span>: <span style="color:#a6e22e">unexpected</span> <span style="color:#a6e22e">semicolon</span> <span style="color:#a6e22e">or</span> <span style="color:#a6e22e">newline</span> <span style="color:#a6e22e">before</span> {
 </code></pre></div><p>正确代码：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -158,7 +158,7 @@ if (!doNotTrack) {
 }
 </code></pre></div><h2 id="未使用的变量">未使用的变量</h2>
 <p>在go中如果有未使用的变量，即便对其进行了赋值，编译时也会报错。只有全局变量和函数参数可以声明而不使用。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">gvar</span> <span style="color:#66d9ef">int</span> <span style="color:#75715e">//not an error
 </span><span style="color:#75715e"></span>
@@ -175,7 +175,7 @@ if (!doNotTrack) {
 </code></pre></div><h2 id="未使用的包">未使用的包</h2>
 <p>如果引用了某个包而又不使用其中的任何函数、结构体、接口或者变量，则会编译报错。</p>
 <p>如果真的需要引入这些包(Roy注：比如仅想执行这些包的init函数时)，可以使用<code>_</code>作为包的别名：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#a6e22e">_</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -189,7 +189,7 @@ if (!doNotTrack) {
     <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>
 }
 </code></pre></div><h2 id="简短声明的变量只能在函数内部使用">简短声明的变量只能在函数内部使用</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#a6e22e">myvar</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span> <span style="color:#75715e">//error
 </span><span style="color:#75715e"></span>
@@ -204,7 +204,7 @@ if (!doNotTrack) {
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
 }
 </code></pre></div><h2 id="使用简短声明来重复声明变量">使用简短声明来重复声明变量</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
     <span style="color:#a6e22e">one</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
@@ -222,7 +222,7 @@ if (!doNotTrack) {
 }
 </code></pre></div><h2 id="短声明不能用于给结构体赋值">短声明不能用于给结构体赋值</h2>
 <p>错误代码：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
   <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -243,11 +243,11 @@ if (!doNotTrack) {
 </span><span style="color:#75715e"></span>  <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;info: %+v\n&#34;</span>,<span style="color:#a6e22e">data</span>)
 }
 </code></pre></div><p>编译错误：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">prog</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">18</span>: <span style="color:#a6e22e">non</span><span style="color:#f92672">-</span><span style="color:#a6e22e">name</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">result</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">left</span> <span style="color:#a6e22e">side</span> <span style="color:#a6e22e">of</span> <span style="color:#f92672">:=</span> 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">prog</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">18</span>: <span style="color:#a6e22e">non</span><span style="color:#f92672">-</span><span style="color:#a6e22e">name</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">result</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">left</span> <span style="color:#a6e22e">side</span> <span style="color:#a6e22e">of</span> <span style="color:#f92672">:=</span> 
 </code></pre></div><p>即使有方法可以解决这个问题，但go语言之父挺喜欢目前这样的。
 可以使用临时变量或预先声明所有变量并使用标准赋值操作。</p>
 <p>正确代码：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
   <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -275,7 +275,7 @@ if (!doNotTrack) {
 </span><span style="color:#75715e"></span>}
 </code></pre></div><h2 id="意外的变量修改">意外的变量修改</h2>
 <p>短声明语法对于从动态语言转go的人来说太方便了，但很容易被误认为是赋值操作，如果你在新的代码块中犯了这个错误，编译不会报错，但也不会如预期那样工作：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -293,7 +293,7 @@ if (!doNotTrack) {
 <p>可以通过<code>go tool vet -shadow your_file.go</code>命令来进行检测，但注意<code>vet</code>命令并不能检测出所有被覆盖的变量，可以使用<a href="https://github.com/barakmich/go-nyet">go-nyet</a>来进一步检测。(Roy注：这个已经集成到vet中了，这里仅仅为了保持原文)</p>
 <h2 id="显式类型的变量无法使用nil来初始化">显式类型的变量无法使用nil来初始化</h2>
 <p><code>nil</code> 是 interface、function、pointer、map、slice 和 channel 类型变量的默认初始值。但声明时不指定类型，编译器也无法推断出变量的具体类型。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
     <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span> = <span style="color:#66d9ef">nil</span> <span style="color:#75715e">//error
@@ -310,7 +310,7 @@ if (!doNotTrack) {
 }
 </code></pre></div><h2 id="使用值为-nil-的-slicemap">使用值为 nil 的 slice、map</h2>
 <p>允许对值为<code>nil</code>的slice添加元素，但对值为<code>nil</code>的map添加元素则会造成运行时错误:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
     <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> []<span style="color:#66d9ef">int</span>
@@ -326,7 +326,7 @@ if (!doNotTrack) {
 }
 </code></pre></div><h2 id="map容量">map容量</h2>
 <p>在创建map类型的变量时可以指定容量，但不能像slice一样使用 cap() 来检测分配空间的大小：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
     <span style="color:#a6e22e">m</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">int</span>,<span style="color:#ae81ff">99</span>)
@@ -334,7 +334,7 @@ if (!doNotTrack) {
 </span><span style="color:#75715e"></span>}
 </code></pre></div><h2 id="string类型的变量值不能为nil">string类型的变量值不能为nil</h2>
 <p>string类型的初始值为&quot;&ldquo;而不是<code>nil</code>。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
     <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span> <span style="color:#66d9ef">string</span> = <span style="color:#66d9ef">nil</span> <span style="color:#75715e">//error
@@ -355,7 +355,7 @@ if (!doNotTrack) {
 }
 </code></pre></div><h2 id="数组作为函数参数">数组作为函数参数</h2>
 <p>如果是c或者c++程序，传递数组作为函数参数时是传指针，所以可以在函数内部对数组进行修改。而go中，传递的是值，是一份原始数组的拷贝。所以在函数内部对数组的修改无法影响到外部：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -370,7 +370,7 @@ if (!doNotTrack) {
     <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">x</span>) <span style="color:#75715e">//prints [1 2 3] (not ok if you need [7 2 3])
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>如果需要的话可以使用传递指针：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -385,7 +385,7 @@ if (!doNotTrack) {
     <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">x</span>) <span style="color:#75715e">//prints [7 2 3]
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>或者使用slice，即便函数得到的是一份副本，但由于副本指向底层的指针和原来一样，所以可以修改数据：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -402,7 +402,7 @@ if (!doNotTrack) {
 </code></pre></div><p>(Roy注：这里需要了解一下slice的构造，由指向底层数组的指针、len、cap构成，但这个例子里如果超出cap引起底层数组变化，还是有问题。这里原意是修改里面的数据值，而非添加数据。)</p>
 <h2 id="混淆了range遍历slice和array时的返回值">混淆了range遍历slice和array时的返回值</h2>
 <p>与其他编程语言中的<code>for-in</code>、<code>foreach</code>语句不同，go中的<code>range</code>在遍历时会返回2个值，第一个是元素索引，第二个是元素的值：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -429,7 +429,7 @@ if (!doNotTrack) {
 <p>可以使用原始的一维数组、“独立的”切片、“共享数据”的切片来创建动态的多维数组。</p>
 <p>如果使用原始的一维数组，则需要在数组需要增长时负责索引、边界检查和内存重新分配。</p>
 <p>使用独立的切片来创建动态多维数组分2步：首先创建一个外部切片，然后再分配每个内部切片。内部切片相互独立，所以可以独立的增大或减小他们而不互相影响。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
     <span style="color:#a6e22e">x</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">2</span>
@@ -441,7 +441,7 @@ if (!doNotTrack) {
     }
 }
 </code></pre></div><p>使用共享数据的切片来创建动态多维数组分3步：首先创建一个数据容器切片来存储所有数据，然后创建外部切片，最后切割原始的容器切片来初始化内部切片：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -466,7 +466,7 @@ if (!doNotTrack) {
 </code></pre></div><p>目前有增加多维数组和切片的提议，不过优先级比较低。</p>
 <h2 id="访问字典中不存在的key">访问字典中不存在的key</h2>
 <p>这对于习惯使用返回值是否是默认值来判断key是否存在的开发人员来说是个陷阱，go中可以使用第二个返回值来确定key是否存在：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">//错误代码
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">//错误代码
 </span><span style="color:#75715e"></span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -493,7 +493,7 @@ if (!doNotTrack) {
 }
 </code></pre></div><h2 id="字符串是不可变的">字符串是不可变的</h2>
 <p>尝试使用下标改变字符串中的某个字符会报错，字符串是只读的byte slice，如果确实需要更新一个字符串，那么在必要时使用byte slice而不是字符串类型。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
 <span style="color:#75715e">//错误代码
 </span><span style="color:#75715e"></span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
@@ -530,7 +530,7 @@ if (!doNotTrack) {
 </ol>
 <h2 id="字符串和索引操作">字符串和索引操作</h2>
 <p>在字符串上使用索引下标操作反回的是byte类型，而不是字符。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -543,7 +543,7 @@ if (!doNotTrack) {
 <h2 id="字符串并不总是utf8格式">字符串并不总是utf8格式</h2>
 <p>string的值不必是UTF8文本，可以包含任意的值。只有使用字符串文字字面值时才一定是UTF8文本，字串可以通过转义来包含其他数据。</p>
 <p>判断字符串是否是UTF8文本，可使用&quot;unicode/utf8&quot;包中的<code>ValidString()</code>函数：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -559,10 +559,10 @@ if (!doNotTrack) {
 </span><span style="color:#75715e"></span>}
 </code></pre></div><h2 id="字符串长度">字符串长度</h2>
 <p>假设你是一个python开发者：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data <span style="color:#f92672">=</span> <span style="color:#e6db74">u</span><span style="color:#e6db74">&#39;♥&#39;</span>  
-<span style="color:#66d9ef">print</span>(len(data)) <span style="color:#75715e">#prints: 1  </span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data <span style="color:#f92672">=</span> <span style="color:#e6db74">u</span><span style="color:#e6db74">&#39;♥&#39;</span>  
+print(len(data)) <span style="color:#75715e">#prints: 1  </span>
 </code></pre></div><p>但在go中：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -572,7 +572,7 @@ if (!doNotTrack) {
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>内置的<code>len()</code>函数返回字节长度替代了字符长度。</p>
 <p>想得到同样的结果使用<code>unicode/utf8</code>包的<code>RuneCountInString()</code>：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -583,7 +583,7 @@ if (!doNotTrack) {
     <span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;♥&#34;</span>
     <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">utf8</span>.<span style="color:#a6e22e">RuneCountInString</span>(<span style="color:#a6e22e">data</span>)) <span style="color:#75715e">//prints: 1
 </span></code></pre></div><p>注意这个函数反悔的并不是字符长度，因为单个字符可能占用多个rune：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -596,7 +596,7 @@ if (!doNotTrack) {
 </span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">utf8</span>.<span style="color:#a6e22e">RuneCountInString</span>(<span style="color:#a6e22e">data</span>)) <span style="color:#75715e">//prints: 2
 </span><span style="color:#75715e"></span>}
 </code></pre></div><h2 id="在多行arrayslicemap语句中缺少逗号">在多行array、slice、map语句中缺少逗号</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
     <span style="color:#a6e22e">x</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{
@@ -622,7 +622,7 @@ if (!doNotTrack) {
 </code></pre></div><p>将声明写为一行时最后的逗号，不会报编译错误。</p>
 <h2 id="logfatal和logpainc">log.Fatal和log.Painc</h2>
 <p>logging库通常提供不同的日志等级，而go中的<code>Fatal*()</code>和<code>Panic*()</code>函数不仅仅输出日志还会停止程序：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;log&#34;</span>
 
@@ -635,7 +635,7 @@ if (!doNotTrack) {
 <h2 id="对string使用range操作得到的值">对string使用range操作得到的值</h2>
 <p>使用range对string进行迭代时，得到的索引(返回的第一个值)时当前“字符”（返回的第二个值）的第一个字节位置，而非当前字符的位置。而一个字符可以由多个rune组成。如果需要对字符进行操作，确保使用<code>norm</code>（golang.org/x/text/unicode/norm）包来进行检查。</p>
 <p><code>for range</code>操作会尝试将字符串当utf8类型，对于任何它不理解的字节序列都会返回<code>0xfffd</code>来替代真实数值。如果你有特殊值存在字符串中，确保转换成byte切片来获取全部数据：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -654,7 +654,7 @@ if (!doNotTrack) {
 </span><span style="color:#75715e"></span>}
 </code></pre></div><h2 id="对map进行range操作">对map进行range操作</h2>
 <p><strong>map是无序的！！</strong> go运行时会尽可能的打乱返回顺序，但这并不能每次都成功。所以连续得到5个相同的顺序也有可能。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -667,7 +667,7 @@ if (!doNotTrack) {
 </code></pre></div><p>如果在go playground来执行上面的代码，你总会得到同样的顺序，因为这个网站除非你改了代码，否则并不会重新编译代码。</p>
 <h2 id="switch中的fallthrough语句">switch中的fallthrough语句</h2>
 <p>switch语句中case分支默认自带break，这和默认执行下一个case的语言略有不同。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -685,7 +685,7 @@ if (!doNotTrack) {
 </span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">isSpace</span>(<span style="color:#e6db74">&#39; &#39;</span>))  <span style="color:#75715e">//prints false (not ok)
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>可以使用<code>fallthrough</code>关键字来强制当前case块执行完成后执行下一个case块，当然也可以改写case条件为表达式列表来实现同样功能：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -703,7 +703,7 @@ if (!doNotTrack) {
 </span><span style="color:#75715e"></span>}
 </code></pre></div><h2 id="自增和自减操作">自增和自减操作</h2>
 <p>自增自减操作在很多语言中都提供，不过go中不支持前置的这两种操作：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -727,7 +727,7 @@ if (!doNotTrack) {
 }
 </code></pre></div><h2 id="按位取反">按位取反</h2>
 <p>很多语言中使用<code>~</code>来进行取反，但go中复用了XOR操作符<code>^</code>：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -747,7 +747,7 @@ if (!doNotTrack) {
 }
 </code></pre></div><p>这可能让人困惑，如果你愿意，可以使用XOR操作来代替一元的取反操作，比如使用<code>0x02 XOR 0xFF</code> 替代 <code>NOT 0x02</code>，这也解释了为什么<code>^</code>可以重用来进行取反操作了。</p>
 <p>go中也提供了一个特殊的操作符<code>&amp;^</code>来执行<code>AND NOT</code>操作，但这增加了NOT操作的混乱性。这看上去就像是没有括号的<code>A AND (NOT B)</code>操作：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -767,7 +767,7 @@ if (!doNotTrack) {
 }
 </code></pre></div><h2 id="运算符优先级">运算符优先级</h2>
 <p>除了<code>&amp;^</code>，go也提供了和其他语言一样的标准运算符，但优先级并不总和其他的一样：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -789,7 +789,7 @@ if (!doNotTrack) {
 </span><span style="color:#75715e"></span>}
 </code></pre></div><h2 id="不导出的struct字段无法被encode">不导出的struct字段无法被encode</h2>
 <p>小写字母开头的字段成员是无法被外部直接访问的，所以<code>struct</code>在进行json、xml、gob等格式的encode操作时，这些私有字段会被忽略，导出时得到零值：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -815,7 +815,7 @@ if (!doNotTrack) {
 </span><span style="color:#75715e"></span>}
 </code></pre></div><h2 id="程序结束时还有goroutine在运行">程序结束时还有goroutine在运行</h2>
 <p>程序并不等待所有的goroutine运行完才结束，这是一个新手常见的错误，不需要觉得害羞。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -838,11 +838,11 @@ if (!doNotTrack) {
     <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;[%v] is done\n&#34;</span>,<span style="color:#a6e22e">workerId</span>)
 }
 </code></pre></div><p>输出为：</p>
-<pre><code>[0] is running 
+<pre tabindex="0"><code>[0] is running 
 [1] is running 
 all done!
 </code></pre><p>一个常见的解决方案是使用<code>WaitGroup</code>，他将阻塞主goroutine等待其他goroutine执行完成。如果goroutine需要长时间运行的来处理消息，可以直接发送kill命令给每个goroutine,或者关闭所有goroutin都需要接收的channel，这里有个简单的方法一次性通知所有goroutine:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -871,7 +871,7 @@ all done!
     <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;[%v] is done\n&#34;</span>,<span style="color:#a6e22e">workerId</span>)
 }
 </code></pre></div><p>输出为：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">[<span style="color:#ae81ff">0</span>] <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">running</span> 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">[<span style="color:#ae81ff">0</span>] <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">running</span> 
 [<span style="color:#ae81ff">0</span>] <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">done</span> 
 [<span style="color:#ae81ff">1</span>] <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">running</span> 
 [<span style="color:#ae81ff">1</span>] <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">done</span>
@@ -880,7 +880,7 @@ all done!
 <p>fatal error: all goroutines are asleep - deadlock!</p>
 </blockquote>
 <p>WTF??这个问题的主要原因在于每个goroutine得到的都是原始WaitGroup的一个副本，当goroutine内部执行<code>wg.Done()</code>时，并不会影响主goroutine中的WaitGroup：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -923,7 +923,7 @@ all done!
 </code></pre></div><p>上面的代码才是正确的姿势。（Roy注：总之一句话，当把WaitGroup传递给goroutine时请传递指针）</p>
 <h2 id="向无缓冲的channel发送数据时只要recevier准备好了就会继续向下执行">向无缓冲的channel发送数据时，只要recevier准备好了就会继续向下执行</h2>
 <p>发送方不会阻塞直到接收方处理这个消息。取决于运行下列代码的环境，接收方可能有时间处理消息也可能来不及处理消息。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -943,7 +943,7 @@ all done!
 <h2 id="向close的channel发送数据会panic">向close的channel发送数据会panic</h2>
 <p>从一个已经关闭的channel读取数据时安全的，如果<code>ok</code>字段接收到的值为<code>false</code>则代表没有数据可以接受了（Roy注：这里应该是指channel关闭了），对于有缓冲的channel，会将缓存中的数据全部取出后<code>ok</code>返回<code>false</code>。</p>
 <p>向一个关闭的channel发送数据会引发panic，虽然文档中记录很清楚，但很多新人还是会掉进这个坑：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -966,7 +966,7 @@ all done!
 }
 </code></pre></div><p>根据程序不同，修改方法也是不同的，可以大改也可以小改，但不论如何都要保证程序不会向关闭的channel发送数据。</p>
 <p>上面的例子可以使用一个专门用于通知取消的channel来进行修复：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -993,7 +993,7 @@ all done!
 }
 </code></pre></div><h2 id="nil值的channel">nil值的channel</h2>
 <p>对一个nil值的channel读取或发送数据会永远阻塞，文档里也写的挺清楚，不过还是有新手会跳进这个坑：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1015,7 +1015,7 @@ all done!
 }
 </code></pre></div><p>运行这个代码将会报错：<code>fatal error: all goroutines are asleep - deadlock!</code></p>
 <p>不过这个特性也可以作为一种实现动态启停case块的方法：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>  
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;time&#34;</span>
@@ -1054,7 +1054,7 @@ all done!
 </code></pre></div><h2 id="使用值传递的方法不能改变参数原有值">使用值传递的方法不能改变参数原有值</h2>
 <p>结构体方法的参数与一般函数的参数类似：如果声明为值，那方法体得到的是一份参数的值拷贝，此时对参数的任何修改都不会对原有值产生影响。</p>
 <p>例外是map或slice类型的变量，并且是以指针方式更新map中的字段、slice中的元素的，才会更新原有值:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -1091,7 +1091,7 @@ all done!
 </span><span style="color:#75715e"></span>}
 </code></pre></div><h2 id="关闭http响应体">关闭HTTP响应体</h2>
 <p>当使用标准http库获取响应时，即便不需要获取响应体的内容也需要手动关闭它，即便是一个空响应也是如此。这点很容易忘记，或者方法不对：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1117,7 +1117,7 @@ all done!
 }
 </code></pre></div><p>上面的代码在响应成功时没问题，但如果响应失败，<code>resp</code>为nil，就会引发运行时错误。</p>
 <p>最常见的方法是在检查响应后使用<code>defer</code>关闭响应体：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1143,7 +1143,7 @@ all done!
 }
 </code></pre></div><p>大多数情况，当http请求失败时resp将会是nil，err是非空值。然而如果得到的是重定向失败这2者都是非空值，也就是说程序还会泄露。</p>
 <p>可以通过在http响应错误时的处理代码中来进行关闭，另一个方法则是使用一次<code>defer</code>调用来处理所有成功或失败的响应。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1174,12 +1174,12 @@ all done!
 <p>如果重用http链接对你的程序是否重要，你也许需要添加类似下面的代码在响应处理逻辑中：</p>
 <p><code>_, err = io.Copy(ioutil.Discard, resp.Body)</code></p>
 <p>如果使用正确的方法读取全部的响应体，这是非常重要的。比如你处理一个json api的响应时：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">NewDecoder</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>).<span style="color:#a6e22e">Decode</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">data</span>)  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">NewDecoder</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>).<span style="color:#a6e22e">Decode</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">data</span>)  
 </code></pre></div><h2 id="关闭http连接">关闭HTTP连接</h2>
 <p>有些HTTP服务器会通过使用<code>keep-alive</code>来保持连接，而默认情况下标准http库只有当服务器要求时才会关闭连接。也就是说，你的程序可能会在某种场景下耗尽socket描述符。</p>
 <p>可以通过设置<code>Close</code>字段的值为true，来要求标准http库在请求完成后关闭连接。</p>
 <p>另一个选项是添加<code>Connection</code>请求头并设置为<code>close</code>。目标服务器收到后会返回响应并在header中携带<code>Connection: close</code>，当标准库收到这个响应头就会关闭连接。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1217,7 +1217,7 @@ all done!
     <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(len(string(<span style="color:#a6e22e">body</span>)))
 }
 </code></pre></div><p>也可以全局禁用掉http连接复用功能，这需要创建一个自定义http transport：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1253,7 +1253,7 @@ all done!
 <p>或者提高文件描述符数量限制也是个好主意，取决于实际情况来选择解决方案。</p>
 <h2 id="json解码时会添加换行符">JSON解码时会添加换行符</h2>
 <p>当使用JSON Encoder 对象时，那么将在编码后的JSON对象的末尾获得一个额外的换行符：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (
   <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1281,7 +1281,7 @@ all done!
 <h2 id="json包转义键和字符串值中的特殊html字符">JSON包转义键和字符串值中的特殊HTML字符</h2>
 <p>这也是文档里有的，不过需要特别仔细的查看所有JSON相关的文档才能发现这个。 <code>SetEscapeHTML</code>方法描述了关于一些特殊字符的encoding默认行为。</p>
 <p>这是一个很糟糕的设计，首先你不能禁用这个行为在<code>json.Marshal</code>时，其次这引起很糟糕的安全问题因为它假设所有的web程序都能够做出充足的xss漏洞检测。最后它假设所有的用例都是为了web页面的，打破了默认的REST/HTTP APIs配置库。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (
   <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1310,7 +1310,7 @@ all done!
 </span><span style="color:#75715e"></span>}
 </code></pre></div><h2 id="将json中的数字解码为interface类型">将JSON中的数字解码为interface类型</h2>
 <p>默认情况下，go在编码、解码时将JSON中的数值型数据转化为<code>float64</code>类型，也就是说下面的代码会报错：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
   <span style="color:#e6db74">&#34;encoding/json&#34;</span>
@@ -1332,7 +1332,7 @@ all done!
 </code></pre></div><p>有几种方法处理：</p>
 <p>使用float类型声明字典值的类型。</p>
 <p>将float类型转换为需要的整型：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
   <span style="color:#e6db74">&#34;encoding/json&#34;</span>
@@ -1352,7 +1352,7 @@ all done!
 </span><span style="color:#75715e"></span>  <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;status value:&#34;</span>,<span style="color:#a6e22e">status</span>)
 }
 </code></pre></div><p>使用<code>Decoder</code>来解码并指定使用数字类型：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
   <span style="color:#e6db74">&#34;encoding/json&#34;</span>
@@ -1376,7 +1376,7 @@ all done!
 </span><span style="color:#75715e"></span>  <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;status value:&#34;</span>,<span style="color:#a6e22e">status</span>)
 }
 </code></pre></div><p>也可以使用字符串来表示数值类型：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
   <span style="color:#e6db74">&#34;encoding/json&#34;</span>
@@ -1405,7 +1405,7 @@ all done!
   <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;status value:&#34;</span>,<span style="color:#a6e22e">status</span>)
 }
 </code></pre></div><p>使用结构体来接收转码后的数据并定义需要的类型：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
   <span style="color:#e6db74">&#34;encoding/json&#34;</span>
@@ -1429,7 +1429,7 @@ all done!
   <span style="color:#75715e">//prints: result =&gt; {Status:200}
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>如果需要延时解码或某个字段类型是可变的，可以使用结构体结合<code>json.RawMessage</code>：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
   <span style="color:#e6db74">&#34;encoding/json&#34;</span>
@@ -1471,7 +1471,7 @@ all done!
 }
 </code></pre></div><h2 id="json字符串值不适合十六进制或其他非utf8转义序列">JSON字符串值不适合十六进制或其他非utf8转义序列</h2>
 <p>go期望所有的字符串都是utf8编码，这意味着不能在JSON字符串中使用任意十六进制转义的二进制数据(还必须转义反斜杠字符)，这是一个非常常见的坑。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (
   <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1493,7 +1493,7 @@ all done!
   
 }
 </code></pre></div><p>如果你确实需要在字符串中使用反斜杠，确保用另一个反斜杠来转义它。如果想使用十六进制编码的二进制数据，可以转义反斜杠，然后将十六进制转义与解码数据存在JSON字符串中。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (
   <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1515,7 +1515,7 @@ all done!
 </span><span style="color:#75715e"></span>  <span style="color:#75715e">//todo: do your own hex escape decoding for decoded.Data  
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>另一个方式就是在json中使用byte数组或切片，但这需要将数据进行base64编码：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (
   <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1539,7 +1539,7 @@ all done!
 </code></pre></div><p>其他需要注意的是Unicode替换字符(U+FFFD)。go将使用替换字符而不是无效的UTF8，因此Unmarshal/Decode调用不会失败，但获得的字符串值可能不是预期的。</p>
 <h2 id="比较结构体数组切片和字典">比较结构体、数组、切片和字典</h2>
 <p>可以使用相等运算符<code>==</code>来比较结构体变量，前提是两个结构体的成员都是可比较的类型：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -1562,7 +1562,7 @@ all done!
     <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;v1 == v2:&#34;</span>,<span style="color:#a6e22e">v1</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">v2</span>) <span style="color:#75715e">//prints: v1 == v2: true
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>如果任何成员是不可比较的，则会报错。需要注意，只有在其中元素是可以比较的类型时数组才是可以比较的：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -1580,7 +1580,7 @@ all done!
     <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;v1 == v2:&#34;</span>,<span style="color:#a6e22e">v1</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">v2</span>)
 }
 </code></pre></div><p>go中也提供了很多函数来进行比较操作，最常用的就是reflect包中的<code>DeepEqual()</code>函数：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1609,7 +1609,7 @@ all done!
     <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;s1 == s2:&#34;</span>,<span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">DeepEqual</span>(<span style="color:#a6e22e">s1</span>, <span style="color:#a6e22e">s2</span>)) <span style="color:#75715e">//prints: s1 == s2: true
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>除了速度慢一点外，这个函数也有个小陷阱：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1622,7 +1622,7 @@ all done!
     <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;b1 == b2:&#34;</span>,<span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">DeepEqual</span>(<span style="color:#a6e22e">b1</span>, <span style="color:#a6e22e">b2</span>)) <span style="color:#75715e">//prints: b1 == b2: false
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p><code>DeepEqual()</code>并不认为空切片和nil切片相同。这个行为和<code>bytes.Equal()</code>不同：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1635,7 +1635,7 @@ all done!
     <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;b1 == b2:&#34;</span>,<span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">Equal</span>(<span style="color:#a6e22e">b1</span>, <span style="color:#a6e22e">b2</span>)) <span style="color:#75715e">//prints: b1 == b2: true
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>所以<code>DeepEqual()</code>不推荐用来比较切片。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1668,7 +1668,7 @@ all done!
 <p>如果byte切片中含有验证用户身份的数据（密文哈希、token 等），不应再使用<code>reflect.DeepEqual()</code>、<code>bytes.Equal()</code>、<code>bytes.Compare()</code>。这三个函数容易对程序造成<a href="http://en.wikipedia.org/wiki/Timing_attack">timing attacks</a>，此时应使用<code>crypto/subtle</code>包中的<code>subtle.ConstantTimeCompare()</code>等函数。</p>
 <h2 id="从panic中恢复">从panic中恢复</h2>
 <p>在defer函数中 <strong>直接调用</strong> <code>recover()</code>函数可以捕获、中断panic：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -1708,7 +1708,7 @@ all done!
 }
 </code></pre></div><h2 id="slicearraymap在range语句中更新引用元素的值">Slice,Array,Map在range语句中更新引用元素的值</h2>
 <p>在range操作中得到的值是原始元素的拷贝，也就是说对其修改并不会影响原始数据，换言之得到的指针也不会指向原始数据。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -1721,7 +1721,7 @@ all done!
     <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;data:&#34;</span>,<span style="color:#a6e22e">data</span>) <span style="color:#75715e">//prints data: [1 2 3]
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>如果想修改原始数据，可以通过索引的方式：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -1735,7 +1735,7 @@ all done!
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>如果你的集合保存的是指针，那规则会稍有不同。</p>
 <p>如果要更新原有记录指向的数据，你依然需要使用索引操作，但你可以使用for range语句中的第二个值来更新存储在目标位置的数据:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -1750,7 +1750,7 @@ all done!
 </span><span style="color:#75715e"></span>}
 </code></pre></div><h2 id="slice中的隐藏数据">slice中的隐藏数据</h2>
 <p>当你重新划分一个slice时，新的slice将引用原有slice的数组。如果你忘了这个行为的话，在你的应用分配大量临时的slice用于创建新的slice来引用原有数据的一小部分时，会导致难以预期的内存使用：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -1765,7 +1765,7 @@ all done!
     <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(len(<span style="color:#a6e22e">data</span>),cap(<span style="color:#a6e22e">data</span>),<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">data</span>[<span style="color:#ae81ff">0</span>]) <span style="color:#75715e">//prints: 3 10000 &lt;byte_addr_x&gt;
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>为了避免这样要确保从临时的slice中拷贝数据（而不是重新划分slice）：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -1783,7 +1783,7 @@ all done!
 </span><span style="color:#75715e"></span>}
 </code></pre></div><h2 id="slice数据损坏">slice数据“损坏”</h2>
 <p>假设需要重新一个路径（在slice中保存）。你通过修改第一个文件夹的名字，然后把名字合并来创建新的路劲，来重新划分指向各个文件夹的路径：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1808,7 +1808,7 @@ all done!
 }
 </code></pre></div><p>结果与你想的不一样。与&quot;AAAAsuffix/BBBBBBBBB&quot;相反，你将会得到&quot;AAAAsuffix/uffixBBBB&quot;。这个情况的发生是因为两个文件夹的slice都潜在的引用了同一个原始的路径slice。这意味着原始路径也被修改了。根据你的应用，这也许会是个问题。</p>
 <p>通过分配新的slice并拷贝需要的数据，你可以修复这个问题。另一个选择是使用完整的slice表达式:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1835,7 +1835,7 @@ all done!
 <h2 id="陈旧的slices">陈旧的slices</h2>
 <p>多个slice可以引用同一个数据。比如，当从一个已有的slice创建一个新的slice时，这就会发生。如果你的应用功能需要这种行为，那么你将需要关注下“陈旧的”slice。</p>
 <p>在某些情况下，在一个slice中添加新的数据，在原有数组无法保持更多新的数据时，将导致分配一个新的数组。而现在其他的slice还指向老的数组（和老的数据）。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
     <span style="color:#a6e22e">s1</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>}
@@ -1861,7 +1861,7 @@ all done!
 </code></pre></div><p>（Roy注：凡是用到slice操作的时候一定要注意底层指向的数组是不是同一个。）</p>
 <h2 id="类型声明和方法">类型声明和方法</h2>
 <p>当使用旧类型（非interface）创建新的类型时，新类型并不会继承旧类型的方法:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;sync&#34;</span>
 
@@ -1873,7 +1873,7 @@ all done!
 </span><span style="color:#75715e"></span>    <span style="color:#a6e22e">mtx</span>.<span style="color:#a6e22e">Unlock</span>() <span style="color:#75715e">//error  
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>如果你确实需要原有类型的方法，你可以定义一个新的struct类型，用匿名方式把原有类型嵌入其中。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;sync&#34;</span>
 
@@ -1887,7 +1887,7 @@ all done!
 </span><span style="color:#75715e"></span>    <span style="color:#a6e22e">lock</span>.<span style="color:#a6e22e">Unlock</span>() <span style="color:#75715e">//ok
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>接口类型声明也会继承原有的方法：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;sync&#34;</span>
 
@@ -1900,7 +1900,7 @@ all done!
 </span><span style="color:#75715e"></span>}
 </code></pre></div><h2 id="从for-switch和for-select代码块中跳出">从&quot;for switch&quot;和&quot;for select&quot;代码块中跳出</h2>
 <p>没有标签的“break”声明只能从内部的switch/select代码块中跳出来。如果无法使用“return”声明的话，那就为外部循环定义一个标签是另一个好的选择。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -1919,7 +1919,7 @@ all done!
 </code></pre></div><p><code>goto</code>语句也是同理。</p>
 <h2 id="for循环中的迭代和闭包">for循环中的迭代和闭包</h2>
 <p>这是一个很常见的陷阱，for语句中的迭代变量在每次迭代时被重新使用，也就是for循环中每个闭包（又名函数字面量）都会引用相同的变量（并且goroutine执行时会得到这个变量）。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1939,7 +1939,7 @@ all done!
     <span style="color:#75715e">//goroutines print: three, three, three
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>简单的解决办法（不需要改goroutine）就是在for循环语句中创建一个本地变量：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1960,7 +1960,7 @@ all done!
     <span style="color:#75715e">//goroutines print: one, two, three
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>另一个解决办法就是把变量当做参数传递给goroutine：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -1980,7 +1980,7 @@ all done!
     <span style="color:#75715e">//goroutines print: one, two, three
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>关于这个陷阱还有个复杂的版本：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -2006,7 +2006,7 @@ all done!
     <span style="color:#75715e">//goroutines print: three, three, three
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>正确代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -2033,7 +2033,7 @@ all done!
     <span style="color:#75715e">//goroutines print: one, two, three
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>猜猜下面的代码输出是什么？</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -2060,7 +2060,7 @@ all done!
 </code></pre></div><p>(Roy注：会输出 one tow three 顺序随机，因为传递的是地址)</p>
 <h2 id="defer函数调用参数的求值">Defer函数调用参数的求值</h2>
 <p>对defer延迟执行的函数，它的参数会在声明时候就会求出具体值，而不是在执行时才求值：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -2072,7 +2072,7 @@ all done!
     <span style="color:#75715e">//prints: result =&gt; 2 (not ok if you expected 4)
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>但对于指针类型又有所不同：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (
   <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -2088,7 +2088,7 @@ all done!
 </code></pre></div><h2 id="defer函数执行时机">defer函数执行时机</h2>
 <p>对defer延迟执行的函数，会在调用它的函数结束时执行，而不是在调用它的语句块结束时执行，注意区分开。</p>
 <p>比如在一个长时间执行的函数里，内部 for 循环中使用 defer 来清理每次迭代产生的资源调用，就会出现问题：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -2131,7 +2131,7 @@ all done!
 </span><span style="color:#75715e"></span>    }
 }
 </code></pre></div><p>解决办法之一就是增加一层函数：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -2178,7 +2178,7 @@ all done!
 </code></pre></div><p>或者去掉defer，直接调用<code>f.Close()</code>。</p>
 <h2 id="失败的类型断言">失败的类型断言</h2>
 <p>在类型断言语句中，断言失败则会返回目标类型的“零值”，断言变量与原来变量混用可能出现异常情况：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -2209,7 +2209,7 @@ all done!
 }
 </code></pre></div><h2 id="阻塞的goroutine和资源泄露">阻塞的Goroutine和资源泄露</h2>
 <p>Rob Pike在2012年的Google I/O大会上所做的“Go Concurrency Patterns”的演讲上，说道过几种基础的并发模式。从一组目标中获取第一个结果就是其中之一。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">First</span>(<span style="color:#a6e22e">query</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">replicas</span> <span style="color:#f92672">...</span><span style="color:#a6e22e">Search</span>) <span style="color:#a6e22e">Result</span> {  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">First</span>(<span style="color:#a6e22e">query</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">replicas</span> <span style="color:#f92672">...</span><span style="color:#a6e22e">Search</span>) <span style="color:#a6e22e">Result</span> {  
     <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">Result</span>)
     <span style="color:#a6e22e">searchReplica</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">int</span>) { <span style="color:#a6e22e">c</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">replicas</span>[<span style="color:#a6e22e">i</span>](<span style="color:#a6e22e">query</span>) }
     <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">replicas</span> {
@@ -2221,7 +2221,7 @@ all done!
 <p>那么其他的goroutine的搜索结果怎么处理？关于这些goroutine本身又会如何？</p>
 <p>Frist函数中result这个channel是无缓冲的，也就是说只有第一个goroutine会返回并结束，而其他的goroutine将阻塞到向channel中写数据的地方。也就是说造成了资源泄露。</p>
 <p>避免这个问题需要保证所有的goroutine都退出，一种解决方案就是使用有缓冲的channel确保每个goroutine都能写入数据后退出。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">First</span>(<span style="color:#a6e22e">query</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">replicas</span> <span style="color:#f92672">...</span><span style="color:#a6e22e">Search</span>) <span style="color:#a6e22e">Result</span> {  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">First</span>(<span style="color:#a6e22e">query</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">replicas</span> <span style="color:#f92672">...</span><span style="color:#a6e22e">Search</span>) <span style="color:#a6e22e">Result</span> {  
     <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">Result</span>,len(<span style="color:#a6e22e">replicas</span>))
     <span style="color:#a6e22e">searchReplica</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">int</span>) { <span style="color:#a6e22e">c</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">replicas</span>[<span style="color:#a6e22e">i</span>](<span style="color:#a6e22e">query</span>) }
     <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">replicas</span> {
@@ -2230,7 +2230,7 @@ all done!
     <span style="color:#66d9ef">return</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">c</span>
 }
 </code></pre></div><p>另一个解决方案就是使用select结合default语句来解决goroutine阻塞的问题：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">First</span>(<span style="color:#a6e22e">query</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">replicas</span> <span style="color:#f92672">...</span><span style="color:#a6e22e">Search</span>) <span style="color:#a6e22e">Result</span> {  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">First</span>(<span style="color:#a6e22e">query</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">replicas</span> <span style="color:#f92672">...</span><span style="color:#a6e22e">Search</span>) <span style="color:#a6e22e">Result</span> {  
     <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">Result</span>,<span style="color:#ae81ff">1</span>)
     <span style="color:#a6e22e">searchReplica</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">int</span>) { 
         <span style="color:#66d9ef">select</span> {
@@ -2244,7 +2244,7 @@ all done!
     <span style="color:#66d9ef">return</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">c</span>
 }
 </code></pre></div><p>也可以使用一个取消channel来通知goroutine退出：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">First</span>(<span style="color:#a6e22e">query</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">replicas</span> <span style="color:#f92672">...</span><span style="color:#a6e22e">Search</span>) <span style="color:#a6e22e">Result</span> {  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">First</span>(<span style="color:#a6e22e">query</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">replicas</span> <span style="color:#f92672">...</span><span style="color:#a6e22e">Search</span>) <span style="color:#a6e22e">Result</span> {  
     <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">Result</span>)
     <span style="color:#a6e22e">done</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">struct</span>{})
     <span style="color:#66d9ef">defer</span> close(<span style="color:#a6e22e">done</span>)
@@ -2263,7 +2263,7 @@ all done!
 </code></pre></div><p>为何在演讲中会包含这些bug？Rob Pike仅仅是不想把演示复杂化。这么作是合理的，但对于Go新手而言，可能会直接使用代码，而不去思考它可能有问题。</p>
 <h2 id="0大小的变量初始地址相同">0大小的变量初始地址相同</h2>
 <p>不同的变量不应该有不同的内存地址么？go中有个小陷阱，0大小(zero-size)的变量可能指向了同一个内存地址：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (
   <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -2283,7 +2283,7 @@ all done!
 }
 </code></pre></div><h2 id="iota不一定总是从0开始">iota不一定总是从0开始</h2>
 <p>看起来iota像是个自增操作，当第一次使用iota创建常量时候会得到0，第二次会得到1&hellip;但并不是总会如此：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (
   <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -2308,7 +2308,7 @@ all done!
 <h2 id="使用指针作为方法的receiver">使用指针作为方法的receiver</h2>
 <p>只要值是可取址的，那在这个值上调用指针接收方法是没问题的。换句话说，在某些情况下，你不需要在有一个接收值的方法版本。</p>
 <p>然而并不是所有的变量是可取址的。Map的元素就不是。通过interface引用的变量也不是。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -2336,7 +2336,7 @@ all done!
 </span><span style="color:#75715e"></span>}
 </code></pre></div><h2 id="更新map的值">更新Map的值</h2>
 <p>如果你有一个struct值的map，你无法更新单个的struct值，因为 <strong>Map类型是无法寻址的</strong>：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">data</span> <span style="color:#66d9ef">struct</span> {  
     <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
@@ -2348,7 +2348,7 @@ all done!
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>报错如下：<code>/tmp/sandbox380452744/main.go:9: cannot assign to m[&quot;x&quot;].name</code>。</p>
 <p>更让人困惑得是，slice是可以寻址的：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -2363,7 +2363,7 @@ all done!
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>注意：不久前gccgo编译器可更新map struct元素的字段值，不过很快便修复了，官方认为是Go1.3的潜在特性，无需及时实现，依旧在todo list中。</p>
 <p>更新map中struct元素的字段值，第一个方法是使用临时变量：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -2379,7 +2379,7 @@ all done!
     <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%v&#34;</span>,<span style="color:#a6e22e">m</span>) <span style="color:#75715e">//prints: map[x:{two}]
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>另一个是使用指向map的指针：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -2393,7 +2393,7 @@ all done!
 </span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">m</span>[<span style="color:#e6db74">&#34;x&#34;</span>]) <span style="color:#75715e">//prints: &amp;{two}
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>顺便，你猜下面的代码输出什么？</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">data</span> <span style="color:#66d9ef">struct</span> {  
     <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
@@ -2407,7 +2407,7 @@ all done!
 <h2 id="nil-interfaces和nil-interfaces的值">&ldquo;nil&rdquo; Interfaces和&quot;nil&quot; Interfaces的值</h2>
 <p>这在Go中是第二最常见的陷阱，因为interface虽然看起来像指针，但并不是指针。interface变量仅在类型和值为“nil”时才为“nil”。</p>
 <p>interface的类型和值会根据用于创建对应interface变量的类型和值的变化而变化。当你检查一个interface变量是否等于“nil”时，这就会导致未预期的行为。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -2423,7 +2423,7 @@ all done!
 </span><span style="color:#75715e"></span>    <span style="color:#75715e">//&#39;data&#39; is &#39;nil&#39;, but &#39;in&#39; is not &#39;nil&#39;
 </span><span style="color:#75715e"></span>}
 </code></pre></div><p>一定要小心这个陷阱当你的函数返回interface时：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
 <span style="color:#75715e">// 错误代码
 </span><span style="color:#75715e"></span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
@@ -2480,7 +2480,7 @@ all done!
 <p>一个常见的误解是，GOMAXPROCS表示用来运行goroutineCPU的数量，<code>runtime.GOMAXPROCS()</code>函数文档更让人困惑。</p>
 <p>GOMAXPROCS变量<a href="https://golang.org/pkg/runtime/">描述</a>更好的解释了关于OS线程问题。</p>
 <p>你可以设置GOMAXPROCS的值大于CPU数量，在1.10版本已经不再对这个进行限制。最大值从256提升到了1024。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -2497,7 +2497,7 @@ all done!
 </span><span style="color:#75715e"></span>}
 </code></pre></div><h2 id="读写操作的顺序重排">读写操作的顺序重排</h2>
 <p>go也许会对某些操作进行重新排序，但它能保证在一个goroutine内的所有行为顺序是不变的。然而，它并不保证多goroutine的执行顺序。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;runtime&#34;</span>
@@ -2530,7 +2530,7 @@ all done!
     <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">1</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
 }
 </code></pre></div><p>如果你多运行几次上面的代码，你可能会发现a和b变量有多个不同的组合：</p>
-<pre><code>1 
+<pre tabindex="0"><code>1 
 2
 
 3 
@@ -2548,7 +2548,7 @@ all done!
 <p>如果你需要在多goroutine内放置读写顺序的变化，你将需要使用channel，或者使用&quot;sync&quot;包构建合适的结构体。</p>
 <h2 id="优先调度">优先调度</h2>
 <p>有可能会出现这种情况，一个无耻的goroutine阻止其他goroutine运行。当你有一个不让调度器运行的for循环时，这就会发生。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -2565,7 +2565,7 @@ all done!
 }
 </code></pre></div><p>for循环并不需要是空的。只要它包含了不会触发调度执行的代码，就会发生这种问题。</p>
 <p>调度器会在GC、“go”声明、阻塞channel操作、阻塞系统调用和lock操作后运行。它也会在非内联函数调用后执行。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -2583,7 +2583,7 @@ all done!
 }
 </code></pre></div><p>要想知道你在for循环中调用的函数是否是内联的，你可以在“go build”或“go run”时传入“-m” gc标志（如，<code>go build -gcflags -m</code>）。</p>
 <p>也可以使用 runtime 包中的 Gosched() 来 手动启动调度器：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -2605,7 +2605,7 @@ all done!
 </code></pre></div><p>注意上面的代码存在竞态条件(race condition)，这里仅仅为了演示这个坑。</p>
 <h2 id="引入c模块和多行导入">引入C模块和多行导入</h2>
 <p>你需要引入C包来使用Cgo，你可以使用单行import或者使用import块:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#75715e">/*
 </span><span style="color:#75715e">#include &lt;stdlib.h&gt;
@@ -2623,7 +2623,7 @@ all done!
   <span style="color:#a6e22e">C</span>.<span style="color:#a6e22e">free</span>(<span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span>(<span style="color:#a6e22e">cs</span>))
 }
 </code></pre></div><p>引入C包不能和其他包一起：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#75715e">/*
 </span><span style="color:#75715e">#include &lt;stdlib.h&gt;
@@ -2639,7 +2639,7 @@ all done!
 }
 </code></pre></div><p>报错如下<code>./main.go:13:2: could not determine kind of name for C.free</code>。</p>
 <h2 id="import-c包和cgo注释之间不要有空行">import C包和Cgo注释之间不要有空行</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#75715e">/*
 </span><span style="color:#75715e">#include &lt;stdlib.h&gt;
@@ -2657,7 +2657,7 @@ all done!
 }
 </code></pre></div><p>报错<code>./main.go:15:2: could not determine kind of name for C.free</code>,确保不会有任何空行。</p>
 <h2 id="使用可变参数不能调用c函数">使用可变参数不能调用C函数</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#75715e">/*
 </span><span style="color:#75715e">#include &lt;stdio.h&gt;
@@ -2676,7 +2676,7 @@ all done!
 }
 </code></pre></div><p>报错如下<code>./main.go:15:2: unexpected type: ...</code></p>
 <p>您必须将可变参数C函数包装在具有已知参数数量的函数中。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#75715e">/*
 </span><span style="color:#75715e">#include &lt;stdio.h&gt;

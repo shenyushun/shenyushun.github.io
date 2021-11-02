@@ -12,14 +12,14 @@
 InsecurePlatformWarning: A true SSLContext object is not available. This prevents urllib3 from configuring SSL appropriately and may cause certain SSL connections to fail." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/%E8%A7%A3%E5%86%B3ssl-insecureplatformwarning%E9%97%AE%E9%A2%98/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2015-10-13T16:26:12&#43;00:00" />
-<meta property="article:modified_time" content="2015-10-13T16:26:12&#43;00:00" />
+<meta property="article:published_time" content="2015-10-13T16:26:12+00:00" />
+<meta property="article:modified_time" content="2015-10-13T16:26:12+00:00" />
 
 
 		<meta itemprop="name" content="解决SSL InsecurePlatformWarning问题">
 <meta itemprop="description" content="最近使用requests库进行操作时总出现如下警告:
-InsecurePlatformWarning: A true SSLContext object is not available. This prevents urllib3 from configuring SSL appropriately and may cause certain SSL connections to fail."><meta itemprop="datePublished" content="2015-10-13T16:26:12&#43;00:00" />
-<meta itemprop="dateModified" content="2015-10-13T16:26:12&#43;00:00" />
+InsecurePlatformWarning: A true SSLContext object is not available. This prevents urllib3 from configuring SSL appropriately and may cause certain SSL connections to fail."><meta itemprop="datePublished" content="2015-10-13T16:26:12+00:00" />
+<meta itemprop="dateModified" content="2015-10-13T16:26:12+00:00" />
 <meta itemprop="wordCount" content="56">
 <meta itemprop="keywords" content="" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -93,11 +93,11 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>最近使用requests库进行操作时总出现如下警告:</p>
-<pre><code>InsecurePlatformWarning: A true SSLContext object is not available. This prevents urllib3 from configuring SSL appropriately and may cause certain SSL connections to fail. For more information, see https://urllib3.readthedocs.org/en/latest/security.html#insecureplatformwarning.
+<pre tabindex="0"><code>InsecurePlatformWarning: A true SSLContext object is not available. This prevents urllib3 from configuring SSL appropriately and may cause certain SSL connections to fail. For more information, see https://urllib3.readthedocs.org/en/latest/security.html#insecureplatformwarning.
 </code></pre><p>虽然不影响程序执行,不过看着一个警告还是心理不舒服.</p>
 <p>解决办法很简单,安装几个包即可<code>pip install pyopenssl ndg-httpsclient pyasn1</code></p>
 <p>安装过程中可能出现某些头文件不存在的错误,比如</p>
-<pre><code>openssl/aes.h: No such file or directory
+<pre tabindex="0"><code>openssl/aes.h: No such file or directory
 fatal error: ffi.h: No such file or directory
 </code></pre><p>安装对应的dev包即可,比如ubuntu下就是
 <code>sudo apt-get install libffi-dev libssl-dev</code></p>

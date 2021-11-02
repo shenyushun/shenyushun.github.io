@@ -18,8 +18,8 @@ REDIS_URL = &#34;redis://127.0.0.1:6379&#34;
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/scrapy-redis%E7%BB%93%E5%90%88post%E8%AF%B7%E6%B1%82%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2019-05-06T16:31:37&#43;00:00" />
-<meta property="article:modified_time" content="2019-05-06T16:31:37&#43;00:00" />
+<meta property="article:published_time" content="2019-05-06T16:31:37+00:00" />
+<meta property="article:modified_time" content="2019-05-06T16:31:37+00:00" />
 
 
 		<meta itemprop="name" content="Scrapy-Redis结合POST请求获取数据">
@@ -30,8 +30,8 @@ SCHEDULER_PERSIST = True    #不清除Redis队列、这样可以暂停/恢复 �
 DUPEFILTER_CLASS = &#34;scrapy_redis.dupefilter.RFPDupeFilter&#34;  #确保所有的爬虫通过Redis去重
 SCHEDULER_QUEUE_CLASS = &#39;scrapy_redis.queue.SpiderPriorityQueue&#39;
 REDIS_URL = &#34;redis://127.0.0.1:6379&#34;
-"><meta itemprop="datePublished" content="2019-05-06T16:31:37&#43;00:00" />
-<meta itemprop="dateModified" content="2019-05-06T16:31:37&#43;00:00" />
+"><meta itemprop="datePublished" content="2019-05-06T16:31:37+00:00" />
+<meta itemprop="dateModified" content="2019-05-06T16:31:37+00:00" />
 <meta itemprop="wordCount" content="640">
 <meta itemprop="keywords" content="python,爬虫," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -106,13 +106,13 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<p>能看到这篇文章的小伙伴肯定已经知道什么是Scrapy以及Scrapy-Redis了，基础概念这里就不再介绍。默认情况下Scrapy-Redis是发送GET请求获取数据的，对于某些使用POST请求的情况需要重写<code>make_request_from_data</code>函数即可，但奇怪的是居然没在网上搜到简洁明了的答案，或许是太简单了？</p>
 <p>这里我以<code>httpbin.org</code>这个网站为例，首先在<code>settings.py</code>中添加所需配置，这里需要根据实际情况进行修改：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">SCHEDULER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;scrapy_redis.scheduler.Scheduler&#34;</span>  <span style="color:#75715e">#启用Redis调度存储请求队列</span>
-SCHEDULER_PERSIST <span style="color:#f92672">=</span> True    <span style="color:#75715e">#不清除Redis队列、这样可以暂停/恢复 爬取</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">SCHEDULER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;scrapy_redis.scheduler.Scheduler&#34;</span>  <span style="color:#75715e">#启用Redis调度存储请求队列</span>
+SCHEDULER_PERSIST <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>    <span style="color:#75715e">#不清除Redis队列、这样可以暂停/恢复 爬取</span>
 DUPEFILTER_CLASS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;scrapy_redis.dupefilter.RFPDupeFilter&#34;</span>  <span style="color:#75715e">#确保所有的爬虫通过Redis去重</span>
 SCHEDULER_QUEUE_CLASS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;scrapy_redis.queue.SpiderPriorityQueue&#39;</span>
 REDIS_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;redis://127.0.0.1:6379&#34;</span>
 </code></pre></div><p>爬虫代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#75715e"># -*- coding: utf-8 -*-</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#75715e"># -*- coding: utf-8 -*-</span>
 <span style="color:#f92672">import</span> scrapy
 <span style="color:#f92672">from</span> scrapy_redis.spiders <span style="color:#f92672">import</span> RedisSpider
 
@@ -134,15 +134,15 @@ REDIS_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;
                                   formdata<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#34;data&#34;</span>:data},callback<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>parse)
 
     <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">parse</span>(self, response):
-        <span style="color:#66d9ef">print</span>(response<span style="color:#f92672">.</span>body)
+        print(response<span style="color:#f92672">.</span>body)
 </code></pre></div><p>这里为了简单直接进行输出，真实使用时可以结合pipeline写数据库等。</p>
 <p>然后启动爬虫程序<code>scrapy crawl hpb</code>，由于我们还没向<code>test_post_data</code>中写数据，所以启动后程序进入等待状态。然后模拟向队列写数据：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#f92672">import</span> redis
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#f92672">import</span> redis
 rd <span style="color:#f92672">=</span> redis<span style="color:#f92672">.</span>Redis(<span style="color:#e6db74">&#39;127.0.0.1&#39;</span>,port<span style="color:#f92672">=</span><span style="color:#ae81ff">6379</span>,db<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
 <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1000</span>):
     rd<span style="color:#f92672">.</span>lpush(<span style="color:#e6db74">&#39;test_post_data&#39;</span>,_)
 </code></pre></div><p>此时可以看到爬虫已经开始获取程序了：</p>
-<pre><code>2019-05-06 16:30:21 [hpb] DEBUG: Read 8 requests from 'test_post_data'
+<pre tabindex="0"><code>2019-05-06 16:30:21 [hpb] DEBUG: Read 8 requests from 'test_post_data'
 2019-05-06 16:30:21 [scrapy.core.engine] DEBUG: Crawled (200) &lt;POST https://www.httpbin.org/post&gt; (referer: None)
 2019-05-06 16:30:21 [scrapy.core.engine] DEBUG: Crawled (200) &lt;POST https://www.httpbin.org/post&gt; (referer: None)
 2019-05-06 16:30:21 [scrapy.core.engine] DEBUG: Crawled (200) &lt;POST https://www.httpbin.org/post&gt; (referer: None)

@@ -13,15 +13,15 @@ Merkle DAG
 Merkle DAG是IPFS核心概念之一，在Git的数据结构上进行了改造。理解Merkle DAG之前先来了解下Merkle Tree。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/ipfs%E5%88%9D%E7%AA%A53/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2018-10-10T15:26:16&#43;00:00" />
-<meta property="article:modified_time" content="2018-10-10T15:26:16&#43;00:00" />
+<meta property="article:published_time" content="2018-10-10T15:26:16+00:00" />
+<meta property="article:modified_time" content="2018-10-10T15:26:16+00:00" />
 
 
 		<meta itemprop="name" content="IPFS初窥3">
 <meta itemprop="description" content="在上一篇文章中记录到了IPFS的BitSwap协议，今天接着往下看关于Object的部分。
 Merkle DAG
-Merkle DAG是IPFS核心概念之一，在Git的数据结构上进行了改造。理解Merkle DAG之前先来了解下Merkle Tree。"><meta itemprop="datePublished" content="2018-10-10T15:26:16&#43;00:00" />
-<meta itemprop="dateModified" content="2018-10-10T15:26:16&#43;00:00" />
+Merkle DAG是IPFS核心概念之一，在Git的数据结构上进行了改造。理解Merkle DAG之前先来了解下Merkle Tree。"><meta itemprop="datePublished" content="2018-10-10T15:26:16+00:00" />
+<meta itemprop="dateModified" content="2018-10-10T15:26:16+00:00" />
 <meta itemprop="wordCount" content="246">
 <meta itemprop="keywords" content="ipfs," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -103,7 +103,7 @@ if (!doNotTrack) {
 <p>正由于比特币中将Merkle Tree的根哈希值包含在了区块头中，所以各种轻钱包(SPV)才得以出现。</p>
 <p><img src="https://mypic-1252424367.cos.ap-hongkong.myqcloud.com/ipfs3-2.png" alt="ipfs3-2"></p>
 <p>而Merkle DAG则是一种　<strong>有向无环图</strong>　结构，而且和Merkle Tree有个很重要的区别就是Merkle DAG中准许非叶节点存储数据。IPFS中数据结构定义如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">IPFSLink</span> <span style="color:#66d9ef">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">IPFSLink</span> <span style="color:#66d9ef">struct</span> {
   <span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span>
   <span style="color:#a6e22e">Hash</span> <span style="color:#a6e22e">Multihash</span>
   <span style="color:#a6e22e">Size</span> <span style="color:#66d9ef">int</span>
@@ -114,7 +114,7 @@ if (!doNotTrack) {
   <span style="color:#a6e22e">data</span> []<span style="color:#66d9ef">byte</span>
 }
 </code></pre></div><p>首先我们有这样一个目录结构：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ipfs
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ipfs
 ├── imgs
 │   └── 1.jpg
 ├── test.txt
@@ -122,7 +122,7 @@ if (!doNotTrack) {
     └── paxos和分布式系统.mp4
 
 </code></pre></div><p>然后执行<code>add</code>命令添加:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ipfs add -r ipfs
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ipfs add -r ipfs
 added QmTBGNDfodpscKje46wyTmzsPsJ6REWebionWK9dVc2Cms ipfs/imgs/1.jpg
 added QmRmfJ8RYrULTZkjt9H11kkPBswrzVQXf36QAF3XoBG6XZ ipfs/test.txt
 added Qme5oV4uKLA2BDVjFtqiCfFqv74LZXTqG1oiuu5gshqvk7 ipfs/video/paxos和分布式系统.mp4
@@ -131,20 +131,20 @@ added QmVYaDuyoS4otNXnQ7WRbBP4ZZuLi7PLhyz2LV9vLWVwWb ipfs/video
 added QmPkbxXPM2hY97NR8Tf25KZxysWn4FZrsuPwD8ztYM32j4 ipfs
  53.15 MiB / 53.16 MiB <span style="color:#f92672">[=============================================================================================================================================================]</span>  99.98%
 </code></pre></div><p>这里插一句，在浏览器中访问</p>
-<pre><code>http://localhost:8080/ipfs/QmTBGNDfodpscKje46wyTmzsPsJ6REWebionWK9dVc2Cms
+<pre tabindex="0"><code>http://localhost:8080/ipfs/QmTBGNDfodpscKje46wyTmzsPsJ6REWebionWK9dVc2Cms
 
 http://localhost:8080/ipfs/QmQEwN1jbjPPAnfjnbXjCi92yKu7gZbZnmK2niotz4d8oK/1.jpg
 
 http://localhost:8080/ipfs/QmPkbxXPM2hY97NR8Tf25KZxysWn4FZrsuPwD8ztYM32j4/imgs/1.jpg
 </code></pre><p>这3种访问路径都可以最终得到<code>1.jpg</code>这个图片。</p>
 <p>可以使用<code>ls</code>命令查看文件切分情况：</p>
-<pre><code>ipfs ls -v Qme5oV4uKLA2BDVjFtqiCfFqv74LZXTqG1oiuu5gshqvk7
+<pre tabindex="0"><code>ipfs ls -v Qme5oV4uKLA2BDVjFtqiCfFqv74LZXTqG1oiuu5gshqvk7
 Hash                                           Size     Name
 QmexC2a5eSkVuoErKhAjxpMt6DJoQeS57T3yU1cxCpb3Tu 45623854
 QmR2GQi1DhvGzZ1Ra1fgpwKBTd9ubt9aPUSCvqMZPHB3cp 10103195
 </code></pre><p>可以看出，mp4文件被切分成了2部分。</p>
 <p>再使用<code>object get</code>命令查看<code>ipfs</code>这个文件夹的DAG:</p>
-<pre><code>ipfs object get QmPkbxXPM2hY97NR8Tf25KZxysWn4FZrsuPwD8ztYM32j4
+<pre tabindex="0"><code>ipfs object get QmPkbxXPM2hY97NR8Tf25KZxysWn4FZrsuPwD8ztYM32j4
 
 {
   &quot;Links&quot;: [
@@ -168,7 +168,7 @@ QmR2GQi1DhvGzZ1Ra1fgpwKBTd9ubt9aPUSCvqMZPHB3cp 10103195
 }
 </code></pre><p>也和上面给的数据结构定义一致。</p>
 <p>还有更重要的一点，IPFS准许使用者使用<code>block</code>相关命令直接操作Merkle DAG中的数据，比如：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;hi roy&#34;</span> | ipfs block put
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;hi roy&#34;</span> | ipfs block put
 QmUHW9uK8aKYHNSSJwS1AnnBt1dV6wbKmDWDr8tmRk9pXo
 
 ipfs block get QmUHW9uK8aKYHNSSJwS1AnnBt1dV6wbKmDWDr8tmRk9pXo
@@ -184,7 +184,7 @@ hi roy
 <li>加密货币区块链（cryptocurrency blockchains）</li>
 </ul>
 <p>再插一句，很多小伙伴不知道如何向已经存在的文件夹中添加新文件，比如想向<code>ipfs</code>目录添加文件<code>test2.txt</code>:</p>
-<pre><code>ipfs add test2.txt
+<pre tabindex="0"><code>ipfs add test2.txt
 added QmUARAWmSHC3aiWhYFcGfQGEyfAKdUPWqFHxemY3iDJDRM test2.txt
  11 B / 11 B [=======================================================================================================================================================================] 100.00%
 
@@ -194,11 +194,11 @@ QmQEwN1jbjPPAnfjnbXjCi92yKu7gZbZnmK2niotz4d8oK 18418    imgs/
 QmRmfJ8RYrULTZkjt9H11kkPBswrzVQXf36QAF3XoBG6XZ 18       test.txt
 QmVYaDuyoS4otNXnQ7WRbBP4ZZuLi7PLhyz2LV9vLWVwWb 55727234 video/
 </code></pre><p>可以发现文件并没有添加进文件夹中，而仅仅是获得了一个自己的哈希值。可以使用下面的命令：</p>
-<pre><code>ipfs object patch add-link QmPkbxXPM2hY97NR8Tf25KZxysWn4FZrsuPwD8ztYM32j4 test21.txt QmUARAWmSHC3aiWhYFcGfQGEyfAKdUPWqFHxemY3iDJDRM
+<pre tabindex="0"><code>ipfs object patch add-link QmPkbxXPM2hY97NR8Tf25KZxysWn4FZrsuPwD8ztYM32j4 test21.txt QmUARAWmSHC3aiWhYFcGfQGEyfAKdUPWqFHxemY3iDJDRM
 
 QmZzY6fgW2ndjoAXpa2gMSaJ3c8h6hzq1TFusdF33u2jvy
 </code></pre><p>这里会返回一个新的哈希值，查看这个发现文件已经被添加进去了：</p>
-<pre><code>ipfs ls -v QmZzY6fgW2ndjoAXpa2gMSaJ3c8h6hzq1TFusdF33u2jvy
+<pre tabindex="0"><code>ipfs ls -v QmZzY6fgW2ndjoAXpa2gMSaJ3c8h6hzq1TFusdF33u2jvy
 Hash                                           Size     Name
 QmQEwN1jbjPPAnfjnbXjCi92yKu7gZbZnmK2niotz4d8oK 18418    imgs/
 QmRmfJ8RYrULTZkjt9H11kkPBswrzVQXf36QAF3XoBG6XZ 18       test.txt
@@ -208,7 +208,7 @@ QmVYaDuyoS4otNXnQ7WRbBP4ZZuLi7PLhyz2LV9vLWVwWb 55727234 video/
 <p>另外，最新的文件系统已经变成IPLD了，是Merkle DAG的一个变种。</p>
 <h2 id="ipns">IPNS</h2>
 <p>由上面的例子也可以看出来，在IPFS中每次新增、修改某个文件都会导致哈希值的变化，这对于实际应用中是十分不便的。为了处理这个问题，IPFS中引入了一个可变命名空间的概念——IPNS(InterPlanetary Name Space)，结合之前说的 <strong>路由系统</strong> 实现了&quot;不可变的内容&quot;和&quot;可变的引用&quot;的组合(可以结合编程语言中指针的概念)：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">routing</span>.<span style="color:#a6e22e">setValue</span>(<span style="color:#a6e22e">NodeId</span>,&lt;<span style="color:#a6e22e">ns</span><span style="color:#f92672">-</span><span style="color:#a6e22e">object</span><span style="color:#f92672">-</span><span style="color:#a6e22e">hash</span>&gt;)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">routing</span>.<span style="color:#a6e22e">setValue</span>(<span style="color:#a6e22e">NodeId</span>,&lt;<span style="color:#a6e22e">ns</span><span style="color:#f92672">-</span><span style="color:#a6e22e">object</span><span style="color:#f92672">-</span><span style="color:#a6e22e">hash</span>&gt;)
 </code></pre></div><p>之前说过每个节点的NodeID来源与其公钥的哈希值，那么给每个节点分配一个可变命名空间<code>/ipns/&lt;NodeID&gt;</code>，用户将私钥签名过的数据发布到这个路径上，别的用户下载这个数据时可以检查签名是否和公钥、NodeID匹配来验证真实性。</p>
 		</div>
 		<footer class="post__footer">

@@ -13,15 +13,15 @@
 # ls -al /etc/ssl/private/ssl-cert-snakeoil.key -rw-r----- 1 root ssl-cert 1704 Jul 22 2014 /etc/ssl/private/ssl-cert-snakeoil." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/postgresql%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%E9%97%AE%E9%A2%98/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2015-05-27T10:52:36&#43;00:00" />
-<meta property="article:modified_time" content="2015-05-27T10:52:36&#43;00:00" />
+<meta property="article:published_time" content="2015-05-27T10:52:36+00:00" />
+<meta property="article:modified_time" content="2015-05-27T10:52:36+00:00" />
 
 
 		<meta itemprop="name" content="postgresql无法启动问题">
 <meta itemprop="description" content="今天升级系统后，发现postgresql无法启动了，报错/etc/ssl/private/ssl-cert-snakeoil.key: Permission denied。
 一看就是权限问题，首先看这个文件是什么权限：
-# ls -al /etc/ssl/private/ssl-cert-snakeoil.key -rw-r----- 1 root ssl-cert 1704 Jul 22 2014 /etc/ssl/private/ssl-cert-snakeoil."><meta itemprop="datePublished" content="2015-05-27T10:52:36&#43;00:00" />
-<meta itemprop="dateModified" content="2015-05-27T10:52:36&#43;00:00" />
+# ls -al /etc/ssl/private/ssl-cert-snakeoil.key -rw-r----- 1 root ssl-cert 1704 Jul 22 2014 /etc/ssl/private/ssl-cert-snakeoil."><meta itemprop="datePublished" content="2015-05-27T10:52:36+00:00" />
+<meta itemprop="dateModified" content="2015-05-27T10:52:36+00:00" />
 <meta itemprop="wordCount" content="92">
 <meta itemprop="keywords" content="postgresql," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -96,22 +96,22 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<p>今天升级系统后，发现postgresql无法启动了，报错<code>/etc/ssl/private/ssl-cert-snakeoil.key: Permission denied</code>。</p>
 <p>一看就是权限问题，首先看这个文件是什么权限：</p>
-<pre><code># ls -al /etc/ssl/private/ssl-cert-snakeoil.key   
+<pre tabindex="0"><code># ls -al /etc/ssl/private/ssl-cert-snakeoil.key   
 -rw-r----- 1 root ssl-cert 1704 Jul 22  2014 /etc/ssl/private/ssl-cert-snakeoil.key
 </code></pre><p>既然说是权限问题，那么看看postgres用户在不在ssl-cert组中：</p>
-<pre><code># groups postgres
+<pre tabindex="0"><code># groups postgres
 postgres : postgres ssl-cert
 </code></pre><p>组用户是有可读权限的啊？怎么报错呢？那么把权限改成666试试：</p>
-<pre><code># chmod 666 ssl-cert-snakeoil.key
+<pre tabindex="0"><code># chmod 666 ssl-cert-snakeoil.key
 </code></pre><p>结果报错信息变成了</p>
-<pre><code>2015-05-27 09:16:30 HKT FATAL:  private key file &quot;server.key&quot; has group or world access
+<pre tabindex="0"><code>2015-05-27 09:16:30 HKT FATAL:  private key file &quot;server.key&quot; has group or world access
 2015-05-27 09:16:30 HKT DETAIL:  File must be owned by the database user or root, must have no write permission for &quot;group&quot;, and must have no permissions for &quot;other&quot;.
 </code></pre><p>简单说就是这个文件拥有者必须是数据库用户或root，而且组用户没有写权限，其他用户无权访问。</p>
 <p>那么就只能先把权限改回640，并且把用户修改成postgres了：</p>
-<pre><code># chmod 640 ssl-cert-snakeoil.key
+<pre tabindex="0"><code># chmod 640 ssl-cert-snakeoil.key
 # chown postgres ssl-cert-snakeoil.key
 </code></pre><p>再起动服务，保错信息变成：</p>
-<pre><code>FATAL: could not open file &quot;/etc/ssl/certs/ssl-cert-snakeoil.pem&quot;: Permission denied
+<pre tabindex="0"><code>FATAL: could not open file &quot;/etc/ssl/certs/ssl-cert-snakeoil.pem&quot;: Permission denied
 </code></pre><p>同理把pem文件拥有者变成postgres即可，之后就可以成功启动服务了。</p>
 
 		</div>

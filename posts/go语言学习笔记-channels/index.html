@@ -13,15 +13,15 @@
 channels可以理解成是goroutine之间通信的管道，和水流从管道的一端到另一端类似，数据也可以从管道的一端发送另一端接收。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-channels/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2018-06-04T14:24:51&#43;00:00" />
-<meta property="article:modified_time" content="2018-06-04T14:24:51&#43;00:00" />
+<meta property="article:published_time" content="2018-06-04T14:24:51+00:00" />
+<meta property="article:modified_time" content="2018-06-04T14:24:51+00:00" />
 
 
 		<meta itemprop="name" content="GO语言学习笔记-Channels">
 <meta itemprop="description" content="原文，建议先看完goroutine部分再看这篇。
 什么是channels
-channels可以理解成是goroutine之间通信的管道，和水流从管道的一端到另一端类似，数据也可以从管道的一端发送另一端接收。"><meta itemprop="datePublished" content="2018-06-04T14:24:51&#43;00:00" />
-<meta itemprop="dateModified" content="2018-06-04T14:24:51&#43;00:00" />
+channels可以理解成是goroutine之间通信的管道，和水流从管道的一端到另一端类似，数据也可以从管道的一端发送另一端接收。"><meta itemprop="datePublished" content="2018-06-04T14:24:51+00:00" />
+<meta itemprop="dateModified" content="2018-06-04T14:24:51+00:00" />
 <meta itemprop="wordCount" content="793">
 <meta itemprop="keywords" content="golang," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -101,7 +101,7 @@ if (!doNotTrack) {
 <p>每个channel都需指定一个类型，这个类型是表明哪种类型的数据可以通过管道传输，而其他类型的不可以。</p>
 <p><code>chan T</code>指接受类型T的channel。</p>
 <p>channel的默认值是<code>nil</code>，<code>nil channel</code>不能被任何类型使用所以和<code>map</code>或者<code>slices</code>一样，要使用<code>make</code>关键字来进行定义。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -114,14 +114,14 @@ if (!doNotTrack) {
     }
 }
 </code></pre></div><p>上面声明了变量名为<code>a</code>的channel，并且默认值是<code>nil</code>，因此判断语句成立并且初始化类型为<code>int</code>的channel，程序输出如下：</p>
-<pre><code>channel a is nil, going to define it  
+<pre tabindex="0"><code>channel a is nil, going to define it  
 Type of a is chan int  
 </code></pre><p>通常我们使用一种更简洁的办法：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
 </code></pre></div><!-- raw HTML omitted -->
 <h2 id="发送和接收数据">发送和接收数据</h2>
 <p>语法如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">a</span> <span style="color:#75715e">// read from channel a  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">a</span> <span style="color:#75715e">// read from channel a  
 </span><span style="color:#75715e"></span><span style="color:#a6e22e">a</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data</span> <span style="color:#75715e">// write to channel a  
 </span></code></pre></div><p>箭头指向的方向表明了是读取还是接收数据。第一行，箭头向外指出，所以代表从<code>a</code>中读取数据并赋值给<code>data</code>变量。第二行，箭头指向<code>a</code>因此是向<code>a</code>中写入数据。</p>
 <h2 id="读写默认是阻塞行为">读写默认是阻塞行为</h2>
@@ -129,7 +129,7 @@ Type of a is chan int
 <p>这种特性帮助goroutine之间进行高效通信，而不用像其他编程语言中那样使用显示声明锁或者条件变量来实现。</p>
 <h2 id="例子">例子</h2>
 <p>说完理论，我们来编写代码看看goroutine如何使用channel进行通信。我们先复习一下上一篇学习goroutine中的代码：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -146,7 +146,7 @@ Type of a is chan int
 }
 </code></pre></div><p>我们使用<code>Sleep</code>来阻塞了<code>main goroutine</code>等待<code>hello goroutine</code>执行完毕，如果你对这个不理解，请看<a href="http://www.hi-roy.com/2018/06/01/GO%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-Goroutines/">前一篇文章</a>。</p>
 <p>我们使用channel重写一下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -166,10 +166,10 @@ Type of a is chan int
 <p><code>&lt;-done</code>这行代码从channel中读取数据但不使用任何变量存储，这是符合语法的。</p>
 <p>现在<code>main goroutine</code>被阻塞，等待<code>done</code>中的数据，<code>hello</code>接收这个channel作为参数， 输出<code>Hello world goroutine</code>并且向<code>done</code>中写数据。当写入完成后，<code>main goroutine</code>从<code>done</code>中读取数据并且解除阻塞，接下来打印<code>main function</code>。</p>
 <p>程序输出如下：</p>
-<pre><code>Hello world goroutine  
+<pre tabindex="0"><code>Hello world goroutine  
 main function  
 </code></pre><p>再次引入<code>Sleep</code>来更好的理解阻塞的概念：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -197,7 +197,7 @@ main function
 <p>cubes = (1 * 1 * 1) + (2 * 2 * 2) + (3 * 3 * 3)</p>
 <p>output = squares + cubes = 50</p>
 <p>我们分别在<code>squares goroutine</code>和<code>cubes goroutine</code>中进行计算，并在<code>main goroutine</code>中进行最后求和。(roy注：可以先自己实现再看下面的答案)</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -237,7 +237,7 @@ main function
 <p><code>Final output 1536</code></p>
 <h2 id="死锁">死锁</h2>
 <p>使用channel中一个非常重要的问题就是死锁，如果一个goroutine向channel中写入了数据，那么应该有其他的goroutine读取数据。如果没有，程序将报错<code>Deadlock</code>。类似的，如果goroutine等待从channel中读取数据，那么应该有其他的goroutine向channel中写入数据，否则程序也将报错。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
@@ -245,14 +245,14 @@ main function
     <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">5</span>
 }
 </code></pre></div><p>上面的代码创建了channel <code>ch</code>并向其中写入5，但并没有goroutine从<code>ch</code>中读取数据，所以程序报错：</p>
-<pre><code>fatal error: all goroutines are asleep - deadlock!
+<pre tabindex="0"><code>fatal error: all goroutines are asleep - deadlock!
 
 goroutine 1 [chan send]:  
 main.main()  
     /tmp/sandbox249677995/main.go:6 +0x80
 </code></pre><h2 id="单向channel">单向channel</h2>
 <p>至今我们讨论的channel都是双向的，既可以写入也可读取数据。创建单向channel也是可以的，单向channel只能写入或者读取数据。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -266,10 +266,10 @@ main.main()
     <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">sendch</span>)
 }
 </code></pre></div><p>上面的代码中我们创建了一个只能写入数据的单向channel。<code>chan&lt;- int</code>这个符号表明只能向这个channel写入数据，１２行我们尝试从这个channel中读取数据，程序将会报错：</p>
-<pre><code>main.go:11: invalid operation: &lt;-sendch (receive from send-only type chan&lt;- int)
+<pre tabindex="0"><code>main.go:11: invalid operation: &lt;-sendch (receive from send-only type chan&lt;- int)
 </code></pre><p>但是呢，这种只能写入不能读取的channel有毛用啊？</p>
 <p>有一种使用情况就是在channel转换时。我们可以将双向channel转换成单向channel，但反过来则不可以。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -287,7 +287,7 @@ main.main()
 <p>发送方可以关闭channel来通知接收方没有更多数据传递了，而接收方可以使用额外的变量获取channel是否被关闭。</p>
 <p><code>v, ok := &lt;- ch</code></p>
 <p>上面的代码中，如果<code>ok</code>的值是true则代表成功从channel获取到了值，为false则代表从一个已经关闭了的channel中读取数据，读取到的值为channel类型的默认值。比如从关闭的int类型的channel读取到的值是<code>0</code>。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -311,7 +311,7 @@ main.main()
     }
 }
 </code></pre></div><p>上面的程序<code>producer</code>向<code>chnl</code>中写入0-9后关闭channel，<code>main</code>中使用<code>for</code>循环来检查channel是否被关闭，如果<code>ok</code>值为false则代表channel被关闭并且跳出循环，否则输出读取的值和<code>ok</code>：</p>
-<pre><code>Received  0 true  
+<pre tabindex="0"><code>Received  0 true  
 Received  1 true  
 Received  2 true  
 Received  3 true  
@@ -322,7 +322,7 @@ Received  7 true
 Received  8 true  
 Received  9 true  
 </code></pre><p>可以使用<code>for range</code>来读取数据直到channel被关闭：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -343,7 +343,7 @@ Received  9 true
 }
 </code></pre></div><p>一旦channel关闭，循环将自动结束。程序输出和上面一样。</p>
 <p>我们可以使用<code>for range</code>重写上面求和的程序来提高可重用性。如果你仔细观察，你将注意到从数字中提取某一位的代码是重复的，我们将这一步提取出来：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -387,7 +387,7 @@ Received  9 true
     <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Final output&#34;</span>, <span style="color:#a6e22e">squares</span><span style="color:#f92672">+</span><span style="color:#a6e22e">cubes</span>)
 }
 </code></pre></div><p><code>digits</code>函数包含提取数字逻辑并且被<code>calcSquares</code>和<code>calcCubes</code>函数并发调用，一旦没有更多位数需要提取，channel将被关闭。<code>calcSquares</code>和<code>calcCubes</code>函数各自使用<code>for range</code>循环读取channel中的数据，直到其被关闭。其他部分是一样的，程序将输出：</p>
-<pre><code>Final output 1536
+<pre tabindex="0"><code>Final output 1536
 </code></pre><p>接下来我们还要介绍关于channel更多的概念，比如<code>buffered channels</code>、<code>worker pools</code>、<code>select</code>，欢迎持续关注。</p>
 		</div>
 		<footer class="post__footer">

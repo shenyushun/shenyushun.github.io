@@ -11,13 +11,13 @@
 <meta property="og:description" content="最近饱受Python版本、Django版本、系统不同导致部署方法不同这一类问题的折磨，虽然之前也有接触过docker但一直没抽出时间仔细学习，正好趁这个机会学习docker使用方法。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/centos6%E5%8D%87%E7%BA%A7docker1-6/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2015-06-18T14:32:59&#43;00:00" />
-<meta property="article:modified_time" content="2015-06-18T14:32:59&#43;00:00" />
+<meta property="article:published_time" content="2015-06-18T14:32:59+00:00" />
+<meta property="article:modified_time" content="2015-06-18T14:32:59+00:00" />
 
 
 		<meta itemprop="name" content="centos6升级docker1.6">
-<meta itemprop="description" content="最近饱受Python版本、Django版本、系统不同导致部署方法不同这一类问题的折磨，虽然之前也有接触过docker但一直没抽出时间仔细学习，正好趁这个机会学习docker使用方法。"><meta itemprop="datePublished" content="2015-06-18T14:32:59&#43;00:00" />
-<meta itemprop="dateModified" content="2015-06-18T14:32:59&#43;00:00" />
+<meta itemprop="description" content="最近饱受Python版本、Django版本、系统不同导致部署方法不同这一类问题的折磨，虽然之前也有接触过docker但一直没抽出时间仔细学习，正好趁这个机会学习docker使用方法。"><meta itemprop="datePublished" content="2015-06-18T14:32:59+00:00" />
+<meta itemprop="dateModified" content="2015-06-18T14:32:59+00:00" />
 <meta itemprop="wordCount" content="242">
 <meta itemprop="keywords" content="centos," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -92,11 +92,11 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<p>最近饱受Python版本、Django版本、系统不同导致部署方法不同这一类问题的折磨，虽然之前也有接触过docker但一直没抽出时间仔细学习，正好趁这个机会学习docker使用方法。</p>
 <p>首先，想安装docker需要epel源，这里使用阿里源：</p>
-<pre><code>wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-6.repo
+<pre tabindex="0"><code>wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-6.repo
 </code></pre><p>然后安装</p>
-<pre><code>yum install docker-io
+<pre tabindex="0"><code>yum install docker-io
 </code></pre><p>此时安装完的docker是1.5版本，而最新版本为1.6在epel源中并不存在，需要手动升级。</p>
-<pre><code>[root@localhost ~]# service docker start
+<pre tabindex="0"><code>[root@localhost ~]# service docker start
 Starting cgconfig service:                                 [  OK  ]
 Starting docker:	                                   [  OK  ]
 [root@localhost ~]# sudo docker -v
@@ -117,7 +117,7 @@ Docker version 1.6.2, build 7c8fca2
 </code></pre><p>然后设为开机启动：<code>chkconfig docker on</code></p>
 <p>如果发现升级后docker无法启动，重启机器即可。</p>
 <p>至于docker的基本概念和基本操作这里不多说了，可以参考<a href="http://dockerpool.com/static/books/docker_practice/introduction/README.html">这里</a>。有很多小伙伴不知道怎么在容器中同时运行2个服务，这里给出我的Dockerfile，基于centos7版本支持ssh以及httpd服务：</p>
-<pre><code>FROM centos:latest
+<pre tabindex="0"><code>FROM centos:latest
 MAINTAINER shenyushun
 RUN yum install wget -y
 RUN wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
@@ -137,7 +137,7 @@ COPY supervisord.conf /etc/supervisord.conf
 EXPOSE 22 80
 CMD [&quot;/usr/bin/supervisord&quot;]
 </code></pre><p>supervisord.conf文件内容如下：</p>
-<pre><code>[supervisord]
+<pre tabindex="0"><code>[supervisord]
 nodaemon=true
 [program:sshd]
 command=/usr/sbin/sshd -D
@@ -147,7 +147,7 @@ command=/usr/sbin/httpd -D FOREGROUND
 <p>这样就会生成一个新的镜像，然后执行<code>sudo docker run -p 2222:22 -p 8000:80 -t -i name/supervisord:centos</code>启动容器即可。</p>
 <p>至于使用ubuntu的小伙伴可以参考官网文档，或者使用我写的dockfile：https://github.com/shenyushun/docker-ubuntu14.04</p>
 <p>最后再补充2个我最常用的指令，在初学时候经常要创建很多容器和镜像，但一个一个删太麻烦了：</p>
-<pre><code>docker rm $(docker ps -a -q)  #删除所有容器
+<pre tabindex="0"><code>docker rm $(docker ps -a -q)  #删除所有容器
 docker rmi $(docker images | grep none | awk '{print $3}' | sort -r) #删除所有镜像
 </code></pre>
 		</div>

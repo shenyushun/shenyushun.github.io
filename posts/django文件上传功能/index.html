@@ -12,14 +12,14 @@
 def ci_test(request): try: if request.POST.has_key(&#34;send&#34;): xml_string=&#34;&#34; final_xml = &#34;&#34; file_obj = request." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/django%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%8A%9F%E8%83%BD/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2013-12-04T17:13:50&#43;00:00" />
-<meta property="article:modified_time" content="2013-12-04T17:13:50&#43;00:00" />
+<meta property="article:published_time" content="2013-12-04T17:13:50+00:00" />
+<meta property="article:modified_time" content="2013-12-04T17:13:50+00:00" />
 
 
 		<meta itemprop="name" content="django文件上传功能">
 <meta itemprop="description" content="今天需要一个文件上传功能，所以代码如下
-def ci_test(request): try: if request.POST.has_key(&#34;send&#34;): xml_string=&#34;&#34; final_xml = &#34;&#34; file_obj = request."><meta itemprop="datePublished" content="2013-12-04T17:13:50&#43;00:00" />
-<meta itemprop="dateModified" content="2013-12-04T17:13:50&#43;00:00" />
+def ci_test(request): try: if request.POST.has_key(&#34;send&#34;): xml_string=&#34;&#34; final_xml = &#34;&#34; file_obj = request."><meta itemprop="datePublished" content="2013-12-04T17:13:50+00:00" />
+<meta itemprop="dateModified" content="2013-12-04T17:13:50+00:00" />
 <meta itemprop="wordCount" content="224">
 <meta itemprop="keywords" content="django,python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -93,15 +93,15 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>今天需要一个文件上传功能，所以代码如下</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">ci_test</span>(request):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">ci_test</span>(request):
     <span style="color:#66d9ef">try</span>:
         <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>POST<span style="color:#f92672">.</span>has_key(<span style="color:#e6db74">&#34;send&#34;</span>):
             xml_string<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>
             final_xml <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>
-            file_obj <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>FILES<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;file&#39;</span>, None)
+            file_obj <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>FILES<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;file&#39;</span>, <span style="color:#66d9ef">None</span>)
             <span style="color:#66d9ef">for</span> keys <span style="color:#f92672">in</span> request<span style="color:#f92672">.</span>POST:
                 <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>POST[keys]:
-                    <span style="color:#66d9ef">print</span> keys,request<span style="color:#f92672">.</span>POST[keys]
+                    print keys,request<span style="color:#f92672">.</span>POST[keys]
                     xml_string <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&gt;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&lt;/</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&gt;n</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (keys,request<span style="color:#f92672">.</span>POST[keys],keys,xml_string)
             final_xml <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;root&gt;n</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&lt;/root&gt;&#34;</span> <span style="color:#f92672">%</span> xml_string
             dirname <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>abspath(__file__))
@@ -132,22 +132,22 @@ if (!doNotTrack) {
                 final_body <span style="color:#f92672">=</span> creat_htmlbody(content)
                     <span style="color:#75715e">#测试发送，不用记录日志直接传列表</span>
                 final_testmail(subtem,final_body,username,tem,conn,attach)
-                <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;test send  to </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> sucess!&#34;</span> <span style="color:#f92672">%</span> tem
+                print <span style="color:#e6db74">&#34;test send  to </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> sucess!&#34;</span> <span style="color:#f92672">%</span> tem
             <span style="color:#66d9ef">else</span>:
                 final_testmail(subtem,content,username,tem,conn,<span style="color:#e6db74">&#34;test&#34;</span>)
-                <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;test send  to </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> sucess!&#34;</span> <span style="color:#f92672">%</span> tem
+                print <span style="color:#e6db74">&#34;test send  to </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> sucess!&#34;</span> <span style="color:#f92672">%</span> tem
         <span style="color:#66d9ef">return</span> render(request,<span style="color:#e6db74">&#39;test.html&#39;</span>,{<span style="color:#e6db74">&#34;msg&#34;</span>:<span style="color:#e6db74">&#34;请求已经提交，关闭本页面即可&#34;</span>})
     <span style="color:#66d9ef">except</span> forms<span style="color:#f92672">.</span>ValidationError:
-        <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;in my error&#34;</span>
+        print <span style="color:#e6db74">&#34;in my error&#34;</span>
         <span style="color:#66d9ef">return</span> render(request,<span style="color:#e6db74">&#39;test.html&#39;</span>,{{<span style="color:#e6db74">&#34;msg&#34;</span>:<span style="color:#e6db74">&#34;文件类型错误，请重新操作！&#34;</span>}})
     <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span>:
         <span style="color:#66d9ef">return</span> render(request,<span style="color:#e6db74">&#39;test.html&#39;</span>,{{<span style="color:#e6db74">&#34;msg&#34;</span>:<span style="color:#e6db74">&#34;发生错误，请重新操作！&#34;</span>}})
 </code></pre></div><p>此处需要注意模版文件中form的写法：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">action</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ci_test&#34;</span> <span style="color:#a6e22e">method</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;post&#34;</span> <span style="color:#a6e22e">onsubmit</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;return validate_form(this);&#34;</span> <span style="color:#a6e22e">enctype</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;multipart/form-data&#34;</span>&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">action</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ci_test&#34;</span> <span style="color:#a6e22e">method</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;post&#34;</span> <span style="color:#a6e22e">onsubmit</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;return validate_form(this);&#34;</span> <span style="color:#a6e22e">enctype</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;multipart/form-data&#34;</span>&gt;
 &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;file&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;file&#34;</span>/&gt;
 &lt;/<span style="color:#f92672">form</span>&gt;
 </code></pre></div><p>不过此处有个奇怪的问题，根据流程来看，如果上传的不是.txt文件则引发异常，也确实输出了&quot;in my error&quot;这句话，不过随后就引发了下面的异常，不知道render为什么错误。</p>
-<pre><code>TypeError at /mailinfo/ci_test
+<pre tabindex="0"><code>TypeError at /mailinfo/ci_test
 unhashable type: 'dict'
 Request Method:         POST
 Request URL:    http://127.0.0.1:8000/mailinfo/ci_test

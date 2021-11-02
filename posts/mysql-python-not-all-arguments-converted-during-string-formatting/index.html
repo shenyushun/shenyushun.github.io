@@ -14,16 +14,16 @@
 posistion = &#34;top&#34; order = r&#34;select id,p_name,p_explain,p_href from pictures where p_position = %s and p_show = 1 order by -id&#34; self." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/mysql-python-not-all-arguments-converted-during-string-formatting/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2014-03-27T18:07:49&#43;00:00" />
-<meta property="article:modified_time" content="2014-03-27T18:07:49&#43;00:00" />
+<meta property="article:published_time" content="2014-03-27T18:07:49+00:00" />
+<meta property="article:modified_time" content="2014-03-27T18:07:49+00:00" />
 
 
 		<meta itemprop="name" content="mysql-python:not all arguments converted during string formatting">
 <meta itemprop="description" content="今天把django从1.5.5升级到了1.6.2，结果使用mysql-python查询数据库时候就报了这个错误：“not all arguments converted during string formatting”
 貌似这个问题应该和django没什么关系，正好今天就看看mysql-python的源码吧。想看如何解决的请直接跳到最后。
 查询部分简化后如下：
-posistion = &#34;top&#34; order = r&#34;select id,p_name,p_explain,p_href from pictures where p_position = %s and p_show = 1 order by -id&#34; self."><meta itemprop="datePublished" content="2014-03-27T18:07:49&#43;00:00" />
-<meta itemprop="dateModified" content="2014-03-27T18:07:49&#43;00:00" />
+posistion = &#34;top&#34; order = r&#34;select id,p_name,p_explain,p_href from pictures where p_position = %s and p_show = 1 order by -id&#34; self."><meta itemprop="datePublished" content="2014-03-27T18:07:49+00:00" />
+<meta itemprop="dateModified" content="2014-03-27T18:07:49+00:00" />
 <meta itemprop="wordCount" content="710">
 <meta itemprop="keywords" content="django,mysql,python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,11 +99,11 @@ if (!doNotTrack) {
 			<p>今天把django从1.5.5升级到了1.6.2，结果使用mysql-python查询数据库时候就报了这个错误：“not all arguments converted during string formatting”</p>
 <p>貌似这个问题应该和django没什么关系，正好今天就看看mysql-python的源码吧。想看如何解决的请直接跳到最后。</p>
 <p>查询部分简化后如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">posistion <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;top&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">posistion <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;top&#34;</span>
 <span style="color:#66d9ef">order</span> <span style="color:#f92672">=</span> r<span style="color:#e6db74">&#34;select id,p_name,p_explain,p_href from pictures where p_position = %s and p_show = 1 order by -id&#34;</span>
 <span style="color:#66d9ef">self</span>.cur.<span style="color:#66d9ef">execute</span>(<span style="color:#66d9ef">order</span>, <span style="color:#66d9ef">position</span>)
 </code></pre></div><p>mysql-python中execute函数：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">execute</span>(self, query, args<span style="color:#f92672">=</span>None):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">execute</span>(self, query, args<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
         <span style="color:#e6db74">&#34;&#34;&#34;Execute a query.
 </span><span style="color:#e6db74">        query -- string, query to execute on server
 </span><span style="color:#e6db74">        args -- optional sequence or mapping, parameters to use with query.
@@ -116,14 +116,14 @@ if (!doNotTrack) {
         db <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_db()
         <span style="color:#66d9ef">if</span> isinstance(query, unicode):
             query <span style="color:#f92672">=</span> query<span style="color:#f92672">.</span>encode(db<span style="color:#f92672">.</span>unicode_literal<span style="color:#f92672">.</span>charset)
-        <span style="color:#66d9ef">if</span> args <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> None:
+        <span style="color:#66d9ef">if</span> args <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span>:
             <span style="color:#66d9ef">if</span> isinstance(args, dict):
                 query <span style="color:#f92672">=</span> query <span style="color:#f92672">%</span> dict((key, db<span style="color:#f92672">.</span>literal(item))
                                      <span style="color:#66d9ef">for</span> key, item <span style="color:#f92672">in</span> args<span style="color:#f92672">.</span>iteritems())
             <span style="color:#66d9ef">else</span>:
                 query <span style="color:#f92672">=</span> query <span style="color:#f92672">%</span> tuple([db<span style="color:#f92672">.</span>literal(item) <span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> args]) <span style="color:#75715e">##########################这里！！</span>
         <span style="color:#66d9ef">try</span>:
-            r <span style="color:#f92672">=</span> None
+            r <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
             r <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_query(query)
         <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">TypeError</span>, m:
             <span style="color:#66d9ef">if</span> m<span style="color:#f92672">.</span>args[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">in</span> (<span style="color:#e6db74">&#34;not enough arguments for format string&#34;</span>,
@@ -146,27 +146,27 @@ if (!doNotTrack) {
 </code></pre></div><p>错误地方就是后面加了#的语句。</p>
 <p>可以看到，因为字符串也是可序列化的，所以一个字符串被拆分成了单个的字符进行db.literal()处理。这个db是什么呢？</p>
 <p>往上找：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> __init__(self, connection):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> __init__(self, connection):
         <span style="color:#f92672">from</span> weakref <span style="color:#f92672">import</span> proxy
         self<span style="color:#f92672">.</span>connection <span style="color:#f92672">=</span> proxy(connection)
-        self<span style="color:#f92672">.</span>description <span style="color:#f92672">=</span> None
-        self<span style="color:#f92672">.</span>description_flags <span style="color:#f92672">=</span> None
+        self<span style="color:#f92672">.</span>description <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+        self<span style="color:#f92672">.</span>description_flags <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
         self<span style="color:#f92672">.</span>rowcount <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
         self<span style="color:#f92672">.</span>arraysize <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-        self<span style="color:#f92672">.</span>_executed <span style="color:#f92672">=</span> None
-        self<span style="color:#f92672">.</span>lastrowid <span style="color:#f92672">=</span> None
+        self<span style="color:#f92672">.</span>_executed <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+        self<span style="color:#f92672">.</span>lastrowid <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
         self<span style="color:#f92672">.</span>messages <span style="color:#f92672">=</span> []
         self<span style="color:#f92672">.</span>errorhandler <span style="color:#f92672">=</span> connection<span style="color:#f92672">.</span>errorhandler
-        self<span style="color:#f92672">.</span>_result <span style="color:#f92672">=</span> None
+        self<span style="color:#f92672">.</span>_result <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
         self<span style="color:#f92672">.</span>_warnings <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-        self<span style="color:#f92672">.</span>_info <span style="color:#f92672">=</span> None
-        self<span style="color:#f92672">.</span>rownumber <span style="color:#f92672">=</span> None
+        self<span style="color:#f92672">.</span>_info <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+        self<span style="color:#f92672">.</span>rownumber <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
     <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_get_db</span>(self):
         <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> self<span style="color:#f92672">.</span>connection:
             self<span style="color:#f92672">.</span>errorhandler(self, ProgrammingError, <span style="color:#e6db74">&#34;cursor closed&#34;</span>)
         <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>connection
 </code></pre></div><p>可以看出，这个db就是connection的一个弱引用。再进一步，这个connnection哪来的呢？</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">open</span>(self):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">open</span>(self):
     <span style="color:#e6db74">&#34;&#34;&#34; 返回一个默认的数据库连接游标 &#34;&#34;&#34;</span>
     <span style="color:#66d9ef">try</span>:
         self<span style="color:#f92672">.</span>conn <span style="color:#f92672">=</span> MySQLdb<span style="color:#f92672">.</span>Connection(
@@ -177,21 +177,21 @@ if (!doNotTrack) {
             charset<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>db_ch)
         self<span style="color:#f92672">.</span>cur <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>conn<span style="color:#f92672">.</span>cursor()
     <span style="color:#66d9ef">except</span> MySQLdb<span style="color:#f92672">.</span>Error <span style="color:#66d9ef">as</span> e:
-        <span style="color:#66d9ef">print</span> e
+        print e
 </code></pre></div><p>mysqldb-python的connection.py中:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Connection</span>(_mysql<span style="color:#f92672">.</span>connection):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Connection</span>(_mysql<span style="color:#f92672">.</span>connection):
     <span style="color:#e6db74">&#34;&#34;&#34;MySQL Database Connection Object&#34;&#34;&#34;</span>
     default_cursor <span style="color:#f92672">=</span> cursors<span style="color:#f92672">.</span>Cursor
 </code></pre></div><p>那这个Cursor又是什么呢？</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Cursor</span>(CursorStoreResultMixIn, CursorTupleRowsMixIn,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Cursor</span>(CursorStoreResultMixIn, CursorTupleRowsMixIn,
              BaseCursor):
     <span style="color:#e6db74">&#34;&#34;&#34;This is the standard Cursor class that returns rows as tuples
 </span><span style="color:#e6db74">    and stores the result set in the client.&#34;&#34;&#34;</span>
 </code></pre></div><p>这个Cursor这些类的子类，其中最上面出错函数就是BaseCursor的一个方法。</p>
 <p>有点跑偏，先看看那literal函数吧：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">literal</span>(self, o):
-        <span style="color:#66d9ef">print</span> o,type(o)
-        <span style="color:#66d9ef">print</span> self<span style="color:#f92672">.</span>encoders
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">literal</span>(self, o):
+        print o,type(o)
+        print self<span style="color:#f92672">.</span>encoders
         <span style="color:#e6db74">&#34;&#34;&#34;
 </span><span style="color:#e6db74">        If o is a single object, returns an SQL literal as a string.
 </span><span style="color:#e6db74">        If o is a non-string sequence, the items of the sequence are
@@ -201,7 +201,7 @@ if (!doNotTrack) {
 </span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
         <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>escape(o, self<span style="color:#f92672">.</span>encoders)
 </code></pre></div><p>print是我添加的，输出如下：</p>
-<pre><code>t &lt;type 'str'&gt;
+<pre tabindex="0"><code>t &lt;type 'str'&gt;
 {&lt;type 'instance'&gt;: &lt;function Instance2Str at 0x17b3aa0&gt;, &lt;type 'set'&gt;: &lt;function Set2Str at 0x17b3cf8&gt;, &lt;type 'long'&gt;: &lt;function Thing2Str at 0x17b3de8&gt;, &lt;type 'bool'&gt;: &lt;function Bool2Str at 0x17b3ed8&gt;, &lt;type 'unicode'&gt;: &lt;function unicode_literal at 0x7f12e42c4230&gt;, &lt;type 'str'&gt;: &lt;function string_literal at 0x7f12e42be2a8&gt;, &lt;type 'float'&gt;: &lt;function Float2Str at 0x17b3c08&gt;, &lt;type 'list'&gt;: &lt;function quote_tuple at 0x17b3938&gt;, &lt;type 'tuple'&gt;: &lt;function quote_tuple at 0x17b3938&gt;, &lt;type 'array.array'&gt;: &lt;function array2Str at 0x17b39b0&gt;, &lt;type 'NoneType'&gt;: &lt;function None2NULL at 0x17b3b90&gt;, &lt;type 'datetime.datetime'&gt;: &lt;function DateTime2literal at 0x17b30c8&gt;, &lt;type 'dict'&gt;: &lt;built-in function escape_dict&gt;, &lt;type 'object'&gt;: &lt;function Instance2Str at 0x17b3aa0&gt;, &lt;type 'int'&gt;: &lt;function Thing2Str at 0x17b3de8&gt;, &lt;type 'datetime.timedelta'&gt;: &lt;function DateTimeDelta2literal at 0x17b3140&gt;}
 o &lt;type 'str'&gt;
 {&lt;type 'instance'&gt;: &lt;function Instance2Str at 0x17b3aa0&gt;, &lt;type 'set'&gt;: &lt;function Set2Str at 0x17b3cf8&gt;, &lt;type 'long'&gt;: &lt;function Thing2Str at 0x17b3de8&gt;, &lt;type 'bool'&gt;: &lt;function Bool2Str at 0x17b3ed8&gt;, &lt;type 'unicode'&gt;: &lt;function unicode_literal at 0x7f12e42c4230&gt;, &lt;type 'str'&gt;: &lt;function string_literal at 0x7f12e42be2a8&gt;, &lt;type 'float'&gt;: &lt;function Float2Str at 0x17b3c08&gt;, &lt;type 'list'&gt;: &lt;function quote_tuple at 0x17b3938&gt;, &lt;type 'tuple'&gt;: &lt;function quote_tuple at 0x17b3938&gt;, &lt;type 'array.array'&gt;: &lt;function array2Str at 0x17b39b0&gt;, &lt;type 'NoneType'&gt;: &lt;function None2NULL at 0x17b3b90&gt;, &lt;type 'datetime.datetime'&gt;: &lt;function DateTime2literal at 0x17b30c8&gt;, &lt;type 'dict'&gt;: &lt;built-in function escape_dict&gt;, &lt;type 'object'&gt;: &lt;function Instance2Str at 0x17b3aa0&gt;, &lt;type 'int'&gt;: &lt;function Thing2Str at 0x17b3de8&gt;, &lt;type 'datetime.timedelta'&gt;: &lt;function DateTimeDelta2literal at 0x17b3140&gt;}
@@ -210,7 +210,7 @@ p &lt;type 'str'&gt;
 </code></pre><p>就像上面说的，&ldquo;top&quot;被拆分成了3个，可是我们语句中的占位符%s只有一个！所以报错 not all arguments converted during string formatting。最初这里我理解成了是哪里转化出了错误，最后醒悟这意思是因为占位符个数和传入参数个数不一样导致！英语不过关阿～不过以前怎么没报错呢？？奇怪&hellip;&hellip;</p>
 <p>解决办法有2个，简单的方法就是执行语句修改如下：<code>self.cur.execute(order, (position,)) #注意逗号。</code></p>
 <p>更推荐的方法就是使用字典传值：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">if</span> show:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">if</span> show:
     order <span style="color:#f92672">=</span> <span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;select id,p_name,p_explain,p_href from pictures where p_position = </span><span style="color:#e6db74">%(position)s</span><span style="color:#e6db74"> and p_show = 1 order by -id&#34;</span>
 <span style="color:#66d9ef">else</span>:
     order <span style="color:#f92672">=</span> <span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;select id,p_name,p_explain,p_href,p_uploaddate,p_show from pictures where p_position = </span><span style="color:#e6db74">%(position)s</span><span style="color:#e6db74">&#34;</span>

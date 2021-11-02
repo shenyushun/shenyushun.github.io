@@ -14,16 +14,16 @@
 ipdb支持语法高亮，不过貌似中文支持不太好。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/%E8%B0%83%E8%AF%95python%E7%A8%8B%E5%BA%8F/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2014-04-10T18:06:03&#43;00:00" />
-<meta property="article:modified_time" content="2014-04-10T18:06:03&#43;00:00" />
+<meta property="article:published_time" content="2014-04-10T18:06:03+00:00" />
+<meta property="article:modified_time" content="2014-04-10T18:06:03+00:00" />
 
 
 		<meta itemprop="name" content="调试python程序">
 <meta itemprop="description" content="怪不得这几天头疼的厉害，原来是发生了2件大事：官方的XP彻底和我们告别了and爆发了OpenSSL HeartBleed漏洞。这个漏洞可以说是一场大地震，不知道又会有多少网站被“扒光脱裤”，过一阵又得改密码玩了。面对这种网络安全问题，真的是一种待宰羔羊的无力感。
 调试python程序我知道有3个东东：pdb,ipdb,pudb。
 第一个是python自带模块，第二个如果安了ipython的话貌似自己就被安装了，最后一个有图形界面，十分复古的——蓝底，真是让人怀念。后2个都可以使用pip安装。
-ipdb支持语法高亮，不过貌似中文支持不太好。"><meta itemprop="datePublished" content="2014-04-10T18:06:03&#43;00:00" />
-<meta itemprop="dateModified" content="2014-04-10T18:06:03&#43;00:00" />
+ipdb支持语法高亮，不过貌似中文支持不太好。"><meta itemprop="datePublished" content="2014-04-10T18:06:03+00:00" />
+<meta itemprop="dateModified" content="2014-04-10T18:06:03+00:00" />
 <meta itemprop="wordCount" content="77">
 <meta itemprop="keywords" content="python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -110,13 +110,13 @@ ipdb支持语法高亮，不过貌似中文支持不太好。</p>
 <p>在Python交互环境中启用调试。</p>
 </li>
 </ol>
-<pre><code>import ipdb
+<pre tabindex="0"><code>import ipdb
 import mymodule
 ipdb.run(‘mymodule.test()’)
 </code></pre><ol start="3">
 <li>比较常用的，就是在程序中间插入一段程序，相对于在一般IDE里面打上断点然后启动debug，不过这种方式是hardcode的</li>
 </ol>
-<pre><code>import ipdb
+<pre tabindex="0"><code>import ipdb
 ipdb.set_trace() # 开启pdb提示
 </code></pre><p>pdb和ipdb命令大多通用：
 - dir() 方法 可以查看一个对象有那些方法可以调用 常用

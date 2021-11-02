@@ -12,14 +12,14 @@
 [2016-02-24 12:00:21,799: WARNING/MainProcess] celery@localhost.localdomain ready.[2016-02-24 12:00:22,297: WARNING/MainProcess] Substantial drift from celery@centos7-181 may mean clocks are out of sync." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/%E8%A7%A3%E5%86%B3flower-substantial-drift-from-may-mean-clocks-are-out-of-sync%E9%94%99%E8%AF%AF/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2016-02-24T14:27:30&#43;00:00" />
-<meta property="article:modified_time" content="2016-02-24T14:27:30&#43;00:00" />
+<meta property="article:published_time" content="2016-02-24T14:27:30+00:00" />
+<meta property="article:modified_time" content="2016-02-24T14:27:30+00:00" />
 
 
 		<meta itemprop="name" content="解决flower Substantial drift from.. may mean clocks are out of sync错误">
 <meta itemprop="description" content="打开flower的监控页面，发现monitor页的succeeded tasks图表始终为空，打印日志发现有下面的警告：
-[2016-02-24 12:00:21,799: WARNING/MainProcess] celery@localhost.localdomain ready.[2016-02-24 12:00:22,297: WARNING/MainProcess] Substantial drift from celery@centos7-181 may mean clocks are out of sync."><meta itemprop="datePublished" content="2016-02-24T14:27:30&#43;00:00" />
-<meta itemprop="dateModified" content="2016-02-24T14:27:30&#43;00:00" />
+[2016-02-24 12:00:21,799: WARNING/MainProcess] celery@localhost.localdomain ready.[2016-02-24 12:00:22,297: WARNING/MainProcess] Substantial drift from celery@centos7-181 may mean clocks are out of sync."><meta itemprop="datePublished" content="2016-02-24T14:27:30+00:00" />
+<meta itemprop="dateModified" content="2016-02-24T14:27:30+00:00" />
 <meta itemprop="wordCount" content="272">
 <meta itemprop="keywords" content="django,python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -93,7 +93,7 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>打开flower的监控页面，发现monitor页的succeeded tasks图表始终为空，打印日志发现有下面的警告：</p>
-<pre><code>[2016-02-24 12:00:21,799: WARNING/MainProcess] celery@localhost.localdomain ready.
+<pre tabindex="0"><code>[2016-02-24 12:00:21,799: WARNING/MainProcess] celery@localhost.localdomain ready.
 [2016-02-24 12:00:22,297: WARNING/MainProcess] Substantial drift from celery@centos7-181 may mean clocks are out of sync.  Current drift is
 70 seconds.  [orig: 2016-02-24 12:00:22.297798 recv: 2016-02-24 11:59:12.438481]
 [2016-02-24 12:00:22,300: WARNING/MainProcess] Substantial drift from celery@centos7-xiaoqiao may mean clocks are out of sync.  Current drift is
@@ -115,10 +115,10 @@ if (!doNotTrack) {
 [2016-02-24 12:00:22,525: WARNING/MainProcess] Substantial drift from celery@centos7-185 may mean clocks are out of sync.  Current drift is
 65 seconds.  [orig: 2016-02-24 12:00:22.525489 recv: 2016-02-24 11:59:17.309409]
 </code></pre><p>字面看是由于时间不同步造成的，可是在settings里已经设置了<code>USE_TZ = True</code>以及相应的时区选项，经过一番费力的寻找发现造成这个问题的原因居然是每台机器的时间不同！至于为什么机器设置为同一时区却有时间差就不探究了，解决起来就是把各个机器的时间同步就可以了：</p>
-<pre><code>yum install ntpdate -y
+<pre tabindex="0"><code>yum install ntpdate -y
 ntpdate 0.asia.pool.ntp.org
 </code></pre><p>网上很多Ntp服务器都失效了，可以使用下面的：</p>
-<pre><code>0.asia.pool.ntp.org
+<pre tabindex="0"><code>0.asia.pool.ntp.org
 1.asia.pool.ntp.org
 2.asia.pool.ntp.org
 3.asia.pool.ntp.org

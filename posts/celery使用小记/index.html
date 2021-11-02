@@ -13,15 +13,15 @@
 这里我使用rabbitmq作为broker以及banckend。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/celery%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2016-01-21T12:32:12&#43;00:00" />
-<meta property="article:modified_time" content="2016-01-21T12:32:12&#43;00:00" />
+<meta property="article:published_time" content="2016-01-21T12:32:12+00:00" />
+<meta property="article:modified_time" content="2016-01-21T12:32:12+00:00" />
 
 
 		<meta itemprop="name" content="celery使用小记">
 <meta itemprop="description" content="之前的博客有关于celery以及相关概念的介绍，不过那篇文章没有具体的使用示例，今天补充一下。
 目前celery的版本是3.1.19。
-这里我使用rabbitmq作为broker以及banckend。"><meta itemprop="datePublished" content="2016-01-21T12:32:12&#43;00:00" />
-<meta itemprop="dateModified" content="2016-01-21T12:32:12&#43;00:00" />
+这里我使用rabbitmq作为broker以及banckend。"><meta itemprop="datePublished" content="2016-01-21T12:32:12+00:00" />
+<meta itemprop="dateModified" content="2016-01-21T12:32:12+00:00" />
 <meta itemprop="wordCount" content="434">
 <meta itemprop="keywords" content="python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -98,28 +98,28 @@ if (!doNotTrack) {
 <p>目前celery的版本是<a href="http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html#first-steps">3.1.19</a>。</p>
 <p>这里我使用rabbitmq作为broker以及banckend。</p>
 <p>首先安装rabbitmq以及celery:</p>
-<pre><code>sudo yum install rabbitmq-server
+<pre tabindex="0"><code>sudo yum install rabbitmq-server
 sudo service rabbitmq-server start
 pip install celery
 </code></pre><p>官网以及很多文章介绍celery时候为了简单都直接使用的<code>app = Celery('tasks', broker='amqp://guest@localhost//')</code></p>
 <p>这种配置虽然简单，但guest用户只能在本机使用，这样如果我们想进行远程链接就不能用了，所以我们需要新建rabbitmq用户、虚拟host以及权限设置:</p>
-<pre><code>sudo rabbitmqctl add_user myuser mypassword
+<pre tabindex="0"><code>sudo rabbitmqctl add_user myuser mypassword
 sudo rabbitmqctl add_vhost myvhost
 sudo rabbitmqctl set_user_tags myuser mytag
 sudo rabbitmqctl set_permissions -p myvhost myuser &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;
 </code></pre><p>然后重启rabbitmq服务。</p>
 <p>接下来新建一个tasks.py：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> celery <span style="color:#f92672">import</span> Celery
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> celery <span style="color:#f92672">import</span> Celery
 <span style="color:#f92672">import</span> time
 app <span style="color:#f92672">=</span> Celery(<span style="color:#e6db74">&#39;tasks&#39;</span>, broker<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;amqp://myuser:mypassword@localhost/myvhost&#39;</span>,backend<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;amqp://guest@localhost//&#39;</span>)
-<span style="color:#a6e22e">@app.task</span>
+<span style="color:#a6e22e">@app</span><span style="color:#f92672">.</span>task
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add</span>(x, y):
     time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">10</span>)
     <span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> y
 </code></pre></div><p>这里我为了展示不同的配置方式，所以虽然都用amqp但broker用我们新建的用户，backend使用默认用户，真实使用时需要根据实际情况替换。任务中的sleep是为了下面演示阻塞调用的。保存后运行
 <code>celery -A tasks worker --loglevel=info</code></p>
 <p>成功运行的话可以看到类似如下的输出：</p>
-<pre><code>[2016-01-21 11:50:09,036: WARNING/MainProcess] /usr/lib/python2.7/site-packages/celery/apps/worker.py:161: CDeprecationWarning:
+<pre tabindex="0"><code>[2016-01-21 11:50:09,036: WARNING/MainProcess] /usr/lib/python2.7/site-packages/celery/apps/worker.py:161: CDeprecationWarning:
 Starting from version 3.2 Celery will refuse to accept pickle by default.
 The pickle serializer is a security concern as it may give attackers
 the ability to execute any command.  It's important to secure
@@ -151,26 +151,26 @@ You must only enable the serializers that you will actually use.
 [2016-01-21 11:50:10,071: INFO/MainProcess] mingle: all alone
 [2016-01-21 11:50:10,079: WARNING/MainProcess] celery@localhost.localdomain ready.
 </code></pre><p>然后进入python终端或者在同目录下建立一个测试用的py文件，内容如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> task <span style="color:#f92672">import</span> add
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> task <span style="color:#f92672">import</span> add
 <span style="color:#f92672">import</span> time
 <span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
     a <span style="color:#f92672">=</span> add<span style="color:#f92672">.</span>delay(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>)
-    <span style="color:#66d9ef">print</span> <span style="color:#ae81ff">1</span>
+    print <span style="color:#ae81ff">1</span>
     b <span style="color:#f92672">=</span> add<span style="color:#f92672">.</span>delay(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">888</span>)
-    <span style="color:#66d9ef">print</span> <span style="color:#ae81ff">2</span>
+    print <span style="color:#ae81ff">2</span>
     c <span style="color:#f92672">=</span> add<span style="color:#f92672">.</span>delay(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">4</span>)
-    <span style="color:#66d9ef">print</span> <span style="color:#ae81ff">3</span>
+    print <span style="color:#ae81ff">3</span>
     d <span style="color:#f92672">=</span> add<span style="color:#f92672">.</span>delay(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">5</span>)
-    <span style="color:#66d9ef">print</span> <span style="color:#ae81ff">4</span>
+    print <span style="color:#ae81ff">4</span>
     <span style="color:#75715e">#print b.get(timeout=1)</span>
     <span style="color:#75715e">#print d.get(propagate=False)</span>
     <span style="color:#75715e">#time.sleep(4)</span>
-    <span style="color:#66d9ef">print</span> a<span style="color:#f92672">.</span>ready()
-    <span style="color:#66d9ef">print</span> b<span style="color:#f92672">.</span>ready()
-    <span style="color:#66d9ef">print</span> c<span style="color:#f92672">.</span>ready()
-    <span style="color:#66d9ef">print</span> d<span style="color:#f92672">.</span>ready()
+    print a<span style="color:#f92672">.</span>ready()
+    print b<span style="color:#f92672">.</span>ready()
+    print c<span style="color:#f92672">.</span>ready()
+    print d<span style="color:#f92672">.</span>ready()
 </code></pre></div><p>执行后，celery的终端可以看到如下输出：</p>
-<pre><code>[2016-01-21 12:00:50,423: INFO/MainProcess] Received task: test_celery.add[5b643950-6eae-4938-ba56-5efc3490cfb7]
+<pre tabindex="0"><code>[2016-01-21 12:00:50,423: INFO/MainProcess] Received task: test_celery.add[5b643950-6eae-4938-ba56-5efc3490cfb7]
 [2016-01-21 12:00:50,424: INFO/MainProcess] Received task: test_celery.add[697d6b01-a781-4deb-ba80-a683ab8e2713]
 [2016-01-21 12:00:50,425: INFO/MainProcess] Received task: test_celery.add[c9207188-1f67-4589-a01c-e1ce9cfdcd02]
 [2016-01-21 12:00:50,425: INFO/MainProcess] Received task: test_celery.add[bbc53156-7f97-4ffd-87b1-209ba6689592]
@@ -179,7 +179,7 @@ You must only enable the serializers that you will actually use.
 [2016-01-21 12:01:00,444: INFO/MainProcess] Task test_celery.add[5b643950-6eae-4938-ba56-5efc3490cfb7] succeeded in 10.0187868s: 3
 [2016-01-21 12:01:00,447: INFO/MainProcess] Task test_celery.add[c9207188-1f67-4589-a01c-e1ce9cfdcd02] succeeded in 10.021561263s: 5
 </code></pre><p>而我们测试用的py文件输出如下：</p>
-<pre><code>1
+<pre tabindex="0"><code>1
 2
 3
 4
@@ -189,7 +189,7 @@ False
 False
 </code></pre><p>ready()方法就是查看任务是否完成的，由于我们在add函数中进行了sleep(10)，所以输出都为False。</p>
 <p>现在取消b.get()那一行的注释，运行结果如下：</p>
-<pre><code>1
+<pre tabindex="0"><code>1
 2
 3
 4

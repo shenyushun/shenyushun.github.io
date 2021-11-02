@@ -13,15 +13,15 @@
 有网友提示说把gevent.monkey.patch_all(dns=false)，经我实验后发现，这么改过后有些网址确实变得正常了，但有些网址却出现了其它比如time out、Network is unreachable等错误。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/gevent%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2013-11-07T15:55:48&#43;00:00" />
-<meta property="article:modified_time" content="2013-11-07T15:55:48&#43;00:00" />
+<meta property="article:published_time" content="2013-11-07T15:55:48+00:00" />
+<meta property="article:modified_time" content="2013-11-07T15:55:48+00:00" />
 
 
 		<meta itemprop="name" content="Gevent学习记录1">
 <meta itemprop="description" content="关于Gevent出现URLError: &lt;urlopen error [Errno 66] unknown&gt;错误：
 学习的过程中，有些网址始终出现上面提示的那个错误，但用浏览器访问确实是正常的。
-有网友提示说把gevent.monkey.patch_all(dns=false)，经我实验后发现，这么改过后有些网址确实变得正常了，但有些网址却出现了其它比如time out、Network is unreachable等错误。"><meta itemprop="datePublished" content="2013-11-07T15:55:48&#43;00:00" />
-<meta itemprop="dateModified" content="2013-11-07T15:55:48&#43;00:00" />
+有网友提示说把gevent.monkey.patch_all(dns=false)，经我实验后发现，这么改过后有些网址确实变得正常了，但有些网址却出现了其它比如time out、Network is unreachable等错误。"><meta itemprop="datePublished" content="2013-11-07T15:55:48+00:00" />
+<meta itemprop="dateModified" content="2013-11-07T15:55:48+00:00" />
 <meta itemprop="wordCount" content="181">
 <meta itemprop="keywords" content="python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,22 +99,22 @@ if (!doNotTrack) {
 <p>有网友提示说把gevent.monkey.patch_all(dns=false)，经我实验后发现，这么改过后有些网址确实变得正常了，但有些网址却出现了其它比如time out、Network is unreachable等错误。</p>
 <p>最终发现，由于用PIP方式安装的是'0.13.8&rsquo;版本，最新的是1.0dev，更换版本后错误解决。</p>
 <p>按照官方教程，代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> gevent
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> gevent
 <span style="color:#f92672">from</span> gevent <span style="color:#f92672">import</span> monkey
 monkey<span style="color:#f92672">.</span>patch_all()<span style="color:#75715e"># 给标准socket打补丁</span>
 <span style="color:#f92672">import</span> urllib2
 urls <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;http://dear-shen.com&#34;</span>,<span style="color:#e6db74">&#34;http://www.baidu.com&#34;</span>,<span style="color:#e6db74">&#34;http://www.hao123.com&#34;</span>,<span style="color:#e6db74">&#34;http://www.sina.com&#34;</span>,<span style="color:#e6db74">&#34;http://www.python.org&#34;</span>]
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">print_head</span>(url):
-    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;start </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> &#34;</span> <span style="color:#f92672">%</span> url
+    print <span style="color:#e6db74">&#34;start </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> &#34;</span> <span style="color:#f92672">%</span> url
     data <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>urlopen(url)<span style="color:#f92672">.</span>read()
-    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">: </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> bytes: </span><span style="color:#e6db74">%r</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> (url, len(data), data[:<span style="color:#ae81ff">50</span>])
+    print <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">: </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> bytes: </span><span style="color:#e6db74">%r</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> (url, len(data), data[:<span style="color:#ae81ff">50</span>])
 <span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
-    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;begin&#34;</span>
+    print <span style="color:#e6db74">&#34;begin&#34;</span>
     jobs <span style="color:#f92672">=</span> [gevent<span style="color:#f92672">.</span>spawn(print_head, url) <span style="color:#66d9ef">for</span> url <span style="color:#f92672">in</span> urls] <span style="color:#75715e">#spawn 第一个参数为要转换的函数，后面的是函数的参数，具体请看源码</span>
     gevent<span style="color:#f92672">.</span>joinall(jobs)
-    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;over&#34;</span>
+    print <span style="color:#e6db74">&#34;over&#34;</span>
 </code></pre></div><p>输出结果如下：</p>
-<pre><code>begin
+<pre tabindex="0"><code>begin
 start http://dear-shen.com
 start http://www.baidu.com
 start http://www.hao123.com
@@ -127,7 +127,7 @@ http://www.python.org: 20423 bytes: '&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD 
 http://dear-shen.com: 45559 bytes: '&lt;!DOCTYPE html&gt;n&lt;html lang=&quot;zh-CN&quot;&gt;n&lt;head&gt;n&lt;meta c'
 over
 </code></pre><p>如果不加monkey.patch_all()、from gevent import monkey这两句的话其实并没有利用多线程，输出变成了：</p>
-<pre><code>begin
+<pre tabindex="0"><code>begin
 start http://dear-shen.com
 http://dear-shen.com: 45559 bytes: '&lt;!DOCTYPE html&gt;n&lt;html lang=&quot;zh-CN&quot;&gt;n&lt;head&gt;n&lt;meta c'
 start http://www.baidu.com

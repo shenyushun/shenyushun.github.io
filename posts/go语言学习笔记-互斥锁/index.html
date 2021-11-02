@@ -15,8 +15,8 @@ x = x&#43;1
 如果上面的代码在唯一的goroutine中执行，不会有任何问题。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%92%E6%96%A5%E9%94%81/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2018-06-07T17:42:11&#43;00:00" />
-<meta property="article:modified_time" content="2018-06-07T17:42:11&#43;00:00" />
+<meta property="article:published_time" content="2018-06-07T17:42:11+00:00" />
+<meta property="article:modified_time" content="2018-06-07T17:42:11+00:00" />
 
 
 		<meta itemprop="name" content="GO语言学习笔记-互斥锁">
@@ -24,8 +24,8 @@ x = x&#43;1
 临界区
 在说互斥锁前，理解并发编程中的临界区(Critical section)是十分重要的。当一个程序并发执行时，共享资源不应该在同一时刻被多个goroutine修改。这段修改共享资源的代码就叫做临界区。举个例子，我们有一个代码片段用于修改变量x自增１。
 x = x&#43;1
-如果上面的代码在唯一的goroutine中执行，不会有任何问题。"><meta itemprop="datePublished" content="2018-06-07T17:42:11&#43;00:00" />
-<meta itemprop="dateModified" content="2018-06-07T17:42:11&#43;00:00" />
+如果上面的代码在唯一的goroutine中执行，不会有任何问题。"><meta itemprop="datePublished" content="2018-06-07T17:42:11+00:00" />
+<meta itemprop="dateModified" content="2018-06-07T17:42:11+00:00" />
 <meta itemprop="wordCount" content="229">
 <meta itemprop="keywords" content="golang," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -101,7 +101,7 @@ if (!doNotTrack) {
 			<p><a href="https://golangbot.com/mutex/">原文</a>，互斥锁(Mutex)也是go并发系列最后一篇文章。</p>
 <h2 id="临界区">临界区</h2>
 <p>在说互斥锁前，理解并发编程中的临界区(Critical section)是十分重要的。当一个程序并发执行时，共享资源不应该在同一时刻被多个goroutine修改。这段修改共享资源的代码就叫做临界区。举个例子，我们有一个代码片段用于修改变量x自增１。</p>
-<pre><code>x = x+1
+<pre tabindex="0"><code>x = x+1
 </code></pre><p>如果上面的代码在唯一的goroutine中执行，不会有任何问题。</p>
 <p>让我们看看这段代码当多个goroutine并发执行时会有什么问题，为了简单我们假设有2个goroutine。操作系统执行上面代码时候有3步(其实更复杂，比如寄存器、加法如何进行，但这里我们简化成3步)：</p>
 <ol>
@@ -120,13 +120,13 @@ if (!doNotTrack) {
 <h2 id="互斥锁">互斥锁</h2>
 <p>互斥锁提供了一种锁机制来保证同一时刻只有一个goroutine访问临界区，这样就可以避免竞争条件了。</p>
 <p>互斥锁位于<code>sync</code>包，提供了<code>Lock</code>和<code>Unlock</code>2个方法，任何被这２个方法包围在其中的代码同一时刻只能被一个goroutine执行，因此可以避免竞争条件了。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">mutex</span>.<span style="color:#a6e22e">Lock</span>()  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">mutex</span>.<span style="color:#a6e22e">Lock</span>()  
 <span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">x</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>  
 <span style="color:#a6e22e">mutex</span>.<span style="color:#a6e22e">Unlock</span>()  
 </code></pre></div><p><strong>如果某个goroutine已经获得了锁，其他的goroutine尝试获取锁时将被阻塞，直到锁被释放。</strong></p>
 <h2 id="一段有竞争条件的代码">一段有竞争条件的代码</h2>
 <p>我们先写一个有竞争条件的代码，然后解决它：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>  
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
     <span style="color:#e6db74">&#34;sync&#34;</span>
@@ -148,7 +148,7 @@ if (!doNotTrack) {
 </code></pre></div><p><code>increment</code>函数将x自增1然后调用<code>wg.Done()</code>来通知<code>WaitGroup</code>完成，然后通过循环生成1000个goroutine，每个goroutine都是并发执行并且并发获取x的值。多次运行程序，你会发现结果每次都不同，比如<code>value of x 941</code>，<code>final value of x 928</code>，<code>final value of x 922</code>等。</p>
 <h2 id="使用互斥锁解决问题">使用互斥锁解决问题</h2>
 <p>上面的代码我们生成1000个goroutine，如果每个自增1，结果应该是1000。这里我们使用互斥锁来解决问题。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>  
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
     <span style="color:#e6db74">&#34;sync&#34;</span>
@@ -171,10 +171,10 @@ if (!doNotTrack) {
     <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;final value of x&#34;</span>, <span style="color:#a6e22e">x</span>)
 }
 </code></pre></div><p>互斥锁是一种<code>struct</code>类型，我们创建了一个默认值互斥锁<code>m</code>，并把其地址传递给了<code>increment</code>，同时把<code>x=x+1</code>这句代码放在<code>m.Lock()</code>和<code>m.Unlock()</code>之间。这样就只有一个goroutine能在同一时刻执行这句代码了。程序输出如下：</p>
-<pre><code>final value of x 1000
+<pre tabindex="0"><code>final value of x 1000
 </code></pre><h2 id="使用channel解决问题">使用channel解决问题</h2>
 <p>我们也可以使用channel，代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>  
 <span style="color:#f92672">import</span> (  
     <span style="color:#e6db74">&#34;fmt&#34;</span>
     <span style="color:#e6db74">&#34;sync&#34;</span>

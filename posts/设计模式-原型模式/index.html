@@ -13,15 +13,15 @@
 个人理解当需要多个类对象时，如果要进行很多复杂的、消耗时间的初始化操作，而这些对象之间又仅有少量不同时，可以考虑使用原型模式。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2019-10-14T17:58:08&#43;00:00" />
-<meta property="article:modified_time" content="2019-10-14T17:58:08&#43;00:00" />
+<meta property="article:published_time" content="2019-10-14T17:58:08+00:00" />
+<meta property="article:modified_time" content="2019-10-14T17:58:08+00:00" />
 
 
 		<meta itemprop="name" content="设计模式-原型模式">
 <meta itemprop="description" content="原型模式(Prototype Pattern)：使用原型实例创建指定创建对象的种类，并通过拷贝这些原型创建新对象。这个模式很好理解，就是ctrl&#43;c，ctrl&#43;v后做一些小修改。
 这里面涉及一个知识点就是深拷贝和浅拷贝的问题，但我相信任何python开发人员都知道copy()和deepcopy()的区别，这里就不多说了（有兴趣的可以去看python中这2个函数的实现）。
-个人理解当需要多个类对象时，如果要进行很多复杂的、消耗时间的初始化操作，而这些对象之间又仅有少量不同时，可以考虑使用原型模式。"><meta itemprop="datePublished" content="2019-10-14T17:58:08&#43;00:00" />
-<meta itemprop="dateModified" content="2019-10-14T17:58:08&#43;00:00" />
+个人理解当需要多个类对象时，如果要进行很多复杂的、消耗时间的初始化操作，而这些对象之间又仅有少量不同时，可以考虑使用原型模式。"><meta itemprop="datePublished" content="2019-10-14T17:58:08+00:00" />
+<meta itemprop="dateModified" content="2019-10-14T17:58:08+00:00" />
 <meta itemprop="wordCount" content="209">
 <meta itemprop="keywords" content="设计模式," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -98,7 +98,7 @@ if (!doNotTrack) {
 <p>这里面涉及一个知识点就是深拷贝和浅拷贝的问题，但我相信任何python开发人员都知道<code>copy()</code>和<code>deepcopy()</code>的区别，这里就不多说了（有兴趣的可以去看python中这2个函数的实现）。</p>
 <p>个人理解当需要多个类对象时，如果要进行很多复杂的、消耗时间的初始化操作，而这些对象之间又仅有少量不同时，可以考虑使用原型模式。</p>
 <p><img src="/images/design-pattern/prototype.png" alt="prototype.png"></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -140,7 +140,7 @@ if (!doNotTrack) {
 </code></pre></div><p><code>Cat</code>这个类中不包含引用类型，所以直接将a赋值给b后，对b的修改不会影响a。但是<code>Dog</code>类中包含了引用类型，赋值后修改c、d任何一个的food值都会影响另一个。但是如果通过<code>append()</code>方法则是返回了一个新的slice，修改<code>e.food</code>就不会影响c和d了。</p>
 <p>常见的引用类型：slice，pointers，maps，functions和channels，所以如果结构中包含这些将一个对象赋值给另一个对象时候要小心。</p>
 <p>这里再多说一句关于golang中<code>new</code>，<code>make</code>创建对象的区别：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (
 	<span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -153,11 +153,11 @@ if (!doNotTrack) {
 <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%v,%p\n&#34;</span>,<span style="color:#a6e22e">c</span>,<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">c</span>)
 }
 </code></pre></div><p>输入如下：</p>
-<pre><code>[0 0 0],0x40a0f0
+<pre tabindex="0"><code>[0 0 0],0x40a0f0
 &amp;[],0x40c138
 </code></pre><p>可以看出，<code>new</code>返回的是指针并且没有初始值，而<code>make</code>则返回的是引用而且有默认值。此外，<code>make</code>只能创建<code>slice、map、channel</code>而<code>new</code>可以用于所有类型的内存分配。</p>
 <p>原型模式代码思路如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (
 	<span style="color:#e6db74">&#34;encoding/json&#34;</span>

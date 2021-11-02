@@ -35,8 +35,8 @@ def main():
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2019-09-18T12:46:29&#43;00:00" />
-<meta property="article:modified_time" content="2019-09-18T12:46:29&#43;00:00" />
+<meta property="article:published_time" content="2019-09-18T12:46:29+00:00" />
+<meta property="article:modified_time" content="2019-09-18T12:46:29+00:00" />
 
 
 		<meta itemprop="name" content="OpenStack源码学习笔记2">
@@ -64,8 +64,8 @@ def main():
     except KNOWN_EXCEPTIONS as e:
         print(e)
         fail(e)
-"><meta itemprop="datePublished" content="2019-09-18T12:46:29&#43;00:00" />
-<meta itemprop="dateModified" content="2019-09-18T12:46:29&#43;00:00" />
+"><meta itemprop="datePublished" content="2019-09-18T12:46:29+00:00" />
+<meta itemprop="dateModified" content="2019-09-18T12:46:29+00:00" />
 <meta itemprop="wordCount" content="811">
 <meta itemprop="keywords" content="python,openstack," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -139,7 +139,7 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>上次学习了Nova创建虚拟机的过程，这次来看一下Glance是如何上传镜像的。相比于Nova，Glance源码使用了大量的代理模式和装饰器模式，阅读代码时候一个不仔细就会一脸懵X。根据上次说的Openstack套路，我们通过<code>setup.cfg</code>直奔主题——<code>glance/cmd/api.py</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
     <span style="color:#66d9ef">try</span>:
         config<span style="color:#f92672">.</span>parse_args()
         config<span style="color:#f92672">.</span>set_config_defaults()
@@ -156,15 +156,15 @@ if (!doNotTrack) {
             osprofiler<span style="color:#f92672">.</span>web<span style="color:#f92672">.</span>enable(cfg<span style="color:#f92672">.</span>CONF<span style="color:#f92672">.</span>profiler<span style="color:#f92672">.</span>hmac_keys)
         <span style="color:#66d9ef">else</span>:
             osprofiler<span style="color:#f92672">.</span>web<span style="color:#f92672">.</span>disable()
-        server <span style="color:#f92672">=</span> wsgi<span style="color:#f92672">.</span>Server(initialize_glance_store<span style="color:#f92672">=</span>True)
+        server <span style="color:#f92672">=</span> wsgi<span style="color:#f92672">.</span>Server(initialize_glance_store<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
         server<span style="color:#f92672">.</span>start(config<span style="color:#f92672">.</span>load_paste_app(<span style="color:#e6db74">&#39;glance-api&#39;</span>), default_port<span style="color:#f92672">=</span><span style="color:#ae81ff">9292</span>)
         server<span style="color:#f92672">.</span>wait()
     <span style="color:#66d9ef">except</span> KNOWN_EXCEPTIONS <span style="color:#66d9ef">as</span> e:
-        <span style="color:#66d9ef">print</span>(e)
+        print(e)
         fail(e)
 </code></pre></div><h2 id="配置加载与路由绑定">配置加载与路由绑定</h2>
 <p>和Nova一样，这个文件主要作用就是加载配置、创建WSGI Server并运行，这里我们注意一下<code>initialize_glance_store=True</code>这里，新版中关于存储的部分已经独立出项目叫做<a href="https://github.com/openstack/glance_store">glance_store</a>，这里还对这部分进行了初始化，我们跟进<code>glance/common/wsgi.py</code>中：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">initialize_glance_store</span>():
     <span style="color:#e6db74">&#34;&#34;&#34;Initialize glance store.&#34;&#34;&#34;</span>
     glance_store<span style="color:#f92672">.</span>register_opts(CONF)
@@ -174,7 +174,7 @@ if (!doNotTrack) {
 <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Server</span>(object):
     <span style="color:#f92672">......</span>
 
-    <span style="color:#66d9ef">def</span> __init__(self, threads<span style="color:#f92672">=</span><span style="color:#ae81ff">1000</span>, initialize_glance_store<span style="color:#f92672">=</span>False):
+    <span style="color:#66d9ef">def</span> __init__(self, threads<span style="color:#f92672">=</span><span style="color:#ae81ff">1000</span>, initialize_glance_store<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>):
         <span style="color:#f92672">......</span>    
         self<span style="color:#f92672">.</span>initialize_glance_store <span style="color:#f92672">=</span> initialize_glance_store
         <span style="color:#f92672">......</span>
@@ -185,20 +185,20 @@ if (!doNotTrack) {
         self<span style="color:#f92672">.</span>configure()
         self<span style="color:#f92672">.</span>start_wsgi()
 
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">configure</span>(self, old_conf<span style="color:#f92672">=</span>None, has_changed<span style="color:#f92672">=</span>None):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">configure</span>(self, old_conf<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, has_changed<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
         eventlet<span style="color:#f92672">.</span>wsgi<span style="color:#f92672">.</span>MAX_HEADER_LINE <span style="color:#f92672">=</span> CONF<span style="color:#f92672">.</span>max_header_line
-        self<span style="color:#f92672">.</span>client_socket_timeout <span style="color:#f92672">=</span> CONF<span style="color:#f92672">.</span>client_socket_timeout <span style="color:#f92672">or</span> None
+        self<span style="color:#f92672">.</span>client_socket_timeout <span style="color:#f92672">=</span> CONF<span style="color:#f92672">.</span>client_socket_timeout <span style="color:#f92672">or</span> <span style="color:#66d9ef">None</span>
         self<span style="color:#f92672">.</span>configure_socket(old_conf, has_changed)
         <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>initialize_glance_store:
             initialize_glance_store()
 </code></pre></div><p>这里我们跟进<code>glance_store/backend.py</code>中：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_stores</span>(conf<span style="color:#f92672">=</span>CONF):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_stores</span>(conf<span style="color:#f92672">=</span>CONF):
     store_count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
 
     <span style="color:#66d9ef">for</span> (store_entry, store_instance) <span style="color:#f92672">in</span> _load_stores(conf):
         <span style="color:#66d9ef">try</span>:
             schemes <span style="color:#f92672">=</span> store_instance<span style="color:#f92672">.</span>get_schemes()
-            store_instance<span style="color:#f92672">.</span>configure(re_raise_bsc<span style="color:#f92672">=</span>False)
+            store_instance<span style="color:#f92672">.</span>configure(re_raise_bsc<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
         <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">NotImplementedError</span>:
             <span style="color:#66d9ef">continue</span>
         <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> schemes:
@@ -220,7 +220,7 @@ if (!doNotTrack) {
             store_count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
     <span style="color:#66d9ef">return</span> store_count
 </code></pre></div><p>在这里会根据<code>/etc/glance/glance_api.conf</code>中的配置信息找到对应的driver(位于<code>glance_store/_drivers</code>目录)并配置，然后调用<code>register_scheme_map()</code>进行绑定：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">SCHEME_TO_CLS_MAP <span style="color:#f92672">=</span> {}
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">SCHEME_TO_CLS_MAP <span style="color:#f92672">=</span> {}
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">register_scheme_map</span>(scheme_map):
     <span style="color:#66d9ef">for</span> (k, v) <span style="color:#f92672">in</span> scheme_map<span style="color:#f92672">.</span>items():
         LOG<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#34;Registering scheme </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> with </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span>, k, v)
@@ -230,7 +230,7 @@ if (!doNotTrack) {
 <p>glance镜像上传分为2个步骤，首先在数据库中创建一条记录，并返回相关信息，此时使用<code>glance image-list</code>命令可以查看到一个空镜像，状态为<code>queued</code>。然后再上传镜像数据，上传完成后进入<code>active</code>状态，代码均来源于rocky版。</p>
 <h3 id="create">create</h3>
 <p>根据<a href="https://docs.openstack.org/api-ref/image/v2/index.html?expanded=create-image-detail#create-image">文档</a>创建镜像是向<code>/v2/images</code>发送POST请求，然后再结合<code>glance-api-paste.ini</code>中的定义：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#66d9ef">[pipeline:glance-api]</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#66d9ef">[pipeline:glance-api]</span>
 <span style="color:#a6e22e">pipeline</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">cors healthcheck http_proxy_to_wsgi versionnegotiation osprofiler unauthenticated-context rootapp</span>
 
 <span style="color:#66d9ef">[composite:rootapp]</span>
@@ -248,7 +248,7 @@ if (!doNotTrack) {
 <span style="color:#66d9ef">[app:apiv2app]</span>
 <span style="color:#a6e22e">paste.app_factory</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">glance.api.v2.router:API.factory</span>
 </code></pre></div><p>根据<code>glance/api/v2/router.py</code>中的<code>API()</code>定义，找到实际处理post请求的函数为<code>glance/api/v2/images.py</code>中的<code>ImagesController</code>类的<code>create</code>方法：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create</span>(self, req, image, extra_properties, tags):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create</span>(self, req, image, extra_properties, tags):
         image_factory <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>gateway<span style="color:#f92672">.</span>get_image_factory(req<span style="color:#f92672">.</span>context)
         image_repo <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>gateway<span style="color:#f92672">.</span>get_repo(req<span style="color:#f92672">.</span>context)
         <span style="color:#66d9ef">try</span>:
@@ -277,7 +277,7 @@ if (!doNotTrack) {
             <span style="color:#66d9ef">raise</span> webob<span style="color:#f92672">.</span>exc<span style="color:#f92672">.</span>HTTPBadRequest(explanation<span style="color:#f92672">=</span>e)
         <span style="color:#66d9ef">return</span> image
 </code></pre></div><p>这段代码看上简单，实际内含玄机，如果跟进<code>gateway.get_image_factory</code>和<code>gateway.get_repo</code>函数，会发现作者用了大量的装饰器模式和代理模式：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># glance/gateway.py</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># glance/gateway.py</span>
 
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_image_factory</span>(self, context):
     image_factory <span style="color:#f92672">=</span> glance<span style="color:#f92672">.</span>domain<span style="color:#f92672">.</span>ImageFactory()
@@ -326,13 +326,13 @@ if (!doNotTrack) {
 <p>如果没有发生错误，则返回创建的空镜像信息给客户端。</p>
 <h3 id="upload">upload</h3>
 <p><a href="https://docs.openstack.org/api-ref/image/v2/?expanded=upload-binary-image-data-detail#upload-binary-image-data">文档</a>中定义，上传数据行为是向<code>/v2/images/{image_id}/file</code>发送PUT请求，实际处理函数为<code>glance/api/v2/image_data.py</code>中的<code>ImageDataController</code>类的<code>upload</code>方法：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#f92672">......</span>
-    <span style="color:#a6e22e">@utils.mutating</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#f92672">......</span>
+    <span style="color:#a6e22e">@utils</span><span style="color:#f92672">.</span>mutating
     <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">upload</span>(self, req, image_id, data, size):
-        backend <span style="color:#f92672">=</span> None
+        backend <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
         image_repo <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>gateway<span style="color:#f92672">.</span>get_repo(req<span style="color:#f92672">.</span>context)
-        image <span style="color:#f92672">=</span> None
-        refresher <span style="color:#f92672">=</span> None
+        image <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+        refresher <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
         cxt <span style="color:#f92672">=</span> req<span style="color:#f92672">.</span>context
         <span style="color:#66d9ef">try</span>:
             self<span style="color:#f92672">.</span>policy<span style="color:#f92672">.</span>enforce(cxt, <span style="color:#e6db74">&#39;upload_image&#39;</span>, {})
@@ -344,7 +344,7 @@ if (!doNotTrack) {
                 <span style="color:#66d9ef">try</span>:
                     image_repo<span style="color:#f92672">.</span>save(image, from_state<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;saving&#39;</span>)
                 <span style="color:#66d9ef">except</span> exception<span style="color:#f92672">.</span>NotAuthenticated:
-                    <span style="color:#66d9ef">if</span> refresher <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> None:
+                    <span style="color:#66d9ef">if</span> refresher <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span>:
                         <span style="color:#75715e"># request a new token to update an image in database</span>
                         cxt<span style="color:#f92672">.</span>auth_token <span style="color:#f92672">=</span> refresher<span style="color:#f92672">.</span>refresh_token()
                         image_repo <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>gateway<span style="color:#f92672">.</span>get_repo(req<span style="color:#f92672">.</span>context)
@@ -353,7 +353,7 @@ if (!doNotTrack) {
                         <span style="color:#66d9ef">raise</span>
         <span style="color:#f92672">......</span>
 </code></pre></div><p>新版本中glance已经可以支持多后端的配置，但还不是稳定版。这里以单后端为例，首先将状态改为saving，然后调用<code>set_data</code>函数。由于某些不可描述的原因，我没法启动程序进行单步调试，只能使用IDE的跳转功能，结果这里兜兜转转饶了很久。这里我就直接给出答案吧，最终调用的是<code>glance/location.py</code>的<code>ImageProxy</code>类中的方法。这里面的关键点在于image其实是由<code>ImageProxy</code>实例代理的，转换发生在初始化对象时候创建的<code>Helper</code>类，这个类有一个<code>proxy</code>方法用来将原始<code>Image</code>类型转换成<code>ImageProxy</code>类型。这里具体就不再详细说明了，回到<code>set_data</code>函数定义：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">set_data</span>(self, data, size<span style="color:#f92672">=</span>None, backend<span style="color:#f92672">=</span>None):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">set_data</span>(self, data, size<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, backend<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
     <span style="color:#f92672">......</span>
     hashing_algo <span style="color:#f92672">=</span> CONF[<span style="color:#e6db74">&#39;hashing_algorithm&#39;</span>]
     <span style="color:#66d9ef">if</span> CONF<span style="color:#f92672">.</span>enabled_backends:
@@ -387,24 +387,24 @@ if (!doNotTrack) {
     self<span style="color:#f92672">.</span>image<span style="color:#f92672">.</span>os_hash_algo <span style="color:#f92672">=</span> hashing_algo
     self<span style="color:#f92672">.</span>image<span style="color:#f92672">.</span>status <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;active&#39;</span>
 </code></pre></div><p>这里的<code>store_api</code>默认就是<code>glance_store</code>了，其中<code>add_with_multihash</code>是启用多后端时候调用，<code>add_to_backend_with_multihash</code>启用单后端时候调用。这里以单后端为例：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add_to_backend_with_multihash</span>(conf, image_id, data, size, hashing_algo,
-                                  scheme<span style="color:#f92672">=</span>None, context<span style="color:#f92672">=</span>None, verifier<span style="color:#f92672">=</span>None):
-    <span style="color:#66d9ef">if</span> scheme <span style="color:#f92672">is</span> None:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add_to_backend_with_multihash</span>(conf, image_id, data, size, hashing_algo,
+                                  scheme<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, context<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, verifier<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
+    <span style="color:#66d9ef">if</span> scheme <span style="color:#f92672">is</span> <span style="color:#66d9ef">None</span>:
         scheme <span style="color:#f92672">=</span> conf[<span style="color:#e6db74">&#39;glance_store&#39;</span>][<span style="color:#e6db74">&#39;default_store&#39;</span>]
     store <span style="color:#f92672">=</span> get_store_from_scheme(scheme)
     <span style="color:#66d9ef">return</span> store_add_to_backend_with_multihash(
         image_id, data, size, hashing_algo, store, context, verifier)
 </code></pre></div><p>其中<code>get_store_from_scheme</code>函数作用是获取到文章开头所说的绑定到<code>SCHEME_TO_CLS_MAP</code>中的对应的<code>driver</code>，然后经过<code>store_add_to_backend_with_multihash</code>函数进入相应的<code>driver</code>的<code>add</code>方法，这里以Ceph的块存储RBD(RADOS Block Device)为例，函数位于<code>glance_store/_drivers/rbd.py</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">    <span style="color:#a6e22e">@driver.back_compat_add</span>
-    <span style="color:#a6e22e">@capabilities.check</span>
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add</span>(self, image_id, image_file, image_size, hashing_algo, context<span style="color:#f92672">=</span>None,
-            verifier<span style="color:#f92672">=</span>None):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">    <span style="color:#a6e22e">@driver</span><span style="color:#f92672">.</span>back_compat_add
+    <span style="color:#a6e22e">@capabilities</span><span style="color:#f92672">.</span>check
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add</span>(self, image_id, image_file, image_size, hashing_algo, context<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+            verifier<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
         checksum <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>md5()
         os_hash_value <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>new(str(hashing_algo))
         image_name <span style="color:#f92672">=</span> str(image_id)
         <span style="color:#66d9ef">with</span> self<span style="color:#f92672">.</span>get_connection(conffile<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>conf_file,
                                  rados_id<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>user) <span style="color:#66d9ef">as</span> conn:
-            fsid <span style="color:#f92672">=</span> None
+            fsid <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
             <span style="color:#66d9ef">if</span> hasattr(conn, <span style="color:#e6db74">&#39;get_fsid&#39;</span>):
                 fsid <span style="color:#f92672">=</span> encodeutils<span style="color:#f92672">.</span>safe_decode(conn<span style="color:#f92672">.</span>get_fsid())
             <span style="color:#66d9ef">with</span> conn<span style="color:#f92672">.</span>open_ioctx(self<span style="color:#f92672">.</span>pool) <span style="color:#66d9ef">as</span> ioctx:

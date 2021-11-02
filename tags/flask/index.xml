@@ -32,7 +32,7 @@
 &lt;p&gt;flask-socketio赋予了flask程序支持服务端和客户端间双向低延迟通讯的能力，客户端可以使用 &lt;a href=&#34;http://socket.io/&#34;&gt;SocketIO&lt;/a&gt; 库或任何支持与服务端建立长链接的兼容库。&lt;/p&gt;
 &lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
 &lt;p&gt;可以直接使用pip安装：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;pip install flask-socketio
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;pip install flask-socketio
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;依赖&#34;&gt;依赖&lt;/h2&gt;
 &lt;p&gt;自从1.0版开始，这个扩展完全兼容了python2.7和python3.3+版本。异步服务的支持基于下面3个选择中的一个：&lt;/p&gt;
 &lt;ul&gt;

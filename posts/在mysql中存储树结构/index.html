@@ -17,8 +17,8 @@ https://django-mptt.github.io/django-mptt/ ，如果你也使用python和django�
 个人总结的核心：如果一个节点A是节点B的子节点，那么A的左值一定大于B的左值，A的右值一定小于B的右值。或者说，A的左值一定在B的左值和右值之间。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/%E5%9C%A8mysql%E4%B8%AD%E5%AD%98%E5%82%A8%E6%A0%91%E7%BB%93%E6%9E%84/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2016-08-15T17:46:18&#43;00:00" />
-<meta property="article:modified_time" content="2016-08-15T17:46:18&#43;00:00" />
+<meta property="article:published_time" content="2016-08-15T17:46:18+00:00" />
+<meta property="article:modified_time" content="2016-08-15T17:46:18+00:00" />
 
 
 		<meta itemprop="name" content="在MySQL中存储树状结构">
@@ -28,8 +28,8 @@ https://django-mptt.github.io/django-mptt/ ，如果你也使用python和django�
 https://django-mptt.github.io/django-mptt/ ，如果你也使用python和django，这个是现成的APP。
 
 另外，个人觉得这种方法对于搜索的效率提升最大，而相应的新增、删除等操作则会变慢，个人猜测未经测试。
-个人总结的核心：如果一个节点A是节点B的子节点，那么A的左值一定大于B的左值，A的右值一定小于B的右值。或者说，A的左值一定在B的左值和右值之间。"><meta itemprop="datePublished" content="2016-08-15T17:46:18&#43;00:00" />
-<meta itemprop="dateModified" content="2016-08-15T17:46:18&#43;00:00" />
+个人总结的核心：如果一个节点A是节点B的子节点，那么A的左值一定大于B的左值，A的右值一定小于B的右值。或者说，A的左值一定在B的左值和右值之间。"><meta itemprop="datePublished" content="2016-08-15T17:46:18+00:00" />
+<meta itemprop="dateModified" content="2016-08-15T17:46:18+00:00" />
 <meta itemprop="wordCount" content="2115">
 <meta itemprop="keywords" content="mysql," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -116,7 +116,7 @@ if (!doNotTrack) {
 <p>上面的分类构成了一种树状结构，在这篇文章中我们将使用2种方法来在MySQL中操作它。首先使用传统的<a href="http://baike.baidu.com/link?url=7nphm8gNv5PfOEt96w90Oj6G9qSTU7ETc2lJVHRyp7zOnWpWBmV8Gzj7GZPeYW5UuEIck3RuyaElm8Tt2Jvy-q">邻接表</a>的方式。</p>
 <h2 id="邻接表">邻接表</h2>
 <p>典型的分类示例将以下面的结构存储在表中(下面包含了完整的create和insert操作，所以你可以自行测试)：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> category(
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> category(
         category_id INT AUTO_INCREMENT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
         name VARCHAR(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
         parent INT <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>
@@ -145,7 +145,7 @@ if (!doNotTrack) {
 </code></pre></div><p>在邻接表中，每一条数据都有一个字段指向它的父节点。本例中的根节点<code>ELECTRONICS</code>的<code>parent</code>则为<code>NULL</code>。邻接表的特点就是简单，可以很容易的看出<code>FLASH</code>是<code>MP3 PLAYERS</code>的子节点。同时<code>MP3 PLAYERS</code>是<code>PORTABLE ELECTRONICS</code>的子节点，而<code>PORTABLE ELECTRONICS</code>又是<code>ELECTRONICS</code>的子节点。尽管邻接表可以在客户端代码被很容易的处理，但对于原生的SQL语句则可能会产生问题。</p>
 <h3 id="遍历树">遍历树</h3>
 <p>在操作树状结构时最常见的一个操作就是以缩进的形式来展示整个树，使用SQL语句实现的最常见方法就是使用<code>join</code>语句：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> t1.name <span style="color:#66d9ef">AS</span> lev1, t2.name <span style="color:#66d9ef">as</span> lev2, t3.name <span style="color:#66d9ef">as</span> lev3, t4.name <span style="color:#66d9ef">as</span> lev4
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> t1.name <span style="color:#66d9ef">AS</span> lev1, t2.name <span style="color:#66d9ef">as</span> lev2, t3.name <span style="color:#66d9ef">as</span> lev3, t4.name <span style="color:#66d9ef">as</span> lev4
 <span style="color:#66d9ef">FROM</span> category <span style="color:#66d9ef">AS</span> t1
 <span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> category <span style="color:#66d9ef">AS</span> t2 <span style="color:#66d9ef">ON</span> t2.parent <span style="color:#f92672">=</span> t1.category_id
 <span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> category <span style="color:#66d9ef">AS</span> t3 <span style="color:#66d9ef">ON</span> t3.parent <span style="color:#f92672">=</span> t2.category_id
@@ -165,7 +165,7 @@ if (!doNotTrack) {
 </span><span style="color:#75715e"></span><span style="color:#ae81ff">6</span> <span style="color:#66d9ef">rows</span> <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">set</span> (<span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">00</span> sec)
 </code></pre></div><h3 id="找出所有叶子节点">找出所有叶子节点</h3>
 <p>我们可以使用<code>LEFT JOIN</code>语句来找出所有的叶子节点(没有子节点的节点)</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> t1.name <span style="color:#66d9ef">FROM</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> t1.name <span style="color:#66d9ef">FROM</span>
 category <span style="color:#66d9ef">AS</span> t1 <span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> category <span style="color:#66d9ef">as</span> t2
 <span style="color:#66d9ef">ON</span> t1.category_id <span style="color:#f92672">=</span> t2.parent
 <span style="color:#66d9ef">WHERE</span> t2.category_id <span style="color:#66d9ef">IS</span> <span style="color:#66d9ef">NULL</span>;
@@ -182,7 +182,7 @@ category <span style="color:#66d9ef">AS</span> t1 <span style="color:#66d9ef">LE
 <span style="color:#f92672">+</span><span style="color:#75715e">--------------+
 </span></code></pre></div><h3 id="寻找单一路径">寻找单一路径</h3>
 <p>可以使用<code>JOIN</code>语句在树状结构中查看某一条路径：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> t1.name <span style="color:#66d9ef">AS</span> lev1, t2.name <span style="color:#66d9ef">as</span> lev2, t3.name <span style="color:#66d9ef">as</span> lev3, t4.name <span style="color:#66d9ef">as</span> lev4
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> t1.name <span style="color:#66d9ef">AS</span> lev1, t2.name <span style="color:#66d9ef">as</span> lev2, t3.name <span style="color:#66d9ef">as</span> lev3, t4.name <span style="color:#66d9ef">as</span> lev4
 <span style="color:#66d9ef">FROM</span> category <span style="color:#66d9ef">AS</span> t1
 <span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> category <span style="color:#66d9ef">AS</span> t2 <span style="color:#66d9ef">ON</span> t2.parent <span style="color:#f92672">=</span> t1.category_id
 <span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> category <span style="color:#66d9ef">AS</span> t3 <span style="color:#66d9ef">ON</span> t3.parent <span style="color:#f92672">=</span> t2.category_id
@@ -202,7 +202,7 @@ category <span style="color:#66d9ef">AS</span> t1 <span style="color:#66d9ef">LE
 <p>这篇文章中我想重点解释一下嵌套集(Nested Set Model)。在嵌套集中，我们可以用一种新的视角来看待树状结构。不是使用节点或行，而是使用嵌套的容器。想想一下我们的结构如下：
 <img src="http://mikehillyer.com/media//nested_categories.png" alt="nested">
 请注意我们仍然保持了树状结构，作为父节点的分类包含了子节点。我们使用左值和右值的方式来在表中表现节点的层级关系：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> nested_category (
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> nested_category (
         category_id INT AUTO_INCREMENT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
         name VARCHAR(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
         lft INT <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
@@ -237,7 +237,7 @@ category <span style="color:#66d9ef">AS</span> t1 <span style="color:#66d9ef">LE
 构建这种树我们需要从左向右、每次一层的向下遍历其子节点，对于叶子节点则指定其右值并移动到其右边的兄弟节点。这种方法被称为“前序遍历树算法变异版”(modified preorder tree traversal algorithm)。</p>
 <h3 id="遍历树-1">遍历树</h3>
 <p>我们可以基于这样一个前提遍历整个树：一个节点的左值总是处在父节点的左值和右值之间：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> node.name
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> node.name
 <span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
         nested_category <span style="color:#66d9ef">AS</span> parent
 <span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
@@ -261,7 +261,7 @@ category <span style="color:#66d9ef">AS</span> t1 <span style="color:#66d9ef">LE
 </span></code></pre></div><p>与前面说的邻接表不同，这里的查询不会考虑树的深度。也无需考虑节点的右值因为右值永远小于父节点的右值。</p>
 <h3 id="找出所有叶子节点-1">找出所有叶子节点</h3>
 <p>在嵌套集中找出所有叶子节点比在邻接表中使用<code>JOIN</code>查询简单的多。如果你仔细观察，会发现叶子节点的左值和右值永远是连续的，所以找到叶子节点，我们仅需找到<code>rgt = lft + 1</code>的节点即可：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> name
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> name
 <span style="color:#66d9ef">FROM</span> nested_category
 <span style="color:#66d9ef">WHERE</span> rgt <span style="color:#f92672">=</span> lft <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
 
@@ -277,7 +277,7 @@ category <span style="color:#66d9ef">AS</span> t1 <span style="color:#66d9ef">LE
 <span style="color:#f92672">+</span><span style="color:#75715e">--------------+
 </span></code></pre></div><h3 id="寻找单一路径-1">寻找单一路径</h3>
 <p>在嵌套集中我们可以寻找单一路径而不使用大量的<code>JOIN</code>操作：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> parent.name
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> parent.name
 <span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
         nested_category <span style="color:#66d9ef">AS</span> parent
 <span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
@@ -294,7 +294,7 @@ category <span style="color:#66d9ef">AS</span> t1 <span style="color:#66d9ef">LE
 <span style="color:#f92672">+</span><span style="color:#75715e">----------------------+
 </span></code></pre></div><h3 id="获取节点深度">获取节点深度</h3>
 <p>我们已经知道了如何遍历整个树，但如何表示每个节点在树中的深度呢？如何更好的识别每个节点所处的层次呢？这里可以使用<code>COUNT</code>以及<code>GROUP BY</code>来实现：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> node.name, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">AS</span> depth
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> node.name, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">AS</span> depth
 <span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
         nested_category <span style="color:#66d9ef">AS</span> parent
 <span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
@@ -316,7 +316,7 @@ category <span style="color:#66d9ef">AS</span> t1 <span style="color:#66d9ef">LE
 <span style="color:#f92672">|</span> <span style="color:#ae81ff">2</span> WAY RADIOS         <span style="color:#f92672">|</span>     <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span>
 <span style="color:#f92672">+</span><span style="color:#75715e">----------------------+-------+
 </span></code></pre></div><p>也可以使用<code>depth</code>结合<code>CONCAT</code>以及<code>REPEAT</code>函数来在前面添加空格：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> CONCAT( REPEAT(<span style="color:#e6db74">&#39; &#39;</span>, <span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>), node.name) <span style="color:#66d9ef">AS</span> name
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> CONCAT( REPEAT(<span style="color:#e6db74">&#39; &#39;</span>, <span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>), node.name) <span style="color:#66d9ef">AS</span> name
 <span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
         nested_category <span style="color:#66d9ef">AS</span> parent
 <span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
@@ -340,7 +340,7 @@ category <span style="color:#66d9ef">AS</span> t1 <span style="color:#66d9ef">LE
 </span></code></pre></div><p>当然，在客户端程序中你可能更喜欢直接使用<code>depth</code>来展示树状结构，WEB开发人员可以通过循环来遍历树，使用<code>depth</code>控制<code>&lt;li&gt;&lt;/li&gt;</code>和 <code>&lt;ul&gt;&lt;/ul&gt;</code>的数量增减。</p>
 <h3 id="子树的深度">子树的深度</h3>
 <p>当我们需要子树的深度信息时，我们既不能限制表中的子节点也不能限制父节点，因为这样做会破坏结果。相反的，我们添加一个新的自关联查询来构造一个子树，并将根节点指向构造出来的子树后进行深度的查询：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> node.name, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> (sub_tree.depth <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)) <span style="color:#66d9ef">AS</span> depth
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> node.name, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> (sub_tree.depth <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)) <span style="color:#66d9ef">AS</span> depth
 <span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
         nested_category <span style="color:#66d9ef">AS</span> parent,
         nested_category <span style="color:#66d9ef">AS</span> sub_parent,
@@ -372,7 +372,7 @@ category <span style="color:#66d9ef">AS</span> t1 <span style="color:#66d9ef">LE
 <h3 id="找到一个节点的直属子节点">找到一个节点的直属子节点</h3>
 <p>想像一下你要在一个网站上展示电子产品的分类，当用户点击某个分类后，你想展示这个分类的直属子分类而不是全部的子分类(ps:即相对这个节点深度为1的子节点)。例如，当展示<code>PORTABLE ELECTRONICS</code>分类时，我们仅想展示<code>MP3 PLAYERS</code>、<code>CD PLAYERS</code>、<code>2 WAY RADIOS</code>，而不包括<code>FLASH</code>。</p>
 <p>这可以通过添加<code>HAVING</code>关键字来实现：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> node.name, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> (sub_tree.depth <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)) <span style="color:#66d9ef">AS</span> depth
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> node.name, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> (sub_tree.depth <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)) <span style="color:#66d9ef">AS</span> depth
 <span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
         nested_category <span style="color:#66d9ef">AS</span> parent,
         nested_category <span style="color:#66d9ef">AS</span> sub_parent,
@@ -403,7 +403,7 @@ category <span style="color:#66d9ef">AS</span> t1 <span style="color:#66d9ef">LE
 </span></code></pre></div><p>如果你不想展示父节点，把<code>HAVING depth &lt;= 1</code>替换成<code>HAVING depth = 1</code>即可。</p>
 <h3 id="在嵌套集中使用聚合函数">在嵌套集中使用聚合函数</h3>
 <p>首先添加一个<code>product</code>表来方便演示</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> product
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> product
 (
         product_id INT AUTO_INCREMENT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
         name VARCHAR(<span style="color:#ae81ff">40</span>),
@@ -433,7 +433,7 @@ category <span style="color:#66d9ef">AS</span> t1 <span style="color:#66d9ef">LE
 </span><span style="color:#e6db74">+------------+-------------------+-------------+
 </span><span style="color:#e6db74">
 </span></code></pre></div><p>下面我们进行一个查询，来统计每个分类下的产品数量：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> parent.name, <span style="color:#66d9ef">COUNT</span>(product.name)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> parent.name, <span style="color:#66d9ef">COUNT</span>(product.name)
 <span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node ,
         nested_category <span style="color:#66d9ef">AS</span> parent,
         product
@@ -461,7 +461,7 @@ category <span style="color:#66d9ef">AS</span> t1 <span style="color:#66d9ef">LE
 <p>之前我们学习了如何查询，现在来看看如何新增一个节点。让我们再看一下嵌套集的示例图：
 <img src="http://mikehillyer.com/media//nested_numbered.png" alt="nested2">
 如果我们想在<code>TELEVISIONS</code>和<code>PORTABLE ELECTRONICS</code>节点之间添加一个新节点，这个新节点左值应该是10而右值为11，而它右边所有的节点的值都应该加2。我们可以在MySQL5中使用存储过程来实现，这里我假设MySQL版本为4.1(译者注：这是一篇旧文，写作时mysql稳定版本还是4.1)。使用下面的语句：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">LOCK</span> <span style="color:#66d9ef">TABLE</span> nested_category <span style="color:#66d9ef">WRITE</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">LOCK</span> <span style="color:#66d9ef">TABLE</span> nested_category <span style="color:#66d9ef">WRITE</span>;
 
 <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">@</span>myRight :<span style="color:#f92672">=</span> rgt <span style="color:#66d9ef">FROM</span> nested_category
 <span style="color:#66d9ef">WHERE</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;TELEVISIONS&#39;</span>;
@@ -473,7 +473,7 @@ category <span style="color:#66d9ef">AS</span> t1 <span style="color:#66d9ef">LE
 
 UNLOCK TABLES;
 </code></pre></div><p>我们可以来检查一下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> CONCAT( REPEAT( <span style="color:#e6db74">&#39; &#39;</span>, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) ), node.name) <span style="color:#66d9ef">AS</span> name
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> CONCAT( REPEAT( <span style="color:#e6db74">&#39; &#39;</span>, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) ), node.name) <span style="color:#66d9ef">AS</span> name
 <span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
         nested_category <span style="color:#66d9ef">AS</span> parent
 <span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
@@ -496,7 +496,7 @@ UNLOCK TABLES;
 <span style="color:#f92672">|</span>   <span style="color:#ae81ff">2</span> WAY RADIOS        <span style="color:#f92672">|</span>
 <span style="color:#f92672">+</span><span style="color:#75715e">-----------------------+
 </span></code></pre></div><p>如果我们想给一个叶子节点添加子节点，需要修改一下代码。这里我们给<code>2 WAY RADIOS</code>添加一个<code>FRS</code>做子节点：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">LOCK</span> <span style="color:#66d9ef">TABLE</span> nested_category <span style="color:#66d9ef">WRITE</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">LOCK</span> <span style="color:#66d9ef">TABLE</span> nested_category <span style="color:#66d9ef">WRITE</span>;
 
 <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">@</span>myLeft :<span style="color:#f92672">=</span> lft <span style="color:#66d9ef">FROM</span> nested_category
 
@@ -509,7 +509,7 @@ UNLOCK TABLES;
 
 UNLOCK TABLES;
 </code></pre></div><p>在这个示例中我们修改了新的父节点的右值，正如所见，新的节点被插入了正确的位置：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> CONCAT( REPEAT( <span style="color:#e6db74">&#39; &#39;</span>, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) ), node.name) <span style="color:#66d9ef">AS</span> name
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> CONCAT( REPEAT( <span style="color:#e6db74">&#39; &#39;</span>, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) ), node.name) <span style="color:#66d9ef">AS</span> name
 <span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
         nested_category <span style="color:#66d9ef">AS</span> parent
 <span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
@@ -535,7 +535,7 @@ UNLOCK TABLES;
 </span></code></pre></div><h3 id="删除节点">删除节点</h3>
 <p>最后一个基础操作就是删除节点。删除节点的行为取决于被删除节点在树状结构中所处的层级，删除叶子节点比删除子节点容易，因为不用考虑孤儿节点的问题。</p>
 <p>当删除叶子节点时，操作仅仅和添加节点相反，代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">LOCK</span> <span style="color:#66d9ef">TABLE</span> nested_category <span style="color:#66d9ef">WRITE</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">LOCK</span> <span style="color:#66d9ef">TABLE</span> nested_category <span style="color:#66d9ef">WRITE</span>;
 
 <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">@</span>myLeft :<span style="color:#f92672">=</span> lft, <span style="color:#f92672">@</span>myRight :<span style="color:#f92672">=</span> rgt, <span style="color:#f92672">@</span>myWidth :<span style="color:#f92672">=</span> rgt <span style="color:#f92672">-</span> lft <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">FROM</span> nested_category
@@ -548,7 +548,7 @@ UNLOCK TABLES;
 
 UNLOCK TABLES;
 </code></pre></div><p>我们来执行查询操作确认删除成功：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> CONCAT( REPEAT( <span style="color:#e6db74">&#39; &#39;</span>, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) ), node.name) <span style="color:#66d9ef">AS</span> name
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> CONCAT( REPEAT( <span style="color:#e6db74">&#39; &#39;</span>, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) ), node.name) <span style="color:#66d9ef">AS</span> name
 <span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
         nested_category <span style="color:#66d9ef">AS</span> parent
 <span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
@@ -571,7 +571,7 @@ UNLOCK TABLES;
 <span style="color:#f92672">|</span>    FRS                <span style="color:#f92672">|</span>
 <span style="color:#f92672">+</span><span style="color:#75715e">-----------------------+
 </span></code></pre></div><p>这个方法也可以用于删除子节点以及这个节点的所有节点：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">LOCK</span> <span style="color:#66d9ef">TABLE</span> nested_category <span style="color:#66d9ef">WRITE</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">LOCK</span> <span style="color:#66d9ef">TABLE</span> nested_category <span style="color:#66d9ef">WRITE</span>;
 
 <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">@</span>myLeft :<span style="color:#f92672">=</span> lft, <span style="color:#f92672">@</span>myRight :<span style="color:#f92672">=</span> rgt, <span style="color:#f92672">@</span>myWidth :<span style="color:#f92672">=</span> rgt <span style="color:#f92672">-</span> lft <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">FROM</span> nested_category
@@ -584,7 +584,7 @@ UNLOCK TABLES;
 
 UNLOCK TABLES;
 </code></pre></div><p>再来查询一遍，确认我们是否删除了整个子树：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> CONCAT( REPEAT( <span style="color:#e6db74">&#39; &#39;</span>, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) ), node.name) <span style="color:#66d9ef">AS</span> name
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> CONCAT( REPEAT( <span style="color:#e6db74">&#39; &#39;</span>, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) ), node.name) <span style="color:#66d9ef">AS</span> name
 <span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
         nested_category <span style="color:#66d9ef">AS</span> parent
 <span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
@@ -605,7 +605,7 @@ UNLOCK TABLES;
 <span style="color:#f92672">|</span>    FRS                <span style="color:#f92672">|</span>
 <span style="color:#f92672">+</span><span style="color:#75715e">-----------------------+
 </span></code></pre></div><p>在某些情况下我们仅想删除父节点而保留子节点，而这些子节点则被提升至和父节点平级：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">LOCK</span> <span style="color:#66d9ef">TABLE</span> nested_category <span style="color:#66d9ef">WRITE</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">LOCK</span> <span style="color:#66d9ef">TABLE</span> nested_category <span style="color:#66d9ef">WRITE</span>;
 
 <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">@</span>myLeft :<span style="color:#f92672">=</span> lft, <span style="color:#f92672">@</span>myRight :<span style="color:#f92672">=</span> rgt, <span style="color:#f92672">@</span>myWidth :<span style="color:#f92672">=</span> rgt <span style="color:#f92672">-</span> lft <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">FROM</span> nested_category
@@ -619,7 +619,7 @@ UNLOCK TABLES;
 
 UNLOCK TABLES;
 </code></pre></div><p>在这里，我们把这个节点的所有右侧节点的值减2(因为没有子节点的宽度为2)，并且把这个节点的子节点的值减1(使用被删除的父节点的左值来弥补差距)。再来确认一下操作是否成功：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> CONCAT( REPEAT( <span style="color:#e6db74">&#39; &#39;</span>, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) ), node.name) <span style="color:#66d9ef">AS</span> name
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> CONCAT( REPEAT( <span style="color:#e6db74">&#39; &#39;</span>, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) ), node.name) <span style="color:#66d9ef">AS</span> name
 <span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
         nested_category <span style="color:#66d9ef">AS</span> parent
 <span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt

@@ -21,8 +21,8 @@
 抽象工厂产生抽象产品，具体工厂生产具体产品。 这句话很重要，理解了这句话就理解了工厂方法模式。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2019-10-09T16:58:08&#43;00:00" />
-<meta property="article:modified_time" content="2019-10-09T16:58:08&#43;00:00" />
+<meta property="article:published_time" content="2019-10-09T16:58:08+00:00" />
+<meta property="article:modified_time" content="2019-10-09T16:58:08+00:00" />
 
 
 		<meta itemprop="name" content="设计模式-工厂模式">
@@ -36,8 +36,8 @@
 抽象产品
 具体产品
 
-抽象工厂产生抽象产品，具体工厂生产具体产品。 这句话很重要，理解了这句话就理解了工厂方法模式。"><meta itemprop="datePublished" content="2019-10-09T16:58:08&#43;00:00" />
-<meta itemprop="dateModified" content="2019-10-09T16:58:08&#43;00:00" />
+抽象工厂产生抽象产品，具体工厂生产具体产品。 这句话很重要，理解了这句话就理解了工厂方法模式。"><meta itemprop="datePublished" content="2019-10-09T16:58:08+00:00" />
+<meta itemprop="dateModified" content="2019-10-09T16:58:08+00:00" />
 <meta itemprop="wordCount" content="673">
 <meta itemprop="keywords" content="设计模式," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -123,7 +123,7 @@ if (!doNotTrack) {
 <p><strong>抽象工厂产生抽象产品，具体工厂生产具体产品。</strong> 这句话很重要，理解了这句话就理解了工厂方法模式。</p>
 <p><img src="/images/design-pattern/factory.png" alt="factory.png"></p>
 <p>看定义还是略微抽象，这里我们以客户购买汽水为例，初学编程的人很有可能出现类似下面的代码段：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
 	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">require</span> <span style="color:#66d9ef">string</span>
 	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Please enter your choice(cola,spirte,fanta): &#34;</span>)
 	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Scanln</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">require</span>)
@@ -138,7 +138,7 @@ if (!doNotTrack) {
 	}
 }
 </code></pre></div><p>这段代码很好理解，用户输入他想要购买的汽水，然后程序返回他的选择，如果用户输入的不在上述3个选择内就报错<code>What you want?</code>。但基本上没有可维护性、扩展性，也不能方便的进行复用。为了实现高内聚低耦合的目标，我们做一些修改：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (
 	<span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -185,7 +185,7 @@ if (!doNotTrack) {
 	<span style="color:#a6e22e">fac</span>.<span style="color:#a6e22e">showname</span>(<span style="color:#a6e22e">require</span>).<span style="color:#a6e22e">show</span>()
 }
 </code></pre></div><p>由于golang中没有类、继承相关的概念，所以这里使用struct和interface来实现。采用上面这种修改后，看上去更复杂了，但却提高了代码的复用率。如果以后有其他地方也要用到这个功能，直接调用factory即可，而不是把那堆<code>if...else</code>复制过去。这种写法还有个学名叫做 <strong>简单工厂模式</strong> ，这个模式优点是工厂类中包含了逻辑判断，根据调用方传入的参数动态实例化相关的类，如果需要修改功能不需要修改调用方的代码。但问题也在这里，如果要新增一个类，那么是要修改<code>case</code>分支条件的，修改原有的类<strong>违反了开闭原则</strong>,这时候就该工厂方法模式出场了：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (
 	<span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -290,7 +290,7 @@ if (!doNotTrack) {
 <p>抽象工厂模式：提供一个接口，用于创建相关或依赖对象的家族，而不需要指定具体实现类。</p>
 <p><img src="/images/design-pattern/absstact-factory.png" alt="absstact-factory.png"></p>
 <p>进一步说，抽象工厂模式中调用方使用抽象接口来创建一组相关产品，实现了与工厂类的解耦。我们将卖汽水的例子复杂化一点，可以在汽水中加冰，那么用抽象工厂模式写法就变成了：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -405,7 +405,7 @@ if (!doNotTrack) {
 	}
 }
 </code></pre></div><p>似乎更更更复杂了，但假设突然需要更换另一家卖汽水的，调用方仅仅修改创建消费者那行代码就可以了。（这里别陷入误区：改1行代码和改100行代码可不是一回事，减少修改!=不修改。）至于判断逻辑的问题，可以使用反射来解决：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
 	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">require</span> <span style="color:#66d9ef">string</span>
 	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Please enter your choice(cola,spirte,fanta): &#34;</span>)
 	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Scanln</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">require</span>)

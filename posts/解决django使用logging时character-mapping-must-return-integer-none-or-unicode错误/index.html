@@ -50,8 +50,8 @@ TypeError: character mapping must return integer, None or unicode
 根据错误提示，追进了hmac.py中看了源码，发现key其实就是一个字符串，是配置在settings中的EMAIL_HOST_USER以及EMAIL_HOST_PASSWORD，而translate函数则是根据给出的参数表将字符串进行映射加密的，而且是最简单的凯撒加密法。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/%E8%A7%A3%E5%86%B3django%E4%BD%BF%E7%94%A8logging%E6%97%B6character-mapping-must-return-integer-none-or-unicode%E9%94%99%E8%AF%AF/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2016-06-21T17:42:27&#43;00:00" />
-<meta property="article:modified_time" content="2016-06-21T17:42:27&#43;00:00" />
+<meta property="article:published_time" content="2016-06-21T17:42:27+00:00" />
+<meta property="article:modified_time" content="2016-06-21T17:42:27+00:00" />
 
 
 		<meta itemprop="name" content="解决django使用logging时“character mapping must return integer, None or unicode”错误">
@@ -94,8 +94,8 @@ Traceback (most recent call last):
   File &#34;/usr/lib64/python2.7/hmac.py&#34;, line 78, in __init__
     self.outer.update(key.translate(trans_5C))
 TypeError: character mapping must return integer, None or unicode
-根据错误提示，追进了hmac.py中看了源码，发现key其实就是一个字符串，是配置在settings中的EMAIL_HOST_USER以及EMAIL_HOST_PASSWORD，而translate函数则是根据给出的参数表将字符串进行映射加密的，而且是最简单的凯撒加密法。"><meta itemprop="datePublished" content="2016-06-21T17:42:27&#43;00:00" />
-<meta itemprop="dateModified" content="2016-06-21T17:42:27&#43;00:00" />
+根据错误提示，追进了hmac.py中看了源码，发现key其实就是一个字符串，是配置在settings中的EMAIL_HOST_USER以及EMAIL_HOST_PASSWORD，而translate函数则是根据给出的参数表将字符串进行映射加密的，而且是最简单的凯撒加密法。"><meta itemprop="datePublished" content="2016-06-21T17:42:27+00:00" />
+<meta itemprop="dateModified" content="2016-06-21T17:42:27+00:00" />
 <meta itemprop="wordCount" content="250">
 <meta itemprop="keywords" content="django,python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -169,7 +169,7 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>今天调试Django项目时候，使用Logging记录异常并发送邮件给网站管理人员，测试时候始终报错：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">Traceback (most recent call last):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">Traceback (most recent call last):
   File <span style="color:#e6db74">&#34;/usr/lib64/python2.7/wsgiref/handlers.py&#34;</span>, line <span style="color:#ae81ff">85</span>, <span style="color:#f92672">in</span> run
     self<span style="color:#f92672">.</span>result <span style="color:#f92672">=</span> application(self<span style="color:#f92672">.</span>environ, self<span style="color:#f92672">.</span>start_response)
   File <span style="color:#e6db74">&#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/handlers/wsgi.py&#34;</span>, line <span style="color:#ae81ff">177</span>, <span style="color:#f92672">in</span> __call__
@@ -189,7 +189,7 @@ if (!doNotTrack) {
   File <span style="color:#e6db74">&#34;/usr/lib64/python2.7/logging/__init__.py&#34;</span>, line <span style="color:#ae81ff">751</span>, <span style="color:#f92672">in</span> handle
     self<span style="color:#f92672">.</span>emit(record)
   File <span style="color:#e6db74">&#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/utils/log.py&#34;</span>, line <span style="color:#ae81ff">117</span>, <span style="color:#f92672">in</span> emit
-    self<span style="color:#f92672">.</span>send_mail(subject, message, fail_silently<span style="color:#f92672">=</span>True, html_message<span style="color:#f92672">=</span>html_message)
+    self<span style="color:#f92672">.</span>send_mail(subject, message, fail_silently<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, html_message<span style="color:#f92672">=</span>html_message)
   File <span style="color:#e6db74">&#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/utils/log.py&#34;</span>, line <span style="color:#ae81ff">120</span>, <span style="color:#f92672">in</span> send_mail
     mail<span style="color:#f92672">.</span>mail_admins(subject, message, <span style="color:#f92672">*</span>args, connection<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>connection(), <span style="color:#f92672">**</span>kwargs)
   File <span style="color:#e6db74">&#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/__init__.py&#34;</span>, line <span style="color:#ae81ff">97</span>, <span style="color:#f92672">in</span> mail_admins
@@ -206,10 +206,10 @@ if (!doNotTrack) {
     response <span style="color:#f92672">=</span> user <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">+</span> hmac<span style="color:#f92672">.</span>HMAC(password, challenge)<span style="color:#f92672">.</span>hexdigest()
   File <span style="color:#e6db74">&#34;/usr/lib64/python2.7/hmac.py&#34;</span>, line <span style="color:#ae81ff">78</span>, <span style="color:#f92672">in</span> __init__
     self<span style="color:#f92672">.</span>outer<span style="color:#f92672">.</span>update(key<span style="color:#f92672">.</span>translate(trans_5C))
-<span style="color:#a6e22e">TypeError</span>: character mapping must <span style="color:#66d9ef">return</span> integer, None <span style="color:#f92672">or</span> unicode
+<span style="color:#a6e22e">TypeError</span>: character mapping must <span style="color:#66d9ef">return</span> integer, <span style="color:#66d9ef">None</span> <span style="color:#f92672">or</span> unicode
 </code></pre></div><p>根据错误提示，追进了hmac.py中看了源码，发现key其实就是一个字符串，是配置在settings中的EMAIL_HOST_USER以及EMAIL_HOST_PASSWORD，而translate函数则是根据给出的参数表将字符串进行映射加密的，而且是最简单的凯撒加密法。</p>
 <p>这里看了半天也看不出问题在哪，纠结了好久后猛然发现问题的关键出自settings.py:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> __future__ <span style="color:#f92672">import</span> absolute_import, unicode_literals
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> __future__ <span style="color:#f92672">import</span> absolute_import, unicode_literals
 
 <span style="color:#f92672">...</span>
 
@@ -219,13 +219,13 @@ EMAIL_HOST_PASSWORD <span style="color:#f92672">=</span> <span style="color:#e6d
 <span style="color:#f92672">...</span>
 </code></pre></div><p>就是因为引入了unicode_literals，默认字符都变成了unicode而不是py2的str了（如果你还没被py2中的str和unicode坑过，我只能恭喜你了）所以如果想使用str类型则需要使用&rsquo;b&rsquo;显示声明或者使用str函数进行转换。</p>
 <p>这个<code>__future__</code>本意是让py2能够使用一些py3中的新特性，方便进行版本迁移的。比如在py2中默认除法是“地板除”，即只保留整数位；而py3中则变成了“精确除”，这种情况下我们可以引用division来保持语法一至：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> __future__ <span style="color:#f92672">import</span> division
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> __future__ <span style="color:#f92672">import</span> division
 
-<span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;10 / 3 =&#39;</span>, <span style="color:#ae81ff">10</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span>
-<span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;10.0 / 3 =&#39;</span>, <span style="color:#ae81ff">10.0</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span>
-<span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;10 // 3 =&#39;</span>, <span style="color:#ae81ff">10</span> <span style="color:#f92672">//</span> <span style="color:#ae81ff">3</span>
+print <span style="color:#e6db74">&#39;10 / 3 =&#39;</span>, <span style="color:#ae81ff">10</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span>
+print <span style="color:#e6db74">&#39;10.0 / 3 =&#39;</span>, <span style="color:#ae81ff">10.0</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span>
+print <span style="color:#e6db74">&#39;10 // 3 =&#39;</span>, <span style="color:#ae81ff">10</span> <span style="color:#f92672">//</span> <span style="color:#ae81ff">3</span>
 </code></pre></div><p>结果：</p>
-<pre><code>10 / 3 = 3.33333333333
+<pre tabindex="0"><code>10 / 3 = 3.33333333333
 10.0 / 3 = 3.33333333333
 10 // 3 = 3
 </code></pre><p>再比如absolute_import则是禁用隐式相对引用(implicit relative import）的，因为官方不推荐这种引用方式了已经。</p>

@@ -14,16 +14,16 @@
 urlpatterns = patterns(&#39;&#39;, ...... url(r&#39;^comments/&#39;, include(&#39;django.contrib.comments.urls&#39;)), ...... ) 在需要显示评论的HTML中：" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/django%E8%87%AA%E5%B8%A6%E7%9A%84%E8%AF%84%E8%AE%BA%E6%A8%A1%E5%9D%97/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2014-04-04T11:01:59&#43;00:00" />
-<meta property="article:modified_time" content="2014-04-04T11:01:59&#43;00:00" />
+<meta property="article:published_time" content="2014-04-04T11:01:59+00:00" />
+<meta property="article:modified_time" content="2014-04-04T11:01:59+00:00" />
 
 
 		<meta itemprop="name" content="django自带的评论模块">
 <meta itemprop="description" content="某个设计本来采用了一个比较不错的在线评论模块，不过答辩的时候丫居然不给网！！想偷个懒还是挺难啊&hellip;.
 那就用自带的评论模块吧，django版本是1.5.3。
 首先把&#39;django.contrib.comments&#39;添加到INSTALLED_APPS中，然后添加url:
-urlpatterns = patterns(&#39;&#39;, ...... url(r&#39;^comments/&#39;, include(&#39;django.contrib.comments.urls&#39;)), ...... ) 在需要显示评论的HTML中："><meta itemprop="datePublished" content="2014-04-04T11:01:59&#43;00:00" />
-<meta itemprop="dateModified" content="2014-04-04T11:01:59&#43;00:00" />
+urlpatterns = patterns(&#39;&#39;, ...... url(r&#39;^comments/&#39;, include(&#39;django.contrib.comments.urls&#39;)), ...... ) 在需要显示评论的HTML中："><meta itemprop="datePublished" content="2014-04-04T11:01:59+00:00" />
+<meta itemprop="dateModified" content="2014-04-04T11:01:59+00:00" />
 <meta itemprop="wordCount" content="84">
 <meta itemprop="keywords" content="django,python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,17 +99,17 @@ if (!doNotTrack) {
 			<p>某个设计本来采用了一个比较不错的在线评论模块，不过答辩的时候丫居然不给网！！想偷个懒还是挺难啊&hellip;.</p>
 <p>那就用自带的评论模块吧，django版本是1.5.3。</p>
 <p>首先把<code>'django.contrib.comments'</code>添加到INSTALLED_APPS中，然后添加url:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">urlpatterns <span style="color:#f92672">=</span> patterns(<span style="color:#e6db74">&#39;&#39;</span>,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">urlpatterns <span style="color:#f92672">=</span> patterns(<span style="color:#e6db74">&#39;&#39;</span>,
 <span style="color:#f92672">......</span>
 url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^comments/&#39;</span>, include(<span style="color:#e6db74">&#39;django.contrib.comments.urls&#39;</span>)),
 <span style="color:#f92672">......</span>
 )
 </code></pre></div><p>在需要显示评论的HTML中：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">{<span style="color:#f92672">%</span> load comments <span style="color:#f92672">%</span>}
-{<span style="color:#f92672">%</span> render_comment_list <span style="color:#66d9ef">for</span> post <span style="color:#f92672">%</span>} <span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">!</span><span style="color:#f92672">--</span><span style="color:#960050;background-color:#1e0010">显示所有属于这个文章的评论</span><span style="color:#f92672">--&gt;</span>
-{<span style="color:#f92672">%</span> render_comment_form <span style="color:#66d9ef">for</span> post <span style="color:#f92672">%</span>} <span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">!</span><span style="color:#f92672">--</span><span style="color:#960050;background-color:#1e0010">显示自带的添加评论的</span>form<span style="color:#f92672">--&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">{<span style="color:#f92672">%</span> load comments <span style="color:#f92672">%</span>}
+{<span style="color:#f92672">%</span> render_comment_list <span style="color:#66d9ef">for</span> post <span style="color:#f92672">%</span>} <span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">!</span><span style="color:#f92672">--</span>显示所有属于这个文章的评论<span style="color:#f92672">--&gt;</span>
+{<span style="color:#f92672">%</span> render_comment_form <span style="color:#66d9ef">for</span> post <span style="color:#f92672">%</span>} <span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">!</span><span style="color:#f92672">--</span>显示自带的添加评论的form<span style="color:#f92672">--&gt;</span>
 </code></pre></div><p>不过自带的添加评论实在太丑了，我们可以自己改造一下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">{% get_comment_form for post as form %}
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">{% get_comment_form for post as form %}
 &lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">action</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;{%comment_form_target%}&#39;</span> <span style="color:#a6e22e">method</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;post&#39;</span>&gt;
     {% csrf_token %}
     {{form.object_pk}}

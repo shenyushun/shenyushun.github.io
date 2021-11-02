@@ -12,14 +12,14 @@
 本文作为简介篇不打算涉及网络及数据结构相关知识(比如什么是协议、什么是树、什么是图……)，不过我相信各位看官既然能找到本文网络基础应该不是问题。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/ipfs%E5%88%9D%E7%AA%A5/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2018-09-04T10:41:30&#43;00:00" />
-<meta property="article:modified_time" content="2018-09-04T10:41:30&#43;00:00" />
+<meta property="article:published_time" content="2018-09-04T10:41:30+00:00" />
+<meta property="article:modified_time" content="2018-09-04T10:41:30+00:00" />
 
 
 		<meta itemprop="name" content="IPFS初窥">
 <meta itemprop="description" content="虽然区块链有很多令人兴奋的特性，但是也有其固有的缺点。比如，文件或者长度较长的文本信息就不适合存储在链上。那么如何解决这个缺点呢？一个解决方案就是IPFS(Interplanetary File System)——星际文件系统。
-本文作为简介篇不打算涉及网络及数据结构相关知识(比如什么是协议、什么是树、什么是图……)，不过我相信各位看官既然能找到本文网络基础应该不是问题。"><meta itemprop="datePublished" content="2018-09-04T10:41:30&#43;00:00" />
-<meta itemprop="dateModified" content="2018-09-04T10:41:30&#43;00:00" />
+本文作为简介篇不打算涉及网络及数据结构相关知识(比如什么是协议、什么是树、什么是图……)，不过我相信各位看官既然能找到本文网络基础应该不是问题。"><meta itemprop="datePublished" content="2018-09-04T10:41:30+00:00" />
+<meta itemprop="dateModified" content="2018-09-04T10:41:30+00:00" />
 <meta itemprop="wordCount" content="378">
 <meta itemprop="keywords" content="ipfs," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -135,7 +135,7 @@ if (!doNotTrack) {
 <p>自验证文件系统(Self-certifying File System,SFS)是一种不需要特殊权限的分布式文件系统，因为每个用户上传是生成的文件名已经是经过其私钥签名过的了。在这个基础上，又可以引出星际命名空间(InterPlanetary Name Space,IPNS)的概念。之前说过IPFS上的文件哈希后都是唯一识别的，推广开来，每个节点也有公钥、私钥和节点ID，节点ID是其公钥的哈希值，节点可以使用私钥来对其发布的数据签名，其他用户检索时，可以检查发送者的公钥来验证数据真实性。</p>
 <h2 id="如何使用ipfs">如何使用IPFS?</h2>
 <p>首先下载<a href="https://dist.ipfs.io/#go-ipfs">go-ipfs</a>，我这里直接使用linux版本的，解压后执行:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">go-ipfs❯ sudo sh install.sh
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">go-ipfs❯ sudo sh install.sh
 <span style="color:#f92672">[</span>sudo<span style="color:#f92672">]</span> password <span style="color:#66d9ef">for</span> roy:
 Moved ./ipfs to /usr/local/bin
 
@@ -176,7 +176,7 @@ Check out some of the other files in this directory:
   ./security-notes
 </code></pre></div><p>建议使用提示中的哦命令看看<code>quick-start</code>，常用操作都在里面了。</p>
 <p>然后启动ipfs服务：</p>
-<pre><code>go-ipfs❯ ipfs daemon
+<pre tabindex="0"><code>go-ipfs❯ ipfs daemon
 Initializing daemon...
 Successfully raised file descriptor limit to 2048.
 
@@ -199,28 +199,28 @@ Gateway (readonly) server listening on /ip4/127.0.0.1/tcp/8080
 Daemon is ready
 </code></pre><p>然后访问<code>http://localhost:5001/webui</code>可以查看系统信息、创建文件夹、添加文件等。</p>
 <p>添加个文件：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">~ » mkdir roy_test
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">~ » mkdir roy_test
 ~ » echo <span style="color:#e6db74">&#34;www.hi-roy.com&#34;</span> &gt; roy_test/roy.txt
 ~ » ipfs add -r roy_test
 added QmTbyi4XTyG8PrJo7KDcexNGxBJNKfJCwjfmY4HmtENqYd roy_test/roy.txt
 added QmUK6CHzQyn2CWpHumysxhQXjzi4dA373DYLD2zgj8n7kx roy_test
 </code></pre></div><p>然后测试下文件是否添加成功：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ipfs ls QmUK6CHzQyn2CWpHumysxhQXjzi4dA373DYLD2zgj8n7kx
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ipfs ls QmUK6CHzQyn2CWpHumysxhQXjzi4dA373DYLD2zgj8n7kx
 QmTbyi4XTyG8PrJo7KDcexNGxBJNKfJCwjfmY4HmtENqYd <span style="color:#ae81ff">23</span> roy.txt
 
 ipfs cat /ipfs/QmTbyi4XTyG8PrJo7KDcexNGxBJNKfJCwjfmY4HmtENqYd
 www.hi-roy.com
 </code></pre></div><p>也可以通过本地网关访问<code>http://localhost:8080/ipfs/QmTbyi4XTyG8PrJo7KDcexNGxBJNKfJCwjfmY4HmtENqYd</code>。</p>
 <p>然后我们来修改一下文件：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;www.hi-roy.com&#34;</span> &gt;&gt; roy_test/roy.txt
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;www.hi-roy.com&#34;</span> &gt;&gt; roy_test/roy.txt
 echo <span style="color:#e6db74">&#34;www.hi-roy.com&#34;</span> &gt;&gt; roy_test/roy.txt
 ipfs add roy_test/roy.txt
 added QmUcwEGLBhLKYG7X1DrbMbbSKSJ3GbDHWibymwXqUG1PCK roy.txt
 </code></pre></div><p>注意，修改文件后哈希值发生了变化，原来的文件依然存在。但每次更新文件都有一个新哈希也太麻烦了，这时可以使用上面说的<code>IPNS</code>了:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ipfs name publish QmUK6CHzQyn2CWpHumysxhQXjzi4dA373DYLD2zgj8n7kx
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ipfs name publish QmUK6CHzQyn2CWpHumysxhQXjzi4dA373DYLD2zgj8n7kx
 Published to QmcWR5hMnF7LNqNJBC6fxSBdXRUBgJEnXca3MHWN8kpdXC: /ipfs/QmUK6CHzQyn2CWpHumysxhQXjzi4dA373DYLD2zgj8n7kx
 </code></pre></div><p>这里我把文件夹的哈希值作为根发布，然后就可以使用<code>ipns</code>查看文件了：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ipfs cat /ipns/QmcWR5hMnF7LNqNJBC6fxSBdXRUBgJEnXca3MHWN8kpdXC/roy.txt
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ipfs cat /ipns/QmcWR5hMnF7LNqNJBC6fxSBdXRUBgJEnXca3MHWN8kpdXC/roy.txt
 
 www.hi-roy.com
 www.hi-roy.com

@@ -11,13 +11,13 @@
 <meta property="og:description" content="GPG简单来说是一种加密机制，可以用来加密文件、邮件等。这里以Centos为例记录一下生成密钥以及相关操作。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/gpg%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2016-09-05T16:05:32&#43;00:00" />
-<meta property="article:modified_time" content="2016-09-05T16:05:32&#43;00:00" />
+<meta property="article:published_time" content="2016-09-05T16:05:32+00:00" />
+<meta property="article:modified_time" content="2016-09-05T16:05:32+00:00" />
 
 
 		<meta itemprop="name" content="GPG使用记录">
-<meta itemprop="description" content="GPG简单来说是一种加密机制，可以用来加密文件、邮件等。这里以Centos为例记录一下生成密钥以及相关操作。"><meta itemprop="datePublished" content="2016-09-05T16:05:32&#43;00:00" />
-<meta itemprop="dateModified" content="2016-09-05T16:05:32&#43;00:00" />
+<meta itemprop="description" content="GPG简单来说是一种加密机制，可以用来加密文件、邮件等。这里以Centos为例记录一下生成密钥以及相关操作。"><meta itemprop="datePublished" content="2016-09-05T16:05:32+00:00" />
+<meta itemprop="dateModified" content="2016-09-05T16:05:32+00:00" />
 <meta itemprop="wordCount" content="353">
 <meta itemprop="keywords" content="centos," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -95,7 +95,7 @@ if (!doNotTrack) {
 <p>直接使用yum命令进行安装即可<code>yum install gnupg</code></p>
 <h3 id="生成密钥">生成密钥</h3>
 <p>首先执行<code>gpg --gen-key</code></p>
-<pre><code>gpg (GnuPG) 1.4.21; Copyright (C) 2015 Free Software Foundation, Inc.
+<pre tabindex="0"><code>gpg (GnuPG) 1.4.21; Copyright (C) 2015 Free Software Foundation, Inc.
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
 
@@ -119,7 +119,7 @@ RSA 密钥长度应在 1024 位与 4096 位之间。
 密钥永远不会过期
 以上正确吗？(y/n)y
 </code></pre><p>根据自己需要选择相应选项即可，不过这里我遇到一个问题，如果选择密钥长度为2048，最后会报错，错误信息类似：</p>
-<pre><code>gpg: lookup_hashtable failed: eof
+<pre tabindex="0"><code>gpg: lookup_hashtable failed: eof
 gpg: lookup_hashtable failed: eof
 gpg: upd_hashtable: read failed: eof
 gpg: 信任记录 1，类别 12：写入失败：eof
@@ -132,7 +132,7 @@ gpg:   gpg2 --import-ownertrust &lt; otrust.tmp
 gpg: If that does not work, please consult the manual
 </code></pre><p>如果使用4096则没问题，原因未知。</p>
 <p>接下来按照提示依次输入自己的信息即可：</p>
-<pre><code>您需要一个用户标识来辨识您的密钥；本软件会用真实姓名、注释和电子邮件地址组合
+<pre tabindex="0"><code>您需要一个用户标识来辨识您的密钥；本软件会用真实姓名、注释和电子邮件地址组合
 成用户标识，如下所示：
     “Heinrich Heine (Der Dichter) &lt;heinrichh@duesseldorf.de&gt;”
 
@@ -166,13 +166,13 @@ sub   4096R/3A6F870F 2016-09-05
 </code></pre><p>上面的密钥3F95181G就是用户ID。</p>
 <h3 id="上传公钥">上传公钥</h3>
 <p>使用下面的命令把生成的公钥上传到公钥服务器：</p>
-<pre><code>gpg --send-keys 3F95181G
+<pre tabindex="0"><code>gpg --send-keys 3F95181G
 gpg: 将密钥‘3F95181G’上传到 hkp 服务器 keys.gnupg.net
 </code></pre><p>这里，由于任何人都可以用你的名义上传公钥，所以我们可以在网上公布一个公钥指纹，来让别人核对公钥是否为真：</p>
-<pre><code>gpg --fingerprint [用户ID]
+<pre tabindex="0"><code>gpg --fingerprint [用户ID]
 </code></pre><h3 id="生成撤销证书">生成&quot;撤销证书&quot;</h3>
 <p>如果未来某一天，你不想用这个密钥或者密钥泄漏了，可以使用这个来请求公钥服务器撤销公钥：</p>
-<pre><code>gpg --gen-revoke 3F95181G
+<pre tabindex="0"><code>gpg --gen-revoke 3F95181G
 
 sec  4096R/3F95181G 2016-09-05 Xxx Xxxx &lt;xxxx@xxxx.com&gt;
 
@@ -204,9 +204,9 @@ sec  4096R/3F95181G 2016-09-05 Xxx Xxxx &lt;xxxx@xxxx.com&gt;
 人也能够看得到的地方！
 </code></pre><h3 id="文件的加密解密">文件的加密解密</h3>
 <p>加密的命令如下：</p>
-<pre><code>gpg --recipient [用户ID] --output 加密后文件名 --encrypt 所需加密文件名
+<pre tabindex="0"><code>gpg --recipient [用户ID] --output 加密后文件名 --encrypt 所需加密文件名
 </code></pre><p>解密：</p>
-<pre><code>gpg --output 解密后文件名 --decrypt 已经加密的文件名
+<pre tabindex="0"><code>gpg --output 解密后文件名 --decrypt 已经加密的文件名
 
 您需要输入密码，才能解开这个用户的私钥：“Xxx Xxxx &lt;xxxx@xxxx.com&gt;”
 4096 位的 RSA 密钥，钥匙号 3A6F970F，建立于 2016-09-05 (主钥匙号 3F95181G)

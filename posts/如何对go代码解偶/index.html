@@ -16,8 +16,8 @@
 在这篇文章中，我们来使用解偶的方式来让代码更加易于理解、维护、测试。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/%E5%A6%82%E4%BD%95%E5%AF%B9go%E4%BB%A3%E7%A0%81%E8%A7%A3%E5%81%B6/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2019-02-11T11:05:03&#43;00:00" />
-<meta property="article:modified_time" content="2019-02-11T11:05:03&#43;00:00" />
+<meta property="article:published_time" content="2019-02-11T11:05:03+00:00" />
+<meta property="article:modified_time" content="2019-02-11T11:05:03+00:00" />
 
 
 		<meta itemprop="name" content="如何对Go代码解偶">
@@ -26,8 +26,8 @@
 你是否曾经由于添加某个新功能却导致另一个功能出问题？修复好这个，另一个又出问题，就好象打地鼠一般。
 你是否曾经花费大量的时间调试Bug，最后却发现问题潜伏在另一个、甚至毫不相关的模块中？
 这些问题都是由于高耦合引起的。
-在这篇文章中，我们来使用解偶的方式来让代码更加易于理解、维护、测试。"><meta itemprop="datePublished" content="2019-02-11T11:05:03&#43;00:00" />
-<meta itemprop="dateModified" content="2019-02-11T11:05:03&#43;00:00" />
+在这篇文章中，我们来使用解偶的方式来让代码更加易于理解、维护、测试。"><meta itemprop="datePublished" content="2019-02-11T11:05:03+00:00" />
+<meta itemprop="dateModified" content="2019-02-11T11:05:03+00:00" />
 <meta itemprop="wordCount" content="337">
 <meta itemprop="keywords" content="golang," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -108,7 +108,7 @@ if (!doNotTrack) {
 <p>在这篇文章中，我们来使用解偶的方式来让代码更加易于理解、维护、测试。</p>
 <h1 id="什么是耦合">什么是耦合？</h1>
 <p>在软件开发中，耦合是用来测量2个部分（对象、包、函数）之间相互依赖程度的指标。参考下面的例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Config</span> <span style="color:#66d9ef">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Config</span> <span style="color:#66d9ef">struct</span> {
 	<span style="color:#a6e22e">DSN</span>            <span style="color:#66d9ef">string</span>
 	<span style="color:#a6e22e">MaxConnections</span> <span style="color:#66d9ef">int</span>
 	<span style="color:#a6e22e">Timeout</span>        <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Duration</span>
@@ -121,7 +121,7 @@ if (!doNotTrack) {
 <h1 id="为什么高耦合的代码是个问题">为什么高耦合的代码是个问题？</h1>
 <p>高耦合代码会带来很多问题，但最明显的一个就是会导致散弹式修改(shotgun surgery)。散弹式修改是一个术语，用来描述那种修改一个地方的代码导致要修改很多其他地方代码的情况。</p>
 <p>考虑下面的代码：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetUserEndpoint</span>(<span style="color:#a6e22e">resp</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetUserEndpoint</span>(<span style="color:#a6e22e">resp</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
 	<span style="color:#75715e">// get and check inputs
 </span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ID</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">getRequestedID</span>(<span style="color:#a6e22e">req</span>)
 	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
@@ -177,7 +177,7 @@ Robert C. Martin</p>
 <ol start="2">
 <li><strong>结构体不应该依赖于结构体</strong> - 当一个结构体接受另一个结构体作为方法参数或成员变量时:</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PizzaMaker</span> <span style="color:#66d9ef">struct</span>{}
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PizzaMaker</span> <span style="color:#66d9ef">struct</span>{}
 
 <span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">PizzaMaker</span>) <span style="color:#a6e22e">MakePizza</span>(<span style="color:#a6e22e">oven</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SuperPizaOven5000</span>) {
 	<span style="color:#a6e22e">pizza</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">buildPizza</span>()
@@ -186,7 +186,7 @@ Robert C. Martin</p>
 </code></pre></div><p>这样的代码耦合度很高导致及其不灵活，让我们考虑一个实际情况：我走进一家旅行社并说:&ldquo;我想购买一张澳洲航空在星期四3点30分飞往悉尼的15D座位机票。&ldquo;这种说法旅行社是很难满足我的要求的。</p>
 <p>但如果我放松要求，就好像我们将输入的参数由结构体类型改成接口类型一般:&ldquo;我想购买一张星期四飞往悉尼的机票。&ldquo;这样旅行社可以更加灵活处理我的请求，也就更可能买到机票。</p>
 <p>修改代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PizzaMaker</span> <span style="color:#66d9ef">struct</span>{}
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PizzaMaker</span> <span style="color:#66d9ef">struct</span>{}
 
 <span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">PizzaMaker</span>) <span style="color:#a6e22e">MakePizza</span>(<span style="color:#a6e22e">oven</span> <span style="color:#a6e22e">Oven</span>) {
 	<span style="color:#a6e22e">pizza</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">buildPizza</span>()
@@ -200,7 +200,7 @@ Robert C. Martin</p>
 <ol start="3">
 <li><strong>接口不应该依赖结构体</strong> - 和前文类似，根据特定的情况，我们定义接口：</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Config</span> <span style="color:#66d9ef">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Config</span> <span style="color:#66d9ef">struct</span> {
 	<span style="color:#a6e22e">DSN</span>            <span style="color:#66d9ef">string</span>
 	<span style="color:#a6e22e">MaxConnections</span> <span style="color:#66d9ef">int</span>
 	<span style="color:#a6e22e">Timeout</span>        <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Duration</span>
@@ -210,7 +210,7 @@ Robert C. Martin</p>
 	<span style="color:#a6e22e">Load</span>(<span style="color:#a6e22e">cfg</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Config</span>, <span style="color:#a6e22e">ID</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>
 }
 </code></pre></div><p>我们将<code>PersonLoader</code>和<code>Config</code>这个特定的额结构体绑定到了一起，也就是说想在其他项目中复用<code>PersonLoader</code>将需要修改代码，而这些修改可能导致Bug。换句话说，如果我们像下面这样定义<code>PersonLoader</code>：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PersonLoaderConfig</span> <span style="color:#66d9ef">interface</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PersonLoaderConfig</span> <span style="color:#66d9ef">interface</span> {
 	<span style="color:#a6e22e">DSN</span>() <span style="color:#66d9ef">string</span>
 	<span style="color:#a6e22e">MaxConnections</span>() <span style="color:#66d9ef">int</span>
 	<span style="color:#a6e22e">Timeout</span>() <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Duration</span>

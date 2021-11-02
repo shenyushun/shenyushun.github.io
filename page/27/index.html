@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
-	<meta name="generator" content="Hugo 0.83.1" />
+	<meta name="generator" content="Hugo 0.88.1" />
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -60,7 +60,7 @@ if (!doNotTrack) {
 		<span class="menu__btn-title" tabindex="-1">Menu</span>
 	</button>
 	<ul class="menu__list">
-		<li class="menu__item menu__item--active">
+		<li class="menu__item">
 			<a class="menu__link" href="/">
 				
 				<span class="menu__text">Home</span>
@@ -77,6 +77,29 @@ if (!doNotTrack) {
 			
 <main class="main list" role="main">
 	<article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/centos%E4%B8%8B%E9%83%A8%E7%BD%B2openerp7/" rel="bookmark">
+			centos下部署openerp7
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-08-22T11:26:53Z">2014-08-22</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		首先需要注意的是openerp7需要python2.7+版本，而centos6下默认是python2.6，这里我使用centos7。
+首先安装postgresql
+yum install http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3-1.noarch.rpmyum install postgresql93-server postgresql93-contrib postgresql93-develcentos7中安装psql后初始化数据库和6不同，需要切换到postgres用户进入安装目录的bin文件夹执行手动初始化
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/centos%E4%B8%8B%E9%83%A8%E7%BD%B2openerp7/">Read more…</a>
+	</div>
+</article><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
 			<a href="/posts/postgresql%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%953/" rel="bookmark">
@@ -184,30 +207,12 @@ initdb --encoding=UTF-8 --no-locale -D /var/lib/pgsql/data/或者使用postgres
 	<div class="content list__excerpt post__content clearfix">
 		阴风阵阵 雨萋萋 夜色的深处某个不知名的角落里 或许正卷曲着一个 冤屈的灵魂 世界上真的有鬼吗 或许鬼只是人潜意识里某种无法自我的思维 也或许是一种科学还难以解释的现象 我还是很小的时候 听妈妈说我是个很爱哭爱闹的小调皮 特别到晚上总是爱哭 所以每天晚上妈妈总是唱歌谣 或讲故事给我听 很多都是些鬼故事 我想也许是因为比较恐怖吧所以 到现在有些还有很深的印象 以前我的姥姥（外婆）家是个不知名的小地方 而且那里是个叫偏僻的地方 所以一年到头那里也不会有什么外来人口 更别说什么游客了 只是偶尔会有张家的远方表亲来了 李家的远方XX来了 赵家的远方XX 来了 每年春天或快春节的时候小村子里会热闹些 不是谁家的姑娘出嫁 就是谁家的小子娶媳妇 要不就是 谁家的老人过世 又是一年的春天到了 不过这个春天来的有点晚因为是润月 所以都快四月了还是不大暖和 一大早还只有 七 八 岁的 妈妈起的很早 刚要吃早饭的妈妈 缠着我的外婆说 今天吃什么呀 姥姥说随便吃点吧 一会我要出去下 我门隔壁家的 张奶奶老了（死了） 妈妈说真的啊 不是前几天还好好的吗 是怎么死的呀 姥姥看看妈妈 说小孩子家不要打听那么多 妈妈很是不高兴的撇撇嘴走开了 过了后天妈妈才知道 原来那个张奶奶是 暴病死的 据说其中还有些古怪那 听人家说张奶奶年轻的时候可是十里八村出了名的美女 追她的 暗地里想他的小伙子可以说是排成了对 可是不知道为什么最后 这为美女最后却下嫁给了一个不怎么样的男人 或许有什么原因也或许是因为爱情 但是结婚后那些追求着还是 穷追不舍 最后张奶奶的老公 很早的就去世了 很多人说是 因为追她的人太多是被活活气死的 那年张奶奶才四十多岁 她一个人带着三个儿女 从此过着平淡的日子 虽然日子很清苦 但是儿女还算孝顺都很听话 就在她老头死了没多久老奶奶种了棵苦丁香 也许是处于对她老头子的怀念 不论晴天雨天 春天还是飘雪的冬天只要是吃过饭老奶奶都会做在树下望着丁香树 树也好像有了灵性 枝叶摇摆发出 沙沙的声音象是在和老奶奶对话 每年春天丁香花开 老奶奶都要大病一场 在床上一躺就是大班半个月甚至要将近一个月 时间过的真快随着燕子的悦耳鸣叫声 新的一年春天又来到了 可是老奶奶的身体却好像越来越差了 而她深爱的那棵丁香树显的越发精神 村子里的人议论也越来越多了 闲话也越传越神 有的说她家里闹鬼 说晚上 经常看到她死去很久的老头子蹲在门口抽烟 还说她家院子里的那棵丁香树就是她老头子的化身 说是因为那棵树在吸她的血所以树才长的那么郁郁葱葱 老奶奶的儿女一直说要把那棵树移走 或砍了 可是老奶奶就是不让 没次说到要砍树的事老奶奶总是闹着要死说 你们的爸爸死了也没人陪我了我现在只有这棵树陪我了 要是你们把树砍了那我也活着没什么意思了 所以儿女也拿她没有办法 可是老奶奶的身体真的是一天不如一天就象树上秋天的落叶一样随时都有凋谢的危险 春天的气候虽不一片骄阳但旷野处也到处生机萌生 随眼望去都不在是枯黄 而是淡淡的绿 田野里也都是忙着耕种的人们 但在这位老奶奶的家里却好似到了秋天一样冷冷清清 屋子里的气氛好像随时要停止凝结 老奶奶躺在床上咳的很是厉害 而且好像已经不在只是咳了 而是在吐血 她怕儿女担心她每咳一次都是用手帕捂着嘴 但是她嘴角的血却被细心的儿女察觉了 老奶奶最疼的小女儿哭着扑在老奶奶怀里 她强打精神笑着 摸着女儿的头说 别哭乖 我没事你们不要担心 如果我真的有事你们也不要伤心 我只是太思念你们的父亲 我早该去和他团聚去了 现在你们都大了我也没有什么放心不下的了 说到着老奶奶环顾了下屋子然后说这些年我身体一直不好 这个家全靠你们的大家操持了以后我要是去了你们要听她的话 知道吗不要让我在地下担心 说到这里儿女们哭的更是厉害了 风沙沙的 吹着丁香树 淡淡的香气 飘满了整个院子 飘到了老奶奶的房间 睡梦中的老奶奶闻到了香气 人也显的格外精神 一个多月没有下床的她 批上了衣服趁着夜色走出了屋外 老到了树下 手抚摸着树说 老头子我们就要团聚了 你当初一下子走了 真是狠心 你不知道我这么多年是怎么过来的 说着老奶奶抱着树哭了起来树也好象哭了一样枝叶也跟着抖动了起来 突然有一条象红色的线一样的血一样的从树的枝干上流了下来 老奶奶手摸到了 猛的抬头说老头子你怎么也哭了 这时候突然阴云密布 狂风突起 只见一道白光一闪 树象是被什么劈开了一样 断成了两节 只见树的中间鲜血淋淋 老奶奶被突来的状况一下子吓的晕了过去 不知道过了多久天边微蓝 早起的大女儿看到了躺在了地上的老奶奶还有段成两节的丁香树 吓的喊了出来 屋子里的弟弟妹妹也都被喊声惊醒都跑出了屋子 此时老奶奶已经浑身冰凉 僵硬了 可是老奶奶的表情很安祥还带着微笑手紧经的抱着那棵鲜血淋淋的树 老奶奶就这样走了 故事讲到这里按理说该是讲完了 可是自从儿女们把老奶奶安葬后 他们家的院子里又长出了两棵新的丁香树 人们都说 可能是 老奶奶和老爷爷放心不下他们的儿女 所以在次化为丁香树 每天守候着他们的儿女们 这正是 丁香有情 人有意 情缘难段 悲切切 思思春色 灌大地 人间处处都是春 
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/%E8%A1%80%E6%B3%AA%E7%8E%96%E7%91%B0%E8%BD%AC/" rel="bookmark">
-			血泪玖瑰（转）
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-07-09T01:00:01Z">2014-07-09</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%9D%82%E8%B0%88/" rel="category">杂谈</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		我没有再对蔷薇作任何诠释，玫瑰也好，蔷薇也罢，都只有一瞬的美丽，它们会争艳地开放，可是也在一瞬间就凋零了。 　我睁眼的一瞬，看见了一大束的蔷薇，依然鲜活着，可知道，它们马上就会失去光彩，成为枯萎的花尸。曾经说过，我喜欢蔷薇，因为它比玫瑰有更加持久的生命力，但又不失玫瑰的娇媚，又增添了一份野性。 　接着，我闻到一股气味，不是蔷薇的香气，而是消毒水的味道，再看周围，才发现自己置身在一个陌生的环境，直觉告诉我，这是医院。我不止到到底发生了什么事情，我努力的回想着，一股血腥味涌了上来，便昏睡过去了。 　再度醒来时，我看到了爸妈，还有一个我不认识的人，那束蔷薇已经没有生气，花瓣也开始脱落。我询问着，发生了什么事？自己怎么会在这儿？那个陌生的人说着，我发生了车祸。我又问，你是谁？他连同爸妈都“啊”了一声，接着爸叫来了医生，为我检查了一番，后来不知道他们说了些什么，我又昏沉沉的睡着了。在睡梦中我来到了一间屋子，满屋子的蔷薇，把我慢慢的淹没，最终我也成了一朵蔷薇，鲜红的，有人把我从中挑了去，细心的呵护着。 　我好累，好累，在心中不停的说着。你不能睡，你不能睡，一个声音又不停的钻进我的耳朵，我要知道那是谁，吃力地张开眼睛，又是那个陌生人，他到底是谁呢？为什么我对他一点印象都没有呢？ 　不知在医院里躺了多久，那个陌生的他每天都会捧一束鲜活的蔷薇来代替那束快要枯萎的。我讨厌医院的气味，在稍微有些好转时，便要求出了院。 　在我的记忆中，唯一缺残的就是那车祸和他，无论我怎么努力，也无法记起，似乎一切都停留在那场车祸以前。 　在家中休息了大约一个月，他依然每天都会来看我，每次都有蔷薇，可我仍想不起他，真的很痛苦。后来我便去了公司，原来他和我是同事，我也知道，我和他的关系以前应该很亲密的。 　他会接我上班，下班送我回家，依然有蔷薇，我也很自然地一直和他好，我想自己以前会选他，自然有我的道理。 　有一天，他来接我上班，奇怪的是手中没有蔷薇，我很不习惯，缺少了之后才发现自己喜欢上了他的蔷薇无法割舍了。一路上我闷闷不乐，独自生气，他似乎看出了我的心思，在路上停了下来。你等我一下，我到对街买点东西。我点了点头，看他往对街走过去。一瞬，似乎觉得这一切都好熟悉。 　等了一会，我见到他从一家店走了出来，手上捧着一大束蔷薇，在阳光下，蔷薇很耀眼，而他也更加刺目。我笑了，不知不觉朝他走区，没有顾及路上的行车，像着了魔一般。小心，我听到他狂叫着，只见他的手向我乱挥，我僵持在原地，不知道发生了什么事，猛的他向我冲来，把我狠推了一把，我重重的摔了出去。那一刻，我记起了先前的车祸，也是这样，只是他没来得及推我，我们便都倒地了，我们？我的脑又开始痛了，到底怎么了？明明我和他都出了车祸，为什么他没提呢？我看到他被车撞倒了，在手上的蔷薇被血染成了鲜红，好艳，好痛，又失去了知觉。 　我又开始昏睡，在睡梦中我见到了他，他手上捧着蔷薇，鲜红的，不停的和我说，我会呵护她，呵护属于我一生的蔷薇，不会再让她受伤，不会……只见他慢慢的远去，消失在夜空中，可我还是看见了他眼角的泪，滴在蔷薇上，晶莹的。 　醒了，醒了，在吵闹声中，我睁开了眼，依然是爸妈，只是环境不再陌生，不久前，我就住在这里，没有了蔷薇，也没有了他。 　我睡了多久了？整整一年了。总算醒了，妈说着流泪了。我没想到自己已经睡了这么久。今天是几号？2001年9月6日。啊？一年？我明明前天才出车祸的。他呢？妈呜咽着，爸开口说，车祸那天，他就因失血过多走了。啊？一时间停止了所有的思维，怎么会是这样呢？可到底是哪次车祸呢？我出了几次车祸？几次？一次就已经差点醒不来，还要几次？妈说着，不过现在好了，醒了就好，不要再想了。 　一次？明明出了两次车祸，妈怎么说才一次呢？我真的不懂，真的不懂。 　隐约当中，我又听到一个声音，我会呵护她，呵护属于我一生的蔷薇，不会让她再受伤，不会…… 　我痊愈后，去看了他，带上了蔷薇，是鲜红的那种，站了很久，在临走前，眼角滑落了一滴泪，落在了花瓣上，好艳！
-	</div>
 </article>
 </main>
 
 <div class="pagination">
 	<a class="pagination__item pagination__item--prev btn" href="/page/26/">«</a>
-	<span class="pagination__item pagination__item--current">27/39</span>
+	<span class="pagination__item pagination__item--current">27/40</span>
 	<a class="pagination__item pagination__item--next btn" href="/page/28/">»</a>
 </div>
 
@@ -225,11 +230,11 @@ initdb --encoding=UTF-8 --no-locale -D /var/lib/pgsql/data/或者使用postgres
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/">Golang中的单一职责原则</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E4%BD%BF%E7%94%A8golang%E7%9A%84channel%E5%AE%9E%E7%8E%B0%E8%AE%A2%E9%98%85-%E5%8F%91%E5%B8%83%E6%A8%A1%E5%BC%8F/">使用golang的channel实现订阅-发布模式</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">博客迁移</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">Golang小技巧</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/">新手可能会犯的50个Golang错误</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/%E9%9B%86%E6%88%90gin%E5%92%8Ccasbin/">集成gin和casbin</a></li>
 		</ul>
 	</div>
 </div>
@@ -263,11 +268,11 @@ initdb --encoding=UTF-8 --no-locale -D /var/lib/pgsql/data/或者使用postgres
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">129</span>
+				<span class="widget__counter widget__counter--bubble">131</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">27</span>
+				<span class="widget__counter widget__counter--bubble">29</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

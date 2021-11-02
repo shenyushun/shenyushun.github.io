@@ -12,14 +12,14 @@
 import urllib2 import urllib import cookielib logurl = &#34;https://www.digikey.com/classic/RegisteredUser/Login.aspx?&#34; cj = cookielib." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/python-%E8%8E%B7%E5%8F%96%E7%BD%91%E7%AB%99cookie/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2013-11-15T15:20:14&#43;00:00" />
-<meta property="article:modified_time" content="2013-11-15T15:20:14&#43;00:00" />
+<meta property="article:published_time" content="2013-11-15T15:20:14+00:00" />
+<meta property="article:modified_time" content="2013-11-15T15:20:14+00:00" />
 
 
 		<meta itemprop="name" content="python 获取网站cookie">
 <meta itemprop="description" content="对于一般的网站来说，通过以下代码便可以获取到cookie：
-import urllib2 import urllib import cookielib logurl = &#34;https://www.digikey.com/classic/RegisteredUser/Login.aspx?&#34; cj = cookielib."><meta itemprop="datePublished" content="2013-11-15T15:20:14&#43;00:00" />
-<meta itemprop="dateModified" content="2013-11-15T15:20:14&#43;00:00" />
+import urllib2 import urllib import cookielib logurl = &#34;https://www.digikey.com/classic/RegisteredUser/Login.aspx?&#34; cj = cookielib."><meta itemprop="datePublished" content="2013-11-15T15:20:14+00:00" />
+<meta itemprop="dateModified" content="2013-11-15T15:20:14+00:00" />
 <meta itemprop="wordCount" content="93">
 <meta itemprop="keywords" content="python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -93,7 +93,7 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>对于一般的网站来说，通过以下代码便可以获取到cookie：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> urllib2
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> urllib2
 <span style="color:#f92672">import</span> urllib
 <span style="color:#f92672">import</span> cookielib
 logurl <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://www.digikey.com/classic/RegisteredUser/Login.aspx?&#34;</span>
@@ -102,17 +102,17 @@ opener <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.
 urllib2<span style="color:#f92672">.</span>install_opener(opener)
 resp <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>urlopen(logurl)
 <span style="color:#66d9ef">for</span> index, cookie <span style="color:#f92672">in</span> enumerate(cj):
-    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;[&#39;</span>,index, <span style="color:#e6db74">&#39;]&#39;</span>,cookie
+    print <span style="color:#e6db74">&#39;[&#39;</span>,index, <span style="color:#e6db74">&#39;]&#39;</span>,cookie
 </code></pre></div><p>然后在构造post数据向目标url发送即可（至于header，有人说如果在此时再次提交自己构造的handers将会覆盖获取到的有cookie的hander,未亲自试验，不过若是真的可以试试调用opener.addheaders方法添加）</p>
 <p>但digikey这个网站不知什么原因访问后不给返回cookie？？？</p>
 <p>经过试验发现，从浏览器中直接提取登录后的cookie添加到headers中，直接访问登录后的页面就实现了登录！连postdata似乎都是多余的。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">teurl <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://www.digikey.com/classic/RegisteredUser/MyDigikey.aspx&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">teurl <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://www.digikey.com/classic/RegisteredUser/MyDigikey.aspx&#34;</span>
 headers <span style="color:#f92672">=</span> {
             <span style="color:#e6db74">&#34;User-Agent&#34;</span>: <span style="color:#e6db74">&#34;Mozilla/5.0 (X11; Linux x86_64; rv:23.0) Gecko/20100101 Firefox/23.0&#34;</span>,
             <span style="color:#e6db74">&#34;Accept&#34;</span>: <span style="color:#e6db74">&#34;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&#34;</span>,
             <span style="color:#e6db74">&#34;Accept-Language&#34;</span>:<span style="color:#e6db74">&#34;q=0.8,en-us&#34;</span>,
             <span style="color:#e6db74">&#34;Host&#34;</span>:<span style="color:#e6db74">&#34;www.digikey.com&#34;</span>,
-            <span style="color:#e6db74">&#34;Cookie&#34;</span>:<span style="color:#e6db74">&#34;TS6b482d=1aa460f525235eaaaf6763d718b53ba564323; sid=5278426151-44225; TS50f921=c7b09221315dc72ed80a2b24f014fc2ffa4b16ccf877976952494826a3c65dd840b6a4ae6bad0a341809f751ca85ab033df615a7; TS168127=b58c4c2296cc37b2a5515974e403a008cdc46701e181d2a252494823019cdd5115d4a2a6a3c65dd840b6a4ae6bad0a341809f751ca85ab033df615a724f3d3ac91dbdb26; cur=USD; SiteForCur=US; utag_main=_st:1380536340264$ses_id:1380534378638%3Bexp-session; TS50f921_77=6487_b8824fd7e25d22fc_rsb_0_rs_https%3A</span><span style="color:#e6db74">%2F%2F</span><span style="color:#e6db74">www.digikey.com</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">classic</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">RegisteredUser</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">Login.aspx</span><span style="color:#e6db74">%3F</span><span style="color:#e6db74">ReturnUrl%3D</span><span style="color:#e6db74">%252f</span><span style="color:#e6db74">classic</span><span style="color:#e6db74">%252f</span><span style="color:#e6db74">registereduser</span><span style="color:#e6db74">%252f</span><span style="color:#e6db74">mydigikey.aspx</span><span style="color:#e6db74">%253f</span><span style="color:#e6db74">site</span><span style="color:#e6db74">%253d</span><span style="color:#e6db74">us%2526lang</span><span style="color:#e6db74">%253d</span><span style="color:#e6db74">en</span><span style="color:#e6db74">%26s</span><span style="color:#e6db74">ite%3Dus%26lang%3Den_rs_0; WT_FPC=id=36664e24-272b-40b3-9c92-2bce365f251d:lv=1380484152114:ss=1380483959856&#34;</span>
+            <span style="color:#e6db74">&#34;Cookie&#34;</span>:<span style="color:#e6db74">&#34;TS6b482d=1aa460f525235eaaaf6763d718b53ba564323; sid=5278426151-44225; TS50f921=c7b09221315dc72ed80a2b24f014fc2ffa4b16ccf877976952494826a3c65dd840b6a4ae6bad0a341809f751ca85ab033df615a7; TS168127=b58c4c2296cc37b2a5515974e403a008cdc46701e181d2a252494823019cdd5115d4a2a6a3c65dd840b6a4ae6bad0a341809f751ca85ab033df615a724f3d3ac91dbdb26; cur=USD; SiteForCur=US; utag_main=_st:1380536340264$ses_id:1380534378638%3Bexp-session; TS50f921_77=6487_b8824fd7e25d22fc_rsb_0_rs_https%3A</span><span style="color:#e6db74">%2F%2F</span><span style="color:#e6db74">www.digikey.com</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">classic</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">RegisteredUser</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">Login.aspx</span><span style="color:#e6db74">%3F</span><span style="color:#e6db74">ReturnUrl%3D</span><span style="color:#e6db74">%252f</span><span style="color:#e6db74">classic</span><span style="color:#e6db74">%252f</span><span style="color:#e6db74">registereduser</span><span style="color:#e6db74">%252f</span><span style="color:#e6db74">mydigikey.aspx</span><span style="color:#e6db74">%253f</span><span style="color:#e6db74">site</span><span style="color:#e6db74">%253d</span><span style="color:#e6db74">us</span><span style="color:#e6db74">%2526la</span><span style="color:#e6db74">ng</span><span style="color:#e6db74">%253d</span><span style="color:#e6db74">en</span><span style="color:#e6db74">%26s</span><span style="color:#e6db74">ite%3Dus</span><span style="color:#e6db74">%26la</span><span style="color:#e6db74">ng%3Den_rs_0; WT_FPC=id=36664e24-272b-40b3-9c92-2bce365f251d:lv=1380484152114:ss=1380483959856&#34;</span>
           }
 <span style="color:#75715e">#postdata = {</span>
 <span style="color:#75715e">#            &#34;__EVENTARGUMENT&#34;:&#34;&#34;,</span>

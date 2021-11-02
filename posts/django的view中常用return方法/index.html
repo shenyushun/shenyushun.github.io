@@ -23,8 +23,8 @@ def index(request):
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/django%E7%9A%84view%E4%B8%AD%E5%B8%B8%E7%94%A8return%E6%96%B9%E6%B3%95/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2014-03-25T18:28:00&#43;00:00" />
-<meta property="article:modified_time" content="2014-03-25T18:28:00&#43;00:00" />
+<meta property="article:published_time" content="2014-03-25T18:28:00+00:00" />
+<meta property="article:modified_time" content="2014-03-25T18:28:00+00:00" />
 
 
 		<meta itemprop="name" content="Django的view中常用return方法">
@@ -40,8 +40,8 @@ def index(request):
     template = loader.get_template(&#39;polls/index.html&#39;)
     context = Context({ &#39;latest_poll_list&#39;: latest_poll_list, })  
     return HttpResponse(template.render(context))
-"><meta itemprop="datePublished" content="2014-03-25T18:28:00&#43;00:00" />
-<meta itemprop="dateModified" content="2014-03-25T18:28:00&#43;00:00" />
+"><meta itemprop="datePublished" content="2014-03-25T18:28:00+00:00" />
+<meta itemprop="dateModified" content="2014-03-25T18:28:00+00:00" />
 <meta itemprop="wordCount" content="83">
 <meta itemprop="keywords" content="django,python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -115,11 +115,11 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>第一种HttpResponse，最基本的返回方式，可以直接返回字符:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.http <span style="color:#f92672">import</span> HttpResponse
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.http <span style="color:#f92672">import</span> HttpResponse
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>(request):
     <span style="color:#66d9ef">return</span> HttpResponse(<span style="color:#960050;background-color:#1e0010">“</span>a test<span style="color:#960050;background-color:#1e0010">”</span>)
 </code></pre></div><p>或者结合contextloder返回网页：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.template <span style="color:#f92672">import</span> Context, loader  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.template <span style="color:#f92672">import</span> Context, loader  
 <span style="color:#f92672">from</span> polls.models <span style="color:#f92672">import</span> Poll
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>(request):  
     latest_poll_list <span style="color:#f92672">=</span> Poll<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>order_by(<span style="color:#e6db74">&#39;-pub_date&#39;</span>)[:<span style="color:#ae81ff">5</span>]  
@@ -127,7 +127,7 @@ if (!doNotTrack) {
     context <span style="color:#f92672">=</span> Context({ <span style="color:#e6db74">&#39;latest_poll_list&#39;</span>: latest_poll_list, })  
     <span style="color:#66d9ef">return</span> HttpResponse(template<span style="color:#f92672">.</span>render(context))
 </code></pre></div><p>第二种，可以说是上一种的精简版：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.shortcuts <span style="color:#f92672">import</span> render_to_response
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.shortcuts <span style="color:#f92672">import</span> render_to_response
 <span style="color:#f92672">from</span> django.template <span style="color:#f92672">import</span> RequestContext
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">search_view_bak</span>(request, template<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;shop/search.html&#34;</span>):
     context <span style="color:#f92672">=</span> RequestContext(request, {
@@ -136,11 +136,11 @@ if (!doNotTrack) {
             <span style="color:#e6db74">&#39;keywords&#39;</span> : keywords})
     <span style="color:#66d9ef">return</span> render_to_response(template, context)
 </code></pre></div><p>第三种，最最精简版：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.shortcuts <span style="color:#f92672">import</span> render
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.shortcuts <span style="color:#f92672">import</span> render
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>(request):
     <span style="color:#66d9ef">return</span> render(request, <span style="color:#e6db74">&#34;search/search.html&#34;</span>, {})
 </code></pre></div><p>第四中，直接返回其他url：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.http <span style="color:#f92672">import</span>  HttpResponseRedirect
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.http <span style="color:#f92672">import</span>  HttpResponseRedirect
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>(request):
     <span style="color:#66d9ef">return</span> HttpResponseRedirect(<span style="color:#e6db74">&#39;/home/&#39;</span>)
 </code></pre></div>

@@ -37,7 +37,7 @@
       
       <guid>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/</guid>
       <description>&lt;p&gt;这篇文章记录nova创建快照时候的过程，根据&lt;a href=&#34;https://docs.openstack.org/api-ref/compute/?expanded=create-image-createimage-action-detail#create-image-createimage-action&#34;&gt;文档&lt;/a&gt;，创建快照其实是向&lt;code&gt;/servers/{server_id}/action&lt;/code&gt;发送了一个POST的请求，内容则是类似:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;{
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;{
     &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;createImage&amp;#34;&lt;/span&gt; : {
         &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt; : &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;image-name&amp;#34;&lt;/span&gt;,
         &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;metadata&amp;#34;&lt;/span&gt;: {}
@@ -54,8 +54,8 @@
       <guid>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/</guid>
       <description>&lt;p&gt;最近看了下关于OpenStack如何统计更新CPU、内存、硬盘等硬件资源的部分，由于历史原因下面的代码来自&lt;code&gt;newton&lt;/code&gt;版。&lt;/p&gt;
 &lt;p&gt;简单说，OpenStack先通过定时任务进行资源统计，入口代码位于&lt;code&gt;nova\compute\manager.py&lt;/code&gt;中&lt;code&gt;ComputeManager&lt;/code&gt;类的&lt;code&gt;update_available_resource&lt;/code&gt;函数。默认情况下每分钟更新一次：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-py&#34; data-lang=&#34;py&#34;&gt;
-&lt;span style=&#34;color:#a6e22e&#34;&gt;@periodic_task.periodic_task&lt;/span&gt;(spacing&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;update_resources_interval)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-py&#34; data-lang=&#34;py&#34;&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;@periodic_task&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;periodic_task(spacing&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;update_resources_interval)
 &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;update_available_resource&lt;/span&gt;(self, context):
     &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;See driver.get_available_resource()
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;
@@ -66,7 +66,7 @@
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
 
     compute_nodes_in_db &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_get_compute_nodes_in_db(context,
-                                                        use_slave&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;True)
+                                                        use_slave&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;)
     nodenames &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; set(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;driver&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_available_nodes())
     &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; nodename &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; nodenames:
         self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;update_available_resource_for_node(context, nodename)
@@ -90,7 +90,7 @@
       
       <guid>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/</guid>
       <description>&lt;p&gt;上次学习了Nova创建虚拟机的过程，这次来看一下Glance是如何上传镜像的。相比于Nova，Glance源码使用了大量的代理模式和装饰器模式，阅读代码时候一个不仔细就会一脸懵X。根据上次说的Openstack套路，我们通过&lt;code&gt;setup.cfg&lt;/code&gt;直奔主题——&lt;code&gt;glance/cmd/api.py&lt;/code&gt;:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;():
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;():
     &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;:
         config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;parse_args()
         config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_config_defaults()
@@ -107,11 +107,11 @@
             osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;web&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;enable(cfg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;profiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hmac_keys)
         &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
             osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;web&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;disable()
-        server &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; wsgi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Server(initialize_glance_store&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;True)
+        server &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; wsgi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Server(initialize_glance_store&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;)
         server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start(config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;load_paste_app(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;glance-api&amp;#39;&lt;/span&gt;), default_port&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;9292&lt;/span&gt;)
         server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;wait()
     &lt;span style=&#34;color:#66d9ef&#34;&gt;except&lt;/span&gt; KNOWN_EXCEPTIONS &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; e:
-        &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt;(e)
+        print(e)
         fail(e)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>

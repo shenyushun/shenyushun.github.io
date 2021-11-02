@@ -40,8 +40,8 @@ Keystone：负责鉴权以及服务注册。
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2019-09-16T17:46:29&#43;00:00" />
-<meta property="article:modified_time" content="2019-09-16T17:46:29&#43;00:00" />
+<meta property="article:published_time" content="2019-09-16T17:46:29+00:00" />
+<meta property="article:modified_time" content="2019-09-16T17:46:29+00:00" />
 
 
 		<meta itemprop="name" content="OpenStack源码学习笔记1">
@@ -74,8 +74,8 @@ Neutron：负责网络相关。
 Keystone：负责鉴权以及服务注册。
 
 大体架构如下图：
-"><meta itemprop="datePublished" content="2019-09-16T17:46:29&#43;00:00" />
-<meta itemprop="dateModified" content="2019-09-16T17:46:29&#43;00:00" />
+"><meta itemprop="datePublished" content="2019-09-16T17:46:29+00:00" />
+<meta itemprop="dateModified" content="2019-09-16T17:46:29+00:00" />
 <meta itemprop="wordCount" content="1506">
 <meta itemprop="keywords" content="python,openstack," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -207,7 +207,7 @@ if (!doNotTrack) {
 <p>此外还有一点，Openstack的目录结构是根据功能划分的，比如Nova中compute目录不一定都是在<code>nova-compute</code>节点上运行，而是所有和虚拟机创建相关的功能都在这里。</p>
 <h2 id="配置加载与路由绑定">配置加载与路由绑定</h2>
 <p>这里以stein版的Nova为例，根据架构图，Nova-api是所有虚拟机相关请求的入口，首先看Nova中<code>setup.cfg</code>文件定义如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cfg" data-lang="cfg"><span style="color:#a6e22e">……省略……</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cfg" data-lang="cfg"><span style="color:#a6e22e">……省略……</span>
 
 <span style="color:#a6e22e">nova.compute.monitors.cpu</span> <span style="color:#f92672">=</span><span style="color:#e6db74">
 </span><span style="color:#e6db74">    virt_driver = nova.compute.monitors.cpu.virt_driver:Monitor</span>
@@ -227,7 +227,7 @@ if (!doNotTrack) {
 </span><span style="color:#e6db74">    fake_scheduler = nova.tests.unit.scheduler.fakes:FakeScheduler</span>
 <span style="color:#a6e22e">……省略……</span>
 </code></pre></div><p>从配置文件可以明显的看出，nova-api对应的文件是<code>nova/cmd/api.py</code>的<code>main()</code>函数：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
     config<span style="color:#f92672">.</span>parse_args(sys<span style="color:#f92672">.</span>argv)
     logging<span style="color:#f92672">.</span>setup(CONF, <span style="color:#e6db74">&#34;nova&#34;</span>)
     objects<span style="color:#f92672">.</span>register_all()
@@ -256,10 +256,10 @@ if (!doNotTrack) {
     launcher<span style="color:#f92672">.</span>wait()
 </code></pre></div><p><code>main</code>函数其实就做了一件事，启动配置文件中设定的WSGI服务，默认情况下配置文件位于<code>/etc/nova/nova.conf</code>，配置文件中定义了启用哪些服务、Glance、Cinder、Keystone、Libvert、数据库等信息。说到这里简单提一下 <a href="https://github.com/openstack/oslo.config">oslo_config</a>这个项目，是从Openstack独立出来的专门处理配置文件的基础功能库。</p>
 <p>查看<code>WSGIService</code>的定义，位于<code>nova/service.py</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WSGIService</span>(service<span style="color:#f92672">.</span>Service):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WSGIService</span>(service<span style="color:#f92672">.</span>Service):
     <span style="color:#e6db74">&#34;&#34;&#34;Provides ability to launch API from a &#39;paste&#39; configuration.&#34;&#34;&#34;</span>
 
-    <span style="color:#66d9ef">def</span> __init__(self, name, loader<span style="color:#f92672">=</span>None, use_ssl<span style="color:#f92672">=</span>False, max_url_len<span style="color:#f92672">=</span>None):
+    <span style="color:#66d9ef">def</span> __init__(self, name, loader<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, use_ssl<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>, max_url_len<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
         <span style="color:#e6db74">&#34;&#34;&#34;Initialize, but do not start the WSGI server.
 </span><span style="color:#e6db74">
 </span><span style="color:#e6db74">        :param name: The name of the WSGI server given to the loader.
@@ -275,7 +275,7 @@ if (!doNotTrack) {
         LOG<span style="color:#f92672">.</span>warning(<span style="color:#e6db74">&#39;Running </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> using eventlet is deprecated. Deploy with &#39;</span>
                     <span style="color:#e6db74">&#39;a WSGI server such as uwsgi or mod_wsgi.&#39;</span>, self<span style="color:#f92672">.</span>binary)
 
-        self<span style="color:#f92672">.</span>topic <span style="color:#f92672">=</span> None
+        self<span style="color:#f92672">.</span>topic <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
         self<span style="color:#f92672">.</span>manager <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_manager()
         self<span style="color:#f92672">.</span>loader <span style="color:#f92672">=</span> loader <span style="color:#f92672">or</span> api_wsgi<span style="color:#f92672">.</span>Loader()
         self<span style="color:#f92672">.</span>app <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>loader<span style="color:#f92672">.</span>load_app(name)
@@ -286,7 +286,7 @@ if (!doNotTrack) {
             wname <span style="color:#f92672">=</span> name
         self<span style="color:#f92672">.</span>host <span style="color:#f92672">=</span> getattr(CONF, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">_listen&#39;</span> <span style="color:#f92672">%</span> name, <span style="color:#e6db74">&#34;0.0.0.0&#34;</span>)
         self<span style="color:#f92672">.</span>port <span style="color:#f92672">=</span> getattr(CONF, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">_listen_port&#39;</span> <span style="color:#f92672">%</span> name, <span style="color:#ae81ff">0</span>)
-        self<span style="color:#f92672">.</span>workers <span style="color:#f92672">=</span> (getattr(CONF, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">_workers&#39;</span> <span style="color:#f92672">%</span> wname, None) <span style="color:#f92672">or</span>
+        self<span style="color:#f92672">.</span>workers <span style="color:#f92672">=</span> (getattr(CONF, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">_workers&#39;</span> <span style="color:#f92672">%</span> wname, <span style="color:#66d9ef">None</span>) <span style="color:#f92672">or</span>
                         processutils<span style="color:#f92672">.</span>get_worker_count())
         <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>workers <span style="color:#f92672">and</span> self<span style="color:#f92672">.</span>workers <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1</span>:
             worker_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">_workers&#39;</span> <span style="color:#f92672">%</span> name
@@ -304,20 +304,20 @@ if (!doNotTrack) {
                                   max_url_len<span style="color:#f92672">=</span>max_url_len)
         <span style="color:#75715e"># Pull back actual port used</span>
         self<span style="color:#f92672">.</span>port <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>server<span style="color:#f92672">.</span>port
-        self<span style="color:#f92672">.</span>backdoor_port <span style="color:#f92672">=</span> None
+        self<span style="color:#f92672">.</span>backdoor_port <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
         setup_profiler(name, self<span style="color:#f92672">.</span>host)
 </code></pre></div><p>其中，<code>self.app = self.loader.load_app(name)</code>就是上面所说的使用Paste Deployment来建立连接的部分，相关代码位于<code>nova/api/wsgi.py</code>中：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Loader</span>(object):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Loader</span>(object):
     <span style="color:#e6db74">&#34;&#34;&#34;Used to load WSGI applications from paste configurations.&#34;&#34;&#34;</span>
 
-    <span style="color:#66d9ef">def</span> __init__(self, config_path<span style="color:#f92672">=</span>None):
+    <span style="color:#66d9ef">def</span> __init__(self, config_path<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
         <span style="color:#e6db74">&#34;&#34;&#34;Initialize the loader, and attempt to find the config.
 </span><span style="color:#e6db74">
 </span><span style="color:#e6db74">        :param config_path: Full or relative path to the paste config.
 </span><span style="color:#e6db74">        :returns: None
 </span><span style="color:#e6db74">
 </span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
-        self<span style="color:#f92672">.</span>config_path <span style="color:#f92672">=</span> None
+        self<span style="color:#f92672">.</span>config_path <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
 
         config_path <span style="color:#f92672">=</span> config_path <span style="color:#f92672">or</span> CONF<span style="color:#f92672">.</span>wsgi<span style="color:#f92672">.</span>api_paste_config
         <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isabs(config_path):
@@ -344,7 +344,7 @@ if (!doNotTrack) {
             LOG<span style="color:#f92672">.</span>exception(_LE(<span style="color:#e6db74">&#34;Couldn&#39;t lookup app: </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span>), name)
             <span style="color:#66d9ef">raise</span> exception<span style="color:#f92672">.</span>PasteAppNotFound(name<span style="color:#f92672">=</span>name, path<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>config_path)
 </code></pre></div><p>默认情况下，配置文件位于<code>/etc/nova/api-paste.ini</code>，内容如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#75715e">############</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#75715e">############</span>
 <span style="color:#75715e"># Metadata #</span>
 <span style="color:#75715e">############</span>
 <span style="color:#66d9ef">[composite:metadata]</span>
@@ -422,12 +422,12 @@ if (!doNotTrack) {
 <h2 id="创建虚拟机">创建虚拟机</h2>
 <h3 id="nova-api">Nova-Api</h3>
 <p>根据<a href="https://docs.openstack.org/api-ref/compute/?expanded=create-server-detail#create-server">文档</a>，创建虚拟机的行为其实就是向<code>/servers</code>发送POST请求而已。而上面已经知道在<code>nova/api/openstack/compute/routes.py</code>中定义了对应的函数是：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">(<span style="color:#e6db74">&#39;/servers&#39;</span>, {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">(<span style="color:#e6db74">&#39;/servers&#39;</span>, {
         <span style="color:#e6db74">&#39;GET&#39;</span>: [server_controller, <span style="color:#e6db74">&#39;index&#39;</span>],
         <span style="color:#e6db74">&#39;POST&#39;</span>: [server_controller, <span style="color:#e6db74">&#39;create&#39;</span>]
     })
 </code></pre></div><p>而这个<code>server_controller</code>是位于<code>nova/api/openstack/compute/servers.py</code>的<code>ServersController</code>类，其<code>create</code>方法定义如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create</span>(self, req, body):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create</span>(self, req, body):
     <span style="color:#e6db74">&#34;&#34;&#34;Creates a new server for a given user.&#34;&#34;&#34;</span>
     context <span style="color:#f92672">=</span> req<span style="color:#f92672">.</span>environ[<span style="color:#e6db74">&#39;nova.context&#39;</span>]
     server_dict <span style="color:#f92672">=</span> body[<span style="color:#e6db74">&#39;server&#39;</span>]
@@ -436,7 +436,7 @@ if (!doNotTrack) {
 
     <span style="color:#f92672">......</span>
 
-    availability_zone <span style="color:#f92672">=</span> server_dict<span style="color:#f92672">.</span>pop(<span style="color:#e6db74">&#34;availability_zone&#34;</span>, None)
+    availability_zone <span style="color:#f92672">=</span> server_dict<span style="color:#f92672">.</span>pop(<span style="color:#e6db74">&#34;availability_zone&#34;</span>, <span style="color:#66d9ef">None</span>)
     image_uuid <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_image_from_req_data(server_dict, create_kwargs)
     self<span style="color:#f92672">.</span>_process_networks_for_create(
         context, target, server_dict, create_kwargs)
@@ -456,7 +456,7 @@ if (!doNotTrack) {
             forced_host<span style="color:#f92672">=</span>host, forced_node<span style="color:#f92672">=</span>node,
             metadata<span style="color:#f92672">=</span>server_dict<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;metadata&#39;</span>, {}),
             admin_password<span style="color:#f92672">=</span>password,
-            check_server_group_quota<span style="color:#f92672">=</span>True,
+            check_server_group_quota<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
             supports_multiattach<span style="color:#f92672">=</span>supports_multiattach,
             supports_port_resource_request<span style="color:#f92672">=</span>supports_port_resource_request,
             <span style="color:#f92672">**</span>create_kwargs)
@@ -467,22 +467,22 @@ if (!doNotTrack) {
     
     <span style="color:#f92672">......</span>
 </code></pre></div><p>经过一些获取、验证操作后，调用了<code>self.compute_api.create()</code>方法，这个<code>compute_api</code>就是<code>nova/compute/api.py</code>中定义的<code>API</code>类，<code>create</code>函数定义如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a6e22e">@hooks.add_hook</span>(<span style="color:#e6db74">&#34;create_instance&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a6e22e">@hooks</span><span style="color:#f92672">.</span>add_hook(<span style="color:#e6db74">&#34;create_instance&#34;</span>)
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create</span>(self, context, instance_type,
-            image_href, kernel_id<span style="color:#f92672">=</span>None, ramdisk_id<span style="color:#f92672">=</span>None,
-            min_count<span style="color:#f92672">=</span>None, max_count<span style="color:#f92672">=</span>None,
-            display_name<span style="color:#f92672">=</span>None, display_description<span style="color:#f92672">=</span>None,
-            key_name<span style="color:#f92672">=</span>None, key_data<span style="color:#f92672">=</span>None, security_groups<span style="color:#f92672">=</span>None,
-            availability_zone<span style="color:#f92672">=</span>None, forced_host<span style="color:#f92672">=</span>None, forced_node<span style="color:#f92672">=</span>None,
-            user_data<span style="color:#f92672">=</span>None, metadata<span style="color:#f92672">=</span>None, injected_files<span style="color:#f92672">=</span>None,
-            admin_password<span style="color:#f92672">=</span>None, block_device_mapping<span style="color:#f92672">=</span>None,
-            access_ip_v4<span style="color:#f92672">=</span>None, access_ip_v6<span style="color:#f92672">=</span>None, requested_networks<span style="color:#f92672">=</span>None,
-            config_drive<span style="color:#f92672">=</span>None, auto_disk_config<span style="color:#f92672">=</span>None, scheduler_hints<span style="color:#f92672">=</span>None,
-            legacy_bdm<span style="color:#f92672">=</span>True, shutdown_terminate<span style="color:#f92672">=</span>False,
-            check_server_group_quota<span style="color:#f92672">=</span>False, tags<span style="color:#f92672">=</span>None,
-            supports_multiattach<span style="color:#f92672">=</span>False, trusted_certs<span style="color:#f92672">=</span>None,
-            supports_port_resource_request<span style="color:#f92672">=</span>False,
-            requested_host<span style="color:#f92672">=</span>None, requested_hypervisor_hostname<span style="color:#f92672">=</span>None):
+            image_href, kernel_id<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, ramdisk_id<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+            min_count<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, max_count<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+            display_name<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, display_description<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+            key_name<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, key_data<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, security_groups<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+            availability_zone<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, forced_host<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, forced_node<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+            user_data<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, metadata<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, injected_files<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+            admin_password<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, block_device_mapping<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+            access_ip_v4<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, access_ip_v6<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, requested_networks<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+            config_drive<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, auto_disk_config<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, scheduler_hints<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+            legacy_bdm<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, shutdown_terminate<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>,
+            check_server_group_quota<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>, tags<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+            supports_multiattach<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>, trusted_certs<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+            supports_port_resource_request<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>,
+            requested_host<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, requested_hypervisor_hostname<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
     <span style="color:#f92672">......</span>
     <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>_create_instance(
         context, instance_type,
@@ -515,11 +515,11 @@ if (!doNotTrack) {
                admin_password, access_ip_v4, access_ip_v6,
                requested_networks, config_drive,
                block_device_mapping, auto_disk_config, filter_properties,
-               reservation_id<span style="color:#f92672">=</span>None, legacy_bdm<span style="color:#f92672">=</span>True, shutdown_terminate<span style="color:#f92672">=</span>False,
-               check_server_group_quota<span style="color:#f92672">=</span>False, tags<span style="color:#f92672">=</span>None,
-               supports_multiattach<span style="color:#f92672">=</span>False, trusted_certs<span style="color:#f92672">=</span>None,
-               supports_port_resource_request<span style="color:#f92672">=</span>False,
-               requested_host<span style="color:#f92672">=</span>None, requested_hypervisor_hostname<span style="color:#f92672">=</span>None):
+               reservation_id<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, legacy_bdm<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, shutdown_terminate<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>,
+               check_server_group_quota<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>, tags<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+               supports_multiattach<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>, trusted_certs<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+               supports_port_resource_request<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>,
+               requested_host<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, requested_hypervisor_hostname<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
     <span style="color:#75715e"># Normalize and setup some parameters</span>
     <span style="color:#f92672">......</span>
     <span style="color:#66d9ef">if</span> image_href:
@@ -533,7 +533,7 @@ if (!doNotTrack) {
             msg <span style="color:#f92672">=</span> _(<span style="color:#e6db74">&#34;Image certificate validation is not supported &#34;</span>
                     <span style="color:#e6db74">&#34;when booting from volume&#34;</span>)
             <span style="color:#66d9ef">raise</span> exception<span style="color:#f92672">.</span>CertificateValidationFailed(message<span style="color:#f92672">=</span>msg)
-        image_id <span style="color:#f92672">=</span> None
+        image_id <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
         boot_meta <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_bdm_image_metadata(
             context, block_device_mapping, legacy_bdm)
 
@@ -553,22 +553,22 @@ if (!doNotTrack) {
         tags<span style="color:#f92672">=</span>tags)
     <span style="color:#66d9ef">return</span> instances, reservation_id
 </code></pre></div><p>最终，这个函数又调用了<code>self.compute_task_api.schedule_and_build_instances</code>方法，而这个<code>compute_task_api</code>就是<code>nova/conductor/api.py</code>中定义的<code>ComputeTaskAPI</code>类，方法定义如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">schedule_and_build_instances</span>(self, context, build_requests,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">schedule_and_build_instances</span>(self, context, build_requests,
                                 request_spec, image,
                                 admin_password, injected_files,
                                 requested_networks, block_device_mapping,
-                                tags<span style="color:#f92672">=</span>None):
+                                tags<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
     self<span style="color:#f92672">.</span>conductor_compute_rpcapi<span style="color:#f92672">.</span>schedule_and_build_instances(
         context, build_requests, request_spec, image,
         admin_password, injected_files, requested_networks,
         block_device_mapping, tags)
 </code></pre></div><p>这个函数很简单，就是调用了<code>nova/conductor/rpcapi.py</code>中<code>ComputeTaskAPI</code>类的<code>schedule_and_build_instances</code>方法：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">schedule_and_build_instances</span>(self, context, build_requests,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">schedule_and_build_instances</span>(self, context, build_requests,
                                 request_specs,
                                 image, admin_password, injected_files,
                                 requested_networks,
                                 block_device_mapping,
-                                tags<span style="color:#f92672">=</span>None):
+                                tags<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
     version <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;1.17&#39;</span>
     kw <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;build_requests&#39;</span>: build_requests,
             <span style="color:#e6db74">&#39;request_specs&#39;</span>: request_specs,
@@ -588,16 +588,16 @@ if (!doNotTrack) {
 </code></pre></div><p><code>cast</code>代表这个是一个异步调用，<code>schedule_and_build_instances</code>是调用的方法名。虽然目录从api到compute到conductor`，但上面的所有过程都是在nova-api管控下的。一直到发出这个异步请求为止，nova-api阶段结束，返回响应，虚拟机状态为building。</p>
 <h3 id="nova-conductor-1">Nova-Conductor-1</h3>
 <p>上面说过，<code>manager.py</code>是对应rpc调用方法的实现，所以在<code>nova/conductor/manager.py</code>中找到函数定义如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">schedule_and_build_instances</span>(self, context, build_requests,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">schedule_and_build_instances</span>(self, context, build_requests,
                                      request_specs, image,
                                      admin_password, injected_files,
                                      requested_networks, block_device_mapping,
-                                     tags<span style="color:#f92672">=</span>None):
+                                     tags<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
     <span style="color:#75715e"># Add all the UUIDs for the instances</span>
     instance_uuids <span style="color:#f92672">=</span> [spec<span style="color:#f92672">.</span>instance_uuid <span style="color:#66d9ef">for</span> spec <span style="color:#f92672">in</span> request_specs]
     <span style="color:#66d9ef">try</span>:
         host_lists <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_schedule_instances(context, request_specs[<span style="color:#ae81ff">0</span>],
-                instance_uuids, return_alternates<span style="color:#f92672">=</span>True)
+                instance_uuids, return_alternates<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
     <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> exc:
         LOG<span style="color:#f92672">.</span>exception(<span style="color:#e6db74">&#39;Failed to schedule instances&#39;</span>)
         self<span style="color:#f92672">.</span>_bury_in_cell0(context, request_specs[<span style="color:#ae81ff">0</span>], exc,
@@ -609,24 +609,24 @@ if (!doNotTrack) {
     <span style="color:#f92672">......</span>
 
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_schedule_instances</span>(self, context, request_spec,
-                        instance_uuids<span style="color:#f92672">=</span>None, return_alternates<span style="color:#f92672">=</span>False):
+                        instance_uuids<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, return_alternates<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>):
     scheduler_utils<span style="color:#f92672">.</span>setup_instance_group(context, request_spec)
     <span style="color:#66d9ef">with</span> timeutils<span style="color:#f92672">.</span>StopWatch() <span style="color:#66d9ef">as</span> timer:
         host_lists <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>query_client<span style="color:#f92672">.</span>select_destinations(
-            context, request_spec, instance_uuids, return_objects<span style="color:#f92672">=</span>True,
+            context, request_spec, instance_uuids, return_objects<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
             return_alternates<span style="color:#f92672">=</span>return_alternates)
     LOG<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#39;Took </span><span style="color:#e6db74">%0.2f</span><span style="color:#e6db74"> seconds to select destinations for </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> &#39;</span>
                 <span style="color:#e6db74">&#39;instance(s).&#39;</span>, timer<span style="color:#f92672">.</span>elapsed(), len(instance_uuids))
     <span style="color:#66d9ef">return</span> host_lists
 
 </code></pre></div><p>首先这函数调用<code>_schedule_instances</code>方法，这个方法中又调用了<code>select_destinations</code>，而<code>self.query_client</code>其实是一个<code>SchedulerQueryClient</code>类实例，位于<code>nova/scheduler/query.py</code>中，代码很耿直:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">select_destinations</span>(self, context, spec_obj, instance_uuids,
-            return_objects<span style="color:#f92672">=</span>False, return_alternates<span style="color:#f92672">=</span>False):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">select_destinations</span>(self, context, spec_obj, instance_uuids,
+            return_objects<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>, return_alternates<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>):
         <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>scheduler_rpcapi<span style="color:#f92672">.</span>select_destinations(context, spec_obj,
                 instance_uuids, return_objects, return_alternates)
 </code></pre></div><p>一看到rpcapi，果不其然在<code>nova/scheduler/rpcapi.py</code>中找到对应的函数：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">select_destinations</span>(self, ctxt, spec_obj, instance_uuids,
-            return_objects<span style="color:#f92672">=</span>False, return_alternates<span style="color:#f92672">=</span>False):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">select_destinations</span>(self, ctxt, spec_obj, instance_uuids,
+            return_objects<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>, return_alternates<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>):
     <span style="color:#f92672">......</span>
     cctxt <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>client<span style="color:#f92672">.</span>prepare(
         version<span style="color:#f92672">=</span>version, call_monitor_timeout<span style="color:#f92672">=</span>CONF<span style="color:#f92672">.</span>rpc_response_timeout,
@@ -635,10 +635,10 @@ if (!doNotTrack) {
 </code></pre></div><p>注意这里使用的<code>call</code>而不是<code>cast</code>，所以是一个同步调用，此时nova-conductor会堵塞等待直到nova-scheduler返回。</p>
 <h3 id="nova-scheduler">Nova-Scheduler</h3>
 <p>根据套路，在<code>nova/scheduler/manager.py</code>中找到函数定义如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a6e22e">@messaging.expected_exceptions</span>(exception<span style="color:#f92672">.</span>NoValidHost)
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">select_destinations</span>(self, ctxt, request_spec<span style="color:#f92672">=</span>None,
-        filter_properties<span style="color:#f92672">=</span>None, spec_obj<span style="color:#f92672">=</span>_sentinel, instance_uuids<span style="color:#f92672">=</span>None,
-        return_objects<span style="color:#f92672">=</span>False, return_alternates<span style="color:#f92672">=</span>False):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a6e22e">@messaging</span><span style="color:#f92672">.</span>expected_exceptions(exception<span style="color:#f92672">.</span>NoValidHost)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">select_destinations</span>(self, ctxt, request_spec<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+        filter_properties<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, spec_obj<span style="color:#f92672">=</span>_sentinel, instance_uuids<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+        return_objects<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>, return_alternates<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>):
     <span style="color:#f92672">......</span>
     selections <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>select_destinations(ctxt, spec_obj,
             instance_uuids, alloc_reqs_by_rp_uuid, provider_summaries,
@@ -652,11 +652,11 @@ if (!doNotTrack) {
 </code></pre></div><p>这个函数本质上又是一层封装，最终调用的是<code>nova-api.conf</code>文件中定义的<code>scheduler.driver</code>，这里以自带的<code>FilterScheduler</code>为例，位于<code>nova/scheduler/filter_scheduler.py</code>，入口函数是<code>_schedule</code>，在这里首先获取全部的host，然后经过<code>_get_sorted_hosts</code>函数的筛选和权重计算，返回满足条件的主机给nova-conductor。</p>
 <h3 id="nova-conductor-2">Nova-Conductor-2</h3>
 <p>回到<code>nova/conductor/manager.py</code>的<code>schedule_and_build_instances</code>方法：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">schedule_and_build_instances</span>(self, context, build_requests,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">schedule_and_build_instances</span>(self, context, build_requests,
                                      request_specs, image,
                                      admin_password, injected_files,
                                      requested_networks, block_device_mapping,
-                                     tags<span style="color:#f92672">=</span>None):
+                                     tags<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
     
     <span style="color:#f92672">......</span>
 
@@ -670,11 +670,11 @@ if (!doNotTrack) {
             <span style="color:#75715e"># send a state update notification for the initial create to</span>
             <span style="color:#75715e"># show it going from non-existent to BUILDING</span>
             <span style="color:#75715e"># This can lazy-load attributes on instance.</span>
-            notifications<span style="color:#f92672">.</span>send_update_with_states(cctxt, instance, None,
-                    vm_states<span style="color:#f92672">.</span>BUILDING, None, None, service<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;conductor&#34;</span>)
+            notifications<span style="color:#f92672">.</span>send_update_with_states(cctxt, instance, <span style="color:#66d9ef">None</span>,
+                    vm_states<span style="color:#f92672">.</span>BUILDING, <span style="color:#66d9ef">None</span>, <span style="color:#66d9ef">None</span>, service<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;conductor&#34;</span>)
             objects<span style="color:#f92672">.</span>InstanceAction<span style="color:#f92672">.</span>action_start(
                 cctxt, instance<span style="color:#f92672">.</span>uuid, instance_actions<span style="color:#f92672">.</span>CREATE,
-                want_result<span style="color:#f92672">=</span>False)
+                want_result<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
             instance_bdms <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_create_block_device_mapping(
                 cell, instance<span style="color:#f92672">.</span>flavor, instance<span style="color:#f92672">.</span>uuid, block_device_mapping)
             instance_tags <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_create_tags(cctxt, instance<span style="color:#f92672">.</span>uuid, tags)
@@ -704,18 +704,18 @@ if (!doNotTrack) {
                 host<span style="color:#f92672">=</span>host<span style="color:#f92672">.</span>service_host, node<span style="color:#f92672">=</span>host<span style="color:#f92672">.</span>nodename,
                 limits<span style="color:#f92672">=</span>host<span style="color:#f92672">.</span>limits, host_list<span style="color:#f92672">=</span>host_list)
 </code></pre></div><p>拿到主机列表后，由于可能同时创建多台主机，所以使用for循环，进行了一些数据库操作后，进行rpc调用，位于<code>nova/compute/rpcapi.py</code>：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">build_and_run_instance</span>(self, ctxt, instance, host, image, request_spec,
-        filter_properties, admin_password<span style="color:#f92672">=</span>None, injected_files<span style="color:#f92672">=</span>None,
-        requested_networks<span style="color:#f92672">=</span>None, security_groups<span style="color:#f92672">=</span>None,
-        block_device_mapping<span style="color:#f92672">=</span>None, node<span style="color:#f92672">=</span>None, limits<span style="color:#f92672">=</span>None,
-        host_list<span style="color:#f92672">=</span>None):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">build_and_run_instance</span>(self, ctxt, instance, host, image, request_spec,
+        filter_properties, admin_password<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, injected_files<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+        requested_networks<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, security_groups<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+        block_device_mapping<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, node<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, limits<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+        host_list<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
     <span style="color:#f92672">......</span>    
     cctxt<span style="color:#f92672">.</span>cast(ctxt, <span style="color:#e6db74">&#39;build_and_run_instance&#39;</span>, <span style="color:#f92672">**</span>kwargs)
 </code></pre></div><h3 id="nova-compute">Nova-Compute</h3>
 <p>套路都熟悉了，直接看<code>nova/compute/manager.py</code>吧，其实最核心函数是<code>_build_and_run_instance</code>，这里进行镜像、网络资源的准备以及各种验证、状态修改、发送通知等。最后调用对应driver的spawn方法，这里以libvert为例，对应文件是<code>nova/virt/libvirt/driver.py</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">spawn</span>(self, context, instance, image_meta, injected_files,
-            admin_password, allocations, network_info<span style="color:#f92672">=</span>None,
-            block_device_info<span style="color:#f92672">=</span>None, power_on<span style="color:#f92672">=</span>True):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">spawn</span>(self, context, instance, image_meta, injected_files,
+            admin_password, allocations, network_info<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+            block_device_info<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, power_on<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>):
     disk_info <span style="color:#f92672">=</span> blockinfo<span style="color:#f92672">.</span>get_disk_info(CONF<span style="color:#f92672">.</span>libvirt<span style="color:#f92672">.</span>virt_type,
                                         instance,
                                         image_meta,
@@ -744,7 +744,7 @@ if (!doNotTrack) {
         context, xml, instance, network_info,
         block_device_info<span style="color:#f92672">=</span>block_device_info,
         post_xml_callback<span style="color:#f92672">=</span>gen_confdrive,
-        destroy_disks_on_failure<span style="color:#f92672">=</span>True,
+        destroy_disks_on_failure<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
         power_on<span style="color:#f92672">=</span>power_on)
     LOG<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#34;Guest created on hypervisor&#34;</span>, instance<span style="color:#f92672">=</span>instance)
 

@@ -14,16 +14,16 @@
 sudo yum install libnetfilter_queue-develsudo yum install libffi-develsudo yum install libpcap-devel接下来下载一个不能用pip安装的包" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/fedora21%E5%AE%89%E8%A3%85mitmf%E6%A1%86%E6%9E%B6/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2015-04-02T14:42:02&#43;00:00" />
-<meta property="article:modified_time" content="2015-04-02T14:42:02&#43;00:00" />
+<meta property="article:published_time" content="2015-04-02T14:42:02+00:00" />
+<meta property="article:modified_time" content="2015-04-02T14:42:02+00:00" />
 
 
 		<meta itemprop="name" content="fedora21安装MITMf框架">
 <meta itemprop="description" content="关于这大名鼎鼎的中间人攻击框架不多介绍了，如果是kali linux用户直接apt-get install mitmf即可;如果是win用户呢，基本就放弃吧;如果是os x用户呢，有几个依赖我始终安装失败，你要安装成功了请联系我。
 网上很多都是讲ubuntu怎么安装这个框架的，这里我记录一下在fedora21上我的安装记录。
 首先安装一些系统依赖，这里我系统原来就安装了很多杂七杂八的东西，不保证下面的就是齐全的：
-sudo yum install libnetfilter_queue-develsudo yum install libffi-develsudo yum install libpcap-devel接下来下载一个不能用pip安装的包"><meta itemprop="datePublished" content="2015-04-02T14:42:02&#43;00:00" />
-<meta itemprop="dateModified" content="2015-04-02T14:42:02&#43;00:00" />
+sudo yum install libnetfilter_queue-develsudo yum install libffi-develsudo yum install libpcap-devel接下来下载一个不能用pip安装的包"><meta itemprop="datePublished" content="2015-04-02T14:42:02+00:00" />
+<meta itemprop="dateModified" content="2015-04-02T14:42:02+00:00" />
 <meta itemprop="wordCount" content="144">
 <meta itemprop="keywords" content="fedora," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,16 +99,16 @@ if (!doNotTrack) {
 			<p>关于这大名鼎鼎的中间人攻击框架不多介绍了，如果是kali linux用户直接apt-get install mitmf即可;如果是win用户呢，基本就放弃吧;如果是os x用户呢，有几个依赖我始终安装失败，你要安装成功了请联系我。</p>
 <p>网上很多都是讲ubuntu怎么安装这个框架的，这里我记录一下在fedora21上我的安装记录。</p>
 <p>首先安装一些系统依赖，这里我系统原来就安装了很多杂七杂八的东西，不保证下面的就是齐全的：</p>
-<pre><code>sudo yum install libnetfilter_queue-devel
+<pre tabindex="0"><code>sudo yum install libnetfilter_queue-devel
 sudo yum install libffi-devel
 sudo yum install libpcap-devel
 </code></pre><p>接下来下载一个不能用pip安装的包</p>
-<pre><code>git clone https://github.com/fqrouter/python-netfilterqueue.git
+<pre tabindex="0"><code>git clone https://github.com/fqrouter/python-netfilterqueue.git
 </code></pre><p>然后进入目录中执行python setup.py install即可。</p>
 <p>然后把mitmf框架下载下来</p>
-<pre><code>git clone https://github.com/byt3bl33d3r/MITMf.git
+<pre tabindex="0"><code>git clone https://github.com/byt3bl33d3r/MITMf.git
 </code></pre><p>进入目录后，修改requirements.txt，我安装成功后所有的依赖如下，不保证时效。</p>
-<pre><code># NetfilterQueue==0.6  这个是手动安装的
+<pre tabindex="0"><code># NetfilterQueue==0.6  这个是手动安装的
 Pillow==2.8.0
 PyYAML==3.11
 Twisted==15.0.0
@@ -135,7 +135,7 @@ user-agents==0.3.2
 wsgiref==0.1.2
 zope.interface==4.1.2
 </code></pre><p>都安装完就可以了，如果安装某个包时报错xxx.h不存在，基本就是某个系统依赖的devel包没安装的问题，使用yum安装即可。还有一点，运行这个框架要用root权限。</p>
-<pre><code>(mitmfenv)┌─[cpu0@localhost] - [~/git/MITMf] - [5230]
+<pre tabindex="0"><code>(mitmfenv)┌─[cpu0@localhost] - [~/git/MITMf] - [5230]
 └─[#] ./mitmf.py -h                                                                                                                [14:43:41]
    ▄▄▄▄███▄▄▄▄    ▄█      ███       ▄▄▄▄███▄▄▄▄      ▄████████
  ▄██▀▀▀███▀▀▀██▄ ███  ▀█████████▄ ▄██▀▀▀███▀▀▀██▄   ███    ███

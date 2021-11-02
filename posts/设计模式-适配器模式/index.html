@@ -18,8 +18,8 @@
 适配器虽好，但也不要乱用，如果能在设计阶段就统一就是最好的，适配器模式更像是一种补丁。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2019-11-28T16:58:08&#43;00:00" />
-<meta property="article:modified_time" content="2019-11-28T16:58:08&#43;00:00" />
+<meta property="article:published_time" content="2019-11-28T16:58:08+00:00" />
+<meta property="article:modified_time" content="2019-11-28T16:58:08+00:00" />
 
 
 		<meta itemprop="name" content="设计模式-适配器模式">
@@ -30,8 +30,8 @@
 对象适配器模式
 类适配器模式
 
-适配器虽好，但也不要乱用，如果能在设计阶段就统一就是最好的，适配器模式更像是一种补丁。"><meta itemprop="datePublished" content="2019-11-28T16:58:08&#43;00:00" />
-<meta itemprop="dateModified" content="2019-11-28T16:58:08&#43;00:00" />
+适配器虽好，但也不要乱用，如果能在设计阶段就统一就是最好的，适配器模式更像是一种补丁。"><meta itemprop="datePublished" content="2019-11-28T16:58:08+00:00" />
+<meta itemprop="dateModified" content="2019-11-28T16:58:08+00:00" />
 <meta itemprop="wordCount" content="151">
 <meta itemprop="keywords" content="设计模式," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -115,7 +115,7 @@ if (!doNotTrack) {
 <p><img src="/images/design-pattern/adapter.png" alt="adapter.png"></p>
 <p>推荐使用基于组合的对象适配器模式，因为类适配器模式使用了继承增加了模块之间的耦合度，下面的例子就是对象适配器模式。</p>
 <p>假设现在有2种电压：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
@@ -145,10 +145,10 @@ if (!doNotTrack) {
 	<span style="color:#a6e22e">p12</span>.<span style="color:#a6e22e">output12</span>()
 }
 </code></pre></div><p>程序输出如下：</p>
-<pre><code>This is power220! power is 220
+<pre tabindex="0"><code>This is power220! power is 220
 This is power12! power is 12
 </code></pre><p>但是实际生活中家庭用电都是220V的，不可能和电厂说&quot;我的电脑需要12V直流电，请给我提供12V直流电服务&quot;，也不可能和笔记本电脑制造商说制造一台适配220V交流电的电脑给你，这种情况就类似上面说的&quot;双方不兼容所以不能直接一起工作，而且没法修改任何一方&quot;。此时适配器就该出厂了：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">adapter12</span> <span style="color:#66d9ef">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">adapter12</span> <span style="color:#66d9ef">struct</span> {
 	<span style="color:#a6e22e">power220</span> <span style="color:#a6e22e">power220</span>
 }
 
@@ -163,7 +163,7 @@ This is power12! power is 12
 	<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">output12</span>()
 }
 </code></pre></div><p>程序输出如下：</p>
-<pre><code>This is power220! power is 220
+<pre tabindex="0"><code>This is power220! power is 220
 This is adapter12,i will transfer 220 to 12
 </code></pre><p>适配器模式还是比较好理解的一种设计模式。</p>
 <h2 id="使用场景">使用场景</h2>

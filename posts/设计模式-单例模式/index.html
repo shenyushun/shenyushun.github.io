@@ -11,13 +11,13 @@
 <meta property="og:description" content="单例模式可以说是最容易理解的一种设计模式了，当需要某个类仅有一个全局唯一对象时可以使用，比如某些配置项。核心思想就是新建某个类实例时先进行一次判断，如果不存在则创建新实例返回，否则返回已经存在的实例。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2019-10-28T16:58:08&#43;00:00" />
-<meta property="article:modified_time" content="2019-10-28T16:58:08&#43;00:00" />
+<meta property="article:published_time" content="2019-10-28T16:58:08+00:00" />
+<meta property="article:modified_time" content="2019-10-28T16:58:08+00:00" />
 
 
 		<meta itemprop="name" content="设计模式-单例模式">
-<meta itemprop="description" content="单例模式可以说是最容易理解的一种设计模式了，当需要某个类仅有一个全局唯一对象时可以使用，比如某些配置项。核心思想就是新建某个类实例时先进行一次判断，如果不存在则创建新实例返回，否则返回已经存在的实例。"><meta itemprop="datePublished" content="2019-10-28T16:58:08&#43;00:00" />
-<meta itemprop="dateModified" content="2019-10-28T16:58:08&#43;00:00" />
+<meta itemprop="description" content="单例模式可以说是最容易理解的一种设计模式了，当需要某个类仅有一个全局唯一对象时可以使用，比如某些配置项。核心思想就是新建某个类实例时先进行一次判断，如果不存在则创建新实例返回，否则返回已经存在的实例。"><meta itemprop="datePublished" content="2019-10-28T16:58:08+00:00" />
+<meta itemprop="dateModified" content="2019-10-28T16:58:08+00:00" />
 <meta itemprop="wordCount" content="144">
 <meta itemprop="keywords" content="设计模式," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -93,7 +93,7 @@ if (!doNotTrack) {
 			<p>单例模式可以说是最容易理解的一种设计模式了，当需要某个类仅有一个全局唯一对象时可以使用，比如某些配置项。核心思想就是新建某个类实例时先进行一次判断，如果不存在则创建新实例返回，否则返回已经存在的实例。</p>
 <h3 id="懒汉模式lazy-loading">懒汉模式(Lazy Loading)</h3>
 <p>很常见的一种方式，不过并非是线程安全的：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">singleton</span> <span style="color:#66d9ef">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">singleton</span> <span style="color:#66d9ef">struct</span> {
 }
 <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">instance</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">singleton</span>
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetInstance</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">singleton</span> {
@@ -103,7 +103,7 @@ if (!doNotTrack) {
     <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">instance</span>
 }
 </code></pre></div><h3 id="带单锁的单例模式">带单锁的单例模式</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;sync&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;sync&#34;</span>
 
 <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">singleton</span> <span style="color:#66d9ef">struct</span> {
 }
@@ -122,7 +122,7 @@ if (!doNotTrack) {
 }
 </code></pre></div><p>解决线程安全问题，很容易想到的就是加锁。这种方式有个缺点就是每次获取实例时候都要对锁进行操作，会降低性能。</p>
 <h3 id="双重锁定">双重锁定</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (
 	<span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -153,7 +153,7 @@ if (!doNotTrack) {
 	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">instance</span>
 }
 </code></pre></div><p>这里使用<code>atomic</code>来保证原子操作。不过代码还可以更精简，使用golang中的<a href="https://godoc.org/sync#Once">Once</a>：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">import</span> (
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">import</span> (
 	<span style="color:#e6db74">&#34;fmt&#34;</span>
 	<span style="color:#e6db74">&#34;sync&#34;</span>
 )

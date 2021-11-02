@@ -11,13 +11,13 @@
 <meta property="og:description" content="本地开发环境可以使用geth和testrpc(已经改名成ganache-cli)2种，如果只是进行测试或者学习智能合约开发的话，建议使用第二个。至于docker怎么安装网上很多这里不再赘述。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/%E5%9F%BA%E4%BA%8Edocker%E7%9A%84%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2018-05-25T21:06:00&#43;00:00" />
-<meta property="article:modified_time" content="2018-05-25T21:06:00&#43;00:00" />
+<meta property="article:published_time" content="2018-05-25T21:06:00+00:00" />
+<meta property="article:modified_time" content="2018-05-25T21:06:00+00:00" />
 
 
 		<meta itemprop="name" content="基于Docker的以太坊开发环境搭建">
-<meta itemprop="description" content="本地开发环境可以使用geth和testrpc(已经改名成ganache-cli)2种，如果只是进行测试或者学习智能合约开发的话，建议使用第二个。至于docker怎么安装网上很多这里不再赘述。"><meta itemprop="datePublished" content="2018-05-25T21:06:00&#43;00:00" />
-<meta itemprop="dateModified" content="2018-05-25T21:06:00&#43;00:00" />
+<meta itemprop="description" content="本地开发环境可以使用geth和testrpc(已经改名成ganache-cli)2种，如果只是进行测试或者学习智能合约开发的话，建议使用第二个。至于docker怎么安装网上很多这里不再赘述。"><meta itemprop="datePublished" content="2018-05-25T21:06:00+00:00" />
+<meta itemprop="dateModified" content="2018-05-25T21:06:00+00:00" />
 <meta itemprop="wordCount" content="410">
 <meta itemprop="keywords" content="" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -93,10 +93,10 @@ if (!doNotTrack) {
 			<p>本地开发环境可以使用<code>geth</code>和<code>testrpc</code>(已经改名成ganache-cli)2种，如果只是进行测试或者学习智能合约开发的话，建议使用第二个。至于docker怎么安装网上很多这里不再赘述。</p>
 <h2 id="ganache-cli">ganache-cli</h2>
 <p><a href="https://github.com/trufflesuite/ganache-cli">ganache-cli</a>是专门用来测试的单节点服务，大大简化了初学者的学习门槛。我们使用docker直接拉取镜像并且运行容器即可：</p>
-<pre><code>docker pull trufflesuite/ganache-cli
+<pre tabindex="0"><code>docker pull trufflesuite/ganache-cli
 docker run -d -p 8545:8545 trufflesuite/ganache-cli:latest
 </code></pre><p>注意这里暴露rpc端口8545以便后续使用。查看容器log发现有如下输出:</p>
-<pre><code>0 % docker ps                                                 
+<pre tabindex="0"><code>0 % docker ps                                                 
 CONTAINER ID        IMAGE                             COMMAND                  CREATED             STATUS              PORTS                    NAMES
 ab32d69568d5        trufflesuite/ganache-cli:latest   &quot;node ./build/cli.no…&quot;   2 seconds ago       Up 1 second         0.0.0.0:8545-&gt;8545/tcp   determined_lalande
 
@@ -139,12 +139,12 @@ Listening on localhost:8545
 </code></pre><p>完事，用docker就是这么简单。镜像中自动创建账户并且分配了100eth到每个账户中。</p>
 <h2 id="geth">geth</h2>
 <p>另一种就是官网的golang客户端<a href="https://github.com/ethereum/go-ethereum/">geth</a>，当然也可以通过<code>go get</code>命令在直接安装，但我这里还是使用docker：</p>
-<pre><code>docker pull ethereum/client-go
+<pre tabindex="0"><code>docker pull ethereum/client-go
 
 docker run -d --name ethereum-node -v /mnt/files/myethereum:/root -p 8545:8545 -p 30303:30303 ethereum/client-go --rpcaddr 0.0.0.0 --rpc --rpccorsdomain &quot;*&quot; --rpcapi &quot;web3,eth&quot; --testnet
 </code></pre><p>根据情况修改-v后面的参数，运行容器时记得添加后面的各种参数，否则在使用remix连接时候可能会报错<code>Not possible to connect to the Web3 Provider</code>。</p>
 <p>运行成功后进入容器中:</p>
-<pre><code>docker exec -it ethereum-node sh
+<pre tabindex="0"><code>docker exec -it ethereum-node sh
 
 / # ls /root/.ethereum/testnet/
 geth      geth.ipc  keystore
@@ -154,22 +154,22 @@ Welcome to the Geth JavaScript console!
 instance: Geth/v1.8.9-unstable-be22ee8d/linux-amd64/go1.10.2
 modules: admin:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 rpc:1.0 txpool:1.0 web3:1.0
 </code></pre><p>使用<code>geth attach</code>命令进入终端后，查看账户：</p>
-<pre><code>&gt; personal.listAccounts
+<pre tabindex="0"><code>&gt; personal.listAccounts
 []
 </code></pre><p>目前是没有账户的，来创建新账户：</p>
-<pre><code>&gt; personal.newAccount(&quot;123456&quot;)
+<pre tabindex="0"><code>&gt; personal.newAccount(&quot;123456&quot;)
 &quot;0x732aed1c5dfba79712698ddd7a2724a13b719975&quot;
 &gt; personal.listAccounts
 [&quot;0x732aed1c5dfba79712698ddd7a2724a13b719975&quot;]
 </code></pre><p>123456是密码，返回的是账户地址。查看余额：</p>
-<pre><code>&gt; web3.eth.getBalance(personal.listAccounts[0])
+<pre tabindex="0"><code>&gt; web3.eth.getBalance(personal.listAccounts[0])
 0
 </code></pre><p>当前账户余额为０。</p>
 <p>开始挖矿</p>
-<pre><code>&gt; miner.start()
+<pre tabindex="0"><code>&gt; miner.start()
 null
 </code></pre><p>使用<code>docker logs</code>命令查看日志，发现如下输出：</p>
-<pre><code>INFO [05-25|07:31:07] Commit new mining work                   number=37      txs=0 uncles=0 elapsed=193.682µs
+<pre tabindex="0"><code>INFO [05-25|07:31:07] Commit new mining work                   number=37      txs=0 uncles=0 elapsed=193.682µs
 INFO [05-25|07:31:07] Imported new block headers               count=0   elapsed=10.525ms  number=7888    hash=047277…30a270 ignored=192
 INFO [05-25|07:31:08] Generating DAG in progress               epoch=1 percentage=86 elapsed=2m9.829s
 INFO [05-25|07:31:09] Imported new block receipts              count=0   elapsed=2.569ms   number=7697    hash=c10545…927b36 size=0.00B   ignored=193
@@ -184,10 +184,10 @@ INFO [05-25|07:31:11] Imported new block receipts              count=0   elapsed
 INFO [05-25|07:31:11] Imported new block headers               count=0   elapsed=10.914ms  number=8272    hash=b4afad…9154f0 ignored=192
 INFO [05-25|07:31:11] Successfully sealed new block            number=38      hash=e84cd2…0ba05b
 </code></pre><p>再看钱包余额:</p>
-<pre><code>&gt; web3.eth.getBalance(personal.listAccounts[0])
+<pre tabindex="0"><code>&gt; web3.eth.getBalance(personal.listAccounts[0])
 105000000000000000000
 </code></pre><p>接下来解锁钱包，这样才能用于智能合约:</p>
-<pre><code>&gt; addr = eth.accounts[0]
+<pre tabindex="0"><code>&gt; addr = eth.accounts[0]
 &quot;0x732aed1c5dfba79712698ddd7a2724a13b719975&quot;
 &gt; personal.unlockAccount(addr,'123456',1000000)
 true
@@ -196,7 +196,7 @@ true
 <p><a href="http://remix.ethereum.org">remix</a>是一个在线智能合约IDE，注意打开这个网站时候使用http而不是https，否则也可能会报错<code>Not possible to connect to the Web3 Provider</code>。</p>
 <p>打开网站后在右上角<code>run</code>面板中修改<code>Environment</code>选项为<code>web3 provider</code>，然后打开<code>settings</code>面版，选择<code>Solidity</code>的版本，否则可能会报错<code>mock compiler: source not found</code></p>
 <p>编写一个最简单的合约：</p>
-<pre><code>pragma solidity ^0.4.0;
+<pre tabindex="0"><code>pragma solidity ^0.4.0;
 
 contract MyfirstContract {
  uint storeData;

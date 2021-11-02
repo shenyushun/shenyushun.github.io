@@ -12,14 +12,14 @@
 ImportError: pycurl: libcurl link-time ssl backend (nss) is different from compile-time ssl backend (none/other)解决方法：" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83pycurl%E7%9A%84import%E9%94%99%E8%AF%AF/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2014-04-14T11:56:49&#43;00:00" />
-<meta property="article:modified_time" content="2014-04-14T11:56:49&#43;00:00" />
+<meta property="article:published_time" content="2014-04-14T11:56:49+00:00" />
+<meta property="article:modified_time" content="2014-04-14T11:56:49+00:00" />
 
 
 		<meta itemprop="name" content="虚拟环境pycurl的import错误">
 <meta itemprop="description" content="今天需要在虚拟环境下使用pycurl，使用pip安装时候没问题，不过再代码中import后则报错：
-ImportError: pycurl: libcurl link-time ssl backend (nss) is different from compile-time ssl backend (none/other)解决方法："><meta itemprop="datePublished" content="2014-04-14T11:56:49&#43;00:00" />
-<meta itemprop="dateModified" content="2014-04-14T11:56:49&#43;00:00" />
+ImportError: pycurl: libcurl link-time ssl backend (nss) is different from compile-time ssl backend (none/other)解决方法："><meta itemprop="datePublished" content="2014-04-14T11:56:49+00:00" />
+<meta itemprop="dateModified" content="2014-04-14T11:56:49+00:00" />
 <meta itemprop="wordCount" content="24">
 <meta itemprop="keywords" content="python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -93,7 +93,7 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>今天需要在虚拟环境下使用pycurl，使用pip安装时候没问题，不过再代码中import后则报错：</p>
-<pre><code>ImportError: pycurl: libcurl link-time ssl backend (nss) is different from compile-time ssl backend (none/other)
+<pre tabindex="0"><code>ImportError: pycurl: libcurl link-time ssl backend (nss) is different from compile-time ssl backend (none/other)
 </code></pre><p>解决方法：</p>
 <ol>
 <li>卸载pip uninstall pycurl</li>

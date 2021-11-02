@@ -13,15 +13,15 @@
 以下代码为N版，但大体流程相差应该不大。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2020-03-30T17:46:29&#43;00:00" />
-<meta property="article:modified_time" content="2020-03-30T17:46:29&#43;00:00" />
+<meta property="article:published_time" content="2020-03-30T17:46:29+00:00" />
+<meta property="article:modified_time" content="2020-03-30T17:46:29+00:00" />
 
 
 		<meta itemprop="name" content="OpenStack源码学习笔记5">
 <meta itemprop="description" content="今天遇到一个诡异的问题，对某个有问题的计算节点进行疏散，结果有些虚拟机的根磁盘居然消！失！了？首先能够确定的是ceph不会自动删除，那么一定是某个地方触发了删除根磁盘的操作。
 这如果发生在生产环境可是一个极其严重的问题，正好借此排查的机会梳理一下nova关于主机疏散的流程。
-以下代码为N版，但大体流程相差应该不大。"><meta itemprop="datePublished" content="2020-03-30T17:46:29&#43;00:00" />
-<meta itemprop="dateModified" content="2020-03-30T17:46:29&#43;00:00" />
+以下代码为N版，但大体流程相差应该不大。"><meta itemprop="datePublished" content="2020-03-30T17:46:29+00:00" />
+<meta itemprop="dateModified" content="2020-03-30T17:46:29+00:00" />
 <meta itemprop="wordCount" content="728">
 <meta itemprop="keywords" content="python,openstack," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -98,8 +98,8 @@ if (!doNotTrack) {
 <p>这如果发生在生产环境可是一个极其严重的问题，正好借此排查的机会梳理一下nova关于主机疏散的流程。</p>
 <p>以下代码为N版，但大体流程相差应该不大。</p>
 <p>根据套路(不知道套路的看以前的系列文章)，定位疏散入口为<code>api/openstack/compute/evacuate.py</code>的<code>_evacuate</code>函数，这里有个比较重要的就是判断是否使用了共享存储，然后调用<code>compute/api.py</code>中的<code>evacuate</code>函数：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">evacuate</span>(self, context, instance, host, on_shared_storage,
-                admin_password<span style="color:#f92672">=</span>None, force<span style="color:#f92672">=</span>None):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">evacuate</span>(self, context, instance, host, on_shared_storage,
+                admin_password<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, force<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
     <span style="color:#f92672">......</span>
     migration <span style="color:#f92672">=</span> objects<span style="color:#f92672">.</span>Migration(context,
                                     source_compute<span style="color:#f92672">=</span>instance<span style="color:#f92672">.</span>host,
@@ -114,27 +114,27 @@ if (!doNotTrack) {
     <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>compute_task_api<span style="color:#f92672">.</span>rebuild_instance(context,
                     instance<span style="color:#f92672">=</span>instance,
                     new_pass<span style="color:#f92672">=</span>admin_password,
-                    injected_files<span style="color:#f92672">=</span>None,
-                    image_ref<span style="color:#f92672">=</span>None,
-                    orig_image_ref<span style="color:#f92672">=</span>None,
-                    orig_sys_metadata<span style="color:#f92672">=</span>None,
-                    bdms<span style="color:#f92672">=</span>None,
-                    recreate<span style="color:#f92672">=</span>True,
+                    injected_files<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+                    image_ref<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+                    orig_image_ref<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+                    orig_sys_metadata<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+                    bdms<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+                    recreate<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
                     on_shared_storage<span style="color:#f92672">=</span>on_shared_storage,
                     host<span style="color:#f92672">=</span>host,
                     request_spec<span style="color:#f92672">=</span>request_spec,
                     )
 </code></pre></div><p>这个函数首先建立一个status为<code>accepted</code>、type为<code>evacuation</code>的数据，然后看是否指定目标主机，在我们的使用场景下这个值都为<code>None</code>，这里需要注意一个<code>recreate</code>参数，在疏散调用时值为<code>True</code>。</p>
 <p>然后跟进<code>conductor/manager.py</code>中<code>ComputeTaskManager</code>类的<code>rebuild_instance</code>方法，这里会进行主机筛选：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">rebuild_instance</span>(self, context, instance, orig_image_ref, image_ref,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">rebuild_instance</span>(self, context, instance, orig_image_ref, image_ref,
                         injected_files, new_pass, orig_sys_metadata,
                         bdms, recreate, on_shared_storage,
-                        preserve_ephemeral<span style="color:#f92672">=</span>False, host<span style="color:#f92672">=</span>None,
-                        request_spec<span style="color:#f92672">=</span>None, force_dest<span style="color:#f92672">=</span>None, filter_properties<span style="color:#f92672">=</span>None):
+                        preserve_ephemeral<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>, host<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+                        request_spec<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, force_dest<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, filter_properties<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
     dest_filter_properties <span style="color:#f92672">=</span> filter_properties
     <span style="color:#66d9ef">with</span> compute_utils<span style="color:#f92672">.</span>EventReporter(context, <span style="color:#e6db74">&#39;rebuild_server&#39;</span>,
                                         instance<span style="color:#f92672">.</span>uuid):
-        node <span style="color:#f92672">=</span> limits <span style="color:#f92672">=</span> None
+        node <span style="color:#f92672">=</span> limits <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
         <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> host:
             <span style="color:#f92672">......</span>
             <span style="color:#66d9ef">try</span>:
@@ -148,7 +148,7 @@ if (!doNotTrack) {
                     self<span style="color:#f92672">.</span>_set_vm_state_and_notify(context, instance<span style="color:#f92672">.</span>uuid,
                             <span style="color:#e6db74">&#39;rebuild_server&#39;</span>,
                             {<span style="color:#e6db74">&#39;vm_state&#39;</span>: instance<span style="color:#f92672">.</span>vm_state,
-                                <span style="color:#e6db74">&#39;task_state&#39;</span>: None}, ex, request_spec)
+                                <span style="color:#e6db74">&#39;task_state&#39;</span>: <span style="color:#66d9ef">None</span>}, ex, request_spec)
                     LOG<span style="color:#f92672">.</span>warning(_LW(<span style="color:#e6db74">&#34;No valid host found for rebuild&#34;</span>),
                                 instance<span style="color:#f92672">=</span>instance)
         <span style="color:#f92672">......</span>
@@ -158,7 +158,7 @@ if (!doNotTrack) {
         <span style="color:#66d9ef">except</span> exception<span style="color:#f92672">.</span>MigrationNotFoundByStatus:
             LOG<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#34;No migration record for the rebuild/evacuate &#34;</span>
                         <span style="color:#e6db74">&#34;request.&#34;</span>, instance<span style="color:#f92672">=</span>instance)
-            migration <span style="color:#f92672">=</span> None
+            migration <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
         self<span style="color:#f92672">.</span>compute_rpcapi<span style="color:#f92672">.</span>rebuild_instance(context,
                 instance<span style="color:#f92672">=</span>instance,
                 new_pass<span style="color:#f92672">=</span>new_pass,
@@ -173,12 +173,12 @@ if (!doNotTrack) {
                 migration<span style="color:#f92672">=</span>migration,
                 host<span style="color:#f92672">=</span>host, node<span style="color:#f92672">=</span>node, limits<span style="color:#f92672">=</span>limits)
 </code></pre></div><p>然后再经过<code>compute/rpcapi.py</code>中<code>ComputeAPI</code>的<code>rebuild_instance</code>方法，最终进入<code>compute/manager.py</code>的<code>_do_rebuild_instance</code>函数，这个函数中进行主机状态、网络、磁盘相关的修改，构造好参数后进入<code>_rebuild_default_impl</code>函数:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_rebuild_default_impl</span>(self, context, instance, image_meta,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_rebuild_default_impl</span>(self, context, instance, image_meta,
                             injected_files, admin_password, bdms,
                             detach_block_devices, attach_block_devices,
-                            network_info<span style="color:#f92672">=</span>None,
-                            recreate<span style="color:#f92672">=</span>False, block_device_info<span style="color:#f92672">=</span>None,
-                            preserve_ephemeral<span style="color:#f92672">=</span>False):
+                            network_info<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+                            recreate<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>, block_device_info<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+                            preserve_ephemeral<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>):
     <span style="color:#66d9ef">if</span> preserve_ephemeral:
         <span style="color:#75715e"># The default code path does not support preserving ephemeral</span>
         <span style="color:#75715e"># partitions.</span>
@@ -187,7 +187,7 @@ if (!doNotTrack) {
     <span style="color:#66d9ef">if</span> recreate:
         detach_block_devices(context, bdms)
     <span style="color:#66d9ef">else</span>:
-        self<span style="color:#f92672">.</span>_power_off_instance(context, instance, clean_shutdown<span style="color:#f92672">=</span>True)
+        self<span style="color:#f92672">.</span>_power_off_instance(context, instance, clean_shutdown<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
         detach_block_devices(context, bdms)
         self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>destroy(context, instance,
                             network_info<span style="color:#f92672">=</span>network_info,
@@ -207,16 +207,16 @@ if (!doNotTrack) {
                             admin_password, network_info<span style="color:#f92672">=</span>network_info,
                             block_device_info<span style="color:#f92672">=</span>new_block_device_info)
 </code></pre></div><p>由于传入的<code>recreate</code>值为<code>True</code>，怎么看也不会有触发删除磁盘的行为啊？else分支的<code>driver.destroy</code>函数看起来很可疑，跟进去看看，代码位于<code>virt/libvirt/driver.py</code>中:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">destroy</span>(self, context, instance, network_info, block_device_info<span style="color:#f92672">=</span>None,
-            destroy_disks<span style="color:#f92672">=</span>True, migrate_data<span style="color:#f92672">=</span>None):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">destroy</span>(self, context, instance, network_info, block_device_info<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+            destroy_disks<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, migrate_data<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
     self<span style="color:#f92672">.</span>_destroy(instance)
     self<span style="color:#f92672">.</span>cleanup(context, instance, network_info, block_device_info,
                  destroy_disks, migrate_data)
 
 </code></pre></div><p>其中<code>_destory</code>函数主要是删除主机，代码有兴趣的可以看看。而真正执行删磁盘的代码位于<code>cleanup</code>函数中:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">cleanup</span>(self, context, instance, network_info, block_device_info<span style="color:#f92672">=</span>None,
-            destroy_disks<span style="color:#f92672">=</span>True, migrate_data<span style="color:#f92672">=</span>None, destroy_vifs<span style="color:#f92672">=</span>True):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">cleanup</span>(self, context, instance, network_info, block_device_info<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+            destroy_disks<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, migrate_data<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, destroy_vifs<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>):
     <span style="color:#f92672">......</span>      
         <span style="color:#66d9ef">try</span>:
             self<span style="color:#f92672">.</span>_disconnect_volume(connection_info, disk_dev)
@@ -226,7 +226,7 @@ if (!doNotTrack) {
                     <span style="color:#75715e"># Don&#39;t block on Volume errors if we&#39;re trying to</span>
                     <span style="color:#75715e"># delete the instance as we may be partially created</span>
                     <span style="color:#75715e"># or deleted</span>
-                    ctxt<span style="color:#f92672">.</span>reraise <span style="color:#f92672">=</span> False
+                    ctxt<span style="color:#f92672">.</span>reraise <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
                     LOG<span style="color:#f92672">.</span>warning(
                         _LW(<span style="color:#e6db74">&#34;Ignoring Volume Error on vol </span><span style="color:#e6db74">%(vol_id)s</span><span style="color:#e6db74"> &#34;</span>
                             <span style="color:#e6db74">&#34;during delete </span><span style="color:#e6db74">%(exc)s</span><span style="color:#e6db74">&#34;</span>),
@@ -265,7 +265,7 @@ if (!doNotTrack) {
 <li>host_init</li>
 </ol>
 <p>其中1、2、3都被排除，那么就看host_init时做了什么吧：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">init_host</span>(self):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">init_host</span>(self):
     <span style="color:#e6db74">&#34;&#34;&#34;Initialization for a standalone compute service.&#34;&#34;&#34;</span>
     <span style="color:#f92672">......</span>
     <span style="color:#66d9ef">try</span>:
@@ -299,7 +299,7 @@ if (!doNotTrack) {
         <span style="color:#66d9ef">return</span>
     evacuations <span style="color:#f92672">=</span> {mig<span style="color:#f92672">.</span>instance_uuid: mig <span style="color:#66d9ef">for</span> mig <span style="color:#f92672">in</span> evacuations}
 
-    filters <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;deleted&#39;</span>: False}
+    filters <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;deleted&#39;</span>: <span style="color:#66d9ef">False</span>}
     local_instances <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_instances_on_driver(context, filters)
     evacuated <span style="color:#f92672">=</span> [inst <span style="color:#66d9ef">for</span> inst <span style="color:#f92672">in</span> local_instances
                     <span style="color:#66d9ef">if</span> inst<span style="color:#f92672">.</span>uuid <span style="color:#f92672">in</span> evacuations]
@@ -321,7 +321,7 @@ if (!doNotTrack) {
                             <span style="color:#e6db74">&#39;removing it from the hypervisor.&#39;</span>),
                         instance<span style="color:#f92672">=</span>instance)
             <span style="color:#75715e"># always destroy disks if the instance was deleted</span>
-            destroy_disks <span style="color:#f92672">=</span> True
+            destroy_disks <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
         self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>destroy(context, instance,
                             network_info,
                             bdi, destroy_disks)
@@ -329,8 +329,8 @@ if (!doNotTrack) {
         migration<span style="color:#f92672">.</span>save()
 </code></pre></div><p>会不会是疏散过程中触发了异常然后又重启了计算节点才导致的根磁盘被删除呢？</p>
 <p>后来和同事商讨后发现我的思路错了，被上面<code>driver.destroy</code>这个名称误导，其实还有一个地方会进行删除磁盘行为，就是<code>spwan</code>函数:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">spawn</span>(self, context, instance, image_meta, injected_files,
-          admin_password, network_info<span style="color:#f92672">=</span>None, block_device_info<span style="color:#f92672">=</span>None):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">spawn</span>(self, context, instance, image_meta, injected_files,
+          admin_password, network_info<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, block_device_info<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
     disk_info <span style="color:#f92672">=</span> blockinfo<span style="color:#f92672">.</span>get_disk_info(CONF<span style="color:#f92672">.</span>libvirt<span style="color:#f92672">.</span>virt_type,
                                         instance,
                                         image_meta,
@@ -343,15 +343,15 @@ if (!doNotTrack) {
         context, xml, instance, network_info, disk_info,
         block_device_info<span style="color:#f92672">=</span>block_device_info,
         post_xml_callback<span style="color:#f92672">=</span>gen_confdrive,
-        destroy_disks_on_failure<span style="color:#f92672">=</span>True)
+        destroy_disks_on_failure<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
     <span style="color:#f92672">...</span>
 
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_create_domain_and_network</span>(self, context, xml, instance, network_info,
-                                disk_info, block_device_info<span style="color:#f92672">=</span>None,
-                                power_on<span style="color:#f92672">=</span>True, reboot<span style="color:#f92672">=</span>False,
-                                vifs_already_plugged<span style="color:#f92672">=</span>False,
-                                post_xml_callback<span style="color:#f92672">=</span>None,
-                                destroy_disks_on_failure<span style="color:#f92672">=</span>False):
+                                disk_info, block_device_info<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+                                power_on<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, reboot<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>,
+                                vifs_already_plugged<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>,
+                                post_xml_callback<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+                                destroy_disks_on_failure<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>):
 
     block_device_mapping <span style="color:#f92672">=</span> driver<span style="color:#f92672">.</span>block_device_info_get_mapping(
         block_device_info)

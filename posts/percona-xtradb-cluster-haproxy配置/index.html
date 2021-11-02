@@ -14,16 +14,16 @@ IP分配:
  192.168.0.154(DB) 192.168.0.152(DB) 192.168.0.153(DB) 192." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/percona-xtradb-cluster-haproxy%E9%85%8D%E7%BD%AE/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2015-01-06T17:33:37&#43;00:00" />
-<meta property="article:modified_time" content="2015-01-06T17:33:37&#43;00:00" />
+<meta property="article:published_time" content="2015-01-06T17:33:37+00:00" />
+<meta property="article:modified_time" content="2015-01-06T17:33:37+00:00" />
 
 
 		<meta itemprop="name" content="Percona XtraDB Cluster&#43;HAProxy配置">
 <meta itemprop="description" content="最近公司有个异地多机房数据同步需求，mysql原生支持双主同步，所以只能另寻他法，于是找到了Percona XtraDB Cluster。这个可以理解为给Mysql打了个补丁，以便支持多主同步。
 测试环境：centos 6.5
 IP分配:
- 192.168.0.154(DB) 192.168.0.152(DB) 192.168.0.153(DB) 192."><meta itemprop="datePublished" content="2015-01-06T17:33:37&#43;00:00" />
-<meta itemprop="dateModified" content="2015-01-06T17:33:37&#43;00:00" />
+ 192.168.0.154(DB) 192.168.0.152(DB) 192.168.0.153(DB) 192."><meta itemprop="datePublished" content="2015-01-06T17:33:37+00:00" />
+<meta itemprop="dateModified" content="2015-01-06T17:33:37+00:00" />
 <meta itemprop="wordCount" content="661">
 <meta itemprop="keywords" content="mysql," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -110,7 +110,7 @@ if (!doNotTrack) {
 <p>然后
 <code>yum install Percona-XtraDB-Cluster-56</code></p>
 <p>安装完毕后，修改/etc/my.cnf：</p>
-<pre><code>[mysqld]
+<pre tabindex="0"><code>[mysqld]
 server_id=4
 datadir=/var/lib/mysql
 user=mysql
@@ -139,12 +139,12 @@ log-error=/var/log/mysqld.log
 </code></pre><p><strong>注意，修改不同节点的server_id以及 wsrep_node_address。</strong></p>
 <p>然后在192.168.0.152上执行<code>/etc/init.d/mysql bootstrap-pxc</code></p>
 <p>网上有些文章说需要修改 wsrep_cluster_address=gcomm://，在新版本中不需要了，上面这句就是初始化集群。结果如下：</p>
-<pre><code>[root@localhost ~]# /etc/init.d/mysql bootstrap-pxc
+<pre tabindex="0"><code>[root@localhost ~]# /etc/init.d/mysql bootstrap-pxc
 Bootstrapping PXC (Percona XtraDB Cluster)Starting MySQL (Percona XtraDB Cluster).. SUCCESS!
 </code></pre><p>然后根据配置文件修改用于同步的用户名和密码，由于是实验环境我偷懒直接使用root了：</p>
-<pre><code>mysqladmin -u root password asdasd
+<pre tabindex="0"><code>mysqladmin -u root password asdasd
 </code></pre><p>进入mysql终端后可以看当前信息：</p>
-<pre><code>mysql&gt; show status like 'wsrep%';
+<pre tabindex="0"><code>mysql&gt; show status like 'wsrep%';
 +----------------------------+--------------------------------------+
 | Variable_name              | Value                                |
 +----------------------------+--------------------------------------+
@@ -161,15 +161,15 @@ Bootstrapping PXC (Percona XtraDB Cluster)Starting MySQL (Percona XtraDB Cluster
 | wsrep_ready                | ON                                   |
 +----------------------------+--------------------------------------+
 </code></pre><p><strong>当第一个节点成功启动后，启动其他节点，注意此时命令是</strong></p>
-<pre><code>/etc/init.d/mysql start
+<pre tabindex="0"><code>/etc/init.d/mysql start
 </code></pre><p>正常情况下很快就会启动完成，如果启动了很长时间后出现如下提示：</p>
-<pre><code>Shutting down MySQL (Percona XtraDB Cluster)..... SUCCESS!
+<pre tabindex="0"><code>Shutting down MySQL (Percona XtraDB Cluster)..... SUCCESS!
 Starting MySQL (Percona XtraDB Cluster).................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................... ERROR!
  ERROR! MySQL (Percona XtraDB Cluster) server startup failed!
  ERROR! Failed to restart server.
 </code></pre><p>但日志里没相关错误信息，那么请 <strong>检查selinux是否关闭以及防火墙4444和4567端口</strong> ！！！（我就忘了防火墙的原因纠结了好久）</p>
 <p>启动成功提示如下：</p>
-<pre><code>[root@test4 ~]# service mysql start
+<pre tabindex="0"><code>[root@test4 ~]# service mysql start
 Starting MySQL (Percona XtraDB Cluster)...... SUCCESS!
 [root@test4 ~]# netstat -anp
 Active Internet connections (servers and established)
@@ -182,11 +182,11 @@ tcp        0      0 192.168.0.154:4567          192.168.0.153:53681         ESTA
 tcp        0      0 192.168.0.154:59348         192.168.0.152:4567          ESTABLISHED 5184/mysqld
 </code></pre><p>可以看出，4567端口也处于监听状态。此时，在任意机器上进行数据库操作其他2个也会自动同步了。</p>
 <p>此时，手动关闭152,然后在154上插入数据，153也同步了，同时自动把152从集群中删除了：</p>
-<pre><code>| wsrep_incoming_addresses     | 192.168.0.154:3306,192.168.0.153:3306 |
+<pre tabindex="0"><code>| wsrep_incoming_addresses     | 192.168.0.154:3306,192.168.0.153:3306 |
 </code></pre><p>再启动152后，数据也自动同步了。</p>
 <p>如果非常非常不幸，集群中所有节点都挂掉了，修复后需要在最后挂掉的节点上执行bootstrap-pxc命令，这样才能拯救多一些的数据。</p>
 <p>如果重启时候报错：</p>
-<pre><code>[root@test3 ~]# service mysql start
+<pre tabindex="0"><code>[root@test3 ~]# service mysql start
  ERROR! MySQL (Percona XtraDB Cluster) is not running, but lock file (/var/lock/subsys/mysql) exists
 Stale sst_in_progress file in datadir
 Starting MySQL (Percona XtraDB Cluster)State transfer in progress, setting sleep higher
@@ -195,7 +195,7 @@ Starting MySQL (Percona XtraDB Cluster)State transfer in progress, setting sleep
 </code></pre><p>直接删除/var/lock/subsys/mysql即可。还有一点需要注意的，数据库表需要使用INNODB而不是MYISAM引擎，否则会出现表结构同步了而数据无法同步的情况。</p>
 <p>安装HAproxy：<code>yum install haproxy</code></p>
 <p>修改配置文件，位于/etc/haproxy/haproxy.cfg:</p>
-<pre><code>#---------------------------------------------------------------------
+<pre tabindex="0"><code>#---------------------------------------------------------------------
 # Example configuration for a possibleweb application.  See the
 # full configuration options online.
 #  http://haproxy.1wt.eu/download/1.4/doc/configuration.txt
@@ -259,22 +259,22 @@ listen status 192.168.0.151:8080
 <p>对于上面的HA配置，默认是监控第4层，换言之如果由于某情况下3306端口开放而MYSQL实际并没提供服务时，HA就无法解决这种情况。为了模拟这种情况，停止某个节点的MYSQL服务后，使用NC监听3306端口，成功欺骗了HA。为了解决这中情况，我们就需要针对应用层进行监控。</p>
 <p>首先在节点上安装xinetd:<code>yum install -y xinetd</code></p>
 <p>然后编辑/etc/services，添加</p>
-<pre><code>mysqlchk        9200/tcp
+<pre tabindex="0"><code>mysqlchk        9200/tcp
 </code></pre><p>然后编辑/usr/bin/clustercheck，修改</p>
-<pre><code>MYSQL_USERNAME=&quot;${1-root}&quot;
+<pre tabindex="0"><code>MYSQL_USERNAME=&quot;${1-root}&quot;
 MYSQL_PASSWORD=&quot;${2-asdasd}&quot;
 </code></pre><p>这里我偷懒使用root，大家根据实际情况修改。保存后启动xinetd服务</p>
-<pre><code>[root@test4 ~]# /etc/init.d/xinetd start
+<pre tabindex="0"><code>[root@test4 ~]# /etc/init.d/xinetd start
 Starting xinetd:                                           [  OK  ]
 </code></pre><p>此时9200端口应该已经处于了监听状态，执行检测命令:</p>
-<pre><code>[root@test5 ~]# clustercheck
+<pre tabindex="0"><code>[root@test5 ~]# clustercheck
 HTTP/1.1 200 OK
 Content-Type: text/plain
 Connection: close
 Content-Length: 40
 Percona XtraDB Cluster Node is synced.
 </code></pre><p>接下来修改HA节点的配置文件，修改成：</p>
-<pre><code>    listen mysql-cluster 0.0.0.0:3306
+<pre tabindex="0"><code>    listen mysql-cluster 0.0.0.0:3306
     mode tcp
     balance roundrobin
     option httpchk

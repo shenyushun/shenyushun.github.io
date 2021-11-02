@@ -13,15 +13,15 @@
 $Linux 3.9.5-301.fc19.x86_64 SMP Tue Jun 11 19:39:38 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux试验了N多个驱动后发现下面这个可以用:" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/fedora19%E5%AE%89%E8%A3%85ar8161%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2013-11-01T15:58:26&#43;00:00" />
-<meta property="article:modified_time" content="2013-11-01T15:58:26&#43;00:00" />
+<meta property="article:published_time" content="2013-11-01T15:58:26+00:00" />
+<meta property="article:modified_time" content="2013-11-01T15:58:26+00:00" />
 
 
 		<meta itemprop="name" content="fedora19安装ar8161网卡驱动">
 <meta itemprop="description" content="换fedora19系统后发现网卡驱动没自动安装，解决办法如下：
 内核为
-$Linux 3.9.5-301.fc19.x86_64 SMP Tue Jun 11 19:39:38 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux试验了N多个驱动后发现下面这个可以用:"><meta itemprop="datePublished" content="2013-11-01T15:58:26&#43;00:00" />
-<meta itemprop="dateModified" content="2013-11-01T15:58:26&#43;00:00" />
+$Linux 3.9.5-301.fc19.x86_64 SMP Tue Jun 11 19:39:38 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux试验了N多个驱动后发现下面这个可以用:"><meta itemprop="datePublished" content="2013-11-01T15:58:26+00:00" />
+<meta itemprop="dateModified" content="2013-11-01T15:58:26+00:00" />
 <meta itemprop="wordCount" content="27">
 <meta itemprop="keywords" content="fedora," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -96,11 +96,11 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<p>换fedora19系统后发现网卡驱动没自动安装，解决办法如下：</p>
 <p>内核为</p>
-<pre><code>$Linux 3.9.5-301.fc19.x86_64 SMP Tue Jun 11 19:39:38 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux
+<pre tabindex="0"><code>$Linux 3.9.5-301.fc19.x86_64 SMP Tue Jun 11 19:39:38 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux
 </code></pre><p>试验了N多个驱动后发现下面这个可以用:</p>
 <p><a href="http://pan.baidu.com/s/125mQi">http://pan.baidu.com/s/125mQi</a></p>
 <p>下载解压后执行</p>
-<pre><code>./scripts/driver-select alx
+<pre tabindex="0"><code>./scripts/driver-select alx
 make
 sudo make install
 modprobe alx

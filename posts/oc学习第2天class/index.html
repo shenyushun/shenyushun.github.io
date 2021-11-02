@@ -13,15 +13,15 @@ student.h:
 #import &lt;Foundation/Foundation.h&gt; @interface Student : NSObject @end&lt;/pre&gt; student." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/oc%E5%AD%A6%E4%B9%A0%E7%AC%AC2%E5%A4%A9class/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2015-02-11T22:01:04&#43;00:00" />
-<meta property="article:modified_time" content="2015-02-11T22:01:04&#43;00:00" />
+<meta property="article:published_time" content="2015-02-11T22:01:04+00:00" />
+<meta property="article:modified_time" content="2015-02-11T22:01:04+00:00" />
 
 
 		<meta itemprop="name" content="OC学习第2天——CLASS">
 <meta itemprop="description" content="在新建文件时选择os x列表下的“source”，再从右面的选项中选择“cocoa class”，填写类名以及选择存储位置后会自动生成2个文件：一个.h文件和一个.m文件，格式如下
 student.h:
-#import &lt;Foundation/Foundation.h&gt; @interface Student : NSObject @end&lt;/pre&gt; student."><meta itemprop="datePublished" content="2015-02-11T22:01:04&#43;00:00" />
-<meta itemprop="dateModified" content="2015-02-11T22:01:04&#43;00:00" />
+#import &lt;Foundation/Foundation.h&gt; @interface Student : NSObject @end&lt;/pre&gt; student."><meta itemprop="datePublished" content="2015-02-11T22:01:04+00:00" />
+<meta itemprop="dateModified" content="2015-02-11T22:01:04+00:00" />
 <meta itemprop="wordCount" content="269">
 <meta itemprop="keywords" content="" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -96,7 +96,7 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<p>在新建文件时选择os x列表下的“source”，再从右面的选项中选择“cocoa class”，填写类名以及选择存储位置后会自动生成2个文件：一个.h文件和一个.m文件，格式如下</p>
 <p>student.h:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#75715e">#import &lt;Foundation/Foundation.h&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#75715e">#import &lt;Foundation/Foundation.h&gt;
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">@interface</span> <span style="color:#a6e22e">Student</span> : <span style="color:#a6e22e">NSObject</span>
 <span style="color:#66d9ef">@end</span><span style="color:#f92672">&lt;/</span>pre<span style="color:#f92672">&gt;</span>
 student.m:
@@ -104,7 +104,7 @@ student.m:
 <span style="color:#66d9ef">@implementation</span> <span style="color:#a6e22e">Student</span>
 <span style="color:#66d9ef">@end</span>
 </code></pre></div><p>其中.h文件中定义类的属性、方法，和C++一样，OC中的属性也分为3种，private、protected、public。不过方法都是public的，而且不支持重载，比如：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#75715e">#import &lt;Foundation/Foundation.h&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#75715e">#import &lt;Foundation/Foundation.h&gt;
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">@interface</span> <span style="color:#a6e22e">Student</span> : <span style="color:#a6e22e">NSObject</span>{
 <span style="color:#66d9ef">@protected</span>
     NSString <span style="color:#f92672">*</span> name;
@@ -126,14 +126,14 @@ student.m:
 <p>首先，+、-这两个符号定义了这个函数究竟是实例方法(-)还是类方法(+);</p>
 <p>接着的括号中定义了函数的返回类型;</p>
 <p>再接下来是函数名，这里是让我感到比较别扭的地方，比如</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc">-(<span style="color:#66d9ef">void</span>) <span style="color:#a6e22e">setNA:</span>(NSString <span style="color:#f92672">*</span>)aName <span style="color:#a6e22e">age:</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span>)aAge;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc">-(<span style="color:#66d9ef">void</span>) <span style="color:#a6e22e">setNA:</span>(NSString <span style="color:#f92672">*</span>)aName <span style="color:#a6e22e">age:</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span>)aAge;
 </code></pre></div><p>调用时候使用setNA这个函数名即可，不过后面的age也算是函数名的一部分，而这部分又可以被省略掉&hellip;&hellip;上面说过OC中不支持函数的重载，即便参数类型和函数的返回值不同的情况下函数名一样也会报错。不过再声明一个函数比如：<code>-(void) setNA:(NSString *)aName otherage:(unsigned int)aAge;</code></p>
 <p>或者省略掉后面的参数名却是可以的，因为此时省略了后面函数名就代表着这是2个不同的函数了。</p>
 <p>最后是一个“:(参数类型)参数名1 可省略的函数名:(参数类型)参数名2&hellip;”不考虑那个分家了的函数名的话这里也是比较好接受的。</p>
 <p>所以，一个函数的声明整体来说结构如下：</p>
 <p><a href="%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC%E7%B1%BB%E5%9E%8B">+ or -</a> 函数名:(参数类型)参数名1 可省略的函数名:(参数类型)参数名2&hellip;.;</p>
 <p>接下来进入.m去实现上面声明的函数，偷懒的办法就是把声明函数的代码复制过来，再把;替换成{}即可&hellip;</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#75715e">#import &#34;Student.h&#34;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#75715e">#import &#34;Student.h&#34;
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">@implementation</span> <span style="color:#a6e22e">Student</span>
 -(NSString <span style="color:#f92672">*</span>) <span style="color:#a6e22e">getName</span>{
     <span style="color:#66d9ef">return</span> name;
@@ -162,7 +162,7 @@ student.m:
 }
 <span style="color:#66d9ef">@end</span>
 </code></pre></div><p>最后就是在主文件中引入我们写的类以及创建对象了，代码如下</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#75715e">#import &lt;Foundation/Foundation.h&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#75715e">#import &lt;Foundation/Foundation.h&gt;
 </span><span style="color:#75715e">#import &#34;Student.h&#34;
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> argv[]) {
     <span style="color:#66d9ef">@autoreleasepool</span> {
@@ -184,7 +184,7 @@ student.m:
 </blockquote>
 <p>引用来源：http://www.oschina.net/question/54100_32468</p>
 <p>最后看输出，也说明了上面的一点：</p>
-<pre><code>2015-02-11 21:52:43.506 helloword[1069:146145] is a class fuc
+<pre tabindex="0"><code>2015-02-11 21:52:43.506 helloword[1069:146145] is a class fuc
 2015-02-11 21:52:43.507 helloword[1069:146145] setna 1
 2015-02-11 21:52:43.507 helloword[1069:146145] setna 2
 2015-02-11 21:52:43.507 helloword[1069:146145] student name is abcd

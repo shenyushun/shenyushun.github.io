@@ -13,15 +13,15 @@
 这篇文章将进行就解答。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE2/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2018-05-21T21:32:59&#43;00:00" />
-<meta property="article:modified_time" content="2018-05-21T21:32:59&#43;00:00" />
+<meta property="article:published_time" content="2018-05-21T21:32:59+00:00" />
+<meta property="article:modified_time" content="2018-05-21T21:32:59+00:00" />
 
 
 		<meta itemprop="name" content="200行GO代码实现区块链2">
 <meta itemprop="description" content="原文，需要科学上网。省略了一些无关的内容。
 上篇文章我们学习了如何编写区块链并且对进行Hash运算和验证，但所有都运行在一个节点。我们如何让其他的节点连接到我们的主节点并让这些新节点贡献新区块呢？并且，我们如何通知所有的节点区块链有更新呢？
-这篇文章将进行就解答。"><meta itemprop="datePublished" content="2018-05-21T21:32:59&#43;00:00" />
-<meta itemprop="dateModified" content="2018-05-21T21:32:59&#43;00:00" />
+这篇文章将进行就解答。"><meta itemprop="datePublished" content="2018-05-21T21:32:59+00:00" />
+<meta itemprop="dateModified" content="2018-05-21T21:32:59+00:00" />
 <meta itemprop="wordCount" content="587">
 <meta itemprop="keywords" content="golang," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -133,14 +133,14 @@ if (!doNotTrack) {
 <h3 id="前期设置引用包和回顾">前期设置、引用包和回顾</h3>
 <p><em>前期设置</em></p>
 <p>在根目录创建一个<code>.env</code>文件并写入：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">ADDR</span>=<span style="color:#ae81ff">9000</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">ADDR</span>=<span style="color:#ae81ff">9000</span>
 </code></pre></div><p>我们将TCP端口存储在<code>ADDR</code>这个环境变量中。然后安装下面２个包:</p>
 <p><code>go get github.com/davecgh/go-spew/spew</code>　用来更好的在终端打印我们的区块链结构。</p>
 <p><code>go get github.com/joho/godotenv</code>　用来载入我们的<code>.env</code>文件。</p>
 <p>接下来创建一个空的<code>main.go</code>文件。</p>
 <p><em>引用包</em></p>
 <p>添加如下代码：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (
 	<span style="color:#e6db74">&#34;bufio&#34;</span>
@@ -160,7 +160,7 @@ if (!doNotTrack) {
 </code></pre></div><p><em>回顾</em>
 下面几个函数在之前的文章中已经详细说过了，我们把这些复制过来。</p>
 <p>创建<code>Block</code>结构并声明一个由<code>Block</code>组成的<code>slices</code>变量<code>Blockchain</code>。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Block represents each &#39;item&#39; in the blockchain
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Block represents each &#39;item&#39; in the blockchain
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Block</span> <span style="color:#66d9ef">struct</span> {
 	<span style="color:#a6e22e">Index</span>     <span style="color:#66d9ef">int</span>
 	<span style="color:#a6e22e">Timestamp</span> <span style="color:#66d9ef">string</span>
@@ -172,7 +172,7 @@ if (!doNotTrack) {
 <span style="color:#75715e">// Blockchain is a series of validated Blocks
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">Blockchain</span> []<span style="color:#a6e22e">Block</span>
 </code></pre></div><p>接下来是创建区块需要的Hash函数：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// SHA256 hashing
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// SHA256 hashing
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">calculateHash</span>(<span style="color:#a6e22e">block</span> <span style="color:#a6e22e">Block</span>) <span style="color:#66d9ef">string</span> {
 	<span style="color:#a6e22e">record</span> <span style="color:#f92672">:=</span> string(<span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">Index</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">Timestamp</span> <span style="color:#f92672">+</span> string(<span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">BPM</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">PrevHash</span>
 	<span style="color:#a6e22e">h</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sha256</span>.<span style="color:#a6e22e">New</span>()
@@ -181,7 +181,7 @@ if (!doNotTrack) {
 	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">hex</span>.<span style="color:#a6e22e">EncodeToString</span>(<span style="color:#a6e22e">hashed</span>)
 }
 </code></pre></div><p>区块生成函数：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// create a new block using previous block&#39;s hash
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// create a new block using previous block&#39;s hash
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">generateBlock</span>(<span style="color:#a6e22e">oldBlock</span> <span style="color:#a6e22e">Block</span>, <span style="color:#a6e22e">BPM</span> <span style="color:#66d9ef">int</span>) (<span style="color:#a6e22e">Block</span>, <span style="color:#66d9ef">error</span>) {
 
 	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">newBlock</span> <span style="color:#a6e22e">Block</span>
@@ -197,7 +197,7 @@ if (!doNotTrack) {
 	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">newBlock</span>, <span style="color:#66d9ef">nil</span>
 }
 </code></pre></div><p>验证函数：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// make sure block is valid by checking index, and comparing the hash of the previous block
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// make sure block is valid by checking index, and comparing the hash of the previous block
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">isBlockValid</span>(<span style="color:#a6e22e">newBlock</span>, <span style="color:#a6e22e">oldBlock</span> <span style="color:#a6e22e">Block</span>) <span style="color:#66d9ef">bool</span> {
 	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">oldBlock</span>.<span style="color:#a6e22e">Index</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">newBlock</span>.<span style="color:#a6e22e">Index</span> {
 		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
@@ -214,7 +214,7 @@ if (!doNotTrack) {
 	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
 }
 </code></pre></div><p>确保最长的链是主链：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// make sure the chain we&#39;re checking is longer than the current blockchain
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// make sure the chain we&#39;re checking is longer than the current blockchain
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">replaceChain</span>(<span style="color:#a6e22e">newBlocks</span> []<span style="color:#a6e22e">Block</span>) {
 	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">newBlocks</span>) &gt; len(<span style="color:#a6e22e">Blockchain</span>) {
 		<span style="color:#a6e22e">Blockchain</span> = <span style="color:#a6e22e">newBlocks</span>
@@ -224,11 +224,11 @@ if (!doNotTrack) {
 <h3 id="网络">网络</h3>
 <p>现在我们来设置网络，可以通过这个来进行区块分发，并把其加入到区块链并把新区块链广播回网络中。</p>
 <p>首先我们在其他结构体声明位置下面声明一个全局变量<code>bcServer</code>(short for blockchain server)，这是一个<code>channel</code>用来接收传入的区块。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// bcServer handles incoming concurrent Blocks
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// bcServer handles incoming concurrent Blocks
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">bcServer</span> <span style="color:#66d9ef">chan</span> []<span style="color:#a6e22e">Block</span>
 </code></pre></div><p><em>题外话：channel是GO语言中最流行的一个特性，准许我们优雅的进行数据读写，经常用来解决数据竞争问题。当和go routines同时使用时将十分强大，因为多个go　routines可以写入同一个channel。在Java或者类c语言中，你不得不通过互斥锁来控制数据的写入。尽管GO中也有互斥锁，但channel让这些变得简单。更多相关可以看<a href="https://golangbot.com/channels/">这里</a>。</em></p>
 <p>接下来编写main函数并从<code>.env</code>文件中载入环境变量，记住我们将在晚一些使用环境变量<code>ADDR</code>9090作为TCP端口使用。同样，在main函数中初始化<code>bcServer</code>：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
 	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">godotenv</span>.<span style="color:#a6e22e">Load</span>()
 	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#a6e22e">err</span>)
@@ -244,7 +244,7 @@ if (!doNotTrack) {
 }
 </code></pre></div><p>接下来编写TCP服务，你可以认为这个和HTTP十分类似，但没有浏览器支持。所有的数据传输都通过终端进行，并且能处理多个连接。
 添加如下代码:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// start TCP and serve TCP server
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// start TCP and serve TCP server
 </span><span style="color:#75715e"></span><span style="color:#a6e22e">server</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Listen</span>(<span style="color:#e6db74">&#34;tcp&#34;</span>, <span style="color:#e6db74">&#34;:&#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Getenv</span>(<span style="color:#e6db74">&#34;ADDR&#34;</span>))
 <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
   <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#a6e22e">err</span>)
@@ -252,7 +252,7 @@ if (!doNotTrack) {
 <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">Close</span>()
 </code></pre></div><p>这里监听9090端口，并且<code>defer server.Close()</code>是很重要的，当我们不再需要连接后可以简洁的断开。关于<code>defer</code>可以看<a href="https://blog.golang.org/defer-panic-and-recover">这里</a>。</p>
 <p>当每次有新的连接请求时我们都需要创建一个新的连接来处理，添加如下代码：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">for</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">for</span> {
   <span style="color:#a6e22e">conn</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">Accept</span>()
   <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
     <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#a6e22e">err</span>)
@@ -261,7 +261,7 @@ if (!doNotTrack) {
 }
 </code></pre></div><p>我们创建了一个死循环用来处理连接，并且通过<code>go handleConn(conn)</code>并发的处理每一个连接，所以没阻塞<code>for</code>循环。这也是能够并发处理连接的原因。</p>
 <p>细心的读者可能发现了，我们并没有<code>handleConn</code>函数，别急，先看看完整的<code>main</code>函数：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
 	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">godotenv</span>.<span style="color:#a6e22e">Load</span>()
 	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#a6e22e">err</span>)
@@ -293,7 +293,7 @@ if (!doNotTrack) {
 }
 </code></pre></div><p>下面编写<code>handleConn</code>函数，这个函数接受一个<code>net.Conn</code>类型的接口作为参数。接口非常神奇，在我看来，接口让GO和其他类Ｃ语言产生本质区别。并发和go routines得到了大量关注，但接口才是最强大的特性。如果你目前不使用接口，那么尽快的熟悉它，接口将助你成为GO大神。</p>
 <p>首先创建一个骨架并且加入<code>defer</code>语句来关闭连接：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">handleConn</span>(<span style="color:#a6e22e">conn</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Conn</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">handleConn</span>(<span style="color:#a6e22e">conn</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Conn</span>) {
 	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">conn</span>.<span style="color:#a6e22e">Close</span>()
 }
 </code></pre></div><p>现在我们需要准许客户端添加区块到区块链中，我们还以BPM为例，需要：</p>
@@ -305,7 +305,7 @@ if (!doNotTrack) {
 <li>准许客户端输入新的BPM</li>
 </ul>
 <p>代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">	<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">conn</span>, <span style="color:#e6db74">&#34;Enter a new BPM:&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">	<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">conn</span>, <span style="color:#e6db74">&#34;Enter a new BPM:&#34;</span>)
 
 	<span style="color:#a6e22e">scanner</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">bufio</span>.<span style="color:#a6e22e">NewScanner</span>(<span style="color:#a6e22e">conn</span>)
 
@@ -342,7 +342,7 @@ if (!doNotTrack) {
 <li>在第一个终端中优雅的打印主链，这样我们就可以知道发生了什么并且确保其他节点产生的区块被正常添加到了主链中。</li>
 </ul>
 <p>代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// simulate receiving broadcast
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// simulate receiving broadcast
 </span><span style="color:#75715e"></span>	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
 		<span style="color:#66d9ef">for</span> {
 			<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">30</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)

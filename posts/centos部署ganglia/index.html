@@ -12,14 +12,14 @@
 yum install rrdtool-develyum install ganglia-gmetadyum install ganglia-web然后配置文件基本不用大量修改，位于/etc/ganglia/gmetad." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/centos%E9%83%A8%E7%BD%B2ganglia/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2014-11-28T17:01:10&#43;00:00" />
-<meta property="article:modified_time" content="2014-11-28T17:01:10&#43;00:00" />
+<meta property="article:published_time" content="2014-11-28T17:01:10+00:00" />
+<meta property="article:modified_time" content="2014-11-28T17:01:10+00:00" />
 
 
 		<meta itemprop="name" content="centos部署Ganglia">
 <meta itemprop="description" content="Ganglia&#43;RRDTool这对组合可以说是不错的机群监控软件了，在centos6下安装是十分简单的，服务端安装
-yum install rrdtool-develyum install ganglia-gmetadyum install ganglia-web然后配置文件基本不用大量修改，位于/etc/ganglia/gmetad."><meta itemprop="datePublished" content="2014-11-28T17:01:10&#43;00:00" />
-<meta itemprop="dateModified" content="2014-11-28T17:01:10&#43;00:00" />
+yum install rrdtool-develyum install ganglia-gmetadyum install ganglia-web然后配置文件基本不用大量修改，位于/etc/ganglia/gmetad."><meta itemprop="datePublished" content="2014-11-28T17:01:10+00:00" />
+<meta itemprop="dateModified" content="2014-11-28T17:01:10+00:00" />
 <meta itemprop="wordCount" content="40">
 <meta itemprop="keywords" content="centos," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -93,12 +93,12 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>Ganglia+RRDTool这对组合可以说是不错的机群监控软件了，在centos6下安装是十分简单的，服务端安装</p>
-<pre><code>yum install rrdtool-devel
+<pre tabindex="0"><code>yum install rrdtool-devel
 yum install ganglia-gmetad
 yum install ganglia-web
 </code></pre><p>然后配置文件基本不用大量修改，位于<code>/etc/ganglia/gmetad.conf</code></p>
 <p>需要修改的就是添加客户端，比如：</p>
-<pre><code>data_source &quot;proxy&quot; 192.168.2.28:8749 192.168.2.36:8749 192.168.2.37:8749
+<pre tabindex="0"><code>data_source &quot;proxy&quot; 192.168.2.28:8749 192.168.2.36:8749 192.168.2.37:8749
 data_source &quot;dc&quot; 192.168.2.45 192.168.2.44 192.168.2.43
 data_source &quot;v5&quot; 192.168.2.32:8750 192.168.2.33:8750 192.168.2.62:8750 192.168.2.63:8750
 </code></pre><p>不加端口则表示使用客户端默认的8649端口。</p>

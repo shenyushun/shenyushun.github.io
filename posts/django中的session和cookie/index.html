@@ -13,15 +13,15 @@
 对于Django默认情况来说，当用户登录后就可以发现Cookie里有一个sessionid的字段，根据这个key就可以取得在服务器端记录的详细内容。如果将这个字段删除，刷新页面就会发现变成未登录状态了。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/django%E4%B8%AD%E7%9A%84session%E5%92%8Ccookie/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2017-07-28T11:55:08&#43;00:00" />
-<meta property="article:modified_time" content="2017-07-28T11:55:08&#43;00:00" />
+<meta property="article:published_time" content="2017-07-28T11:55:08+00:00" />
+<meta property="article:modified_time" content="2017-07-28T11:55:08+00:00" />
 
 
 		<meta itemprop="name" content="django中的Session和Cookie">
 <meta itemprop="description" content="简单来说，Cookie和Session都是为了记录用户相关信息的方式，最大的区别就是Cookie在客户端记录而Session在服务端记录内容。
 那么Cookie和Session之间的联系是怎么建立的呢？换言之，当服务器接收到一个请求时候，根据什么来判断读取哪个Session的呢？
-对于Django默认情况来说，当用户登录后就可以发现Cookie里有一个sessionid的字段，根据这个key就可以取得在服务器端记录的详细内容。如果将这个字段删除，刷新页面就会发现变成未登录状态了。"><meta itemprop="datePublished" content="2017-07-28T11:55:08&#43;00:00" />
-<meta itemprop="dateModified" content="2017-07-28T11:55:08&#43;00:00" />
+对于Django默认情况来说，当用户登录后就可以发现Cookie里有一个sessionid的字段，根据这个key就可以取得在服务器端记录的详细内容。如果将这个字段删除，刷新页面就会发现变成未登录状态了。"><meta itemprop="datePublished" content="2017-07-28T11:55:08+00:00" />
+<meta itemprop="dateModified" content="2017-07-28T11:55:08+00:00" />
 <meta itemprop="wordCount" content="302">
 <meta itemprop="keywords" content="django,python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -98,7 +98,7 @@ if (!doNotTrack) {
 <p>那么Cookie和Session之间的联系是怎么建立的呢？换言之，当服务器接收到一个请求时候，根据什么来判断读取哪个Session的呢？</p>
 <p>对于Django默认情况来说，当用户登录后就可以发现Cookie里有一个<code>sessionid</code>的字段，根据这个key就可以取得在服务器端记录的详细内容。如果将这个字段删除，刷新页面就会发现变成未登录状态了。</p>
 <p>对于Session的处理主要在源码<code>django/contrib/sessions/middleware.py</code>中，如下所示：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> time
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> time
 <span style="color:#f92672">from</span> importlib <span style="color:#f92672">import</span> import_module
 
 <span style="color:#f92672">from</span> django.conf <span style="color:#f92672">import</span> settings
@@ -110,7 +110,7 @@ if (!doNotTrack) {
 
 
 <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SessionMiddleware</span>(MiddlewareMixin):
-    <span style="color:#66d9ef">def</span> __init__(self, get_response<span style="color:#f92672">=</span>None):
+    <span style="color:#66d9ef">def</span> __init__(self, get_response<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
         self<span style="color:#f92672">.</span>get_response <span style="color:#f92672">=</span> get_response
         engine <span style="color:#f92672">=</span> import_module(settings<span style="color:#f92672">.</span>SESSION_ENGINE)
         self<span style="color:#f92672">.</span>SessionStore <span style="color:#f92672">=</span> engine<span style="color:#f92672">.</span>SessionStore
@@ -145,8 +145,8 @@ if (!doNotTrack) {
                     patch_vary_headers(response, (<span style="color:#e6db74">&#39;Cookie&#39;</span>,))
                 <span style="color:#66d9ef">if</span> (modified <span style="color:#f92672">or</span> settings<span style="color:#f92672">.</span>SESSION_SAVE_EVERY_REQUEST) <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> empty:
                     <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>session<span style="color:#f92672">.</span>get_expire_at_browser_close():
-                        max_age <span style="color:#f92672">=</span> None
-                        expires <span style="color:#f92672">=</span> None
+                        max_age <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+                        expires <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
                     <span style="color:#66d9ef">else</span>:
                         max_age <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>session<span style="color:#f92672">.</span>get_expiry_age()
                         expires_time <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time() <span style="color:#f92672">+</span> max_age
@@ -167,8 +167,8 @@ if (!doNotTrack) {
                             request<span style="color:#f92672">.</span>session<span style="color:#f92672">.</span>session_key, max_age<span style="color:#f92672">=</span>max_age,
                             expires<span style="color:#f92672">=</span>expires, domain<span style="color:#f92672">=</span>settings<span style="color:#f92672">.</span>SESSION_COOKIE_DOMAIN,
                             path<span style="color:#f92672">=</span>settings<span style="color:#f92672">.</span>SESSION_COOKIE_PATH,
-                            secure<span style="color:#f92672">=</span>settings<span style="color:#f92672">.</span>SESSION_COOKIE_SECURE <span style="color:#f92672">or</span> None,
-                            httponly<span style="color:#f92672">=</span>settings<span style="color:#f92672">.</span>SESSION_COOKIE_HTTPONLY <span style="color:#f92672">or</span> None,
+                            secure<span style="color:#f92672">=</span>settings<span style="color:#f92672">.</span>SESSION_COOKIE_SECURE <span style="color:#f92672">or</span> <span style="color:#66d9ef">None</span>,
+                            httponly<span style="color:#f92672">=</span>settings<span style="color:#f92672">.</span>SESSION_COOKIE_HTTPONLY <span style="color:#f92672">or</span> <span style="color:#66d9ef">None</span>,
                         )
         <span style="color:#66d9ef">return</span> response
 </code></pre></div><p>当接收到一个请求时候，先在Cookie里取出key，然后根据key创建Session对象，在response时候判断是否要删除或者修改sessionid。</p>

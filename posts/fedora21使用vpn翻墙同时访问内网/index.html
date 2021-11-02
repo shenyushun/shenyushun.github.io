@@ -15,8 +15,8 @@
 Destination Gateway Genmask Flags Metric Ref Use Iface0." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/fedora21%E4%BD%BF%E7%94%A8vpn%E7%BF%BB%E5%A2%99%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2015-07-16T12:13:50&#43;00:00" />
-<meta property="article:modified_time" content="2015-07-16T12:13:50&#43;00:00" />
+<meta property="article:published_time" content="2015-07-16T12:13:50+00:00" />
+<meta property="article:modified_time" content="2015-07-16T12:13:50+00:00" />
 
 
 		<meta itemprop="name" content="Fedora21使用vpn翻墙同时访问内网">
@@ -24,8 +24,8 @@ Destination Gateway Genmask Flags Metric Ref Use Iface0." />
 但使用vpn则无法访问公司内网，关于这点mac上处理的就非常好，当同时使用多个vpn时mac会自动根据访问目标不同而切换不同的vpn线路。既然fedora上没有自动切换功能，但同为的*unix系统肯定是有解决办法的。
 目标：使用vpn翻墙同时能访问公司内网
 达成目标的核心原理就是路由表，未使用vpn时路由表如下：
-Destination Gateway Genmask Flags Metric Ref Use Iface0."><meta itemprop="datePublished" content="2015-07-16T12:13:50&#43;00:00" />
-<meta itemprop="dateModified" content="2015-07-16T12:13:50&#43;00:00" />
+Destination Gateway Genmask Flags Metric Ref Use Iface0."><meta itemprop="datePublished" content="2015-07-16T12:13:50+00:00" />
+<meta itemprop="dateModified" content="2015-07-16T12:13:50+00:00" />
 <meta itemprop="wordCount" content="316">
 <meta itemprop="keywords" content="fedora," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -102,19 +102,19 @@ if (!doNotTrack) {
 <p>但使用vpn则无法访问公司内网，关于这点mac上处理的就非常好，当同时使用多个vpn时mac会自动根据访问目标不同而切换不同的vpn线路。既然fedora上没有自动切换功能，但同为的*unix系统肯定是有解决办法的。</p>
 <p>目标：使用vpn翻墙同时能访问公司内网</p>
 <p>达成目标的核心原理就是路由表，未使用vpn时路由表如下：</p>
-<pre><code>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+<pre tabindex="0"><code>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 0.0.0.0         192.168.0.1     0.0.0.0         UG    1024   0        0 enp2s0
 192.168.0.0     0.0.0.0         255.255.255.0   U     0      0        0 enp2s0
 192.168.122.0   0.0.0.0         255.255.255.0   U     0      0        0 virbr0
 </code></pre><p>当链接vpn后路由表变化为：</p>
-<pre><code>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+<pre tabindex="0"><code>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 0.0.0.0         0.0.0.0         0.0.0.0         U     1024   0        0 ppp0
 192.168.0.0     0.0.0.0         255.255.255.0   U     0      0        0 enp2s0
 192.168.3.1     0.0.0.0         255.255.255.255 UH    0      0        0 ppp0
 192.168.122.0   0.0.0.0         255.255.255.0   U     0      0        0 virbr0
 198.74.121.155  192.168.0.1     255.255.255.255 UGH   0      0        0 enp2s0
 </code></pre><p>同时网卡信息如下：</p>
-<pre><code>enp2s0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+<pre tabindex="0"><code>enp2s0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
         inet 192.168.0.37  netmask 255.255.255.0  broadcast 192.168.0.255
         inet6 fe80::b283:feff:fe9c:474b  prefixlen 64  scopeid 0x20&lt;link&gt;
         ether b0:83:fe:9c:47:4b  txqueuelen 1000  (Ethernet)
@@ -138,9 +138,9 @@ ppp0: flags=4305&lt;UP,POINTOPOINT,RUNNING,NOARP,MULTICAST&gt;  mtu 1400
         TX packets 92  bytes 17147 (16.7 KiB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 </code></pre><p>既然原理就是添加路由信息，那么使用route add命令即可，指定4段网络使用原来的0.1：</p>
-<pre><code>sudo route add -net 192.168.4.0 netmask 255.255.255.0 gw 192.168.0.1 dev enp2s0
+<pre tabindex="0"><code>sudo route add -net 192.168.4.0 netmask 255.255.255.0 gw 192.168.0.1 dev enp2s0
 </code></pre><p>添加后如下：</p>
-<pre><code>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+<pre tabindex="0"><code>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 0.0.0.0         0.0.0.0         0.0.0.0         U     1024   0        0 ppp0
 192.168.0.0     0.0.0.0         255.255.255.0   U     0      0        0 enp2s0
 192.168.3.1     0.0.0.0         255.255.255.255 UH    0      0        0 ppp0

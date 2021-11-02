@@ -12,14 +12,14 @@
 projectname----projectname--------templates------------base.html------------appname----------------a.html--------media------------mp3------------flv--------static------------img----------------s." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/django%E4%B8%AD%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2013-11-19T18:04:21&#43;00:00" />
-<meta property="article:modified_time" content="2013-11-19T18:04:21&#43;00:00" />
+<meta property="article:published_time" content="2013-11-19T18:04:21+00:00" />
+<meta property="article:modified_time" content="2013-11-19T18:04:21+00:00" />
 
 
 		<meta itemprop="name" content="django中静态文件的使用">
 <meta itemprop="description" content="记得我刚刚开始接触django的时候，对于静态文件的引用始终一头雾水，按照网上说明的添加代码就是不好使。 今天再回头看看，突然发现以前自己还真是笨阿！补一篇记录算是弥补以前的缺憾了～ django版本1.5.3 目录结构：
-projectname----projectname--------templates------------base.html------------appname----------------a.html--------media------------mp3------------flv--------static------------img----------------s."><meta itemprop="datePublished" content="2013-11-19T18:04:21&#43;00:00" />
-<meta itemprop="dateModified" content="2013-11-19T18:04:21&#43;00:00" />
+projectname----projectname--------templates------------base.html------------appname----------------a.html--------media------------mp3------------flv--------static------------img----------------s."><meta itemprop="datePublished" content="2013-11-19T18:04:21+00:00" />
+<meta itemprop="dateModified" content="2013-11-19T18:04:21+00:00" />
 <meta itemprop="wordCount" content="70">
 <meta itemprop="keywords" content="django,python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -96,7 +96,7 @@ if (!doNotTrack) {
 今天再回头看看，突然发现以前自己还真是笨阿！补一篇记录算是弥补以前的缺憾了～
 django版本1.5.3
 目录结构：</p>
-<pre><code>projectname
+<pre tabindex="0"><code>projectname
     ----projectname
     --------templates
     ------------base.html
@@ -115,7 +115,7 @@ django版本1.5.3
     ----manage.py
 </code></pre><h3 id="方式一">方式一</h3>
 <p>setting.py中添加、修改以下代码</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> os
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> os
 SITE_ROOT <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(__file__)
 STATIC_ROOT<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&#39;</span>
 STATIC_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/static/&#39;</span>
@@ -123,16 +123,16 @@ STATICFILES_DIRS <span style="color:#f92672">=</span> (
     SITE_ROOT<span style="color:#f92672">+</span>STATIC_URL, <span style="color:#75715e">#注意逗号！</span>
 )
 </code></pre></div><p>urls.py修改如下</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.contrib.staticfiles.urls <span style="color:#f92672">import</span> staticfiles_urlpatterns
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.contrib.staticfiles.urls <span style="color:#f92672">import</span> staticfiles_urlpatterns
 urlpatterns <span style="color:#f92672">+=</span> staticfiles_urlpatterns()
 </code></pre></div><p>用<code>&lt;img name=&quot;a&quot; src=&quot;/static/img/s.jpg&quot;/&gt;</code>进行引用。</p>
 <h3 id="方式二">方式二</h3>
 <p>避开static相关，用media。</p>
 <p>settings.py:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">MEDIA_ROOT <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(__file__),<span style="color:#e6db74">&#39;media/&#39;</span>)<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">,&#39;</span><span style="color:#f92672">/</span><span style="color:#e6db74">&#39;)</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">MEDIA_ROOT <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(__file__),<span style="color:#e6db74">&#39;media/&#39;</span>)<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">,&#39;</span><span style="color:#f92672">/</span><span style="color:#e6db74">&#39;)</span>
 MEDIA_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/site_media/&#39;</span>
 </code></pre></div><p>urls.py:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.conf <span style="color:#f92672">import</span> settings
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.conf <span style="color:#f92672">import</span> settings
     url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^site_media/(.*)$&#39;</span>,<span style="color:#e6db74">&#39;django.views.static.serve&#39;</span>,
                           {<span style="color:#e6db74">&#39;document_root&#39;</span>:settings<span style="color:#f92672">.</span>MEDIA_ROOT}),
 </code></pre></div><p><code>&lt;img name=&quot;a&quot; src=&quot;/site_media/img/a.png&quot;/&gt;</code>这里的set_media和上面urls.py中的名要对应。</p>
