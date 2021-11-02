@@ -1842,15 +1842,5 @@ from django.core.management.base import BaseCommand, CommandError from django.</
       <description>wxPython 如果你之前是 windows 程序员，用 MFC 或者 WIN32API 开发界面程序，那进入 Python 国度最好的 GUI 选择应该是 wxPython。它是 wxWidgets 的 Python Bind，与 wxWidgets 的开发完美同步，最为重要的一点是它的消息机制与 MFC 颇为相似，以前在 MFC 的经验完全可以稍作变化就套用在 wxPython 上面。在 WIN32 开发中，最讨厌的一环肯定有 WM_SIZE 消息的处，在主窗口大小变化的时候，保持控件布局在 WIN32 是一件麻烦事。这件事情 wx 解决得非常完美，它的sizer 概念可以让我轻松地在不同窗口尺寸的情况下保持完美的控件布局。另外如果你已经讨厌了 MFC 的 doc-view 模型，wx 也可以给你一个新的选择；如果你非常喜欢 doc-view 模型，放心，在 wx 中仍然可以轻松实现，以前的思想依然可以在这里发挥余热。 wxPython 有两个封装，一个 PythonCard，另一个是 dabo。前者是 wxPython 的有限封装，不支持wxPython 的全部特性，它的目标是让 wxPython 更加 Pythonic。后者比 PythonCard 要庞大不少，确切来说，它应该是一个三层架构的 C/S 模式的开发框架。如果你想开发基于数据库的应用（如 MIS、ERP 等）用 dabo 是一个不错的选择；另外，如果你之前习惯了 VB、VFP、Delphi 等 RAD 开发环境，dabo 并不比这些昂贵的工具差多少哦！</description>
     </item>
     
-    <item>
-      <title>Golang中的开闭原则</title>
-      <link>/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</guid>
-      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://levelup.gitconnected.com/practical-solid-in-golang-open-closed-principle-1dd361565452&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
-&lt;p&gt;Open/Closed Principle（OCP，开闭原则）也不过多介绍了，一句话“对扩展开放，对修改封闭”。策略模式就是这一原则的一种实现。&lt;/p&gt;</description>
-    </item>
-    
   </channel>
 </rss>

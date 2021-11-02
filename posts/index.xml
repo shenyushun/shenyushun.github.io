@@ -3096,15 +3096,5 @@ Ubuntu我用的是12.10版本，安装完成后关于Python的版本问题是不
  下载gogant后解压，现在这个版本里面已经不用自己申请什么ID了，直接使用即可。 终端里进入你解压后的gogant目录中，执行命令 # python proxy.</description>
     </item>
     
-    <item>
-      <title>Golang中的开闭原则</title>
-      <link>/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</guid>
-      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://levelup.gitconnected.com/practical-solid-in-golang-open-closed-principle-1dd361565452&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
-&lt;p&gt;Open/Closed Principle（OCP，开闭原则）也不过多介绍了，一句话“对扩展开放，对修改封闭”。策略模式就是这一原则的一种实现。&lt;/p&gt;</description>
-    </item>
-    
   </channel>
 </rss>

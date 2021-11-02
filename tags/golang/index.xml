@@ -343,15 +343,5 @@ cd $GOPATH/src/golang.org/  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&
 &lt;p&gt;&lt;a href=&#34;https://golang.google.cn/src/&#34;&gt;GO源码&lt;/a&gt;不仅仅是作为核心库来使用，更可以用作写代码的实例参考。此外，你可以直接在&lt;a href=&#34;https://golang.org/&#34;&gt;官网&lt;/a&gt;上运行那些没有额外依赖的程序，比如&lt;a href=&#34;https://golang.org/pkg/strings/#example_Map&#34;&gt;这个&lt;/a&gt;。如果你有关于如何解决或实现某个问题的疑问，标准库中的文档、代码、例子可以提供答案或者思路。&lt;/p&gt;</description>
     </item>
     
-    <item>
-      <title>Golang中的开闭原则</title>
-      <link>/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</guid>
-      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://levelup.gitconnected.com/practical-solid-in-golang-open-closed-principle-1dd361565452&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
-&lt;p&gt;Open/Closed Principle（OCP，开闭原则）也不过多介绍了，一句话“对扩展开放，对修改封闭”。策略模式就是这一原则的一种实现。&lt;/p&gt;</description>
-    </item>
-    
   </channel>
 </rss>
