@@ -80,6 +80,29 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/mysql%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%E5%B0%8F%E8%AE%B0/" rel="bookmark">
+			MySQL索引优化小记
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-07-24T14:40:04Z">2017-07-24</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="category">数据库</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>有2种数据类型，一种重复率高、一种重复率低，选择这2种类型哪个建立索引好？为什么？</p>
+<p>之前确实没考虑过这个问题，但觉得既然是使用空间换时间，数据结构本身重复率那么高索引的作用应该就不大了吧。</p>
+<p>后来结束到家查看资料后，发现这个名词叫做&quot;离散率&quot;。对于DBA这个问题应该是最最基础的了。</p>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/mysql%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%E5%B0%8F%E8%AE%B0/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/%E5%87%A0%E9%81%93python%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="bookmark">
 			几道python面试题
 			</a>
@@ -199,29 +222,6 @@ yum install ufraw yum install ImageMagick 安装完成后，可以使用convert 
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/numpy%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/django-rest-jwt%E8%AE%A4%E8%AF%81/" rel="bookmark">
-			django-rest-jwt认证
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-01-11T10:37:34Z">2017-01-11</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>关于JWT(Json Web Token)是一种较新的用户认证方式，官网在<a href="https://jwt.io/">这里</a>，网上有篇中文解释写的很好，<a href="http://blog.leapoahead.com/2015/09/06/understanding-jwt/">点此跳转</a>。</p>
-<p>用户认证(Authentication)和用户授权(Authorization)是两个不同的概念，认证解决的是“有没有”的问题，而授权解决的是“能不能”的问题。</p>
-<p>一般用到JWT认证的情况大多都是配合REST框架使用，比如我大Django的Django-REST-framework框架，就已经有了现成的三方库<a href="http://getblimp.github.io/django-rest-framework-jwt/">django-rest-framework-jwt</a>。不过这个库默认只支持基于<code>Header</code>传递信息，所以改成基于Cookie方式还需要我们来手动处理一下。</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/django-rest-jwt%E8%AE%A4%E8%AF%81/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -246,11 +246,11 @@ yum install ufraw yum install ImageMagick 安装完成后，可以使用convert 
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/">Golang中的开闭原则</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/">Golang中的单一职责原则</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E4%BD%BF%E7%94%A8golang%E7%9A%84channel%E5%AE%9E%E7%8E%B0%E8%AE%A2%E9%98%85-%E5%8F%91%E5%B8%83%E6%A8%A1%E5%BC%8F/">使用golang的channel实现订阅-发布模式</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">博客迁移</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">Golang小技巧</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/">新手可能会犯的50个Golang错误</a></li>
 		</ul>
 	</div>
 </div>
@@ -284,11 +284,11 @@ yum install ufraw yum install ImageMagick 安装完成后，可以使用convert 
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">130</span>
+				<span class="widget__counter widget__counter--bubble">131</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">28</span>
+				<span class="widget__counter widget__counter--bubble">29</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

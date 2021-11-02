@@ -80,6 +80,32 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%BC%93%E5%86%B2%E5%8C%BAchannels%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="bookmark">
+			GO语言学习笔记-缓冲区Channels和线程池
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-06-04T22:11:55Z">2018-06-04</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p><a href="https://golangbot.com/buffered-channels-worker-pools/">原文</a>，这里为了方便理解我把worker pools翻译成线程池。</p>
+<h2 id="什么是缓冲区channel">什么是缓冲区Channel</h2>
+<p>之前讨论的所有channel都是不带缓冲区的，因此读取和写入都会被阻塞。创建一个带缓冲区的channel也是可能的，这种channel只有在缓冲区满后再写入或者读取一个空的channel时才会被阻塞。</p>
+<p>创建一个带缓冲区的channel需要一个额外的参数容量来表明缓冲区大小：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">type</span>, <span style="color:#a6e22e">capacity</span>)  
+</code></pre></div><p>上面代码中的 <em>capacity</em>　需要大于０，如果等于０的话则是之前学习的无缓冲区channel。</p>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%BC%93%E5%86%B2%E5%8C%BAchannels%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-channels/" rel="bookmark">
 			GO语言学习笔记-Channels
 			</a>
@@ -252,45 +278,6 @@ if (!doNotTrack) {
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%8E%A5%E5%8F%A31/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/effective-go%E4%B8%AD%E6%96%87%E7%BF%BB%E8%AF%91/" rel="bookmark">
-			Effective-Go中文翻译
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-05-07T17:59:59Z">2018-05-07</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<!-- raw HTML omitted -->
-<ul>
-<li><a href="#%E4%BB%8B%E7%BB%8D">介绍</a>
-<ul>
-<li><a href="#%E4%BE%8B%E5%AD%90">例子</a></li>
-</ul>
-</li>
-<li><a href="#%E4%BB%A3%E7%A0%81%E9%A3%8E%E6%A0%BC">代码风格</a></li>
-<li><a href="#%E6%B3%A8%E9%87%8A">注释</a></li>
-<li><a href="#%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83">命名规范</a></li>
-</ul>
-<!-- raw HTML omitted -->
-<p><a href="https://golang.google.cn/doc/effective_go.html">原文链接</a>，省略了一些无关的句子。</p>
-<p><a href="https://go-zh.org/doc/effective_go.html">这里</a>有别人翻译好的，需要翻墙。</p>
-<h1 id="介绍">介绍</h1>
-<p>Go是一种新的语言，尽管它从其他语言中借鉴了很多特性，但有些不同寻常的特性让Go语言程序和其他程序有所不同。想要直接把C++或者Java代码转换成Go不会得到令人满意的结果，Java程序是用Java写的而不是GO。另一方面，从GO的角度来考虑问题可以写出成功运行但略有不同的程序。换句话说，想要写出好的GO程序，了解其特性是很重要的。同样，了解约定俗成的惯例也很重要，比如命名、格式、项目结构，这样你写的代码才能方便其他GO语言程序员理解。</p>
-<p>这篇文档给你一些小建议以便写出简洁且符合规范的GO代码。看这篇文档前建议先看<a href="https://golang.google.cn/ref/spec">language specification</a>，<a href="https://tour.golang.org/">the Tour of Go</a>，和 <a href="https://golang.google.cn/doc/code.html">How to Write Go Code</a>。</p>
-<h2 id="例子">例子</h2>
-<p><a href="https://golang.google.cn/src/">GO源码</a>不仅仅是作为核心库来使用，更可以用作写代码的实例参考。此外，你可以直接在<a href="https://golang.org/">官网</a>上运行那些没有额外依赖的程序，比如<a href="https://golang.org/pkg/strings/#example_Map">这个</a>。如果你有关于如何解决或实现某个问题的疑问，标准库中的文档、代码、例子可以提供答案或者思路。</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/effective-go%E4%B8%AD%E6%96%87%E7%BF%BB%E8%AF%91/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -315,11 +302,11 @@ if (!doNotTrack) {
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/">Golang中的开闭原则</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/">Golang中的单一职责原则</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E4%BD%BF%E7%94%A8golang%E7%9A%84channel%E5%AE%9E%E7%8E%B0%E8%AE%A2%E9%98%85-%E5%8F%91%E5%B8%83%E6%A8%A1%E5%BC%8F/">使用golang的channel实现订阅-发布模式</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">博客迁移</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">Golang小技巧</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/">新手可能会犯的50个Golang错误</a></li>
 		</ul>
 	</div>
 </div>
@@ -353,11 +340,11 @@ if (!doNotTrack) {
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">130</span>
+				<span class="widget__counter widget__counter--bubble">131</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">28</span>
+				<span class="widget__counter widget__counter--bubble">29</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

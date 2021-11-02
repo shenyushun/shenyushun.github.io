@@ -80,6 +80,38 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/ipfs%E5%88%9D%E7%AA%A52/" rel="bookmark">
+			IPFS初窥2
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-09-19T10:52:06Z">2018-09-19</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="category">区块链</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<!-- raw HTML omitted -->
+<p>在<a href="http://www.hi-roy.com/2018/09/04/IPFS%E5%88%9D%E7%AA%A5/">上一篇文章</a>中初步介绍了IPFS的基本概念和使用方法，今天更深入一些了解IPFS的设计理念。</p>
+<p>根据 <strong>第三版</strong> 白皮书，IPFS体系可以分为7层：</p>
+<ol>
+<li>身份：负责节点的身份生成和认证。</li>
+<li>网络：负责节点间的网络连接，可以配置使用各种网络协议。</li>
+<li>路由：维护路由信息来找出特定的节点和对象。默认使用DHT，可以替换。</li>
+<li>交换：一个新型的块交换协议(BitSwap)来高效管理块分发。有点类似超市，对数据复制有激励。交易策略可以替换。</li>
+<li>对象：带有链接的、内容寻址的不可变对象组成的Merkle DAG，可以代表任意数据结构。比如文件层级和通信系统。</li>
+<li>文件：受到Git启发的版本控制文件层级系统。</li>
+<li>命名：自验证的可变命名系统。</li>
+</ol>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/ipfs%E5%88%9D%E7%AA%A52/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/ipfs%E5%88%9D%E7%AA%A5/" rel="bookmark">
 			IPFS初窥
 			</a>
@@ -202,31 +234,6 @@ git clone https://github.com/hyperledger/fabric.git
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/raft%E7%AE%97%E6%B3%95/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%92%E6%96%A5%E9%94%81/" rel="bookmark">
-			GO语言学习笔记-互斥锁
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-06-07T17:42:11Z">2018-06-07</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p><a href="https://golangbot.com/mutex/">原文</a>，互斥锁(Mutex)也是go并发系列最后一篇文章。</p>
-<h2 id="临界区">临界区</h2>
-<p>在说互斥锁前，理解并发编程中的临界区(Critical section)是十分重要的。当一个程序并发执行时，共享资源不应该在同一时刻被多个goroutine修改。这段修改共享资源的代码就叫做临界区。举个例子，我们有一个代码片段用于修改变量x自增１。</p>
-<pre tabindex="0"><code>x = x+1
-</code></pre><p>如果上面的代码在唯一的goroutine中执行，不会有任何问题。</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%92%E6%96%A5%E9%94%81/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -251,11 +258,11 @@ git clone https://github.com/hyperledger/fabric.git
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/">Golang中的开闭原则</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/">Golang中的单一职责原则</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E4%BD%BF%E7%94%A8golang%E7%9A%84channel%E5%AE%9E%E7%8E%B0%E8%AE%A2%E9%98%85-%E5%8F%91%E5%B8%83%E6%A8%A1%E5%BC%8F/">使用golang的channel实现订阅-发布模式</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">博客迁移</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">Golang小技巧</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/">新手可能会犯的50个Golang错误</a></li>
 		</ul>
 	</div>
 </div>
@@ -289,11 +296,11 @@ git clone https://github.com/hyperledger/fabric.git
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">130</span>
+				<span class="widget__counter widget__counter--bubble">131</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">28</span>
+				<span class="widget__counter widget__counter--bubble">29</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

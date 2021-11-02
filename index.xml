@@ -8,9 +8,19 @@
     <language>zh-cn</language>
     <lastBuildDate>Tue, 02 Nov 2021 11:05:20 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Golang中的开闭原则</title>
+      <link>/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</link>
+      <pubDate>Tue, 02 Nov 2021 11:05:20 +0800</pubDate>
+      
+      <guid>/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</guid>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://levelup.gitconnected.com/practical-solid-in-golang-open-closed-principle-1dd361565452&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
+&lt;p&gt;Open/Closed Principle（OCP，开闭原则）也不过多介绍了，一句话“对扩展开放，对修改封闭”。策略模式就是这一原则的一种实现。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Golang中的单一职责原则</title>
       <link>/posts/golang%E4%B8%AD%E7%9A%84%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/</link>
-      <pubDate>Tue, 02 Nov 2021 11:05:20 +0800</pubDate>
+      <pubDate>Tue, 02 Nov 2021 10:05:20 +0800</pubDate>
       
       <guid>/posts/golang%E4%B8%AD%E7%9A%84%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/</guid>
       <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://levelup.gitconnected.com/practical-solid-in-golang-single-responsibility-principle-20afb8643483&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;

@@ -80,6 +80,28 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB3/" rel="bookmark">
+			python验证码识别3:滑动验证码
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-09-21T20:38:00Z">2017-09-21</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>上篇文章记录了2种分割验证码的方法，此外还有一种叫做&quot;滴水算法&quot;(Drop Fall Algorithm)的方法，但本人智商原因看这个算法看的云里雾里的，所以今天记录滑动验证码的处理吧。网上据说有大神已经破解了滑动验证码的算法，可以不使用selenium来破解，但本人能力不足还是使用笨方法吧。</p>
+<p>基础原理很简单，首先点击验证码按钮后的图片是滑动后的完整结果，点击一下滑块后会出现拼图，对这2个分别截图后比较像素值来找出滑动距离，并结合selenium来实现拖拽效果。</p>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB3/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB2/" rel="bookmark">
 			python验证码识别2:投影法、连通域法分割图片
 			</a>
@@ -238,29 +260,6 @@ a <span style="color:#f92672">=</span> [[<span style="color:#ae81ff">1</span>,<s
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/pyflame%E5%AE%89%E8%A3%85%E5%B0%8F%E8%AE%B0/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/mysql%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%E5%B0%8F%E8%AE%B0/" rel="bookmark">
-			MySQL索引优化小记
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-07-24T14:40:04Z">2017-07-24</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="category">数据库</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>有2种数据类型，一种重复率高、一种重复率低，选择这2种类型哪个建立索引好？为什么？</p>
-<p>之前确实没考虑过这个问题，但觉得既然是使用空间换时间，数据结构本身重复率那么高索引的作用应该就不大了吧。</p>
-<p>后来结束到家查看资料后，发现这个名词叫做&quot;离散率&quot;。对于DBA这个问题应该是最最基础的了。</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/mysql%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%E5%B0%8F%E8%AE%B0/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -285,11 +284,11 @@ a <span style="color:#f92672">=</span> [[<span style="color:#ae81ff">1</span>,<s
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/">Golang中的开闭原则</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/">Golang中的单一职责原则</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E4%BD%BF%E7%94%A8golang%E7%9A%84channel%E5%AE%9E%E7%8E%B0%E8%AE%A2%E9%98%85-%E5%8F%91%E5%B8%83%E6%A8%A1%E5%BC%8F/">使用golang的channel实现订阅-发布模式</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">博客迁移</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">Golang小技巧</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/">新手可能会犯的50个Golang错误</a></li>
 		</ul>
 	</div>
 </div>
@@ -323,11 +322,11 @@ a <span style="color:#f92672">=</span> [[<span style="color:#ae81ff">1</span>,<s
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">130</span>
+				<span class="widget__counter widget__counter--bubble">131</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">28</span>
+				<span class="widget__counter widget__counter--bubble">29</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;
