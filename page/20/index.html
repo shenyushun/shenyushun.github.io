@@ -79,6 +79,31 @@ if (!doNotTrack) {
 	<article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/fedora21%E4%BD%BF%E7%94%A8vpn%E7%BF%BB%E5%A2%99%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91/" rel="bookmark">
+			Fedora21使用vpn翻墙同时访问内网
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-07-16T12:13:50Z">2015-07-16</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		本来用浏览器插件+ss翻墙翻的好好的，结果最近不知道哪里抽风，一访问google就给我跳转到&quot;We are sorry&quot;页面，提示说电脑自动向google发送了一些奇怪的东西，不过使用vpn则没有这个问题。
+但使用vpn则无法访问公司内网，关于这点mac上处理的就非常好，当同时使用多个vpn时mac会自动根据访问目标不同而切换不同的vpn线路。既然fedora上没有自动切换功能，但同为的*unix系统肯定是有解决办法的。
+目标：使用vpn翻墙同时能访问公司内网
+达成目标的核心原理就是路由表，未使用vpn时路由表如下：
+Destination Gateway Genmask Flags Metric Ref Use Iface0.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/fedora21%E4%BD%BF%E7%94%A8vpn%E7%BF%BB%E5%A2%99%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/2015%E5%8D%8A%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" rel="bookmark">
 			2015半年度总结
 			</a>
@@ -194,29 +219,6 @@ if (!doNotTrack) {
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/postgresql%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%E9%97%AE%E9%A2%98/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/centos6%E6%90%AD%E5%BB%BA%E5%9C%A8%E7%BA%BFweb%E4%BB%A3%E7%90%86/" rel="bookmark">
-			centos6搭建在线web代理
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-05-17T16:12:00Z">2015-05-17</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		最近有个需求需要搭建一个在线web代理，懒得自己写就找到两个php程序：
- knProxy:https://github.com/jabbany/knProxy glype:https://www.glype.com/download.php  从部署角度来讲这两个都很简单，功能上也很类似，这里我就以第二个为例吧，使用nginx来部署。先来安装nginx和php-fpm
-yum install nginxyum install php-fpm&lt;/pre&gt;下载glype后解压到/var/www/html/glype目录，并在/etc/nginx/conf.
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/centos6%E6%90%AD%E5%BB%BA%E5%9C%A8%E7%BA%BFweb%E4%BB%A3%E7%90%86/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -240,11 +242,11 @@ yum install nginxyum install php-fpm&lt;/pre&gt;下载glype后解压到/var/ww
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/1%E5%88%86%E9%92%9Flinux%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/">1分钟Linux性能分析</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/">Golang中的开闭原则</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/">Golang中的单一职责原则</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E4%BD%BF%E7%94%A8golang%E7%9A%84channel%E5%AE%9E%E7%8E%B0%E8%AE%A2%E9%98%85-%E5%8F%91%E5%B8%83%E6%A8%A1%E5%BC%8F/">使用golang的channel实现订阅-发布模式</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">博客迁移</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">Golang小技巧</a></li>
 		</ul>
 	</div>
 </div>
@@ -262,7 +264,7 @@ yum install nginxyum install php-fpm&lt;/pre&gt;下载glype后解压到/var/ww
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">47</span>
+				<span class="widget__counter widget__counter--bubble">48</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>&nbsp;
@@ -282,7 +284,7 @@ yum install nginxyum install php-fpm&lt;/pre&gt;下载glype后解压到/var/ww
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">29</span>
+				<span class="widget__counter widget__counter--bubble">30</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;
@@ -303,6 +305,7 @@ yum install nginxyum install php-fpm&lt;/pre&gt;下载glype后解压到/var/ww
 		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="java">java</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kali/" title="kali">kali</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kears/" title="kears">kears</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="Linux">Linux</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mac/" title="mac">mac</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongodb/" title="mongodb">mongodb</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
@@ -346,7 +349,7 @@ yum install nginxyum install php-fpm&lt;/pre&gt;下载glype后解压到/var/ww
 	<a class="footer__link" href="/about/">About</a>
 </div>
 		<div class="footer__copyright">
-			&copy; 2021 Roy.
+			&copy; 2022 Roy.
 			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
 		</div>
 	</div>

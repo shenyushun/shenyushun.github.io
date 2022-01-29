@@ -79,6 +79,56 @@ if (!doNotTrack) {
 		<h1 class="main__title">Posts</h1>
 	</header><article class="list__item post">
 	<figure class="list__thumbnail">
+		<a href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">
+			<img src="https://www.openstack.org/themes/openstack/home_images/Hero/OpenStack_SFAs.svg" alt="OpenStack源码学习笔记2" />
+		</a>
+	</figure>
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" rel="bookmark">
+			OpenStack源码学习笔记2
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-09-18T12:46:29Z">2019-09-18</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/" rel="category">云计算</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>上次学习了Nova创建虚拟机的过程，这次来看一下Glance是如何上传镜像的。相比于Nova，Glance源码使用了大量的代理模式和装饰器模式，阅读代码时候一个不仔细就会一脸懵X。根据上次说的Openstack套路，我们通过<code>setup.cfg</code>直奔主题——<code>glance/cmd/api.py</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    <span style="color:#66d9ef">try</span>:
+        config<span style="color:#f92672">.</span>parse_args()
+        config<span style="color:#f92672">.</span>set_config_defaults()
+        wsgi<span style="color:#f92672">.</span>set_eventlet_hub()
+        logging<span style="color:#f92672">.</span>setup(CONF, <span style="color:#e6db74">&#39;glance&#39;</span>)
+        notifier<span style="color:#f92672">.</span>set_defaults()
+        <span style="color:#66d9ef">if</span> cfg<span style="color:#f92672">.</span>CONF<span style="color:#f92672">.</span>profiler<span style="color:#f92672">.</span>enabled:
+            _notifier <span style="color:#f92672">=</span> osprofiler<span style="color:#f92672">.</span>notifier<span style="color:#f92672">.</span>create(<span style="color:#e6db74">&#34;Messaging&#34;</span>,
+                                                   oslo_messaging, {},
+                                                   notifier<span style="color:#f92672">.</span>get_transport(),
+                                                   <span style="color:#e6db74">&#34;glance&#34;</span>, <span style="color:#e6db74">&#34;api&#34;</span>,
+                                                   cfg<span style="color:#f92672">.</span>CONF<span style="color:#f92672">.</span>bind_host)
+            osprofiler<span style="color:#f92672">.</span>notifier<span style="color:#f92672">.</span>set(_notifier)
+            osprofiler<span style="color:#f92672">.</span>web<span style="color:#f92672">.</span>enable(cfg<span style="color:#f92672">.</span>CONF<span style="color:#f92672">.</span>profiler<span style="color:#f92672">.</span>hmac_keys)
+        <span style="color:#66d9ef">else</span>:
+            osprofiler<span style="color:#f92672">.</span>web<span style="color:#f92672">.</span>disable()
+        server <span style="color:#f92672">=</span> wsgi<span style="color:#f92672">.</span>Server(initialize_glance_store<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+        server<span style="color:#f92672">.</span>start(config<span style="color:#f92672">.</span>load_paste_app(<span style="color:#e6db74">&#39;glance-api&#39;</span>), default_port<span style="color:#f92672">=</span><span style="color:#ae81ff">9292</span>)
+        server<span style="color:#f92672">.</span>wait()
+    <span style="color:#66d9ef">except</span> KNOWN_EXCEPTIONS <span style="color:#66d9ef">as</span> e:
+        print(e)
+        fail(e)
+</code></pre></div>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<figure class="list__thumbnail">
 		<a href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">
 			<img src="https://www.openstack.org/themes/openstack/home_images/Hero/OpenStack_SFAs.svg" alt="OpenStack源码学习笔记1" />
 		</a>
@@ -238,29 +288,6 @@ cd $GOPATH/src/golang.org/  <span style="color:#f92672">&amp;&amp;</span> mv gol
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/go-get%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8socket%E4%BB%A3%E7%90%86/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/ipfs%E5%88%9D%E7%AA%A53/" rel="bookmark">
-			IPFS初窥3
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-10-10T15:26:16Z">2018-10-10</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="category">区块链</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>在<a href="http://www.hi-roy.com/2018/09/19/IPFS%E5%88%9D%E7%AA%A52/">上一篇文章</a>中记录到了IPFS的<code>BitSwap</code>协议，今天接着往下看关于<code>Object</code>的部分。</p>
-<h2 id="merkle-dag">Merkle DAG</h2>
-<p>Merkle DAG是IPFS核心概念之一，在Git的数据结构上进行了改造。理解Merkle DAG之前先来了解下<a href="https://en.wikipedia.org/wiki/Merkle_tree">Merkle Tree</a>。</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/ipfs%E5%88%9D%E7%AA%A53/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -285,11 +312,11 @@ cd $GOPATH/src/golang.org/  <span style="color:#f92672">&amp;&amp;</span> mv gol
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/1%E5%88%86%E9%92%9Flinux%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/">1分钟Linux性能分析</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/">Golang中的开闭原则</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/">Golang中的单一职责原则</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E4%BD%BF%E7%94%A8golang%E7%9A%84channel%E5%AE%9E%E7%8E%B0%E8%AE%A2%E9%98%85-%E5%8F%91%E5%B8%83%E6%A8%A1%E5%BC%8F/">使用golang的channel实现订阅-发布模式</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">博客迁移</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">Golang小技巧</a></li>
 		</ul>
 	</div>
 </div>
@@ -307,7 +334,7 @@ cd $GOPATH/src/golang.org/  <span style="color:#f92672">&amp;&amp;</span> mv gol
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">47</span>
+				<span class="widget__counter widget__counter--bubble">48</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>&nbsp;
@@ -327,7 +354,7 @@ cd $GOPATH/src/golang.org/  <span style="color:#f92672">&amp;&amp;</span> mv gol
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">29</span>
+				<span class="widget__counter widget__counter--bubble">30</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;
@@ -348,6 +375,7 @@ cd $GOPATH/src/golang.org/  <span style="color:#f92672">&amp;&amp;</span> mv gol
 		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="java">java</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kali/" title="kali">kali</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kears/" title="kears">kears</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="Linux">Linux</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mac/" title="mac">mac</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongodb/" title="mongodb">mongodb</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
@@ -391,7 +419,7 @@ cd $GOPATH/src/golang.org/  <span style="color:#f92672">&amp;&amp;</span> mv gol
 	<a class="footer__link" href="/about/">About</a>
 </div>
 		<div class="footer__copyright">
-			&copy; 2021 Roy.
+			&copy; 2022 Roy.
 			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
 		</div>
 	</div>

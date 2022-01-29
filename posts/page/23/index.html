@@ -80,6 +80,29 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/django%E9%87%8D%E5%86%99model%E7%9A%84save%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%90%8C%E6%97%B6%E5%86%992%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="bookmark">
+			django重写model的save方法实现同时写2个数据库
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-02-28T11:10:28Z">2015-02-28</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		最近有个需求就是当执行save时需要把数据写入2个数据库，查看文档后发现直接重写save方法比较简单。
+首先建立2个测试数据库testa和testb，然后在settings中配置数据库：
+DATABASES = { &#39;default&#39;: { &#39;ENGINE&#39;: &#39;django.db.backends.mysql&#39;, &#39;NAME&#39;: &#39;testa&#39;, &#39;USER&#39;: &#39;root&#39;, &#39;PASSWORD&#39;: &#39;asdasd&#39;, &#39;HOST&#39;: &#39;192.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/django%E9%87%8D%E5%86%99model%E7%9A%84save%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%90%8C%E6%97%B6%E5%86%992%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/oc%E5%AD%A6%E4%B9%A0%E7%AC%AC2%E5%A4%A9class/" rel="bookmark">
 			OC学习第2天——CLASS
 			</a>
@@ -193,31 +216,6 @@ public static string MD5ToBase64String(string str) { MD5 md5 = new MD5CryptoServ
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/haproxy-keepalive%E6%9E%84%E5%BB%BA%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/rmbp%E6%88%91%E7%9A%84%E8%AE%B0%E5%BD%95/" rel="bookmark">
-			RMBP我的记录
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-01-18T13:58:11Z">2015-01-18</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		不出意料的，2015计划单中首先完成了“其它”——换台新电脑。新电脑已经入手半个多月了，记录一下这段时间我是怎么折腾的。
-作为一名忠实的键盘党，感觉MBP的触控板简直爽爆了，在告别鼠标的道路上又进一步，而且“合盖就走，无需关机”这点也让我很喜欢。最初的时候可能需要重新熟悉一下os x的快捷键（不改键盘键位映射的情况下），command键取代了ctrl键的大部分功能，比如复制、粘贴、切换输入法一类的。再比如网页刷新是command+r而非F5，这里推荐第一款软件——cheatsheet。
-这个小东西的作用就是当你长按command键时显示常用快捷键，不仅是系统级别的，而且还包含了软件层面的。
-第二个推荐的软件就是alfred，相信使用os x的没有不知道这个的吧？绝对是os x下的第一效率神器。
-另外，虽说os x也算是*unix家族的成员，但从习惯了linux的强大的包管理功能后还是希望能在ox s中也有类似功能，于是请出os x下的包管理大师——homebrew。
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/rmbp%E6%88%91%E7%9A%84%E8%AE%B0%E5%BD%95/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -242,11 +240,11 @@ public static string MD5ToBase64String(string str) { MD5 md5 = new MD5CryptoServ
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/1%E5%88%86%E9%92%9Flinux%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/">1分钟Linux性能分析</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/">Golang中的开闭原则</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/">Golang中的单一职责原则</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E4%BD%BF%E7%94%A8golang%E7%9A%84channel%E5%AE%9E%E7%8E%B0%E8%AE%A2%E9%98%85-%E5%8F%91%E5%B8%83%E6%A8%A1%E5%BC%8F/">使用golang的channel实现订阅-发布模式</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">博客迁移</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">Golang小技巧</a></li>
 		</ul>
 	</div>
 </div>
@@ -264,7 +262,7 @@ public static string MD5ToBase64String(string str) { MD5 md5 = new MD5CryptoServ
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">47</span>
+				<span class="widget__counter widget__counter--bubble">48</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>&nbsp;
@@ -284,7 +282,7 @@ public static string MD5ToBase64String(string str) { MD5 md5 = new MD5CryptoServ
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">29</span>
+				<span class="widget__counter widget__counter--bubble">30</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;
@@ -305,6 +303,7 @@ public static string MD5ToBase64String(string str) { MD5 md5 = new MD5CryptoServ
 		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="java">java</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kali/" title="kali">kali</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kears/" title="kears">kears</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="Linux">Linux</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mac/" title="mac">mac</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongodb/" title="mongodb">mongodb</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
@@ -348,7 +347,7 @@ public static string MD5ToBase64String(string str) { MD5 md5 = new MD5CryptoServ
 	<a class="footer__link" href="/about/">About</a>
 </div>
 		<div class="footer__copyright">
-			&copy; 2021 Roy.
+			&copy; 2022 Roy.
 			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
 		</div>
 	</div>

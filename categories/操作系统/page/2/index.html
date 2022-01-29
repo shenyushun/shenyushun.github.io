@@ -80,6 +80,29 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/virtualbox%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%92%E9%80%9A%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91/" rel="bookmark">
+			VirtualBOX虚拟机网络互通同时访问外网
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-04-29T13:54:35Z">2016-04-29</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>对于爱好网络安全而又不想非法入侵的小伙伴来说，VirtualBOX可是神器级别的工具，这里记录一下我是怎么配置网络使虚拟机之间可以互通同时可以通过物理机访问外网的。</p>
+<p>第一台虚拟机是kali linux，启动之前需要在设置中启用2块网卡，<strong>第一块网卡设置为“Internal Network”，第二块设置为&quot;Bridged Adapter&quot;</strong>。</p>
+<p>第二台是OWASP提供的漏洞测试虚拟机镜像，基于ubuntu的系统，<strong>第一块网卡设置为“Internal Network”即可</strong>。</p>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/virtualbox%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%92%E9%80%9A%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/centos7%E5%AE%89%E8%A3%85metasploit%E6%A1%86%E6%9E%B6/" rel="bookmark">
 			centos7安装Metasploit框架
 			</a>
@@ -189,30 +212,6 @@ InsecurePlatformWarning: A true SSLContext object is not available. This prevent
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/fedora21%E6%9E%B6%E8%AE%BEminecraft%E6%9C%8D%E5%8A%A1%E5%99%A8/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/fedora21%E4%BD%BF%E7%94%A8ipv6%E8%AE%BF%E9%97%AEgoogle/" rel="bookmark">
-			fedora21使用ipv6访问google
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-09-14T18:41:37Z">2015-09-14</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		有传言ss、goagent作者被喝茶，不知真假，不过github上的项目确实被删除了，照这趋势大中华局域网指日可待啊。
-项目删除并不代表不能使用，如果你有好的ss、goagent服务端fq依然是没太大问题的。不过我最近用ss自己搭建的服务端经常出现时不时就断线的情况，不知道是不是GFW又升级了？作为一个google重度用户，这实在是难以忍受，而且某些情况下又不能直接使用vpn，之前有研究过使用ipv6访问google，但那时候各种fq方法都还不会受到严重干扰，也就没深入了解。ipv6访问google并不是神码新鲜玩意，几年之前就说有朝一日ipv6将取代ipv4，不过喊了几年也没什么动静。原理和废话不多说，想使用ipv6访问google，fedora21默认已经启用了ipv6支持，ubuntu还需要设置一下，具体操作自行百度。然后需要安装miredo： sudo yum install miredo
-然后 使用root权限 执行：/usr/local/sbin/miredo
-执行后会发现多出一个虚拟网卡：
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/fedora21%E4%BD%BF%E7%94%A8ipv6%E8%AE%BF%E9%97%AEgoogle/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -237,11 +236,11 @@ InsecurePlatformWarning: A true SSLContext object is not available. This prevent
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/1%E5%88%86%E9%92%9Flinux%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/">1分钟Linux性能分析</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/">Golang中的开闭原则</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/">Golang中的单一职责原则</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E4%BD%BF%E7%94%A8golang%E7%9A%84channel%E5%AE%9E%E7%8E%B0%E8%AE%A2%E9%98%85-%E5%8F%91%E5%B8%83%E6%A8%A1%E5%BC%8F/">使用golang的channel实现订阅-发布模式</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/">博客迁移</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/">Golang小技巧</a></li>
 		</ul>
 	</div>
 </div>
@@ -259,7 +258,7 @@ InsecurePlatformWarning: A true SSLContext object is not available. This prevent
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">47</span>
+				<span class="widget__counter widget__counter--bubble">48</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>&nbsp;
@@ -279,7 +278,7 @@ InsecurePlatformWarning: A true SSLContext object is not available. This prevent
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">29</span>
+				<span class="widget__counter widget__counter--bubble">30</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;
@@ -300,6 +299,7 @@ InsecurePlatformWarning: A true SSLContext object is not available. This prevent
 		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="java">java</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kali/" title="kali">kali</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kears/" title="kears">kears</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="Linux">Linux</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mac/" title="mac">mac</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongodb/" title="mongodb">mongodb</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mysql/" title="mysql">mysql</a>
@@ -343,7 +343,7 @@ InsecurePlatformWarning: A true SSLContext object is not available. This prevent
 	<a class="footer__link" href="/about/">About</a>
 </div>
 		<div class="footer__copyright">
-			&copy; 2021 Roy.
+			&copy; 2022 Roy.
 			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
 		</div>
 	</div>
