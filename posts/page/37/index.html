@@ -80,6 +80,49 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/python%E4%BD%BF%E7%94%A8threading%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" rel="bookmark">
+			Python：使用threading模块实现多线程编程
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-13T11:44:22Z">2013-11-13</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		原文链接找不到了，故整理格式后记录于此。
+常用函数 &#39;&#39;&#39;&#39;&#39; Created on 2012-9-7 @author: walfred @module: thread.ThreadTest3 @description: &#39;&#39;&#39; import threading class MyThread(threading.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/python%E4%BD%BF%E7%94%A8threading%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/python-threading%E6%A8%A1%E5%9D%97/" rel="bookmark">
+			python threading模块
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-13T11:16:09Z">2013-11-13</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		threading模块  Thread 线程类，这是我们用的最多的一个类，你可以指定线程函数执行或者继承自它都可以实现子线程功能； Timer与Thread类似，但要等待一段时间后才开始运行； Lock 锁原语，这个我们可以对全局变量互斥时使用； RLock 可重入锁，使单线程可以再次获得已经获得的锁； Condition 条件变量，能让一个线程停下来，等待其他线程满足某个“条件”； Event 通用的条件变量。多个线程可以等待某个事件发生，在事件发生后，所有的线程都被激活； Semaphore为等待锁的线程提供一个类似“等候室”的结构； BoundedSemaphore 与semaphore类似，但不允许超过初始值；  Thread类  是你主要的线程类，可以创建进程实例。该类提供的函数包括： getName(self) 返回线程的名字 isAlive(self) 布尔标志，表示这个线程是否还在运行中 isDaemon(self) 返回线程的daemon标志 join(self, timeout=None) 程序挂起，直到线程结束，如果给出timeout，则最多阻塞timeout秒 run(self) 定义线程的功能函数 setDaemon(self, daemonic) 把线程的daemon标志设为daemonic setName(self, name) 设置线程的名字 start(self) 开始线程执行  关于join()和setDaemon join：如在一个线程B中调用threada.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/python-threading%E6%A8%A1%E5%9D%97/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/python-queue%E6%A8%A1%E5%9D%97/" rel="bookmark">
 			python queue模块
 			</a>
@@ -169,56 +212,12 @@ python中lambda的bool值永远为真（这里指lambda本身而不是它的返�
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/python%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E7%B1%BB%E5%B1%9E%E6%80%A7%E5%AE%9E%E4%BE%8B%E5%B1%9E%E6%80%A7/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/python-optionparser%E6%A8%A1%E5%9D%97/" rel="bookmark">
-			Python optionParser模块
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-11T18:08:48Z">2013-11-11</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		用于生成模块说明。
-#coding=utf-8 from optparse import OptionParser def opt(): parser = OptionParser( description=&#34;整个文件功能一类的帮助信息&#34;) parser.
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/python-optionparser%E6%A8%A1%E5%9D%97/">Read more…</a>
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/%E9%98%B3%E6%9C%94%E5%BD%92%E6%9D%A511-10/" rel="bookmark">
-			阳朔归来（11.10）
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-08T13:44:09Z">2013-11-08</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%9D%82%E8%B0%88/" rel="category">杂谈</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>就要出发去桂林了，无心继续看代码哈！发现8月入职日子不错，入职不久就赶上了中秋节，参加了公司中秋聚餐+月饼一盒。之后就是十一，得购物卡一张。再后来就是公司的旅游，接下来还有元旦、新年&hellip;&hellip;
-接触python已经有3个多月了，越学越发现自己的不足，发现还有那么多的东西不会。看了那些大牛的博客后着实受了很大刺激，看看我自己的博客，很多都是充当“大自然的搬运工”这个角色，无论从质量还是数量来讲都不是很好。不过随后也就释然了，如果我学了三个月就达到他们那样的高度，那么所谓的“大牛”又能有什么含金量了呢？几年之后，我也要像他们那样，写出优秀的技术文章，向开源社区贡献自己的力量！</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E9%98%B3%E6%9C%94%E5%BD%92%E6%9D%A511-10/">Read more…</a>
-	</div>
 </article>
 </main>
 
 <div class="pagination">
 	<a class="pagination__item pagination__item--prev btn" href="/posts/page/36/">«</a>
-	<span class="pagination__item pagination__item--current">37/40</span>
+	<span class="pagination__item pagination__item--current">37/41</span>
 	<a class="pagination__item pagination__item--next btn" href="/posts/page/38/">»</a>
 </div>
 
@@ -237,11 +236,11 @@ python中lambda的bool值永远为真（这里指lambda本身而不是它的返�
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">EBPF学习笔记5</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">eBPF学习笔记1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/1%E5%88%86%E9%92%9Flinux%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/">1分钟Linux性能分析</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/">Golang中的开闭原则</a></li>
 		</ul>
 	</div>
 </div>
@@ -251,7 +250,7 @@ python中lambda的bool值永远为真（这里指lambda本身而不是它的返�
 		<ul class="widget__list">
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/ebpf/">eBPF</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">3</span>
+				<span class="widget__counter widget__counter--bubble">5</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>&nbsp;

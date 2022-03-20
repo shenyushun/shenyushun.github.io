@@ -80,6 +80,52 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/oc%E5%AD%A6%E4%B9%A0%E7%AC%AC2%E5%A4%A9class/" rel="bookmark">
+			OC学习第2天——CLASS
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-02-11T22:01:04Z">2015-02-11</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		在新建文件时选择os x列表下的“source”，再从右面的选项中选择“cocoa class”，填写类名以及选择存储位置后会自动生成2个文件：一个.h文件和一个.m文件，格式如下
+student.h:
+#import &lt;Foundation/Foundation.h&gt; @interface Student : NSObject @end&lt;/pre&gt; student.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/oc%E5%AD%A6%E4%B9%A0%E7%AC%AC2%E5%A4%A9class/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/oc%E5%AD%A6%E4%B9%A0%E7%AC%AC1%E5%A4%A9hello-world/" rel="bookmark">
+			OC学习第1天——hello world
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-02-09T23:36:27Z">2015-02-09</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		很多人为了学习ios开发而买了mac，而我却正好相反——买了mac后觉得只拿来看看网页、管理服务器什么的太浪费了，就顺便把ios开发也学学吧。由于本人是oc初学者，若有错误的地方还请指正。本文使用os x 10.10.2以及xcode 6.1.1。
+这里首先面临的就是语言的选择——oc和swift。经过“深思熟虑”我还是选择了oc，因为相关的资料比较多，遇到问题google起来效果较好。很多人觉得ios开发很难学是因为oc——别的不敢讲，就我这两天的学习来看，oc虽说是c的超集，不过语法看起来题确实挺奇怪，但对于任何有其他语言开发基础的人来说，语法仅仅是一个需要习惯的过程。ios开发的真正难点在于cocos引擎部分，所以对于英语好的来说swift也是不错的选择（英语硬伤还是啊……）。
+直接从appstore中安装xcode，安装完成后运行选择“create a new Xcode project”，再选择os x列表下的“application”，然后在右边的窗口中选择“command line tool”，点击“next”后输入项目名称等相关信息，语言选择“Objective－c”，再选择保存位置后点击“finish”即可。
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/oc%E5%AD%A6%E4%B9%A0%E7%AC%AC1%E5%A4%A9hello-world/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/python%E4%B8%AD%E7%9A%84md5%E4%BB%A5%E5%8F%8Abase64%E5%8A%A0%E5%AF%86/" rel="bookmark">
 			python中的md5以及base64加密
 			</a>
@@ -172,61 +218,12 @@ public static string MD5ToBase64String(string str) { MD5 md5 = new MD5CryptoServ
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/rmbp%E6%88%91%E7%9A%84%E8%AE%B0%E5%BD%95/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/%E9%80%89%E6%8B%A9%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F%E5%99%A8%E6%97%B6%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E5%87%A0%E7%82%B9%E7%BF%BB%E8%AF%91/" rel="bookmark">
-			选择漏洞扫描器时需要注意的几点（翻译）
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-01-08T14:18:16Z">2015-01-08</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		这是翻译系列的第一篇，如有不足希望大家指出。 原文：http://www.acunetix.com/blog/articles/choosing-a-web-vulnerability-scanner/
- 评估一个网站漏洞扫描器的好坏并不容易，随着大量的开源或商业的扫描器不断涌出，它们都声称自己提供了最好的扫描功能，所以选择一个好的扫描器是一个重要而又艰难的决定。在这篇文章中，我们提供了几个当您选择扫描器时可以考虑的关键之处。
-易用 漏洞扫描早就不再是一件容易的事情，虽然（希望）很多人都了解如SQL注入、XSS一类的基础知识，但并不是所有操作扫描器的人都是相关专家。理想情况下，你的大部分时间应该用于修复扫描器发现的漏洞而不是学习如何使用扫描器。
-有广泛的安全测试 漏洞扫描器应该能识别出更多的漏洞。尽管现在大多数的扫描器都能识别出一些基本、常见的漏洞，但你选择的扫描器最好也能识别出那些不太常见的漏洞。
-能识别漏洞变种 一个好的扫描器除了能识别出大量的漏洞外，应该也能识别检测出这些漏洞的相关变种。用XSS举例来说，开发者可能修复了基本的XSS漏洞，但却不能防止经过编码后XSS漏洞攻击。
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E9%80%89%E6%8B%A9%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F%E5%99%A8%E6%97%B6%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E5%87%A0%E7%82%B9%E7%BF%BB%E8%AF%91/">Read more…</a>
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/percona-xtradb-cluster-haproxy%E9%85%8D%E7%BD%AE/" rel="bookmark">
-			Percona XtraDB Cluster&#43;HAProxy配置
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-01-06T17:33:37Z">2015-01-06</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="category">数据库</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		最近公司有个异地多机房数据同步需求，mysql原生支持双主同步，所以只能另寻他法，于是找到了Percona XtraDB Cluster。这个可以理解为给Mysql打了个补丁，以便支持多主同步。
-测试环境：centos 6.5
-IP分配:
- 192.168.0.154(DB) 192.168.0.152(DB) 192.168.0.153(DB) 192.
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/percona-xtradb-cluster-haproxy%E9%85%8D%E7%BD%AE/">Read more…</a>
-	</div>
 </article>
 </main>
 
 <div class="pagination">
 	<a class="pagination__item pagination__item--prev btn" href="/posts/page/23/">«</a>
-	<span class="pagination__item pagination__item--current">24/40</span>
+	<span class="pagination__item pagination__item--current">24/41</span>
 	<a class="pagination__item pagination__item--next btn" href="/posts/page/25/">»</a>
 </div>
 
@@ -245,11 +242,11 @@ IP分配:
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">EBPF学习笔记5</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">eBPF学习笔记1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/1%E5%88%86%E9%92%9Flinux%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/">1分钟Linux性能分析</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/">Golang中的开闭原则</a></li>
 		</ul>
 	</div>
 </div>
@@ -259,7 +256,7 @@ IP分配:
 		<ul class="widget__list">
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/ebpf/">eBPF</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">3</span>
+				<span class="widget__counter widget__counter--bubble">5</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>&nbsp;

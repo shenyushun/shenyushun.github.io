@@ -77,6 +77,89 @@ if (!doNotTrack) {
 			
 <main class="main list" role="main">
 	<article class="list__item post">
+	<figure class="list__thumbnail">
+		<a href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">
+			<img src="https://www.openstack.org/themes/openstack/home_images/Hero/OpenStack_SFAs.svg" alt="OpenStack源码学习笔记1" />
+		</a>
+	</figure>
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" rel="bookmark">
+			OpenStack源码学习笔记1
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-09-16T17:46:29Z">2019-09-16</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/" rel="category">云计算</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<ul>
+<li><a href="#%e9%a2%84%e5%a4%87%e7%9f%a5%e8%af%86">预备知识</a>
+<ul>
+<li><a href="#%e8%99%9a%e6%8b%9f%e5%8c%96">虚拟化</a></li>
+<li><a href="#wsgi">WSGI</a></li>
+<li><a href="#paste-deployment">Paste Deployment</a></li>
+</ul>
+</li>
+<li><a href="#%e9%80%9a%e7%94%a8%e5%a5%97%e8%b7%af">通用套路</a></li>
+<li><a href="#%e9%85%8d%e7%bd%ae%e5%8a%a0%e8%bd%bd%e4%b8%8e%e8%b7%af%e7%94%b1%e7%bb%91%e5%ae%9a">配置加载与路由绑定</a></li>
+<li><a href="#%e5%88%9b%e5%bb%ba%e8%99%9a%e6%8b%9f%e6%9c%ba">创建虚拟机</a>
+<ul>
+<li><a href="#nova-api">Nova-Api</a></li>
+<li><a href="#nova-conductor-1">Nova-Conductor-1</a></li>
+<li><a href="#nova-scheduler">Nova-Scheduler</a></li>
+<li><a href="#nova-conductor-2">Nova-Conductor-2</a></li>
+<li><a href="#nova-compute">Nova-Compute</a></li>
+</ul>
+</li>
+</ul>
+<p>作为已经比较成熟的IAAS开源解决方案，OpenStack已经发布了19个版本，目前稳定版是Stein，并且下一个版本Train也预计在10月发布。可以说，从代码架构角度来说对于初学者来说已经略微复杂，但最核心的组件有以下几个：</p>
+<ol>
+<li>Nova：负责虚拟机相关。</li>
+<li>Glance：负责镜像相关。</li>
+<li>Cinder：负责存储相关。</li>
+<li>Neutron：负责网络相关。</li>
+<li>Keystone：负责鉴权以及服务注册。</li>
+</ol>
+<p>大体架构如下图：</p>
+<p><img src="https://mypic-1252424367.cos.ap-hongkong.myqcloud.com/opstack/openstack-arch-kilo-logical-v1.png" alt="all.png"></p>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/scrapy-redis%E7%BB%93%E5%90%88post%E8%AF%B7%E6%B1%82%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE/" rel="bookmark">
+			Scrapy-Redis结合POST请求获取数据
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-05-06T16:31:37Z">2019-05-06</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>能看到这篇文章的小伙伴肯定已经知道什么是Scrapy以及Scrapy-Redis了，基础概念这里就不再介绍。默认情况下Scrapy-Redis是发送GET请求获取数据的，对于某些使用POST请求的情况需要重写<code>make_request_from_data</code>函数即可，但奇怪的是居然没在网上搜到简洁明了的答案，或许是太简单了？</p>
+<p>这里我以<code>httpbin.org</code>这个网站为例，首先在<code>settings.py</code>中添加所需配置，这里需要根据实际情况进行修改：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">SCHEDULER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;scrapy_redis.scheduler.Scheduler&#34;</span>  <span style="color:#75715e">#启用Redis调度存储请求队列</span>
+SCHEDULER_PERSIST <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>    <span style="color:#75715e">#不清除Redis队列、这样可以暂停/恢复 爬取</span>
+DUPEFILTER_CLASS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;scrapy_redis.dupefilter.RFPDupeFilter&#34;</span>  <span style="color:#75715e">#确保所有的爬虫通过Redis去重</span>
+SCHEDULER_QUEUE_CLASS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;scrapy_redis.queue.SpiderPriorityQueue&#39;</span>
+REDIS_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;redis://127.0.0.1:6379&#34;</span>
+</code></pre></div>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/scrapy-redis%E7%BB%93%E5%90%88post%E8%AF%B7%E6%B1%82%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE/">Read more…</a>
+	</div>
+</article><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
 			<a href="/posts/%E6%8F%90%E5%8D%87keras%E5%87%86%E7%A1%AE%E7%8E%87%E5%92%8C%E9%80%9F%E5%BA%A6%E7%9A%84tips/" rel="bookmark">
@@ -177,66 +260,12 @@ cd $GOPATH/src/golang.org/  <span style="color:#f92672">&amp;&amp;</span> mv gol
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/ipfs%E5%88%9D%E7%AA%A53/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/ipfs%E5%88%9D%E7%AA%A52/" rel="bookmark">
-			IPFS初窥2
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-09-19T10:52:06Z">2018-09-19</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="category">区块链</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<!-- raw HTML omitted -->
-<p>在<a href="http://www.hi-roy.com/2018/09/04/IPFS%E5%88%9D%E7%AA%A5/">上一篇文章</a>中初步介绍了IPFS的基本概念和使用方法，今天更深入一些了解IPFS的设计理念。</p>
-<p>根据 <strong>第三版</strong> 白皮书，IPFS体系可以分为7层：</p>
-<ol>
-<li>身份：负责节点的身份生成和认证。</li>
-<li>网络：负责节点间的网络连接，可以配置使用各种网络协议。</li>
-<li>路由：维护路由信息来找出特定的节点和对象。默认使用DHT，可以替换。</li>
-<li>交换：一个新型的块交换协议(BitSwap)来高效管理块分发。有点类似超市，对数据复制有激励。交易策略可以替换。</li>
-<li>对象：带有链接的、内容寻址的不可变对象组成的Merkle DAG，可以代表任意数据结构。比如文件层级和通信系统。</li>
-<li>文件：受到Git启发的版本控制文件层级系统。</li>
-<li>命名：自验证的可变命名系统。</li>
-</ol>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/ipfs%E5%88%9D%E7%AA%A52/">Read more…</a>
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/ipfs%E5%88%9D%E7%AA%A5/" rel="bookmark">
-			IPFS初窥
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-09-04T10:41:30Z">2018-09-04</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="category">区块链</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>虽然区块链有很多令人兴奋的特性，但是也有其固有的缺点。比如，文件或者长度较长的文本信息就不适合存储在链上。那么如何解决这个缺点呢？一个解决方案就是IPFS(Interplanetary File System)——星际文件系统。</p>
-<p>本文作为简介篇不打算涉及网络及数据结构相关知识(比如什么是协议、什么是树、什么是图……)，不过我相信各位看官既然能找到本文网络基础应该不是问题。</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/ipfs%E5%88%9D%E7%AA%A5/">Read more…</a>
-	</div>
 </article>
 </main>
 
 <div class="pagination">
 	<a class="pagination__item pagination__item--prev btn" href="/page/5/">«</a>
-	<span class="pagination__item pagination__item--current">6/40</span>
+	<span class="pagination__item pagination__item--current">6/41</span>
 	<a class="pagination__item pagination__item--next btn" href="/page/7/">»</a>
 </div>
 
@@ -254,11 +283,11 @@ cd $GOPATH/src/golang.org/  <span style="color:#f92672">&amp;&amp;</span> mv gol
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">EBPF学习笔记5</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">eBPF学习笔记1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/1%E5%88%86%E9%92%9Flinux%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/">1分钟Linux性能分析</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/">Golang中的开闭原则</a></li>
 		</ul>
 	</div>
 </div>
@@ -268,7 +297,7 @@ cd $GOPATH/src/golang.org/  <span style="color:#f92672">&amp;&amp;</span> mv gol
 		<ul class="widget__list">
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/ebpf/">eBPF</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">3</span>
+				<span class="widget__counter widget__counter--bubble">5</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>&nbsp;

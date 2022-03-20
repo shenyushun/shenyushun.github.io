@@ -79,6 +79,51 @@ if (!doNotTrack) {
 	<article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/django-rest-jwt%E8%AE%A4%E8%AF%81/" rel="bookmark">
+			django-rest-jwt认证
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-01-11T10:37:34Z">2017-01-11</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>关于JWT(Json Web Token)是一种较新的用户认证方式，官网在<a href="https://jwt.io/">这里</a>，网上有篇中文解释写的很好，<a href="http://blog.leapoahead.com/2015/09/06/understanding-jwt/">点此跳转</a>。</p>
+<p>用户认证(Authentication)和用户授权(Authorization)是两个不同的概念，认证解决的是“有没有”的问题，而授权解决的是“能不能”的问题。</p>
+<p>一般用到JWT认证的情况大多都是配合REST框架使用，比如我大Django的Django-REST-framework框架，就已经有了现成的三方库<a href="http://getblimp.github.io/django-rest-framework-jwt/">django-rest-framework-jwt</a>。不过这个库默认只支持基于<code>Header</code>传递信息，所以改成基于Cookie方式还需要我们来手动处理一下。</p>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/django-rest-jwt%E8%AE%A4%E8%AF%81/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%B8%8D%E4%BD%BF%E7%94%A8%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0/" rel="bookmark">
+			什么时候不使用箭头函数
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-12-22T17:07:08Z">2016-12-22</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>作为一个前端渣渣，最近在写js代码的时候，开始使用一些ES6的新特性，结果到箭头函数部分“掉坑”了。网上大部分都说箭头函数怎么用，而很少说箭头什么时候 <em>不要用</em>，所以这里翻译一篇文章来说说什么时候不要用的问题。</p>
+<p><a href="https://rainsoft.io/when-not-to-use-arrow-functions-in-javascript/">原文地址</a>，向原作者表示感谢。</p>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%B8%8D%E4%BD%BF%E7%94%A8%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/%E5%B0%86django%E6%A8%A1%E6%9D%BF%E5%8F%98%E9%87%8F%E4%BC%A0%E9%80%92%E7%BB%99%E5%A4%96%E9%83%A8js%E8%B0%83%E7%94%A8%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/" rel="bookmark">
 			将Django模板变量传递给外部JS调用的几种方式
 			</a>
@@ -198,53 +243,12 @@ r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</sp
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/%E4%BD%BF%E7%94%A8python%E6%A8%A1%E6%8B%9Fpost%E8%AF%B7%E6%B1%82%E6%8F%90%E4%BA%A4%E5%9B%BE%E7%89%87/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/django-auth-ldap%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/" rel="bookmark">
-			django-auth-ldap中文文档
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-09-09T10:08:51Z">2016-09-09</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		最近在学习如何结合Django和LDAP服务进行用户认证，关于在Centos7上LDAP的服务器如何搭建可以参考这里。
-阅读文档的时候发现网上没有关于django-auth-ldap的完整翻译，所以把我阅读文档时的理解记录下来，如有错误还请指正。
-django-auth-ldap中文文档
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/gpg%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/" rel="bookmark">
-			GPG使用记录
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-09-05T16:05:32Z">2016-09-05</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>GPG简单来说是一种加密机制，可以用来加密文件、邮件等。这里以Centos为例记录一下生成密钥以及相关操作。</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/gpg%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/">Read more…</a>
-	</div>
 </article>
 </main>
 
 <div class="pagination">
 	<a class="pagination__item pagination__item--prev btn" href="/page/13/">«</a>
-	<span class="pagination__item pagination__item--current">14/40</span>
+	<span class="pagination__item pagination__item--current">14/41</span>
 	<a class="pagination__item pagination__item--next btn" href="/page/15/">»</a>
 </div>
 
@@ -262,11 +266,11 @@ django-auth-ldap中文文档
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">EBPF学习笔记5</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">eBPF学习笔记1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/1%E5%88%86%E9%92%9Flinux%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/">1分钟Linux性能分析</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/">Golang中的开闭原则</a></li>
 		</ul>
 	</div>
 </div>
@@ -276,7 +280,7 @@ django-auth-ldap中文文档
 		<ul class="widget__list">
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/ebpf/">eBPF</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">3</span>
+				<span class="widget__counter widget__counter--bubble">5</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>&nbsp;

@@ -79,6 +79,71 @@ if (!doNotTrack) {
 	<article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/django-celery-rabbitmq-flower%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/" rel="bookmark">
+			Django&#43;Celery&#43;Rabbitmq&#43;Flower使用小记
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-02-23T15:30:02Z">2016-02-23</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>之前的博客中简单的介绍了celery的安装配置以及如何在python程序中使用，这里记录一下我使用django结合celery以及rabbitmq提供web服务，同时使用flower进行监控的过程。至于这几样东西是什么、怎么安装这里就不再细说了。</p>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/django-celery-rabbitmq-flower%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/python%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0%E4%B9%8B%E4%BD%BF%E7%94%A8%E5%AD%97%E5%85%B8%E5%88%86%E6%B4%BE%E5%87%BD%E6%95%B0/" rel="bookmark">
+			python基础复习之使用字典分派函数
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-01-26T11:57:39Z">2016-01-26</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>程序中很常见的一种场景就是根据某个控制变量的值来调用不同的函数或对象进行处理，某些语言中可以使用case语句进行处理，在python可以使用getattr函数甚至if&hellip;elif&hellip;else来处理，除此之外，也可以使用字典来实现相同的功能，比如下面的例子：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">animals <span style="color:#f92672">=</span> []
+number_of_felines <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">deal_cat</span>():
+    <span style="color:#66d9ef">global</span> number_of_felines
+    print <span style="color:#e6db74">&#34;meow&#34;</span>
+    animals<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;feline&#39;</span>)
+    number_of_felines <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">deal_dog</span>():
+    print <span style="color:#e6db74">&#39;bark&#39;</span>
+    animals<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;canine&#39;</span>)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">deal_bear</span>():
+    print <span style="color:#e6db74">&#34;hug&#34;</span>
+    animals<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;ursine&#39;</span>)
+token <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;cat&#39;</span>: deal_cat, <span style="color:#e6db74">&#39;dog&#39;</span>: deal_dog, <span style="color:#e6db74">&#39;bear&#39;</span>: deal_bear}
+<span style="color:#75715e">#words = [&#39;cat&#39;, &#39;dog&#39;, &#39;bear&#39;]</span>
+words <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;cat&#39;</span>, <span style="color:#e6db74">&#39;dog&#39;</span>, <span style="color:#e6db74">&#39;bear&#39;</span>, <span style="color:#e6db74">&#39;cat&#39;</span>]
+<span style="color:#66d9ef">for</span> one <span style="color:#f92672">in</span> words:
+    token[one]()
+    <span style="color:#75715e">#return token[one]()</span>
+nf <span style="color:#f92672">=</span> number_of_felines
+print <span style="color:#e6db74">&#39;we met </span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> feline</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> (nf, <span style="color:#e6db74">&#39;s&#39;</span>[nf <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:])
+print <span style="color:#e6db74">&#39;the animals we net were:&#39;</span>, <span style="color:#e6db74">&#39; &#39;</span><span style="color:#f92672">.</span>join(animals)
+</code></pre></div>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/python%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0%E4%B9%8B%E4%BD%BF%E7%94%A8%E5%AD%97%E5%85%B8%E5%88%86%E6%B4%BE%E5%87%BD%E6%95%B0/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/celery%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/" rel="bookmark">
 			celery使用小记
 			</a>
@@ -185,57 +250,12 @@ from functools import wraps def http_basic_auth(func): &#39;&#39;&#39;定义http
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/flask-socketio%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/centos7%E5%AE%89%E8%A3%85metasploit%E6%A1%86%E6%9E%B6/" rel="bookmark">
-			centos7安装Metasploit框架
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-12-28T17:56:42Z">2015-12-28</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		Metasploit应该不用多说了吧？Kali自带、Win和Mac都提供了现成的安装包，不过我莫名的对apt系不感冒，这里记录一下在centos7上安装metasploit框架的步骤，理论上yum系的都应该通用。 首先执行
-curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb &gt; msfinstallchmod 755 msfinstall./msfinstall然后安装postgresql：
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/centos7%E5%AE%89%E8%A3%85metasploit%E6%A1%86%E6%9E%B6/">Read more…</a>
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/python%E8%84%9A%E6%9C%AC%E6%A8%A1%E6%8B%9Ftail%E5%91%BD%E4%BB%A4/" rel="bookmark">
-			python脚本模拟tail命令
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-12-22T16:00:29Z">2015-12-22</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		今天有个需求，需要实时监控nginx日志中某些ip的访问情况。如果ip较少的话，直接使用tail、grep以及管道配合即可。不过需要监控100个左右的ip并进行相应处理的话，除了自己写脚本还真没想到别的办法。
-首先引出Python中自带的2个函数：
- file.seek(off, whence=0) 从文件中移动off个操作标记（文件指针），正往结束方向移动，负往开始方向移动。如果设定了whence参数，就以whence设定的起始位为准，0代表从头开始，1代表当前位置，2代表文件最末尾位置。 file.tell() 返回文件指针的当前位置。  那么思路就比较清晰了，写一个死循环，循环内记录指针位置并赋值给seek函数：
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/python%E8%84%9A%E6%9C%AC%E6%A8%A1%E6%8B%9Ftail%E5%91%BD%E4%BB%A4/">Read more…</a>
-	</div>
 </article>
 </main>
 
 <div class="pagination">
 	<a class="pagination__item pagination__item--prev btn" href="/page/17/">«</a>
-	<span class="pagination__item pagination__item--current">18/40</span>
+	<span class="pagination__item pagination__item--current">18/41</span>
 	<a class="pagination__item pagination__item--next btn" href="/page/19/">»</a>
 </div>
 
@@ -253,11 +273,11 @@ curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/t
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">EBPF学习笔记5</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">eBPF学习笔记1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/1%E5%88%86%E9%92%9Flinux%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/">1分钟Linux性能分析</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/">Golang中的开闭原则</a></li>
 		</ul>
 	</div>
 </div>
@@ -267,7 +287,7 @@ curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/t
 		<ul class="widget__list">
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/ebpf/">eBPF</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">3</span>
+				<span class="widget__counter widget__counter--bubble">5</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>&nbsp;

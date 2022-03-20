@@ -79,6 +79,67 @@ if (!doNotTrack) {
 	<article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/%E7%90%86%E8%B4%A2%E8%AE%B0%E5%BD%953/" rel="bookmark">
+			理财记录3
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-04-26T21:02:18Z">2015-04-26</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/" rel="category">金融理财</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>上篇中主要学习了和企业盈利能力相关的知识，这篇中记录一下和企业偿债能力相关的知识，可能对于购买债券的朋友来说更看重这点吧。但我在学习过程中始终有一种似懂非懂的感觉，而没有学习关于盈利能力时那种“AHA~Get It!”的感觉，所以这里只做一些简单记录。</p>
+<p>首先，企业是否会陷入财务困境可以从3方面来看：</p>
+<ol>
+<li>财务状况</li>
+<li>盈利能力</li>
+<li>周转速度</li>
+</ol>
+<p>同时衡量偿债能力的指标又有下面4种：</p>
+<ol>
+<li>资产负债率</li>
+<li>流动比率</li>
+<li>速动比率</li>
+<li>利息保障倍数</li>
+</ol>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/%E7%90%86%E8%B4%A2%E8%AE%B0%E5%BD%953/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/%E4%BD%BF%E7%94%A8firewalld-cmd%E9%85%8D%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99/" rel="bookmark">
+			使用firewalld-cmd配置防火墙
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-04-23T17:44:52Z">2015-04-23</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>, <a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		CentOS7和fedora中的默认防火墙都变成了firewalld，当然你也可以选择禁用这个并自己安装iptables，下面内容原文：这里，而且只翻译我用到的部分文章。原文中还展示了如何使用图形界面进行配置，不过作为键盘爱好者，能不用鼠标的就尽量不用鼠标了，直接上命令行操作。
+ 4.5.4 理解域概念 firewalld可以根据不同的信任级别，将处于不同域内的设备进行分离。NetworkManager用于管理firewalld将接口分配到哪个域中，可以通过NetworkManager界面或filrewall-config工具来进行设置。
+默认的配置文件位于/etc/firewalld/可以快速的应用在网络接口上，这里有一份关于域的简短的说明：
+dorp:任何入站请求都被忽略，无任何回复，只有发起的网络链接请求被放行。
+block:任何入站请求都被拒绝，ipv4协议回复&quot;icmp-host-prohibited&quot;消息，ipv6协议回复&quot;icmp6-adm-prohibited&quot;，只有从系统内部发出的链接请求才被放行。
+（个人感觉上面两个区别就是在于有无回复，对内的话用block、对外用dorp好一些，让外部扫描费点劲才知道被防火墙过滤了）
+public:为在公共场所准备，你不相信网络中的其他电脑不会对你的电脑造成伤害，只有被选定的入站链接被接受。
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/%E4%BD%BF%E7%94%A8firewalld-cmd%E9%85%8D%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/fedora21%E5%AE%89%E8%A3%85%E6%9C%89%E9%81%93%E8%AF%8D%E5%85%B8linux%E7%89%88/" rel="bookmark">
 			fedora21安装有道词典linux版
 			</a>
@@ -165,59 +226,12 @@ yum install python3-qt5 yum install python3-requests yum install python3-xlib yu
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/django-userena%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/macos%E5%AE%89%E8%A3%85wiresharkqt/" rel="bookmark">
-			MacOS安装Wireshark-qt
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-04-06T11:29:54Z">2015-04-06</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		大名鼎鼎的Wireshark不必多说，在win、linux系统中安装也都比较便捷，不过在网上大多写MacOS中如何安装的都狠麻烦，因为他们写的都是安装gtk版本的方式，而wireshark早就投入了qt阵营的怀抱了。
-在brew中直接使用brew install wireshark --with-qt即可安装成功，不过安装后会提示:
-&gt; If your list of available capture interfaces is empty&gt; (default OS X behavior), try the following commands:&gt; curl https://bugs.
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/macos%E5%AE%89%E8%A3%85wiresharkqt/">Read more…</a>
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/fedora21%E5%AE%89%E8%A3%85mitmf%E6%A1%86%E6%9E%B6/" rel="bookmark">
-			fedora21安装MITMf框架
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-04-02T14:42:02Z">2015-04-02</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		关于这大名鼎鼎的中间人攻击框架不多介绍了，如果是kali linux用户直接apt-get install mitmf即可;如果是win用户呢，基本就放弃吧;如果是os x用户呢，有几个依赖我始终安装失败，你要安装成功了请联系我。
-网上很多都是讲ubuntu怎么安装这个框架的，这里我记录一下在fedora21上我的安装记录。
-首先安装一些系统依赖，这里我系统原来就安装了很多杂七杂八的东西，不保证下面的就是齐全的：
-sudo yum install libnetfilter_queue-develsudo yum install libffi-develsudo yum install libpcap-devel接下来下载一个不能用pip安装的包
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/fedora21%E5%AE%89%E8%A3%85mitmf%E6%A1%86%E6%9E%B6/">Read more…</a>
-	</div>
 </article>
 </main>
 
 <div class="pagination">
 	<a class="pagination__item pagination__item--prev btn" href="/page/21/">«</a>
-	<span class="pagination__item pagination__item--current">22/40</span>
+	<span class="pagination__item pagination__item--current">22/41</span>
 	<a class="pagination__item pagination__item--next btn" href="/page/23/">»</a>
 </div>
 
@@ -235,11 +249,11 @@ sudo yum install libnetfilter_queue-develsudo yum install libffi-develsudo yum
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">EBPF学习笔记5</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">eBPF学习笔记1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/1%E5%88%86%E9%92%9Flinux%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/">1分钟Linux性能分析</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/">Golang中的开闭原则</a></li>
 		</ul>
 	</div>
 </div>
@@ -249,7 +263,7 @@ sudo yum install libnetfilter_queue-develsudo yum install libffi-develsudo yum
 		<ul class="widget__list">
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/ebpf/">eBPF</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">3</span>
+				<span class="widget__counter widget__counter--bubble">5</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>&nbsp;
