@@ -80,6 +80,33 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/" rel="bookmark">
+			在Golang中保持TCP链接
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2022-07-11T14:26:27&#43;08:00">2022-07-11</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		原文地址：这里，省略了一些非重点片段。
+尽管目前大多数系统都是通过gRPC或HTTP进行通信的，但仍有相当多的应用程序使用自定义协议。而且这些自定义协议中的许多都没有类似net/http这样方便的包来管理TCP连接。
+这篇文章是为了那些直接和TCP连接打交道的人准备的。本文将讨论如何长期维护健康的TCP会话，以及如何对操持长链接的系统进行调优。
+健康的链接 对于使用了长链接的应用来说最常见的问题就是如何保证这些链接的健康，很多情况都不利于长链接的保持。比如，防火墙管理员经常会设置最大空闲时间，当TCP链接中长时间没有数据传输时这些链接将被杀死。
+修改了客户端或者服务端也可能导致链接断开，虽然其中一方可能知道链接被断开，而另一方则不一定知道，直到他试图发送一条消息。
+一种有用的办法解决上面问题就是启用TCP存活消息机制。
+TCP Keepalive keepalive是TCP一种特性，当长时间不活跃时将发送一个特殊的数据包。这个数据包不包含任何数据而是要求一个ACK响应，当对端收到这个keepalive数据包时，将发送一个ACK响应回去。
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/iptables%E7%AC%94%E8%AE%B0/" rel="bookmark">
 			Iptables笔记
 			</a>
@@ -123,7 +150,7 @@ if (!doNotTrack) {
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		未完待续……
-参考链接  libbpf HOWTO: BCC to libbpf conversion  
+参考链接 libbpf HOWTO: BCC to libbpf conversion 
 	</div>
 </article><article class="list__item post">
 	<header class="list__header">
@@ -203,52 +230,6 @@ if (!doNotTrack) {
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" rel="bookmark">
-			eBPF学习笔记1
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2022-02-02T15:15:03&#43;08:00">2022-02-02</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/ebpf/" rel="category">eBPF</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<ul>
-<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFebpf">什么是eBPF？</a></li>
-<li><a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81ebpf">为什么需要eBPF？</a></li>
-<li><a href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ebpf">如何使用eBPF？</a></li>
-<li><a href="#%E4%BD%BF%E7%94%A8ebpf%E6%97%B6%E5%BA%94%E8%AF%A5%E6%B3%A8%E6%84%8F">使用eBPF时应该注意？</a></li>
-<li><a href="#ebpf%E7%9A%84%E5%BA%94%E7%94%A8%E9%A2%86%E5%9F%9F">eBPF的应用领域？</a></li>
-<li><a href="#ebpf%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9">eBPF的优缺点？</a>
-<ul>
-<li><a href="#%E4%BC%98%E7%82%B9">优点</a></li>
-<li><a href="#%E7%BC%BA%E7%82%B9">缺点</a></li>
-</ul>
-</li>
-<li><a href="#%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB">推荐阅读</a></li>
-</ul>
-<p>按照惯例，第一篇先来个概览，做一些基础知识的铺垫。</p>
-<p>目前这个技术领域还相对较“新”，本人也刚刚开始摸索学习，有错误的地方还请大佬们多多指正。</p>
-<h2 id="什么是ebpf">什么是eBPF？</h2>
-<p>eBPF由BPF(Berkeley Packet Filter)扩展而来，提供了一种在内核事件和用户程序事件发生时安全注入代码的机制，使得非内核开发人员也可以对内核进行控制，无需修改内核源码和重新编译内核就可以扩展内核的功能。（简单类比的话，就类似未成年人可以在有限的范围内安全的做一些成年人才能做的事了）</p>
-<p>之前想对内核做点什么，需要编写内核模块后编译进去，一个不小心就把内核搞崩了。而eBPF则通过即时编译器(JIT)，保证只有经过验证的、安全的eBFP指令才会被内核执行。</p>
-<h2 id="为什么需要ebpf">为什么需要eBPF？</h2>
-<p>从业界的角度看，最主要的因素还是对性能的追求。比如，小规模的k8s使用iptables就可以搞定容器网络通信，但随着规模的增大iptables性能问题越发明显，然后就有了IPVS模式。虽然IPVS和iptables都是基于Netfilter，但由于IPVS使用哈希表而iptables使用规则链表，导致前者的性能高于后者。然后随着集群规模的再次扩大，对性能有了更高的要求，于是乎eBPF就成了目前进一步提高性能的技术方案：</p>
-<blockquote>
-<p>The aforementioned KubeCon Talk performed specific measurements on iptables as a bottleneck for Kubernetes service forwarding and noted that throughput degraded by ~30% with 5,000 services deployed, and by 80% with 10,000 services (a 6X performance difference). Likewise, rule updates at 5,000 services took 11 minutes, ages in a world of continuous delivery.</p>
-<p>Thanks to the flexibility of BPF, Cilium performs this same operation with O(1) average runtime behavior using a simple BPF map based hash table, meaning the lookup latency at 10,000 or even 20,000 services is constant. Likewise, updates to these BPF maps from userspace are highly-efficient, meaning that even with 20,000+ services, the time to update a forwarding rule is microseconds, not hours.</p>
-<p>For these reasons, Facebook has recently presented their use of BPF and XDP for load-balancing in a public talk to replace IPVS after measuring an almost 10x performance increase.</p>
-</blockquote>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -272,11 +253,11 @@ if (!doNotTrack) {
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 		</ul>
 	</div>
 </div>
@@ -314,11 +295,11 @@ if (!doNotTrack) {
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">132</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">30</span>
+				<span class="widget__counter widget__counter--bubble">31</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

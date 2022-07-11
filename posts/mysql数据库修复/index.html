@@ -111,7 +111,7 @@ InnoDB: innodb_force_recovery=6
 <p>接下来就是使用mysqldump命令进行数据库备份了，备份好后，删除mysql数据库目录的内容，并重新初始化：</p>
 <pre tabindex="0"><code>rm -rf /usr/local/mysql/var/
 ./mysql_install_db
-WARNING: The host 'MyServer' could not be looked up with resolveip.
+WARNING: The host &#39;MyServer&#39; could not be looked up with resolveip.
 This probably means that your libc libraries are not 100 % compatible
 with this binary MySQL version. The MySQL daemon, mysqld, should work
 normally with the exception that host name resolving will not work.
@@ -130,8 +130,8 @@ support-files/mysql.server to the right place for your system
 PLEASE REMEMBER TO SET A PASSWORD FOR THE MySQL root USER !
 To do so, start the server, then issue the following commands:
 
-./bin/mysqladmin -u root password 'new-password'
-./bin/mysqladmin -u root -h MyServer password 'new-password'
+./bin/mysqladmin -u root password &#39;new-password&#39;
+./bin/mysqladmin -u root -h MyServer password &#39;new-password&#39;
 
 Alternatively you can run:
 ./bin/mysql_secure_installation
@@ -152,7 +152,7 @@ Please report any problems at http://bugs.mysql.com/
 <pre tabindex="0"><code>160718 21:34:32 mysqld_safe Starting mysqld daemon with databases from /usr/local/mysql/var
 160718 21:34:32 [Note] /usr/local/mysql/bin/mysqld (mysqld 5.5.48-log) starting as process 24777
 ...
-/usr/local/mysql/bin/mysqld: File './mysql-bin.index' not found (Errcode: 13)
+/usr/local/mysql/bin/mysqld: File &#39;./mysql-bin.index&#39; not found (Errcode: 13)
 160718 21:34:32 [ERROR] Aborting
 160718 21:34:32 [Note] /usr/local/mysql/bin/mysqld: Shutdown complete
 160718 21:34:32 mysqld_safe mysqld from pid file /usr/local/mysql/var/MyServer.pid ended
@@ -211,7 +211,7 @@ Please report any problems at http://bugs.mysql.com/
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

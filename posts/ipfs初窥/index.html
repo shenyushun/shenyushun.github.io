@@ -135,46 +135,46 @@ if (!doNotTrack) {
 <p>自验证文件系统(Self-certifying File System,SFS)是一种不需要特殊权限的分布式文件系统，因为每个用户上传是生成的文件名已经是经过其私钥签名过的了。在这个基础上，又可以引出星际命名空间(InterPlanetary Name Space,IPNS)的概念。之前说过IPFS上的文件哈希后都是唯一识别的，推广开来，每个节点也有公钥、私钥和节点ID，节点ID是其公钥的哈希值，节点可以使用私钥来对其发布的数据签名，其他用户检索时，可以检查发送者的公钥来验证数据真实性。</p>
 <h2 id="如何使用ipfs">如何使用IPFS?</h2>
 <p>首先下载<a href="https://dist.ipfs.io/#go-ipfs">go-ipfs</a>，我这里直接使用linux版本的，解压后执行:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">go-ipfs❯ sudo sh install.sh
-<span style="color:#f92672">[</span>sudo<span style="color:#f92672">]</span> password <span style="color:#66d9ef">for</span> roy:
-Moved ./ipfs to /usr/local/bin
-
-go-ipfs❯ ipfs init
-initializing IPFS node at /home/roy/.ipfs
-generating 2048-bit RSA keypair...done
-peer identity: QmcWR5hMnF7LNqNJBC6fxSBdXRUBgJEnXca3MHWN8kpdXC
-to get started, enter:
-
-	ipfs cat /ipfs/QmS4ustL54uo8FzR9455qaxZwuMiUhyvMcX9Ba8nUH4uVv/readme
-
-go-ipfs❯ ipfs cat /ipfs/QmS4ustL54uo8FzR9455qaxZwuMiUhyvMcX9Ba8nUH4uVv/readme
-Hello and Welcome to IPFS!
-
-██╗██████╗ ███████╗███████╗
-██║██╔══██╗██╔════╝██╔════╝
-██║██████╔╝█████╗  ███████╗
-██║██╔═══╝ ██╔══╝  ╚════██║
-██║██║     ██║     ███████║
-╚═╝╚═╝     ╚═╝     ╚══════╝
-
-If you seeing this, you have successfully installed
-IPFS and are now interfacing with the ipfs merkledag!
-
- -------------------------------------------------------
-| Warning:                                              |
-|   This is alpha software. Use at your own discretion! |
-|   Much is missing or lacking polish. There are bugs.  |
-|   Not yet secure. Read the security notes <span style="color:#66d9ef">for</span> more.   |
- -------------------------------------------------------
-
-Check out some of the other files in this directory:
-
-  ./about
-  ./help
-  ./quick-start     &lt;-- usage examples
-  ./readme          &lt;-- this file
-  ./security-notes
-</code></pre></div><p>建议使用提示中的哦命令看看<code>quick-start</code>，常用操作都在里面了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>go-ipfs❯ sudo sh install.sh
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>sudo<span style="color:#f92672">]</span> password <span style="color:#66d9ef">for</span> roy:
+</span></span><span style="display:flex;"><span>Moved ./ipfs to /usr/local/bin
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>go-ipfs❯ ipfs init
+</span></span><span style="display:flex;"><span>initializing IPFS node at /home/roy/.ipfs
+</span></span><span style="display:flex;"><span>generating 2048-bit RSA keypair...done
+</span></span><span style="display:flex;"><span>peer identity: QmcWR5hMnF7LNqNJBC6fxSBdXRUBgJEnXca3MHWN8kpdXC
+</span></span><span style="display:flex;"><span>to get started, enter:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	ipfs cat /ipfs/QmS4ustL54uo8FzR9455qaxZwuMiUhyvMcX9Ba8nUH4uVv/readme
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>go-ipfs❯ ipfs cat /ipfs/QmS4ustL54uo8FzR9455qaxZwuMiUhyvMcX9Ba8nUH4uVv/readme
+</span></span><span style="display:flex;"><span>Hello and Welcome to IPFS!
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>██╗██████╗ ███████╗███████╗
+</span></span><span style="display:flex;"><span>██║██╔══██╗██╔════╝██╔════╝
+</span></span><span style="display:flex;"><span>██║██████╔╝█████╗  ███████╗
+</span></span><span style="display:flex;"><span>██║██╔═══╝ ██╔══╝  ╚════██║
+</span></span><span style="display:flex;"><span>██║██║     ██║     ███████║
+</span></span><span style="display:flex;"><span>╚═╝╚═╝     ╚═╝     ╚══════╝
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>If you seeing this, you have successfully installed
+</span></span><span style="display:flex;"><span>IPFS and are now interfacing with the ipfs merkledag!
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> -------------------------------------------------------
+</span></span><span style="display:flex;"><span>| Warning:                                              |
+</span></span><span style="display:flex;"><span>|   This is alpha software. Use at your own discretion! |
+</span></span><span style="display:flex;"><span>|   Much is missing or lacking polish. There are bugs.  |
+</span></span><span style="display:flex;"><span>|   Not yet secure. Read the security notes <span style="color:#66d9ef">for</span> more.   |
+</span></span><span style="display:flex;"><span> -------------------------------------------------------
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Check out some of the other files in this directory:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  ./about
+</span></span><span style="display:flex;"><span>  ./help
+</span></span><span style="display:flex;"><span>  ./quick-start     &lt;-- usage examples
+</span></span><span style="display:flex;"><span>  ./readme          &lt;-- this file
+</span></span><span style="display:flex;"><span>  ./security-notes
+</span></span></code></pre></div><p>建议使用提示中的哦命令看看<code>quick-start</code>，常用操作都在里面了。</p>
 <p>然后启动ipfs服务：</p>
 <pre tabindex="0"><code>go-ipfs❯ ipfs daemon
 Initializing daemon...
@@ -199,33 +199,33 @@ Gateway (readonly) server listening on /ip4/127.0.0.1/tcp/8080
 Daemon is ready
 </code></pre><p>然后访问<code>http://localhost:5001/webui</code>可以查看系统信息、创建文件夹、添加文件等。</p>
 <p>添加个文件：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">~ » mkdir roy_test
-~ » echo <span style="color:#e6db74">&#34;www.hi-roy.com&#34;</span> &gt; roy_test/roy.txt
-~ » ipfs add -r roy_test
-added QmTbyi4XTyG8PrJo7KDcexNGxBJNKfJCwjfmY4HmtENqYd roy_test/roy.txt
-added QmUK6CHzQyn2CWpHumysxhQXjzi4dA373DYLD2zgj8n7kx roy_test
-</code></pre></div><p>然后测试下文件是否添加成功：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ipfs ls QmUK6CHzQyn2CWpHumysxhQXjzi4dA373DYLD2zgj8n7kx
-QmTbyi4XTyG8PrJo7KDcexNGxBJNKfJCwjfmY4HmtENqYd <span style="color:#ae81ff">23</span> roy.txt
-
-ipfs cat /ipfs/QmTbyi4XTyG8PrJo7KDcexNGxBJNKfJCwjfmY4HmtENqYd
-www.hi-roy.com
-</code></pre></div><p>也可以通过本地网关访问<code>http://localhost:8080/ipfs/QmTbyi4XTyG8PrJo7KDcexNGxBJNKfJCwjfmY4HmtENqYd</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>~ » mkdir roy_test
+</span></span><span style="display:flex;"><span>~ » echo <span style="color:#e6db74">&#34;www.hi-roy.com&#34;</span> &gt; roy_test/roy.txt
+</span></span><span style="display:flex;"><span>~ » ipfs add -r roy_test
+</span></span><span style="display:flex;"><span>added QmTbyi4XTyG8PrJo7KDcexNGxBJNKfJCwjfmY4HmtENqYd roy_test/roy.txt
+</span></span><span style="display:flex;"><span>added QmUK6CHzQyn2CWpHumysxhQXjzi4dA373DYLD2zgj8n7kx roy_test
+</span></span></code></pre></div><p>然后测试下文件是否添加成功：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>ipfs ls QmUK6CHzQyn2CWpHumysxhQXjzi4dA373DYLD2zgj8n7kx
+</span></span><span style="display:flex;"><span>QmTbyi4XTyG8PrJo7KDcexNGxBJNKfJCwjfmY4HmtENqYd <span style="color:#ae81ff">23</span> roy.txt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ipfs cat /ipfs/QmTbyi4XTyG8PrJo7KDcexNGxBJNKfJCwjfmY4HmtENqYd
+</span></span><span style="display:flex;"><span>www.hi-roy.com
+</span></span></code></pre></div><p>也可以通过本地网关访问<code>http://localhost:8080/ipfs/QmTbyi4XTyG8PrJo7KDcexNGxBJNKfJCwjfmY4HmtENqYd</code>。</p>
 <p>然后我们来修改一下文件：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;www.hi-roy.com&#34;</span> &gt;&gt; roy_test/roy.txt
-echo <span style="color:#e6db74">&#34;www.hi-roy.com&#34;</span> &gt;&gt; roy_test/roy.txt
-ipfs add roy_test/roy.txt
-added QmUcwEGLBhLKYG7X1DrbMbbSKSJ3GbDHWibymwXqUG1PCK roy.txt
-</code></pre></div><p>注意，修改文件后哈希值发生了变化，原来的文件依然存在。但每次更新文件都有一个新哈希也太麻烦了，这时可以使用上面说的<code>IPNS</code>了:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ipfs name publish QmUK6CHzQyn2CWpHumysxhQXjzi4dA373DYLD2zgj8n7kx
-Published to QmcWR5hMnF7LNqNJBC6fxSBdXRUBgJEnXca3MHWN8kpdXC: /ipfs/QmUK6CHzQyn2CWpHumysxhQXjzi4dA373DYLD2zgj8n7kx
-</code></pre></div><p>这里我把文件夹的哈希值作为根发布，然后就可以使用<code>ipns</code>查看文件了：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ipfs cat /ipns/QmcWR5hMnF7LNqNJBC6fxSBdXRUBgJEnXca3MHWN8kpdXC/roy.txt
-
-www.hi-roy.com
-www.hi-roy.com
-www.hi-roy.com
-</code></pre></div><p>以后更新文件后再publish就可以了。不过 <strong>使用ipns会很慢</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;www.hi-roy.com&#34;</span> &gt;&gt; roy_test/roy.txt
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;www.hi-roy.com&#34;</span> &gt;&gt; roy_test/roy.txt
+</span></span><span style="display:flex;"><span>ipfs add roy_test/roy.txt
+</span></span><span style="display:flex;"><span>added QmUcwEGLBhLKYG7X1DrbMbbSKSJ3GbDHWibymwXqUG1PCK roy.txt
+</span></span></code></pre></div><p>注意，修改文件后哈希值发生了变化，原来的文件依然存在。但每次更新文件都有一个新哈希也太麻烦了，这时可以使用上面说的<code>IPNS</code>了:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>ipfs name publish QmUK6CHzQyn2CWpHumysxhQXjzi4dA373DYLD2zgj8n7kx
+</span></span><span style="display:flex;"><span>Published to QmcWR5hMnF7LNqNJBC6fxSBdXRUBgJEnXca3MHWN8kpdXC: /ipfs/QmUK6CHzQyn2CWpHumysxhQXjzi4dA373DYLD2zgj8n7kx
+</span></span></code></pre></div><p>这里我把文件夹的哈希值作为根发布，然后就可以使用<code>ipns</code>查看文件了：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>ipfs cat /ipns/QmcWR5hMnF7LNqNJBC6fxSBdXRUBgJEnXca3MHWN8kpdXC/roy.txt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>www.hi-roy.com
+</span></span><span style="display:flex;"><span>www.hi-roy.com
+</span></span><span style="display:flex;"><span>www.hi-roy.com
+</span></span></code></pre></div><p>以后更新文件后再publish就可以了。不过 <strong>使用ipns会很慢</strong>。</p>
 <h2 id="使用ipfs时应该注意">使用IPFS时应该注意？</h2>
 <p>永久性(Permanence)不等同于持久性(Persistence)。</p>
 <blockquote>
@@ -314,7 +314,7 @@ www.hi-roy.com
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

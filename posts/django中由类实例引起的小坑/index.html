@@ -112,25 +112,25 @@ DEBUG---- 2014/03/31 10:38:13:
 </code></pre><p>可以看出，id都是一样的。而且我查了一下，正好4个地方引入了mylog。mylog的完整代码见以前日志，这里给出导致错误的原因：
 <code>self.logger = logging.getLogger(__name__)</code></p>
 <p>简单测试：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">mlog <span style="color:#f92672">=</span> MyLog()
-print id(mlog)
-print id(mlog<span style="color:#f92672">.</span>logger)
-xmlog <span style="color:#f92672">=</span> MyLog()
-print id(xmlog)
-print id(xmlog<span style="color:#f92672">.</span>logger)
-</code></pre></div><p>结果如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>mlog <span style="color:#f92672">=</span> MyLog()
+</span></span><span style="display:flex;"><span>print id(mlog)
+</span></span><span style="display:flex;"><span>print id(mlog<span style="color:#f92672">.</span>logger)
+</span></span><span style="display:flex;"><span>xmlog <span style="color:#f92672">=</span> MyLog()
+</span></span><span style="display:flex;"><span>print id(xmlog)
+</span></span><span style="display:flex;"><span>print id(xmlog<span style="color:#f92672">.</span>logger)
+</span></span></code></pre></div><p>结果如下：</p>
 <pre tabindex="0"><code>123456666
 123456789
 123457777
 123456789
 </code></pre><p>可以看出虽然类id不同，不过核心的logger却是一个。因为我们执行runserver后，<code>__name__</code>就确定为mylog了，所以不管我们引用的时候如何写，<code>__name__</code>不变则都指向了同一个logger。更简单的例子如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">1</span>]: x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-In [<span style="color:#ae81ff">2</span>]: y <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-In [<span style="color:#ae81ff">3</span>]: id(x)
-Out[<span style="color:#ae81ff">3</span>]: <span style="color:#ae81ff">11279464</span>
-In [<span style="color:#ae81ff">4</span>]: id(y)
-Out[<span style="color:#ae81ff">4</span>]: <span style="color:#ae81ff">11279464</span>
-</code></pre></div><p>更细节的原因可以看《python源码分析》。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>In [<span style="color:#ae81ff">1</span>]: x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">2</span>]: y <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">3</span>]: id(x)
+</span></span><span style="display:flex;"><span>Out[<span style="color:#ae81ff">3</span>]: <span style="color:#ae81ff">11279464</span>
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">4</span>]: id(y)
+</span></span><span style="display:flex;"><span>Out[<span style="color:#ae81ff">4</span>]: <span style="color:#ae81ff">11279464</span>
+</span></span></code></pre></div><p>更细节的原因可以看《python源码分析》。</p>
 <p>改起来就让<code>__name__</code>不一样就解决了。比如：</p>
 <p><code>self.logger = logging.getLogger(str(uuid.uuid4()))</code></p>
 
@@ -182,7 +182,7 @@ Out[<span style="color:#ae81ff">4</span>]: <span style="color:#ae81ff">11279464<
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

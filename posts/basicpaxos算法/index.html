@@ -239,7 +239,7 @@ if (!doNotTrack) {
 <p>接下来，P1收到了<code>promise(1,p1)</code>和<code>promise(2,p2)</code>，2大于1,所以选择p2为接下来发送提案的值：
 <img src="http://mypic-1252424367.coshk.myqcloud.com/paxos/5.png" alt="5"></p>
 <p>A1和A2发现P1的提案号和存储的一致，于是返回<code>accepted</code>消息，此时P1也达成了一致。</p>
-<p>一个简单的BasicPaxos算法流程就结束了，但是真是环境多个节点时，很有可能出现&quot;活锁(live lock)&ldquo;的问题，即提案号不停增长但始终无法达成一致。于是便增加了一个新角色&rsquo;leader'，multi paxos算法诞生了。但是呢，谁能保证选leader时候不会活锁呢？那就加个随机计时器吧——于是，raft算法诞生了。</p>
+<p>一个简单的BasicPaxos算法流程就结束了，但是真是环境多个节点时，很有可能出现&quot;活锁(live lock)&ldquo;的问题，即提案号不停增长但始终无法达成一致。于是便增加了一个新角色&rsquo;leader&rsquo;，multi paxos算法诞生了。但是呢，谁能保证选leader时候不会活锁呢？那就加个随机计时器吧——于是，raft算法诞生了。</p>
 <p>关于raft，那就又是另外一个故事了。</p>
 <hr>
 <p>参考资料：</p>
@@ -294,7 +294,7 @@ if (!doNotTrack) {
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

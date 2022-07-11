@@ -96,23 +96,23 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<p>某网站今年笔试题，本质就是把某多维数组变成一维数组并去重。本来要求用JS实现，不过用python更简洁一点，就是对列表进行展开操作，递归就KO了。</p>
 <p>首先来个不简洁的：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">arr <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, [<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]], [<span style="color:#ae81ff">4</span>], [<span style="color:#ae81ff">4</span>]]
-final<span style="color:#f92672">=</span>[]
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">change</span>(x):
-    print <span style="color:#e6db74">&#34;x is:&#34;</span>,x
-    <span style="color:#66d9ef">if</span> isinstance(x, list):
-        <span style="color:#66d9ef">for</span> l <span style="color:#f92672">in</span> x:
-            print <span style="color:#e6db74">&#34;l is:&#34;</span>,l
-            change(l)
-    <span style="color:#66d9ef">else</span>:
-        final<span style="color:#f92672">.</span>append(x)
-        print <span style="color:#e6db74">&#34;now final is&#34;</span>,final
-change(arr)
-print final
-</code></pre></div><p>简洁的：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">change <span style="color:#f92672">=</span> <span style="color:#66d9ef">lambda</span> x: [y <span style="color:#66d9ef">for</span> l <span style="color:#f92672">in</span> x <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> change(l)] <span style="color:#66d9ef">if</span> type(x) <span style="color:#f92672">is</span> list <span style="color:#66d9ef">else</span> [x]
-print change(arr)
-</code></pre></div><p>至于去重就使用set()就可以了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>arr <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, [<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]], [<span style="color:#ae81ff">4</span>], [<span style="color:#ae81ff">4</span>]]
+</span></span><span style="display:flex;"><span>final<span style="color:#f92672">=</span>[]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">change</span>(x):
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#34;x is:&#34;</span>,x
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> isinstance(x, list):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> l <span style="color:#f92672">in</span> x:
+</span></span><span style="display:flex;"><span>            print <span style="color:#e6db74">&#34;l is:&#34;</span>,l
+</span></span><span style="display:flex;"><span>            change(l)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        final<span style="color:#f92672">.</span>append(x)
+</span></span><span style="display:flex;"><span>        print <span style="color:#e6db74">&#34;now final is&#34;</span>,final
+</span></span><span style="display:flex;"><span>change(arr)
+</span></span><span style="display:flex;"><span>print final
+</span></span></code></pre></div><p>简洁的：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>change <span style="color:#f92672">=</span> <span style="color:#66d9ef">lambda</span> x: [y <span style="color:#66d9ef">for</span> l <span style="color:#f92672">in</span> x <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> change(l)] <span style="color:#66d9ef">if</span> type(x) <span style="color:#f92672">is</span> list <span style="color:#66d9ef">else</span> [x]
+</span></span><span style="display:flex;"><span>print change(arr)
+</span></span></code></pre></div><p>至于去重就使用set()就可以了。</p>
 
 		</div>
 		<footer class="post__footer">
@@ -159,7 +159,7 @@ print change(arr)
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

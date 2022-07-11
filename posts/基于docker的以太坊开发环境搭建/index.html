@@ -98,7 +98,7 @@ docker run -d -p 8545:8545 trufflesuite/ganache-cli:latest
 </code></pre><p>注意这里暴露rpc端口8545以便后续使用。查看容器log发现有如下输出:</p>
 <pre tabindex="0"><code>0 % docker ps                                                 
 CONTAINER ID        IMAGE                             COMMAND                  CREATED             STATUS              PORTS                    NAMES
-ab32d69568d5        trufflesuite/ganache-cli:latest   &quot;node ./build/cli.no…&quot;   2 seconds ago       Up 1 second         0.0.0.0:8545-&gt;8545/tcp   determined_lalande
+ab32d69568d5        trufflesuite/ganache-cli:latest   &#34;node ./build/cli.no…&#34;   2 seconds ago       Up 1 second         0.0.0.0:8545-&gt;8545/tcp   determined_lalande
 
 bigdata@localhost ~
 0 % docker logs ab32
@@ -133,7 +133,7 @@ Private Keys
 HD Wallet
 ==================
 Mnemonic:      shaft travel notable balcony mystery text vast eight cycle armed affair vessel
-Base HD Path:  m/44'/60'/0'/0/{account_index}
+Base HD Path:  m/44&#39;/60&#39;/0&#39;/0/{account_index}
 
 Listening on localhost:8545
 </code></pre><p>完事，用docker就是这么简单。镜像中自动创建账户并且分配了100eth到每个账户中。</p>
@@ -141,7 +141,7 @@ Listening on localhost:8545
 <p>另一种就是官网的golang客户端<a href="https://github.com/ethereum/go-ethereum/">geth</a>，当然也可以通过<code>go get</code>命令在直接安装，但我这里还是使用docker：</p>
 <pre tabindex="0"><code>docker pull ethereum/client-go
 
-docker run -d --name ethereum-node -v /mnt/files/myethereum:/root -p 8545:8545 -p 30303:30303 ethereum/client-go --rpcaddr 0.0.0.0 --rpc --rpccorsdomain &quot;*&quot; --rpcapi &quot;web3,eth&quot; --testnet
+docker run -d --name ethereum-node -v /mnt/files/myethereum:/root -p 8545:8545 -p 30303:30303 ethereum/client-go --rpcaddr 0.0.0.0 --rpc --rpccorsdomain &#34;*&#34; --rpcapi &#34;web3,eth&#34; --testnet
 </code></pre><p>根据情况修改-v后面的参数，运行容器时记得添加后面的各种参数，否则在使用remix连接时候可能会报错<code>Not possible to connect to the Web3 Provider</code>。</p>
 <p>运行成功后进入容器中:</p>
 <pre tabindex="0"><code>docker exec -it ethereum-node sh
@@ -157,10 +157,10 @@ modules: admin:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 rpc:1.0 txpo
 <pre tabindex="0"><code>&gt; personal.listAccounts
 []
 </code></pre><p>目前是没有账户的，来创建新账户：</p>
-<pre tabindex="0"><code>&gt; personal.newAccount(&quot;123456&quot;)
-&quot;0x732aed1c5dfba79712698ddd7a2724a13b719975&quot;
+<pre tabindex="0"><code>&gt; personal.newAccount(&#34;123456&#34;)
+&#34;0x732aed1c5dfba79712698ddd7a2724a13b719975&#34;
 &gt; personal.listAccounts
-[&quot;0x732aed1c5dfba79712698ddd7a2724a13b719975&quot;]
+[&#34;0x732aed1c5dfba79712698ddd7a2724a13b719975&#34;]
 </code></pre><p>123456是密码，返回的是账户地址。查看余额：</p>
 <pre tabindex="0"><code>&gt; web3.eth.getBalance(personal.listAccounts[0])
 0
@@ -188,8 +188,8 @@ INFO [05-25|07:31:11] Successfully sealed new block            number=38      ha
 105000000000000000000
 </code></pre><p>接下来解锁钱包，这样才能用于智能合约:</p>
 <pre tabindex="0"><code>&gt; addr = eth.accounts[0]
-&quot;0x732aed1c5dfba79712698ddd7a2724a13b719975&quot;
-&gt; personal.unlockAccount(addr,'123456',1000000)
+&#34;0x732aed1c5dfba79712698ddd7a2724a13b719975&#34;
+&gt; personal.unlockAccount(addr,&#39;123456&#39;,1000000)
 true
 </code></pre><p>其中<code>unlockAccount</code>函数第二个参数是账户密码，第三个参数是解锁时间。这里设定1000000秒内账户都是活跃状态，这样再次操作时候就不用解锁了。</p>
 <h2 id="remix">remix</h2>
@@ -244,7 +244,7 @@ contract MyfirstContract {
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

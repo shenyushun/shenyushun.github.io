@@ -126,23 +126,23 @@ Referer: http://www.hack0nair.me/
 <p>这里理解起来需要一点计算机网络的基础。在建立HTTP连接的时候，在应用层必然会使用一个socket跟远方服务器进行通信，而socket建立的时候需 要指定服务器的地址，这时候我们只需要填入我们预设的IP地址即可。由于应用层是不会去关心它的底层如何建立连接的，它只知道自己正在对哪个域名进行访 问，这样就相当于“欺骗”了处于上层的HTTP服务。（我的语言表达能力略拙计的说= =）</p>
 <p>大概就是上面这个意思了，那么要在python中实现上面的想法，首先需要建立一个httplib.HTTPConnection的子类，在里面定义一个 connect方法求修改socket.create_connection的默认参数；然后继承HTTPHandler这个类，重写里面的 http_open方法，使得http_open去调用第一步的子类；最后就是把HTTPHandler放到我们的opener里面。</p>
 <p>MattH同时给出了HTTP和HTTPS的修改方案，不过我只要HTTP的修改就够了。下面是经过我修改的例子：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">MyHost</span>(host):
-  <span style="color:#66d9ef">if</span> host <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;www.hack0nair.me&#39;</span>:
-    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;127.0.0.1&#39;</span> <span style="color:#75715e"># 指定的IP地址</span>
-  <span style="color:#66d9ef">else</span>:
-    <span style="color:#66d9ef">return</span> host
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyHTTPConnection</span>(httplib<span style="color:#f92672">.</span>HTTPConnection):
-  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">connect</span>(self):
-    self<span style="color:#f92672">.</span>sock <span style="color:#f92672">=</span> socket<span style="color:#f92672">.</span>create_connection((MyHost(self<span style="color:#f92672">.</span>host),self<span style="color:#f92672">.</span>port),self<span style="color:#f92672">.</span>timeout)
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyHTTPHandler</span>(urllib2<span style="color:#f92672">.</span>HTTPHandler):
-  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">http_open</span>(self,req):
-    <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>do_open(MyHTTPConnection,req)
-opener <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>build_opener(MyHTTPHandler)
-urllib2<span style="color:#f92672">.</span>install_opener(opener)
-url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;http://www.hack0nair.me/wp-admin&#39;</span>
-req <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>Request(url)
-req <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>read()
-</code></pre></div><p>上面例子的含义是，当opener遇到域名是www.hack0nair.me时，MyHTTPHandler会让所建立的socket的address为指定的IP地址。由于没有对urllib相关对象进行修改，所以HTTP神马都不知道~</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">MyHost</span>(host):
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> host <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;www.hack0nair.me&#39;</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;127.0.0.1&#39;</span> <span style="color:#75715e"># 指定的IP地址</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> host
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyHTTPConnection</span>(httplib<span style="color:#f92672">.</span>HTTPConnection):
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">connect</span>(self):
+</span></span><span style="display:flex;"><span>    self<span style="color:#f92672">.</span>sock <span style="color:#f92672">=</span> socket<span style="color:#f92672">.</span>create_connection((MyHost(self<span style="color:#f92672">.</span>host),self<span style="color:#f92672">.</span>port),self<span style="color:#f92672">.</span>timeout)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyHTTPHandler</span>(urllib2<span style="color:#f92672">.</span>HTTPHandler):
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">http_open</span>(self,req):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>do_open(MyHTTPConnection,req)
+</span></span><span style="display:flex;"><span>opener <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>build_opener(MyHTTPHandler)
+</span></span><span style="display:flex;"><span>urllib2<span style="color:#f92672">.</span>install_opener(opener)
+</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;http://www.hack0nair.me/wp-admin&#39;</span>
+</span></span><span style="display:flex;"><span>req <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>Request(url)
+</span></span><span style="display:flex;"><span>req <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>read()
+</span></span></code></pre></div><p>上面例子的含义是，当opener遇到域名是www.hack0nair.me时，MyHTTPHandler会让所建立的socket的address为指定的IP地址。由于没有对urllib相关对象进行修改，所以HTTP神马都不知道~</p>
 <p>如果访问要带上cookie，那么还要加上HTTPCookieProcessor这个handler。</p>
 <hr>
 <p>我使用第一种方式即解决了问题。对于需要登录的方式，我抓取的网站直接把从浏览器提取出来的COOKIE添加到请求头中即可实现登录访问，这个根据网站设置不同。</p>
@@ -192,7 +192,7 @@ req <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>re
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

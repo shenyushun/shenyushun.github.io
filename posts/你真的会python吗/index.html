@@ -139,18 +139,18 @@ if (!doNotTrack) {
 <p>我想很多对代码有追求的人都发现一件事情?看见项目中存在大量，没有被重用的函数，似曾相似的方法甚至方法的名字… 我是极为见不得ugly或者华而不实的代码的人, 但是有个问题. 我封装的代码很不直观，难懂..原来的代码貌似极为好懂.每个人都有自己的理解吧.就象我的团队里面有人说django代码太难懂，因为它们有django项目组的文化… celery代码写的不好这样的安慰似的评论…但是我不这样认为,我还在读celery代码，我也承认里面是有作者风格的取名或者实现的方式，但是我学到了很多.</p>
 <p>通过看开源代码，比如django，requests，flask. 我会发现和总结很多别人的用法，思考别人为啥这样用.比如项目代码目录结构，解决一些问题使用的方式. 还有一些pep8中没有提到的规范. 比如一些代码实用的风格，举个例子：</p>
 <p>我们的代码引用其它模块是这样的:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> test <span style="color:#f92672">import</span> long_long_long_test1
-<span style="color:#f92672">from</span> test <span style="color:#f92672">import</span> long_long_long_test2
-form test <span style="color:#f92672">import</span> long_long_long_test3
-</code></pre></div><p>省略20多行，很脑残吧? 有一种风格是</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> test <span style="color:#f92672">import</span> long_long_long_test1,
-                 long_long_long_test2,
-                 long_long_long_test3
-</code></pre></div><p>说一个技巧:当我不知道该用什么，去看很NB项目怎么用 结果django和requests是这样的风格</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> test <span style="color:#f92672">import</span> (long_long_long_test1,
-                  long_long_long_test2,
-                  long_long_long_test3)
-</code></pre></div><p>怎么样进步?不是闭门造车..先去看看别人是怎么用的..</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> test <span style="color:#f92672">import</span> long_long_long_test1
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> test <span style="color:#f92672">import</span> long_long_long_test2
+</span></span><span style="display:flex;"><span>form test <span style="color:#f92672">import</span> long_long_long_test3
+</span></span></code></pre></div><p>省略20多行，很脑残吧? 有一种风格是</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> test <span style="color:#f92672">import</span> long_long_long_test1,
+</span></span><span style="display:flex;"><span>                 long_long_long_test2,
+</span></span><span style="display:flex;"><span>                 long_long_long_test3
+</span></span></code></pre></div><p>说一个技巧:当我不知道该用什么，去看很NB项目怎么用 结果django和requests是这样的风格</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> test <span style="color:#f92672">import</span> (long_long_long_test1,
+</span></span><span style="display:flex;"><span>                  long_long_long_test2,
+</span></span><span style="display:flex;"><span>                  long_long_long_test3)
+</span></span></code></pre></div><p>怎么样进步?不是闭门造车..先去看看别人是怎么用的..</p>
 <p>比如我以前拼接一个文件路径都是这样:<code>'{0}/{1}'.fotmat(dir, filename)</code></p>
 <p>其实人家本来有<code>os.path.join(dir, filename)</code></p>
 <p>（这里插句嘴，我是只知道第二个而不知道第一个）</p>
@@ -220,7 +220,7 @@ form test <span style="color:#f92672">import</span> long_long_long_test3
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

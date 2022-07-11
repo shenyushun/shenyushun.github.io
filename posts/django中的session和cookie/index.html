@@ -98,80 +98,80 @@ if (!doNotTrack) {
 <p>那么Cookie和Session之间的联系是怎么建立的呢？换言之，当服务器接收到一个请求时候，根据什么来判断读取哪个Session的呢？</p>
 <p>对于Django默认情况来说，当用户登录后就可以发现Cookie里有一个<code>sessionid</code>的字段，根据这个key就可以取得在服务器端记录的详细内容。如果将这个字段删除，刷新页面就会发现变成未登录状态了。</p>
 <p>对于Session的处理主要在源码<code>django/contrib/sessions/middleware.py</code>中，如下所示：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> time
-<span style="color:#f92672">from</span> importlib <span style="color:#f92672">import</span> import_module
-
-<span style="color:#f92672">from</span> django.conf <span style="color:#f92672">import</span> settings
-<span style="color:#f92672">from</span> django.contrib.sessions.backends.base <span style="color:#f92672">import</span> UpdateError
-<span style="color:#f92672">from</span> django.core.exceptions <span style="color:#f92672">import</span> SuspiciousOperation
-<span style="color:#f92672">from</span> django.utils.cache <span style="color:#f92672">import</span> patch_vary_headers
-<span style="color:#f92672">from</span> django.utils.deprecation <span style="color:#f92672">import</span> MiddlewareMixin
-<span style="color:#f92672">from</span> django.utils.http <span style="color:#f92672">import</span> cookie_date
-
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SessionMiddleware</span>(MiddlewareMixin):
-    <span style="color:#66d9ef">def</span> __init__(self, get_response<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
-        self<span style="color:#f92672">.</span>get_response <span style="color:#f92672">=</span> get_response
-        engine <span style="color:#f92672">=</span> import_module(settings<span style="color:#f92672">.</span>SESSION_ENGINE)
-        self<span style="color:#f92672">.</span>SessionStore <span style="color:#f92672">=</span> engine<span style="color:#f92672">.</span>SessionStore
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">process_request</span>(self, request):
-        session_key <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>COOKIES<span style="color:#f92672">.</span>get(settings<span style="color:#f92672">.</span>SESSION_COOKIE_NAME)
-        request<span style="color:#f92672">.</span>session <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>SessionStore(session_key)
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">process_response</span>(self, request, response):
-        <span style="color:#e6db74">&#34;&#34;&#34;
-</span><span style="color:#e6db74">        If request.session was modified, or if the configuration is to save the
-</span><span style="color:#e6db74">        session every time, save the changes and set a session cookie or delete
-</span><span style="color:#e6db74">        the session cookie if the session has been emptied.
-</span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
-        <span style="color:#66d9ef">try</span>:
-            accessed <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>session<span style="color:#f92672">.</span>accessed
-            modified <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>session<span style="color:#f92672">.</span>modified
-            empty <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>session<span style="color:#f92672">.</span>is_empty()
-        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">AttributeError</span>:
-            <span style="color:#66d9ef">pass</span>
-        <span style="color:#66d9ef">else</span>:
-            <span style="color:#75715e"># First check if we need to delete this cookie.</span>
-            <span style="color:#75715e"># The session should be deleted only if the session is entirely empty</span>
-            <span style="color:#66d9ef">if</span> settings<span style="color:#f92672">.</span>SESSION_COOKIE_NAME <span style="color:#f92672">in</span> request<span style="color:#f92672">.</span>COOKIES <span style="color:#f92672">and</span> empty:
-                response<span style="color:#f92672">.</span>delete_cookie(
-                    settings<span style="color:#f92672">.</span>SESSION_COOKIE_NAME,
-                    path<span style="color:#f92672">=</span>settings<span style="color:#f92672">.</span>SESSION_COOKIE_PATH,
-                    domain<span style="color:#f92672">=</span>settings<span style="color:#f92672">.</span>SESSION_COOKIE_DOMAIN,
-                )
-            <span style="color:#66d9ef">else</span>:
-                <span style="color:#66d9ef">if</span> accessed:
-                    patch_vary_headers(response, (<span style="color:#e6db74">&#39;Cookie&#39;</span>,))
-                <span style="color:#66d9ef">if</span> (modified <span style="color:#f92672">or</span> settings<span style="color:#f92672">.</span>SESSION_SAVE_EVERY_REQUEST) <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> empty:
-                    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>session<span style="color:#f92672">.</span>get_expire_at_browser_close():
-                        max_age <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
-                        expires <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
-                    <span style="color:#66d9ef">else</span>:
-                        max_age <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>session<span style="color:#f92672">.</span>get_expiry_age()
-                        expires_time <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time() <span style="color:#f92672">+</span> max_age
-                        expires <span style="color:#f92672">=</span> cookie_date(expires_time)
-                    <span style="color:#75715e"># Save the session data and refresh the client cookie.</span>
-                    <span style="color:#75715e"># Skip session save for 500 responses, refs #3881.</span>
-                    <span style="color:#66d9ef">if</span> response<span style="color:#f92672">.</span>status_code <span style="color:#f92672">!=</span> <span style="color:#ae81ff">500</span>:
-                        <span style="color:#66d9ef">try</span>:
-                            request<span style="color:#f92672">.</span>session<span style="color:#f92672">.</span>save()
-                        <span style="color:#66d9ef">except</span> UpdateError:
-                            <span style="color:#66d9ef">raise</span> SuspiciousOperation(
-                                <span style="color:#e6db74">&#34;The request&#39;s session was deleted before the &#34;</span>
-                                <span style="color:#e6db74">&#34;request completed. The user may have logged &#34;</span>
-                                <span style="color:#e6db74">&#34;out in a concurrent request, for example.&#34;</span>
-                            )
-                        response<span style="color:#f92672">.</span>set_cookie(
-                            settings<span style="color:#f92672">.</span>SESSION_COOKIE_NAME,
-                            request<span style="color:#f92672">.</span>session<span style="color:#f92672">.</span>session_key, max_age<span style="color:#f92672">=</span>max_age,
-                            expires<span style="color:#f92672">=</span>expires, domain<span style="color:#f92672">=</span>settings<span style="color:#f92672">.</span>SESSION_COOKIE_DOMAIN,
-                            path<span style="color:#f92672">=</span>settings<span style="color:#f92672">.</span>SESSION_COOKIE_PATH,
-                            secure<span style="color:#f92672">=</span>settings<span style="color:#f92672">.</span>SESSION_COOKIE_SECURE <span style="color:#f92672">or</span> <span style="color:#66d9ef">None</span>,
-                            httponly<span style="color:#f92672">=</span>settings<span style="color:#f92672">.</span>SESSION_COOKIE_HTTPONLY <span style="color:#f92672">or</span> <span style="color:#66d9ef">None</span>,
-                        )
-        <span style="color:#66d9ef">return</span> response
-</code></pre></div><p>当接收到一个请求时候，先在Cookie里取出key，然后根据key创建Session对象，在response时候判断是否要删除或者修改sessionid。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> time
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> importlib <span style="color:#f92672">import</span> import_module
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.conf <span style="color:#f92672">import</span> settings
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.contrib.sessions.backends.base <span style="color:#f92672">import</span> UpdateError
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.core.exceptions <span style="color:#f92672">import</span> SuspiciousOperation
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.utils.cache <span style="color:#f92672">import</span> patch_vary_headers
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.utils.deprecation <span style="color:#f92672">import</span> MiddlewareMixin
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.utils.http <span style="color:#f92672">import</span> cookie_date
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SessionMiddleware</span>(MiddlewareMixin):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, get_response<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>get_response <span style="color:#f92672">=</span> get_response
+</span></span><span style="display:flex;"><span>        engine <span style="color:#f92672">=</span> import_module(settings<span style="color:#f92672">.</span>SESSION_ENGINE)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>SessionStore <span style="color:#f92672">=</span> engine<span style="color:#f92672">.</span>SessionStore
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">process_request</span>(self, request):
+</span></span><span style="display:flex;"><span>        session_key <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>COOKIES<span style="color:#f92672">.</span>get(settings<span style="color:#f92672">.</span>SESSION_COOKIE_NAME)
+</span></span><span style="display:flex;"><span>        request<span style="color:#f92672">.</span>session <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>SessionStore(session_key)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">process_response</span>(self, request, response):
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        If request.session was modified, or if the configuration is to save the
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        session every time, save the changes and set a session cookie or delete
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        the session cookie if the session has been emptied.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>            accessed <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>session<span style="color:#f92672">.</span>accessed
+</span></span><span style="display:flex;"><span>            modified <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>session<span style="color:#f92672">.</span>modified
+</span></span><span style="display:flex;"><span>            empty <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>session<span style="color:#f92672">.</span>is_empty()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">AttributeError</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># First check if we need to delete this cookie.</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># The session should be deleted only if the session is entirely empty</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> settings<span style="color:#f92672">.</span>SESSION_COOKIE_NAME <span style="color:#f92672">in</span> request<span style="color:#f92672">.</span>COOKIES <span style="color:#f92672">and</span> empty:
+</span></span><span style="display:flex;"><span>                response<span style="color:#f92672">.</span>delete_cookie(
+</span></span><span style="display:flex;"><span>                    settings<span style="color:#f92672">.</span>SESSION_COOKIE_NAME,
+</span></span><span style="display:flex;"><span>                    path<span style="color:#f92672">=</span>settings<span style="color:#f92672">.</span>SESSION_COOKIE_PATH,
+</span></span><span style="display:flex;"><span>                    domain<span style="color:#f92672">=</span>settings<span style="color:#f92672">.</span>SESSION_COOKIE_DOMAIN,
+</span></span><span style="display:flex;"><span>                )
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> accessed:
+</span></span><span style="display:flex;"><span>                    patch_vary_headers(response, (<span style="color:#e6db74">&#39;Cookie&#39;</span>,))
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (modified <span style="color:#f92672">or</span> settings<span style="color:#f92672">.</span>SESSION_SAVE_EVERY_REQUEST) <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> empty:
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>session<span style="color:#f92672">.</span>get_expire_at_browser_close():
+</span></span><span style="display:flex;"><span>                        max_age <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>                        expires <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                        max_age <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>session<span style="color:#f92672">.</span>get_expiry_age()
+</span></span><span style="display:flex;"><span>                        expires_time <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time() <span style="color:#f92672">+</span> max_age
+</span></span><span style="display:flex;"><span>                        expires <span style="color:#f92672">=</span> cookie_date(expires_time)
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e"># Save the session data and refresh the client cookie.</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e"># Skip session save for 500 responses, refs #3881.</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> response<span style="color:#f92672">.</span>status_code <span style="color:#f92672">!=</span> <span style="color:#ae81ff">500</span>:
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>                            request<span style="color:#f92672">.</span>session<span style="color:#f92672">.</span>save()
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">except</span> UpdateError:
+</span></span><span style="display:flex;"><span>                            <span style="color:#66d9ef">raise</span> SuspiciousOperation(
+</span></span><span style="display:flex;"><span>                                <span style="color:#e6db74">&#34;The request&#39;s session was deleted before the &#34;</span>
+</span></span><span style="display:flex;"><span>                                <span style="color:#e6db74">&#34;request completed. The user may have logged &#34;</span>
+</span></span><span style="display:flex;"><span>                                <span style="color:#e6db74">&#34;out in a concurrent request, for example.&#34;</span>
+</span></span><span style="display:flex;"><span>                            )
+</span></span><span style="display:flex;"><span>                        response<span style="color:#f92672">.</span>set_cookie(
+</span></span><span style="display:flex;"><span>                            settings<span style="color:#f92672">.</span>SESSION_COOKIE_NAME,
+</span></span><span style="display:flex;"><span>                            request<span style="color:#f92672">.</span>session<span style="color:#f92672">.</span>session_key, max_age<span style="color:#f92672">=</span>max_age,
+</span></span><span style="display:flex;"><span>                            expires<span style="color:#f92672">=</span>expires, domain<span style="color:#f92672">=</span>settings<span style="color:#f92672">.</span>SESSION_COOKIE_DOMAIN,
+</span></span><span style="display:flex;"><span>                            path<span style="color:#f92672">=</span>settings<span style="color:#f92672">.</span>SESSION_COOKIE_PATH,
+</span></span><span style="display:flex;"><span>                            secure<span style="color:#f92672">=</span>settings<span style="color:#f92672">.</span>SESSION_COOKIE_SECURE <span style="color:#f92672">or</span> <span style="color:#66d9ef">None</span>,
+</span></span><span style="display:flex;"><span>                            httponly<span style="color:#f92672">=</span>settings<span style="color:#f92672">.</span>SESSION_COOKIE_HTTPONLY <span style="color:#f92672">or</span> <span style="color:#66d9ef">None</span>,
+</span></span><span style="display:flex;"><span>                        )
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> response
+</span></span></code></pre></div><p>当接收到一个请求时候，先在Cookie里取出key，然后根据key创建Session对象，在response时候判断是否要删除或者修改sessionid。</p>
 <p>也就是说，Django中如果客户把浏览器Cookie禁用后，用户相关的功能就全都失效了，因为服务端根本没法知道当前用户是谁。</p>
 <p>对于这种情况，关键点就是如何把sessionid不使用Cookie传递给客户端，常见的比如放在URL中，也就是URL重写技术。想实现这点可以自己写<code>Middleware</code>。不过django并不建议这么做：</p>
 <blockquote>
@@ -225,7 +225,7 @@ if (!doNotTrack) {
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

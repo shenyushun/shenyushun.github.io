@@ -93,24 +93,24 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>今天看代码时候有这么一段：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> functools <span style="color:#f92672">import</span> wraps
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">http_basic_auth</span>(func):
-    <span style="color:#e6db74">&#39;&#39;&#39;定义httpbasicauth装饰器&#39;&#39;&#39;</span>
-    <span style="color:#a6e22e">@wraps</span>(func)
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_decorator</span>(request, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
-        authorization <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>META<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;HTTP_AUTHORIZATION&#39;</span>,<span style="color:#e6db74">&#39;&#39;</span>)
-        <span style="color:#66d9ef">if</span> authorization:
-            authmeth, auth <span style="color:#f92672">=</span> authorization<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39; &#39;</span>, <span style="color:#ae81ff">1</span>)
-            <span style="color:#66d9ef">if</span> authmeth<span style="color:#f92672">.</span>lower() <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;basic&#39;</span>:
-                auth <span style="color:#f92672">=</span> auth<span style="color:#f92672">.</span>strip()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;base64&#39;</span>)
-                username, password <span style="color:#f92672">=</span> auth<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;:&#39;</span>, <span style="color:#ae81ff">1</span>)
-                user <span style="color:#f92672">=</span> authenticate(username<span style="color:#f92672">=</span>username, password<span style="color:#f92672">=</span>password)
-                <span style="color:#66d9ef">if</span> user <span style="color:#f92672">and</span> user<span style="color:#f92672">.</span>is_superuser:
-                    login(request, user)
-                    <span style="color:#66d9ef">return</span> func(request, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
-        <span style="color:#66d9ef">return</span> HttpResponseForbidden()
-    <span style="color:#66d9ef">return</span> _decorator
-</code></pre></div><p>作用就是为django实现http认证的装饰器，并且使用超级管理员才可以使用被装饰的接口。至于什么是装饰器、闭包、作用域这里就不多说了，有兴趣的可以参考<a href="http://www.imooc.com/learn/581">http://www.imooc.com/learn/581</a> 讲解的非常详细。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> functools <span style="color:#f92672">import</span> wraps
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">http_basic_auth</span>(func):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;定义httpbasicauth装饰器&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@wraps</span>(func)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_decorator</span>(request, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+</span></span><span style="display:flex;"><span>        authorization <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>META<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;HTTP_AUTHORIZATION&#39;</span>,<span style="color:#e6db74">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> authorization:
+</span></span><span style="display:flex;"><span>            authmeth, auth <span style="color:#f92672">=</span> authorization<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39; &#39;</span>, <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> authmeth<span style="color:#f92672">.</span>lower() <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;basic&#39;</span>:
+</span></span><span style="display:flex;"><span>                auth <span style="color:#f92672">=</span> auth<span style="color:#f92672">.</span>strip()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;base64&#39;</span>)
+</span></span><span style="display:flex;"><span>                username, password <span style="color:#f92672">=</span> auth<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;:&#39;</span>, <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>                user <span style="color:#f92672">=</span> authenticate(username<span style="color:#f92672">=</span>username, password<span style="color:#f92672">=</span>password)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> user <span style="color:#f92672">and</span> user<span style="color:#f92672">.</span>is_superuser:
+</span></span><span style="display:flex;"><span>                    login(request, user)
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">return</span> func(request, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> HttpResponseForbidden()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> _decorator
+</span></span></code></pre></div><p>作用就是为django实现http认证的装饰器，并且使用超级管理员才可以使用被装饰的接口。至于什么是装饰器、闭包、作用域这里就不多说了，有兴趣的可以参考<a href="http://www.imooc.com/learn/581">http://www.imooc.com/learn/581</a> 讲解的非常详细。</p>
 <p>那么，这个函数中的@wraps(func)又是做什么的呢？这里就涉及到了装饰器的一个小细节问题：被装饰后的函数本质上已经不是原来的函数了，所以原函数的某些信息比如：<code>__name__</code>、<code>__doc__</code>等值就变了。而@wraps()的作用就是把原函数的相关信息代入到新的函数中。</p>
 
 		</div>
@@ -158,7 +158,7 @@ if (!doNotTrack) {
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

@@ -103,13 +103,13 @@ if (!doNotTrack) {
 <p>关于github怎么进行CNAME配置来绑定域名网上说的很清楚，而在coding上更简单，建立好项目后直接点击“Pages服务”——“添加自定义域名”后按照提示操作即可.</p>
 <p>这里有一个地方需要注意，默认情况它会指定一个coding-pages分支，为了方便我手动改成了master方便写配置文件。</p>
 <p>然后在hexo配置文件<code>_config.yml</code>中添加：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#f92672">deploy</span>:
-  <span style="color:#f92672">type</span>: <span style="color:#ae81ff">git</span>
-  <span style="color:#f92672">repo</span>:
-      <span style="color:#f92672">github</span>: <span style="color:#ae81ff">git@github.com:项目地址.git</span>
-      <span style="color:#f92672">coding</span>: <span style="color:#ae81ff">git@git.coding.net:项目地址.git</span>
-  <span style="color:#f92672">branch</span>: <span style="color:#ae81ff">master</span>
-</code></pre></div><p>这里coding的项目名称随意，项目名和用户名不一样也能正常访问。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">deploy</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">type</span>: <span style="color:#ae81ff">git</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">repo</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">github</span>: <span style="color:#ae81ff">git@github.com:项目地址.git</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">coding</span>: <span style="color:#ae81ff">git@git.coding.net:项目地址.git</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">branch</span>: <span style="color:#ae81ff">master</span>
+</span></span></code></pre></div><p>这里coding的项目名称随意，项目名和用户名不一样也能正常访问。</p>
 <p>使用hexo-migrator-wordpress进行转换，这个插件有2个坑：</p>
 <ol>
 <li>中文文章的标题会变成乱码</li>
@@ -156,7 +156,7 @@ if (!doNotTrack) {
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

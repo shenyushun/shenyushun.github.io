@@ -102,16 +102,16 @@ if (!doNotTrack) {
 <p>这里注意2个地方，首先fedora21默认为qt4，python2.7，而有道词典需要qt5以及python3，所以先要去官网下载QT5离线安装版（个人建议，我这在线安装qt5慢的不可忍受）。下载完成我们得到qt-opensource-linux-x64-5.4.1.run添加执行权限后执行即可。</p>
 <p>安装完成后进入到解压后的有道词典目录，我这里叫youdao-dict_1.0.2~binary_amd64，给里面的install.sh添加执行权限并执行即可。</p>
 <p>接下来到了最纠结的地方了，我们要手动安装各个依赖，这里我就直接给出经过N次失败后成功的结果把，下面这些都要用yum命令安装：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install python3-qt5
-yum install python3-requests
-yum install python3-xlib
-yum install python3-lxml
-yum install python3-pillow
-yum install tesseract-langpack-chi_sim
-yum install tesseract-langpack-chi_tra
-yum install qt5-qtquickcontrols
-yum install qt5-qtgraphicaleffects
-</code></pre></div><p>都安装完成后就可以用了，支持取词、划词，不过取词识别度还有待提高，划词翻译比较好用。当然了，如果你想更geek一点，可以安装openyoudao也很酷。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum install python3-qt5
+</span></span><span style="display:flex;"><span>yum install python3-requests
+</span></span><span style="display:flex;"><span>yum install python3-xlib
+</span></span><span style="display:flex;"><span>yum install python3-lxml
+</span></span><span style="display:flex;"><span>yum install python3-pillow
+</span></span><span style="display:flex;"><span>yum install tesseract-langpack-chi_sim
+</span></span><span style="display:flex;"><span>yum install tesseract-langpack-chi_tra
+</span></span><span style="display:flex;"><span>yum install qt5-qtquickcontrols
+</span></span><span style="display:flex;"><span>yum install qt5-qtgraphicaleffects
+</span></span></code></pre></div><p>都安装完成后就可以用了，支持取词、划词，不过取词识别度还有待提高，划词翻译比较好用。当然了，如果你想更geek一点，可以安装openyoudao也很酷。</p>
 
 		</div>
 		<footer class="post__footer">
@@ -158,7 +158,7 @@ yum install qt5-qtgraphicaleffects
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

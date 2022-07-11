@@ -96,7 +96,7 @@ if (!doNotTrack) {
 		关于这大名鼎鼎的中间人攻击框架不多介绍了，如果是kali linux用户直接apt-get install mitmf即可;如果是win用户呢，基本就放弃吧;如果是os x用户呢，有几个依赖我始终安装失败，你要安装成功了请联系我。
 网上很多都是讲ubuntu怎么安装这个框架的，这里我记录一下在fedora21上我的安装记录。
 首先安装一些系统依赖，这里我系统原来就安装了很多杂七杂八的东西，不保证下面的就是齐全的：
-sudo yum install libnetfilter_queue-develsudo yum install libffi-develsudo yum install libpcap-devel接下来下载一个不能用pip安装的包
+sudo yum install libnetfilter_queue-develsudo yum install libffi-develsudo yum install libpcap-devel 接下来下载一个不能用pip安装的包
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/fedora21%E5%AE%89%E8%A3%85mitmf%E6%A1%86%E6%9E%B6/">Read more…</a>
@@ -118,7 +118,7 @@ sudo yum install libnetfilter_queue-develsudo yum install libffi-develsudo yum
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		作为一名手贱党，昨天又把电脑折腾残废了。那就顺便升级成最新的fedora21吧。从18开始，fedora默认rc.local文件不存在，所以需要以root用户执行
-sudo touch /etc/rc.d/rc.localsudo chmod 755 /etc/rc.d/rc.local然后编辑这个文件，比如：
+sudo touch /etc/rc.d/rc.localsudo chmod 755 /etc/rc.d/rc.local 然后编辑这个文件，比如：
 #!/bin/sh mount /dev/sdb1 /mnt/files/ exit 0 重启即可。
 	</div>
 </article><article class="list__item post">
@@ -162,7 +162,7 @@ fedora20安装后需要启动服务：sudo service nessusd start
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		使用virtualenv虚拟环境的时候，mysql-python安装时报错：
-_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &quot;my_config.
+_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &#34;my_config.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/">Read more…</a>
@@ -234,11 +234,11 @@ _mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &qu
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 		</ul>
 	</div>
 </div>
@@ -276,11 +276,11 @@ _mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &qu
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">132</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">30</span>
+				<span class="widget__counter widget__counter--bubble">31</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

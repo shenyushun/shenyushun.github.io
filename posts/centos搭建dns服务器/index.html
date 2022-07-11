@@ -10,7 +10,7 @@
 		<meta property="og:title" content="centos搭建dns服务器" />
 <meta property="og:description" content="安装bind yum install bind
 编辑/etc/named.conf，添加域配置：
-zone &quot;xxx.com&quot; IN {type master;file &quot;xxx." />
+zone &#34;xxx.com&#34; IN {type master;file &#34;xxx." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/centos%E6%90%AD%E5%BB%BAdns%E6%9C%8D%E5%8A%A1%E5%99%A8/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2014-09-29T11:17:13+00:00" />
@@ -20,7 +20,7 @@ zone &quot;xxx.com&quot; IN {type master;file &quot;xxx." />
 		<meta itemprop="name" content="centos搭建dns服务器">
 <meta itemprop="description" content="安装bind yum install bind
 编辑/etc/named.conf，添加域配置：
-zone &quot;xxx.com&quot; IN {type master;file &quot;xxx."><meta itemprop="datePublished" content="2014-09-29T11:17:13+00:00" />
+zone &#34;xxx.com&#34; IN {type master;file &#34;xxx."><meta itemprop="datePublished" content="2014-09-29T11:17:13+00:00" />
 <meta itemprop="dateModified" content="2014-09-29T11:17:13+00:00" />
 <meta itemprop="wordCount" content="212">
 <meta itemprop="keywords" content="centos," />
@@ -97,13 +97,13 @@ if (!doNotTrack) {
 			<p>安装bind
 <code>yum install bind</code></p>
 <p>编辑<code>/etc/named.conf</code>，添加域配置：</p>
-<pre tabindex="0"><code>zone &quot;xxx.com&quot; IN {
+<pre tabindex="0"><code>zone &#34;xxx.com&#34; IN {
         type master;
-        file &quot;xxx.com.zone&quot;;
+        file &#34;xxx.com.zone&#34;;
 };
-zone &quot;2.168.192.in-addr.arpa&quot; IN {
+zone &#34;2.168.192.in-addr.arpa&#34; IN {
         type master;
-        file &quot;2.168.192.zone&quot;;
+        file &#34;2.168.192.zone&#34;;
 };
 </code></pre><p>这里注意修改options中的listen-on port 以及allow-query，默认是localhost，测试的话可以修改成any。</p>
 <p>在相应目录下建立 xxx.com.zone和2.168.192.zone文件：</p>
@@ -206,7 +206,7 @@ Sep 28 17:15:04 localhost named[13020]: zone xxx.com/IN: loading from master fil
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

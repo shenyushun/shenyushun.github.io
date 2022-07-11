@@ -101,11 +101,11 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>首先从官网下载源码进行安装:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">wget http://download.redis.io/releases/redis-3.2.1.tar.gz
-tar -zxvf redis-3.2.1.tar.gz
-make <span style="color:#f92672">&amp;&amp;</span> make test
-sudo make install
-</code></pre></div><p>默认安装到<code>/usr/local/bin</code>目录。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>wget http://download.redis.io/releases/redis-3.2.1.tar.gz
+</span></span><span style="display:flex;"><span>tar -zxvf redis-3.2.1.tar.gz
+</span></span><span style="display:flex;"><span>make <span style="color:#f92672">&amp;&amp;</span> make test
+</span></span><span style="display:flex;"><span>sudo make install
+</span></span></code></pre></div><p>默认安装到<code>/usr/local/bin</code>目录。</p>
 <p>修改配置文件，生产环境要修改绑定端口、设定密码、日志等，比如：</p>
 <pre tabindex="0"><code>    requirepass 123456
 </code></pre><p>我这里进行测试就直接修改禁用保护模式了，<strong>生产模式千万别这么干!!!</strong></p>
@@ -120,7 +120,7 @@ sudo make install
 <pre tabindex="0"><code>    port 26379                #sentinel使用的端口
     bind 0.0.0.0   # 添加这行才能在其他机器上使用redis-cli -h xxx.xxx.xxx.xxx -p 26379 info Sentinel
     daemonize yes             #sentinel后台运行。这行配置是添加的
-    logfile &quot;/apps/logs/redis/sentinel.log&quot;  #log文件地址，这行配置是添加的
+    logfile &#34;/apps/logs/redis/sentinel.log&#34;  #log文件地址，这行配置是添加的
     sentinel monitor mymaster 172.16.203.10 6379 1   #指定master。后面的数字表示，当有几个节点认为主节点down时才认为主节点进入ODOWN状态，就是真正挂了。
     sentinel down-after-milliseconds mymaster 5000   #当多久，连接不上节点时，认为被连接节点进入S_DOWN（主观认为它down了）；
     sentinel failover-timeout mymaster 15000         #这个配置有很多作用。1、重新执行failover的时间是该值的2倍；2、取消一个没更改配置的failover3、failover中等待所有slave更改新的配置的最大时间。
@@ -173,7 +173,7 @@ sudo make install
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

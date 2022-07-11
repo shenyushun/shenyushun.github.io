@@ -139,73 +139,73 @@ if (!doNotTrack) {
 <p>老实说，Java王国并没意识到在遥远的地方有其它王国的存在。你能想想他们知道这件事后会有多震惊吗？他们或许会发明一个新名词（比如“厌恶”）来表达他们的新感觉。</p>
 <h4 id="java王国的居民快乐吗"><strong>Java王国的居民快乐吗？</strong></h4>
 <p>你也许认为Java王国的居民最多是有些奇怪并且低效罢了，但你能从他们的童谣中知道他们的幸福程度，而这些童谣大多是异想天开的诗。比如Java王国中的孩子经常背诵的警世诗：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">For the lack of a nail<span style="color:#f92672">,</span>
-    <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> HorseshoeNailNotFoundException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;no nails!&#34;</span><span style="color:#f92672">);</span>
-For the lack of a horseshoe<span style="color:#f92672">,</span>
-    EquestrianDoctor<span style="color:#f92672">.</span><span style="color:#a6e22e">getLocalInstance</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getHorseDispatcher</span><span style="color:#f92672">().</span><span style="color:#a6e22e">shoot</span><span style="color:#f92672">();</span>
-For the lack of a horse<span style="color:#f92672">,</span>
-    RidersGuild<span style="color:#f92672">.</span><span style="color:#a6e22e">getRiderNotificationSubscriberList</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getBroadcaster</span><span style="color:#f92672">().</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>
-      <span style="color:#66d9ef">new</span> BroadcastMessage<span style="color:#f92672">(</span>StableFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getNullHorseInstance</span><span style="color:#f92672">()));</span>
-For the lack of a rider<span style="color:#f92672">,</span>
-    MessageDeliverySubsystem<span style="color:#f92672">.</span><span style="color:#a6e22e">getLogger</span><span style="color:#f92672">().</span><span style="color:#a6e22e">logDeliveryFailure</span><span style="color:#f92672">(</span>
-      MessageFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getAbstractMessageInstance</span><span style="color:#f92672">(</span>
-        <span style="color:#66d9ef">new</span> MessageMedium<span style="color:#f92672">(</span>MessageType<span style="color:#f92672">.</span><span style="color:#a6e22e">VERBAL</span><span style="color:#f92672">),</span>
-        <span style="color:#66d9ef">new</span> MessageTransport<span style="color:#f92672">(</span>MessageTransportType<span style="color:#f92672">.</span><span style="color:#a6e22e">MOUNTED_RIDER</span><span style="color:#f92672">),</span>
-        <span style="color:#66d9ef">new</span> MessageSessionDestination<span style="color:#f92672">(</span>BattleManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getRoutingInfo</span><span style="color:#f92672">(</span>
-                                        BattleLocation<span style="color:#f92672">.</span><span style="color:#a6e22e">NEAREST</span><span style="color:#f92672">))),</span>
-      MessageFailureReasonCode<span style="color:#f92672">.</span><span style="color:#a6e22e">UNKNOWN_RIDER_FAILURE</span><span style="color:#f92672">);</span>
-For the lack of a message<span style="color:#f92672">,</span>
-    <span style="color:#f92672">((</span>BattleNotificationSender<span style="color:#f92672">)</span>
-      BattleResourceMediator<span style="color:#f92672">.</span><span style="color:#a6e22e">getMediatorInstance</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getResource</span><span style="color:#f92672">(</span>
-        BattleParticipant<span style="color:#f92672">.</span><span style="color:#a6e22e">PROXY_PARTICIPANT</span><span style="color:#f92672">,</span>
-        BattleResource<span style="color:#f92672">.</span><span style="color:#a6e22e">BATTLE_NOTIFICATION_SENDER</span><span style="color:#f92672">)).</span><span style="color:#a6e22e">sendNotification</span><span style="color:#f92672">(</span>
-          <span style="color:#f92672">((</span>BattleNotificationBuilder<span style="color:#f92672">)</span>
-            <span style="color:#f92672">(</span>BattleResourceMediator<span style="color:#f92672">.</span><span style="color:#a6e22e">getMediatorInstance</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getResource</span><span style="color:#f92672">(</span>
-            BattleOrganizer<span style="color:#f92672">.</span><span style="color:#a6e22e">getBattleParticipant</span><span style="color:#f92672">(</span>Battle<span style="color:#f92672">.</span><span style="color:#a6e22e">Participant</span><span style="color:#f92672">.</span><span style="color:#a6e22e">GOOD_GUYS</span><span style="color:#f92672">),</span>
-            BattleResource<span style="color:#f92672">.</span><span style="color:#a6e22e">BATTLE_NOTIFICATION_BUILDER</span><span style="color:#f92672">))).</span><span style="color:#a6e22e">buildNotification</span><span style="color:#f92672">(</span>
-              BattleOrganizer<span style="color:#f92672">.</span><span style="color:#a6e22e">getBattleState</span><span style="color:#f92672">(</span>BattleResult<span style="color:#f92672">.</span><span style="color:#a6e22e">BATTLE_LOST</span><span style="color:#f92672">),</span>
-              BattleManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getChainOfCommand</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getCommandChainNotifier</span><span style="color:#f92672">()));</span>
-For the lack of a battle<span style="color:#f92672">,</span>
-    <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">synchronized</span><span style="color:#f92672">(</span>BattleInformationRouterLock<span style="color:#f92672">.</span><span style="color:#a6e22e">getLockInstance</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
-          BattleInformationRouterLock<span style="color:#f92672">.</span><span style="color:#a6e22e">getLockInstance</span><span style="color:#f92672">().</span><span style="color:#a6e22e">wait</span><span style="color:#f92672">();</span>
-        <span style="color:#f92672">}</span>
-    <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException ix<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-      <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>BattleSessionManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getBattleStatus</span><span style="color:#f92672">(</span>
-           BattleResource<span style="color:#f92672">.</span><span style="color:#a6e22e">getLocalizedBattleResource</span><span style="color:#f92672">(</span>Locale<span style="color:#f92672">.</span><span style="color:#a6e22e">getDefault</span><span style="color:#f92672">()),</span>
-           BattleContext<span style="color:#f92672">.</span><span style="color:#a6e22e">createContext</span><span style="color:#f92672">(</span>
-             Kingdom<span style="color:#f92672">.</span><span style="color:#a6e22e">getMasterBattleCoordinatorInstance</span><span style="color:#f92672">(</span>
-               <span style="color:#66d9ef">new</span> TweedleBeetlePuddlePaddleBattle<span style="color:#f92672">()).</span><span style="color:#a6e22e">populate</span><span style="color:#f92672">(</span>
-                 RegionManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getArmpitProvince</span><span style="color:#f92672">(</span>Armpit<span style="color:#f92672">.</span><span style="color:#a6e22e">LEFTMOST</span><span style="color:#f92672">))))</span> <span style="color:#f92672">==</span>
-          BattleStatus<span style="color:#f92672">.</span><span style="color:#a6e22e">LOST</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>LOGGER<span style="color:#f92672">.</span><span style="color:#a6e22e">isLoggable</span><span style="color:#f92672">(</span>Level<span style="color:#f92672">.</span><span style="color:#a6e22e">TOTALLY_SCREWED</span><span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
-          LOGGER<span style="color:#f92672">.</span><span style="color:#a6e22e">logScrewage</span><span style="color:#f92672">(</span>BattleLogger<span style="color:#f92672">.</span><span style="color:#a6e22e">createBattleLogMessage</span><span style="color:#f92672">(</span>
-            BattleStatusFormatter<span style="color:#f92672">.</span><span style="color:#a6e22e">format</span><span style="color:#f92672">(</span>BattleStatus<span style="color:#f92672">.</span><span style="color:#a6e22e">LOST_WAR</span><span style="color:#f92672">,</span>
-                                         Locale<span style="color:#f92672">.</span><span style="color:#a6e22e">getDefault</span><span style="color:#f92672">())));</span>
-        <span style="color:#f92672">}</span>
-      <span style="color:#f92672">}</span>
-    <span style="color:#f92672">}</span>
-For the lack of a war<span style="color:#f92672">,</span>
-    <span style="color:#66d9ef">new</span> ServiceExecutionJoinPoint<span style="color:#f92672">(</span>
-      DistributedQueryAnalyzer<span style="color:#f92672">.</span><span style="color:#a6e22e">forwardQueryResult</span><span style="color:#f92672">(</span>
-        NotificationSchemaManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getAbstractSchemaMapper</span><span style="color:#f92672">(</span>
-          <span style="color:#66d9ef">new</span> PublishSubscribeNotificationSchema<span style="color:#f92672">()).</span><span style="color:#a6e22e">getSchemaProxy</span><span style="color:#f92672">().</span>
-            executePublishSubscribeQueryPlan<span style="color:#f92672">(</span>
-              NotificationSchema<span style="color:#f92672">.</span><span style="color:#a6e22e">ALERT</span><span style="color:#f92672">,</span>
-              <span style="color:#66d9ef">new</span> NotificationSchemaPriority<span style="color:#f92672">(</span>SchemaPriority<span style="color:#f92672">.</span><span style="color:#a6e22e">MAX_PRIORITY</span><span style="color:#f92672">),</span>
-              <span style="color:#66d9ef">new</span> PublisherMessage<span style="color:#f92672">(</span>MessageFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getAbstractMessage</span><span style="color:#f92672">(</span>
-                MessageType<span style="color:#f92672">.</span><span style="color:#a6e22e">WRITTEN</span><span style="color:#f92672">,</span>
-                <span style="color:#66d9ef">new</span> MessageTransport<span style="color:#f92672">(</span>MessageTransportType<span style="color:#f92672">.</span><span style="color:#a6e22e">WOUNDED_SURVIVOR</span><span style="color:#f92672">),</span>
-                <span style="color:#66d9ef">new</span> MessageSessionDestination<span style="color:#f92672">(</span>
-                  DestinationManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getNullDestinationForQueryPlan</span><span style="color:#f92672">()))),</span>
-              DistributedWarMachine<span style="color:#f92672">.</span><span style="color:#a6e22e">getPartyRoleManager</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getRegisteredParties</span><span style="color:#f92672">(</span>
-                PartyRoleManager<span style="color:#f92672">.</span><span style="color:#a6e22e">PARTY_KING</span> <span style="color:#f92672">||</span>
-                PartyRoleManager<span style="color:#f92672">.</span><span style="color:#a6e22e">PARTY_GENERAL</span> <span style="color:#f92672">||</span>
-                PartyRoleManager<span style="color:#f92672">.</span><span style="color:#a6e22e">PARTY_AMBASSADOR</span><span style="color:#f92672">)).</span><span style="color:#a6e22e">getQueryResult</span><span style="color:#f92672">(),</span>
-        PriorityMessageDispatcher<span style="color:#f92672">.</span><span style="color:#a6e22e">getPriorityDispatchInstance</span><span style="color:#f92672">())).</span>
-      waitForService<span style="color:#f92672">();</span>
-All <span style="color:#66d9ef">for</span> the lack of a horseshoe nail<span style="color:#f92672">.</span>
-</code></pre></div><p>（原诗就是那个因为一个铁钉而亡国的，翻译不出来那种java韵味，哈哈）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>For the lack of a nail<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> HorseshoeNailNotFoundException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;no nails!&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>For the lack of a horseshoe<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    EquestrianDoctor<span style="color:#f92672">.</span><span style="color:#a6e22e">getLocalInstance</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getHorseDispatcher</span><span style="color:#f92672">().</span><span style="color:#a6e22e">shoot</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>For the lack of a horse<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    RidersGuild<span style="color:#f92672">.</span><span style="color:#a6e22e">getRiderNotificationSubscriberList</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getBroadcaster</span><span style="color:#f92672">().</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">new</span> BroadcastMessage<span style="color:#f92672">(</span>StableFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getNullHorseInstance</span><span style="color:#f92672">()));</span>
+</span></span><span style="display:flex;"><span>For the lack of a rider<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    MessageDeliverySubsystem<span style="color:#f92672">.</span><span style="color:#a6e22e">getLogger</span><span style="color:#f92672">().</span><span style="color:#a6e22e">logDeliveryFailure</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>      MessageFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getAbstractMessageInstance</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">new</span> MessageMedium<span style="color:#f92672">(</span>MessageType<span style="color:#f92672">.</span><span style="color:#a6e22e">VERBAL</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">new</span> MessageTransport<span style="color:#f92672">(</span>MessageTransportType<span style="color:#f92672">.</span><span style="color:#a6e22e">MOUNTED_RIDER</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">new</span> MessageSessionDestination<span style="color:#f92672">(</span>BattleManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getRoutingInfo</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>                                        BattleLocation<span style="color:#f92672">.</span><span style="color:#a6e22e">NEAREST</span><span style="color:#f92672">))),</span>
+</span></span><span style="display:flex;"><span>      MessageFailureReasonCode<span style="color:#f92672">.</span><span style="color:#a6e22e">UNKNOWN_RIDER_FAILURE</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>For the lack of a message<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">((</span>BattleNotificationSender<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>      BattleResourceMediator<span style="color:#f92672">.</span><span style="color:#a6e22e">getMediatorInstance</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getResource</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>        BattleParticipant<span style="color:#f92672">.</span><span style="color:#a6e22e">PROXY_PARTICIPANT</span><span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>        BattleResource<span style="color:#f92672">.</span><span style="color:#a6e22e">BATTLE_NOTIFICATION_SENDER</span><span style="color:#f92672">)).</span><span style="color:#a6e22e">sendNotification</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">((</span>BattleNotificationBuilder<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">(</span>BattleResourceMediator<span style="color:#f92672">.</span><span style="color:#a6e22e">getMediatorInstance</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getResource</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>            BattleOrganizer<span style="color:#f92672">.</span><span style="color:#a6e22e">getBattleParticipant</span><span style="color:#f92672">(</span>Battle<span style="color:#f92672">.</span><span style="color:#a6e22e">Participant</span><span style="color:#f92672">.</span><span style="color:#a6e22e">GOOD_GUYS</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>            BattleResource<span style="color:#f92672">.</span><span style="color:#a6e22e">BATTLE_NOTIFICATION_BUILDER</span><span style="color:#f92672">))).</span><span style="color:#a6e22e">buildNotification</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>              BattleOrganizer<span style="color:#f92672">.</span><span style="color:#a6e22e">getBattleState</span><span style="color:#f92672">(</span>BattleResult<span style="color:#f92672">.</span><span style="color:#a6e22e">BATTLE_LOST</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>              BattleManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getChainOfCommand</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getCommandChainNotifier</span><span style="color:#f92672">()));</span>
+</span></span><span style="display:flex;"><span>For the lack of a battle<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">synchronized</span><span style="color:#f92672">(</span>BattleInformationRouterLock<span style="color:#f92672">.</span><span style="color:#a6e22e">getLockInstance</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>          BattleInformationRouterLock<span style="color:#f92672">.</span><span style="color:#a6e22e">getLockInstance</span><span style="color:#f92672">().</span><span style="color:#a6e22e">wait</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException ix<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>BattleSessionManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getBattleStatus</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>           BattleResource<span style="color:#f92672">.</span><span style="color:#a6e22e">getLocalizedBattleResource</span><span style="color:#f92672">(</span>Locale<span style="color:#f92672">.</span><span style="color:#a6e22e">getDefault</span><span style="color:#f92672">()),</span>
+</span></span><span style="display:flex;"><span>           BattleContext<span style="color:#f92672">.</span><span style="color:#a6e22e">createContext</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>             Kingdom<span style="color:#f92672">.</span><span style="color:#a6e22e">getMasterBattleCoordinatorInstance</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>               <span style="color:#66d9ef">new</span> TweedleBeetlePuddlePaddleBattle<span style="color:#f92672">()).</span><span style="color:#a6e22e">populate</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>                 RegionManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getArmpitProvince</span><span style="color:#f92672">(</span>Armpit<span style="color:#f92672">.</span><span style="color:#a6e22e">LEFTMOST</span><span style="color:#f92672">))))</span> <span style="color:#f92672">==</span>
+</span></span><span style="display:flex;"><span>          BattleStatus<span style="color:#f92672">.</span><span style="color:#a6e22e">LOST</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>LOGGER<span style="color:#f92672">.</span><span style="color:#a6e22e">isLoggable</span><span style="color:#f92672">(</span>Level<span style="color:#f92672">.</span><span style="color:#a6e22e">TOTALLY_SCREWED</span><span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>          LOGGER<span style="color:#f92672">.</span><span style="color:#a6e22e">logScrewage</span><span style="color:#f92672">(</span>BattleLogger<span style="color:#f92672">.</span><span style="color:#a6e22e">createBattleLogMessage</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>            BattleStatusFormatter<span style="color:#f92672">.</span><span style="color:#a6e22e">format</span><span style="color:#f92672">(</span>BattleStatus<span style="color:#f92672">.</span><span style="color:#a6e22e">LOST_WAR</span><span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>                                         Locale<span style="color:#f92672">.</span><span style="color:#a6e22e">getDefault</span><span style="color:#f92672">())));</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>For the lack of a war<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">new</span> ServiceExecutionJoinPoint<span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>      DistributedQueryAnalyzer<span style="color:#f92672">.</span><span style="color:#a6e22e">forwardQueryResult</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>        NotificationSchemaManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getAbstractSchemaMapper</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">new</span> PublishSubscribeNotificationSchema<span style="color:#f92672">()).</span><span style="color:#a6e22e">getSchemaProxy</span><span style="color:#f92672">().</span>
+</span></span><span style="display:flex;"><span>            executePublishSubscribeQueryPlan<span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>              NotificationSchema<span style="color:#f92672">.</span><span style="color:#a6e22e">ALERT</span><span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">new</span> NotificationSchemaPriority<span style="color:#f92672">(</span>SchemaPriority<span style="color:#f92672">.</span><span style="color:#a6e22e">MAX_PRIORITY</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">new</span> PublisherMessage<span style="color:#f92672">(</span>MessageFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getAbstractMessage</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>                MessageType<span style="color:#f92672">.</span><span style="color:#a6e22e">WRITTEN</span><span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> MessageTransport<span style="color:#f92672">(</span>MessageTransportType<span style="color:#f92672">.</span><span style="color:#a6e22e">WOUNDED_SURVIVOR</span><span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> MessageSessionDestination<span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>                  DestinationManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getNullDestinationForQueryPlan</span><span style="color:#f92672">()))),</span>
+</span></span><span style="display:flex;"><span>              DistributedWarMachine<span style="color:#f92672">.</span><span style="color:#a6e22e">getPartyRoleManager</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getRegisteredParties</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>                PartyRoleManager<span style="color:#f92672">.</span><span style="color:#a6e22e">PARTY_KING</span> <span style="color:#f92672">||</span>
+</span></span><span style="display:flex;"><span>                PartyRoleManager<span style="color:#f92672">.</span><span style="color:#a6e22e">PARTY_GENERAL</span> <span style="color:#f92672">||</span>
+</span></span><span style="display:flex;"><span>                PartyRoleManager<span style="color:#f92672">.</span><span style="color:#a6e22e">PARTY_AMBASSADOR</span><span style="color:#f92672">)).</span><span style="color:#a6e22e">getQueryResult</span><span style="color:#f92672">(),</span>
+</span></span><span style="display:flex;"><span>        PriorityMessageDispatcher<span style="color:#f92672">.</span><span style="color:#a6e22e">getPriorityDispatchInstance</span><span style="color:#f92672">())).</span>
+</span></span><span style="display:flex;"><span>      waitForService<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>All <span style="color:#66d9ef">for</span> the lack of a horseshoe nail<span style="color:#f92672">.</span>
+</span></span></code></pre></div><p>（原诗就是那个因为一个铁钉而亡国的，翻译不出来那种java韵味，哈哈）</p>
 <p>直到今天，这仍然是不错的建议。</p>
 <p>尽管这首诗和富兰克林的原诗大有不同，但这里的居民还是认为他们的翻译很有魅力。</p>
 <p>最大的魅力就是大家看到的架构，架构被java国王赋予了极高的荣誉，因为架构完全是由名词构成的。正如我们所知的，在java王国名词就是事物，而事物凌驾于所有动作之上。架构由事物构成：那些可以看到、摸到的事物，宏伟的事物，用棍子抽打而发出美妙响声的事物。java国王十分喜爱这些噪音，他在换车夫时踢轮子中获得极大的满足(he draws immense satisfaction from kicking the wheels when he&rsquo;s trying out a new horse-drawn coach，没太理解)。无论有什么样的缺陷，事物总是不可或缺的。</p>
@@ -272,7 +272,7 @@ All <span style="color:#66d9ef">for</span> the lack of a horseshoe nail<span sty
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

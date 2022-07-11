@@ -119,43 +119,43 @@ if (!doNotTrack) {
 bpftrace v0.9.4
 </code></pre><h3 id="hello-bpf-world">hello BPF world!</h3>
 <p>安装完成后在<code>/usr/sbin</code>目录下会多出一些<code>*.bt</code>的文件：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">root@iZj6c18dsejt417tcv4rv2Z:/usr/sbin# ll *.bt
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">698</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> bashreadline.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">603</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> biolatency.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">888</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> biosnoop.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">884</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> biostacks.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">569</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> bitesize.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1839</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> capable.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">497</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> cpuwalk.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1204</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> dcsnoop.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">780</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> execsnoop.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1388</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> gethostlatency.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">867</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> killsnoop.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1127</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> loads.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">661</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> mdflush.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1002</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> naptime.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1165</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> oomkill.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">953</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> opensnoop.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">628</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> pidpersec.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">793</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> runqlat.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1052</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> runqlen.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1806</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> setuids.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1298</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> statsnoop.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">600</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> swapin.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">838</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> syncsnoop.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">874</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> syscount.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1722</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> tcpaccept.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1617</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> tcpconnect.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">2214</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> tcpdrop.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">2753</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> tcplife.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">2120</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> tcpretrans.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">929</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> tcpsynbl.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">705</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> threadsnoop.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">515</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> vfscount.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">721</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> vfsstat.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1704</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> writeback.bt*
--rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">972</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> xfsdist.bt*
-</code></pre></div><p>这里以<code>execsnoop.bt</code>为例，这个脚本会&quot;嗅探&quot;所有使用<code>exec()</code>的系统调用：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>root@iZj6c18dsejt417tcv4rv2Z:/usr/sbin# ll *.bt
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">698</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> bashreadline.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">603</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> biolatency.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">888</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> biosnoop.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">884</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> biostacks.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">569</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> bitesize.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1839</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> capable.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">497</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> cpuwalk.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1204</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> dcsnoop.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">780</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> execsnoop.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1388</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> gethostlatency.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">867</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> killsnoop.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1127</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> loads.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">661</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> mdflush.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1002</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> naptime.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1165</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> oomkill.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">953</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> opensnoop.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">628</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> pidpersec.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">793</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> runqlat.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1052</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> runqlen.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1806</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> setuids.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1298</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> statsnoop.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">600</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> swapin.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">838</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> syncsnoop.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">874</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> syscount.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1722</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> tcpaccept.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1617</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> tcpconnect.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">2214</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> tcpdrop.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">2753</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> tcplife.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">2120</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> tcpretrans.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">929</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> tcpsynbl.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">705</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> threadsnoop.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">515</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> vfscount.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">721</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> vfsstat.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1704</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> writeback.bt*
+</span></span><span style="display:flex;"><span>-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">972</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> xfsdist.bt*
+</span></span></code></pre></div><p>这里以<code>execsnoop.bt</code>为例，这个脚本会&quot;嗅探&quot;所有使用<code>exec()</code>的系统调用：</p>
 <pre tabindex="0"><code>root@iZj6c18dsejt417tcv4rv2Z:/usr/sbin# cat execsnoop.bt
 #!/usr/bin/env bpftrace
 /*
@@ -171,17 +171,17 @@ bpftrace v0.9.4
  * This is a bpftrace version of the bcc tool of the same name.
  *
  * 15-Nov-2017  Brendan Gregg   Created this.
- * 11-Sep-2018     &quot;     &quot;      Switched to use join().
+ * 11-Sep-2018     &#34;     &#34;      Switched to use join().
  */
 
 BEGIN
 {
-        printf(&quot;%-10s %-5s %s\n&quot;, &quot;TIME(ms)&quot;, &quot;PID&quot;, &quot;ARGS&quot;);
+        printf(&#34;%-10s %-5s %s\n&#34;, &#34;TIME(ms)&#34;, &#34;PID&#34;, &#34;ARGS&#34;);
 }
 
 tracepoint:syscalls:sys_enter_execve
 {
-        printf(&quot;%-10u %-5d &quot;, elapsed / 1000000, pid);
+        printf(&#34;%-10u %-5d &#34;, elapsed / 1000000, pid);
         join(args-&gt;argv);
 }
 </code></pre><p>这里作者还在《BPF之巅》这本书里吐槽了一下自己名字没取好，应该叫做<code>trace</code>而不是<code>snoop</code>更合适一些，看样子取名才是编程里面最难的哈哈。</p>
@@ -191,9 +191,9 @@ Attaching 2 probes...
 TIME(ms)   PID   ARGS
 </code></pre><p>这里先来个思考题，python中会使用<code>os.system()</code>函数来执行一些简单的系统命令，这个函数背后到底是怎么运行的呢？</p>
 <p>打开另一个终端页面，执行python3进入一个shell，然后输入：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> os
-<span style="color:#f92672">&gt;&gt;&gt;</span> os<span style="color:#f92672">.</span>system(<span style="color:#e6db74">&#34;date&#34;</span>)
-</code></pre></div><p>这时，我们就可以看到运行<code>execsnoop.bt</code>的窗口有了新的输出：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> os<span style="color:#f92672">.</span>system(<span style="color:#e6db74">&#34;date&#34;</span>)
+</span></span></code></pre></div><p>这时，我们就可以看到运行<code>execsnoop.bt</code>的窗口有了新的输出：</p>
 <pre tabindex="0"><code>root@iZj6c18dsejt417tcv4rv2Z:/usr/sbin# bpftrace execsnoop.bt
 Attaching 2 probes...
 TIME(ms)   PID   ARGS
@@ -211,38 +211,38 @@ TIME(ms)   PID   ARGS
 <h3 id="安装-1">安装</h3>
 <p>根据<a href="https://github.com/iovisor/bcc/blob/master/INSTALL.md">安装说明</a>结合自己环境的实际情况安装即可，我这里用的ubuntu直接使用:<code>sudo apt-get install bpfcc-tools linux-headers-$(uname -r)</code>安装，安装成功后可以看到<code>/usr/sbin</code>目录下多了很多<code>*-bpfcc</code>的二进制文件(注意这里不同发行版可能不带bpfcc尾缀)。</p>
 <p>比如运行<code>execsnoop-bpfcc</code>，功能和上面执行的<code>execsnoop.bt</code>是一样的，只不过功能更强大了：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">root@iZj6c18dsejt417tcv4rv2Z:/usr/sbin# ./execsnoop-bpfcc -h
-usage: execsnoop-bpfcc <span style="color:#f92672">[</span>-h<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-T<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-t<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-x<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-q<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-n NAME<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-l LINE<span style="color:#f92672">]</span>
-                       <span style="color:#f92672">[</span>--max-args MAX_ARGS<span style="color:#f92672">]</span>
-
-Trace exec<span style="color:#f92672">()</span> syscalls
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -T, --time            include time column on output <span style="color:#f92672">(</span>HH:MM:SS<span style="color:#f92672">)</span>
-  -t, --timestamp       include timestamp on output
-  -x, --fails           include failed exec<span style="color:#f92672">()</span>s
-  -q, --quote           Add quotemarks <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;) around arguments.
-</span><span style="color:#e6db74">  -n NAME, --name NAME  only print commands matching this name (regex), any arg
-</span><span style="color:#e6db74">  -l LINE, --line LINE  only print commands where arg contains this line (regex)
-</span><span style="color:#e6db74">  --max-args MAX_ARGS   maximum number of arguments parsed and displayed, defaults to
-</span><span style="color:#e6db74">                        20
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">examples:
-</span><span style="color:#e6db74">    ./execsnoop           # trace all exec() syscalls
-</span><span style="color:#e6db74">    ./execsnoop -x        # include failed exec()s
-</span><span style="color:#e6db74">    ./execsnoop -T        # include time (HH:MM:SS)
-</span><span style="color:#e6db74">    ./execsnoop -t        # include timestamps
-</span><span style="color:#e6db74">    ./execsnoop -q        # add &#34;</span>quotemarks<span style="color:#e6db74">&#34; around arguments
-</span><span style="color:#e6db74">    ./execsnoop -n main   # only print command lines containing &#34;</span>main<span style="color:#e6db74">&#34;
-</span><span style="color:#e6db74">    ./execsnoop -l tpkg   # only print command where arguments contains &#34;</span>tpkg<span style="color:#e6db74">&#34;
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">root@iZj6c18dsejt417tcv4rv2Z:/usr/sbin# ./execsnoop-bpfcc
-</span><span style="color:#e6db74">PCOMM            PID    PPID   RET ARGS
-</span><span style="color:#e6db74">ls               121180 120876   0 /usr/bin/ls --color=auto
-</span><span style="color:#e6db74">uname            121181 120876   0 /usr/bin/uname
-</span></code></pre></div><p>使用BCC开发BPF程序，至少需要有C、Python的基本语法知识，倪朋飞大佬总结BPF程序的开发和执行需要5个步骤：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>root@iZj6c18dsejt417tcv4rv2Z:/usr/sbin# ./execsnoop-bpfcc -h
+</span></span><span style="display:flex;"><span>usage: execsnoop-bpfcc <span style="color:#f92672">[</span>-h<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-T<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-t<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-x<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-q<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-n NAME<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-l LINE<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>                       <span style="color:#f92672">[</span>--max-args MAX_ARGS<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Trace exec<span style="color:#f92672">()</span> syscalls
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>optional arguments:
+</span></span><span style="display:flex;"><span>  -h, --help            show this help message and exit
+</span></span><span style="display:flex;"><span>  -T, --time            include time column on output <span style="color:#f92672">(</span>HH:MM:SS<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  -t, --timestamp       include timestamp on output
+</span></span><span style="display:flex;"><span>  -x, --fails           include failed exec<span style="color:#f92672">()</span>s
+</span></span><span style="display:flex;"><span>  -q, --quote           Add quotemarks <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;) around arguments.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  -n NAME, --name NAME  only print commands matching this name (regex), any arg
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  -l LINE, --line LINE  only print commands where arg contains this line (regex)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  --max-args MAX_ARGS   maximum number of arguments parsed and displayed, defaults to
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                        20
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">examples:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ./execsnoop           # trace all exec() syscalls
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ./execsnoop -x        # include failed exec()s
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ./execsnoop -T        # include time (HH:MM:SS)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ./execsnoop -t        # include timestamps
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ./execsnoop -q        # add &#34;</span>quotemarks<span style="color:#e6db74">&#34; around arguments
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ./execsnoop -n main   # only print command lines containing &#34;</span>main<span style="color:#e6db74">&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ./execsnoop -l tpkg   # only print command where arguments contains &#34;</span>tpkg<span style="color:#e6db74">&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">root@iZj6c18dsejt417tcv4rv2Z:/usr/sbin# ./execsnoop-bpfcc
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">PCOMM            PID    PPID   RET ARGS
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ls               121180 120876   0 /usr/bin/ls --color=auto
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">uname            121181 120876   0 /usr/bin/uname
+</span></span></span></code></pre></div><p>使用BCC开发BPF程序，至少需要有C、Python的基本语法知识，倪朋飞大佬总结BPF程序的开发和执行需要5个步骤：</p>
 <ul>
 <li>第一步，使用 C 语言开发一个 eBPF 程序；</li>
 <li>第二步，借助 LLVM 把 eBPF 程序编译成 BPF 字节码；</li>
@@ -254,28 +254,28 @@ optional arguments:
 <p>BCC除了提供了现成的工具外，还是一个BPF编译器集合，包含了用于构建BPF 程序的编程框架和库。使用BCC的好处是，它把上述的 eBPF 执行过程通过内置框架抽象了起来，并提供了 Python等编程语言接口。这样，可以直接通过 Python 语言去跟 eBPF 的各种事件和数据进行交互。</p>
 <h3 id="hello-bpf-world-1">hello BPF world!</h3>
 <p>这里我们看一下官网提供的 <a href="https://github.com/iovisor/bcc/blob/master/examples/hello_world.py">例子</a>：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/python</span>
-<span style="color:#75715e"># Copyright (c) PLUMgrid, Inc.</span>
-<span style="color:#75715e"># Licensed under the Apache License, Version 2.0 (the &#34;License&#34;)</span>
-
-<span style="color:#75715e"># run in project examples directory with:</span>
-<span style="color:#75715e"># sudo ./hello_world.py&#34;</span>
-<span style="color:#75715e"># see trace_fields.py for a longer example</span>
-
-<span style="color:#f92672">from</span> bcc <span style="color:#f92672">import</span> BPF
-
-<span style="color:#75715e"># This may not work for 4.17 on x64, you need replace kprobe__sys_clone with kprobe____x64_sys_clone</span>
-BPF(text<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;int kprobe__sys_clone(void *ctx) { bpf_trace_printk(&#34;Hello, World!</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#34;); return 0; }&#39;</span>)<span style="color:#f92672">.</span>trace_print()
-</code></pre></div><p>很简单，2行代码就搞定了一个BPF程序，首先import对应的BCC库，然后创建一个<code>BPF</code>对象，并传递一个C语言的程序代码给<code>text</code>参数，最后调用<code>trace_print()</code>输出。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Copyright (c) PLUMgrid, Inc.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Licensed under the Apache License, Version 2.0 (the &#34;License&#34;)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># run in project examples directory with:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># sudo ./hello_world.py&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># see trace_fields.py for a longer example</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> bcc <span style="color:#f92672">import</span> BPF
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># This may not work for 4.17 on x64, you need replace kprobe__sys_clone with kprobe____x64_sys_clone</span>
+</span></span><span style="display:flex;"><span>BPF(text<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;int kprobe__sys_clone(void *ctx) { bpf_trace_printk(&#34;Hello, World!</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#34;); return 0; }&#39;</span>)<span style="color:#f92672">.</span>trace_print()
+</span></span></code></pre></div><p>很简单，2行代码就搞定了一个BPF程序，首先import对应的BCC库，然后创建一个<code>BPF</code>对象，并传递一个C语言的程序代码给<code>text</code>参数，最后调用<code>trace_print()</code>输出。</p>
 <p>其中，C语言的代码就是定义了一个函数，监听所有 <a href="https://man7.org/linux/man-pages/man2/clone.2.html">sys_clone</a> 内核函数的调用，这个函数被触发了就调用BCC提供的辅助函数 <a href="https://github.com/iovisor/bcc/blob/master/docs/reference_guide.md#1-bpf_trace_printk">bpf_trace_printk()</a> 输出。</p>
 <p>运行程序后，在另一个终端里随便输入点命令，运行结果如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">root@iZj6c18dsejt417tcv4rv2Z:~/# python3 hello.py
-b<span style="color:#e6db74">&#39;            bash-120596  [004] .... 1059077.215170: 0: Hello, World!&#39;</span>
-b<span style="color:#e6db74">&#39;            bash-120596  [004] .... 1059079.961080: 0: Hello, World!&#39;</span>
-b<span style="color:#e6db74">&#39;            bash-121232  [007] .... 1059079.961478: 0: Hello, World!&#39;</span>
-b<span style="color:#e6db74">&#39;            bash-120596  [004] .... 1059081.117114: 0: Hello, World!&#39;</span>
-b<span style="color:#e6db74">&#39;            bash-121234  [007] .... 1059081.117505: 0: Hello, World!&#39;</span>
-</code></pre></div><p>其中：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>root@iZj6c18dsejt417tcv4rv2Z:~/# python3 hello.py
+</span></span><span style="display:flex;"><span>b<span style="color:#e6db74">&#39;            bash-120596  [004] .... 1059077.215170: 0: Hello, World!&#39;</span>
+</span></span><span style="display:flex;"><span>b<span style="color:#e6db74">&#39;            bash-120596  [004] .... 1059079.961080: 0: Hello, World!&#39;</span>
+</span></span><span style="display:flex;"><span>b<span style="color:#e6db74">&#39;            bash-121232  [007] .... 1059079.961478: 0: Hello, World!&#39;</span>
+</span></span><span style="display:flex;"><span>b<span style="color:#e6db74">&#39;            bash-120596  [004] .... 1059081.117114: 0: Hello, World!&#39;</span>
+</span></span><span style="display:flex;"><span>b<span style="color:#e6db74">&#39;            bash-121234  [007] .... 1059081.117505: 0: Hello, World!&#39;</span>
+</span></span></code></pre></div><p>其中：</p>
 <ul>
 <li>bash-xxxx 表示进程的名字和 PID；</li>
 <li>[00x] 表示 CPU 编号；</li>
@@ -329,7 +329,7 @@ b<span style="color:#e6db74">&#39;            bash-121234  [007] .... 1059081.11
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

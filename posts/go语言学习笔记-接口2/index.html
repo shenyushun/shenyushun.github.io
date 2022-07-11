@@ -201,58 +201,58 @@ if (!doNotTrack) {
 			<p><a href="https://golangbot.com/interfaces-part-2/">原文</a></p>
 <h2 id="传指针vs传值">传指针vs传值</h2>
 <p>上篇文章中所有接口实现我们都使用的传值，当然也可以使用传指针这种方式来实现接口。但使用传指针这种方式有一点需要注意，我们来看下面这个代码。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Describer</span> <span style="color:#66d9ef">interface</span> {  
-    <span style="color:#a6e22e">Describe</span>()
-}
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {  
-    <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
-    <span style="color:#a6e22e">age</span>  <span style="color:#66d9ef">int</span>
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Describe</span>() { <span style="color:#75715e">//implemented using value receiver  
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s is %d years old\n&#34;</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">age</span>)
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Address</span> <span style="color:#66d9ef">struct</span> {  
-    <span style="color:#a6e22e">state</span>   <span style="color:#66d9ef">string</span>
-    <span style="color:#a6e22e">country</span> <span style="color:#66d9ef">string</span>
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">a</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Address</span>) <span style="color:#a6e22e">Describe</span>() { <span style="color:#75715e">//implemented using pointer receiver  
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;State %s Country %s&#34;</span>, <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">country</span>)
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">d1</span> <span style="color:#a6e22e">Describer</span>
-    <span style="color:#a6e22e">p1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Person</span>{<span style="color:#e6db74">&#34;Sam&#34;</span>, <span style="color:#ae81ff">25</span>}
-    <span style="color:#a6e22e">d1</span> = <span style="color:#a6e22e">p1</span>
-    <span style="color:#a6e22e">d1</span>.<span style="color:#a6e22e">Describe</span>()
-    <span style="color:#a6e22e">p2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Person</span>{<span style="color:#e6db74">&#34;James&#34;</span>, <span style="color:#ae81ff">32</span>}
-    <span style="color:#a6e22e">d1</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">p2</span>
-    <span style="color:#a6e22e">d1</span>.<span style="color:#a6e22e">Describe</span>()
-
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">d2</span> <span style="color:#a6e22e">Describer</span>
-    <span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Address</span>{<span style="color:#e6db74">&#34;Washington&#34;</span>, <span style="color:#e6db74">&#34;USA&#34;</span>}
-
-    <span style="color:#75715e">/* compilation error if the following line is
-</span><span style="color:#75715e">       uncommented
-</span><span style="color:#75715e">       cannot use a (type Address) as type Describer
-</span><span style="color:#75715e">       in assignment: Address does not implement
-</span><span style="color:#75715e">       Describer (Describe method has pointer
-</span><span style="color:#75715e">       receiver)
-</span><span style="color:#75715e">    */</span>
-    <span style="color:#75715e">//d2 = a
-</span><span style="color:#75715e"></span>
-    <span style="color:#a6e22e">d2</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">a</span> <span style="color:#75715e">//This works since Describer interface
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">//is implemented by Address pointer in line 22
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">d2</span>.<span style="color:#a6e22e">Describe</span>()
-
-}
-</code></pre></div><p>上面的代码中，结构体<code>Person</code>使用传值的方式实现了接口<code>Describer</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Describer</span> <span style="color:#66d9ef">interface</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Describe</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">age</span>  <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Describe</span>() { <span style="color:#75715e">//implemented using value receiver  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s is %d years old\n&#34;</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">age</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Address</span> <span style="color:#66d9ef">struct</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">state</span>   <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">country</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">a</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Address</span>) <span style="color:#a6e22e">Describe</span>() { <span style="color:#75715e">//implemented using pointer receiver  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;State %s Country %s&#34;</span>, <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">country</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">d1</span> <span style="color:#a6e22e">Describer</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">p1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Person</span>{<span style="color:#e6db74">&#34;Sam&#34;</span>, <span style="color:#ae81ff">25</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">d1</span> = <span style="color:#a6e22e">p1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">d1</span>.<span style="color:#a6e22e">Describe</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">p2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Person</span>{<span style="color:#e6db74">&#34;James&#34;</span>, <span style="color:#ae81ff">32</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">d1</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">p2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">d1</span>.<span style="color:#a6e22e">Describe</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">d2</span> <span style="color:#a6e22e">Describer</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Address</span>{<span style="color:#e6db74">&#34;Washington&#34;</span>, <span style="color:#e6db74">&#34;USA&#34;</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* compilation error if the following line is
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">       uncommented
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">       cannot use a (type Address) as type Describer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">       in assignment: Address does not implement
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">       Describer (Describe method has pointer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">       receiver)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//d2 = a
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">d2</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">a</span> <span style="color:#75715e">//This works since Describer interface
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//is implemented by Address pointer in line 22
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">d2</span>.<span style="color:#a6e22e">Describe</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>上面的代码中，结构体<code>Person</code>使用传值的方式实现了接口<code>Describer</code>。</p>
 <p>在之前的<a href="https://golangbot.com/methods/#valuereceiversinmethodsvsvalueargumentsinfunctions">文章</a>中我们介绍过，一个接受值传递的方法同时也接受指针。<em>所以使用传值或者传指针的方法调用这种方法都是合法的</em>。</p>
 <p>在２９行将<code>Person</code>类型的变量<code>p1</code>赋值给了<code>d1</code>。因为<code>Person</code>实现了d1代表的接口所以会输出<code>Sam is 25 years old</code>。</p>
 <p>同样，接下来将<code>&amp;p2</code>也赋值给了<code>d1</code>，所以接下来输出<code>James is 32 years old</code>。</p>
@@ -264,140 +264,140 @@ James is 32 years old
 State Washington Country USA
 </code></pre><h2 id="实现多个接口">实现多个接口</h2>
 <p>一个类型可以实现多个接口，代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> (  
-    <span style="color:#e6db74">&#34;fmt&#34;</span>
-)
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">SalaryCalculator</span> <span style="color:#66d9ef">interface</span> {  
-    <span style="color:#a6e22e">DisplaySalary</span>()
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">LeaveCalculator</span> <span style="color:#66d9ef">interface</span> {  
-    <span style="color:#a6e22e">CalculateLeavesLeft</span>() <span style="color:#66d9ef">int</span>
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Employee</span> <span style="color:#66d9ef">struct</span> {  
-    <span style="color:#a6e22e">firstName</span> <span style="color:#66d9ef">string</span>
-    <span style="color:#a6e22e">lastName</span> <span style="color:#66d9ef">string</span>
-    <span style="color:#a6e22e">basicPay</span> <span style="color:#66d9ef">int</span>
-    <span style="color:#a6e22e">pf</span> <span style="color:#66d9ef">int</span>
-    <span style="color:#a6e22e">totalLeaves</span> <span style="color:#66d9ef">int</span>
-    <span style="color:#a6e22e">leavesTaken</span> <span style="color:#66d9ef">int</span>
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">Employee</span>) <span style="color:#a6e22e">DisplaySalary</span>() {  
-    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s %s has salary $%d&#34;</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">firstName</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">lastName</span>, (<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">basicPay</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">pf</span>))
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">Employee</span>) <span style="color:#a6e22e">CalculateLeavesLeft</span>() <span style="color:#66d9ef">int</span> {  
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">totalLeaves</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">leavesTaken</span>
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
-    <span style="color:#a6e22e">e</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Employee</span> {
-        <span style="color:#a6e22e">firstName</span>: <span style="color:#e6db74">&#34;Naveen&#34;</span>,
-        <span style="color:#a6e22e">lastName</span>: <span style="color:#e6db74">&#34;Ramanathan&#34;</span>,
-        <span style="color:#a6e22e">basicPay</span>: <span style="color:#ae81ff">5000</span>,
-        <span style="color:#a6e22e">pf</span>: <span style="color:#ae81ff">200</span>,
-        <span style="color:#a6e22e">totalLeaves</span>: <span style="color:#ae81ff">30</span>,
-        <span style="color:#a6e22e">leavesTaken</span>: <span style="color:#ae81ff">5</span>,
-    }
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> <span style="color:#a6e22e">SalaryCalculator</span> = <span style="color:#a6e22e">e</span>
-    <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">DisplaySalary</span>()
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">l</span> <span style="color:#a6e22e">LeaveCalculator</span> = <span style="color:#a6e22e">e</span>
-    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;\nLeaves left =&#34;</span>, <span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">CalculateLeavesLeft</span>())
-}
-</code></pre></div><p>上面的代码<code>Employee</code>实现了２个接口<code>SalaryCalculator</code>和<code>LeaveCalculator</code>，并把<code>Employee</code>类型的变量<code>e</code>分别转换成２种接口类型，代码输出如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (  
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">SalaryCalculator</span> <span style="color:#66d9ef">interface</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">DisplaySalary</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">LeaveCalculator</span> <span style="color:#66d9ef">interface</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">CalculateLeavesLeft</span>() <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Employee</span> <span style="color:#66d9ef">struct</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">firstName</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lastName</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">basicPay</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">pf</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">totalLeaves</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">leavesTaken</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">Employee</span>) <span style="color:#a6e22e">DisplaySalary</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s %s has salary $%d&#34;</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">firstName</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">lastName</span>, (<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">basicPay</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">pf</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">Employee</span>) <span style="color:#a6e22e">CalculateLeavesLeft</span>() <span style="color:#66d9ef">int</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">totalLeaves</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">leavesTaken</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">e</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Employee</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">firstName</span>: <span style="color:#e6db74">&#34;Naveen&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">lastName</span>: <span style="color:#e6db74">&#34;Ramanathan&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">basicPay</span>: <span style="color:#ae81ff">5000</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">pf</span>: <span style="color:#ae81ff">200</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">totalLeaves</span>: <span style="color:#ae81ff">30</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">leavesTaken</span>: <span style="color:#ae81ff">5</span>,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> <span style="color:#a6e22e">SalaryCalculator</span> = <span style="color:#a6e22e">e</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">DisplaySalary</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">l</span> <span style="color:#a6e22e">LeaveCalculator</span> = <span style="color:#a6e22e">e</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;\nLeaves left =&#34;</span>, <span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">CalculateLeavesLeft</span>())
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>上面的代码<code>Employee</code>实现了２个接口<code>SalaryCalculator</code>和<code>LeaveCalculator</code>，并把<code>Employee</code>类型的变量<code>e</code>分别转换成２种接口类型，代码输出如下：</p>
 <pre tabindex="0"><code>Naveen Ramanathan has salary $5200  
 Leaves left = 25
 </code></pre><h2 id="接口嵌套">接口嵌套</h2>
 <p>尽管GO中不支持继承，但可以通过嵌套来定义新接口：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> (  
-    <span style="color:#e6db74">&#34;fmt&#34;</span>
-)
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">SalaryCalculator</span> <span style="color:#66d9ef">interface</span> {  
-    <span style="color:#a6e22e">DisplaySalary</span>()
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">LeaveCalculator</span> <span style="color:#66d9ef">interface</span> {  
-    <span style="color:#a6e22e">CalculateLeavesLeft</span>() <span style="color:#66d9ef">int</span>
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">EmployeeOperations</span> <span style="color:#66d9ef">interface</span> {  
-    <span style="color:#a6e22e">SalaryCalculator</span>
-    <span style="color:#a6e22e">LeaveCalculator</span>
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Employee</span> <span style="color:#66d9ef">struct</span> {  
-    <span style="color:#a6e22e">firstName</span> <span style="color:#66d9ef">string</span>
-    <span style="color:#a6e22e">lastName</span> <span style="color:#66d9ef">string</span>
-    <span style="color:#a6e22e">basicPay</span> <span style="color:#66d9ef">int</span>
-    <span style="color:#a6e22e">pf</span> <span style="color:#66d9ef">int</span>
-    <span style="color:#a6e22e">totalLeaves</span> <span style="color:#66d9ef">int</span>
-    <span style="color:#a6e22e">leavesTaken</span> <span style="color:#66d9ef">int</span>
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">Employee</span>) <span style="color:#a6e22e">DisplaySalary</span>() {  
-    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s %s has salary $%d&#34;</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">firstName</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">lastName</span>, (<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">basicPay</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">pf</span>))
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">Employee</span>) <span style="color:#a6e22e">CalculateLeavesLeft</span>() <span style="color:#66d9ef">int</span> {  
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">totalLeaves</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">leavesTaken</span>
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
-    <span style="color:#a6e22e">e</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Employee</span> {
-        <span style="color:#a6e22e">firstName</span>: <span style="color:#e6db74">&#34;Naveen&#34;</span>,
-        <span style="color:#a6e22e">lastName</span>: <span style="color:#e6db74">&#34;Ramanathan&#34;</span>,
-        <span style="color:#a6e22e">basicPay</span>: <span style="color:#ae81ff">5000</span>,
-        <span style="color:#a6e22e">pf</span>: <span style="color:#ae81ff">200</span>,
-        <span style="color:#a6e22e">totalLeaves</span>: <span style="color:#ae81ff">30</span>,
-        <span style="color:#a6e22e">leavesTaken</span>: <span style="color:#ae81ff">5</span>,
-    }
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">empOp</span> <span style="color:#a6e22e">EmployeeOperations</span> = <span style="color:#a6e22e">e</span>
-    <span style="color:#a6e22e">empOp</span>.<span style="color:#a6e22e">DisplaySalary</span>()
-    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;\nLeaves left =&#34;</span>, <span style="color:#a6e22e">empOp</span>.<span style="color:#a6e22e">CalculateLeavesLeft</span>())
-}
-</code></pre></div><p>通过嵌套<code>SalaryCalculator</code>和<code>LeaveCalculator</code>这２个接口，我们创建了新接口<code>EmployeeOperations</code>。如果某个类型同时实现了定义在<code>SalaryCalculator</code>和<code>LeaveCalculator</code>中的函数，则可以说它实现了接口<code>EmployeeOperations</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (  
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">SalaryCalculator</span> <span style="color:#66d9ef">interface</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">DisplaySalary</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">LeaveCalculator</span> <span style="color:#66d9ef">interface</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">CalculateLeavesLeft</span>() <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">EmployeeOperations</span> <span style="color:#66d9ef">interface</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">SalaryCalculator</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LeaveCalculator</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Employee</span> <span style="color:#66d9ef">struct</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">firstName</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lastName</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">basicPay</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">pf</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">totalLeaves</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">leavesTaken</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">Employee</span>) <span style="color:#a6e22e">DisplaySalary</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s %s has salary $%d&#34;</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">firstName</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">lastName</span>, (<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">basicPay</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">pf</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">Employee</span>) <span style="color:#a6e22e">CalculateLeavesLeft</span>() <span style="color:#66d9ef">int</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">totalLeaves</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">leavesTaken</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">e</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Employee</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">firstName</span>: <span style="color:#e6db74">&#34;Naveen&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">lastName</span>: <span style="color:#e6db74">&#34;Ramanathan&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">basicPay</span>: <span style="color:#ae81ff">5000</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">pf</span>: <span style="color:#ae81ff">200</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">totalLeaves</span>: <span style="color:#ae81ff">30</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">leavesTaken</span>: <span style="color:#ae81ff">5</span>,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">empOp</span> <span style="color:#a6e22e">EmployeeOperations</span> = <span style="color:#a6e22e">e</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">empOp</span>.<span style="color:#a6e22e">DisplaySalary</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;\nLeaves left =&#34;</span>, <span style="color:#a6e22e">empOp</span>.<span style="color:#a6e22e">CalculateLeavesLeft</span>())
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>通过嵌套<code>SalaryCalculator</code>和<code>LeaveCalculator</code>这２个接口，我们创建了新接口<code>EmployeeOperations</code>。如果某个类型同时实现了定义在<code>SalaryCalculator</code>和<code>LeaveCalculator</code>中的函数，则可以说它实现了接口<code>EmployeeOperations</code>。</p>
 <p>４６行将<code>Employee</code>类型的变量e转换为了<code>EmployeeOperations</code>类型，并且分别调用了<code>DisplaySalary()</code>和<code>CalculateLeavesLeft()</code>方法。输出如下：</p>
 <pre tabindex="0"><code>Naveen Ramanathan has salary $5200  
 Leaves left = 25  
 </code></pre><p>(roy补充：把e转换成<code>SalaryCalculator</code>或<code>LeaveCalculator</code>也可以。)</p>
 <h2 id="接口零值空接口">接口零值/空接口</h2>
 <p>接口的零值是<code>nil</code>，nil接口的隐含值和实际类型都是<code>nil</code>。(roy注：零值指没被实现的接口)</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Describer</span> <span style="color:#66d9ef">interface</span> {  
-    <span style="color:#a6e22e">Describe</span>()
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">d1</span> <span style="color:#a6e22e">Describer</span>
-    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">d1</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
-        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;d1 is nil and has type %T value %v\n&#34;</span>, <span style="color:#a6e22e">d1</span>, <span style="color:#a6e22e">d1</span>)
-    }
-}
-</code></pre></div><p>程序输出为</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Describer</span> <span style="color:#66d9ef">interface</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Describe</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">d1</span> <span style="color:#a6e22e">Describer</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">d1</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;d1 is nil and has type %T value %v\n&#34;</span>, <span style="color:#a6e22e">d1</span>, <span style="color:#a6e22e">d1</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>程序输出为</p>
 <pre tabindex="0"><code>d1 is nil and has type &lt;nil&gt; value &lt;nil&gt;
 </code></pre><p>如果我们尝试在nil接口上调用方法，则会引发错误，因为nil接口没有隐含值也没有实际类型。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Describer</span> <span style="color:#66d9ef">interface</span> {  
-    <span style="color:#a6e22e">Describe</span>()
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">d1</span> <span style="color:#a6e22e">Describer</span>
-    <span style="color:#a6e22e">d1</span>.<span style="color:#a6e22e">Describe</span>()
-}
-</code></pre></div><p><code>d1</code>是一个nil，所以将会报错：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Describer</span> <span style="color:#66d9ef">interface</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Describe</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">d1</span> <span style="color:#a6e22e">Describer</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">d1</span>.<span style="color:#a6e22e">Describe</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>d1</code>是一个nil，所以将会报错：</p>
 <pre tabindex="0"><code>panic: runtime error: invalid memory address or nil pointer dereference
 [signal SIGSEGV: segmentation violation code=0xffffffff addr=0x0 pc=0xc8527]
 </code></pre>
@@ -446,7 +446,7 @@ Leaves left = 25
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

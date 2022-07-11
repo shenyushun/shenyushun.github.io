@@ -10,7 +10,7 @@
 		<meta property="og:title" content="Nginx&#43;Uwsgi部署Django程序" />
 <meta property="og:description" content="原来使用apache进行部署，感觉内存占用大以及速度比较慢就换成了nginx&#43;uwsgi的方式，结果完爆apache啊！
 首先安装nginx以及uwsgi：
-yum install nginxpip install uwsgi然后编辑uwsgi的配置文件，这里我使用ini文件格式，示例如下：
+yum install nginxpip install uwsgi 然后编辑uwsgi的配置文件，这里我使用ini文件格式，示例如下：
 [uwsgi]socket = 127." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/nginx-uwsgi%E9%83%A8%E7%BD%B2django%E7%A8%8B%E5%BA%8F/" /><meta property="article:section" content="posts" />
@@ -21,7 +21,7 @@ yum install nginxpip install uwsgi然后编辑uwsgi的配置文件，这里我
 		<meta itemprop="name" content="Nginx&#43;Uwsgi部署Django程序">
 <meta itemprop="description" content="原来使用apache进行部署，感觉内存占用大以及速度比较慢就换成了nginx&#43;uwsgi的方式，结果完爆apache啊！
 首先安装nginx以及uwsgi：
-yum install nginxpip install uwsgi然后编辑uwsgi的配置文件，这里我使用ini文件格式，示例如下：
+yum install nginxpip install uwsgi 然后编辑uwsgi的配置文件，这里我使用ini文件格式，示例如下：
 [uwsgi]socket = 127."><meta itemprop="datePublished" content="2014-09-27T17:44:03+00:00" />
 <meta itemprop="dateModified" content="2014-09-27T17:44:03+00:00" />
 <meta itemprop="wordCount" content="119">
@@ -142,12 +142,12 @@ stats = 127.0.0.1:9191
 uwsgi test.ini
 [uWSGI] getting INI configuration from test.ini
 </code></pre><p>如果你需要使用脚本方式进行uwsgi的重启，记得stop后sleep3秒钟左右再启动，否则重启不一定成功。</p>
-<pre tabindex="0"><code>echo &quot;stop uwsgi&quot;
+<pre tabindex="0"><code>echo &#34;stop uwsgi&#34;
 uwsgi --stop /var/run/db_uwsgi.pid
-echo &quot;wait 5's&quot;
+echo &#34;wait 5&#39;s&#34;
 sleep 5
 uwsgi /var/www/html/test/test.ini
-echo &quot;start uwsgi&quot;
+echo &#34;start uwsgi&#34;
 </code></pre>
 		</div>
 	</article>
@@ -183,7 +183,7 @@ echo &quot;start uwsgi&quot;
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

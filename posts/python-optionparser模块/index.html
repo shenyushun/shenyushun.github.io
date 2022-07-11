@@ -93,28 +93,28 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>用于生成模块说明。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#coding=utf-8</span>
-<span style="color:#f92672">from</span> optparse <span style="color:#f92672">import</span> OptionParser
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">opt</span>():
-    parser <span style="color:#f92672">=</span> OptionParser(
-                  description<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;整个文件功能一类的帮助信息&#34;</span>)
-    parser<span style="color:#f92672">.</span>add_option(<span style="color:#e6db74">&#34;-x&#34;</span>, <span style="color:#e6db74">&#34;--xxx&#34;</span>, dest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;xxx&#34;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;store&#34;</span>,
-                  help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;单个参数的帮助信息&#34;</span>, metavar<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;希望接受值的示例&#34;</span>)<span style="color:#75715e">#metavar用于提示希望接受的值示例</span>
-    parser<span style="color:#f92672">.</span>add_option(<span style="color:#e6db74">&#34;-n&#34;</span>, <span style="color:#e6db74">&#34;--num&#34;</span>, dest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;num&#34;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;store&#34;</span>,type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;int&#34;</span>,metavar<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;number&#34;</span>, <span style="color:#75715e">#type指明了类型,默认为string</span>
-                  help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;单个参数的帮助信息,有默认值，整型&#34;</span>, default<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>) <span style="color:#75715e">#如果参数中没明确给出值，则设为default的值</span>
-    parser<span style="color:#f92672">.</span>add_option(<span style="color:#e6db74">&#34;-t&#34;</span>, <span style="color:#e6db74">&#34;--settrue&#34;</span>, dest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;testbool&#34;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;store_true&#34;</span>,<span style="color:#75715e">#这个类型的添加metavar无效，用于判断是否出现了某个参数，如果出现了为ture</span>
-                  help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Test bool&#34;</span>)
-    parser<span style="color:#f92672">.</span>add_option(<span style="color:#e6db74">&#34;-f&#34;</span>, <span style="color:#e6db74">&#34;--setfalse&#34;</span>, dest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;testbool&#34;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;store_false&#34;</span>,<span style="color:#75715e">#这个类型的添加metavar无效，用于判断是否出现了某个参数，如果出现了为false</span>
-                  help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Test bool&#34;</span>, default<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)                       <span style="color:#75715e">#如果都出现以最后的出现为准,如果都没出现以有default的为准</span>
-    (options, args) <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()  
-    <span style="color:#66d9ef">return</span> options
-<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
-    m <span style="color:#f92672">=</span> opt()
-    print m<span style="color:#f92672">.</span>xxx
-    print m<span style="color:#f92672">.</span>num
-    print type(m<span style="color:#f92672">.</span>num)
-    print m<span style="color:#f92672">.</span>testbool
-</code></pre></div><p>参数为-h时候输出：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#coding=utf-8</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> optparse <span style="color:#f92672">import</span> OptionParser
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">opt</span>():
+</span></span><span style="display:flex;"><span>    parser <span style="color:#f92672">=</span> OptionParser(
+</span></span><span style="display:flex;"><span>                  description<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;整个文件功能一类的帮助信息&#34;</span>)
+</span></span><span style="display:flex;"><span>    parser<span style="color:#f92672">.</span>add_option(<span style="color:#e6db74">&#34;-x&#34;</span>, <span style="color:#e6db74">&#34;--xxx&#34;</span>, dest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;xxx&#34;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;store&#34;</span>,
+</span></span><span style="display:flex;"><span>                  help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;单个参数的帮助信息&#34;</span>, metavar<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;希望接受值的示例&#34;</span>)<span style="color:#75715e">#metavar用于提示希望接受的值示例</span>
+</span></span><span style="display:flex;"><span>    parser<span style="color:#f92672">.</span>add_option(<span style="color:#e6db74">&#34;-n&#34;</span>, <span style="color:#e6db74">&#34;--num&#34;</span>, dest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;num&#34;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;store&#34;</span>,type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;int&#34;</span>,metavar<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;number&#34;</span>, <span style="color:#75715e">#type指明了类型,默认为string</span>
+</span></span><span style="display:flex;"><span>                  help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;单个参数的帮助信息,有默认值，整型&#34;</span>, default<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>) <span style="color:#75715e">#如果参数中没明确给出值，则设为default的值</span>
+</span></span><span style="display:flex;"><span>    parser<span style="color:#f92672">.</span>add_option(<span style="color:#e6db74">&#34;-t&#34;</span>, <span style="color:#e6db74">&#34;--settrue&#34;</span>, dest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;testbool&#34;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;store_true&#34;</span>,<span style="color:#75715e">#这个类型的添加metavar无效，用于判断是否出现了某个参数，如果出现了为ture</span>
+</span></span><span style="display:flex;"><span>                  help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Test bool&#34;</span>)
+</span></span><span style="display:flex;"><span>    parser<span style="color:#f92672">.</span>add_option(<span style="color:#e6db74">&#34;-f&#34;</span>, <span style="color:#e6db74">&#34;--setfalse&#34;</span>, dest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;testbool&#34;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;store_false&#34;</span>,<span style="color:#75715e">#这个类型的添加metavar无效，用于判断是否出现了某个参数，如果出现了为false</span>
+</span></span><span style="display:flex;"><span>                  help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Test bool&#34;</span>, default<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)                       <span style="color:#75715e">#如果都出现以最后的出现为准,如果都没出现以有default的为准</span>
+</span></span><span style="display:flex;"><span>    (options, args) <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> options
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    m <span style="color:#f92672">=</span> opt()
+</span></span><span style="display:flex;"><span>    print m<span style="color:#f92672">.</span>xxx
+</span></span><span style="display:flex;"><span>    print m<span style="color:#f92672">.</span>num
+</span></span><span style="display:flex;"><span>    print type(m<span style="color:#f92672">.</span>num)
+</span></span><span style="display:flex;"><span>    print m<span style="color:#f92672">.</span>testbool
+</span></span></code></pre></div><p>参数为-h时候输出：</p>
 <pre tabindex="0"><code>Usage: options.py [options]
 整个文件功能一类的帮助信息
 Options:
@@ -128,7 +128,7 @@ Options:
 </code></pre><p>参数是-x test -n 5 -f 时候输出</p>
 <pre tabindex="0"><code>test
 5
-&lt;type 'int'&gt;
+&lt;type &#39;int&#39;&gt;
 False
 </code></pre>
 		</div>
@@ -176,7 +176,7 @@ False
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

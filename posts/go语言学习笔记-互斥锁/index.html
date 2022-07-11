@@ -120,83 +120,83 @@ if (!doNotTrack) {
 <h2 id="互斥锁">互斥锁</h2>
 <p>互斥锁提供了一种锁机制来保证同一时刻只有一个goroutine访问临界区，这样就可以避免竞争条件了。</p>
 <p>互斥锁位于<code>sync</code>包，提供了<code>Lock</code>和<code>Unlock</code>2个方法，任何被这２个方法包围在其中的代码同一时刻只能被一个goroutine执行，因此可以避免竞争条件了。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">mutex</span>.<span style="color:#a6e22e">Lock</span>()  
-<span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">x</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>  
-<span style="color:#a6e22e">mutex</span>.<span style="color:#a6e22e">Unlock</span>()  
-</code></pre></div><p><strong>如果某个goroutine已经获得了锁，其他的goroutine尝试获取锁时将被阻塞，直到锁被释放。</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">mutex</span>.<span style="color:#a6e22e">Lock</span>()  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">x</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">mutex</span>.<span style="color:#a6e22e">Unlock</span>()  
+</span></span></code></pre></div><p><strong>如果某个goroutine已经获得了锁，其他的goroutine尝试获取锁时将被阻塞，直到锁被释放。</strong></p>
 <h2 id="一段有竞争条件的代码">一段有竞争条件的代码</h2>
 <p>我们先写一个有竞争条件的代码，然后解决它：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>  
-<span style="color:#f92672">import</span> (  
-    <span style="color:#e6db74">&#34;fmt&#34;</span>
-    <span style="color:#e6db74">&#34;sync&#34;</span>
-    )
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span>  = <span style="color:#ae81ff">0</span>  
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">increment</span>(<span style="color:#a6e22e">wg</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>) {  
-    <span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">x</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-    <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
-}
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">w</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
-    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">1000</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-        <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">1</span>)        
-        <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">increment</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">w</span>)
-    }
-    <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Wait</span>()
-    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;final value of x&#34;</span>, <span style="color:#a6e22e">x</span>)
-}
-</code></pre></div><p><code>increment</code>函数将x自增1然后调用<code>wg.Done()</code>来通知<code>WaitGroup</code>完成，然后通过循环生成1000个goroutine，每个goroutine都是并发执行并且并发获取x的值。多次运行程序，你会发现结果每次都不同，比如<code>value of x 941</code>，<code>final value of x 928</code>，<code>final value of x 922</code>等。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (  
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sync&#34;</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span>  = <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">increment</span>(<span style="color:#a6e22e">wg</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">x</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">w</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">1000</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">1</span>)        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">increment</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">w</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Wait</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;final value of x&#34;</span>, <span style="color:#a6e22e">x</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>increment</code>函数将x自增1然后调用<code>wg.Done()</code>来通知<code>WaitGroup</code>完成，然后通过循环生成1000个goroutine，每个goroutine都是并发执行并且并发获取x的值。多次运行程序，你会发现结果每次都不同，比如<code>value of x 941</code>，<code>final value of x 928</code>，<code>final value of x 922</code>等。</p>
 <h2 id="使用互斥锁解决问题">使用互斥锁解决问题</h2>
 <p>上面的代码我们生成1000个goroutine，如果每个自增1，结果应该是1000。这里我们使用互斥锁来解决问题。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>  
-<span style="color:#f92672">import</span> (  
-    <span style="color:#e6db74">&#34;fmt&#34;</span>
-    <span style="color:#e6db74">&#34;sync&#34;</span>
-    )
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span>  = <span style="color:#ae81ff">0</span>  
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">increment</span>(<span style="color:#a6e22e">wg</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>, <span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Mutex</span>) {  
-    <span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">Lock</span>()
-    <span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">x</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-    <span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">Unlock</span>()
-    <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()   
-}
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">w</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">m</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Mutex</span>
-    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">1000</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-        <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">1</span>)        
-        <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">increment</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">w</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">m</span>)
-    }
-    <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Wait</span>()
-    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;final value of x&#34;</span>, <span style="color:#a6e22e">x</span>)
-}
-</code></pre></div><p>互斥锁是一种<code>struct</code>类型，我们创建了一个默认值互斥锁<code>m</code>，并把其地址传递给了<code>increment</code>，同时把<code>x=x+1</code>这句代码放在<code>m.Lock()</code>和<code>m.Unlock()</code>之间。这样就只有一个goroutine能在同一时刻执行这句代码了。程序输出如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (  
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sync&#34;</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span>  = <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">increment</span>(<span style="color:#a6e22e">wg</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>, <span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Mutex</span>) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">Lock</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">x</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">Unlock</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()   
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">w</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">m</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Mutex</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">1000</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">1</span>)        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">increment</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">w</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">m</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Wait</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;final value of x&#34;</span>, <span style="color:#a6e22e">x</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>互斥锁是一种<code>struct</code>类型，我们创建了一个默认值互斥锁<code>m</code>，并把其地址传递给了<code>increment</code>，同时把<code>x=x+1</code>这句代码放在<code>m.Lock()</code>和<code>m.Unlock()</code>之间。这样就只有一个goroutine能在同一时刻执行这句代码了。程序输出如下：</p>
 <pre tabindex="0"><code>final value of x 1000
 </code></pre><h2 id="使用channel解决问题">使用channel解决问题</h2>
 <p>我们也可以使用channel，代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>  
-<span style="color:#f92672">import</span> (  
-    <span style="color:#e6db74">&#34;fmt&#34;</span>
-    <span style="color:#e6db74">&#34;sync&#34;</span>
-    )
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span>  = <span style="color:#ae81ff">0</span>  
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">increment</span>(<span style="color:#a6e22e">wg</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>, <span style="color:#a6e22e">ch</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>) {  
-    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">true</span>
-    <span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">x</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-    <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ch</span>
-    <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()   
-}
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">w</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
-    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>, <span style="color:#ae81ff">1</span>)
-    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">1000</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-        <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">1</span>)        
-        <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">increment</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">w</span>, <span style="color:#a6e22e">ch</span>)
-    }
-    <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Wait</span>()
-    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;final value of x&#34;</span>, <span style="color:#a6e22e">x</span>)
-}
-</code></pre></div><p>上面的代码中，我们创建了一个容量为1的带缓冲区的channel并且传递给函数<code>increment</code>，这个缓冲区channel用来确保同时刻只有一个goroutine能进入临界区操作x。先向channel中写入值，由于容量为1，所以其他goroutine将被阻塞。自增操作完成后在从channel中去读数据解除阻塞。这也是控制多个goroutine访问临界区的有效办法。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (  
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sync&#34;</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span>  = <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">increment</span>(<span style="color:#a6e22e">wg</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>, <span style="color:#a6e22e">ch</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">x</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ch</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()   
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">w</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>, <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">1000</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">1</span>)        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">increment</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">w</span>, <span style="color:#a6e22e">ch</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Wait</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;final value of x&#34;</span>, <span style="color:#a6e22e">x</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>上面的代码中，我们创建了一个容量为1的带缓冲区的channel并且传递给函数<code>increment</code>，这个缓冲区channel用来确保同时刻只有一个goroutine能进入临界区操作x。先向channel中写入值，由于容量为1，所以其他goroutine将被阻塞。自增操作完成后在从channel中去读数据解除阻塞。这也是控制多个goroutine访问临界区的有效办法。</p>
 <p>程序输出和上面一样。</p>
 <h2 id="互斥锁-vs-channel">互斥锁 vs Channel</h2>
 <p>(roy注:这段我就选重点翻译了)</p>
@@ -249,7 +249,7 @@ if (!doNotTrack) {
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

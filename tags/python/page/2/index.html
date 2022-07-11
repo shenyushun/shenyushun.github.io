@@ -95,12 +95,12 @@ if (!doNotTrack) {
 	<div class="content list__excerpt post__content clearfix">
 		<p>能看到这篇文章的小伙伴肯定已经知道什么是Scrapy以及Scrapy-Redis了，基础概念这里就不再介绍。默认情况下Scrapy-Redis是发送GET请求获取数据的，对于某些使用POST请求的情况需要重写<code>make_request_from_data</code>函数即可，但奇怪的是居然没在网上搜到简洁明了的答案，或许是太简单了？</p>
 <p>这里我以<code>httpbin.org</code>这个网站为例，首先在<code>settings.py</code>中添加所需配置，这里需要根据实际情况进行修改：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">SCHEDULER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;scrapy_redis.scheduler.Scheduler&#34;</span>  <span style="color:#75715e">#启用Redis调度存储请求队列</span>
-SCHEDULER_PERSIST <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>    <span style="color:#75715e">#不清除Redis队列、这样可以暂停/恢复 爬取</span>
-DUPEFILTER_CLASS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;scrapy_redis.dupefilter.RFPDupeFilter&#34;</span>  <span style="color:#75715e">#确保所有的爬虫通过Redis去重</span>
-SCHEDULER_QUEUE_CLASS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;scrapy_redis.queue.SpiderPriorityQueue&#39;</span>
-REDIS_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;redis://127.0.0.1:6379&#34;</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>SCHEDULER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;scrapy_redis.scheduler.Scheduler&#34;</span>  <span style="color:#75715e">#启用Redis调度存储请求队列</span>
+</span></span><span style="display:flex;"><span>SCHEDULER_PERSIST <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>    <span style="color:#75715e">#不清除Redis队列、这样可以暂停/恢复 爬取</span>
+</span></span><span style="display:flex;"><span>DUPEFILTER_CLASS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;scrapy_redis.dupefilter.RFPDupeFilter&#34;</span>  <span style="color:#75715e">#确保所有的爬虫通过Redis去重</span>
+</span></span><span style="display:flex;"><span>SCHEDULER_QUEUE_CLASS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;scrapy_redis.queue.SpiderPriorityQueue&#39;</span>
+</span></span><span style="display:flex;"><span>REDIS_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;redis://127.0.0.1:6379&#34;</span>
+</span></span></code></pre></div>
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/scrapy-redis%E7%BB%93%E5%90%88post%E8%AF%B7%E6%B1%82%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE/">Read more…</a>
@@ -242,11 +242,11 @@ REDIS_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 		</ul>
 	</div>
 </div>
@@ -284,11 +284,11 @@ REDIS_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">132</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">30</span>
+				<span class="widget__counter widget__counter--bubble">31</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

@@ -115,80 +115,80 @@ djce
 │   └── wsgi.py
 └── manage.py
 </code></pre><p>接下来在settings.py的同级目录中新建celery.py:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> __future__ <span style="color:#f92672">import</span> absolute_import
-<span style="color:#f92672">import</span> os
-<span style="color:#f92672">from</span> celery <span style="color:#f92672">import</span> Celery
-<span style="color:#f92672">from</span> django.conf <span style="color:#f92672">import</span> settings
-os<span style="color:#f92672">.</span>environ<span style="color:#f92672">.</span>setdefault(<span style="color:#e6db74">&#39;DJANGO_SETTINGS_MODULE&#39;</span>, <span style="color:#e6db74">&#39;djce.settings&#39;</span>)
-app <span style="color:#f92672">=</span> Celery(<span style="color:#e6db74">&#39;djce&#39;</span>)
-app<span style="color:#f92672">.</span>config_from_object(<span style="color:#e6db74">&#39;django.conf:settings&#39;</span>)
-app<span style="color:#f92672">.</span>autodiscover_tasks(<span style="color:#66d9ef">lambda</span>: settings<span style="color:#f92672">.</span>INSTALLED_APPS)
-<span style="color:#a6e22e">@app</span><span style="color:#f92672">.</span>task(bind<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">debug_task</span>(self):
-    print(<span style="color:#e6db74">&#39;Request: </span><span style="color:#e6db74">{0!r}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>request))
-</code></pre></div><p>修改<code>__init__.py</code>添加：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> __future__ <span style="color:#f92672">import</span> absolute_import
-<span style="color:#f92672">from</span> .celery <span style="color:#f92672">import</span> app <span style="color:#66d9ef">as</span> celery_app
-</code></pre></div><p>修改settings.py添加：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 添加celery配置</span>
-BROKER_URL <span style="color:#f92672">=</span><span style="color:#e6db74">&#39;amqp://guest@127.0.0.1//&#39;</span>
-CELERY_RESULT_BACKEND <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;amqp://guest@127.0.0.1//&#39;</span>
-CELERY_ACCEPT_CONTENT <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;application/json&#39;</span>]
-CELERY_TASK_SERIALIZER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;json&#39;</span>
-CELERY_RESULT_SERIALIZER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;json&#39;</span>
-CELERY_TIMEZONE <span style="color:#f92672">=</span> TIME_ZONE
-CELERY_IGNORE_RESULT <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
-<span style="color:#75715e"># 启用报错邮件</span>
-CELERY_SEND_TASK_ERROR_EMAILS <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
-<span style="color:#75715e"># 分离2个任务队列</span>
-<span style="color:#f92672">from</span> kombu <span style="color:#f92672">import</span> Exchange, Queue
-CELERY_QUEUES <span style="color:#f92672">=</span> (
-    Queue(<span style="color:#e6db74">&#39;default&#39;</span>, Exchange(<span style="color:#e6db74">&#39;default&#39;</span>), routing_key<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;default&#39;</span>),
-    Queue(<span style="color:#e6db74">&#39;for_task_a&#39;</span>, Exchange(<span style="color:#e6db74">&#39;for_task_a&#39;</span>), routing_key<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;for_task_a&#39;</span>),<span style="color:#75715e">#这个是主动任务的队列</span>
-    Queue(<span style="color:#e6db74">&#39;for_task_b&#39;</span>, Exchange(<span style="color:#e6db74">&#39;for_task_b&#39;</span>), routing_key<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;for_task_b&#39;</span>),<span style="color:#75715e">#这个是定时任务的队列</span>
-)
-CELERY_ROUTES <span style="color:#f92672">=</span> {
-    <span style="color:#e6db74">&#39;task_a&#39;</span>: {<span style="color:#e6db74">&#39;queue&#39;</span>: <span style="color:#e6db74">&#39;for_task_a&#39;</span>, <span style="color:#e6db74">&#39;routing_key&#39;</span>: <span style="color:#e6db74">&#39;for_task_a&#39;</span>},
-    <span style="color:#e6db74">&#39;task_b&#39;</span>: {<span style="color:#e6db74">&#39;queue&#39;</span>: <span style="color:#e6db74">&#39;for_task_b&#39;</span>, <span style="color:#e6db74">&#39;routing_key&#39;</span>: <span style="color:#e6db74">&#39;for_task_b&#39;</span>},
-}
-<span style="color:#75715e"># 收件人</span>
-ADMINS <span style="color:#f92672">=</span> (
-    (<span style="color:#e6db74">&#39;xxxx&#39;</span>, <span style="color:#e6db74">&#39;xxxx@xxxx.com&#39;</span>),
-)
-SERVER_EMAIL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;xxx@xxx.com&#39;</span>
-EMAIL_HOST <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;xxxx&#39;</span>
-EMAIL_PORT <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
-EMAIL_HOST_USER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;xxxx@xx.com&#39;</span>
-EMAIL_HOST_PASSWORD <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;asdasd&#39;</span>
-</code></pre></div><p>在上面的设置中，我们启用了报错邮件并设置了2个队列用于接收不同的消息，记得把配置信息修改成你使用的环境相应配置。接下来我们新建一个app，这里就叫mytask好了，并在mytask中新建tasks.py:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> celery.utils.log <span style="color:#f92672">import</span> get_task_logger
-<span style="color:#f92672">from</span> celery.decorators <span style="color:#f92672">import</span> periodic_task
-<span style="color:#f92672">from</span> celery.task.schedules <span style="color:#f92672">import</span> crontab
-<span style="color:#f92672">from</span> celery.decorators <span style="color:#f92672">import</span> task
-logger <span style="color:#f92672">=</span> get_task_logger(__name__)
-<span style="color:#a6e22e">@task</span>(name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;task_a&#34;</span>, default_retry_delay<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>, max_retries<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, bind<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task_a</span>(self):
-    <span style="color:#66d9ef">try</span>:
-        print <span style="color:#e6db74">&#34;in task_a&#34;</span>
-    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
-        <span style="color:#75715e"># 隔5S重试，最多3次</span>
-        logger<span style="color:#f92672">.</span>info(str(e))
-        <span style="color:#66d9ef">raise</span> self<span style="color:#f92672">.</span>retry(exc<span style="color:#f92672">=</span>e)
-<span style="color:#a6e22e">@periodic_task</span>(
-    run_every<span style="color:#f92672">=</span>(crontab(minute<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;*/1&#39;</span>)),
-    name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;task_b&#34;</span>,
-    ignore_result<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, bind<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task_b</span>(self):
-    <span style="color:#75715e">#每1分钟执行一次</span>
-    print <span style="color:#e6db74">&#34;in task b&#34;</span>
-</code></pre></div><p>在views.py中写一个最简单的逻辑即可：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.http <span style="color:#f92672">import</span> HttpResponse
-<span style="color:#f92672">from</span> .tasks <span style="color:#f92672">import</span> task_a
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyTask</span>(View):
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get</span>(self, request, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
-        task_a<span style="color:#f92672">.</span>delay() <span style="color:#75715e">#发送消息，触发后台任务</span>
-        <span style="color:#66d9ef">return</span> HttpResponse(<span style="color:#e6db74">&#34;django and celery!&#34;</span>)
-</code></pre></div><p>编写相应的urls.py并在settings.py中引入我们的mytask后（很简单，这里就不贴出来了），确定rabbitmq服务成功运行后，首先我们打开第一个终端运行django程序：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> __future__ <span style="color:#f92672">import</span> absolute_import
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> celery <span style="color:#f92672">import</span> Celery
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.conf <span style="color:#f92672">import</span> settings
+</span></span><span style="display:flex;"><span>os<span style="color:#f92672">.</span>environ<span style="color:#f92672">.</span>setdefault(<span style="color:#e6db74">&#39;DJANGO_SETTINGS_MODULE&#39;</span>, <span style="color:#e6db74">&#39;djce.settings&#39;</span>)
+</span></span><span style="display:flex;"><span>app <span style="color:#f92672">=</span> Celery(<span style="color:#e6db74">&#39;djce&#39;</span>)
+</span></span><span style="display:flex;"><span>app<span style="color:#f92672">.</span>config_from_object(<span style="color:#e6db74">&#39;django.conf:settings&#39;</span>)
+</span></span><span style="display:flex;"><span>app<span style="color:#f92672">.</span>autodiscover_tasks(<span style="color:#66d9ef">lambda</span>: settings<span style="color:#f92672">.</span>INSTALLED_APPS)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@app</span><span style="color:#f92672">.</span>task(bind<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">debug_task</span>(self):
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;Request: </span><span style="color:#e6db74">{0!r}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>request))
+</span></span></code></pre></div><p>修改<code>__init__.py</code>添加：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> __future__ <span style="color:#f92672">import</span> absolute_import
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> .celery <span style="color:#f92672">import</span> app <span style="color:#66d9ef">as</span> celery_app
+</span></span></code></pre></div><p>修改settings.py添加：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 添加celery配置</span>
+</span></span><span style="display:flex;"><span>BROKER_URL <span style="color:#f92672">=</span><span style="color:#e6db74">&#39;amqp://guest@127.0.0.1//&#39;</span>
+</span></span><span style="display:flex;"><span>CELERY_RESULT_BACKEND <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;amqp://guest@127.0.0.1//&#39;</span>
+</span></span><span style="display:flex;"><span>CELERY_ACCEPT_CONTENT <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;application/json&#39;</span>]
+</span></span><span style="display:flex;"><span>CELERY_TASK_SERIALIZER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;json&#39;</span>
+</span></span><span style="display:flex;"><span>CELERY_RESULT_SERIALIZER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;json&#39;</span>
+</span></span><span style="display:flex;"><span>CELERY_TIMEZONE <span style="color:#f92672">=</span> TIME_ZONE
+</span></span><span style="display:flex;"><span>CELERY_IGNORE_RESULT <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 启用报错邮件</span>
+</span></span><span style="display:flex;"><span>CELERY_SEND_TASK_ERROR_EMAILS <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 分离2个任务队列</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> kombu <span style="color:#f92672">import</span> Exchange, Queue
+</span></span><span style="display:flex;"><span>CELERY_QUEUES <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>    Queue(<span style="color:#e6db74">&#39;default&#39;</span>, Exchange(<span style="color:#e6db74">&#39;default&#39;</span>), routing_key<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;default&#39;</span>),
+</span></span><span style="display:flex;"><span>    Queue(<span style="color:#e6db74">&#39;for_task_a&#39;</span>, Exchange(<span style="color:#e6db74">&#39;for_task_a&#39;</span>), routing_key<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;for_task_a&#39;</span>),<span style="color:#75715e">#这个是主动任务的队列</span>
+</span></span><span style="display:flex;"><span>    Queue(<span style="color:#e6db74">&#39;for_task_b&#39;</span>, Exchange(<span style="color:#e6db74">&#39;for_task_b&#39;</span>), routing_key<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;for_task_b&#39;</span>),<span style="color:#75715e">#这个是定时任务的队列</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>CELERY_ROUTES <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;task_a&#39;</span>: {<span style="color:#e6db74">&#39;queue&#39;</span>: <span style="color:#e6db74">&#39;for_task_a&#39;</span>, <span style="color:#e6db74">&#39;routing_key&#39;</span>: <span style="color:#e6db74">&#39;for_task_a&#39;</span>},
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;task_b&#39;</span>: {<span style="color:#e6db74">&#39;queue&#39;</span>: <span style="color:#e6db74">&#39;for_task_b&#39;</span>, <span style="color:#e6db74">&#39;routing_key&#39;</span>: <span style="color:#e6db74">&#39;for_task_b&#39;</span>},
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 收件人</span>
+</span></span><span style="display:flex;"><span>ADMINS <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>    (<span style="color:#e6db74">&#39;xxxx&#39;</span>, <span style="color:#e6db74">&#39;xxxx@xxxx.com&#39;</span>),
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>SERVER_EMAIL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;xxx@xxx.com&#39;</span>
+</span></span><span style="display:flex;"><span>EMAIL_HOST <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;xxxx&#39;</span>
+</span></span><span style="display:flex;"><span>EMAIL_PORT <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
+</span></span><span style="display:flex;"><span>EMAIL_HOST_USER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;xxxx@xx.com&#39;</span>
+</span></span><span style="display:flex;"><span>EMAIL_HOST_PASSWORD <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;asdasd&#39;</span>
+</span></span></code></pre></div><p>在上面的设置中，我们启用了报错邮件并设置了2个队列用于接收不同的消息，记得把配置信息修改成你使用的环境相应配置。接下来我们新建一个app，这里就叫mytask好了，并在mytask中新建tasks.py:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> celery.utils.log <span style="color:#f92672">import</span> get_task_logger
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> celery.decorators <span style="color:#f92672">import</span> periodic_task
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> celery.task.schedules <span style="color:#f92672">import</span> crontab
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> celery.decorators <span style="color:#f92672">import</span> task
+</span></span><span style="display:flex;"><span>logger <span style="color:#f92672">=</span> get_task_logger(__name__)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@task</span>(name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;task_a&#34;</span>, default_retry_delay<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>, max_retries<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, bind<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task_a</span>(self):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        print <span style="color:#e6db74">&#34;in task_a&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 隔5S重试，最多3次</span>
+</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>info(str(e))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">raise</span> self<span style="color:#f92672">.</span>retry(exc<span style="color:#f92672">=</span>e)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@periodic_task</span>(
+</span></span><span style="display:flex;"><span>    run_every<span style="color:#f92672">=</span>(crontab(minute<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;*/1&#39;</span>)),
+</span></span><span style="display:flex;"><span>    name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;task_b&#34;</span>,
+</span></span><span style="display:flex;"><span>    ignore_result<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, bind<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task_b</span>(self):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#每1分钟执行一次</span>
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#34;in task b&#34;</span>
+</span></span></code></pre></div><p>在views.py中写一个最简单的逻辑即可：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.http <span style="color:#f92672">import</span> HttpResponse
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> .tasks <span style="color:#f92672">import</span> task_a
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyTask</span>(View):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get</span>(self, request, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+</span></span><span style="display:flex;"><span>        task_a<span style="color:#f92672">.</span>delay() <span style="color:#75715e">#发送消息，触发后台任务</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> HttpResponse(<span style="color:#e6db74">&#34;django and celery!&#34;</span>)
+</span></span></code></pre></div><p>编写相应的urls.py并在settings.py中引入我们的mytask后（很简单，这里就不贴出来了），确定rabbitmq服务成功运行后，首先我们打开第一个终端运行django程序：
 <code>python manage.py runserver</code></p>
 <p>然后打开第二个终端，运行worker处理task_a：
 <code>celery -A djce worker -l info -Q for_task_a</code></p>
@@ -260,7 +260,7 @@ service rabbitmq-server restart
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

@@ -9,7 +9,7 @@
 	<meta name="description" content="">
 		<meta property="og:title" content="centos7安装Metasploit框架" />
 <meta property="og:description" content="Metasploit应该不用多说了吧？Kali自带、Win和Mac都提供了现成的安装包，不过我莫名的对apt系不感冒，这里记录一下在centos7上安装metasploit框架的步骤，理论上yum系的都应该通用。 首先执行
-curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb &gt; msfinstallchmod 755 msfinstall./msfinstall然后安装postgresql：" />
+curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb &gt; msfinstallchmod 755 msfinstall./msfinstall 然后安装postgresql：" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/centos7%E5%AE%89%E8%A3%85metasploit%E6%A1%86%E6%9E%B6/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2015-12-28T17:56:42+00:00" />
@@ -18,7 +18,7 @@ curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/t
 
 		<meta itemprop="name" content="centos7安装Metasploit框架">
 <meta itemprop="description" content="Metasploit应该不用多说了吧？Kali自带、Win和Mac都提供了现成的安装包，不过我莫名的对apt系不感冒，这里记录一下在centos7上安装metasploit框架的步骤，理论上yum系的都应该通用。 首先执行
-curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb &gt; msfinstallchmod 755 msfinstall./msfinstall然后安装postgresql："><meta itemprop="datePublished" content="2015-12-28T17:56:42+00:00" />
+curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb &gt; msfinstallchmod 755 msfinstall./msfinstall 然后安装postgresql："><meta itemprop="datePublished" content="2015-12-28T17:56:42+00:00" />
 <meta itemprop="dateModified" content="2015-12-28T17:56:42+00:00" />
 <meta itemprop="wordCount" content="169">
 <meta itemprop="keywords" content="centos," />
@@ -101,7 +101,7 @@ chmod 755 msfinstall
 <pre tabindex="0"><code>yum install postgresql
 yum install postgresql-server
 </code></pre><p>安装完成后先别启动服务，这里有个 <strong>关键的步骤</strong> 就是修改验证方式，编辑<code>/var/lib/pgsql/data/pg_hba.conf</code>文件，添加一行</p>
-<pre tabindex="0"><code>host    &quot;msf_database&quot;	&quot;msf_user&quot;      127.0.0.1/32          md5
+<pre tabindex="0"><code>host    &#34;msf_database&#34;	&#34;msf_user&#34;      127.0.0.1/32          md5
 host     all             all            127.0.0.1/32          ident
 </code></pre><p>保存后初始化数据库并启动服务，这里我直接就是root权限：</p>
 <pre tabindex="0"><code>postgresql-setup initdb
@@ -118,16 +118,16 @@ createdb --owner=msf_user msf_database
 <pre tabindex="0"><code>msf&gt; db_status
 [*] postgresql selected, no connection
 msf&gt; db_connect msf_user:yourmsfpassword@127.0.0.1:5432/msf_database
-NOTICE:  CREATE TABLE will create implicit sequence &quot;hosts_id_seq&quot; for serial column &quot;hosts.id&quot;
-NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index &quot;hosts_pkey&quot; for table &quot;hosts&quot;
+NOTICE:  CREATE TABLE will create implicit sequence &#34;hosts_id_seq&#34; for serial column &#34;hosts.id&#34;
+NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index &#34;hosts_pkey&#34; for table &#34;hosts&#34;
 [..]
-NOTICE:  CREATE TABLE will create implicit sequence &quot;mod_refs_id_seq&quot; for serial column &quot;mod_refs.id&quot;
-NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index &quot;mod_refs_pkey&quot; for table &quot;mod_refs&quot;
+NOTICE:  CREATE TABLE will create implicit sequence &#34;mod_refs_id_seq&#34; for serial column &#34;mod_refs.id&#34;
+NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index &#34;mod_refs_pkey&#34; for table &#34;mod_refs&#34;
 msf &gt; db_status
 [*] postgresql connected to msf_database
 </code></pre><p>然后就可以愉快的玩耍了。这里还有个地方需要注意的就是如果用上面的办法安装后执行了msfupdate，更新完成后再执行msfconsole会提示找不到命令，不知为什么<code>/usr/bin</code>目录下的链接被删除了，上面的安装方法将程序安装到了<code>/opt/metasploit-framework/</code>，所有的命令都在<code>/opt/metasploit-framework/bin</code>目录，可以自己重建链接。</p>
 <p>另外，如果觉得每次进入msfconsole都要重新链接一次数据库麻烦的话，可以使用alias命令：</p>
-<pre tabindex="0"><code>alias msfconsole='msfconsole -d db_connect -y /opt/framework/config/database.yml'
+<pre tabindex="0"><code>alias msfconsole=&#39;msfconsole -d db_connect -y /opt/framework/config/database.yml&#39;
 </code></pre><p>自己修改对应路径即可。</p>
 <p>或者把database.yml放到<code>~/.msf4</code>目录中。</p>
 
@@ -176,7 +176,7 @@ msf &gt; db_status
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

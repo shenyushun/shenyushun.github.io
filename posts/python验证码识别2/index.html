@@ -120,59 +120,59 @@ if (!doNotTrack) {
 <p>使用GIMP打开图片后，按 <em>加号</em> 放大图片，然后点击<code>View-&gt;Show Grid</code>来显示网格线：</p>
 <!-- raw HTML omitted -->
 <p>其中，每个正方形边长为10像素，所以数字1切割坐标为左20、上20、右40、下70。以此类推可以知道剩下3个数字的切割位置。代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> PIL <span style="color:#f92672">import</span> Image
-p <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(<span style="color:#e6db74">&#34;1.png&#34;</span>)
-<span style="color:#75715e"># 注意位置顺序为左、上、右、下</span>
-cuts <span style="color:#f92672">=</span> [(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">40</span>,<span style="color:#ae81ff">70</span>),(<span style="color:#ae81ff">60</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">90</span>,<span style="color:#ae81ff">70</span>),(<span style="color:#ae81ff">100</span>,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">130</span>,<span style="color:#ae81ff">60</span>),(<span style="color:#ae81ff">140</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">170</span>,<span style="color:#ae81ff">50</span>)]
-<span style="color:#66d9ef">for</span> i,n <span style="color:#f92672">in</span> enumerate(cuts,<span style="color:#ae81ff">1</span>):
-    temp <span style="color:#f92672">=</span> p<span style="color:#f92672">.</span>crop(n) <span style="color:#75715e"># 调用crop函数进行切割</span>
-    temp<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#34;cut</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">.png&#34;</span> <span style="color:#f92672">%</span> i)
-</code></pre></div><p>切割后得到4张图片：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> PIL <span style="color:#f92672">import</span> Image
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(<span style="color:#e6db74">&#34;1.png&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 注意位置顺序为左、上、右、下</span>
+</span></span><span style="display:flex;"><span>cuts <span style="color:#f92672">=</span> [(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">40</span>,<span style="color:#ae81ff">70</span>),(<span style="color:#ae81ff">60</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">90</span>,<span style="color:#ae81ff">70</span>),(<span style="color:#ae81ff">100</span>,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">130</span>,<span style="color:#ae81ff">60</span>),(<span style="color:#ae81ff">140</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">170</span>,<span style="color:#ae81ff">50</span>)]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i,n <span style="color:#f92672">in</span> enumerate(cuts,<span style="color:#ae81ff">1</span>):
+</span></span><span style="display:flex;"><span>    temp <span style="color:#f92672">=</span> p<span style="color:#f92672">.</span>crop(n) <span style="color:#75715e"># 调用crop函数进行切割</span>
+</span></span><span style="display:flex;"><span>    temp<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#34;cut</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">.png&#34;</span> <span style="color:#f92672">%</span> i)
+</span></span></code></pre></div><p>切割后得到4张图片：</p>
 <!-- raw HTML omitted -->
 <p>那么，如果字符位置不固定怎么办呢？现在假设一种随机位置宽度、无粘连、无干扰线的情况。</p>
 <p>第一种方法，也是最简单的方法叫做&quot;投影法&quot;。原理就是将二值化后的图片在竖直方向进行投影，根据投影后的极值来判断分割边界。这里我依然使用上面的验证码图片来进行演示：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">vertical</span>(img):
-    <span style="color:#e6db74">&#34;&#34;&#34;传入二值化后的图片进行垂直投影&#34;&#34;&#34;</span>
-    pixdata <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>load()
-    w,h <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>size
-    ver_list <span style="color:#f92672">=</span> []
-    <span style="color:#75715e"># 开始投影</span>
-    <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(w):
-        black <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-        <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(h):
-            <span style="color:#66d9ef">if</span> pixdata[x,y] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
-                black <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-        ver_list<span style="color:#f92672">.</span>append(black)
-    <span style="color:#75715e"># 判断边界</span>
-    l,r <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>
-    flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
-    cuts <span style="color:#f92672">=</span> []
-    <span style="color:#66d9ef">for</span> i,count <span style="color:#f92672">in</span> enumerate(ver_list):
-        <span style="color:#75715e"># 阈值这里为0</span>
-        <span style="color:#66d9ef">if</span> flag <span style="color:#f92672">is</span> <span style="color:#66d9ef">False</span> <span style="color:#f92672">and</span> count <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
-            l <span style="color:#f92672">=</span> i
-            flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
-        <span style="color:#66d9ef">if</span> flag <span style="color:#f92672">and</span> count <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
-            r <span style="color:#f92672">=</span> i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
-            flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
-            cuts<span style="color:#f92672">.</span>append((l,r))
-    <span style="color:#66d9ef">return</span> cuts
-
-p <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(<span style="color:#e6db74">&#39;1.png&#39;</span>)
-b_img <span style="color:#f92672">=</span> binarizing(p,<span style="color:#ae81ff">200</span>)
-v <span style="color:#f92672">=</span> vertical(b_img)
-</code></pre></div><p>通过<code>vertical</code>函数我们就得到了一个包含所有黑色像素在X轴上投影后左右边界的位置。由于验证码没有任何干扰，所以我的阈值设定为0。 关于<code>binarizing</code>函数可以参考<a href="http://www.hi-roy.com/2017/09/19/Python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/">上一篇文章</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">vertical</span>(img):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;传入二值化后的图片进行垂直投影&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    pixdata <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>load()
+</span></span><span style="display:flex;"><span>    w,h <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>size
+</span></span><span style="display:flex;"><span>    ver_list <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 开始投影</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(w):
+</span></span><span style="display:flex;"><span>        black <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(h):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> pixdata[x,y] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>                black <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        ver_list<span style="color:#f92672">.</span>append(black)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 判断边界</span>
+</span></span><span style="display:flex;"><span>    l,r <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>    cuts <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i,count <span style="color:#f92672">in</span> enumerate(ver_list):
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 阈值这里为0</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> flag <span style="color:#f92672">is</span> <span style="color:#66d9ef">False</span> <span style="color:#f92672">and</span> count <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>            l <span style="color:#f92672">=</span> i
+</span></span><span style="display:flex;"><span>            flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> flag <span style="color:#f92672">and</span> count <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>            r <span style="color:#f92672">=</span> i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>            flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>            cuts<span style="color:#f92672">.</span>append((l,r))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> cuts
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(<span style="color:#e6db74">&#39;1.png&#39;</span>)
+</span></span><span style="display:flex;"><span>b_img <span style="color:#f92672">=</span> binarizing(p,<span style="color:#ae81ff">200</span>)
+</span></span><span style="display:flex;"><span>v <span style="color:#f92672">=</span> vertical(b_img)
+</span></span></code></pre></div><p>通过<code>vertical</code>函数我们就得到了一个包含所有黑色像素在X轴上投影后左右边界的位置。由于验证码没有任何干扰，所以我的阈值设定为0。 关于<code>binarizing</code>函数可以参考<a href="http://www.hi-roy.com/2017/09/19/Python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/">上一篇文章</a></p>
 <p>输出如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[(<span style="color:#ae81ff">21</span>, <span style="color:#ae81ff">37</span>), (<span style="color:#ae81ff">62</span>, <span style="color:#ae81ff">89</span>), (<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">122</span>), (<span style="color:#ae81ff">146</span>, <span style="color:#ae81ff">164</span>)]
-</code></pre></div><p>可以看到，投影法给出左右边界和我们手工查看得到很接近。对于上下边界，偷懒的可以直接使用0和图片的高度，也可以在水平方向进行投影，这里有兴趣的小伙伴可以自己尝试。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>[(<span style="color:#ae81ff">21</span>, <span style="color:#ae81ff">37</span>), (<span style="color:#ae81ff">62</span>, <span style="color:#ae81ff">89</span>), (<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">122</span>), (<span style="color:#ae81ff">146</span>, <span style="color:#ae81ff">164</span>)]
+</span></span></code></pre></div><p>可以看到，投影法给出左右边界和我们手工查看得到很接近。对于上下边界，偷懒的可以直接使用0和图片的高度，也可以在水平方向进行投影，这里有兴趣的小伙伴可以自己尝试。</p>
 <p>但是，对于字符间有粘连的情况，投影法就会出现拆分错误，比如上篇文章中的：</p>
 <!-- raw HTML omitted -->
 <p>修改阈值为5后，投影法给出的左右边界是：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[(<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">27</span>), (<span style="color:#ae81ff">33</span>, <span style="color:#ae81ff">53</span>), (<span style="color:#ae81ff">59</span>, <span style="color:#ae81ff">108</span>)]
-</code></pre></div><p>明显最后的6和9数字没有切割。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>[(<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">27</span>), (<span style="color:#ae81ff">33</span>, <span style="color:#ae81ff">53</span>), (<span style="color:#ae81ff">59</span>, <span style="color:#ae81ff">108</span>)]
+</span></span></code></pre></div><p>明显最后的6和9数字没有切割。</p>
 <p>修改阈值为7，结果则是：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[(<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">27</span>), (<span style="color:#ae81ff">33</span>, <span style="color:#ae81ff">53</span>), (<span style="color:#ae81ff">60</span>, <span style="color:#ae81ff">79</span>), (<span style="color:#ae81ff">83</span>, <span style="color:#ae81ff">108</span>)]
-</code></pre></div><p>所以对于简单粘连的情况，调整阈值也是可以解决的。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>[(<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">27</span>), (<span style="color:#ae81ff">33</span>, <span style="color:#ae81ff">53</span>), (<span style="color:#ae81ff">60</span>, <span style="color:#ae81ff">79</span>), (<span style="color:#ae81ff">83</span>, <span style="color:#ae81ff">108</span>)]
+</span></span></code></pre></div><p>所以对于简单粘连的情况，调整阈值也是可以解决的。</p>
 <p>第二种方法，叫做CFS连通域分割法。原理就是假定每个字符都由一个单独的连通域组成，换言之就是无粘连，找到一个黑色像素并开始判断，直到所有相连的黑色像素都被遍历标记过后即可判断出这个字符的分割位置。算法如下：</p>
 <ol>
 <li>将二值化后的图片进行从左到右、从上到下的遍历，如果遇到黑色像素并且这个像素没有没访问过，就将这个像素入栈并标记为已经访问。</li>
@@ -180,44 +180,44 @@ v <span style="color:#f92672">=</span> vertical(b_img)
 <li>探测结束，这样就确定了若干字符。</li>
 </ol>
 <p>代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> queue
-
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">cfs</span>(img):
-    <span style="color:#e6db74">&#34;&#34;&#34;传入二值化后的图片进行连通域分割&#34;&#34;&#34;</span>
-    pixdata <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>load()
-    w,h <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>size
-    visited <span style="color:#f92672">=</span> set()
-    q <span style="color:#f92672">=</span> queue<span style="color:#f92672">.</span>Queue()
-    offset <span style="color:#f92672">=</span> [(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),(<span style="color:#ae81ff">0</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),(<span style="color:#ae81ff">1</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>),(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>),(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>),(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>),(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>)]
-    cuts <span style="color:#f92672">=</span> []
-    <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(w):
-        <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(h):
-            x_axis <span style="color:#f92672">=</span> []
-            <span style="color:#75715e">#y_axis = []</span>
-            <span style="color:#66d9ef">if</span> pixdata[x,y] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> (x,y) <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> visited:
-                q<span style="color:#f92672">.</span>put((x,y))
-                visited<span style="color:#f92672">.</span>add((x,y))
-            <span style="color:#66d9ef">while</span> <span style="color:#f92672">not</span> q<span style="color:#f92672">.</span>empty():
-                x_p,y_p <span style="color:#f92672">=</span> q<span style="color:#f92672">.</span>get()
-                <span style="color:#66d9ef">for</span> x_offset,y_offset <span style="color:#f92672">in</span> offset:
-                    x_c,y_c <span style="color:#f92672">=</span> x_p<span style="color:#f92672">+</span>x_offset,y_p<span style="color:#f92672">+</span>y_offset
-                    <span style="color:#66d9ef">if</span> (x_c,y_c) <span style="color:#f92672">in</span> visited:
-                        <span style="color:#66d9ef">continue</span>
-                    visited<span style="color:#f92672">.</span>add((x_c,y_c))
-                    <span style="color:#66d9ef">try</span>:
-                        <span style="color:#66d9ef">if</span> pixdata[x_c,y_c] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
-                            q<span style="color:#f92672">.</span>put((x_c,y_c))
-                            x_axis<span style="color:#f92672">.</span>append(x_c)
-                            <span style="color:#75715e">#y_axis.append(y_c)</span>
-                    <span style="color:#66d9ef">except</span>:
-                        <span style="color:#66d9ef">pass</span>
-            <span style="color:#66d9ef">if</span> x_axis:
-                min_x,max_x <span style="color:#f92672">=</span> min(x_axis),max(x_axis)
-                <span style="color:#66d9ef">if</span> max_x <span style="color:#f92672">-</span> min_x <span style="color:#f92672">&gt;</span>  <span style="color:#ae81ff">3</span>:
-                    <span style="color:#75715e"># 宽度小于3的认为是噪点，根据需要修改</span>
-                    cuts<span style="color:#f92672">.</span>append((min_x,max_x))
-    <span style="color:#66d9ef">return</span> cuts
-</code></pre></div><p>调用后输出结果和使用投影法是一样的。另外我看网上还有一种叫做“泛洪填充(Flood Fill)”的方法，似乎和连通域是一样的。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> queue
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">cfs</span>(img):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;传入二值化后的图片进行连通域分割&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    pixdata <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>load()
+</span></span><span style="display:flex;"><span>    w,h <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>size
+</span></span><span style="display:flex;"><span>    visited <span style="color:#f92672">=</span> set()
+</span></span><span style="display:flex;"><span>    q <span style="color:#f92672">=</span> queue<span style="color:#f92672">.</span>Queue()
+</span></span><span style="display:flex;"><span>    offset <span style="color:#f92672">=</span> [(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),(<span style="color:#ae81ff">0</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),(<span style="color:#ae81ff">1</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>),(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>),(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>),(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>),(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>)]
+</span></span><span style="display:flex;"><span>    cuts <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(w):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(h):
+</span></span><span style="display:flex;"><span>            x_axis <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">#y_axis = []</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> pixdata[x,y] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> (x,y) <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> visited:
+</span></span><span style="display:flex;"><span>                q<span style="color:#f92672">.</span>put((x,y))
+</span></span><span style="display:flex;"><span>                visited<span style="color:#f92672">.</span>add((x,y))
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span> <span style="color:#f92672">not</span> q<span style="color:#f92672">.</span>empty():
+</span></span><span style="display:flex;"><span>                x_p,y_p <span style="color:#f92672">=</span> q<span style="color:#f92672">.</span>get()
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span> x_offset,y_offset <span style="color:#f92672">in</span> offset:
+</span></span><span style="display:flex;"><span>                    x_c,y_c <span style="color:#f92672">=</span> x_p<span style="color:#f92672">+</span>x_offset,y_p<span style="color:#f92672">+</span>y_offset
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> (x_c,y_c) <span style="color:#f92672">in</span> visited:
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>                    visited<span style="color:#f92672">.</span>add((x_c,y_c))
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">if</span> pixdata[x_c,y_c] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>                            q<span style="color:#f92672">.</span>put((x_c,y_c))
+</span></span><span style="display:flex;"><span>                            x_axis<span style="color:#f92672">.</span>append(x_c)
+</span></span><span style="display:flex;"><span>                            <span style="color:#75715e">#y_axis.append(y_c)</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">except</span>:
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> x_axis:
+</span></span><span style="display:flex;"><span>                min_x,max_x <span style="color:#f92672">=</span> min(x_axis),max(x_axis)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> max_x <span style="color:#f92672">-</span> min_x <span style="color:#f92672">&gt;</span>  <span style="color:#ae81ff">3</span>:
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e"># 宽度小于3的认为是噪点，根据需要修改</span>
+</span></span><span style="display:flex;"><span>                    cuts<span style="color:#f92672">.</span>append((min_x,max_x))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> cuts
+</span></span></code></pre></div><p>调用后输出结果和使用投影法是一样的。另外我看网上还有一种叫做“泛洪填充(Flood Fill)”的方法，似乎和连通域是一样的。</p>
 		</div>
 		<footer class="post__footer">
 			
@@ -269,7 +269,7 @@ v <span style="color:#f92672">=</span> vertical(b_img)
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

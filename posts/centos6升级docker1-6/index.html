@@ -125,8 +125,8 @@ RUN yum makecache
 RUN yum update -y
 RUN yum install httpd -y
 RUN yum install -y openssh openssh-server openssh-client
-RUN sed -i &quot;s/#UsePrivilegeSeparation.*/UsePrivilegeSeparation no/g&quot; /etc/ssh/sshd_config &amp;&amp; sed -i &quot;s/UsePAM.*/UsePAM no/g&quot; /etc/ssh/sshd_config
-RUN echo 'root:asdasd' |chpasswd
+RUN sed -i &#34;s/#UsePrivilegeSeparation.*/UsePrivilegeSeparation no/g&#34; /etc/ssh/sshd_config &amp;&amp; sed -i &#34;s/UsePAM.*/UsePAM no/g&#34; /etc/ssh/sshd_config
+RUN echo &#39;root:asdasd&#39; |chpasswd
 RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
 RUN ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key
 RUN yum install -y python-devel python-setuptools python-setuptools-devel
@@ -135,7 +135,7 @@ RUN pip install supervisor
 RUN mkdir -p /var/log/supervisor
 COPY supervisord.conf /etc/supervisord.conf
 EXPOSE 22 80
-CMD [&quot;/usr/bin/supervisord&quot;]
+CMD [&#34;/usr/bin/supervisord&#34;]
 </code></pre><p>supervisord.conf文件内容如下：</p>
 <pre tabindex="0"><code>[supervisord]
 nodaemon=true
@@ -148,7 +148,7 @@ command=/usr/sbin/httpd -D FOREGROUND
 <p>至于使用ubuntu的小伙伴可以参考官网文档，或者使用我写的dockfile：https://github.com/shenyushun/docker-ubuntu14.04</p>
 <p>最后再补充2个我最常用的指令，在初学时候经常要创建很多容器和镜像，但一个一个删太麻烦了：</p>
 <pre tabindex="0"><code>docker rm $(docker ps -a -q)  #删除所有容器
-docker rmi $(docker images | grep none | awk '{print $3}' | sort -r) #删除所有镜像
+docker rmi $(docker images | grep none | awk &#39;{print $3}&#39; | sort -r) #删除所有镜像
 </code></pre>
 		</div>
 		<footer class="post__footer">
@@ -195,7 +195,7 @@ docker rmi $(docker images | grep none | awk '{print $3}' | sort -r) #删除所�
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

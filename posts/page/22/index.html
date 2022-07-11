@@ -80,6 +80,29 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/postgresql%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%E9%97%AE%E9%A2%98/" rel="bookmark">
+			postgresql无法启动问题
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-05-27T10:52:36Z">2015-05-27</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="category">数据库</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		今天升级系统后，发现postgresql无法启动了，报错/etc/ssl/private/ssl-cert-snakeoil.key: Permission denied。
+一看就是权限问题，首先看这个文件是什么权限：
+# ls -al /etc/ssl/private/ssl-cert-snakeoil.key -rw-r----- 1 root ssl-cert 1704 Jul 22 2014 /etc/ssl/private/ssl-cert-snakeoil.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/postgresql%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%E9%97%AE%E9%A2%98/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/centos6%E6%90%AD%E5%BB%BA%E5%9C%A8%E7%BA%BFweb%E4%BB%A3%E7%90%86/" rel="bookmark">
 			centos6搭建在线web代理
 			</a>
@@ -94,8 +117,8 @@ if (!doNotTrack) {
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		最近有个需求需要搭建一个在线web代理，懒得自己写就找到两个php程序：
- knProxy:https://github.com/jabbany/knProxy glype:https://www.glype.com/download.php  从部署角度来讲这两个都很简单，功能上也很类似，这里我就以第二个为例吧，使用nginx来部署。先来安装nginx和php-fpm
-yum install nginxyum install php-fpm&lt;/pre&gt;下载glype后解压到/var/www/html/glype目录，并在/etc/nginx/conf.
+knProxy:https://github.com/jabbany/knProxy glype:https://www.glype.com/download.php 从部署角度来讲这两个都很简单，功能上也很类似，这里我就以第二个为例吧，使用nginx来部署。先来安装nginx和php-fpm
+yum install nginxyum install php-fpm&lt;/pre&gt; 下载glype后解压到/var/www/html/glype目录，并在/etc/nginx/conf.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/centos6%E6%90%AD%E5%BB%BA%E5%9C%A8%E7%BA%BFweb%E4%BB%A3%E7%90%86/">Read more…</a>
@@ -151,12 +174,13 @@ yum install nginxyum install php-fpm&lt;/pre&gt;下载glype后解压到/var/ww
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		CentOS7和fedora中的默认防火墙都变成了firewalld，当然你也可以选择禁用这个并自己安装iptables，下面内容原文：这里，而且只翻译我用到的部分文章。原文中还展示了如何使用图形界面进行配置，不过作为键盘爱好者，能不用鼠标的就尽量不用鼠标了，直接上命令行操作。
- 4.5.4 理解域概念 firewalld可以根据不同的信任级别，将处于不同域内的设备进行分离。NetworkManager用于管理firewalld将接口分配到哪个域中，可以通过NetworkManager界面或filrewall-config工具来进行设置。
+4.5.4 理解域概念 firewalld可以根据不同的信任级别，将处于不同域内的设备进行分离。NetworkManager用于管理firewalld将接口分配到哪个域中，可以通过NetworkManager界面或filrewall-config工具来进行设置。
 默认的配置文件位于/etc/firewalld/可以快速的应用在网络接口上，这里有一份关于域的简短的说明：
 dorp:任何入站请求都被忽略，无任何回复，只有发起的网络链接请求被放行。
 block:任何入站请求都被拒绝，ipv4协议回复&quot;icmp-host-prohibited&quot;消息，ipv6协议回复&quot;icmp6-adm-prohibited&quot;，只有从系统内部发出的链接请求才被放行。
 （个人感觉上面两个区别就是在于有无回复，对内的话用block、对外用dorp好一些，让外部扫描费点劲才知道被防火墙过滤了）
 public:为在公共场所准备，你不相信网络中的其他电脑不会对你的电脑造成伤害，只有被选定的入站链接被接受。
+external:为有伪装的外部网络特别是路由器准备，你不相信网络中的其他电脑不会对你的电脑造成伤害，只有被选定的入站链接被接受。
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/%E4%BD%BF%E7%94%A8firewalld-cmd%E9%85%8D%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99/">Read more…</a>
@@ -205,28 +229,6 @@ yum install python3-qt5 yum install python3-requests yum install python3-xlib yu
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/%E7%90%86%E8%B4%A2%E8%AE%B0%E5%BD%952/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/%E7%90%86%E8%B4%A2%E7%BA%AA%E5%BD%951/" rel="bookmark">
-			理财纪录1
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-04-10T00:07:07Z">2015-04-10</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/" rel="category">金融理财</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>复利是什么？爱因斯坦说它是世界第八大奇迹。下面涉及到复利终值和现值、普通年金终值和现值、预付年金终值与现值、偿债基金、年资本回收额等初级会计知识，本人非会计出身，下面说的仅凭个人理解，如有错误恳请指正。</p>
-<p>复利终值是什么？简言之就是今年的x元钱，在保持q%的利率或利率下，相当于n年后多少钱。</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E7%90%86%E8%B4%A2%E7%BA%AA%E5%BD%951/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -251,11 +253,11 @@ yum install python3-qt5 yum install python3-requests yum install python3-xlib yu
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 		</ul>
 	</div>
 </div>
@@ -293,11 +295,11 @@ yum install python3-qt5 yum install python3-requests yum install python3-xlib yu
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">132</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">30</span>
+				<span class="widget__counter widget__counter--bubble">31</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

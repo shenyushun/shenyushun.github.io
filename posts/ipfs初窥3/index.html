@@ -103,34 +103,33 @@ if (!doNotTrack) {
 <p>正由于比特币中将Merkle Tree的根哈希值包含在了区块头中，所以各种轻钱包(SPV)才得以出现。</p>
 <p><img src="https://mypic-1252424367.cos.ap-hongkong.myqcloud.com/ipfs3-2.png" alt="ipfs3-2"></p>
 <p>而Merkle DAG则是一种　<strong>有向无环图</strong>　结构，而且和Merkle Tree有个很重要的区别就是Merkle DAG中准许非叶节点存储数据。IPFS中数据结构定义如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">IPFSLink</span> <span style="color:#66d9ef">struct</span> {
-  <span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span>
-  <span style="color:#a6e22e">Hash</span> <span style="color:#a6e22e">Multihash</span>
-  <span style="color:#a6e22e">Size</span> <span style="color:#66d9ef">int</span>
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">IPFSObject</span> <span style="color:#66d9ef">struct</span>{
-  <span style="color:#a6e22e">links</span> []<span style="color:#a6e22e">IPFSLink</span>
-  <span style="color:#a6e22e">data</span> []<span style="color:#66d9ef">byte</span>
-}
-</code></pre></div><p>首先我们有这样一个目录结构：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ipfs
-├── imgs
-│   └── 1.jpg
-├── test.txt
-└── video
-    └── paxos和分布式系统.mp4
-
-</code></pre></div><p>然后执行<code>add</code>命令添加:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ipfs add -r ipfs
-added QmTBGNDfodpscKje46wyTmzsPsJ6REWebionWK9dVc2Cms ipfs/imgs/1.jpg
-added QmRmfJ8RYrULTZkjt9H11kkPBswrzVQXf36QAF3XoBG6XZ ipfs/test.txt
-added Qme5oV4uKLA2BDVjFtqiCfFqv74LZXTqG1oiuu5gshqvk7 ipfs/video/paxos和分布式系统.mp4
-added QmQEwN1jbjPPAnfjnbXjCi92yKu7gZbZnmK2niotz4d8oK ipfs/imgs
-added QmVYaDuyoS4otNXnQ7WRbBP4ZZuLi7PLhyz2LV9vLWVwWb ipfs/video
-added QmPkbxXPM2hY97NR8Tf25KZxysWn4FZrsuPwD8ztYM32j4 ipfs
- 53.15 MiB / 53.16 MiB <span style="color:#f92672">[=============================================================================================================================================================]</span>  99.98%
-</code></pre></div><p>这里插一句，在浏览器中访问</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">IPFSLink</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">Hash</span> <span style="color:#a6e22e">Multihash</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">Size</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">IPFSObject</span> <span style="color:#66d9ef">struct</span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">links</span> []<span style="color:#a6e22e">IPFSLink</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">data</span> []<span style="color:#66d9ef">byte</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>首先我们有这样一个目录结构：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>ipfs
+</span></span><span style="display:flex;"><span>├── imgs
+</span></span><span style="display:flex;"><span>│   └── 1.jpg
+</span></span><span style="display:flex;"><span>├── test.txt
+</span></span><span style="display:flex;"><span>└── video
+</span></span><span style="display:flex;"><span>    └── paxos和分布式系统.mp4
+</span></span></code></pre></div><p>然后执行<code>add</code>命令添加:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ipfs add -r ipfs
+</span></span><span style="display:flex;"><span>added QmTBGNDfodpscKje46wyTmzsPsJ6REWebionWK9dVc2Cms ipfs/imgs/1.jpg
+</span></span><span style="display:flex;"><span>added QmRmfJ8RYrULTZkjt9H11kkPBswrzVQXf36QAF3XoBG6XZ ipfs/test.txt
+</span></span><span style="display:flex;"><span>added Qme5oV4uKLA2BDVjFtqiCfFqv74LZXTqG1oiuu5gshqvk7 ipfs/video/paxos和分布式系统.mp4
+</span></span><span style="display:flex;"><span>added QmQEwN1jbjPPAnfjnbXjCi92yKu7gZbZnmK2niotz4d8oK ipfs/imgs
+</span></span><span style="display:flex;"><span>added QmVYaDuyoS4otNXnQ7WRbBP4ZZuLi7PLhyz2LV9vLWVwWb ipfs/video
+</span></span><span style="display:flex;"><span>added QmPkbxXPM2hY97NR8Tf25KZxysWn4FZrsuPwD8ztYM32j4 ipfs
+</span></span><span style="display:flex;"><span> 53.15 MiB / 53.16 MiB <span style="color:#f92672">[=============================================================================================================================================================]</span>  99.98%
+</span></span></code></pre></div><p>这里插一句，在浏览器中访问</p>
 <pre tabindex="0"><code>http://localhost:8080/ipfs/QmTBGNDfodpscKje46wyTmzsPsJ6REWebionWK9dVc2Cms
 
 http://localhost:8080/ipfs/QmQEwN1jbjPPAnfjnbXjCi92yKu7gZbZnmK2niotz4d8oK/1.jpg
@@ -147,34 +146,34 @@ QmR2GQi1DhvGzZ1Ra1fgpwKBTd9ubt9aPUSCvqMZPHB3cp 10103195
 <pre tabindex="0"><code>ipfs object get QmPkbxXPM2hY97NR8Tf25KZxysWn4FZrsuPwD8ztYM32j4
 
 {
-  &quot;Links&quot;: [
+  &#34;Links&#34;: [
     {
-      &quot;Name&quot;: &quot;imgs&quot;,
-      &quot;Hash&quot;: &quot;QmQEwN1jbjPPAnfjnbXjCi92yKu7gZbZnmK2niotz4d8oK&quot;,
-      &quot;Size&quot;: 18418
+      &#34;Name&#34;: &#34;imgs&#34;,
+      &#34;Hash&#34;: &#34;QmQEwN1jbjPPAnfjnbXjCi92yKu7gZbZnmK2niotz4d8oK&#34;,
+      &#34;Size&#34;: 18418
     },
     {
-      &quot;Name&quot;: &quot;test.txt&quot;,
-      &quot;Hash&quot;: &quot;QmRmfJ8RYrULTZkjt9H11kkPBswrzVQXf36QAF3XoBG6XZ&quot;,
-      &quot;Size&quot;: 18
+      &#34;Name&#34;: &#34;test.txt&#34;,
+      &#34;Hash&#34;: &#34;QmRmfJ8RYrULTZkjt9H11kkPBswrzVQXf36QAF3XoBG6XZ&#34;,
+      &#34;Size&#34;: 18
     },
     {
-      &quot;Name&quot;: &quot;video&quot;,
-      &quot;Hash&quot;: &quot;QmVYaDuyoS4otNXnQ7WRbBP4ZZuLi7PLhyz2LV9vLWVwWb&quot;,
-      &quot;Size&quot;: 55727234
+      &#34;Name&#34;: &#34;video&#34;,
+      &#34;Hash&#34;: &#34;QmVYaDuyoS4otNXnQ7WRbBP4ZZuLi7PLhyz2LV9vLWVwWb&#34;,
+      &#34;Size&#34;: 55727234
     }
   ],
-  &quot;Data&quot;: &quot;\u0008\u0001&quot;
+  &#34;Data&#34;: &#34;\u0008\u0001&#34;
 }
 </code></pre><p>也和上面给的数据结构定义一致。</p>
 <p>还有更重要的一点，IPFS准许使用者使用<code>block</code>相关命令直接操作Merkle DAG中的数据，比如：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;hi roy&#34;</span> | ipfs block put
-QmUHW9uK8aKYHNSSJwS1AnnBt1dV6wbKmDWDr8tmRk9pXo
-
-ipfs block get QmUHW9uK8aKYHNSSJwS1AnnBt1dV6wbKmDWDr8tmRk9pXo
-
-hi roy
-</code></pre></div><p>有这个功能可玩性就很高了，白皮书中给出了几种结构：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;hi roy&#34;</span> | ipfs block put
+</span></span><span style="display:flex;"><span>QmUHW9uK8aKYHNSSJwS1AnnBt1dV6wbKmDWDr8tmRk9pXo
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ipfs block get QmUHW9uK8aKYHNSSJwS1AnnBt1dV6wbKmDWDr8tmRk9pXo
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>hi roy
+</span></span></code></pre></div><p>有这个功能可玩性就很高了，白皮书中给出了几种结构：</p>
 <ul>
 <li>键值对存储（key-value stores）</li>
 <li>关系型数据库（traditional relatioinal databases）</li>
@@ -208,8 +207,8 @@ QmVYaDuyoS4otNXnQ7WRbBP4ZZuLi7PLhyz2LV9vLWVwWb 55727234 video/
 <p>另外，最新的文件系统已经变成IPLD了，是Merkle DAG的一个变种。</p>
 <h2 id="ipns">IPNS</h2>
 <p>由上面的例子也可以看出来，在IPFS中每次新增、修改某个文件都会导致哈希值的变化，这对于实际应用中是十分不便的。为了处理这个问题，IPFS中引入了一个可变命名空间的概念——IPNS(InterPlanetary Name Space)，结合之前说的 <strong>路由系统</strong> 实现了&quot;不可变的内容&quot;和&quot;可变的引用&quot;的组合(可以结合编程语言中指针的概念)：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">routing</span>.<span style="color:#a6e22e">setValue</span>(<span style="color:#a6e22e">NodeId</span>,&lt;<span style="color:#a6e22e">ns</span><span style="color:#f92672">-</span><span style="color:#a6e22e">object</span><span style="color:#f92672">-</span><span style="color:#a6e22e">hash</span>&gt;)
-</code></pre></div><p>之前说过每个节点的NodeID来源与其公钥的哈希值，那么给每个节点分配一个可变命名空间<code>/ipns/&lt;NodeID&gt;</code>，用户将私钥签名过的数据发布到这个路径上，别的用户下载这个数据时可以检查签名是否和公钥、NodeID匹配来验证真实性。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">routing</span>.<span style="color:#a6e22e">setValue</span>(<span style="color:#a6e22e">NodeId</span>,&lt;<span style="color:#a6e22e">ns</span><span style="color:#f92672">-</span><span style="color:#a6e22e">object</span><span style="color:#f92672">-</span><span style="color:#a6e22e">hash</span>&gt;)
+</span></span></code></pre></div><p>之前说过每个节点的NodeID来源与其公钥的哈希值，那么给每个节点分配一个可变命名空间<code>/ipns/&lt;NodeID&gt;</code>，用户将私钥签名过的数据发布到这个路径上，别的用户下载这个数据时可以检查签名是否和公钥、NodeID匹配来验证真实性。</p>
 		</div>
 		<footer class="post__footer">
 			
@@ -255,7 +254,7 @@ QmVYaDuyoS4otNXnQ7WRbBP4ZZuLi7PLhyz2LV9vLWVwWb 55727234 video/
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

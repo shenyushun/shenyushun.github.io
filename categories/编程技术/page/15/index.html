@@ -80,6 +80,29 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/django%E9%87%8D%E5%86%99model%E7%9A%84save%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%90%8C%E6%97%B6%E5%86%992%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="bookmark">
+			django重写model的save方法实现同时写2个数据库
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-02-28T11:10:28Z">2015-02-28</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		最近有个需求就是当执行save时需要把数据写入2个数据库，查看文档后发现直接重写save方法比较简单。
+首先建立2个测试数据库testa和testb，然后在settings中配置数据库：
+DATABASES = { &#39;default&#39;: { &#39;ENGINE&#39;: &#39;django.db.backends.mysql&#39;, &#39;NAME&#39;: &#39;testa&#39;, &#39;USER&#39;: &#39;root&#39;, &#39;PASSWORD&#39;: &#39;asdasd&#39;, &#39;HOST&#39;: &#39;192.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/django%E9%87%8D%E5%86%99model%E7%9A%84save%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%90%8C%E6%97%B6%E5%86%992%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/oc%E5%AD%A6%E4%B9%A0%E7%AC%AC2%E5%A4%A9class/" rel="bookmark">
 			OC学习第2天——CLASS
 			</a>
@@ -188,35 +211,11 @@ import sys reload(sys) sys.
 	<div class="content list__excerpt post__content clearfix">
 		原来使用apache进行部署，感觉内存占用大以及速度比较慢就换成了nginx+uwsgi的方式，结果完爆apache啊！
 首先安装nginx以及uwsgi：
-yum install nginxpip install uwsgi然后编辑uwsgi的配置文件，这里我使用ini文件格式，示例如下：
+yum install nginxpip install uwsgi 然后编辑uwsgi的配置文件，这里我使用ini文件格式，示例如下：
 [uwsgi]socket = 127.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/nginx-uwsgi%E9%83%A8%E7%BD%B2django%E7%A8%8B%E5%BA%8F/">Read more…</a>
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/python%E4%B8%ADand-or%E5%B0%8F%E6%8A%80%E5%B7%A7/" rel="bookmark">
-			python中and-or小技巧
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-09-11T16:22:43Z">2014-09-11</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		首先，python中逻辑运算从左到右进行，and运算返回第一个假值，若都为真则返回最后一个真值。or运算返回第一个真值，若都为假则返回最后一个假值。
-其次，python中0,(),[],{},None,空字符串都是假。
-下面用简单的例子说明一下：
-def f(): print &#34;in f&#34; return False def t(): print &#34;in t&#34; return True def n(): print &#34;in n&#34; In [105]: r = t() and f() or n() in t in f in n In [106]: r In [107]: r = t() and n() or f() in t in n in f In [108]: r Out[108]: False In [111]: r = f() and n() or t() in f in t In [112]: r Out[112]: True 上面我们定义了3个函数，没返回值的情况下函数会默认返回None。这里有个地方需要注意，虽然函数可以返回true、false、none，但函数本身都是为真的，比如：
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/python%E4%B8%ADand-or%E5%B0%8F%E6%8A%80%E5%B7%A7/">Read more…</a>
 	</div>
 </article>
 </main>
@@ -242,11 +241,11 @@ def f(): print &#34;in f&#34; return False def t(): print &#34;in t&#34; return 
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 		</ul>
 	</div>
 </div>
@@ -284,11 +283,11 @@ def f(): print &#34;in f&#34; return False def t(): print &#34;in t&#34; return 
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">132</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">30</span>
+				<span class="widget__counter widget__counter--bubble">31</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

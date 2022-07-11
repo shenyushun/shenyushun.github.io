@@ -103,7 +103,7 @@ mysql:
  port: 3306
  socket: /var/lib/mysql/mysql.sock  #这里用find命令查找
  username: testuser
- password: '123456'  #记得引号
+ password: &#39;123456&#39;  #记得引号
  database: testdb
  compress: false
 destination:
@@ -113,7 +113,7 @@ destination:
   hostname: localhost
   port: 5432
   username: mytest
-  password: '123456'
+  password: &#39;123456&#39;
   database: mytest
 # if tables is given, only the listed tables will be converted.  leave empty to convert all tables.
 #only_tables:
@@ -177,7 +177,7 @@ force_truncate: false
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

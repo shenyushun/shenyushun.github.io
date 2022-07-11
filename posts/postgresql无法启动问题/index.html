@@ -104,14 +104,14 @@ postgres : postgres ssl-cert
 </code></pre><p>组用户是有可读权限的啊？怎么报错呢？那么把权限改成666试试：</p>
 <pre tabindex="0"><code># chmod 666 ssl-cert-snakeoil.key
 </code></pre><p>结果报错信息变成了</p>
-<pre tabindex="0"><code>2015-05-27 09:16:30 HKT FATAL:  private key file &quot;server.key&quot; has group or world access
-2015-05-27 09:16:30 HKT DETAIL:  File must be owned by the database user or root, must have no write permission for &quot;group&quot;, and must have no permissions for &quot;other&quot;.
+<pre tabindex="0"><code>2015-05-27 09:16:30 HKT FATAL:  private key file &#34;server.key&#34; has group or world access
+2015-05-27 09:16:30 HKT DETAIL:  File must be owned by the database user or root, must have no write permission for &#34;group&#34;, and must have no permissions for &#34;other&#34;.
 </code></pre><p>简单说就是这个文件拥有者必须是数据库用户或root，而且组用户没有写权限，其他用户无权访问。</p>
 <p>那么就只能先把权限改回640，并且把用户修改成postgres了：</p>
 <pre tabindex="0"><code># chmod 640 ssl-cert-snakeoil.key
 # chown postgres ssl-cert-snakeoil.key
 </code></pre><p>再起动服务，保错信息变成：</p>
-<pre tabindex="0"><code>FATAL: could not open file &quot;/etc/ssl/certs/ssl-cert-snakeoil.pem&quot;: Permission denied
+<pre tabindex="0"><code>FATAL: could not open file &#34;/etc/ssl/certs/ssl-cert-snakeoil.pem&#34;: Permission denied
 </code></pre><p>同理把pem文件拥有者变成postgres即可，之后就可以成功启动服务了。</p>
 
 		</div>
@@ -159,7 +159,7 @@ postgres : postgres ssl-cert
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

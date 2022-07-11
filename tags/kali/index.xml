@@ -26,7 +26,7 @@
       <guid>/posts/tightvnc%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AEkali%E6%A1%8C%E9%9D%A2%E7%B3%BB%E7%BB%9F/</guid>
       <description>安装完kali系统后应该已经默认安装了这个程序，如果没有的话使用apt-get install tightvncserver
 安装完成后执行
-tightvncserver -depth 24 -geometry 1440x900 :1-depth 24 使用24位颜色，这里一般用16或者24</description>
+tightvncserver -depth 24 -geometry 1440x900 :1 -depth 24 使用24位颜色，这里一般用16或者24</description>
     </item>
     
     <item>
@@ -48,7 +48,7 @@ tightvncserver -depth 24 -geometry 1440x900 :1-depth 24 使用24位颜色，这
       <guid>/posts/kalilinux%E5%AE%89%E8%A3%85%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid>
       <description>不知道什么原因，安装kalilinux的时候总是安装失败，失败步骤：安装操作系统。偶尔这步通过了，又出现了grub无法安装的情况。
 下载了各个版本都是这样之后，对比了一下sha的值，发现和官网上给出的并不一样&amp;hellip;.什么情况？！然后根据http://cdimage.kali.org/kali-latest/amd64/这发现，正确的值应该是
-d859cc2798a24c48ddd37c6aafd88c5dc5e6e123 kali-linux-1.0.6-amd64-mini.iso281ddb3d14619a973e254b8f484b7fe27defa822 kali-linux-1.0.6-amd64.iso3cf383be7778d1676c015cb5430422e672ec59fa kali-linux-1.0.6-amd64-mini.torrentcfa0ad0dce1d4a170adf1cd342c622db23e785ef kali-linux-1.0.6-amd64.torrent又下载了sha值一样的镜像后，还是无法安装操作系统。</description>
+d859cc2798a24c48ddd37c6aafd88c5dc5e6e123 kali-linux-1.0.6-amd64-mini.iso281ddb3d14619a973e254b8f484b7fe27defa822 kali-linux-1.0.6-amd64.iso3cf383be7778d1676c015cb5430422e672ec59fa kali-linux-1.0.6-amd64-mini.torrentcfa0ad0dce1d4a170adf1cd342c622db23e785ef kali-linux-1.0.6-amd64.torrent 又下载了sha值一样的镜像后，还是无法安装操作系统。</description>
     </item>
     
   </channel>

@@ -115,54 +115,54 @@ if (!doNotTrack) {
 <p><img src="/images/design-pattern/adapter.png" alt="adapter.png"></p>
 <p>推荐使用基于组合的对象适配器模式，因为类适配器模式使用了继承增加了模块之间的耦合度，下面的例子就是对象适配器模式。</p>
 <p>假设现在有2种电压：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">power220</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">power</span> <span style="color:#66d9ef">int</span>
-	<span style="color:#a6e22e">name</span>  <span style="color:#66d9ef">string</span>
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">power220</span>) <span style="color:#a6e22e">output220</span>() {
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;This is %s! power is %d\n&#34;</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">power</span>)
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">power12</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">power</span> <span style="color:#66d9ef">int</span>
-	<span style="color:#a6e22e">name</span>  <span style="color:#66d9ef">string</span>
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">power12</span>) <span style="color:#a6e22e">output12</span>() {
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;This is %s! power is %d\n&#34;</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">power</span>)
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">p220</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">power220</span>{<span style="color:#a6e22e">power</span>: <span style="color:#ae81ff">220</span>, <span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;power220&#34;</span>}
-	<span style="color:#a6e22e">p220</span>.<span style="color:#a6e22e">output220</span>()
-
-	<span style="color:#a6e22e">p12</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">power12</span>{<span style="color:#a6e22e">power</span>: <span style="color:#ae81ff">12</span>, <span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;power12&#34;</span>}
-	<span style="color:#a6e22e">p12</span>.<span style="color:#a6e22e">output12</span>()
-}
-</code></pre></div><p>程序输出如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">power220</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">power</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">name</span>  <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">power220</span>) <span style="color:#a6e22e">output220</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;This is %s! power is %d\n&#34;</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">power</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">power12</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">power</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">name</span>  <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">power12</span>) <span style="color:#a6e22e">output12</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;This is %s! power is %d\n&#34;</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">power</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">p220</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">power220</span>{<span style="color:#a6e22e">power</span>: <span style="color:#ae81ff">220</span>, <span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;power220&#34;</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">p220</span>.<span style="color:#a6e22e">output220</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">p12</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">power12</span>{<span style="color:#a6e22e">power</span>: <span style="color:#ae81ff">12</span>, <span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;power12&#34;</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">p12</span>.<span style="color:#a6e22e">output12</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>程序输出如下：</p>
 <pre tabindex="0"><code>This is power220! power is 220
 This is power12! power is 12
 </code></pre><p>但是实际生活中家庭用电都是220V的，不可能和电厂说&quot;我的电脑需要12V直流电，请给我提供12V直流电服务&quot;，也不可能和笔记本电脑制造商说制造一台适配220V交流电的电脑给你，这种情况就类似上面说的&quot;双方不兼容所以不能直接一起工作，而且没法修改任何一方&quot;。此时适配器就该出厂了：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">adapter12</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">power220</span> <span style="color:#a6e22e">power220</span>
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">a</span> <span style="color:#a6e22e">adapter12</span>) <span style="color:#a6e22e">output12</span>() {
-	<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">power220</span>.<span style="color:#a6e22e">output220</span>()
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;This is adapter12,i will transfer %d to 12&#34;</span>, <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">power220</span>.<span style="color:#a6e22e">power</span>)
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">p220</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">power220</span>{<span style="color:#a6e22e">power</span>: <span style="color:#ae81ff">220</span>, <span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;power220&#34;</span>}
-	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">adapter12</span>{<span style="color:#a6e22e">power220</span>: <span style="color:#a6e22e">p220</span>}
-	<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">output12</span>()
-}
-</code></pre></div><p>程序输出如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">adapter12</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">power220</span> <span style="color:#a6e22e">power220</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">a</span> <span style="color:#a6e22e">adapter12</span>) <span style="color:#a6e22e">output12</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">power220</span>.<span style="color:#a6e22e">output220</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;This is adapter12,i will transfer %d to 12&#34;</span>, <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">power220</span>.<span style="color:#a6e22e">power</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">p220</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">power220</span>{<span style="color:#a6e22e">power</span>: <span style="color:#ae81ff">220</span>, <span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;power220&#34;</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">adapter12</span>{<span style="color:#a6e22e">power220</span>: <span style="color:#a6e22e">p220</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">output12</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>程序输出如下：</p>
 <pre tabindex="0"><code>This is power220! power is 220
 This is adapter12,i will transfer 220 to 12
 </code></pre><p>适配器模式还是比较好理解的一种设计模式。</p>
@@ -222,7 +222,7 @@ This is adapter12,i will transfer 220 to 12
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

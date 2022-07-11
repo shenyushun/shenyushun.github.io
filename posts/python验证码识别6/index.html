@@ -18,7 +18,7 @@
 		<meta itemprop="name" content="python验证码识别6:kNN">
 <meta itemprop="description" content="什么是kNN?kNN(k-Nearest Neighbors)是机器学习中处理分类问题的一种简单明了的算法。核心精髓就是老祖宗几百年前留下的言语&quot;物以类聚，人以群居&quot;。忘记从哪里看到的一个说法：&ldquo;你身边最好的6个朋友的平均薪资，就是你的薪资水平。&ldquo;这就是kNN算法的一个应用了吧，另外我觉得之前几篇给验证码降噪用的连通域算法，分割用的滴水算法，都有kNN的味道在里面。"><meta itemprop="datePublished" content="2017-10-14T11:30:49+00:00" />
 <meta itemprop="dateModified" content="2017-10-14T11:30:49+00:00" />
-<meta itemprop="wordCount" content="274">
+<meta itemprop="wordCount" content="275">
 <meta itemprop="keywords" content="爬虫,python,验证码识别," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -134,64 +134,63 @@ if (!doNotTrack) {
 00000000011111111111110010000000
 00000000000000010000000000000000
 </code></pre><p>由上面可知，二值化后图片变成了一个32*32的矩阵，先把这个矩阵变成一个向量，人话就是&quot;把这个32行的文件变成1行&rdquo;。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
-
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">img2vector</span>(filename, w, h):
-    returnVect <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((<span style="color:#ae81ff">1</span>, w <span style="color:#f92672">*</span> h))
-    <span style="color:#66d9ef">with</span> open(filename, <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
-        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(h):
-            line <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>readline()
-            <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(w):
-                returnVect[<span style="color:#ae81ff">0</span>, w <span style="color:#f92672">*</span> i <span style="color:#f92672">+</span> j] <span style="color:#f92672">=</span> int(line[j])
-    <span style="color:#66d9ef">return</span> returnVect
-</code></pre></div><p>接下来建立数据集，把所有二值化后的文本文件都放到一个矩阵里：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> os <span style="color:#f92672">import</span> listdir
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_dataset</span>(dirname, w, h):
-    labels <span style="color:#f92672">=</span> []
-    file_list <span style="color:#f92672">=</span> listdir(dirname)
-    m <span style="color:#f92672">=</span> len(file_list)
-    trainingmat <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((m, w <span style="color:#f92672">*</span> h))
-    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(m):
-        file_name <span style="color:#f92672">=</span> file_list[i]
-        file_str <span style="color:#f92672">=</span> file_name<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;.&#39;</span>)[<span style="color:#ae81ff">0</span>]
-        labels<span style="color:#f92672">.</span>append(int(file_str<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;_&#39;</span>)[<span style="color:#ae81ff">0</span>]))
-        trainingmat[i, :] <span style="color:#f92672">=</span> img2vector(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">/</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> (dirname, file_name), w, h)
-    <span style="color:#66d9ef">return</span> trainingmat, labels
-
-</code></pre></div><p>接下来，根据上篇文章介绍的欧式距离来进行分类：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> operator
-
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">classify</span>(target_data, data_set, labels, k):
-    data_set_size <span style="color:#f92672">=</span> data_set<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]  <span style="color:#75715e"># 有多少行</span>
-    diff_mat <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>tile(target_data, (data_set_size, <span style="color:#ae81ff">1</span>)) <span style="color:#f92672">-</span> data_set  <span style="color:#75715e"># 将target_data扩维，使其和data_set行数一致，并求差</span>
-    sq_diff_mat <span style="color:#f92672">=</span> diff_mat<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span>  <span style="color:#75715e"># 求平方</span>
-    sq_distances <span style="color:#f92672">=</span> sq_diff_mat<span style="color:#f92672">.</span>sum(axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)  <span style="color:#75715e"># 求和，注意axis=1代表对行，默认对列求和</span>
-    distances <span style="color:#f92672">=</span> sq_distances<span style="color:#f92672">**</span><span style="color:#ae81ff">0.5</span>  <span style="color:#75715e"># 开平方</span>
-    sorted_distances <span style="color:#f92672">=</span> distances<span style="color:#f92672">.</span>argsort()  <span style="color:#75715e"># 返回排序后的索引</span>
-    class_count <span style="color:#f92672">=</span> {}
-    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(k):
-        vote_label <span style="color:#f92672">=</span> labels[sorted_distances[i]]  <span style="color:#75715e"># 找到最近元素的标签</span>
-        class_count[vote_label] <span style="color:#f92672">=</span> class_count<span style="color:#f92672">.</span>get(vote_label, <span style="color:#ae81ff">0</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>  <span style="color:#75715e"># 计算相似数量</span>
-    sorted_classcount <span style="color:#f92672">=</span> sorted(
-        class_count<span style="color:#f92672">.</span>items(),
-        key<span style="color:#f92672">=</span>operator<span style="color:#f92672">.</span>itemgetter(<span style="color:#ae81ff">1</span>),
-        reverse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-    <span style="color:#66d9ef">return</span> sorted_classcount[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>]
-</code></pre></div><p>然后就可以开始测试了：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
-    trainingmat, train_labels <span style="color:#f92672">=</span> create_dataset(<span style="color:#e6db74">&#39;./trainingDigits&#39;</span>, <span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">32</span>)
-    testmat, test_labels <span style="color:#f92672">=</span> create_dataset(<span style="color:#e6db74">&#39;./testDigits&#39;</span>, <span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">32</span>)
-    error <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-    <span style="color:#66d9ef">for</span> i, one <span style="color:#f92672">in</span> enumerate(testmat):
-        classifier_result <span style="color:#f92672">=</span> classify(one, trainingmat, train_labels, <span style="color:#ae81ff">3</span>)
-        print(
-            <span style="color:#e6db74">&#34;预测结果： </span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> 真实结果： </span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span>
-            (classifier_result, test_labels[i]))
-        <span style="color:#66d9ef">if</span> classifier_result <span style="color:#f92672">!=</span> test_labels[i]:
-            error <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-    print(<span style="color:#e6db74">&#34;错误数：</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> error)
-    print(<span style="color:#e6db74">&#34;错误率： </span><span style="color:#e6db74">%f</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> float(error <span style="color:#f92672">/</span> len(test_labels)))
-</code></pre></div><p>输出如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">img2vector</span>(filename, w, h):
+</span></span><span style="display:flex;"><span>    returnVect <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((<span style="color:#ae81ff">1</span>, w <span style="color:#f92672">*</span> h))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> open(filename, <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(h):
+</span></span><span style="display:flex;"><span>            line <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>readline()
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(w):
+</span></span><span style="display:flex;"><span>                returnVect[<span style="color:#ae81ff">0</span>, w <span style="color:#f92672">*</span> i <span style="color:#f92672">+</span> j] <span style="color:#f92672">=</span> int(line[j])
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> returnVect
+</span></span></code></pre></div><p>接下来建立数据集，把所有二值化后的文本文件都放到一个矩阵里：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> os <span style="color:#f92672">import</span> listdir
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_dataset</span>(dirname, w, h):
+</span></span><span style="display:flex;"><span>    labels <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    file_list <span style="color:#f92672">=</span> listdir(dirname)
+</span></span><span style="display:flex;"><span>    m <span style="color:#f92672">=</span> len(file_list)
+</span></span><span style="display:flex;"><span>    trainingmat <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((m, w <span style="color:#f92672">*</span> h))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(m):
+</span></span><span style="display:flex;"><span>        file_name <span style="color:#f92672">=</span> file_list[i]
+</span></span><span style="display:flex;"><span>        file_str <span style="color:#f92672">=</span> file_name<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;.&#39;</span>)[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>        labels<span style="color:#f92672">.</span>append(int(file_str<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;_&#39;</span>)[<span style="color:#ae81ff">0</span>]))
+</span></span><span style="display:flex;"><span>        trainingmat[i, :] <span style="color:#f92672">=</span> img2vector(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">/</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> (dirname, file_name), w, h)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trainingmat, labels
+</span></span></code></pre></div><p>接下来，根据上篇文章介绍的欧式距离来进行分类：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> operator
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">classify</span>(target_data, data_set, labels, k):
+</span></span><span style="display:flex;"><span>    data_set_size <span style="color:#f92672">=</span> data_set<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]  <span style="color:#75715e"># 有多少行</span>
+</span></span><span style="display:flex;"><span>    diff_mat <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>tile(target_data, (data_set_size, <span style="color:#ae81ff">1</span>)) <span style="color:#f92672">-</span> data_set  <span style="color:#75715e"># 将target_data扩维，使其和data_set行数一致，并求差</span>
+</span></span><span style="display:flex;"><span>    sq_diff_mat <span style="color:#f92672">=</span> diff_mat<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span>  <span style="color:#75715e"># 求平方</span>
+</span></span><span style="display:flex;"><span>    sq_distances <span style="color:#f92672">=</span> sq_diff_mat<span style="color:#f92672">.</span>sum(axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)  <span style="color:#75715e"># 求和，注意axis=1代表对行，默认对列求和</span>
+</span></span><span style="display:flex;"><span>    distances <span style="color:#f92672">=</span> sq_distances<span style="color:#f92672">**</span><span style="color:#ae81ff">0.5</span>  <span style="color:#75715e"># 开平方</span>
+</span></span><span style="display:flex;"><span>    sorted_distances <span style="color:#f92672">=</span> distances<span style="color:#f92672">.</span>argsort()  <span style="color:#75715e"># 返回排序后的索引</span>
+</span></span><span style="display:flex;"><span>    class_count <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(k):
+</span></span><span style="display:flex;"><span>        vote_label <span style="color:#f92672">=</span> labels[sorted_distances[i]]  <span style="color:#75715e"># 找到最近元素的标签</span>
+</span></span><span style="display:flex;"><span>        class_count[vote_label] <span style="color:#f92672">=</span> class_count<span style="color:#f92672">.</span>get(vote_label, <span style="color:#ae81ff">0</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>  <span style="color:#75715e"># 计算相似数量</span>
+</span></span><span style="display:flex;"><span>    sorted_classcount <span style="color:#f92672">=</span> sorted(
+</span></span><span style="display:flex;"><span>        class_count<span style="color:#f92672">.</span>items(),
+</span></span><span style="display:flex;"><span>        key<span style="color:#f92672">=</span>operator<span style="color:#f92672">.</span>itemgetter(<span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>        reverse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> sorted_classcount[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>]
+</span></span></code></pre></div><p>然后就可以开始测试了：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    trainingmat, train_labels <span style="color:#f92672">=</span> create_dataset(<span style="color:#e6db74">&#39;./trainingDigits&#39;</span>, <span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">32</span>)
+</span></span><span style="display:flex;"><span>    testmat, test_labels <span style="color:#f92672">=</span> create_dataset(<span style="color:#e6db74">&#39;./testDigits&#39;</span>, <span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">32</span>)
+</span></span><span style="display:flex;"><span>    error <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, one <span style="color:#f92672">in</span> enumerate(testmat):
+</span></span><span style="display:flex;"><span>        classifier_result <span style="color:#f92672">=</span> classify(one, trainingmat, train_labels, <span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>        print(
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;预测结果： </span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> 真实结果： </span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span>
+</span></span><span style="display:flex;"><span>            (classifier_result, test_labels[i]))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> classifier_result <span style="color:#f92672">!=</span> test_labels[i]:
+</span></span><span style="display:flex;"><span>            error <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;错误数：</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> error)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;错误率： </span><span style="color:#e6db74">%f</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> float(error <span style="color:#f92672">/</span> len(test_labels)))
+</span></span></code></pre></div><p>输出如下：</p>
 <pre tabindex="0"><code>...
 预测结果： 9 真实结果： 9
 预测结果： 2 真实结果： 2
@@ -254,7 +253,7 @@ if (!doNotTrack) {
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

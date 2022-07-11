@@ -97,38 +97,38 @@ if (!doNotTrack) {
 			<p>N久之前使用这对好伙伴实现支持抓取ajax数据的爬虫，最近有个需求是完全模拟某网站的购物操作，结果这个网站比较奇葩，对于表单中某些文本框、复选框等修改后会触发post操作并更改页面内容，而且这些控件之间还会互相影响，直接使用post方式的话比较困难，于是再次祭出神器：
 <a href="https://selenium-python.readthedocs.org/installation.html">selenium</a> 和<a href="http://phantomjs.org/download.html">phantomjs</a>,此外还可以尝试<a href="https://www.guru99.com/install-selenuim-ide.html">selenium-ide</a>。</p>
 <p>这里phantomjs2.0版本并没提供编译好的通用Linux版，所以本文依然使用1.9版，但在2.0版上测试通过。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># coding=utf-8</span>
-<span style="color:#f92672">from</span> selenium <span style="color:#f92672">import</span> webdriver
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
-    dcap <span style="color:#f92672">=</span> dict(DesiredCapabilities<span style="color:#f92672">.</span>PHANTOMJS)
-    dcap[<span style="color:#e6db74">&#34;phantomjs.page.settings.resourceTimeout&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>  <span style="color:#75715e"># 超时</span>
-    dcap[<span style="color:#e6db74">&#34;phantomjs.page.settings.loadImages&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span> <span style="color:#75715e">#不加载图片</span>
-    dcap[<span style="color:#e6db74">&#34;phantomjs.page.settings.userAgent&#34;</span>] <span style="color:#f92672">=</span> (
-         <span style="color:#e6db74">&#34;Mozilla/5.0 (X11; Linux x86_64; rv:23.0) Gecko/20100101 Firefox/23.0&#34;</span>) <span style="color:#75715e">#伪装ua</span>
-    service_args <span style="color:#f92672">=</span> [
-        <span style="color:#e6db74">&#39;--ignore-ssl-errors=true&#39;</span>,
-        <span style="color:#e6db74">&#39;--cookies-file=test.cookies&#39;</span>,
-        <span style="color:#e6db74">&#39;--disk-cache=true&#39;</span>,
-        <span style="color:#e6db74">&#39;--local-to-remote-url-access=true&#39;</span>,
-        <span style="color:#e6db74">&#39;--proxy=127.0.0.1:7070&#39;</span>,
-        <span style="color:#e6db74">&#39;--proxy-type=socks5&#39;</span>,
-        <span style="color:#75715e">#&#39;--proxy-type=http&#39;,</span>
-        <span style="color:#e6db74">&#39;--proxy-auth=xx:xx&#39;</span>,
-        <span style="color:#e6db74">&#39;--web-security=false&#39;</span>,
-    ]
-    driver <span style="color:#f92672">=</span> webdriver<span style="color:#f92672">.</span>PhantomJS(
-        executable_path<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;./phantomjs&#39;</span>,
-        desired_capabilities<span style="color:#f92672">=</span>dcap,
-    <span style="color:#75715e">#    service_args=service_args,</span>
-    )
-</code></pre></div><p>如果需要使用代理或有特殊需求，把service_args这行代码取消注释即可。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># coding=utf-8</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> selenium <span style="color:#f92672">import</span> webdriver
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+</span></span><span style="display:flex;"><span>    dcap <span style="color:#f92672">=</span> dict(DesiredCapabilities<span style="color:#f92672">.</span>PHANTOMJS)
+</span></span><span style="display:flex;"><span>    dcap[<span style="color:#e6db74">&#34;phantomjs.page.settings.resourceTimeout&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>  <span style="color:#75715e"># 超时</span>
+</span></span><span style="display:flex;"><span>    dcap[<span style="color:#e6db74">&#34;phantomjs.page.settings.loadImages&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span> <span style="color:#75715e">#不加载图片</span>
+</span></span><span style="display:flex;"><span>    dcap[<span style="color:#e6db74">&#34;phantomjs.page.settings.userAgent&#34;</span>] <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>         <span style="color:#e6db74">&#34;Mozilla/5.0 (X11; Linux x86_64; rv:23.0) Gecko/20100101 Firefox/23.0&#34;</span>) <span style="color:#75715e">#伪装ua</span>
+</span></span><span style="display:flex;"><span>    service_args <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;--ignore-ssl-errors=true&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;--cookies-file=test.cookies&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;--disk-cache=true&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;--local-to-remote-url-access=true&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;--proxy=127.0.0.1:7070&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;--proxy-type=socks5&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#&#39;--proxy-type=http&#39;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;--proxy-auth=xx:xx&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;--web-security=false&#39;</span>,
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>    driver <span style="color:#f92672">=</span> webdriver<span style="color:#f92672">.</span>PhantomJS(
+</span></span><span style="display:flex;"><span>        executable_path<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;./phantomjs&#39;</span>,
+</span></span><span style="display:flex;"><span>        desired_capabilities<span style="color:#f92672">=</span>dcap,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#    service_args=service_args,</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span></code></pre></div><p>如果需要使用代理或有特殊需求，把service_args这行代码取消注释即可。</p>
 <p>对于正常的浏览网页或者网上购物来说，最基本的操作不外乎点击按钮、单选框、复选框，填写文本框，选择下拉菜单，示例如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">driver<span style="color:#f92672">.</span>get(url) <span style="color:#75715e">#打开网页</span>
-elem <span style="color:#f92672">=</span> driver<span style="color:#f92672">.</span>find_element_by_xpath(xpath路径字符串) <span style="color:#75715e">#找到要操作的元素</span>
-elem<span style="color:#f92672">.</span>click() <span style="color:#75715e">#点击事件</span>
-elem<span style="color:#f92672">.</span>send_keys(<span style="color:#e6db74">&#34;some text&#34;</span>) <span style="color:#75715e">#填写文本框</span>
-elem<span style="color:#f92672">.</span>clear() <span style="color:#75715e">#清空文本框</span>
-</code></pre></div><p>至于xpath是我最近接触的第二个觉得可归为&quot;神器&quot;，在使用lxml解析网页时这个语法也是十分有用，这里不细说，有时间专写一个关于xpath的文章。那么万一不会xpath怎么办呢？还有下面的几种方式获取这个元素：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>driver<span style="color:#f92672">.</span>get(url) <span style="color:#75715e">#打开网页</span>
+</span></span><span style="display:flex;"><span>elem <span style="color:#f92672">=</span> driver<span style="color:#f92672">.</span>find_element_by_xpath(xpath路径字符串) <span style="color:#75715e">#找到要操作的元素</span>
+</span></span><span style="display:flex;"><span>elem<span style="color:#f92672">.</span>click() <span style="color:#75715e">#点击事件</span>
+</span></span><span style="display:flex;"><span>elem<span style="color:#f92672">.</span>send_keys(<span style="color:#e6db74">&#34;some text&#34;</span>) <span style="color:#75715e">#填写文本框</span>
+</span></span><span style="display:flex;"><span>elem<span style="color:#f92672">.</span>clear() <span style="color:#75715e">#清空文本框</span>
+</span></span></code></pre></div><p>至于xpath是我最近接触的第二个觉得可归为&quot;神器&quot;，在使用lxml解析网页时这个语法也是十分有用，这里不细说，有时间专写一个关于xpath的文章。那么万一不会xpath怎么办呢？还有下面的几种方式获取这个元素：</p>
 <ul>
 <li>find_element_by_id</li>
 <li>find_element_by_name</li>
@@ -141,46 +141,46 @@ elem<span style="color:#f92672">.</span>clear() <span style="color:#75715e">#清
 </ul>
 <p>至于用法都是一样的，具体看上面的文档链接即可。</p>
 <p>类似按钮、链接、单选框、复选框这种元素直接click即可，那么下拉菜单怎么办呢？作者提供了一个select类来简化操作：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> selenium.webdriver.support.ui <span style="color:#f92672">import</span> Select
-select <span style="color:#f92672">=</span> Select(driver<span style="color:#f92672">.</span>find_element_by_name(<span style="color:#e6db74">&#39;name&#39;</span>))
-select<span style="color:#f92672">.</span>select_by_index(index)
-select<span style="color:#f92672">.</span>select_by_visible_text(<span style="color:#e6db74">&#34;text&#34;</span>)
-select<span style="color:#f92672">.</span>select_by_value(value)
-</code></pre></div><p>如果想得到这个下拉菜单的值，则可以使用<code>select.all_selected_options</code>得到一个列表。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> selenium.webdriver.support.ui <span style="color:#f92672">import</span> Select
+</span></span><span style="display:flex;"><span>select <span style="color:#f92672">=</span> Select(driver<span style="color:#f92672">.</span>find_element_by_name(<span style="color:#e6db74">&#39;name&#39;</span>))
+</span></span><span style="display:flex;"><span>select<span style="color:#f92672">.</span>select_by_index(index)
+</span></span><span style="display:flex;"><span>select<span style="color:#f92672">.</span>select_by_visible_text(<span style="color:#e6db74">&#34;text&#34;</span>)
+</span></span><span style="display:flex;"><span>select<span style="color:#f92672">.</span>select_by_value(value)
+</span></span></code></pre></div><p>如果想得到这个下拉菜单的值，则可以使用<code>select.all_selected_options</code>得到一个列表。</p>
 <p>如果页面中某些元素是ajax或js动态生成，并不是页面加载就存在的，那么我们就需要等待这些元素出现，官网示例如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> selenium.webdriver.common.by <span style="color:#f92672">import</span> By
-<span style="color:#f92672">from</span> selenium.webdriver.support.ui <span style="color:#f92672">import</span> WebDriverWait
-<span style="color:#f92672">from</span> selenium.webdriver.support <span style="color:#f92672">import</span> expected_conditions <span style="color:#66d9ef">as</span> EC
-driver <span style="color:#f92672">=</span> webdriver<span style="color:#f92672">.</span>Firefox()
-driver<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;http://somedomain/url_that_delays_loading&#34;</span>)
-<span style="color:#66d9ef">try</span>:
-    element <span style="color:#f92672">=</span> WebDriverWait(driver, <span style="color:#ae81ff">10</span>)<span style="color:#f92672">.</span>until(
-        EC<span style="color:#f92672">.</span>presence_of_element_located((By<span style="color:#f92672">.</span>ID, <span style="color:#e6db74">&#34;myDynamicElement&#34;</span>))
-    )
-<span style="color:#66d9ef">finally</span>:
-    driver<span style="color:#f92672">.</span>quit()
-</code></pre></div><p>上面的代码将在10秒内每隔0.5秒去寻找id为mydynamicelement的元素，by语法支持的方法也有很多，比如xpath，name，link_text等，具体请看文档。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> selenium.webdriver.common.by <span style="color:#f92672">import</span> By
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> selenium.webdriver.support.ui <span style="color:#f92672">import</span> WebDriverWait
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> selenium.webdriver.support <span style="color:#f92672">import</span> expected_conditions <span style="color:#66d9ef">as</span> EC
+</span></span><span style="display:flex;"><span>driver <span style="color:#f92672">=</span> webdriver<span style="color:#f92672">.</span>Firefox()
+</span></span><span style="display:flex;"><span>driver<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;http://somedomain/url_that_delays_loading&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    element <span style="color:#f92672">=</span> WebDriverWait(driver, <span style="color:#ae81ff">10</span>)<span style="color:#f92672">.</span>until(
+</span></span><span style="display:flex;"><span>        EC<span style="color:#f92672">.</span>presence_of_element_located((By<span style="color:#f92672">.</span>ID, <span style="color:#e6db74">&#34;myDynamicElement&#34;</span>))
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">finally</span>:
+</span></span><span style="display:flex;"><span>    driver<span style="color:#f92672">.</span>quit()
+</span></span></code></pre></div><p>上面的代码将在10秒内每隔0.5秒去寻找id为mydynamicelement的元素，by语法支持的方法也有很多，比如xpath，name，link_text等，具体请看文档。</p>
 <p>这里多提一句，虽然最终在服务器上是没有图形界面的，但开发时可以使用webdriver.Firefox()来看代码逻辑等是否正确，这会启动一个真实的火狐浏览器进行操作，如果没问题再把引擎换成phantomjs。如果使用火狐的话，使用代理则变成：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">myProxy <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;http://name:pswd@x.x.x.x:xxx&#34;</span>
-proxy <span style="color:#f92672">=</span> Proxy({
-   <span style="color:#e6db74">&#39;proxyType&#39;</span>: ProxyType<span style="color:#f92672">.</span>MANUAL,
-   <span style="color:#e6db74">&#39;httpProxy&#39;</span>: myProxy,
-   <span style="color:#e6db74">&#39;ftpProxy&#39;</span>: myProxy,
-   <span style="color:#e6db74">&#39;sslProxy&#39;</span>: myProxy,
-   <span style="color:#e6db74">&#39;noProxy&#39;</span>: <span style="color:#e6db74">&#39;&#39;</span>  <span style="color:#75715e"># set this value as desired</span>
-})
-driver <span style="color:#f92672">=</span> webdriver<span style="color:#f92672">.</span>Firefox(proxy<span style="color:#f92672">=</span>proxy)
-</code></pre></div><p>还有可能出现一种情况，就像我遇到的，每次修改文本框时都会重新加载页面某些元素，注意这里和上面说的“等待元素生成不同”，因为这个元素已经存在。所以有些时候需要使用time.sleep()函数等待，并且重新获取后再进行操作。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>myProxy <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;http://name:pswd@x.x.x.x:xxx&#34;</span>
+</span></span><span style="display:flex;"><span>proxy <span style="color:#f92672">=</span> Proxy({
+</span></span><span style="display:flex;"><span>   <span style="color:#e6db74">&#39;proxyType&#39;</span>: ProxyType<span style="color:#f92672">.</span>MANUAL,
+</span></span><span style="display:flex;"><span>   <span style="color:#e6db74">&#39;httpProxy&#39;</span>: myProxy,
+</span></span><span style="display:flex;"><span>   <span style="color:#e6db74">&#39;ftpProxy&#39;</span>: myProxy,
+</span></span><span style="display:flex;"><span>   <span style="color:#e6db74">&#39;sslProxy&#39;</span>: myProxy,
+</span></span><span style="display:flex;"><span>   <span style="color:#e6db74">&#39;noProxy&#39;</span>: <span style="color:#e6db74">&#39;&#39;</span>  <span style="color:#75715e"># set this value as desired</span>
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>driver <span style="color:#f92672">=</span> webdriver<span style="color:#f92672">.</span>Firefox(proxy<span style="color:#f92672">=</span>proxy)
+</span></span></code></pre></div><p>还有可能出现一种情况，就像我遇到的，每次修改文本框时都会重新加载页面某些元素，注意这里和上面说的“等待元素生成不同”，因为这个元素已经存在。所以有些时候需要使用time.sleep()函数等待，并且重新获取后再进行操作。</p>
 <p>还有可能遇到的情况就是由于某些原因click事件不好使，或者某些隐藏元素只有在鼠标放在上面时才会显示出来，这时候可以采用下面的方法：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">menu <span style="color:#f92672">=</span> driver<span style="color:#f92672">.</span>find_element_by_css_selector(<span style="color:#e6db74">&#34;.nav&#34;</span>)
-hidden_submenu <span style="color:#f92672">=</span> driver<span style="color:#f92672">.</span>find_element_by_css_selector(<span style="color:#e6db74">&#34;.nav #submenu1&#34;</span>)
-ActionChains(driver)<span style="color:#f92672">.</span>move_to_element(menu)<span style="color:#f92672">.</span>click(hidden_submenu)<span style="color:#f92672">.</span>perform()
-</code></pre></div><p>那么，如果得到某个元素后，需要得到某个属性怎么办呢？如何得到当前url以及页面源码？可以使用</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">elem<span style="color:#f92672">.</span>get_attribute(<span style="color:#e6db74">&#34;value&#34;</span>) <span style="color:#75715e"># 取得属性值</span>
-driver<span style="color:#f92672">.</span>current_url <span style="color:#75715e"># 当前url</span>
-driver<span style="color:#f92672">.</span>page_source <span style="color:#75715e"># 当前页面源码</span>
-</code></pre></div><p>最后再说一种“大杀器”：</p>
-<pre tabindex="0"><code>driver.execute_script(&quot;return navigator.userAgent&quot;)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>menu <span style="color:#f92672">=</span> driver<span style="color:#f92672">.</span>find_element_by_css_selector(<span style="color:#e6db74">&#34;.nav&#34;</span>)
+</span></span><span style="display:flex;"><span>hidden_submenu <span style="color:#f92672">=</span> driver<span style="color:#f92672">.</span>find_element_by_css_selector(<span style="color:#e6db74">&#34;.nav #submenu1&#34;</span>)
+</span></span><span style="display:flex;"><span>ActionChains(driver)<span style="color:#f92672">.</span>move_to_element(menu)<span style="color:#f92672">.</span>click(hidden_submenu)<span style="color:#f92672">.</span>perform()
+</span></span></code></pre></div><p>那么，如果得到某个元素后，需要得到某个属性怎么办呢？如何得到当前url以及页面源码？可以使用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>elem<span style="color:#f92672">.</span>get_attribute(<span style="color:#e6db74">&#34;value&#34;</span>) <span style="color:#75715e"># 取得属性值</span>
+</span></span><span style="display:flex;"><span>driver<span style="color:#f92672">.</span>current_url <span style="color:#75715e"># 当前url</span>
+</span></span><span style="display:flex;"><span>driver<span style="color:#f92672">.</span>page_source <span style="color:#75715e"># 当前页面源码</span>
+</span></span></code></pre></div><p>最后再说一种“大杀器”：</p>
+<pre tabindex="0"><code>driver.execute_script(&#34;return navigator.userAgent&#34;)
 </code></pre><p>看名字也知道这是干嘛的，没错，就是执行自己写的js代码。比如上面写的就是获取当前浏览器的ua信息，至于这个怎么用就看具体情况了。</p>
 
 		</div>
@@ -231,7 +231,7 @@ driver<span style="color:#f92672">.</span>page_source <span style="color:#75715e
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

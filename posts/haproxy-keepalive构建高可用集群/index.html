@@ -114,7 +114,7 @@ global_defs {
 }
 ###########
 vrrp_script chk_ha {
-                script &quot;/opt/chk_ha.sh&quot;
+                script &#34;/opt/chk_ha.sh&#34;
                 interval 2
                 weight 2
 }
@@ -150,7 +150,7 @@ global_defs {
 }
 ###########
 vrrp_script chk_ha {
-                script &quot;/opt/chk_ha.sh&quot;
+                script &#34;/opt/chk_ha.sh&#34;
                 interval 2
                 weight 2
 }
@@ -174,15 +174,15 @@ vrrp_instance VI_1 {
     }
 }
 </code></pre><p>其中，chk_ha是用于检测HAPROXY是否存活的脚本，内容如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/bash
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#66d9ef">$(</span>ps -C haproxy --no-header | wc -l<span style="color:#66d9ef">)</span> -eq <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
-     /etc/init.d/haproxy  start
-<span style="color:#66d9ef">fi</span>
-sleep <span style="color:#ae81ff">2</span>
-<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#66d9ef">$(</span>ps -C haproxy --no-header | wc -l<span style="color:#66d9ef">)</span> -eq <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
-       /etc/init.d/keepalived stop
-<span style="color:#66d9ef">fi</span>
-</code></pre></div><p>添加执行权限后，给151和155 分别添加虚拟IP：<code>ifconfig eth0:0 192.168.0.160 netmask 255.255.255.0 up</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#66d9ef">$(</span>ps -C haproxy --no-header | wc -l<span style="color:#66d9ef">)</span> -eq <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>     /etc/init.d/haproxy  start
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>sleep <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#66d9ef">$(</span>ps -C haproxy --no-header | wc -l<span style="color:#66d9ef">)</span> -eq <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>       /etc/init.d/keepalived stop
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><p>添加执行权限后，给151和155 分别添加虚拟IP：<code>ifconfig eth0:0 192.168.0.160 netmask 255.255.255.0 up</code></p>
 <p>添加后结果如下</p>
 <pre tabindex="0"><code>[root@test5 ~]# ifconfig eth0:0
 eth0:0    Link encap:Ethernet  HWaddr AE:A9:9C:02:C3:28  
@@ -247,7 +247,7 @@ Starting keepalived:                                       [  OK  ]
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

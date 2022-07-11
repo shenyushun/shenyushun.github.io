@@ -105,20 +105,20 @@ if (!doNotTrack) {
 <p>任何数据最最基本的操作不外乎增删改查：</p>
 <pre tabindex="0"><code>&gt; db.test.save({a:1})
 &gt; db.test.find()
-{ &quot;_id&quot; : ObjectId(&quot;530d3ec2d93e8e1410a1caf6&quot;), &quot;a&quot; : 1 }
-&gt; doc = {author:'xsy',created: new Date('02/26/2014')}
-{ &quot;author&quot; : &quot;xsy&quot;, &quot;created&quot; : ISODate(&quot;2014-02-25T16:00:00Z&quot;) }
+{ &#34;_id&#34; : ObjectId(&#34;530d3ec2d93e8e1410a1caf6&#34;), &#34;a&#34; : 1 }
+&gt; doc = {author:&#39;xsy&#39;,created: new Date(&#39;02/26/2014&#39;)}
+{ &#34;author&#34; : &#34;xsy&#34;, &#34;created&#34; : ISODate(&#34;2014-02-25T16:00:00Z&#34;) }
 &gt; db.test.insert(doc)
 &gt; db.test.find()
-{ &quot;_id&quot; : ObjectId(&quot;530d3ec2d93e8e1410a1caf6&quot;), &quot;a&quot; : 1 }
-{ &quot;_id&quot; : ObjectId(&quot;530d3f1ed93e8e1410a1caf7&quot;), &quot;author&quot; : &quot;xsy&quot;, &quot;created&quot; : ISODate(&quot;2014-02-25T16:00:00Z&quot;) }
-&gt; db.test.update({author:'xsy'},{$inc:{check:400}})
+{ &#34;_id&#34; : ObjectId(&#34;530d3ec2d93e8e1410a1caf6&#34;), &#34;a&#34; : 1 }
+{ &#34;_id&#34; : ObjectId(&#34;530d3f1ed93e8e1410a1caf7&#34;), &#34;author&#34; : &#34;xsy&#34;, &#34;created&#34; : ISODate(&#34;2014-02-25T16:00:00Z&#34;) }
+&gt; db.test.update({author:&#39;xsy&#39;},{$inc:{check:400}})
 &gt; db.test.find()
-{ &quot;_id&quot; : ObjectId(&quot;530d3ec2d93e8e1410a1caf6&quot;), &quot;a&quot; : 1 }
-{ &quot;_id&quot; : ObjectId(&quot;530d3f1ed93e8e1410a1caf7&quot;), &quot;author&quot; : &quot;xsy&quot;, &quot;check&quot; : 400, &quot;created&quot; : ISODate(&quot;2014-02-25T16:00:00Z&quot;) }
+{ &#34;_id&#34; : ObjectId(&#34;530d3ec2d93e8e1410a1caf6&#34;), &#34;a&#34; : 1 }
+{ &#34;_id&#34; : ObjectId(&#34;530d3f1ed93e8e1410a1caf7&#34;), &#34;author&#34; : &#34;xsy&#34;, &#34;check&#34; : 400, &#34;created&#34; : ISODate(&#34;2014-02-25T16:00:00Z&#34;) }
 &gt; db.test.remove({a:1})删除
 &gt; db.test.find()
-{ &quot;_id&quot; : ObjectId(&quot;530d3f1ed93e8e1410a1caf7&quot;), &quot;author&quot; : &quot;xsy&quot;, &quot;check&quot; : 400, &quot;created&quot; : ISODate(&quot;2014-02-25T16:00:00Z&quot;) }
+{ &#34;_id&#34; : ObjectId(&#34;530d3f1ed93e8e1410a1caf7&#34;), &#34;author&#34; : &#34;xsy&#34;, &#34;check&#34; : 400, &#34;created&#34; : ISODate(&#34;2014-02-25T16:00:00Z&#34;) }
 &gt;
 </code></pre><p>更换数据库：默认情况下启动mongodb shell后自动使用的是test库，想换的话使用命令 use  newname:</p>
 <pre tabindex="0"><code>&gt; use mydb
@@ -126,7 +126,7 @@ switched to db mydb
 &gt; db.mydb.save({a:2})
 &gt; db.test.find()
 &gt; db.mydb.find()
-{ &quot;_id&quot; : ObjectId(&quot;530d498ed93e8e1410a1caf8&quot;), &quot;a&quot; : 2 }
+{ &#34;_id&#34; : ObjectId(&#34;530d498ed93e8e1410a1caf8&#34;), &#34;a&#34; : 2 }
 &gt;
 </code></pre><p>如上所示，当切换（或者说新建）数据库mydb后，再查询test数据是不显示的。而数据库目录下也多处了mydb.ns、mydb.0等相关文件。</p>
 <p>看了增删改查的操作后，发现mongodb的操作更类似于编程语言，操作都是对于函数的调用，条件则是函数的参数。而且居然还支持正则表达式的查询方式，甚至for\foreach这两种循环都有。带$符号的则是关键字。</p>
@@ -179,7 +179,7 @@ switched to db mydb
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

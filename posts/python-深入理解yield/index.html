@@ -96,83 +96,83 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<p>不知道原文出处，向原作者表示感谢。</p>
 <p>yield的英文单词意思是生产，刚接触Python的时候感到非常困惑，一直没弄明白yield的用法。只是粗略的知道yield可以用来为一个函数返回值塞数据，比如下面的例子：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">addlist</span>(alist):
-    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> alist:
-        <span style="color:#66d9ef">yield</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-</code></pre></div><p>取出alist的每一项，然后把i + 1塞进去。然后通过调用取出每一项：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">alist <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>]
-<span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> addlist(alist):
-    print x,
-</code></pre></div><p>这的确是yield应用的一个例子，但是，看过limodou的文章《<a href="http://blog.donews.com/limodou/archive/2006/09/04/1028747.aspx">2.5版yield之学习心得</a>》，并自己反复体验后，对yield有了一个全新的理解。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">addlist</span>(alist):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> alist:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">yield</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><p>取出alist的每一项，然后把i + 1塞进去。然后通过调用取出每一项：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>alist <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> addlist(alist):
+</span></span><span style="display:flex;"><span>    print x,
+</span></span></code></pre></div><p>这的确是yield应用的一个例子，但是，看过limodou的文章《<a href="http://blog.donews.com/limodou/archive/2006/09/04/1028747.aspx">2.5版yield之学习心得</a>》，并自己反复体验后，对yield有了一个全新的理解。</p>
 <h3 id="包含yield的函数">包含yield的函数</h3>
 <p>假如你看到某个函数包含了yield，这意味着这个函数已经是一个Generator，它的执行会和其他普通的函数有很多不同。比如下面的简单的函数：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">h</span>():
-    print <span style="color:#e6db74">&#39;To be brave&#39;</span>
-    <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">5</span>
-h()
-</code></pre></div><p>可以看到，调用h()之后，print 语句并没有执行！这就是yield，那么，如何让print 语句执行呢？这就是后面要讨论的问题，通过后面的讨论和学习，就会明白yield的工作原理了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">h</span>():
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;To be brave&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>h()
+</span></span></code></pre></div><p>可以看到，调用h()之后，print 语句并没有执行！这就是yield，那么，如何让print 语句执行呢？这就是后面要讨论的问题，通过后面的讨论和学习，就会明白yield的工作原理了。</p>
 <h3 id="yield是一个表达式">yield是一个表达式</h3>
 <p>Python2.5以前，yield是一个语句，但现在2.5中，yield是一个表达式(Expression)，比如：<code>m = yield 5</code></p>
 <p>表达式(yield 5)的返回值将赋值给m，所以，认为 m = 5 是错误的。那么如何获取(yield 5)的返回值呢？需要用到后面要介绍的send(msg)方法。</p>
 <h3 id="透过next语句看原理">透过next()语句看原理</h3>
 <p>现在，我们来揭晓yield的工作原理。我们知道，我们上面的h()被调用后并没有执行，因为它有yield表达式，因此，我们通过next()语句让它执行。next()语句将恢复Generator执行，并直到下一个yield表达式处。比如：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">h</span>():
-    print <span style="color:#e6db74">&#39;Wen Chuan&#39;</span>
-    <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">5</span>
-    print <span style="color:#e6db74">&#39;Fighting!&#39;</span>
-c <span style="color:#f92672">=</span> h()
-c<span style="color:#f92672">.</span>next()
-</code></pre></div><p>c.next()调用后，h()开始执行，直到遇到yield 5，因此输出结果：<code>Wen Chuan</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">h</span>():
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;Wen Chuan&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;Fighting!&#39;</span>
+</span></span><span style="display:flex;"><span>c <span style="color:#f92672">=</span> h()
+</span></span><span style="display:flex;"><span>c<span style="color:#f92672">.</span>next()
+</span></span></code></pre></div><p>c.next()调用后，h()开始执行，直到遇到yield 5，因此输出结果：<code>Wen Chuan</code></p>
 <p>当我们再次调用c.next()时，会继续执行，直到找到下一个yield表达式。由于后面没有yield了，因此会拋出异常：</p>
 <pre tabindex="0"><code>Wen Chuan
 Fighting!
 Traceback (most recent call last):
-  File &quot;/home/evergreen/Codes/yidld.py&quot;, line 11, in &lt;module&gt;
+  File &#34;/home/evergreen/Codes/yidld.py&#34;, line 11, in &lt;module&gt;
     c.next()
 StopIteration
 </code></pre><h3 id="sendmsg-与-next">send(msg) 与 next()</h3>
 <p>了解了next()如何让包含yield的函数执行后，我们再来看另外一个非常重要的函数send(msg)。其实next()和send()在一定意义上作用是相似的，区别是send()可以传递yield表达式的值进去，而next()不能传递特定的值，只能传递None进去。因此，我们可以看做c.next() 和 c.send(None) 作用是一样的。</p>
 <p>来看这个例子：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">h</span>():
-    print <span style="color:#e6db74">&#39;Wen Chuan&#39;</span>,
-    m <span style="color:#f92672">=</span> <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">5</span>  <span style="color:#75715e"># Fighting!</span>
-    print m
-    d <span style="color:#f92672">=</span> <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">12</span>
-    print <span style="color:#e6db74">&#39;We are together!&#39;</span>
-c <span style="color:#f92672">=</span> h()
-c<span style="color:#f92672">.</span>next()  <span style="color:#75715e">#相当于c.send(None)</span>
-c<span style="color:#f92672">.</span>send(<span style="color:#e6db74">&#39;Fighting!&#39;</span>)  <span style="color:#75715e">#(yield 5)表达式被赋予了&#39;Fighting!&#39;</span>
-</code></pre></div><p>输出的结果为：<code>Wen Chuan Fighting!</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">h</span>():
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;Wen Chuan&#39;</span>,
+</span></span><span style="display:flex;"><span>    m <span style="color:#f92672">=</span> <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">5</span>  <span style="color:#75715e"># Fighting!</span>
+</span></span><span style="display:flex;"><span>    print m
+</span></span><span style="display:flex;"><span>    d <span style="color:#f92672">=</span> <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">12</span>
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;We are together!&#39;</span>
+</span></span><span style="display:flex;"><span>c <span style="color:#f92672">=</span> h()
+</span></span><span style="display:flex;"><span>c<span style="color:#f92672">.</span>next()  <span style="color:#75715e">#相当于c.send(None)</span>
+</span></span><span style="display:flex;"><span>c<span style="color:#f92672">.</span>send(<span style="color:#e6db74">&#39;Fighting!&#39;</span>)  <span style="color:#75715e">#(yield 5)表达式被赋予了&#39;Fighting!&#39;</span>
+</span></span></code></pre></div><p>输出的结果为：<code>Wen Chuan Fighting!</code></p>
 <p>需要提醒的是，第一次调用时，请使用next()语句或是send(None)，不能使用send发送一个非None的值，否则会出错的，因为没有yield语句来接收这个值。</p>
 <h3 id="sendmsg-与-next的返回值">send(msg) 与 next()的返回值</h3>
 <p>send(msg) 和 next()是有返回值的，它们的返回值很特殊，返回的是下一个yield表达式的参数。比如yield 5，则返回 5 。到这里，是不是明白了一些什么东西？本文第一个例子中，通过for i in alist 遍历 Generator，其实是每次都调用了alist.Next()，而每次alist.Next()的返回值正是yield的参数，即我们开始认为被压进去的东东。我们再延续上面的例子：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">h</span>():
-    print <span style="color:#e6db74">&#39;Wen Chuan&#39;</span>,
-    m <span style="color:#f92672">=</span> <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">5</span>  <span style="color:#75715e"># Fighting!</span>
-    print m
-    d <span style="color:#f92672">=</span> <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">12</span>
-    print <span style="color:#e6db74">&#39;We are together!&#39;</span>
-c <span style="color:#f92672">=</span> h()
-m <span style="color:#f92672">=</span> c<span style="color:#f92672">.</span>next()  <span style="color:#75715e">#m 获取了yield 5 的参数值 5</span>
-d <span style="color:#f92672">=</span> c<span style="color:#f92672">.</span>send(<span style="color:#e6db74">&#39;Fighting!&#39;</span>)  <span style="color:#75715e">#d 获取了yield 12 的参数值12</span>
-print <span style="color:#e6db74">&#39;We will never forget the date&#39;</span>, m, <span style="color:#e6db74">&#39;.&#39;</span>, d
-</code></pre></div><p>输出结果：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">h</span>():
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;Wen Chuan&#39;</span>,
+</span></span><span style="display:flex;"><span>    m <span style="color:#f92672">=</span> <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">5</span>  <span style="color:#75715e"># Fighting!</span>
+</span></span><span style="display:flex;"><span>    print m
+</span></span><span style="display:flex;"><span>    d <span style="color:#f92672">=</span> <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">12</span>
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;We are together!&#39;</span>
+</span></span><span style="display:flex;"><span>c <span style="color:#f92672">=</span> h()
+</span></span><span style="display:flex;"><span>m <span style="color:#f92672">=</span> c<span style="color:#f92672">.</span>next()  <span style="color:#75715e">#m 获取了yield 5 的参数值 5</span>
+</span></span><span style="display:flex;"><span>d <span style="color:#f92672">=</span> c<span style="color:#f92672">.</span>send(<span style="color:#e6db74">&#39;Fighting!&#39;</span>)  <span style="color:#75715e">#d 获取了yield 12 的参数值12</span>
+</span></span><span style="display:flex;"><span>print <span style="color:#e6db74">&#39;We will never forget the date&#39;</span>, m, <span style="color:#e6db74">&#39;.&#39;</span>, d
+</span></span></code></pre></div><p>输出结果：</p>
 <pre tabindex="0"><code>Wen Chuan Fighting!
 We will never forget the date 5 . 12
 </code></pre><h3 id="throw-与-close中断-generator">throw() 与 close()中断 Generator</h3>
 <p>中断Generator是一个非常灵活的技巧，可以通过throw抛出一个GeneratorExit异常来终止Generator。Close()方法作用是一样的，其实内部它是调用了throw(GeneratorExit)的。我们看：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">close</span>(self):
-    <span style="color:#66d9ef">try</span>:
-        self<span style="color:#f92672">.</span>throw(<span style="color:#a6e22e">GeneratorExit</span>)
-    <span style="color:#66d9ef">except</span> (<span style="color:#a6e22e">GeneratorExit</span>, <span style="color:#a6e22e">StopIteration</span>):
-        <span style="color:#66d9ef">pass</span>
-    <span style="color:#66d9ef">else</span>:
-        <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">RuntimeError</span>(<span style="color:#e6db74">&#34;generator ignored GeneratorExit&#34;</span>)
-<span style="color:#75715e"># Other exceptions are not caught</span>
-</code></pre></div><p>因此，当我们调用了close()方法后，再调用next()或是send(msg)的话会抛出一个异常：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">close</span>(self):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>throw(<span style="color:#a6e22e">GeneratorExit</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> (<span style="color:#a6e22e">GeneratorExit</span>, <span style="color:#a6e22e">StopIteration</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">RuntimeError</span>(<span style="color:#e6db74">&#34;generator ignored GeneratorExit&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Other exceptions are not caught</span>
+</span></span></code></pre></div><p>因此，当我们调用了close()方法后，再调用next()或是send(msg)的话会抛出一个异常：</p>
 <pre tabindex="0"><code>Traceback (most recent call last):
-  File &quot;/home/evergreen/Codes/yidld.py&quot;, line 14, in &lt;module&gt;
-    d = c.send('Fighting!')  #d 获取了yield 12 的参数值12
+  File &#34;/home/evergreen/Codes/yidld.py&#34;, line 14, in &lt;module&gt;
+    d = c.send(&#39;Fighting!&#39;)  #d 获取了yield 12 的参数值12
 StopIteration&lt;/pre&gt;
 </code></pre>
 		</div>
@@ -220,7 +220,7 @@ StopIteration&lt;/pre&gt;
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

@@ -118,31 +118,31 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<p>最近一直在思考如何更好的组织Django中的静态资源，比如JS、CSS一类，如何结合前端构建工具写出更好的代码以及结构呢？</p>
 <p>首先需要解决的一个问题就是某些时候需要把JS代码写在模板里来获取后台传递过来的变量，比如：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span>&gt;
-&lt;<span style="color:#f92672">h1</span>&gt;Test&lt;/<span style="color:#f92672">h1</span>&gt;
-&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;my-test&#34;</span> &gt;&lt;/<span style="color:#f92672">div</span>&gt;
-&lt;/<span style="color:#f92672">div</span>&gt;
-&lt;<span style="color:#f92672">script</span>&gt;
-<span style="color:#a6e22e">$</span>(<span style="color:#66d9ef">function</span>(){
-  <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;#my-test&#39;</span>).<span style="color:#a6e22e">html</span>(<span style="color:#e6db74">&#34;{{ some_var_from_view }}&#34;</span>)
-});
-&lt;/<span style="color:#f92672">script</span>&gt;
-</code></pre></div><p>这么写代码的话，别扭不说，前端的那些构建工具比如webpack，gulp的使用范围也将大大降低。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">h1</span>&gt;Test&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;my-test&#34;</span> &gt;&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">$</span>(<span style="color:#66d9ef">function</span>(){
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;#my-test&#39;</span>).<span style="color:#a6e22e">html</span>(<span style="color:#e6db74">&#34;{{ some_var_from_view }}&#34;</span>)
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><p>这么写代码的话，别扭不说，前端的那些构建工具比如webpack，gulp的使用范围也将大大降低。</p>
 <p>首先说结论，想完全剥离JS和模板而又需要使用模板渲染的数据，我是没想到什么好办法。如果读者有好办法希望赐教。
 既然不能完全剥离，那么就进最大的努力分离JS所需的数据和代码吧。</p>
 <p>既然需要模板渲染数据给JS使用，最先想到的办法就是把数据渲染到HTML代码中并隐藏。这种方法的优点就在于简单，甚至模板中都可以完全不使用<code>&lt;script&gt;&lt;/script&gt;</code>标签。缺点则是会渲染出很多的隐藏字段，JS中要写大量的<code>getElementsByxxxx</code>一类的代码来获取数据。</p>
 <p>既然如此，那么使用一种折中的办法，在HTML中使用<code>&lt;script&gt;&lt;/script&gt;</code>标签将后台传递的数据渲染成JS对象，然后JS代码中则可以直接使用这个对象了。比如模板中：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">script</span><span style="color:#f92672">&gt;</span>
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">MyViewVar</span> <span style="color:#f92672">=</span> {
-  <span style="color:#a6e22e">var_1</span><span style="color:#f92672">:</span> {{ <span style="color:#a6e22e">var_1</span> }},
-  <span style="color:#a6e22e">var_2</span><span style="color:#f92672">:</span> {{ <span style="color:#a6e22e">var_2</span> }},
-};
-<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;</span>
-
-...
-
-<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/javascript&#34;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/js/test_script.js&#34;</span><span style="color:#f92672">&gt;&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;</span>
-</code></pre></div><p>使用这种方式需要注意一点就是尽量先写渲染JS变量的代码，比如写在<code>head</code>中，然后再引入外部JS文件。这样，在<code>test_script.js</code>中就可以直接使用<code>MyViewVar</code>这个对象了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">script</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">MyViewVar</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">var_1</span><span style="color:#f92672">:</span> {{ <span style="color:#a6e22e">var_1</span> }},
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">var_2</span><span style="color:#f92672">:</span> {{ <span style="color:#a6e22e">var_2</span> }},
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/javascript&#34;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/js/test_script.js&#34;</span><span style="color:#f92672">&gt;&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;</span>
+</span></span></code></pre></div><p>使用这种方式需要注意一点就是尽量先写渲染JS变量的代码，比如写在<code>head</code>中，然后再引入外部JS文件。这样，在<code>test_script.js</code>中就可以直接使用<code>MyViewVar</code>这个对象了。</p>
 <p>当然了，既然现在流行SPA（Single Page Application）网站，那么django作为后端仅提供JSON数据也是一种办法，不过这样比较考验前端人员的能力了。</p>
 		</div>
 		<footer class="post__footer">
@@ -192,7 +192,7 @@ if (!doNotTrack) {
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

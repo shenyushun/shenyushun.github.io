@@ -95,75 +95,75 @@ if (!doNotTrack) {
 			<p>在<a href="http://www.hi-roy.com/2017/12/29/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/">上一篇文章</a>中，我们使用sklearn对验证码进行了识别，为了提高识别率，今天来进行进一步优化。</p>
 <p>观察验证码后，发现还可以对其进行旋转处理，这个验证码旋转角度在-30～30之间，那么如何判断旋转角度呢？这里我使用最简单粗暴的判断方式——如果旋转后的字符宽度小于旋转之前，则认为是合理的旋转。但这里还有一个问题需要处理，上一篇文章中我们为了简便直接根据固定的宽度对字符进行了分割，但是分割后字符在小图片中的位置不是固定的，需要手动将其放在中心位置。</p>
 <p>首先判断每个字符的边界:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_border</span>(img, f<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>):
-    <span style="color:#e6db74">&#34;&#34;&#34;获取字符边界&#34;&#34;&#34;</span>
-    t <span style="color:#f92672">=</span> <span style="color:#ae81ff">999</span>
-    b <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-    l <span style="color:#f92672">=</span> <span style="color:#ae81ff">999</span>
-    r <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-    flag <span style="color:#f92672">=</span> <span style="color:#ae81ff">255</span> <span style="color:#66d9ef">if</span> f <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>
-    w, h <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>size
-    pixdata <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>load()
-    <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(h):
-        <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(w):
-            <span style="color:#66d9ef">if</span> pixdata[x, y] <span style="color:#f92672">==</span> flag <span style="color:#f92672">and</span> y <span style="color:#f92672">&lt;</span> t:
-                t <span style="color:#f92672">=</span> y
-            <span style="color:#66d9ef">if</span> pixdata[x, y] <span style="color:#f92672">==</span> flag <span style="color:#f92672">and</span> y <span style="color:#f92672">&gt;</span> b:
-                b <span style="color:#f92672">=</span> y
-            <span style="color:#66d9ef">if</span> pixdata[x, y] <span style="color:#f92672">==</span> flag <span style="color:#f92672">and</span> x <span style="color:#f92672">&lt;</span> l:
-                l <span style="color:#f92672">=</span> x
-            <span style="color:#66d9ef">if</span> pixdata[x, y] <span style="color:#f92672">==</span> flag <span style="color:#f92672">and</span> x <span style="color:#f92672">&gt;</span> r:
-                r <span style="color:#f92672">=</span> x
-    <span style="color:#66d9ef">return</span> l, t, r, b
-</code></pre></div><p>由于图片大小是30×30，所以我取999作为上、左边界初始值。上面代码中的<code>f</code>参数下面会说。接下来创建一个新的图片，并把提取出来的字符放到图片中心：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">resize_img</span>(img):
-    <span style="color:#e6db74">&#34;&#34;&#34;把提取出来的字符放到新图片中央，方便旋转&#34;&#34;&#34;</span>
-    i_w <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>
-    i_h <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>
-    w, h <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>size
-    image <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>new(<span style="color:#e6db74">&#39;RGB&#39;</span>, (i_w, i_h), (<span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>))
-    l <span style="color:#f92672">=</span> (i_w <span style="color:#f92672">-</span> w) <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>
-    r <span style="color:#f92672">=</span> l <span style="color:#f92672">+</span> w
-    t <span style="color:#f92672">=</span> (i_h <span style="color:#f92672">-</span> h) <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>
-    b <span style="color:#f92672">=</span> t <span style="color:#f92672">+</span> h
-    image<span style="color:#f92672">.</span>paste(img, (l, t, r, b))
-    <span style="color:#66d9ef">return</span> image
-</code></pre></div><p>由于pillow库对图片旋转后使用了黑色对边界进行填充，而我们的原始图片是白底黑字，所以还需要对图片进行反相操作，以免旋转造成的干扰：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">opposite</span>(img):
-    <span style="color:#75715e"># 反相处理,注意传入的是灰度二值化后的图片</span>
-    tmp <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(img)
-    tmp <span style="color:#f92672">=</span> <span style="color:#ae81ff">255</span> <span style="color:#f92672">-</span> tmp
-    <span style="color:#66d9ef">return</span> Image<span style="color:#f92672">.</span>fromarray(tmp)
-</code></pre></div><p>上面<code>get_border</code>函数中<code>ｆ</code>参数的作用就是如果传入一张反相处理后的图片，则设其为<code>True</code>来获取边界。接下来旋转图片：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">rotate_img</span>(imgname):
-    <span style="color:#e6db74">&#34;&#34;&#34;将初步切分的图片提取字符并修正旋转&#34;&#34;&#34;</span>
-    img <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(imgname)
-    img <span style="color:#f92672">=</span> binarizing(img,<span style="color:#ae81ff">180</span>)
-    border <span style="color:#f92672">=</span> get_border(img)
-    new <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>crop(border)
-    new2 <span style="color:#f92672">=</span> resize_img(new)
-    new2 <span style="color:#f92672">=</span> binarizing(new2,<span style="color:#ae81ff">180</span>)
-    result <span style="color:#f92672">=</span> []
-    o_l, o_t, o_r, o_b <span style="color:#f92672">=</span> get_border(new2)
-    w <span style="color:#f92672">=</span> o_r <span style="color:#f92672">-</span> o_l
-    new3 <span style="color:#f92672">=</span> opposite(new2)
-    <span style="color:#66d9ef">for</span> ro <span style="color:#f92672">in</span> range(<span style="color:#f92672">-</span><span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">3</span>):
-        <span style="color:#75715e"># 一般旋转角度在-30到30之间，可以通过修改步长来精细控制</span>
-        tmp <span style="color:#f92672">=</span> new3<span style="color:#f92672">.</span>rotate(ro)
-        l, t, r, b <span style="color:#f92672">=</span> get_border(tmp, f<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-        <span style="color:#66d9ef">if</span> r <span style="color:#f92672">-</span> l <span style="color:#f92672">&lt;=</span> w <span style="color:#f92672">and</span> abs(ro) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">9</span>:
-            <span style="color:#75715e"># 如果旋转后字符宽度变小了，则认为需要旋转。并且角度要大于９</span>
-            w <span style="color:#f92672">=</span> r <span style="color:#f92672">-</span> l  <span style="color:#75715e"># 这句话保证最合适的旋转度数在最后，即最窄</span>
-            result<span style="color:#f92672">.</span>append(ro)
-    final_ro <span style="color:#f92672">=</span> result[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#66d9ef">if</span> result <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>
-    <span style="color:#66d9ef">return</span> opposite(new3<span style="color:#f92672">.</span>rotate(final_ro))
-</code></pre></div><p>关于<code>binarizing</code>函数请看上一篇文章。旋转图片如下：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_border</span>(img, f<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;获取字符边界&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    t <span style="color:#f92672">=</span> <span style="color:#ae81ff">999</span>
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    l <span style="color:#f92672">=</span> <span style="color:#ae81ff">999</span>
+</span></span><span style="display:flex;"><span>    r <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    flag <span style="color:#f92672">=</span> <span style="color:#ae81ff">255</span> <span style="color:#66d9ef">if</span> f <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    w, h <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>size
+</span></span><span style="display:flex;"><span>    pixdata <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>load()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(h):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(w):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> pixdata[x, y] <span style="color:#f92672">==</span> flag <span style="color:#f92672">and</span> y <span style="color:#f92672">&lt;</span> t:
+</span></span><span style="display:flex;"><span>                t <span style="color:#f92672">=</span> y
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> pixdata[x, y] <span style="color:#f92672">==</span> flag <span style="color:#f92672">and</span> y <span style="color:#f92672">&gt;</span> b:
+</span></span><span style="display:flex;"><span>                b <span style="color:#f92672">=</span> y
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> pixdata[x, y] <span style="color:#f92672">==</span> flag <span style="color:#f92672">and</span> x <span style="color:#f92672">&lt;</span> l:
+</span></span><span style="display:flex;"><span>                l <span style="color:#f92672">=</span> x
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> pixdata[x, y] <span style="color:#f92672">==</span> flag <span style="color:#f92672">and</span> x <span style="color:#f92672">&gt;</span> r:
+</span></span><span style="display:flex;"><span>                r <span style="color:#f92672">=</span> x
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> l, t, r, b
+</span></span></code></pre></div><p>由于图片大小是30×30，所以我取999作为上、左边界初始值。上面代码中的<code>f</code>参数下面会说。接下来创建一个新的图片，并把提取出来的字符放到图片中心：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">resize_img</span>(img):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;把提取出来的字符放到新图片中央，方便旋转&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    i_w <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>
+</span></span><span style="display:flex;"><span>    i_h <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>
+</span></span><span style="display:flex;"><span>    w, h <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>size
+</span></span><span style="display:flex;"><span>    image <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>new(<span style="color:#e6db74">&#39;RGB&#39;</span>, (i_w, i_h), (<span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>))
+</span></span><span style="display:flex;"><span>    l <span style="color:#f92672">=</span> (i_w <span style="color:#f92672">-</span> w) <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    r <span style="color:#f92672">=</span> l <span style="color:#f92672">+</span> w
+</span></span><span style="display:flex;"><span>    t <span style="color:#f92672">=</span> (i_h <span style="color:#f92672">-</span> h) <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">=</span> t <span style="color:#f92672">+</span> h
+</span></span><span style="display:flex;"><span>    image<span style="color:#f92672">.</span>paste(img, (l, t, r, b))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> image
+</span></span></code></pre></div><p>由于pillow库对图片旋转后使用了黑色对边界进行填充，而我们的原始图片是白底黑字，所以还需要对图片进行反相操作，以免旋转造成的干扰：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">opposite</span>(img):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 反相处理,注意传入的是灰度二值化后的图片</span>
+</span></span><span style="display:flex;"><span>    tmp <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(img)
+</span></span><span style="display:flex;"><span>    tmp <span style="color:#f92672">=</span> <span style="color:#ae81ff">255</span> <span style="color:#f92672">-</span> tmp
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Image<span style="color:#f92672">.</span>fromarray(tmp)
+</span></span></code></pre></div><p>上面<code>get_border</code>函数中<code>ｆ</code>参数的作用就是如果传入一张反相处理后的图片，则设其为<code>True</code>来获取边界。接下来旋转图片：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">rotate_img</span>(imgname):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;将初步切分的图片提取字符并修正旋转&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    img <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(imgname)
+</span></span><span style="display:flex;"><span>    img <span style="color:#f92672">=</span> binarizing(img,<span style="color:#ae81ff">180</span>)
+</span></span><span style="display:flex;"><span>    border <span style="color:#f92672">=</span> get_border(img)
+</span></span><span style="display:flex;"><span>    new <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>crop(border)
+</span></span><span style="display:flex;"><span>    new2 <span style="color:#f92672">=</span> resize_img(new)
+</span></span><span style="display:flex;"><span>    new2 <span style="color:#f92672">=</span> binarizing(new2,<span style="color:#ae81ff">180</span>)
+</span></span><span style="display:flex;"><span>    result <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    o_l, o_t, o_r, o_b <span style="color:#f92672">=</span> get_border(new2)
+</span></span><span style="display:flex;"><span>    w <span style="color:#f92672">=</span> o_r <span style="color:#f92672">-</span> o_l
+</span></span><span style="display:flex;"><span>    new3 <span style="color:#f92672">=</span> opposite(new2)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> ro <span style="color:#f92672">in</span> range(<span style="color:#f92672">-</span><span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">3</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 一般旋转角度在-30到30之间，可以通过修改步长来精细控制</span>
+</span></span><span style="display:flex;"><span>        tmp <span style="color:#f92672">=</span> new3<span style="color:#f92672">.</span>rotate(ro)
+</span></span><span style="display:flex;"><span>        l, t, r, b <span style="color:#f92672">=</span> get_border(tmp, f<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> r <span style="color:#f92672">-</span> l <span style="color:#f92672">&lt;=</span> w <span style="color:#f92672">and</span> abs(ro) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">9</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 如果旋转后字符宽度变小了，则认为需要旋转。并且角度要大于９</span>
+</span></span><span style="display:flex;"><span>            w <span style="color:#f92672">=</span> r <span style="color:#f92672">-</span> l  <span style="color:#75715e"># 这句话保证最合适的旋转度数在最后，即最窄</span>
+</span></span><span style="display:flex;"><span>            result<span style="color:#f92672">.</span>append(ro)
+</span></span><span style="display:flex;"><span>    final_ro <span style="color:#f92672">=</span> result[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#66d9ef">if</span> result <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> opposite(new3<span style="color:#f92672">.</span>rotate(final_ro))
+</span></span></code></pre></div><p>关于<code>binarizing</code>函数请看上一篇文章。旋转图片如下：
 <img src="http://mypic-1252424367.coshk.myqcloud.com/Screenshot%20from%202018-01-06%2016-42-54.png" alt="img">
 可以看出，逆时针旋转27度时，字符就“立”起来了。当我们把字符旋转之后，再使用相同的代码进行预测，正确率如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">knn score: <span style="color:#ae81ff">0.9</span>
-bayes score: <span style="color:#ae81ff">0.705</span>
-description tree score: <span style="color:#ae81ff">0.755</span>
-</code></pre></div><p>正确率提升了不少。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>knn score: <span style="color:#ae81ff">0.9</span>
+</span></span><span style="display:flex;"><span>bayes score: <span style="color:#ae81ff">0.705</span>
+</span></span><span style="display:flex;"><span>description tree score: <span style="color:#ae81ff">0.755</span>
+</span></span></code></pre></div><p>正确率提升了不少。</p>
 		</div>
 		<footer class="post__footer">
 			
@@ -215,7 +215,7 @@ description tree score: <span style="color:#ae81ff">0.755</span>
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

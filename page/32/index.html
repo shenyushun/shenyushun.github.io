@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
-	<meta name="generator" content="Hugo 0.88.1" />
+	<meta name="generator" content="Hugo 0.101.0" />
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -79,6 +79,30 @@ if (!doNotTrack) {
 	<article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/django%E8%87%AA%E5%B8%A6%E7%9A%84%E8%AF%84%E8%AE%BA%E6%A8%A1%E5%9D%97/" rel="bookmark">
+			django自带的评论模块
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-04-04T11:01:59Z">2014-04-04</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		某个设计本来采用了一个比较不错的在线评论模块，不过答辩的时候丫居然不给网！！想偷个懒还是挺难啊&hellip;.
+那就用自带的评论模块吧，django版本是1.5.3。
+首先把'django.contrib.comments'添加到INSTALLED_APPS中，然后添加url:
+urlpatterns = patterns(&#39;&#39;, ...... url(r&#39;^comments/&#39;, include(&#39;django.contrib.comments.urls&#39;)), ...... ) 在需要显示评论的HTML中：
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/django%E8%87%AA%E5%B8%A6%E7%9A%84%E8%AF%84%E8%AE%BA%E6%A8%A1%E5%9D%97/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/django%E4%B8%AD%E7%94%B1%E7%B1%BB%E5%AE%9E%E4%BE%8B%E5%BC%95%E8%B5%B7%E7%9A%84%E5%B0%8F%E5%9D%91/" rel="bookmark">
 			django中由类实例引起的小坑
 			</a>
@@ -139,18 +163,18 @@ posistion = &#34;top&#34; order = r&#34;select id,p_name,p_explain,p_href from p
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		<p>第一种HttpResponse，最基本的返回方式，可以直接返回字符:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.http <span style="color:#f92672">import</span> HttpResponse
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>(request):
-    <span style="color:#66d9ef">return</span> HttpResponse(<span style="color:#960050;background-color:#1e0010">“</span>a test<span style="color:#960050;background-color:#1e0010">”</span>)
-</code></pre></div><p>或者结合contextloder返回网页：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.template <span style="color:#f92672">import</span> Context, loader  
-<span style="color:#f92672">from</span> polls.models <span style="color:#f92672">import</span> Poll
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>(request):  
-    latest_poll_list <span style="color:#f92672">=</span> Poll<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>order_by(<span style="color:#e6db74">&#39;-pub_date&#39;</span>)[:<span style="color:#ae81ff">5</span>]  
-    template <span style="color:#f92672">=</span> loader<span style="color:#f92672">.</span>get_template(<span style="color:#e6db74">&#39;polls/index.html&#39;</span>)
-    context <span style="color:#f92672">=</span> Context({ <span style="color:#e6db74">&#39;latest_poll_list&#39;</span>: latest_poll_list, })  
-    <span style="color:#66d9ef">return</span> HttpResponse(template<span style="color:#f92672">.</span>render(context))
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.http <span style="color:#f92672">import</span> HttpResponse
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>(request):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> HttpResponse(<span style="color:#960050;background-color:#1e0010">“</span>a test<span style="color:#960050;background-color:#1e0010">”</span>)
+</span></span></code></pre></div><p>或者结合contextloder返回网页：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.template <span style="color:#f92672">import</span> Context, loader  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> polls.models <span style="color:#f92672">import</span> Poll
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>(request):  
+</span></span><span style="display:flex;"><span>    latest_poll_list <span style="color:#f92672">=</span> Poll<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>order_by(<span style="color:#e6db74">&#39;-pub_date&#39;</span>)[:<span style="color:#ae81ff">5</span>]  
+</span></span><span style="display:flex;"><span>    template <span style="color:#f92672">=</span> loader<span style="color:#f92672">.</span>get_template(<span style="color:#e6db74">&#39;polls/index.html&#39;</span>)
+</span></span><span style="display:flex;"><span>    context <span style="color:#f92672">=</span> Context({ <span style="color:#e6db74">&#39;latest_poll_list&#39;</span>: latest_poll_list, })  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> HttpResponse(template<span style="color:#f92672">.</span>render(context))
+</span></span></code></pre></div>
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/django%E7%9A%84view%E4%B8%AD%E5%B8%B8%E7%94%A8return%E6%96%B9%E6%B3%95/">Read more…</a>
@@ -199,32 +223,10 @@ posistion = &#34;top&#34; order = r&#34;select id,p_name,p_explain,p_href from p
 	<div class="content list__excerpt post__content clearfix">
 		不知道什么原因，安装kalilinux的时候总是安装失败，失败步骤：安装操作系统。偶尔这步通过了，又出现了grub无法安装的情况。
 下载了各个版本都是这样之后，对比了一下sha的值，发现和官网上给出的并不一样&hellip;.什么情况？！然后根据http://cdimage.kali.org/kali-latest/amd64/这发现，正确的值应该是
-d859cc2798a24c48ddd37c6aafd88c5dc5e6e123 kali-linux-1.0.6-amd64-mini.iso281ddb3d14619a973e254b8f484b7fe27defa822 kali-linux-1.0.6-amd64.iso3cf383be7778d1676c015cb5430422e672ec59fa kali-linux-1.0.6-amd64-mini.torrentcfa0ad0dce1d4a170adf1cd342c622db23e785ef kali-linux-1.0.6-amd64.torrent又下载了sha值一样的镜像后，还是无法安装操作系统。
+d859cc2798a24c48ddd37c6aafd88c5dc5e6e123 kali-linux-1.0.6-amd64-mini.iso281ddb3d14619a973e254b8f484b7fe27defa822 kali-linux-1.0.6-amd64.iso3cf383be7778d1676c015cb5430422e672ec59fa kali-linux-1.0.6-amd64-mini.torrentcfa0ad0dce1d4a170adf1cd342c622db23e785ef kali-linux-1.0.6-amd64.torrent 又下载了sha值一样的镜像后，还是无法安装操作系统。
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/kalilinux%E5%AE%89%E8%A3%85%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">Read more…</a>
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/" rel="bookmark">
-			虚拟环境下安装mysql-python
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-03-12T17:54:50Z">2014-03-12</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="category">数据库</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		使用virtualenv虚拟环境的时候，mysql-python安装时报错：
-_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &quot;my_config.
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/">Read more…</a>
 	</div>
 </article>
 </main>
@@ -249,11 +251,11 @@ _mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &qu
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 		</ul>
 	</div>
 </div>
@@ -291,11 +293,11 @@ _mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &qu
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">132</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">30</span>
+				<span class="widget__counter widget__counter--bubble">31</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

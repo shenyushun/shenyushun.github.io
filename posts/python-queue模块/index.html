@@ -93,9 +93,9 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<h4 id="创建一个队列对象">创建一个“队列”对象</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> Queue
-myqueue <span style="color:#f92672">=</span> Queue<span style="color:#f92672">.</span>Queue(maxsize <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>)
-</code></pre></div><p>Queue.Queue类即是一个队列的同步实现。队列长度可为无限或者有限。可通过Queue的构造函数的可选参数maxsize来设定队列长度。如果maxsize小于1就表示队列长度无限。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> Queue
+</span></span><span style="display:flex;"><span>myqueue <span style="color:#f92672">=</span> Queue<span style="color:#f92672">.</span>Queue(maxsize <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>)
+</span></span></code></pre></div><p>Queue.Queue类即是一个队列的同步实现。队列长度可为无限或者有限。可通过Queue的构造函数的可选参数maxsize来设定队列长度。如果maxsize小于1就表示队列长度无限。</p>
 <h4 id="将一个值放入队列中">将一个值放入队列中</h4>
 <pre tabindex="0"><code>myqueue.put(10)
 </code></pre><p>调用队列对象的put()方法在队尾插入一个项目。put()有两个参数，第一个item为必需的，为插入项目的值；第二个block为可选参数，默认为1。如果队列当前为空且block为1，put()方法就使调用线程暂停,直到空出一个数据单元。如果block为0，put方法将引发Full异常。</p>
@@ -174,7 +174,7 @@ myqueue <span style="color:#f92672">=</span> Queue<span style="color:#f92672">.<
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

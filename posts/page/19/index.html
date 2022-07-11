@@ -80,6 +80,30 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/%E4%BD%A0%E5%A5%BD2016/" rel="bookmark">
+			你好，2016！
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-01-03T14:26:24Z">2016-01-03</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%9D%82%E8%B0%88/" rel="category">杂谈</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		从13年开始写博客，居然已经过了整整3年，自己都没想到能坚持这么久。虽然有些时候一个月只写一篇，但都是自己原创或者翻译的，也是对自己成长记录。按照以往的惯例，这篇文章应该是发布在1月1日的，但今年我竟然稀里糊涂的把这事记错了，以为农历新年时才写总结……
+一句话形容2015：平凡而又充实的一年。
+全年共阅读21本书，体重也终于上升到了59kg左右，至于收益率的目标……遇到了千股跌停的奇观基本也就达成一半。购物的、娱乐的倒是全部完成了，锻炼又是练练就断了，记账坚持的不错，如果每月能有点结余就更好了，真是收入多了支出也多了。
+剩下的……嗯，把2015年目标改成2016年吧……
+2015年最有成就感的：
+自驾去海边，走的沿海山路，各种急弯各种坡路啊！以前坐车的时候感觉在山路上看海好美，可自己开车时候根本没办法去欣赏唉…… 新的数据中心、计算中心、网站上线，其中各种曲折就不说了。 2015年最难过的：
+都过去了。 未来3年的规划已经初定，如果没什么意外的话，今年应该是属于“潜龙勿用”的阶段，打好基础才是关键。 最后： 你好，2016！
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/flask-socketio%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/" rel="bookmark">
 			flask-socketio中文文档
 			</a>
@@ -132,7 +156,7 @@ if (!doNotTrack) {
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		Metasploit应该不用多说了吧？Kali自带、Win和Mac都提供了现成的安装包，不过我莫名的对apt系不感冒，这里记录一下在centos7上安装metasploit框架的步骤，理论上yum系的都应该通用。 首先执行
-curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb &gt; msfinstallchmod 755 msfinstall./msfinstall然后安装postgresql：
+curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb &gt; msfinstallchmod 755 msfinstall./msfinstall 然后安装postgresql：
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/centos7%E5%AE%89%E8%A3%85metasploit%E6%A1%86%E6%9E%B6/">Read more…</a>
@@ -155,7 +179,8 @@ curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/t
 	<div class="content list__excerpt post__content clearfix">
 		今天有个需求，需要实时监控nginx日志中某些ip的访问情况。如果ip较少的话，直接使用tail、grep以及管道配合即可。不过需要监控100个左右的ip并进行相应处理的话，除了自己写脚本还真没想到别的办法。
 首先引出Python中自带的2个函数：
- file.seek(off, whence=0) 从文件中移动off个操作标记（文件指针），正往结束方向移动，负往开始方向移动。如果设定了whence参数，就以whence设定的起始位为准，0代表从头开始，1代表当前位置，2代表文件最末尾位置。 file.tell() 返回文件指针的当前位置。  那么思路就比较清晰了，写一个死循环，循环内记录指针位置并赋值给seek函数：
+file.seek(off, whence=0) 从文件中移动off个操作标记（文件指针），正往结束方向移动，负往开始方向移动。如果设定了whence参数，就以whence设定的起始位为准，0代表从头开始，1代表当前位置，2代表文件最末尾位置。 file.tell() 返回文件指针的当前位置。 那么思路就比较清晰了，写一个死循环，循环内记录指针位置并赋值给seek函数：
+with open(&#34;test.txt&#34;) as f: f.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/python%E8%84%9A%E6%9C%AC%E6%A8%A1%E6%8B%9Ftail%E5%91%BD%E4%BB%A4/">Read more…</a>
@@ -178,7 +203,7 @@ curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/t
 	<div class="content list__excerpt post__content clearfix">
 		今天看到消息说在12月1号后，fedora将停止对21及以前版本的yum源中软件的更新、新增，作为一个“尝鲜爱好者”当然必须使用最新版的软件了，于是决定对fedora进行升级，目前版本是21，直接升级到23。注意，本文只适用于21,22进行升级，而20及以前的版本命令是fedup而非dnf。
 首先执行：
-sudo dnf updatesudo dnf system-upgrade download --releasever 23经过漫长的等待后：
+sudo dnf updatesudo dnf system-upgrade download --releasever 23 经过漫长的等待后：
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/fedora21%E6%97%A0%E7%BC%9D%E5%8D%87%E7%BA%A7%E5%88%B023/">Read more…</a>
@@ -205,29 +230,6 @@ sudo dnf updatesudo dnf system-upgrade download --releasever 23经过漫长的
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/django%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/macos%E8%AF%BB%E5%86%99ntfs%E6%A0%BC%E5%BC%8F%E7%A1%AC%E7%9B%98/" rel="bookmark">
-			MacOS读写ntfs格式硬盘
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-10-17T12:04:27Z">2015-10-17</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		系统OS X 10.11，之前就有发现ntfs格式的移动硬盘在mac上只能读不能写，通俗点说就是不能保存文件。
-总体而言解决方法不外乎4种：
- 硬盘在Mac上格式化成ExFAT这种通用格式 安装第三方插件，比如Paragon NTFS for MAC（收费） 安装osxfuse+ntfs-3g（命令行） 修改配置文件打开原生支持方法  首先硬盘里有东西就把第一种方式排除了，缺钱也不想用破解版的第二种也排除，虽说mac也是类unix系统不过看网上改的文件内容也不是特别明白原理排除，所以使用第三种方式吧。
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/macos%E8%AF%BB%E5%86%99ntfs%E6%A0%BC%E5%BC%8F%E7%A1%AC%E7%9B%98/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -252,11 +254,11 @@ sudo dnf updatesudo dnf system-upgrade download --releasever 23经过漫长的
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 		</ul>
 	</div>
 </div>
@@ -294,11 +296,11 @@ sudo dnf updatesudo dnf system-upgrade download --releasever 23经过漫长的
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">132</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">30</span>
+				<span class="widget__counter widget__counter--bubble">31</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

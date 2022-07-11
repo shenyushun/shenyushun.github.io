@@ -67,8 +67,8 @@
       <description>&lt;h2 id=&#34;环境搭建&#34;&gt;环境搭建&lt;/h2&gt;
 &lt;p&gt;前提需要电脑中存在&lt;code&gt;git&lt;/code&gt;、&lt;code&gt;docker&lt;/code&gt;、&lt;code&gt;docker-compose&lt;/code&gt;命令以及有&lt;code&gt;golang&lt;/code&gt;开发环境。&lt;/p&gt;
 &lt;p&gt;首先创建目录存放Fabric代码，&lt;strong&gt;注意路径和权限&lt;/strong&gt;，在启动服务时候会向其中写一些文件，最开始我就是没注意到这点报错了。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;sudo mkdir /opt/gopath/src/github.com/hyperledger/
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;进入刚才创建的目录后拉取代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo mkdir /opt/gopath/src/github.com/hyperledger/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;进入刚才创建的目录后拉取代码：&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;cd /opt/gopath/src/github.com/hyperledger
 git clone https://github.com/hyperledger/fabric.git
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;当前版本是1.1。&lt;/p&gt;</description>

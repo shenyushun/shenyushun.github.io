@@ -111,15 +111,15 @@ if (!doNotTrack) {
           RX bytes:468 (468.0 b)  TX bytes:560 (560.0 b)
 </code></pre><p>如果向修改网卡名则编辑/etc/miredo/miredo.conf即可，当然懒的话就用默认的。</p>
 <p>然后可以用命令测试是否生效：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ping6 ipv6.google.com
-PING ipv6.google.com<span style="color:#f92672">(</span>google.com<span style="color:#f92672">)</span> <span style="color:#ae81ff">56</span> data bytes
-<span style="color:#ae81ff">64</span> bytes from google.com: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">59</span> time<span style="color:#f92672">=</span><span style="color:#ae81ff">753</span> ms
-<span style="color:#ae81ff">64</span> bytes from google.com: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">59</span> time<span style="color:#f92672">=</span><span style="color:#ae81ff">331</span> ms
-<span style="color:#ae81ff">64</span> bytes from google.com: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">59</span> time<span style="color:#f92672">=</span><span style="color:#ae81ff">334</span> ms
-<span style="color:#ae81ff">64</span> bytes from google.com: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">59</span> time<span style="color:#f92672">=</span><span style="color:#ae81ff">354</span> ms
-^C
---- ipv6.google.com ping statistics ---
-</code></pre></div><p>此时不用代理访问<a href="https://ipv6.google.com/">https://ipv6.google.com/</a>即可打开。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ping6 ipv6.google.com
+</span></span><span style="display:flex;"><span>PING ipv6.google.com<span style="color:#f92672">(</span>google.com<span style="color:#f92672">)</span> <span style="color:#ae81ff">56</span> data bytes
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">64</span> bytes from google.com: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">59</span> time<span style="color:#f92672">=</span><span style="color:#ae81ff">753</span> ms
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">64</span> bytes from google.com: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">59</span> time<span style="color:#f92672">=</span><span style="color:#ae81ff">331</span> ms
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">64</span> bytes from google.com: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">59</span> time<span style="color:#f92672">=</span><span style="color:#ae81ff">334</span> ms
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">64</span> bytes from google.com: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">59</span> time<span style="color:#f92672">=</span><span style="color:#ae81ff">354</span> ms
+</span></span><span style="display:flex;"><span>^C
+</span></span><span style="display:flex;"><span>--- ipv6.google.com ping statistics ---
+</span></span></code></pre></div><p>此时不用代理访问<a href="https://ipv6.google.com/">https://ipv6.google.com/</a>即可打开。</p>
 <p>如果想访问其他网站呢？这就需要hosts文件了，这里不普及hosts是什么了，给个地址<a href="https://code.google.com/p/ipv6-hosts/">https://code.google.com/p/ipv6-hosts/</a>，这个地址貌似很久没更新了，可以去<a href="https://github.com/lennylxx/ipv6-hosts">https://github.com/lennylxx/ipv6-hosts</a> 瞧瞧。</p>
 <p>如果想知道某个网站是否支持ipv6，我知道3个办法：</p>
 <ol>
@@ -174,7 +174,7 @@ PING ipv6.google.com<span style="color:#f92672">(</span>google.com<span style="c
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

@@ -22,7 +22,7 @@
 用户认证(Authentication)和用户授权(Authorization)是两个不同的概念，认证解决的是“有没有”的问题，而授权解决的是“能不能”的问题。
 一般用到JWT认证的情况大多都是配合REST框架使用，比如我大Django的Django-REST-framework框架，就已经有了现成的三方库django-rest-framework-jwt。不过这个库默认只支持基于Header传递信息，所以改成基于Cookie方式还需要我们来手动处理一下。"><meta itemprop="datePublished" content="2017-01-11T10:37:34+00:00" />
 <meta itemprop="dateModified" content="2017-01-11T10:37:34+00:00" />
-<meta itemprop="wordCount" content="198">
+<meta itemprop="wordCount" content="199">
 <meta itemprop="keywords" content="django,python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -98,103 +98,103 @@ if (!doNotTrack) {
 <p>用户认证(Authentication)和用户授权(Authorization)是两个不同的概念，认证解决的是“有没有”的问题，而授权解决的是“能不能”的问题。</p>
 <p>一般用到JWT认证的情况大多都是配合REST框架使用，比如我大Django的Django-REST-framework框架，就已经有了现成的三方库<a href="http://getblimp.github.io/django-rest-framework-jwt/">django-rest-framework-jwt</a>。不过这个库默认只支持基于<code>Header</code>传递信息，所以改成基于Cookie方式还需要我们来手动处理一下。</p>
 <p>关于安装，直接使用pip安装即可，在<code>settings.py</code>中，先来修改django-restframework的基本配置如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">REST_FRAMEWORK <span style="color:#f92672">=</span> {
-    <span style="color:#e6db74">&#39;DEFAULT_PERMISSION_CLASSES&#39;</span>: [
-        <span style="color:#e6db74">&#39;rest_framework.permissions.IsAuthenticated&#39;</span>,
-    ],
-    <span style="color:#e6db74">&#39;DEFAULT_AUTHENTICATION_CLASSES&#39;</span>: (
-        <span style="color:#e6db74">&#39;app.myauth.CookieAuthentication&#39;</span>,
-    ),
-    <span style="color:#e6db74">&#39;PAGE_SIZE&#39;</span>: <span style="color:#ae81ff">20</span>,
-}
-
-JWT_AUTH <span style="color:#f92672">=</span> {
-    <span style="color:#e6db74">&#39;JWT_EXPIRATION_DELTA&#39;</span>: datetime<span style="color:#f92672">.</span>timedelta(seconds<span style="color:#f92672">=</span><span style="color:#ae81ff">300</span>), <span style="color:#75715e"># 过期时间</span>
-    <span style="color:#e6db74">&#39;JWT_AUTH_HEADER_PREFIX&#39;</span>: <span style="color:#e6db74">&#39;ABC&#39;</span>, <span style="color:#75715e"># 请求头前缀</span>
-}
-</code></pre></div><p>至于<code>JWT_AUTH</code>更多的配置见官网，比如使用什么加密算法等等。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>REST_FRAMEWORK <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;DEFAULT_PERMISSION_CLASSES&#39;</span>: [
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;rest_framework.permissions.IsAuthenticated&#39;</span>,
+</span></span><span style="display:flex;"><span>    ],
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;DEFAULT_AUTHENTICATION_CLASSES&#39;</span>: (
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;app.myauth.CookieAuthentication&#39;</span>,
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;PAGE_SIZE&#39;</span>: <span style="color:#ae81ff">20</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>JWT_AUTH <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;JWT_EXPIRATION_DELTA&#39;</span>: datetime<span style="color:#f92672">.</span>timedelta(seconds<span style="color:#f92672">=</span><span style="color:#ae81ff">300</span>), <span style="color:#75715e"># 过期时间</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;JWT_AUTH_HEADER_PREFIX&#39;</span>: <span style="color:#e6db74">&#39;ABC&#39;</span>, <span style="color:#75715e"># 请求头前缀</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>至于<code>JWT_AUTH</code>更多的配置见官网，比如使用什么加密算法等等。</p>
 <p>接下来编写认证代码，这里逻辑很简单，<code>app/myauth.py</code>内容如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># coding=utf-8</span>
-<span style="color:#f92672">from</span> rest_framework_jwt.settings <span style="color:#f92672">import</span> api_settings
-<span style="color:#f92672">from</span> rest_framework_jwt.authentication <span style="color:#f92672">import</span> BaseJSONWebTokenAuthentication
-
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CookieAuthentication</span>(BaseJSONWebTokenAuthentication):
-    <span style="color:#e6db74">&#34;&#34;&#34;自定义JWT认证，从cookie中获取认证信息&#34;&#34;&#34;</span>
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_jwt_value</span>(self, request):
-        <span style="color:#75715e"># print request.COOKIES</span>
-        <span style="color:#66d9ef">return</span> request<span style="color:#f92672">.</span>COOKIES<span style="color:#f92672">.</span>get(api_settings<span style="color:#f92672">.</span>JWT_AUTH_HEADER_PREFIX<span style="color:#f92672">.</span>upper(), <span style="color:#e6db74">&#39;&#39;</span>)
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">authenticate_header</span>(self, request):
-        <span style="color:#e6db74">&#34;&#34;&#34;
-</span><span style="color:#e6db74">        注意这里：
-</span><span style="color:#e6db74">        返回一个字符串作为`WWW-Authenticate`的值，http响应头中有`WWW-Authenticate`才会返回401.
-</span><span style="color:#e6db74">        否则返回403.
-</span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
-        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{0}</span><span style="color:#e6db74"> realm=&#34;</span><span style="color:#e6db74">{1}</span><span style="color:#e6db74">&#34;&#39;</span><span style="color:#f92672">.</span>format(api_settings<span style="color:#f92672">.</span>JWT_AUTH_HEADER_PREFIX, self<span style="color:#f92672">.</span>www_authenticate_realm)
-</code></pre></div><p>然后编写我们自己的获取JWT-Token的View，编辑<code>app/views.py</code>添加如下代码：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime
-<span style="color:#f92672">from</span> rest_framework <span style="color:#f92672">import</span> status
-<span style="color:#f92672">from</span> rest_framework.response <span style="color:#f92672">import</span> Response
-<span style="color:#f92672">from</span> rest_framework_jwt.settings <span style="color:#f92672">import</span> api_settings
-<span style="color:#f92672">from</span> rest_framework_jwt.views <span style="color:#f92672">import</span> ObtainJSONWebToken
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CookieJSONWebToken</span>(ObtainJSONWebToken):
-    <span style="color:#e6db74">&#34;&#34;&#34;
-</span><span style="color:#e6db74">    接受post请求生成JWT-Token并设置cookie
-</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">post</span>(self, request, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
-        serializer <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>get_serializer(data<span style="color:#f92672">=</span>request<span style="color:#f92672">.</span>data)
-
-        <span style="color:#66d9ef">if</span> serializer<span style="color:#f92672">.</span>is_valid():
-            user <span style="color:#f92672">=</span> serializer<span style="color:#f92672">.</span>object<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;user&#39;</span>) <span style="color:#f92672">or</span> request<span style="color:#f92672">.</span>user
-            token <span style="color:#f92672">=</span> serializer<span style="color:#f92672">.</span>object<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;token&#39;</span>)
-            response_data <span style="color:#f92672">=</span> api_settings<span style="color:#f92672">.</span>JWT_RESPONSE_PAYLOAD_HANDLER(
-                token, user, request)
-            res <span style="color:#f92672">=</span> Response(response_data)
-            res<span style="color:#f92672">.</span>set_cookie(api_settings<span style="color:#f92672">.</span>JWT_AUTH_HEADER_PREFIX<span style="color:#f92672">.</span>upper(), value<span style="color:#f92672">=</span>response_data[
-                           <span style="color:#e6db74">&#39;token&#39;</span>], httponly<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, expires<span style="color:#f92672">=</span>datetime<span style="color:#f92672">.</span>now() <span style="color:#f92672">+</span> api_settings<span style="color:#f92672">.</span>JWT_EXPIRATION_DELTA)
-            <span style="color:#66d9ef">return</span> res
-        <span style="color:#66d9ef">return</span> Response(serializer<span style="color:#f92672">.</span>errors, status<span style="color:#f92672">=</span>status<span style="color:#f92672">.</span>HTTP_400_BAD_REQUEST)
-</code></pre></div><p>这里注意设定httponly属性，防止造成安全漏洞。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># coding=utf-8</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework_jwt.settings <span style="color:#f92672">import</span> api_settings
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework_jwt.authentication <span style="color:#f92672">import</span> BaseJSONWebTokenAuthentication
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CookieAuthentication</span>(BaseJSONWebTokenAuthentication):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;自定义JWT认证，从cookie中获取认证信息&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_jwt_value</span>(self, request):
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># print request.COOKIES</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> request<span style="color:#f92672">.</span>COOKIES<span style="color:#f92672">.</span>get(api_settings<span style="color:#f92672">.</span>JWT_AUTH_HEADER_PREFIX<span style="color:#f92672">.</span>upper(), <span style="color:#e6db74">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">authenticate_header</span>(self, request):
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        注意这里：
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        返回一个字符串作为`WWW-Authenticate`的值，http响应头中有`WWW-Authenticate`才会返回401.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        否则返回403.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{0}</span><span style="color:#e6db74"> realm=&#34;</span><span style="color:#e6db74">{1}</span><span style="color:#e6db74">&#34;&#39;</span><span style="color:#f92672">.</span>format(api_settings<span style="color:#f92672">.</span>JWT_AUTH_HEADER_PREFIX, self<span style="color:#f92672">.</span>www_authenticate_realm)
+</span></span></code></pre></div><p>然后编写我们自己的获取JWT-Token的View，编辑<code>app/views.py</code>添加如下代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework <span style="color:#f92672">import</span> status
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework.response <span style="color:#f92672">import</span> Response
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework_jwt.settings <span style="color:#f92672">import</span> api_settings
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework_jwt.views <span style="color:#f92672">import</span> ObtainJSONWebToken
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CookieJSONWebToken</span>(ObtainJSONWebToken):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    接受post请求生成JWT-Token并设置cookie
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">post</span>(self, request, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+</span></span><span style="display:flex;"><span>        serializer <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>get_serializer(data<span style="color:#f92672">=</span>request<span style="color:#f92672">.</span>data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> serializer<span style="color:#f92672">.</span>is_valid():
+</span></span><span style="display:flex;"><span>            user <span style="color:#f92672">=</span> serializer<span style="color:#f92672">.</span>object<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;user&#39;</span>) <span style="color:#f92672">or</span> request<span style="color:#f92672">.</span>user
+</span></span><span style="display:flex;"><span>            token <span style="color:#f92672">=</span> serializer<span style="color:#f92672">.</span>object<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;token&#39;</span>)
+</span></span><span style="display:flex;"><span>            response_data <span style="color:#f92672">=</span> api_settings<span style="color:#f92672">.</span>JWT_RESPONSE_PAYLOAD_HANDLER(
+</span></span><span style="display:flex;"><span>                token, user, request)
+</span></span><span style="display:flex;"><span>            res <span style="color:#f92672">=</span> Response(response_data)
+</span></span><span style="display:flex;"><span>            res<span style="color:#f92672">.</span>set_cookie(api_settings<span style="color:#f92672">.</span>JWT_AUTH_HEADER_PREFIX<span style="color:#f92672">.</span>upper(), value<span style="color:#f92672">=</span>response_data[
+</span></span><span style="display:flex;"><span>                           <span style="color:#e6db74">&#39;token&#39;</span>], httponly<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, expires<span style="color:#f92672">=</span>datetime<span style="color:#f92672">.</span>now() <span style="color:#f92672">+</span> api_settings<span style="color:#f92672">.</span>JWT_EXPIRATION_DELTA)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> res
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Response(serializer<span style="color:#f92672">.</span>errors, status<span style="color:#f92672">=</span>status<span style="color:#f92672">.</span>HTTP_400_BAD_REQUEST)
+</span></span></code></pre></div><p>这里注意设定httponly属性，防止造成安全漏洞。</p>
 <p>最后，修改<code>urls.py</code>添加我们的view:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
-<span style="color:#f92672">from</span> app <span style="color:#f92672">import</span> views <span style="color:#66d9ef">as</span> baseview
-
-urlpatterns <span style="color:#f92672">=</span> [
-    <span style="color:#f92672">...</span>
-    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^api-token-auth/&#39;</span>, baseview<span style="color:#f92672">.</span>CookieJSONWebToken<span style="color:#f92672">.</span>as_view()),
-    <span style="color:#f92672">...</span>
-]
-</code></pre></div><p>设定完成后，就可以通过向<code>api-token-auth</code>这个URL提交用户名密码来获取JWT-Token了，并且在浏览器使用ajax请求获取那些登录后的数据会自动带上cookie进行认证。至于如何解决跨域，可以使用<a href="https://github.com/ottoyiu/django-cors-headers">django-cors-headers</a>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> app <span style="color:#f92672">import</span> views <span style="color:#66d9ef">as</span> baseview
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>urlpatterns <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^api-token-auth/&#39;</span>, baseview<span style="color:#f92672">.</span>CookieJSONWebToken<span style="color:#f92672">.</span>as_view()),
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><p>设定完成后，就可以通过向<code>api-token-auth</code>这个URL提交用户名密码来获取JWT-Token了，并且在浏览器使用ajax请求获取那些登录后的数据会自动带上cookie进行认证。至于如何解决跨域，可以使用<a href="https://github.com/ottoyiu/django-cors-headers">django-cors-headers</a>。</p>
 <p>这里多说一句，使用这种方式登录时候你会发现在头部即便有<code>Set-Cookie</code>，但ajax请求成功获取token后并不会自动设置cookie，因为浏览器把这个头忽略了。这里就涉及到另一个HTTP头<code>Access-Control-Allow-Credentials</code>，只有这个设置成<code>true</code>时候浏览器才会处理ajax返回来的Cookie信息。相关概念可以参考<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS">这里</a>。</p>
 <p>这里我用<code>axios</code>为例：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">axios</span>({
-        <span style="color:#a6e22e">method</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;post&#39;</span>,
-        <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;http://127.0.0.1:9090/api-token-auth/&#39;</span>,
-        <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> {
-            <span style="color:#a6e22e">username</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;username&#39;</span>,
-            <span style="color:#a6e22e">password</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;password&#39;</span>
-        },
-        <span style="color:#a6e22e">withCredentials</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-    })
-    .<span style="color:#a6e22e">then</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">response</span>) {
-        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">response</span>);
-    })
-    .<span style="color:#66d9ef">catch</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">error</span>) {
-        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">error</span>);
-    });
-</code></pre></div><p>这里注意，设置<code>withCredentials</code>为<code>true</code>，此时发送请求，你会在浏览器控制台中看到<code>已拦截跨源请求：同源策略禁止读取位于 http://127.0.0.1:9090/api-token-auth/ 的远程资源。（原因：CORS 头中的 'Access-Control-Allow-Credentials' 预期为 'true'）</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">axios</span>({
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">method</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;post&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;http://127.0.0.1:9090/api-token-auth/&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">username</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;username&#39;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">password</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;password&#39;</span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">withCredentials</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">then</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">response</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">response</span>);
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>    .<span style="color:#66d9ef">catch</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">error</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">error</span>);
+</span></span><span style="display:flex;"><span>    });
+</span></span></code></pre></div><p>这里注意，设置<code>withCredentials</code>为<code>true</code>，此时发送请求，你会在浏览器控制台中看到<code>已拦截跨源请求：同源策略禁止读取位于 http://127.0.0.1:9090/api-token-auth/ 的远程资源。（原因：CORS 头中的 'Access-Control-Allow-Credentials' 预期为 'true'）</code></p>
 <p>解决这个问题，首先安装上面的<code>django-cors-headers</code>，然后修改<code>settings.py</code>添加下面的配置即可：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># CORS_ORIGIN_ALLOW_ALL = True</span>
-CORS_ORIGIN_WHITELIST <span style="color:#f92672">=</span> (
-    <span style="color:#e6db74">&#39;localhost:8080&#39;</span>,
-)
-<span style="color:#75715e"># 准许ajax设置cookie</span>
-CORS_ALLOW_CREDENTIALS <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
-</code></pre></div><p>这里需要注意的，如果<code>CORS_ALLOW_CREDENTIALS</code>设置为<code>True</code>，那么<code>Access-Control-Allow-Origin</code>则不能为通配符<code>*</code>了，所以使用报名单的方式。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># CORS_ORIGIN_ALLOW_ALL = True</span>
+</span></span><span style="display:flex;"><span>CORS_ORIGIN_WHITELIST <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;localhost:8080&#39;</span>,
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 准许ajax设置cookie</span>
+</span></span><span style="display:flex;"><span>CORS_ALLOW_CREDENTIALS <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+</span></span></code></pre></div><p>这里需要注意的，如果<code>CORS_ALLOW_CREDENTIALS</code>设置为<code>True</code>，那么<code>Access-Control-Allow-Origin</code>则不能为通配符<code>*</code>了，所以使用报名单的方式。</p>
 <p><em><strong>最后需要注意的，不要在JWT-Token中存储任何敏感信息！</strong></em></p>
 		</div>
 		<footer class="post__footer">
@@ -244,7 +244,7 @@ CORS_ALLOW_CREDENTIALS <span style="color:#f92672">=</span> <span style="color:#
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

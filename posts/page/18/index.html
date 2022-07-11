@@ -80,6 +80,27 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/%E5%90%8D%E8%AF%8D%E7%8E%8B%E5%9B%BD%E9%87%8C%E7%9A%84%E6%AD%BB%E5%88%91%E7%BF%BB%E8%AF%91/" rel="bookmark">
+			名词王国里的死刑（翻译）
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-03-16T17:02:02Z">2016-03-16</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>, <a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>真是惭愧，直到今日才读到这篇文章，原文在<a href="http://steve-yegge.blogspot.hk/2006/03/execution-in-kingdom-of-nouns.html">这里</a>。我本人大学课程中唯一没选修的语言就是Java，不知什么原因对于Java就是不感冒。虽然由于某些原因做了一阵android的开发，但是这段经历更是让我坚定了“能不写java程序就不写java程序”的想法。这里无意引起“语言之战”，仅是个人喜好问题罢了。</p>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/%E5%90%8D%E8%AF%8D%E7%8E%8B%E5%9B%BD%E9%87%8C%E7%9A%84%E6%AD%BB%E5%88%91%E7%BF%BB%E8%AF%91/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/%E8%A7%A3%E5%86%B3flower-substantial-drift-from-may-mean-clocks-are-out-of-sync%E9%94%99%E8%AF%AF/" rel="bookmark">
 			解决flower Substantial drift from.. may mean clocks are out of sync错误
 			</a>
@@ -137,29 +158,29 @@ if (!doNotTrack) {
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		<p>程序中很常见的一种场景就是根据某个控制变量的值来调用不同的函数或对象进行处理，某些语言中可以使用case语句进行处理，在python可以使用getattr函数甚至if&hellip;elif&hellip;else来处理，除此之外，也可以使用字典来实现相同的功能，比如下面的例子：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">animals <span style="color:#f92672">=</span> []
-number_of_felines <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">deal_cat</span>():
-    <span style="color:#66d9ef">global</span> number_of_felines
-    print <span style="color:#e6db74">&#34;meow&#34;</span>
-    animals<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;feline&#39;</span>)
-    number_of_felines <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">deal_dog</span>():
-    print <span style="color:#e6db74">&#39;bark&#39;</span>
-    animals<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;canine&#39;</span>)
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">deal_bear</span>():
-    print <span style="color:#e6db74">&#34;hug&#34;</span>
-    animals<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;ursine&#39;</span>)
-token <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;cat&#39;</span>: deal_cat, <span style="color:#e6db74">&#39;dog&#39;</span>: deal_dog, <span style="color:#e6db74">&#39;bear&#39;</span>: deal_bear}
-<span style="color:#75715e">#words = [&#39;cat&#39;, &#39;dog&#39;, &#39;bear&#39;]</span>
-words <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;cat&#39;</span>, <span style="color:#e6db74">&#39;dog&#39;</span>, <span style="color:#e6db74">&#39;bear&#39;</span>, <span style="color:#e6db74">&#39;cat&#39;</span>]
-<span style="color:#66d9ef">for</span> one <span style="color:#f92672">in</span> words:
-    token[one]()
-    <span style="color:#75715e">#return token[one]()</span>
-nf <span style="color:#f92672">=</span> number_of_felines
-print <span style="color:#e6db74">&#39;we met </span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> feline</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> (nf, <span style="color:#e6db74">&#39;s&#39;</span>[nf <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:])
-print <span style="color:#e6db74">&#39;the animals we net were:&#39;</span>, <span style="color:#e6db74">&#39; &#39;</span><span style="color:#f92672">.</span>join(animals)
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>animals <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>number_of_felines <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">deal_cat</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">global</span> number_of_felines
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#34;meow&#34;</span>
+</span></span><span style="display:flex;"><span>    animals<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;feline&#39;</span>)
+</span></span><span style="display:flex;"><span>    number_of_felines <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">deal_dog</span>():
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;bark&#39;</span>
+</span></span><span style="display:flex;"><span>    animals<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;canine&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">deal_bear</span>():
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#34;hug&#34;</span>
+</span></span><span style="display:flex;"><span>    animals<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;ursine&#39;</span>)
+</span></span><span style="display:flex;"><span>token <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;cat&#39;</span>: deal_cat, <span style="color:#e6db74">&#39;dog&#39;</span>: deal_dog, <span style="color:#e6db74">&#39;bear&#39;</span>: deal_bear}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#words = [&#39;cat&#39;, &#39;dog&#39;, &#39;bear&#39;]</span>
+</span></span><span style="display:flex;"><span>words <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;cat&#39;</span>, <span style="color:#e6db74">&#39;dog&#39;</span>, <span style="color:#e6db74">&#39;bear&#39;</span>, <span style="color:#e6db74">&#39;cat&#39;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> one <span style="color:#f92672">in</span> words:
+</span></span><span style="display:flex;"><span>    token[one]()
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#return token[one]()</span>
+</span></span><span style="display:flex;"><span>nf <span style="color:#f92672">=</span> number_of_felines
+</span></span><span style="display:flex;"><span>print <span style="color:#e6db74">&#39;we met </span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> feline</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> (nf, <span style="color:#e6db74">&#39;s&#39;</span>[nf <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:])
+</span></span><span style="display:flex;"><span>print <span style="color:#e6db74">&#39;the animals we net were:&#39;</span>, <span style="color:#e6db74">&#39; &#39;</span><span style="color:#f92672">.</span>join(animals)
+</span></span></code></pre></div>
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/python%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0%E4%B9%8B%E4%BD%BF%E7%94%A8%E5%AD%97%E5%85%B8%E5%88%86%E6%B4%BE%E5%87%BD%E6%95%B0/">Read more…</a>
@@ -209,32 +230,6 @@ from functools import wraps def http_basic_auth(func): &#39;&#39;&#39;定义http
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/%E5%85%B3%E4%BA%8Efunctools-wraps%E7%9A%84%E4%BD%9C%E7%94%A8/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/%E4%BD%A0%E5%A5%BD2016/" rel="bookmark">
-			你好，2016！
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-01-03T14:26:24Z">2016-01-03</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%9D%82%E8%B0%88/" rel="category">杂谈</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		从13年开始写博客，居然已经过了整整3年，自己都没想到能坚持这么久。虽然有些时候一个月只写一篇，但都是自己原创或者翻译的，也是对自己成长记录。按照以往的惯例，这篇文章应该是发布在1月1日的，但今年我竟然稀里糊涂的把这事记错了，以为农历新年时才写总结……
-一句话形容2015：平凡而又充实的一年。
-全年共阅读21本书，体重也终于上升到了59kg左右，至于收益率的目标……遇到了千股跌停的奇观基本也就达成一半。购物的、娱乐的倒是全部完成了，锻炼又是练练就断了，记账坚持的不错，如果每月能有点结余就更好了，真是收入多了支出也多了。
-剩下的……嗯，把2015年目标改成2016年吧……
-2015年最有成就感的：
- 自驾去海边，走的沿海山路，各种急弯各种坡路啊！以前坐车的时候感觉在山路上看海好美，可自己开车时候根本没办法去欣赏唉…… 新的数据中心、计算中心、网站上线，其中各种曲折就不说了。  2015年最难过的：
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E4%BD%A0%E5%A5%BD2016/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -259,11 +254,11 @@ from functools import wraps def http_basic_auth(func): &#39;&#39;&#39;定义http
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 		</ul>
 	</div>
 </div>
@@ -301,11 +296,11 @@ from functools import wraps def http_basic_auth(func): &#39;&#39;&#39;定义http
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">132</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">30</span>
+				<span class="widget__counter widget__counter--bubble">31</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

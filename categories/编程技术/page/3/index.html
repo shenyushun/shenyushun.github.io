@@ -80,6 +80,29 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/" rel="bookmark">
+			设计模式-组合模式
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-12-23T17:58:08Z">2019-12-23</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>组合模式(Composite Pattern):将对象组合成树形结构表示来“部分-整体”的层次结构，使用户对单个对象和组合对象的使用具有一致性。</p>
+<p>看上去有点抽象，其实就是一种树形结构。比如二叉树，每个非叶子节点都有2个子节点，叶子节点除了没有子节点外和父节点、根节点都是一样的。在通俗来说，比如公司的层级架构，从老板(根节点)到经理(非叶子节点)再到员工(叶子节点)，他们有很多共性的东西，比如都有姓名、工号，老板和经理有添加、移除手下员工的能力，而作为员工则只能干活。</p>
+<p>从代码实现来说，就是老板、经理、员工使用一个抽象类，而老板和经理实现某些特定的方法，这就是组合模式，十分容易理解。</p>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/" rel="bookmark">
 			设计模式-桥接模式
 			</a>
@@ -125,13 +148,13 @@ if (!doNotTrack) {
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		<p>这篇文章记录nova创建快照时候的过程，根据<a href="https://docs.openstack.org/api-ref/compute/?expanded=create-image-createimage-action-detail#create-image-createimage-action">文档</a>，创建快照其实是向<code>/servers/{server_id}/action</code>发送了一个POST的请求，内容则是类似:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-    <span style="color:#f92672">&#34;createImage&#34;</span> : {
-        <span style="color:#f92672">&#34;name&#34;</span> : <span style="color:#e6db74">&#34;image-name&#34;</span>,
-        <span style="color:#f92672">&#34;metadata&#34;</span>: {}
-    }
-}
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;createImage&#34;</span> : {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;name&#34;</span> : <span style="color:#e6db74">&#34;image-name&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;metadata&#34;</span>: {}
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">Read more…</a>
@@ -187,33 +210,33 @@ if (!doNotTrack) {
 	<div class="content list__excerpt post__content clearfix">
 		<p>最近看了下关于OpenStack如何统计更新CPU、内存、硬盘等硬件资源的部分，由于历史原因下面的代码来自<code>newton</code>版。</p>
 <p>简单说，OpenStack先通过定时任务进行资源统计，入口代码位于<code>nova\compute\manager.py</code>中<code>ComputeManager</code>类的<code>update_available_resource</code>函数。默认情况下每分钟更新一次：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">
-<span style="color:#a6e22e">@periodic_task</span><span style="color:#f92672">.</span>periodic_task(spacing<span style="color:#f92672">=</span>CONF<span style="color:#f92672">.</span>update_resources_interval)
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">update_available_resource</span>(self, context):
-    <span style="color:#e6db74">&#34;&#34;&#34;See driver.get_available_resource()
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">    Periodic process that keeps that the compute host&#39;s understanding of
-</span><span style="color:#e6db74">    resource availability and usage in sync with the underlying hypervisor.
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">    :param context: security context
-</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
-
-    compute_nodes_in_db <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_compute_nodes_in_db(context,
-                                                        use_slave<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-    nodenames <span style="color:#f92672">=</span> set(self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>get_available_nodes())
-    <span style="color:#66d9ef">for</span> nodename <span style="color:#f92672">in</span> nodenames:
-        self<span style="color:#f92672">.</span>update_available_resource_for_node(context, nodename)
-
-    self<span style="color:#f92672">.</span>_resource_tracker_dict <span style="color:#f92672">=</span> {
-        k: v <span style="color:#66d9ef">for</span> k, v <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>_resource_tracker_dict<span style="color:#f92672">.</span>items()
-        <span style="color:#66d9ef">if</span> k <span style="color:#f92672">in</span> nodenames}
-
-    <span style="color:#75715e"># Delete orphan compute node not reported by driver but still in db</span>
-    <span style="color:#66d9ef">for</span> cn <span style="color:#f92672">in</span> compute_nodes_in_db:
-        <span style="color:#66d9ef">if</span> cn<span style="color:#f92672">.</span>hypervisor_hostname <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> nodenames:
-            LOG<span style="color:#f92672">.</span>info(_LI(<span style="color:#e6db74">&#34;Deleting orphan compute node </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span>), cn<span style="color:#f92672">.</span>id)
-            cn<span style="color:#f92672">.</span>destroy()
-</code></pre></div><p>首先获取所有节点，然后维护了一个名为<code>_resource_tracker_dict</code>的字典用来记录host和<code>ResourceTracker</code>实例的对应关系，所有的资源更新行为都在<code>ResourceTracker</code>中进行处理。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@periodic_task</span><span style="color:#f92672">.</span>periodic_task(spacing<span style="color:#f92672">=</span>CONF<span style="color:#f92672">.</span>update_resources_interval)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">update_available_resource</span>(self, context):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;See driver.get_available_resource()
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Periodic process that keeps that the compute host&#39;s understanding of
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    resource availability and usage in sync with the underlying hypervisor.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    :param context: security context
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    compute_nodes_in_db <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_compute_nodes_in_db(context,
+</span></span><span style="display:flex;"><span>                                                        use_slave<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>    nodenames <span style="color:#f92672">=</span> set(self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>get_available_nodes())
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> nodename <span style="color:#f92672">in</span> nodenames:
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>update_available_resource_for_node(context, nodename)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    self<span style="color:#f92672">.</span>_resource_tracker_dict <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        k: v <span style="color:#66d9ef">for</span> k, v <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>_resource_tracker_dict<span style="color:#f92672">.</span>items()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> k <span style="color:#f92672">in</span> nodenames}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Delete orphan compute node not reported by driver but still in db</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> cn <span style="color:#f92672">in</span> compute_nodes_in_db:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> cn<span style="color:#f92672">.</span>hypervisor_hostname <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> nodenames:
+</span></span><span style="display:flex;"><span>            LOG<span style="color:#f92672">.</span>info(_LI(<span style="color:#e6db74">&#34;Deleting orphan compute node </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span>), cn<span style="color:#f92672">.</span>id)
+</span></span><span style="display:flex;"><span>            cn<span style="color:#f92672">.</span>destroy()
+</span></span></code></pre></div><p>首先获取所有节点，然后维护了一个名为<code>_resource_tracker_dict</code>的字典用来记录host和<code>ResourceTracker</code>实例的对应关系，所有的资源更新行为都在<code>ResourceTracker</code>中进行处理。</p>
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">Read more…</a>
@@ -239,29 +262,6 @@ if (!doNotTrack) {
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" rel="bookmark">
-			设计模式-原型模式
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-10-14T17:58:08Z">2019-10-14</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>原型模式(Prototype Pattern)：使用原型实例创建指定创建对象的种类，并通过拷贝这些原型创建新对象。这个模式很好理解，就是<code>ctrl+c，ctrl+v</code>后做一些小修改。</p>
-<p>这里面涉及一个知识点就是深拷贝和浅拷贝的问题，但我相信任何python开发人员都知道<code>copy()</code>和<code>deepcopy()</code>的区别，这里就不多说了（有兴趣的可以去看python中这2个函数的实现）。</p>
-<p>个人理解当需要多个类对象时，如果要进行很多复杂的、消耗时间的初始化操作，而这些对象之间又仅有少量不同时，可以考虑使用原型模式。</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -286,11 +286,11 @@ if (!doNotTrack) {
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 		</ul>
 	</div>
 </div>
@@ -328,11 +328,11 @@ if (!doNotTrack) {
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">132</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">30</span>
+				<span class="widget__counter widget__counter--bubble">31</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

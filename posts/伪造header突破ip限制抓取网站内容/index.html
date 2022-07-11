@@ -20,7 +20,7 @@
 <meta itemprop="description" content="有些网站为了防止爬虫抓取而设定了某些条件，比如如果一个ip某时间段内访问量很大，则禁止这个ip访问。如果这个网站启用了cdn加速服务的话，可以修改header中的host，并在url中直接用ip进行网站的访问。
 #coding=utf-8 import urllib2 import random import os,sys DIRNAME = os."><meta itemprop="datePublished" content="2013-11-15T15:28:15+00:00" />
 <meta itemprop="dateModified" content="2013-11-15T15:28:15+00:00" />
-<meta itemprop="wordCount" content="282">
+<meta itemprop="wordCount" content="284">
 <meta itemprop="keywords" content="python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -93,106 +93,106 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>有些网站为了防止爬虫抓取而设定了某些条件，比如如果一个ip某时间段内访问量很大，则禁止这个ip访问。如果这个网站启用了cdn加速服务的话，可以修改header中的host，并在url中直接用ip进行网站的访问。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#coding=utf-8</span>
-<span style="color:#f92672">import</span> urllib2
-<span style="color:#f92672">import</span> random
-<span style="color:#f92672">import</span> os<span style="color:#f92672">,</span>sys
-DIRNAME <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>abspath(__file__))
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Gethtml_mouser</span>():
-    <span style="color:#66d9ef">def</span> __init__(self,key,debug<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>,<span style="color:#f92672">**</span>dict_args):
-        self<span style="color:#f92672">.</span>key <span style="color:#f92672">=</span> key
-        self<span style="color:#f92672">.</span>debug <span style="color:#f92672">=</span> debug
-        self<span style="color:#f92672">.</span>i_headers <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;User-Agent&#34;</span>: <span style="color:#e6db74">&#34;Mozilla/5.0 (X11; Linux x86_64; rv:23.0) Gecko/20100101 Firefox/23.0&#34;</span>,
-                          <span style="color:#e6db74">&#34;Accept&#34;</span>: <span style="color:#e6db74">&#34;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&#34;</span>,
-                          <span style="color:#e6db74">&#34;Host&#34;</span>:<span style="color:#e6db74">&#34;www.mouser.com&#34;</span>,
-                          <span style="color:#e6db74">&#34;Accept-Language&#34;</span>:<span style="color:#e6db74">&#34;en-US&#34;</span>,
-                          <span style="color:#e6db74">&#34;Cookie&#34;</span>:<span style="color:#e6db74">&#34;preferences=ps=www&amp;pl=en-US&amp;pc_www=USDu; SDG1=1; SDG2=0; SDG3=0;&#34;</span>
-                          }<span style="color:#75715e">#伪造一个抓取USD的cookie</span>
-        <span style="color:#e6db74">&#39;&#39;&#39; 如有效 就代表查询详细信息页面url 并且判断Host头信息的域名取值 &#39;&#39;&#39;</span>
-        self<span style="color:#f92672">.</span>info_url   <span style="color:#f92672">=</span> dict_args<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;info_url&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>)
-        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>info_url <span style="color:#f92672">and</span> <span style="color:#e6db74">&#39;cn.mouser.com&#39;</span> <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>info_url:
-            self<span style="color:#f92672">.</span>i_headers[<span style="color:#e6db74">&#39;Host&#39;</span>]  <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;cn.mouser.com&#39;</span>
-        self<span style="color:#f92672">.</span>get_iplist()
-        self<span style="color:#f92672">.</span>creat_temip()
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_iplist</span>(self):
-        <span style="color:#e6db74">&#39;&#39;&#39;获取mouser_ip列表，请保证同目录下存在mouser_ip.txt&#39;&#39;&#39;</span>
-        iptxt <span style="color:#f92672">=</span> file(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(DIRNAME,<span style="color:#e6db74">&#39;mouser_ip.txt&#39;</span>),<span style="color:#e6db74">&#39;r&#39;</span>)
-        ipt <span style="color:#f92672">=</span> iptxt<span style="color:#f92672">.</span>read()
-        self<span style="color:#f92672">.</span>iplist <span style="color:#f92672">=</span> ipt<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;n&#39;</span>)
-        iptxt<span style="color:#f92672">.</span>close()
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">log</span>(self,flag):
-        <span style="color:#e6db74">&#39;&#39;&#39;日志记录，生成mouser_log.txt为以后记录分析提供数据&#39;&#39;&#39;</span>
-        <span style="color:#66d9ef">try</span>:
-            f <span style="color:#f92672">=</span> file(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(DIRNAME,<span style="color:#e6db74">&#39;mouser_log.txt&#39;</span>),<span style="color:#e6db74">&#39;a&#39;</span>)
-            <span style="color:#66d9ef">if</span> flag <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
-                log <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">,sucessn&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>tem_ip)   <span style="color:#75715e">#此处的n为了分析日志用</span>
-                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print log
-                f<span style="color:#f92672">.</span>write(log)
-            <span style="color:#66d9ef">elif</span> flag <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
-                log <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">,failn&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>tem_ip)
-                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> is failed,try next ip...&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>tem_ip)
-                f<span style="color:#f92672">.</span>write(log)
-            <span style="color:#66d9ef">else</span>:
-                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#34;log error&#34;</span>
-            f<span style="color:#f92672">.</span>close()
-        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span>,e:
-            <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print str(e)
-            <span style="color:#66d9ef">pass</span><span style="color:#75715e">#防止由于服务器上没有写权限出错。</span>
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">creat_temip</span>(self):
-        <span style="color:#e6db74">&#39;&#39;&#39;随机获取一个临时ip&#39;&#39;&#39;</span>
-        ip_len <span style="color:#f92672">=</span> len(self<span style="color:#f92672">.</span>iplist)
-        ip_num <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">0</span>,ip_len<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
-        self<span style="color:#f92672">.</span>tem_ip <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>iplist[ip_num]
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_html</span>(self,max_num<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>):
-        <span style="color:#e6db74">&#39;&#39;&#39;
-</span><span style="color:#e6db74">         根据获取的临时ip构造最终url并返回所抓取的html
-</span><span style="color:#e6db74">         如果发生异常则更换ip继续自动请求直到获取成功
-</span><span style="color:#e6db74">         prams为空使用GET请求
-</span><span style="color:#e6db74">        &#39;&#39;&#39;</span>
-        <span style="color:#66d9ef">if</span> max_num <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
-            <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#39;there are </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> changes to get html&#39;</span> <span style="color:#f92672">%</span> max_num
-            now_num     <span style="color:#f92672">=</span> max_num <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
-            params<span style="color:#f92672">=</span>{}
-            <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>info_url:
-                final_url   <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>info_url
-            <span style="color:#66d9ef">elif</span> <span style="color:#f92672">not</span> self<span style="color:#f92672">.</span>key<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#39;ProductDetail&#39;</span>):
-                final_url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;http://</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">/Search/Refine.aspx?Keyword=</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>tem_ip,self<span style="color:#f92672">.</span>key)
-            <span style="color:#66d9ef">else</span>:
-                final_url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;http://</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">/</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>tem_ip,self<span style="color:#f92672">.</span>key)
-            <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print final_url
-            req <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>Request(final_url, headers<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>i_headers)
-            <span style="color:#66d9ef">try</span>:
-                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#39;begin&#39;</span>
-                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#34;use ip:&#34;</span>,self<span style="color:#f92672">.</span>tem_ip
-                page <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>urlopen(req,timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">15</span>)<span style="color:#75715e">#15秒超时</span>
-                self<span style="color:#f92672">.</span>hc <span style="color:#f92672">=</span> page<span style="color:#f92672">.</span>read()
-                info_url <span style="color:#f92672">=</span> page<span style="color:#f92672">.</span>geturl()
-                self<span style="color:#f92672">.</span>hc <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&lt;info_url&gt;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&lt;/info_url&gt;&#39;</span> <span style="color:#f92672">%</span> str(info_url) <span style="color:#f92672">+</span> str(self<span style="color:#f92672">.</span>hc)
-                <span style="color:#75715e">#print len(hc)</span>
-                <span style="color:#75715e">#open(&#39;tmpa.html&#39;,&#39;w&#39;).write(hc)</span>
-                self<span style="color:#f92672">.</span>log(<span style="color:#ae81ff">0</span>)
-                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#39;end&#39;</span>
-                <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>hc
-            <span style="color:#66d9ef">except</span> urllib2<span style="color:#f92672">.</span>HTTPError, e:  
-                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#34;Error Code:&#34;</span>, e<span style="color:#f92672">.</span>code
-                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#34;Error context:&#34;</span>,e
-                self<span style="color:#f92672">.</span>log(<span style="color:#ae81ff">1</span>)
-                self<span style="color:#f92672">.</span>creat_temip()
-                self<span style="color:#f92672">.</span>get_html(now_num)
-            <span style="color:#66d9ef">except</span> urllib2<span style="color:#f92672">.</span>URLError, e:  
-                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#34;Error Reason:&#34;</span>, e<span style="color:#f92672">.</span>reason
-                self<span style="color:#f92672">.</span>log(<span style="color:#ae81ff">1</span>)
-                self<span style="color:#f92672">.</span>creat_temip()
-                self<span style="color:#f92672">.</span>get_html(now_num)
-            <span style="color:#66d9ef">except</span>:
-                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#34;TimeOut error!&#34;</span>
-                self<span style="color:#f92672">.</span>log(<span style="color:#ae81ff">1</span>)
-                self<span style="color:#f92672">.</span>creat_temip()
-                self<span style="color:#f92672">.</span>get_html(now_num)
-        <span style="color:#66d9ef">else</span>:
-            <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#39;Find error (had use max_num changes) &#34;&#34;&#39;</span>
-            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;&#39;</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#coding=utf-8</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib2
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> random
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os<span style="color:#f92672">,</span>sys
+</span></span><span style="display:flex;"><span>DIRNAME <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>abspath(__file__))
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Gethtml_mouser</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self,key,debug<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>,<span style="color:#f92672">**</span>dict_args):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>key <span style="color:#f92672">=</span> key
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>debug <span style="color:#f92672">=</span> debug
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>i_headers <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;User-Agent&#34;</span>: <span style="color:#e6db74">&#34;Mozilla/5.0 (X11; Linux x86_64; rv:23.0) Gecko/20100101 Firefox/23.0&#34;</span>,
+</span></span><span style="display:flex;"><span>                          <span style="color:#e6db74">&#34;Accept&#34;</span>: <span style="color:#e6db74">&#34;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&#34;</span>,
+</span></span><span style="display:flex;"><span>                          <span style="color:#e6db74">&#34;Host&#34;</span>:<span style="color:#e6db74">&#34;www.mouser.com&#34;</span>,
+</span></span><span style="display:flex;"><span>                          <span style="color:#e6db74">&#34;Accept-Language&#34;</span>:<span style="color:#e6db74">&#34;en-US&#34;</span>,
+</span></span><span style="display:flex;"><span>                          <span style="color:#e6db74">&#34;Cookie&#34;</span>:<span style="color:#e6db74">&#34;preferences=ps=www&amp;pl=en-US&amp;pc_www=USDu; SDG1=1; SDG2=0; SDG3=0;&#34;</span>
+</span></span><span style="display:flex;"><span>                          }<span style="color:#75715e">#伪造一个抓取USD的cookie</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;&#39;&#39; 如有效 就代表查询详细信息页面url 并且判断Host头信息的域名取值 &#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>info_url   <span style="color:#f92672">=</span> dict_args<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;info_url&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>info_url <span style="color:#f92672">and</span> <span style="color:#e6db74">&#39;cn.mouser.com&#39;</span> <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>info_url:
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>i_headers[<span style="color:#e6db74">&#39;Host&#39;</span>]  <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;cn.mouser.com&#39;</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>get_iplist()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>creat_temip()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_iplist</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;&#39;&#39;获取mouser_ip列表，请保证同目录下存在mouser_ip.txt&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>        iptxt <span style="color:#f92672">=</span> file(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(DIRNAME,<span style="color:#e6db74">&#39;mouser_ip.txt&#39;</span>),<span style="color:#e6db74">&#39;r&#39;</span>)
+</span></span><span style="display:flex;"><span>        ipt <span style="color:#f92672">=</span> iptxt<span style="color:#f92672">.</span>read()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>iplist <span style="color:#f92672">=</span> ipt<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;n&#39;</span>)
+</span></span><span style="display:flex;"><span>        iptxt<span style="color:#f92672">.</span>close()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">log</span>(self,flag):
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;&#39;&#39;日志记录，生成mouser_log.txt为以后记录分析提供数据&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>            f <span style="color:#f92672">=</span> file(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(DIRNAME,<span style="color:#e6db74">&#39;mouser_log.txt&#39;</span>),<span style="color:#e6db74">&#39;a&#39;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> flag <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>                log <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">,sucessn&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>tem_ip)   <span style="color:#75715e">#此处的n为了分析日志用</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print log
+</span></span><span style="display:flex;"><span>                f<span style="color:#f92672">.</span>write(log)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> flag <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>                log <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">,failn&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>tem_ip)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> is failed,try next ip...&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>tem_ip)
+</span></span><span style="display:flex;"><span>                f<span style="color:#f92672">.</span>write(log)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#34;log error&#34;</span>
+</span></span><span style="display:flex;"><span>            f<span style="color:#f92672">.</span>close()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span>,e:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print str(e)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">pass</span><span style="color:#75715e">#防止由于服务器上没有写权限出错。</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">creat_temip</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;&#39;&#39;随机获取一个临时ip&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>        ip_len <span style="color:#f92672">=</span> len(self<span style="color:#f92672">.</span>iplist)
+</span></span><span style="display:flex;"><span>        ip_num <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">0</span>,ip_len<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>tem_ip <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>iplist[ip_num]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_html</span>(self,max_num<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">         根据获取的临时ip构造最终url并返回所抓取的html
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">         如果发生异常则更换ip继续自动请求直到获取成功
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">         prams为空使用GET请求
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> max_num <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#39;there are </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> changes to get html&#39;</span> <span style="color:#f92672">%</span> max_num
+</span></span><span style="display:flex;"><span>            now_num     <span style="color:#f92672">=</span> max_num <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>            params<span style="color:#f92672">=</span>{}
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>info_url:
+</span></span><span style="display:flex;"><span>                final_url   <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>info_url
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> <span style="color:#f92672">not</span> self<span style="color:#f92672">.</span>key<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#39;ProductDetail&#39;</span>):
+</span></span><span style="display:flex;"><span>                final_url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;http://</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">/Search/Refine.aspx?Keyword=</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>tem_ip,self<span style="color:#f92672">.</span>key)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                final_url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;http://</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">/</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>tem_ip,self<span style="color:#f92672">.</span>key)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print final_url
+</span></span><span style="display:flex;"><span>            req <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>Request(final_url, headers<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>i_headers)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#39;begin&#39;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#34;use ip:&#34;</span>,self<span style="color:#f92672">.</span>tem_ip
+</span></span><span style="display:flex;"><span>                page <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>urlopen(req,timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">15</span>)<span style="color:#75715e">#15秒超时</span>
+</span></span><span style="display:flex;"><span>                self<span style="color:#f92672">.</span>hc <span style="color:#f92672">=</span> page<span style="color:#f92672">.</span>read()
+</span></span><span style="display:flex;"><span>                info_url <span style="color:#f92672">=</span> page<span style="color:#f92672">.</span>geturl()
+</span></span><span style="display:flex;"><span>                self<span style="color:#f92672">.</span>hc <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&lt;info_url&gt;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&lt;/info_url&gt;&#39;</span> <span style="color:#f92672">%</span> str(info_url) <span style="color:#f92672">+</span> str(self<span style="color:#f92672">.</span>hc)
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">#print len(hc)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">#open(&#39;tmpa.html&#39;,&#39;w&#39;).write(hc)</span>
+</span></span><span style="display:flex;"><span>                self<span style="color:#f92672">.</span>log(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#39;end&#39;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>hc
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">except</span> urllib2<span style="color:#f92672">.</span>HTTPError, e:  
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#34;Error Code:&#34;</span>, e<span style="color:#f92672">.</span>code
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#34;Error context:&#34;</span>,e
+</span></span><span style="display:flex;"><span>                self<span style="color:#f92672">.</span>log(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>                self<span style="color:#f92672">.</span>creat_temip()
+</span></span><span style="display:flex;"><span>                self<span style="color:#f92672">.</span>get_html(now_num)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">except</span> urllib2<span style="color:#f92672">.</span>URLError, e:  
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#34;Error Reason:&#34;</span>, e<span style="color:#f92672">.</span>reason
+</span></span><span style="display:flex;"><span>                self<span style="color:#f92672">.</span>log(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>                self<span style="color:#f92672">.</span>creat_temip()
+</span></span><span style="display:flex;"><span>                self<span style="color:#f92672">.</span>get_html(now_num)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">except</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#34;TimeOut error!&#34;</span>
+</span></span><span style="display:flex;"><span>                self<span style="color:#f92672">.</span>log(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>                self<span style="color:#f92672">.</span>creat_temip()
+</span></span><span style="display:flex;"><span>                self<span style="color:#f92672">.</span>get_html(now_num)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>debug: print <span style="color:#e6db74">&#39;Find error (had use max_num changes) &#34;&#34;&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;&#39;</span>
+</span></span></code></pre></div>
 		</div>
 		<footer class="post__footer">
 			
@@ -238,7 +238,7 @@ DIRNAME <span style="color:#f92672">=</span> os<span style="color:#f92672">.</sp
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

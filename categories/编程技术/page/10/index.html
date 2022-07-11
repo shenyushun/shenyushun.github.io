@@ -80,6 +80,28 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/%E8%A7%A3%E5%86%B3apahce%E9%83%A8%E7%BD%B2python%E7%A8%8B%E5%BA%8F503%E9%94%99%E8%AF%AF/" rel="bookmark">
+			解决apahce部署python程序503错误
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-04-13T11:30:09Z">2017-04-13</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		今天更新服务器后，发现使用apache部署的某个python程序无法访问了，返回503错误，报错日志如下：
+[Thu Apr 13 10:54:40 2017] [error] [client 127.0.0.1] (13)Permission denied: mod_wsgi (pid=1814): Unable to connect to WSGI daemon process &#39;trac&#39; on &#39;/etc/httpd/logs/wsgi.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/%E8%A7%A3%E5%86%B3apahce%E9%83%A8%E7%BD%B2python%E7%A8%8B%E5%BA%8F503%E9%94%99%E8%AF%AF/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/numpy%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="bookmark">
 			numpy学习笔记
 			</a>
@@ -141,16 +163,16 @@ if (!doNotTrack) {
 	<div class="content list__excerpt post__content clearfix">
 		<p>最近一直在思考如何更好的组织Django中的静态资源，比如JS、CSS一类，如何结合前端构建工具写出更好的代码以及结构呢？</p>
 <p>首先需要解决的一个问题就是某些时候需要把JS代码写在模板里来获取后台传递过来的变量，比如：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span>&gt;
-&lt;<span style="color:#f92672">h1</span>&gt;Test&lt;/<span style="color:#f92672">h1</span>&gt;
-&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;my-test&#34;</span> &gt;&lt;/<span style="color:#f92672">div</span>&gt;
-&lt;/<span style="color:#f92672">div</span>&gt;
-&lt;<span style="color:#f92672">script</span>&gt;
-<span style="color:#a6e22e">$</span>(<span style="color:#66d9ef">function</span>(){
-  <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;#my-test&#39;</span>).<span style="color:#a6e22e">html</span>(<span style="color:#e6db74">&#34;{{ some_var_from_view }}&#34;</span>)
-});
-&lt;/<span style="color:#f92672">script</span>&gt;
-</code></pre></div><p>这么写代码的话，别扭不说，前端的那些构建工具比如webpack，gulp的使用范围也将大大降低。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">h1</span>&gt;Test&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;my-test&#34;</span> &gt;&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">$</span>(<span style="color:#66d9ef">function</span>(){
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;#my-test&#39;</span>).<span style="color:#a6e22e">html</span>(<span style="color:#e6db74">&#34;{{ some_var_from_view }}&#34;</span>)
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><p>这么写代码的话，别扭不说，前端的那些构建工具比如webpack，gulp的使用范围也将大大降低。</p>
 <p>首先说结论，想完全剥离JS和模板而又需要使用模板渲染的数据，我是没想到什么好办法。如果读者有好办法希望赐教。
 既然不能完全剥离，那么就进最大的努力分离JS所需的数据和代码吧。</p>
 	</div>
@@ -214,37 +236,6 @@ if (!doNotTrack) {
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/django%E8%A7%A3%E6%9E%90%E7%94%A8%E6%88%B7%E4%B8%8A%E4%BC%A0%E7%9A%84excel%E6%96%87%E4%BB%B6/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/%E4%BD%BF%E7%94%A8python%E6%A8%A1%E6%8B%9Fpost%E8%AF%B7%E6%B1%82%E6%8F%90%E4%BA%A4%E5%9B%BE%E7%89%87/" rel="bookmark">
-			使用python模拟POST请求提交图片
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-09-14T09:54:37Z">2016-09-14</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>使用requests来模拟HTTP请求本来是一件非常轻松的事情，比如上传图片来说，简单的几行代码即可：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> requests
-files <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;attachment_file&#39;</span>: (<span style="color:#e6db74">&#39;1.png&#39;</span>, open(<span style="color:#e6db74">&#39;1.png&#39;</span>, <span style="color:#e6db74">&#39;rb&#39;</span>), <span style="color:#e6db74">&#39;image/png&#39;</span>, {})}
-values <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;next&#39;</span>:<span style="color:#e6db74">&#34;http://www.xxxx.com/xxxx&#34;</span>}
-r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 成功</span>
-r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 失败</span>
-r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 失败</span>
-r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 失败</span>
-r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 失败</span>
-<span style="color:#f92672">...</span>
-</code></pre></div><p>不过我今天在调试一个django程序的时候却遇到了大坑————为了偷懒，我直接在<strong>ipython</strong>中执行了上述代码，第一次提交的时候一切正常，但第二次之后提交就怎么也通过不了django的form验证。</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E4%BD%BF%E7%94%A8python%E6%A8%A1%E6%8B%9Fpost%E8%AF%B7%E6%B1%82%E6%8F%90%E4%BA%A4%E5%9B%BE%E7%89%87/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -269,11 +260,11 @@ r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</sp
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 		</ul>
 	</div>
 </div>
@@ -311,11 +302,11 @@ r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</sp
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">132</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">30</span>
+				<span class="widget__counter widget__counter--bubble">31</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

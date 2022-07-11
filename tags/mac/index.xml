@@ -15,7 +15,7 @@
       <guid>/posts/macos%E8%AF%BB%E5%86%99ntfs%E6%A0%BC%E5%BC%8F%E7%A1%AC%E7%9B%98/</guid>
       <description>系统OS X 10.11，之前就有发现ntfs格式的移动硬盘在mac上只能读不能写，通俗点说就是不能保存文件。
 总体而言解决方法不外乎4种：
- 硬盘在Mac上格式化成ExFAT这种通用格式 安装第三方插件，比如Paragon NTFS for MAC（收费） 安装osxfuse+ntfs-3g（命令行） 修改配置文件打开原生支持方法  首先硬盘里有东西就把第一种方式排除了，缺钱也不想用破解版的第二种也排除，虽说mac也是类unix系统不过看网上改的文件内容也不是特别明白原理排除，所以使用第三种方式吧。</description>
+硬盘在Mac上格式化成ExFAT这种通用格式 安装第三方插件，比如Paragon NTFS for MAC（收费） 安装osxfuse+ntfs-3g（命令行） 修改配置文件打开原生支持方法 首先硬盘里有东西就把第一种方式排除了，缺钱也不想用破解版的第二种也排除，虽说mac也是类unix系统不过看网上改的文件内容也不是特别明白原理排除，所以使用第三种方式吧。</description>
     </item>
     
     <item>
@@ -48,7 +48,7 @@
       <pubDate>Wed, 25 Jun 2014 11:15:35 +0000</pubDate>
       
       <guid>/posts/%E8%A7%A3%E5%86%B3ipad%E6%9C%AA%E8%83%BD%E6%89%BE%E5%88%B0%E4%BD%BF%E7%94%A8%E6%8C%87%E5%AE%9A%E4%B8%BB%E6%9C%BA%E5%90%8D%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
-      <description>最近联通不知道抽什么疯，Linux电脑只要访问二级域名就会跳转到恶心的DNS错误页面，甚至百度的二级域名都不行。那我玩ipad结果又访问不了App store，使用某些软件下东西又提示&amp;rsquo;未能找到使用指定主机名的服务器&#39;，但是微信又好用。
+      <description>最近联通不知道抽什么疯，Linux电脑只要访问二级域名就会跳转到恶心的DNS错误页面，甚至百度的二级域名都不行。那我玩ipad结果又访问不了App store，使用某些软件下东西又提示&amp;rsquo;未能找到使用指定主机名的服务器&amp;rsquo;，但是微信又好用。
 愤怒了，一看就是dns的问题，那就把动态链接改成静态链接，IP地址子网掩码默认路由根据实际情况修改，dns设置为8.8.8.8。
 这样就能正常使用相关功能了。</description>
     </item>

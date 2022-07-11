@@ -6,7 +6,22 @@
     <description>Recent content in 编程技术 on Hi~Roy!</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 02 Nov 2021 11:05:20 +0800</lastBuildDate><atom:link href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 11 Jul 2022 14:26:27 +0800</lastBuildDate><atom:link href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>在Golang中保持TCP链接</title>
+      <link>/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/</link>
+      <pubDate>Mon, 11 Jul 2022 14:26:27 +0800</pubDate>
+      
+      <guid>/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/</guid>
+      <description>原文地址：这里，省略了一些非重点片段。
+尽管目前大多数系统都是通过gRPC或HTTP进行通信的，但仍有相当多的应用程序使用自定义协议。而且这些自定义协议中的许多都没有类似net/http这样方便的包来管理TCP连接。
+这篇文章是为了那些直接和TCP连接打交道的人准备的。本文将讨论如何长期维护健康的TCP会话，以及如何对操持长链接的系统进行调优。
+健康的链接 对于使用了长链接的应用来说最常见的问题就是如何保证这些链接的健康，很多情况都不利于长链接的保持。比如，防火墙管理员经常会设置最大空闲时间，当TCP链接中长时间没有数据传输时这些链接将被杀死。
+修改了客户端或者服务端也可能导致链接断开，虽然其中一方可能知道链接被断开，而另一方则不一定知道，直到他试图发送一条消息。
+一种有用的办法解决上面问题就是启用TCP存活消息机制。
+TCP Keepalive keepalive是TCP一种特性，当长时间不活跃时将发送一个特殊的数据包。这个数据包不包含任何数据而是要求一个ACK响应，当对端收到这个keepalive数据包时，将发送一个ACK响应回去。</description>
+    </item>
+    
     <item>
       <title>Golang中的开闭原则</title>
       <link>/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</link>
@@ -35,11 +50,11 @@
       <guid>/posts/%E4%BD%BF%E7%94%A8golang%E7%9A%84channel%E5%AE%9E%E7%8E%B0%E8%AE%A2%E9%98%85-%E5%8F%91%E5%B8%83%E6%A8%A1%E5%BC%8F/</guid>
       <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://eli.thegreenplace.net/2020/pubsub-using-channels-in-go/&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
 &lt;p&gt;先定义一个结构体&lt;code&gt;Pubsub&lt;/code&gt;，客户端可以使用它来订阅、发布主题：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Pubsub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {
-  &lt;span style=&#34;color:#a6e22e&#34;&gt;mu&lt;/span&gt;   &lt;span style=&#34;color:#a6e22e&#34;&gt;sync&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;RWMutex&lt;/span&gt;
-  &lt;span style=&#34;color:#a6e22e&#34;&gt;subs&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;][]&lt;span style=&#34;color:#66d9ef&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Pubsub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;mu&lt;/span&gt;   &lt;span style=&#34;color:#a6e22e&#34;&gt;sync&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;RWMutex&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;subs&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;][]&lt;span style=&#34;color:#66d9ef&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -50,17 +65,17 @@
       <guid>/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/</guid>
       <description>&lt;h3 id=&#34;下划线的妙用&#34;&gt;下划线的妙用&lt;/h3&gt;
 &lt;p&gt;大多数情况下，下划线&lt;code&gt;_&lt;/code&gt;都用于忽略函数返回值的情况。最近查看&lt;code&gt;authboss&lt;/code&gt;这个开源库的代码时，发现&lt;a href=&#34;https://github.com/volatiletech/authboss-sample/blob/c13bdabe709387b66806bf12dbe12ad71bb17d17/storer.go#L63&#34;&gt;这样&lt;/a&gt;一种用法:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt; {
-    &lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;
-}
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; (
-    &lt;span style=&#34;color:#a6e22e&#34;&gt;assertUser&lt;/span&gt;   = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt;{}
-    &lt;span style=&#34;color:#a6e22e&#34;&gt;assertStorer&lt;/span&gt; = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;MemStorer&lt;/span&gt;{}
-    &lt;span style=&#34;color:#a6e22e&#34;&gt;_&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;authboss&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt;            = &lt;span style=&#34;color:#a6e22e&#34;&gt;assertUser&lt;/span&gt;
-    &lt;span style=&#34;color:#a6e22e&#34;&gt;_&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;authboss&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;AuthableUser&lt;/span&gt;    = &lt;span style=&#34;color:#a6e22e&#34;&gt;assertUser&lt;/span&gt;
-)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;assertUser&lt;/span&gt;   = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt;{}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;assertStorer&lt;/span&gt; = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;MemStorer&lt;/span&gt;{}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;_&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;authboss&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt;            = &lt;span style=&#34;color:#a6e22e&#34;&gt;assertUser&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;_&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;authboss&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;AuthableUser&lt;/span&gt;    = &lt;span style=&#34;color:#a6e22e&#34;&gt;assertUser&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -73,25 +88,25 @@
 &lt;h2 id=&#34;左花括号不能单独一行&#34;&gt;左花括号不能单独一行&lt;/h2&gt;
 &lt;p&gt;在大多数语言中你可以随便放置花括号的位置，但go语言不一样，你可以理解为为go会自动注入分号（automatic semicolon injection）：&lt;/p&gt;
 &lt;p&gt;错误代码：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;
-
-&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;()  
-{ &lt;span style=&#34;color:#75715e&#34;&gt;//error, can&amp;#39;t have the opening brace on a separate line
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hello there!&amp;#34;&lt;/span&gt;)
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;编译错误：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;tmp&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sandbox826898458&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;.&lt;span style=&#34;color:#66d9ef&#34;&gt;go&lt;/span&gt;:&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;: &lt;span style=&#34;color:#a6e22e&#34;&gt;syntax&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;error&lt;/span&gt;: &lt;span style=&#34;color:#a6e22e&#34;&gt;unexpected&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;semicolon&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;or&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;newline&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;before&lt;/span&gt; {
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;正确代码：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;
-
-&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {  
-    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;works!&amp;#34;&lt;/span&gt;)
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;()  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{ &lt;span style=&#34;color:#75715e&#34;&gt;//error, can&amp;#39;t have the opening brace on a separate line
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hello there!&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;编译错误：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;tmp&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sandbox826898458&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;.&lt;span style=&#34;color:#66d9ef&#34;&gt;go&lt;/span&gt;:&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;: &lt;span style=&#34;color:#a6e22e&#34;&gt;syntax&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;error&lt;/span&gt;: &lt;span style=&#34;color:#a6e22e&#34;&gt;unexpected&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;semicolon&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;or&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;newline&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;before&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;正确代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;works!&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -186,13 +201,13 @@
       
       <guid>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/</guid>
       <description>&lt;p&gt;这篇文章记录nova创建快照时候的过程，根据&lt;a href=&#34;https://docs.openstack.org/api-ref/compute/?expanded=create-image-createimage-action-detail#create-image-createimage-action&#34;&gt;文档&lt;/a&gt;，创建快照其实是向&lt;code&gt;/servers/{server_id}/action&lt;/code&gt;发送了一个POST的请求，内容则是类似:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;{
-    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;createImage&amp;#34;&lt;/span&gt; : {
-        &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt; : &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;image-name&amp;#34;&lt;/span&gt;,
-        &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;metadata&amp;#34;&lt;/span&gt;: {}
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;createImage&amp;#34;&lt;/span&gt; : {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt; : &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;image-name&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;metadata&amp;#34;&lt;/span&gt;: {}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -219,33 +234,33 @@
       <guid>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/</guid>
       <description>&lt;p&gt;最近看了下关于OpenStack如何统计更新CPU、内存、硬盘等硬件资源的部分，由于历史原因下面的代码来自&lt;code&gt;newton&lt;/code&gt;版。&lt;/p&gt;
 &lt;p&gt;简单说，OpenStack先通过定时任务进行资源统计，入口代码位于&lt;code&gt;nova\compute\manager.py&lt;/code&gt;中&lt;code&gt;ComputeManager&lt;/code&gt;类的&lt;code&gt;update_available_resource&lt;/code&gt;函数。默认情况下每分钟更新一次：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-py&#34; data-lang=&#34;py&#34;&gt;
-&lt;span style=&#34;color:#a6e22e&#34;&gt;@periodic_task&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;periodic_task(spacing&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;update_resources_interval)
-&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;update_available_resource&lt;/span&gt;(self, context):
-    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;See driver.get_available_resource()
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    Periodic process that keeps that the compute host&amp;#39;s understanding of
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    resource availability and usage in sync with the underlying hypervisor.
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    :param context: security context
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
-
-    compute_nodes_in_db &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_get_compute_nodes_in_db(context,
-                                                        use_slave&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;)
-    nodenames &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; set(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;driver&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_available_nodes())
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; nodename &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; nodenames:
-        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;update_available_resource_for_node(context, nodename)
-
-    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_resource_tracker_dict &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {
-        k: v &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; k, v &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_resource_tracker_dict&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;items()
-        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; nodenames}
-
-    &lt;span style=&#34;color:#75715e&#34;&gt;# Delete orphan compute node not reported by driver but still in db&lt;/span&gt;
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; cn &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; compute_nodes_in_db:
-        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; cn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hypervisor_hostname &lt;span style=&#34;color:#f92672&#34;&gt;not&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; nodenames:
-            LOG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;info(_LI(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Deleting orphan compute node &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;), cn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;id)
-            cn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;destroy()
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;首先获取所有节点，然后维护了一个名为&lt;code&gt;_resource_tracker_dict&lt;/code&gt;的字典用来记录host和&lt;code&gt;ResourceTracker&lt;/code&gt;实例的对应关系，所有的资源更新行为都在&lt;code&gt;ResourceTracker&lt;/code&gt;中进行处理。&lt;/p&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-py&#34; data-lang=&#34;py&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@periodic_task&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;periodic_task(spacing&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;update_resources_interval)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;update_available_resource&lt;/span&gt;(self, context):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;See driver.get_available_resource()
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    Periodic process that keeps that the compute host&amp;#39;s understanding of
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    resource availability and usage in sync with the underlying hypervisor.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    :param context: security context
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    compute_nodes_in_db &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_get_compute_nodes_in_db(context,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                                        use_slave&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nodenames &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; set(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;driver&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_available_nodes())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; nodename &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; nodenames:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;update_available_resource_for_node(context, nodename)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_resource_tracker_dict &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        k: v &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; k, v &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_resource_tracker_dict&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;items()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; nodenames}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# Delete orphan compute node not reported by driver but still in db&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; cn &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; compute_nodes_in_db:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; cn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hypervisor_hostname &lt;span style=&#34;color:#f92672&#34;&gt;not&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; nodenames:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            LOG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;info(_LI(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Deleting orphan compute node &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;), cn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;id)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            cn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;destroy()
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;首先获取所有节点，然后维护了一个名为&lt;code&gt;_resource_tracker_dict&lt;/code&gt;的字典用来记录host和&lt;code&gt;ResourceTracker&lt;/code&gt;实例的对应关系，所有的资源更新行为都在&lt;code&gt;ResourceTracker&lt;/code&gt;中进行处理。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -323,30 +338,30 @@
       
       <guid>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/</guid>
       <description>&lt;p&gt;上次学习了Nova创建虚拟机的过程，这次来看一下Glance是如何上传镜像的。相比于Nova，Glance源码使用了大量的代理模式和装饰器模式，阅读代码时候一个不仔细就会一脸懵X。根据上次说的Openstack套路，我们通过&lt;code&gt;setup.cfg&lt;/code&gt;直奔主题——&lt;code&gt;glance/cmd/api.py&lt;/code&gt;:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;():
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;:
-        config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;parse_args()
-        config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_config_defaults()
-        wsgi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_eventlet_hub()
-        logging&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;setup(CONF, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;glance&amp;#39;&lt;/span&gt;)
-        notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_defaults()
-        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; cfg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;profiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;enabled:
-            _notifier &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;create(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Messaging&amp;#34;&lt;/span&gt;,
-                                                   oslo_messaging, {},
-                                                   notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_transport(),
-                                                   &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;glance&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;api&amp;#34;&lt;/span&gt;,
-                                                   cfg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;bind_host)
-            osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set(_notifier)
-            osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;web&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;enable(cfg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;profiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hmac_keys)
-        &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
-            osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;web&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;disable()
-        server &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; wsgi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Server(initialize_glance_store&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;)
-        server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start(config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;load_paste_app(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;glance-api&amp;#39;&lt;/span&gt;), default_port&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;9292&lt;/span&gt;)
-        server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;wait()
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;except&lt;/span&gt; KNOWN_EXCEPTIONS &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; e:
-        print(e)
-        fail(e)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;parse_args()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_config_defaults()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        wsgi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_eventlet_hub()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        logging&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;setup(CONF, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;glance&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_defaults()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; cfg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;profiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;enabled:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            _notifier &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;create(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Messaging&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                                   oslo_messaging, {},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                                   notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_transport(),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                                   &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;glance&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;api&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                                   cfg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;bind_host)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set(_notifier)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;web&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;enable(cfg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;profiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hmac_keys)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;web&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;disable()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        server &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; wsgi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Server(initialize_glance_store&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start(config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;load_paste_app(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;glance-api&amp;#39;&lt;/span&gt;), default_port&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;9292&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;wait()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;except&lt;/span&gt; KNOWN_EXCEPTIONS &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; e:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        print(e)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        fail(e)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -395,12 +410,12 @@
       <guid>/posts/scrapy-redis%E7%BB%93%E5%90%88post%E8%AF%B7%E6%B1%82%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE/</guid>
       <description>&lt;p&gt;能看到这篇文章的小伙伴肯定已经知道什么是Scrapy以及Scrapy-Redis了，基础概念这里就不再介绍。默认情况下Scrapy-Redis是发送GET请求获取数据的，对于某些使用POST请求的情况需要重写&lt;code&gt;make_request_from_data&lt;/code&gt;函数即可，但奇怪的是居然没在网上搜到简洁明了的答案，或许是太简单了？&lt;/p&gt;
 &lt;p&gt;这里我以&lt;code&gt;httpbin.org&lt;/code&gt;这个网站为例，首先在&lt;code&gt;settings.py&lt;/code&gt;中添加所需配置，这里需要根据实际情况进行修改：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-py&#34; data-lang=&#34;py&#34;&gt;SCHEDULER &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;scrapy_redis.scheduler.Scheduler&amp;#34;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;#启用Redis调度存储请求队列&lt;/span&gt;
-SCHEDULER_PERSIST &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;#不清除Redis队列、这样可以暂停/恢复 爬取&lt;/span&gt;
-DUPEFILTER_CLASS &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;scrapy_redis.dupefilter.RFPDupeFilter&amp;#34;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;#确保所有的爬虫通过Redis去重&lt;/span&gt;
-SCHEDULER_QUEUE_CLASS &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;scrapy_redis.queue.SpiderPriorityQueue&amp;#39;&lt;/span&gt;
-REDIS_URL &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;redis://127.0.0.1:6379&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-py&#34; data-lang=&#34;py&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;SCHEDULER &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;scrapy_redis.scheduler.Scheduler&amp;#34;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;#启用Redis调度存储请求队列&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;SCHEDULER_PERSIST &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;#不清除Redis队列、这样可以暂停/恢复 爬取&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;DUPEFILTER_CLASS &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;scrapy_redis.dupefilter.RFPDupeFilter&amp;#34;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;#确保所有的爬虫通过Redis去重&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;SCHEDULER_QUEUE_CLASS &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;scrapy_redis.queue.SpiderPriorityQueue&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;REDIS_URL &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;redis://127.0.0.1:6379&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -424,16 +439,16 @@ REDIS_URL &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span styl
       
       <guid>/posts/go-get%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8socket%E4%BB%A3%E7%90%86/</guid>
       <description>&lt;p&gt;由于某些不可描述的原因，国内使用&lt;code&gt;go get&lt;/code&gt;命令安装某些包的时候会超时导致失败，比如&lt;code&gt;net&lt;/code&gt;包、&lt;code&gt;sys&lt;/code&gt;包、&lt;code&gt;tools&lt;/code&gt;包等。第一种解决办法就是自己从git上下载后添加链接到&lt;code&gt;GOPATH&lt;/code&gt;中，比如：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;git clone https://github.com/golang/net.git $GOPATH/src/github.com/golang/net
-
-git clone https://github.com/golang/sys.git $GOPATH/src/github.com/golang/sys
-
-git clone https://github.com/golang/tools.git $GOPATH/src/github.com/golang/tools
-
-ln -s $GOPATH/src/github.com/golang $GOPATH/src/golang.org/
-
-cd $GOPATH/src/golang.org/  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; mv golang x
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git clone https://github.com/golang/net.git $GOPATH/src/github.com/golang/net
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git clone https://github.com/golang/sys.git $GOPATH/src/github.com/golang/sys
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git clone https://github.com/golang/tools.git $GOPATH/src/github.com/golang/tools
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ln -s $GOPATH/src/github.com/golang $GOPATH/src/golang.org/
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd $GOPATH/src/golang.org/  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; mv golang x
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -499,8 +514,8 @@ cd $GOPATH/src/golang.org/  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&
 &lt;h2 id=&#34;什么是缓冲区channel&#34;&gt;什么是缓冲区Channel&lt;/h2&gt;
 &lt;p&gt;之前讨论的所有channel都是不带缓冲区的，因此读取和写入都会被阻塞。创建一个带缓冲区的channel也是可能的，这种channel只有在缓冲区满后再写入或者读取一个空的channel时才会被阻塞。&lt;/p&gt;
 &lt;p&gt;创建一个带缓冲区的channel需要一个额外的参数容量来表明缓冲区大小：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ch&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; make(&lt;span style=&#34;color:#66d9ef&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;capacity&lt;/span&gt;)  
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;上面代码中的 &lt;em&gt;capacity&lt;/em&gt;　需要大于０，如果等于０的话则是之前学习的无缓冲区channel。&lt;/p&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ch&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; make(&lt;span style=&#34;color:#66d9ef&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;capacity&lt;/span&gt;)  
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;上面代码中的 &lt;em&gt;capacity&lt;/em&gt;　需要大于０，如果等于０的话则是之前学习的无缓冲区channel。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -551,58 +566,58 @@ cd $GOPATH/src/golang.org/  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&
       <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/interfaces-part-2/&#34;&gt;原文&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;传指针vs传值&#34;&gt;传指针vs传值&lt;/h2&gt;
 &lt;p&gt;上篇文章中所有接口实现我们都使用的传值，当然也可以使用传指针这种方式来实现接口。但使用传指针这种方式有一点需要注意，我们来看下面这个代码。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;
-
-&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Describer&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;interface&lt;/span&gt; {  
-    &lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
-}
-&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {  
-    &lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
-    &lt;span style=&#34;color:#a6e22e&#34;&gt;age&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;
-}
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt;) &lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;() { &lt;span style=&#34;color:#75715e&#34;&gt;//implemented using value receiver  
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;%s is %d years old\n&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;age&lt;/span&gt;)
-}
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Address&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {  
-    &lt;span style=&#34;color:#a6e22e&#34;&gt;state&lt;/span&gt;   &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
-    &lt;span style=&#34;color:#a6e22e&#34;&gt;country&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
-}
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Address&lt;/span&gt;) &lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;() { &lt;span style=&#34;color:#75715e&#34;&gt;//implemented using pointer receiver  
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;State %s Country %s&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;state&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;country&lt;/span&gt;)
-}
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {  
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Describer&lt;/span&gt;
-    &lt;span style=&#34;color:#a6e22e&#34;&gt;p1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Sam&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;25&lt;/span&gt;}
-    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;p1&lt;/span&gt;
-    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
-    &lt;span style=&#34;color:#a6e22e&#34;&gt;p2&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;James&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt;}
-    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt; = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;p2&lt;/span&gt;
-    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
-
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;d2&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Describer&lt;/span&gt;
-    &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Address&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Washington&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;USA&amp;#34;&lt;/span&gt;}
-
-    &lt;span style=&#34;color:#75715e&#34;&gt;/* compilation error if the following line is
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       uncommented
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       cannot use a (type Address) as type Describer
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       in assignment: Address does not implement
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       Describer (Describe method has pointer
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       receiver)
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    */&lt;/span&gt;
-    &lt;span style=&#34;color:#75715e&#34;&gt;//d2 = a
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
-    &lt;span style=&#34;color:#a6e22e&#34;&gt;d2&lt;/span&gt; = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;//This works since Describer interface
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;//is implemented by Address pointer in line 22
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;d2&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
-
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Describer&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;interface&lt;/span&gt; {  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;age&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt;) &lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;() { &lt;span style=&#34;color:#75715e&#34;&gt;//implemented using value receiver  
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;%s is %d years old\n&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;age&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Address&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;state&lt;/span&gt;   &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;country&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Address&lt;/span&gt;) &lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;() { &lt;span style=&#34;color:#75715e&#34;&gt;//implemented using pointer receiver  
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;State %s Country %s&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;state&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;country&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Describer&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;p1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Sam&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;25&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;p1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;p2&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;James&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt; = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;p2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;d2&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Describer&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Address&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Washington&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;USA&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;/* compilation error if the following line is
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       uncommented
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       cannot use a (type Address) as type Describer
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       in assignment: Address does not implement
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       Describer (Describe method has pointer
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       receiver)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;//d2 = a
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;d2&lt;/span&gt; = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;//This works since Describer interface
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;//is implemented by Address pointer in line 22
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;d2&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -687,12 +702,12 @@ cd $GOPATH/src/golang.org/  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&
       <guid>/posts/10%E5%88%86%E9%92%9F%E5%85%A5%E9%97%A8pandas/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;http://pandas.pydata.org/pandas-docs/stable/10min.html&#34;&gt;原文地址&lt;/a&gt;，是官网的《10 Minutes to pandas》翻译，代码中添加了个人的一些注释。&lt;/p&gt;
 &lt;p&gt;通常来说，我们像下面这样来引入包:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;In [&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]: &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; pandas &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; pd
-
-In [&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]: &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; numpy &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; np
-
-In [&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;]: &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; matplotlib.pyplot &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; plt
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;In [&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]: &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; pandas &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; pd
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;In [&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]: &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; numpy &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; np
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;In [&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;]: &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; matplotlib.pyplot &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; plt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -769,14 +784,14 @@ In [&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;]: &lt;span style=&#
 &lt;p&gt;使用GIMP打开图片后，按 &lt;em&gt;加号&lt;/em&gt; 放大图片，然后点击&lt;code&gt;View-&amp;gt;Show Grid&lt;/code&gt;来显示网格线：&lt;/p&gt;
 &lt;!-- raw HTML omitted --&gt;
 &lt;p&gt;其中，每个正方形边长为10像素，所以数字1切割坐标为左20、上20、右40、下70。以此类推可以知道剩下3个数字的切割位置。代码如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; PIL &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Image
-p &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Image&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;open(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1.png&amp;#34;&lt;/span&gt;)
-&lt;span style=&#34;color:#75715e&#34;&gt;# 注意位置顺序为左、上、右、下&lt;/span&gt;
-cuts &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [(&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;40&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;70&lt;/span&gt;),(&lt;span style=&#34;color:#ae81ff&#34;&gt;60&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;90&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;70&lt;/span&gt;),(&lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;130&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;60&lt;/span&gt;),(&lt;span style=&#34;color:#ae81ff&#34;&gt;140&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;170&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;)]
-&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i,n &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; enumerate(cuts,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;):
-    temp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; p&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;crop(n) &lt;span style=&#34;color:#75715e&#34;&gt;# 调用crop函数进行切割&lt;/span&gt;
-    temp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;save(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;cut&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;.png&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; i)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;切割后得到4张图片：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; PIL &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Image
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;p &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Image&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;open(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1.png&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 注意位置顺序为左、上、右、下&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cuts &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [(&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;40&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;70&lt;/span&gt;),(&lt;span style=&#34;color:#ae81ff&#34;&gt;60&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;90&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;70&lt;/span&gt;),(&lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;130&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;60&lt;/span&gt;),(&lt;span style=&#34;color:#ae81ff&#34;&gt;140&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;170&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;)]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i,n &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; enumerate(cuts,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    temp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; p&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;crop(n) &lt;span style=&#34;color:#75715e&#34;&gt;# 调用crop函数进行切割&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    temp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;save(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;cut&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;.png&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; i)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;切割后得到4张图片：&lt;/p&gt;
 &lt;!-- raw HTML omitted --&gt;
 &lt;p&gt;那么，如果字符位置不固定怎么办呢？现在假设一种随机位置宽度、无粘连、无干扰线的情况。&lt;/p&gt;</description>
     </item>
@@ -815,27 +830,27 @@ cuts &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [(&lt;span style=&
       <guid>/posts/python%E9%9D%A2%E8%AF%95%E9%A2%982/</guid>
       <description>&lt;p&gt;最近面试了几家公司，各行各业的都有，涨了很多见识也发现了自己的技术盲点。这里来一个汇总简单纪录。&lt;/p&gt;
 &lt;h1 id=&#34;行列转换&#34;&gt;行列转换&lt;/h1&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;
-已知有一个二维列表(每一行的元素个数相同)&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;，&lt;/span&gt;写出函数对其行列转换并输出&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;，&lt;/span&gt;比如&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;：&lt;/span&gt;
-a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;],
-     [&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]]
-输出&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;：&lt;/span&gt;
-[
-[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;],
-[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;],
-[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;],
-[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]
-]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里建议笔试时候尽量使用简单清晰的写法，让面试官一眼就能看出答案对错：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;convert&lt;/span&gt;(alist):
-    result &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; []
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; x &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; range(len(alist[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;])):
-        tmp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; []
-        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; y &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; range(len(alist)):
-            tmp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(alist[y][x])
-        result&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(tmp)
-    print result
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;已知有一个二维列表(每一行的元素个数相同)&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;，&lt;/span&gt;写出函数对其行列转换并输出&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;，&lt;/span&gt;比如&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;：&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     [&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;输出&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;：&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里建议笔试时候尽量使用简单清晰的写法，让面试官一眼就能看出答案对错：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;convert&lt;/span&gt;(alist):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    result &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; []
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; x &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; range(len(alist[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;])):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        tmp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; []
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; y &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; range(len(alist)):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            tmp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(alist[y][x])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        result&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(tmp)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    print result
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -868,17 +883,17 @@ a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [[&lt;span style=&#34
       <guid>/posts/%E5%87%A0%E9%81%93python%E9%9D%A2%E8%AF%95%E9%A2%98/</guid>
       <description>&lt;p&gt;前几天去笔试，这里记录一下遇到的几个编程题，比较基础。&lt;/p&gt;
 &lt;h1 id=&#34;生成斐波那契数列并取前10项&#34;&gt;生成斐波那契数列并取前10项&lt;/h1&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;func&lt;/span&gt;(m):
-  n,a,b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
-  &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; m:
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; a
-    a,b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; b,a&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;b
-    n &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; one &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; func(&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;):
-  print one
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个可以说是一道常见的简单算法题了，关键点就是理解&lt;code&gt;a,b=b,a+b&lt;/code&gt;以及yield的作用。&lt;/p&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;func&lt;/span&gt;(m):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  n,a,b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; m:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; a
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    a,b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; b,a&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;b
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    n &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; one &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; func(&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  print one
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个可以说是一道常见的简单算法题了，关键点就是理解&lt;code&gt;a,b=b,a+b&lt;/code&gt;以及yield的作用。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -898,7 +913,7 @@ a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [[&lt;span style=&#34
       
       <guid>/posts/%E8%A7%A3%E5%86%B3apahce%E9%83%A8%E7%BD%B2python%E7%A8%8B%E5%BA%8F503%E9%94%99%E8%AF%AF/</guid>
       <description>今天更新服务器后，发现使用apache部署的某个python程序无法访问了，返回503错误，报错日志如下：
-[Thu Apr 13 10:54:40 2017] [error] [client 127.0.0.1] (13)Permission denied: mod_wsgi (pid=1814): Unable to connect to WSGI daemon process &#39;trac&#39; on &#39;/etc/httpd/logs/wsgi.</description>
+[Thu Apr 13 10:54:40 2017] [error] [client 127.0.0.1] (13)Permission denied: mod_wsgi (pid=1814): Unable to connect to WSGI daemon process &amp;#39;trac&amp;#39; on &amp;#39;/etc/httpd/logs/wsgi.</description>
     </item>
     
     <item>
@@ -931,16 +946,16 @@ a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [[&lt;span style=&#34
       <guid>/posts/%E5%B0%86django%E6%A8%A1%E6%9D%BF%E5%8F%98%E9%87%8F%E4%BC%A0%E9%80%92%E7%BB%99%E5%A4%96%E9%83%A8js%E8%B0%83%E7%94%A8%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/</guid>
       <description>&lt;p&gt;最近一直在思考如何更好的组织Django中的静态资源，比如JS、CSS一类，如何结合前端构建工具写出更好的代码以及结构呢？&lt;/p&gt;
 &lt;p&gt;首先需要解决的一个问题就是某些时候需要把JS代码写在模板里来获取后台传递过来的变量，比如：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
-&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;h1&lt;/span&gt;&amp;gt;Test&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;h1&lt;/span&gt;&amp;gt;
-&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;id&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;my-test&amp;#34;&lt;/span&gt; &amp;gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
-&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
-&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;script&lt;/span&gt;&amp;gt;
-&lt;span style=&#34;color:#a6e22e&#34;&gt;$&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;(){
-  &lt;span style=&#34;color:#a6e22e&#34;&gt;$&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;#my-test&amp;#39;&lt;/span&gt;).&lt;span style=&#34;color:#a6e22e&#34;&gt;html&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;{{ some_var_from_view }}&amp;#34;&lt;/span&gt;)
-});
-&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;script&lt;/span&gt;&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这么写代码的话，别扭不说，前端的那些构建工具比如webpack，gulp的使用范围也将大大降低。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;h1&lt;/span&gt;&amp;gt;Test&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;h1&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;id&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;my-test&amp;#34;&lt;/span&gt; &amp;gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;script&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;$&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;(){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;$&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;#my-test&amp;#39;&lt;/span&gt;).&lt;span style=&#34;color:#a6e22e&#34;&gt;html&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;{{ some_var_from_view }}&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;});
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;script&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这么写代码的话，别扭不说，前端的那些构建工具比如webpack，gulp的使用范围也将大大降低。&lt;/p&gt;
 &lt;p&gt;首先说结论，想完全剥离JS和模板而又需要使用模板渲染的数据，我是没想到什么好办法。如果读者有好办法希望赐教。
 既然不能完全剥离，那么就进最大的努力分离JS所需的数据和代码吧。&lt;/p&gt;</description>
     </item>
@@ -985,16 +1000,16 @@ a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [[&lt;span style=&#34
       
       <guid>/posts/%E4%BD%BF%E7%94%A8python%E6%A8%A1%E6%8B%9Fpost%E8%AF%B7%E6%B1%82%E6%8F%90%E4%BA%A4%E5%9B%BE%E7%89%87/</guid>
       <description>&lt;p&gt;使用requests来模拟HTTP请求本来是一件非常轻松的事情，比如上传图片来说，简单的几行代码即可：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; requests
-files &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;attachment_file&amp;#39;&lt;/span&gt;: (&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1.png&amp;#39;&lt;/span&gt;, open(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1.png&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;rb&amp;#39;&lt;/span&gt;), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;image/png&amp;#39;&lt;/span&gt;, {})}
-values &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;next&amp;#39;&lt;/span&gt;:&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://www.xxxx.com/xxxx&amp;#34;&lt;/span&gt;}
-r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 成功&lt;/span&gt;
-r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
-r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
-r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
-r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;不过我今天在调试一个django程序的时候却遇到了大坑————为了偷懒，我直接在&lt;strong&gt;ipython&lt;/strong&gt;中执行了上述代码，第一次提交的时候一切正常，但第二次之后提交就怎么也通过不了django的form验证。&lt;/p&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; requests
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;files &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;attachment_file&amp;#39;&lt;/span&gt;: (&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1.png&amp;#39;&lt;/span&gt;, open(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1.png&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;rb&amp;#39;&lt;/span&gt;), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;image/png&amp;#39;&lt;/span&gt;, {})}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;values &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;next&amp;#39;&lt;/span&gt;:&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://www.xxxx.com/xxxx&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 成功&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;不过我今天在调试一个django程序的时候却遇到了大坑————为了偷懒，我直接在&lt;strong&gt;ipython&lt;/strong&gt;中执行了上述代码，第一次提交的时候一切正常，但第二次之后提交就怎么也通过不了django的form验证。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1050,45 +1065,45 @@ https://darkcooking.gitbooks.io/django-rest-framework-cn/content/</description>
       
       <guid>/posts/%E8%A7%A3%E5%86%B3django%E4%BD%BF%E7%94%A8logging%E6%97%B6character-mapping-must-return-integer-none-or-unicode%E9%94%99%E8%AF%AF/</guid>
       <description>&lt;p&gt;今天调试Django项目时候，使用Logging记录异常并发送邮件给网站管理人员，测试时候始终报错：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;Traceback (most recent call last):
-  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/wsgiref/handlers.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;85&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; run
-    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;result &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; application(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;environ, self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start_response)
-  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/handlers/wsgi.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;177&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; __call__
-    response &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_response(request)
-  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/handlers/base.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;230&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; get_response
-    response &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;handle_uncaught_exception(request, resolver, sys&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;exc_info())
-  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/handlers/base.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;284&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; handle_uncaught_exception
-    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;request&amp;#39;&lt;/span&gt;: request
-  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1185&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; error
-    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_log(ERROR, msg, args, &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;kwargs)
-  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1278&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; _log
-    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;handle(record)
-  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1288&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; handle
-    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;callHandlers(record)
-  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1328&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; callHandlers
-    hdlr&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;handle(record)
-  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;751&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; handle
-    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;emit(record)
-  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/utils/log.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;117&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; emit
-    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;send_mail(subject, message, fail_silently&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;, html_message&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;html_message)
-  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/utils/log.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;120&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; send_mail
-    mail&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;mail_admins(subject, message, &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;args, connection&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connection(), &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;kwargs)
-  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;97&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; mail_admins
-    mail&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;send(fail_silently&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;fail_silently)
-  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/message.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;292&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; send
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_connection(fail_silently)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;send_messages([self])
-  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/backends/smtp.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; send_messages
-    new_conn_created &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;open()
-  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/backends/smtp.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;67&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; open
-    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connection&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;login(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;username, self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;password)
-  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/smtplib.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;607&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; login
-    (code, resp) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;docmd(encode_cram_md5(resp, user, password))
-  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/smtplib.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;571&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; encode_cram_md5
-    response &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; user &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; &amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; hmac&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;HMAC(password, challenge)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hexdigest()
-  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/hmac.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;78&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; __init__
-    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;outer&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;update(key&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;translate(trans_5C))
-&lt;span style=&#34;color:#a6e22e&#34;&gt;TypeError&lt;/span&gt;: character mapping must &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; integer, &lt;span style=&#34;color:#66d9ef&#34;&gt;None&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;or&lt;/span&gt; unicode
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;根据错误提示，追进了hmac.py中看了源码，发现key其实就是一个字符串，是配置在settings中的EMAIL_HOST_USER以及EMAIL_HOST_PASSWORD，而translate函数则是根据给出的参数表将字符串进行映射加密的，而且是最简单的凯撒加密法。&lt;/p&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Traceback (most recent call last):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/wsgiref/handlers.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;85&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; run
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;result &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; application(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;environ, self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start_response)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/handlers/wsgi.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;177&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; __call__
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    response &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_response(request)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/handlers/base.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;230&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; get_response
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    response &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;handle_uncaught_exception(request, resolver, sys&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;exc_info())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/handlers/base.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;284&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; handle_uncaught_exception
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;request&amp;#39;&lt;/span&gt;: request
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1185&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; error
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_log(ERROR, msg, args, &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;kwargs)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1278&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; _log
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;handle(record)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1288&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; handle
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;callHandlers(record)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1328&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; callHandlers
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    hdlr&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;handle(record)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;751&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; handle
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;emit(record)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/utils/log.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;117&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; emit
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;send_mail(subject, message, fail_silently&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;, html_message&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;html_message)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/utils/log.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;120&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; send_mail
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    mail&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;mail_admins(subject, message, &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;args, connection&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connection(), &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;kwargs)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;97&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; mail_admins
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    mail&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;send(fail_silently&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;fail_silently)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/message.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;292&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; send
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_connection(fail_silently)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;send_messages([self])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/backends/smtp.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; send_messages
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    new_conn_created &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;open()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/backends/smtp.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;67&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; open
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connection&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;login(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;username, self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;password)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/smtplib.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;607&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; login
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (code, resp) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;docmd(encode_cram_md5(resp, user, password))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/smtplib.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;571&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; encode_cram_md5
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    response &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; user &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; &amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; hmac&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;HMAC(password, challenge)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hexdigest()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/hmac.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;78&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; __init__
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;outer&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;update(key&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;translate(trans_5C))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;TypeError&lt;/span&gt;: character mapping must &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; integer, &lt;span style=&#34;color:#66d9ef&#34;&gt;None&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;or&lt;/span&gt; unicode
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;根据错误提示，追进了hmac.py中看了源码，发现key其实就是一个字符串，是配置在settings中的EMAIL_HOST_USER以及EMAIL_HOST_PASSWORD，而translate函数则是根据给出的参数表将字符串进行映射加密的，而且是最简单的凯撒加密法。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1111,8 +1126,8 @@ https://darkcooking.gitbooks.io/django-rest-framework-cn/content/</description>
       
       <guid>/posts/eventletdjangorequests%E9%97%AE%E9%A2%98%E6%9D%82%E8%AE%B0/</guid>
       <description>&lt;p&gt;最近使用django+requests+eventlet做了个小程序，eventlet用来替代原生的多线程，最后发现有关manage.py的功能全都不能用了，报错信息类似：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;django&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;db&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;utils&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;DatabaseError: DatabaseWrapper objects created &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; a thread can only be used &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; that same thread&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; The object &lt;span style=&#34;color:#66d9ef&#34;&gt;with&lt;/span&gt; alias &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;default&amp;#39;&lt;/span&gt; was created &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; thread id &lt;span style=&#34;color:#ae81ff&#34;&gt;139911009593152&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;and&lt;/span&gt; this &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; thread id &lt;span style=&#34;color:#ae81ff&#34;&gt;51055504.&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;产生这个问题的原因在于我的monky_patch()是在爬虫模块中执行，而希望这个爬虫模块能够保持独立性不希望和django融合的太深，所以解决问题只需根据实际需求在manage.py或settings.py或wsgi.py中先把monkey_patch()执行了即可。&lt;/p&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;django&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;db&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;utils&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;DatabaseError: DatabaseWrapper objects created &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; a thread can only be used &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; that same thread&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; The object &lt;span style=&#34;color:#66d9ef&#34;&gt;with&lt;/span&gt; alias &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;default&amp;#39;&lt;/span&gt; was created &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; thread id &lt;span style=&#34;color:#ae81ff&#34;&gt;139911009593152&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;and&lt;/span&gt; this &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; thread id &lt;span style=&#34;color:#ae81ff&#34;&gt;51055504.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;产生这个问题的原因在于我的monky_patch()是在爬虫模块中执行，而希望这个爬虫模块能够保持独立性不希望和django融合的太深，所以解决问题只需根据实际需求在manage.py或settings.py或wsgi.py中先把monkey_patch()执行了即可。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1159,29 +1174,29 @@ https://darkcooking.gitbooks.io/django-rest-framework-cn/content/</description>
       
       <guid>/posts/python%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0%E4%B9%8B%E4%BD%BF%E7%94%A8%E5%AD%97%E5%85%B8%E5%88%86%E6%B4%BE%E5%87%BD%E6%95%B0/</guid>
       <description>&lt;p&gt;程序中很常见的一种场景就是根据某个控制变量的值来调用不同的函数或对象进行处理，某些语言中可以使用case语句进行处理，在python可以使用getattr函数甚至if&amp;hellip;elif&amp;hellip;else来处理，除此之外，也可以使用字典来实现相同的功能，比如下面的例子：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;animals &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; []
-number_of_felines &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;deal_cat&lt;/span&gt;():
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;global&lt;/span&gt; number_of_felines
-    print &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;meow&amp;#34;&lt;/span&gt;
-    animals&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;feline&amp;#39;&lt;/span&gt;)
-    number_of_felines &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;deal_dog&lt;/span&gt;():
-    print &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;bark&amp;#39;&lt;/span&gt;
-    animals&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;canine&amp;#39;&lt;/span&gt;)
-&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;deal_bear&lt;/span&gt;():
-    print &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hug&amp;#34;&lt;/span&gt;
-    animals&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ursine&amp;#39;&lt;/span&gt;)
-token &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;cat&amp;#39;&lt;/span&gt;: deal_cat, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;dog&amp;#39;&lt;/span&gt;: deal_dog, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;bear&amp;#39;&lt;/span&gt;: deal_bear}
-&lt;span style=&#34;color:#75715e&#34;&gt;#words = [&amp;#39;cat&amp;#39;, &amp;#39;dog&amp;#39;, &amp;#39;bear&amp;#39;]&lt;/span&gt;
-words &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;cat&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;dog&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;bear&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;cat&amp;#39;&lt;/span&gt;]
-&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; one &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; words:
-    token[one]()
-    &lt;span style=&#34;color:#75715e&#34;&gt;#return token[one]()&lt;/span&gt;
-nf &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; number_of_felines
-print &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;we met &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;%d&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; feline&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; (nf, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;s&amp;#39;&lt;/span&gt;[nf &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;:])
-print &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;the animals we net were:&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;join(animals)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;animals &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; []
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;number_of_felines &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;deal_cat&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;global&lt;/span&gt; number_of_felines
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    print &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;meow&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    animals&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;feline&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    number_of_felines &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;deal_dog&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    print &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;bark&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    animals&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;canine&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;deal_bear&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    print &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hug&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    animals&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ursine&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;token &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;cat&amp;#39;&lt;/span&gt;: deal_cat, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;dog&amp;#39;&lt;/span&gt;: deal_dog, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;bear&amp;#39;&lt;/span&gt;: deal_bear}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#words = [&amp;#39;cat&amp;#39;, &amp;#39;dog&amp;#39;, &amp;#39;bear&amp;#39;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;words &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;cat&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;dog&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;bear&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;cat&amp;#39;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; one &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; words:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    token[one]()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;#return token[one]()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nf &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; number_of_felines
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;print &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;we met &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;%d&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; feline&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; (nf, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;s&amp;#39;&lt;/span&gt;[nf &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;:])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;print &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;the animals we net were:&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;join(animals)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -1239,7 +1254,8 @@ from functools import wraps def http_basic_auth(func): &amp;#39;&amp;#39;&amp;#3
       <guid>/posts/python%E8%84%9A%E6%9C%AC%E6%A8%A1%E6%8B%9Ftail%E5%91%BD%E4%BB%A4/</guid>
       <description>今天有个需求，需要实时监控nginx日志中某些ip的访问情况。如果ip较少的话，直接使用tail、grep以及管道配合即可。不过需要监控100个左右的ip并进行相应处理的话，除了自己写脚本还真没想到别的办法。
 首先引出Python中自带的2个函数：
- file.seek(off, whence=0) 从文件中移动off个操作标记（文件指针），正往结束方向移动，负往开始方向移动。如果设定了whence参数，就以whence设定的起始位为准，0代表从头开始，1代表当前位置，2代表文件最末尾位置。 file.tell() 返回文件指针的当前位置。  那么思路就比较清晰了，写一个死循环，循环内记录指针位置并赋值给seek函数：</description>
+file.seek(off, whence=0) 从文件中移动off个操作标记（文件指针），正往结束方向移动，负往开始方向移动。如果设定了whence参数，就以whence设定的起始位为准，0代表从头开始，1代表当前位置，2代表文件最末尾位置。 file.tell() 返回文件指针的当前位置。 那么思路就比较清晰了，写一个死循环，循环内记录指针位置并赋值给seek函数：
+with open(&amp;#34;test.txt&amp;#34;) as f: f.</description>
     </item>
     
     <item>
@@ -1317,9 +1333,9 @@ sqlalchemy http://www.sqlalchemy.org/ 如果喜欢用ORM操作数据的话，这
 本人以前并没有任何javascript语言的学习经验，这里仅仅记录我这几天学习的理解，如有什么偏颇，还望大家指正。
 首先，nodejs是单线程的，同时只能进行一项任务。这点引起较大的批评就是无法利用多核CPU的能力，但同时在多个CPU运行程序也并不是完美的，因为想要多个CPU有效的拆分任务并执行，它们之间需要频繁的交换信息，比如当前执行状态、各自完成了哪些操作等。
 关于上面的几个概念，网上答案五花八门都有，不过我更倾向于下面的答案，引用于知乎，原文链接：
- “阻塞”与&amp;quot;非阻塞&amp;quot;与&amp;quot;同步&amp;quot;与“异步&amp;quot;不能简单的从字面理解，提供一个从分布式系统角度的回答。
-  1.同步与异步
-  同步和异步关注的是消息通信机制 (synchronous communication/ asynchronous communication)</description>
+“阻塞”与&amp;quot;非阻塞&amp;quot;与&amp;quot;同步&amp;quot;与“异步&amp;quot;不能简单的从字面理解，提供一个从分布式系统角度的回答。
+1.同步与异步
+同步和异步关注的是消息通信机制 (synchronous communication/ asynchronous communication)</description>
     </item>
     
     <item>
@@ -1386,7 +1402,7 @@ import sys reload(sys) sys.</description>
       <guid>/posts/nginx-uwsgi%E9%83%A8%E7%BD%B2django%E7%A8%8B%E5%BA%8F/</guid>
       <description>原来使用apache进行部署，感觉内存占用大以及速度比较慢就换成了nginx+uwsgi的方式，结果完爆apache啊！
 首先安装nginx以及uwsgi：
-yum install nginxpip install uwsgi然后编辑uwsgi的配置文件，这里我使用ini文件格式，示例如下：
+yum install nginxpip install uwsgi 然后编辑uwsgi的配置文件，这里我使用ini文件格式，示例如下：
 [uwsgi]socket = 127.</description>
     </item>
     
@@ -1419,7 +1435,7 @@ def f(): print &amp;#34;in f&amp;#34; return False def t(): print &amp;#34;in t&
       <guid>/posts/windows%E4%B8%8B%E7%9A%84django%E6%89%B9%E5%A4%84%E7%90%86%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/</guid>
       <description>回来半个月，终于抽出时间写点东西了。最近这天气真是让人不开心阿～不过昨天居然见到了彩虹，突然想起来在飞机上看见的彩虹是直立在太阳两边而不是桥形的，各有各的美感。
 至于在win下如何安装python、setuptools、pip等网上很多这里不再重复，可是那些大小姐们向我反映说她们不会“运行cmd,输入python manage.py runserver”。正所谓收人钱财替人消灾，干脆写个批处理让她们双击运行算了，内容如下：
-@echo offpython %cd%\manage.py runserverpause真是被微软“惯坏了”的孩子们阿&amp;hellip;.</description>
+@echo offpython %cd%\manage.py runserverpause 真是被微软“惯坏了”的孩子们阿&amp;hellip;.</description>
     </item>
     
     <item>
@@ -1429,7 +1445,7 @@ def f(): print &amp;#34;in f&amp;#34; return False def t(): print &amp;#34;in t&
       
       <guid>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83pycurl%E7%9A%84import%E9%94%99%E8%AF%AF/</guid>
       <description>今天需要在虚拟环境下使用pycurl，使用pip安装时候没问题，不过再代码中import后则报错：
-ImportError: pycurl: libcurl link-time ssl backend (nss) is different from compile-time ssl backend (none/other)解决方法：</description>
+ImportError: pycurl: libcurl link-time ssl backend (nss) is different from compile-time ssl backend (none/other) 解决方法：</description>
     </item>
     
     <item>
@@ -1496,18 +1512,18 @@ posistion = &amp;#34;top&amp;#34; order = r&amp;#34;select id,p_name,p_explain,p
       
       <guid>/posts/django%E7%9A%84view%E4%B8%AD%E5%B8%B8%E7%94%A8return%E6%96%B9%E6%B3%95/</guid>
       <description>&lt;p&gt;第一种HttpResponse，最基本的返回方式，可以直接返回字符:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; django.http &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; HttpResponse
-&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;index&lt;/span&gt;(request):
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; HttpResponse(&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;“&lt;/span&gt;a test&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;”&lt;/span&gt;)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;或者结合contextloder返回网页：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; django.template &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Context, loader  
-&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; polls.models &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Poll
-&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;index&lt;/span&gt;(request):  
-    latest_poll_list &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Poll&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;objects&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;order_by(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-pub_date&amp;#39;&lt;/span&gt;)[:&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;]  
-    template &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; loader&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_template(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;polls/index.html&amp;#39;&lt;/span&gt;)
-    context &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Context({ &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;latest_poll_list&amp;#39;&lt;/span&gt;: latest_poll_list, })  
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; HttpResponse(template&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;render(context))
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; django.http &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; HttpResponse
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;index&lt;/span&gt;(request):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; HttpResponse(&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;“&lt;/span&gt;a test&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;”&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;或者结合contextloder返回网页：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; django.template &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Context, loader  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; polls.models &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Poll
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;index&lt;/span&gt;(request):  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    latest_poll_list &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Poll&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;objects&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;order_by(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-pub_date&amp;#39;&lt;/span&gt;)[:&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;]  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    template &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; loader&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_template(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;polls/index.html&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    context &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Context({ &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;latest_poll_list&amp;#39;&lt;/span&gt;: latest_poll_list, })  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; HttpResponse(template&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;render(context))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -1517,7 +1533,7 @@ posistion = &amp;#34;top&amp;#34; order = r&amp;#34;select id,p_name,p_explain,p
       
       <guid>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/</guid>
       <description>使用virtualenv虚拟环境的时候，mysql-python安装时报错：
-_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &amp;quot;my_config.</description>
+_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &amp;#34;my_config.</description>
     </item>
     
     <item>
@@ -1527,7 +1543,7 @@ _mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &am
       
       <guid>/posts/pip%E4%B8%8B%E8%BD%BD%E7%BB%8F%E5%B8%B8%E8%B6%85%E6%97%B6%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</guid>
       <description>最近使用pip安装python模块的时候经常遇到超时而导致失败，解决办法有2个：
- 使用-i参数指定url，例如：pip install flask -i http://pypi.v2ex.com/simple 修改pip的配置文件：  [global] timeout = 6000index-url = http://pypi.</description>
+使用-i参数指定url，例如：pip install flask -i http://pypi.v2ex.com/simple 修改pip的配置文件： [global] timeout = 6000index-url = http://pypi.</description>
     </item>
     
     <item>
@@ -1640,7 +1656,7 @@ import urllib2 import urllib import cookielib logurl = &amp;#34;https://www.digi
       <guid>/posts/python-traceback%E6%A8%A1%E5%9D%97/</guid>
       <description>如果我们再程序中写出一个会引发异常的代码，比如1/0，就会引发一个异常，程序中止。
 输出：
-Traceback (most recent call last):File &amp;quot;trackbacks.py&amp;quot;, line 1, in &amp;lt;module&amp;gt;1/0ZeroDivisionError: integer division or modulo by zeroShell 已返回1为了程序的健壮性，我们常常加入异常处理。</description>
+Traceback (most recent call last):File &amp;#34;trackbacks.py&amp;#34;, line 1, in &amp;lt;module&amp;gt;1/0ZeroDivisionError: integer division or modulo by zeroShell 已返回1 为了程序的健壮性，我们常常加入异常处理。</description>
     </item>
     
     <item>
@@ -1680,7 +1696,7 @@ Traceback (most recent call last):File &amp;quot;trackbacks.py&amp;quot;, line 
       <pubDate>Wed, 13 Nov 2013 11:16:09 +0000</pubDate>
       
       <guid>/posts/python-threading%E6%A8%A1%E5%9D%97/</guid>
-      <description>threading模块  Thread 线程类，这是我们用的最多的一个类，你可以指定线程函数执行或者继承自它都可以实现子线程功能； Timer与Thread类似，但要等待一段时间后才开始运行； Lock 锁原语，这个我们可以对全局变量互斥时使用； RLock 可重入锁，使单线程可以再次获得已经获得的锁； Condition 条件变量，能让一个线程停下来，等待其他线程满足某个“条件”； Event 通用的条件变量。多个线程可以等待某个事件发生，在事件发生后，所有的线程都被激活； Semaphore为等待锁的线程提供一个类似“等候室”的结构； BoundedSemaphore 与semaphore类似，但不允许超过初始值；  Thread类  是你主要的线程类，可以创建进程实例。该类提供的函数包括： getName(self) 返回线程的名字 isAlive(self) 布尔标志，表示这个线程是否还在运行中 isDaemon(self) 返回线程的daemon标志 join(self, timeout=None) 程序挂起，直到线程结束，如果给出timeout，则最多阻塞timeout秒 run(self) 定义线程的功能函数 setDaemon(self, daemonic) 把线程的daemon标志设为daemonic setName(self, name) 设置线程的名字 start(self) 开始线程执行  关于join()和setDaemon join：如在一个线程B中调用threada.</description>
+      <description>threading模块 Thread 线程类，这是我们用的最多的一个类，你可以指定线程函数执行或者继承自它都可以实现子线程功能； Timer与Thread类似，但要等待一段时间后才开始运行； Lock 锁原语，这个我们可以对全局变量互斥时使用； RLock 可重入锁，使单线程可以再次获得已经获得的锁； Condition 条件变量，能让一个线程停下来，等待其他线程满足某个“条件”； Event 通用的条件变量。多个线程可以等待某个事件发生，在事件发生后，所有的线程都被激活； Semaphore为等待锁的线程提供一个类似“等候室”的结构； BoundedSemaphore 与semaphore类似，但不允许超过初始值； Thread类 是你主要的线程类，可以创建进程实例。该类提供的函数包括： getName(self) 返回线程的名字 isAlive(self) 布尔标志，表示这个线程是否还在运行中 isDaemon(self) 返回线程的daemon标志 join(self, timeout=None) 程序挂起，直到线程结束，如果给出timeout，则最多阻塞timeout秒 run(self) 定义线程的功能函数 setDaemon(self, daemonic) 把线程的daemon标志设为daemonic setName(self, name) 设置线程的名字 start(self) 开始线程执行 关于join()和setDaemon join：如在一个线程B中调用threada.</description>
     </item>
     
     <item>
@@ -1701,7 +1717,7 @@ Traceback (most recent call last):File &amp;quot;trackbacks.py&amp;quot;, line 
       <guid>/posts/django-i18n-%E5%9B%BD%E9%99%85%E5%8C%96%E8%AF%AD%E8%A8%80/</guid>
       <description>上一篇文章提到了django 的语言问题，查阅资料后发现刚才的解释不是十分准确，看到一篇介绍相关内容的博客感觉不错，节选部分全文
 先来看两个概念：
- 国际化：是指为了该软件在任何地区的潜在使用而进行程序设计的过程。 它包括了为将来翻译而标记的文本（比如用户界面要素和错误信息等）、日期和时间的抽象显示以便保证不同地区的标准得到遵循、为不同时区提供支持，并且一般 确保代码中不会存在关于使用者所在地区的假设。 您会经常看到国际化被缩写为“I18N” (18表示Internationlization这个单词首字母I和结尾字母N之间的字母有18个)。 本地化： 是指使一个国际化的程序为了在某个特定地区使用而进行实际翻译的过程。 有时，本地化缩写为L10N 。  使用Django 国际化  第一步：在你的Python代码和模板中嵌入待翻译的字符串。 第二步：把那些字符串翻译成你要支持的语言。 第三步：在你的Django settings文件中激活本地中间件。  如何嵌入待翻译的字符串 使用函数django.</description>
+国际化：是指为了该软件在任何地区的潜在使用而进行程序设计的过程。 它包括了为将来翻译而标记的文本（比如用户界面要素和错误信息等）、日期和时间的抽象显示以便保证不同地区的标准得到遵循、为不同时区提供支持，并且一般 确保代码中不会存在关于使用者所在地区的假设。 您会经常看到国际化被缩写为“I18N” (18表示Internationlization这个单词首字母I和结尾字母N之间的字母有18个)。 本地化： 是指使一个国际化的程序为了在某个特定地区使用而进行实际翻译的过程。 有时，本地化缩写为L10N 。 使用Django 国际化 第一步：在你的Python代码和模板中嵌入待翻译的字符串。 第二步：把那些字符串翻译成你要支持的语言。 第三步：在你的Django settings文件中激活本地中间件。 如何嵌入待翻译的字符串 使用函数django.</description>
     </item>
     
     <item>
@@ -1714,7 +1730,7 @@ Traceback (most recent call last):File &amp;quot;trackbacks.py&amp;quot;, line 
 _=lambda s:s 当时不太理解这么写的目的，google之后明白了（顺便吐槽百度，搜“lambda s:s”出来的结果没几个有用的），记录如下：
 一般情况下出现这种写法应该是用在&amp;quot;and_or&amp;quot;技巧中，也可以叫做“逻辑短路”。相信学过C语言的一定很熟悉“and一假为假、or一真为真”这句话。
 python中lambda的bool值永远为真（这里指lambda本身而不是它的返回值），《dive into python》原文翻译：
- lambda函数在布尔环境中总是为真。(这并不意味这lambda函数不能返回假值。这个函数对象的布尔值为真；它的返回值可以是任何东西。)</description>
+lambda函数在布尔环境中总是为真。(这并不意味这lambda函数不能返回假值。这个函数对象的布尔值为真；它的返回值可以是任何东西。)</description>
     </item>
     
     <item>

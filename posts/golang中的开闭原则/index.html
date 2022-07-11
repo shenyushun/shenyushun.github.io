@@ -95,63 +95,63 @@ if (!doNotTrack) {
 			<p>原文地址：<a href="https://levelup.gitconnected.com/practical-solid-in-golang-open-closed-principle-1dd361565452">这里</a>，省略了一些非重点片段。</p>
 <p>Open/Closed Principle（OCP，开闭原则）也不过多介绍了，一句话“对扩展开放，对修改封闭”。策略模式就是这一原则的一种实现。</p>
 <h2 id="不符合开闭原则的代码">不符合开闭原则的代码</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">import</span> (
-	<span style="color:#e6db74">&#34;net/http&#34;</span>
-
-	<span style="color:#e6db74">&#34;github.com/ahmetb/go-linq&#34;</span>
-	<span style="color:#e6db74">&#34;github.com/gin-gonic/gin&#34;</span>
-)
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PermissionChecker</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#75715e">//
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">// some fields
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
-</span><span style="color:#75715e"></span>}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">PermissionChecker</span>) <span style="color:#a6e22e">HasPermission</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">bool</span> {
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">permissions</span> []<span style="color:#66d9ef">string</span>
-	<span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">GetString</span>(<span style="color:#e6db74">&#34;authType&#34;</span>) {
-	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;jwt&#34;</span>:
-		<span style="color:#a6e22e">permissions</span> = <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">extractPermissionsFromJwt</span>(<span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">Request</span>.<span style="color:#a6e22e">Header</span>)
-	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;basic&#34;</span>:
-		<span style="color:#a6e22e">permissions</span> = <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">getPermissionsForBasicAuth</span>(<span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">Request</span>.<span style="color:#a6e22e">Header</span>)
-	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;applicationKey&#34;</span>:
-		<span style="color:#a6e22e">permissions</span> = <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">getPermissionsForApplicationKey</span>(<span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">Query</span>(<span style="color:#e6db74">&#34;applicationKey&#34;</span>))
-	}
-	
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> []<span style="color:#66d9ef">string</span>
-	<span style="color:#a6e22e">linq</span>.<span style="color:#a6e22e">From</span>(<span style="color:#a6e22e">permissions</span>).
-		<span style="color:#a6e22e">Where</span>(<span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">permission</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#66d9ef">bool</span> {
-			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">permission</span>.(<span style="color:#66d9ef">string</span>) <span style="color:#f92672">==</span> <span style="color:#a6e22e">name</span>
-		}).<span style="color:#a6e22e">ToSlice</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">result</span>)
-
-	<span style="color:#66d9ef">return</span> len(<span style="color:#a6e22e">result</span>) &gt; <span style="color:#ae81ff">0</span>
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">PermissionChecker</span>) <span style="color:#a6e22e">getPermissionsForApplicationKey</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">string</span>) []<span style="color:#66d9ef">string</span> {
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> []<span style="color:#66d9ef">string</span>
-	<span style="color:#75715e">//
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">// extract JWT from the request header
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
-</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">PermissionChecker</span>) <span style="color:#a6e22e">getPermissionsForBasicAuth</span>(<span style="color:#a6e22e">h</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Header</span>) []<span style="color:#66d9ef">string</span> {
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> []<span style="color:#66d9ef">string</span>
-	<span style="color:#75715e">//
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">// extract JWT from the request header
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
-</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">PermissionChecker</span>) <span style="color:#a6e22e">extractPermissionsFromJwt</span>(<span style="color:#a6e22e">h</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Header</span>) []<span style="color:#66d9ef">string</span> {
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> []<span style="color:#66d9ef">string</span>
-	<span style="color:#75715e">//
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">// extract JWT from the request header
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
-</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>
-}
-</code></pre></div><p>上面的代码里我们定义了一个结构体<code>PermissionChecker</code>用于判断请求是否有权限获取数据，这里主要的方法<code>HasPermission</code>通过从context中获取指定的字段来关联到不同的验证方法。根据单一职责原则，<code>PermissionChecker</code>的职责是在Context中获取权限，并没有任何授权行为。授权行为一定是在其他地方定义，比如其他的结构体甚至模块中。所以我们想在其他地方扩展授权过程，还需要在这里调整逻辑。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net/http&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/ahmetb/go-linq&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PermissionChecker</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// some fields
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">PermissionChecker</span>) <span style="color:#a6e22e">HasPermission</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">permissions</span> []<span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">GetString</span>(<span style="color:#e6db74">&#34;authType&#34;</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;jwt&#34;</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">permissions</span> = <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">extractPermissionsFromJwt</span>(<span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">Request</span>.<span style="color:#a6e22e">Header</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;basic&#34;</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">permissions</span> = <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">getPermissionsForBasicAuth</span>(<span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">Request</span>.<span style="color:#a6e22e">Header</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;applicationKey&#34;</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">permissions</span> = <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">getPermissionsForApplicationKey</span>(<span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">Query</span>(<span style="color:#e6db74">&#34;applicationKey&#34;</span>))
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> []<span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">linq</span>.<span style="color:#a6e22e">From</span>(<span style="color:#a6e22e">permissions</span>).
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Where</span>(<span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">permission</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">permission</span>.(<span style="color:#66d9ef">string</span>) <span style="color:#f92672">==</span> <span style="color:#a6e22e">name</span>
+</span></span><span style="display:flex;"><span>		}).<span style="color:#a6e22e">ToSlice</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">result</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> len(<span style="color:#a6e22e">result</span>) &gt; <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">PermissionChecker</span>) <span style="color:#a6e22e">getPermissionsForApplicationKey</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">string</span>) []<span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> []<span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// extract JWT from the request header
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">PermissionChecker</span>) <span style="color:#a6e22e">getPermissionsForBasicAuth</span>(<span style="color:#a6e22e">h</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Header</span>) []<span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> []<span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// extract JWT from the request header
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">PermissionChecker</span>) <span style="color:#a6e22e">extractPermissionsFromJwt</span>(<span style="color:#a6e22e">h</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Header</span>) []<span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> []<span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// extract JWT from the request header
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>上面的代码里我们定义了一个结构体<code>PermissionChecker</code>用于判断请求是否有权限获取数据，这里主要的方法<code>HasPermission</code>通过从context中获取指定的字段来关联到不同的验证方法。根据单一职责原则，<code>PermissionChecker</code>的职责是在Context中获取权限，并没有任何授权行为。授权行为一定是在其他地方定义，比如其他的结构体甚至模块中。所以我们想在其他地方扩展授权过程，还需要在这里调整逻辑。</p>
 <p>假设我们希望扩展授权逻辑并添加一些新的流程，例如将用户数据保存在会话中或使用摘要授权。在这种情况下，我们也需要在PermissionChecker中进行调整。这种写法暴露了一些问题：</p>
 <ol>
 <li><code>PermissionChecker</code>保留了在其他地方初始化的逻辑。</li>
@@ -164,140 +164,140 @@ if (!doNotTrack) {
 <p>来重构代码吧。</p>
 <h2 id="符合开闭原则的代码">符合开闭原则的代码</h2>
 <p>在面向对象编程语言中，我们通过使用相同接口的不同实现来支持扩展，也就是多态。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PermissionProvider</span> <span style="color:#66d9ef">interface</span> {
-	<span style="color:#a6e22e">Type</span>() <span style="color:#66d9ef">string</span>
-	<span style="color:#a6e22e">GetPermissions</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) []<span style="color:#66d9ef">string</span>
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PermissionChecker</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">providers</span> []<span style="color:#a6e22e">PermissionProvider</span>
-	<span style="color:#75715e">//
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">// some fields
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
-</span><span style="color:#75715e"></span>}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">PermissionChecker</span>) <span style="color:#a6e22e">HasPermission</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">bool</span> {
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">permissions</span> []<span style="color:#66d9ef">string</span>
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">provider</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">providers</span> {
-		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">GetString</span>(<span style="color:#e6db74">&#34;authType&#34;</span>) <span style="color:#f92672">!=</span> <span style="color:#a6e22e">provider</span>.<span style="color:#a6e22e">Type</span>() {
-			<span style="color:#66d9ef">continue</span>
-		}
-		
-		<span style="color:#a6e22e">permissions</span> = <span style="color:#a6e22e">provider</span>.<span style="color:#a6e22e">GetPermissions</span>(<span style="color:#a6e22e">ctx</span>)
-		<span style="color:#66d9ef">break</span>
-	}
-
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> []<span style="color:#66d9ef">string</span>
-	<span style="color:#a6e22e">linq</span>.<span style="color:#a6e22e">From</span>(<span style="color:#a6e22e">permissions</span>).
-		<span style="color:#a6e22e">Where</span>(<span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">permission</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#66d9ef">bool</span> {
-			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">permission</span>.(<span style="color:#66d9ef">string</span>) <span style="color:#f92672">==</span> <span style="color:#a6e22e">name</span>
-		}).<span style="color:#a6e22e">ToSlice</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">result</span>)
-
-	<span style="color:#66d9ef">return</span> len(<span style="color:#a6e22e">result</span>) &gt; <span style="color:#ae81ff">0</span>
-}
-</code></pre></div><p>上面的代码是对开闭原则的一种实现，<code>PermissionChecker</code>并没有隐藏从Context提取权限的技术细节。同时声明了新的接口<code>PermissionProvider</code>，用于定义不同的权限提取逻辑。比如可以是<code>JwtPermissionProvider</code>，<code>ApiKeyPermissionProvider</code>，<code>AuthBasicPermissionProvider</code>等，这样对授权负责的模块就可以包含权限的提取功能了，这也意味着关于已经被授权的用户相关逻辑可以放在一起而不是分散在各个地方。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PermissionProvider</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Type</span>() <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">GetPermissions</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) []<span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PermissionChecker</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">providers</span> []<span style="color:#a6e22e">PermissionProvider</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// some fields
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">PermissionChecker</span>) <span style="color:#a6e22e">HasPermission</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">permissions</span> []<span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">provider</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">providers</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">GetString</span>(<span style="color:#e6db74">&#34;authType&#34;</span>) <span style="color:#f92672">!=</span> <span style="color:#a6e22e">provider</span>.<span style="color:#a6e22e">Type</span>() {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">permissions</span> = <span style="color:#a6e22e">provider</span>.<span style="color:#a6e22e">GetPermissions</span>(<span style="color:#a6e22e">ctx</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> []<span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">linq</span>.<span style="color:#a6e22e">From</span>(<span style="color:#a6e22e">permissions</span>).
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Where</span>(<span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">permission</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">permission</span>.(<span style="color:#66d9ef">string</span>) <span style="color:#f92672">==</span> <span style="color:#a6e22e">name</span>
+</span></span><span style="display:flex;"><span>		}).<span style="color:#a6e22e">ToSlice</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">result</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> len(<span style="color:#a6e22e">result</span>) &gt; <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>上面的代码是对开闭原则的一种实现，<code>PermissionChecker</code>并没有隐藏从Context提取权限的技术细节。同时声明了新的接口<code>PermissionProvider</code>，用于定义不同的权限提取逻辑。比如可以是<code>JwtPermissionProvider</code>，<code>ApiKeyPermissionProvider</code>，<code>AuthBasicPermissionProvider</code>等，这样对授权负责的模块就可以包含权限的提取功能了，这也意味着关于已经被授权的用户相关逻辑可以放在一起而不是分散在各个地方。</p>
 <p>另一方面，我们的主要目标——扩展<code>PermissionChecker</code>而不需要修改<code>PermissionChecker</code>本身代码，也通过传入不同的<code>PermissionProviders</code>来实现了。</p>
 <p>假设我们需要添加一种从session获取权限的功能，在这里只需要提供新的<code>SessionPermissionProvider</code>，负责从context的cookie中提取权限并且从<code>SessionStore</code>中获取对应的数据即可。</p>
 <h2 id="更多例子">更多例子</h2>
 <p>上面的问题还有另一种写法：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PermissionProvider</span> <span style="color:#66d9ef">interface</span> {
-	<span style="color:#a6e22e">Type</span>() <span style="color:#66d9ef">string</span>
-	<span style="color:#a6e22e">GetPermissions</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) []<span style="color:#66d9ef">string</span>
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PermissionChecker</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#75715e">//
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">// some fields
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
-</span><span style="color:#75715e"></span>}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">PermissionChecker</span>) <span style="color:#a6e22e">HasPermission</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">provider</span> <span style="color:#a6e22e">PermissionProvider</span>, <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">bool</span> {
-	<span style="color:#a6e22e">permissions</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">provider</span>.<span style="color:#a6e22e">GetPermissions</span>(<span style="color:#a6e22e">ctx</span>)
-
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> []<span style="color:#66d9ef">string</span>
-	<span style="color:#a6e22e">linq</span>.<span style="color:#a6e22e">From</span>(<span style="color:#a6e22e">permissions</span>).
-		<span style="color:#a6e22e">Where</span>(<span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">permission</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#66d9ef">bool</span> {
-			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">permission</span>.(<span style="color:#66d9ef">string</span>) <span style="color:#f92672">==</span> <span style="color:#a6e22e">name</span>
-		}).<span style="color:#a6e22e">ToSlice</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">result</span>)
-
-	<span style="color:#66d9ef">return</span> len(<span style="color:#a6e22e">result</span>) &gt; <span style="color:#ae81ff">0</span>
-}
-</code></pre></div><p>上面的代码中我们从<code>PermissionChecker</code>移除了<code>PermissionProviders</code>，而是通过参数的方式把provider传入给<code>HasPermission</code>函数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PermissionProvider</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Type</span>() <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">GetPermissions</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) []<span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PermissionChecker</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// some fields
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">PermissionChecker</span>) <span style="color:#a6e22e">HasPermission</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">provider</span> <span style="color:#a6e22e">PermissionProvider</span>, <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">permissions</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">provider</span>.<span style="color:#a6e22e">GetPermissions</span>(<span style="color:#a6e22e">ctx</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> []<span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">linq</span>.<span style="color:#a6e22e">From</span>(<span style="color:#a6e22e">permissions</span>).
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Where</span>(<span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">permission</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">permission</span>.(<span style="color:#66d9ef">string</span>) <span style="color:#f92672">==</span> <span style="color:#a6e22e">name</span>
+</span></span><span style="display:flex;"><span>		}).<span style="color:#a6e22e">ToSlice</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">result</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> len(<span style="color:#a6e22e">result</span>) &gt; <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>上面的代码中我们从<code>PermissionChecker</code>移除了<code>PermissionProviders</code>，而是通过参数的方式把provider传入给<code>HasPermission</code>函数。</p>
 <p>我个人更喜欢第一种方式，但第二个也是种解决方式，取决于实际的场景。</p>
 <p>同样，开闭原则也可以应用到方法层面：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetCities</span>(<span style="color:#a6e22e">sourceType</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">source</span> <span style="color:#66d9ef">string</span>) ([]<span style="color:#a6e22e">City</span>, <span style="color:#66d9ef">error</span>) {
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">data</span> []<span style="color:#66d9ef">byte</span>
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>
-
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sourceType</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;file&#34;</span> {
-		<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadFile</span>(<span style="color:#a6e22e">source</span>)
-		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
-		}
-	} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sourceType</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;link&#34;</span> {
-		<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">source</span>)
-		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
-		}
-
-		<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadAll</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>)
-		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
-		}
-		<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Close</span>()
-	}
-
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">cities</span> []<span style="color:#a6e22e">City</span>
-	<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">yaml</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">data</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">cities</span>)
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
-	}
-
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">cities</span>, <span style="color:#66d9ef">nil</span>
-}
-</code></pre></div><p>函数<code>GetCities</code>从某些地方读取城市信息，来源可能是文件或者网络上的某个连接。未来我们想要从内存、Redis或者其他地方获取数据。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetCities</span>(<span style="color:#a6e22e">sourceType</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">source</span> <span style="color:#66d9ef">string</span>) ([]<span style="color:#a6e22e">City</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">data</span> []<span style="color:#66d9ef">byte</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sourceType</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;file&#34;</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadFile</span>(<span style="color:#a6e22e">source</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sourceType</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;link&#34;</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">source</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadAll</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Close</span>()
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">cities</span> []<span style="color:#a6e22e">City</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">yaml</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">data</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">cities</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">cities</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>函数<code>GetCities</code>从某些地方读取城市信息，来源可能是文件或者网络上的某个连接。未来我们想要从内存、Redis或者其他地方获取数据。</p>
 <p>所以，让读取原始数据的过程更抽象一点会更好。也就是说，我们可以从外部提供一个读取策略作为方法参数。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">DataReader</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">source</span> <span style="color:#66d9ef">string</span>) ([]<span style="color:#66d9ef">byte</span>, <span style="color:#66d9ef">error</span>)
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">ReadFromFile</span>(<span style="color:#a6e22e">fileName</span> <span style="color:#66d9ef">string</span>) ([]<span style="color:#66d9ef">byte</span>, <span style="color:#66d9ef">error</span>) {
-	<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadFile</span>(<span style="color:#a6e22e">fileName</span>)
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
-	}
-
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">data</span>, <span style="color:#66d9ef">nil</span>
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">ReadFromLink</span>(<span style="color:#a6e22e">link</span> <span style="color:#66d9ef">string</span>) ([]<span style="color:#66d9ef">byte</span>, <span style="color:#66d9ef">error</span>) {
-	<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">link</span>)
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
-	}
-
-	<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadAll</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>)
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
-	}
-	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Close</span>()
-
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">data</span>, <span style="color:#66d9ef">nil</span>
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetCities</span>(<span style="color:#a6e22e">reader</span> <span style="color:#a6e22e">DataReader</span>, <span style="color:#a6e22e">source</span> <span style="color:#66d9ef">string</span>) ([]<span style="color:#a6e22e">City</span>, <span style="color:#66d9ef">error</span>) {
-	<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">reader</span>(<span style="color:#a6e22e">source</span>)
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
-	}
-
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">cities</span> []<span style="color:#a6e22e">City</span>
-	<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">yaml</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">data</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">cities</span>)
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
-	}
-
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">cities</span>, <span style="color:#66d9ef">nil</span>
-}
-</code></pre></div><p>在上面的代码中我们定义了一种新的类型<code>DataReader</code>来代表从某个地方获取原始数据，<code>ReadFromFile</code>和<code>ReadFromLink</code>则是具体的实现并且作为参数传递给<code>GetCities</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">DataReader</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">source</span> <span style="color:#66d9ef">string</span>) ([]<span style="color:#66d9ef">byte</span>, <span style="color:#66d9ef">error</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">ReadFromFile</span>(<span style="color:#a6e22e">fileName</span> <span style="color:#66d9ef">string</span>) ([]<span style="color:#66d9ef">byte</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadFile</span>(<span style="color:#a6e22e">fileName</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">data</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">ReadFromLink</span>(<span style="color:#a6e22e">link</span> <span style="color:#66d9ef">string</span>) ([]<span style="color:#66d9ef">byte</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">link</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadAll</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">data</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetCities</span>(<span style="color:#a6e22e">reader</span> <span style="color:#a6e22e">DataReader</span>, <span style="color:#a6e22e">source</span> <span style="color:#66d9ef">string</span>) ([]<span style="color:#a6e22e">City</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">reader</span>(<span style="color:#a6e22e">source</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">cities</span> []<span style="color:#a6e22e">City</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">yaml</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">data</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">cities</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">cities</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在上面的代码中我们定义了一种新的类型<code>DataReader</code>来代表从某个地方获取原始数据，<code>ReadFromFile</code>和<code>ReadFromLink</code>则是具体的实现并且作为参数传递给<code>GetCities</code>。</p>
 <p>正如所见，开闭原则最主要的目的就是提高代码的灵活性。我们的库真正的价值，在于有人能够扩展我们的库，而不需要派生它们、为它们提供PR或以任何方式修改它们。</p>
 <h2 id="总结">总结</h2>
 <p>开闭原则是SOLID中的第二个O，在源代码中，我们应该使用多态性来满足这一要求。我们的代码应该提供一个简单的接口来添加这种可扩展性。</p>
@@ -346,7 +346,7 @@ if (!doNotTrack) {
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

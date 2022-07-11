@@ -14,11 +14,11 @@
       
       <guid>/posts/redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6-%E5%88%87%E6%8D%A2%E9%85%8D%E7%BD%AE/</guid>
       <description>&lt;p&gt;首先从官网下载源码进行安装:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;wget http://download.redis.io/releases/redis-3.2.1.tar.gz
-tar -zxvf redis-3.2.1.tar.gz
-make &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; make test
-sudo make install
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;默认安装到&lt;code&gt;/usr/local/bin&lt;/code&gt;目录。&lt;/p&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;wget http://download.redis.io/releases/redis-3.2.1.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;tar -zxvf redis-3.2.1.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;make &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; make test
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo make install
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;默认安装到&lt;code&gt;/usr/local/bin&lt;/code&gt;目录。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -89,7 +89,7 @@ bind_ip = 192.</description>
       <description>最近公司有个异地多机房数据同步需求，mysql原生支持双主同步，所以只能另寻他法，于是找到了Percona XtraDB Cluster。这个可以理解为给Mysql打了个补丁，以便支持多主同步。
 测试环境：centos 6.5
 IP分配:
- 192.168.0.154(DB) 192.168.0.152(DB) 192.168.0.153(DB) 192.</description>
+192.168.0.154(DB) 192.168.0.152(DB) 192.168.0.153(DB) 192.168.0.151(HA) 首先安装Percona XtraDB Cluster的源： yum install http://www.</description>
     </item>
     
     <item>
@@ -122,7 +122,7 @@ import psycopg2 #省略部分代码... def ins_pictures(self, name, position, ex
       <description>数据库9.3.5，系统fedora20,不同系统操作略有不同。
 使用yum 命令安装即可：sudo yum install postgresql,postgresql-server
 安装完毕后系统中会创建一个postgres的用户，切换到这个用户后进行数据库的初始化：
-initdb --encoding=UTF-8 --no-locale -D /var/lib/pgsql/data/或者使用postgresql-setup initdb 命令。</description>
+initdb --encoding=UTF-8 --no-locale -D /var/lib/pgsql/data/ 或者使用postgresql-setup initdb 命令。</description>
     </item>
     
     <item>
@@ -155,7 +155,7 @@ posistion = &amp;#34;top&amp;#34; order = r&amp;#34;select id,p_name,p_explain,p
       
       <guid>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/</guid>
       <description>使用virtualenv虚拟环境的时候，mysql-python安装时报错：
-_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &amp;quot;my_config.</description>
+_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &amp;#34;my_config.</description>
     </item>
     
   </channel>

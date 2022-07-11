@@ -64,7 +64,7 @@ print &#39;we met %d feline%s&#39; % (nf, &#39;s&#39;[nf == 1:])
 print &#39;the animals we net were:&#39;, &#39; &#39;.join(animals)
 "><meta itemprop="datePublished" content="2016-01-26T11:57:39+00:00" />
 <meta itemprop="dateModified" content="2016-01-26T11:57:39+00:00" />
-<meta itemprop="wordCount" content="134">
+<meta itemprop="wordCount" content="135">
 <meta itemprop="keywords" content="python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -137,29 +137,29 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>程序中很常见的一种场景就是根据某个控制变量的值来调用不同的函数或对象进行处理，某些语言中可以使用case语句进行处理，在python可以使用getattr函数甚至if&hellip;elif&hellip;else来处理，除此之外，也可以使用字典来实现相同的功能，比如下面的例子：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">animals <span style="color:#f92672">=</span> []
-number_of_felines <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">deal_cat</span>():
-    <span style="color:#66d9ef">global</span> number_of_felines
-    print <span style="color:#e6db74">&#34;meow&#34;</span>
-    animals<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;feline&#39;</span>)
-    number_of_felines <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">deal_dog</span>():
-    print <span style="color:#e6db74">&#39;bark&#39;</span>
-    animals<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;canine&#39;</span>)
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">deal_bear</span>():
-    print <span style="color:#e6db74">&#34;hug&#34;</span>
-    animals<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;ursine&#39;</span>)
-token <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;cat&#39;</span>: deal_cat, <span style="color:#e6db74">&#39;dog&#39;</span>: deal_dog, <span style="color:#e6db74">&#39;bear&#39;</span>: deal_bear}
-<span style="color:#75715e">#words = [&#39;cat&#39;, &#39;dog&#39;, &#39;bear&#39;]</span>
-words <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;cat&#39;</span>, <span style="color:#e6db74">&#39;dog&#39;</span>, <span style="color:#e6db74">&#39;bear&#39;</span>, <span style="color:#e6db74">&#39;cat&#39;</span>]
-<span style="color:#66d9ef">for</span> one <span style="color:#f92672">in</span> words:
-    token[one]()
-    <span style="color:#75715e">#return token[one]()</span>
-nf <span style="color:#f92672">=</span> number_of_felines
-print <span style="color:#e6db74">&#39;we met </span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> feline</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> (nf, <span style="color:#e6db74">&#39;s&#39;</span>[nf <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:])
-print <span style="color:#e6db74">&#39;the animals we net were:&#39;</span>, <span style="color:#e6db74">&#39; &#39;</span><span style="color:#f92672">.</span>join(animals)
-</code></pre></div><p>以上代码来源于《python cookbook》 第二版4.16节，原书中在for循环中使用return会报错，但本质上就是模拟根据不同的key来调用不同函数，所以去掉return即可。运行输出结果如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>animals <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>number_of_felines <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">deal_cat</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">global</span> number_of_felines
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#34;meow&#34;</span>
+</span></span><span style="display:flex;"><span>    animals<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;feline&#39;</span>)
+</span></span><span style="display:flex;"><span>    number_of_felines <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">deal_dog</span>():
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;bark&#39;</span>
+</span></span><span style="display:flex;"><span>    animals<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;canine&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">deal_bear</span>():
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#34;hug&#34;</span>
+</span></span><span style="display:flex;"><span>    animals<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;ursine&#39;</span>)
+</span></span><span style="display:flex;"><span>token <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;cat&#39;</span>: deal_cat, <span style="color:#e6db74">&#39;dog&#39;</span>: deal_dog, <span style="color:#e6db74">&#39;bear&#39;</span>: deal_bear}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#words = [&#39;cat&#39;, &#39;dog&#39;, &#39;bear&#39;]</span>
+</span></span><span style="display:flex;"><span>words <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;cat&#39;</span>, <span style="color:#e6db74">&#39;dog&#39;</span>, <span style="color:#e6db74">&#39;bear&#39;</span>, <span style="color:#e6db74">&#39;cat&#39;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> one <span style="color:#f92672">in</span> words:
+</span></span><span style="display:flex;"><span>    token[one]()
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#return token[one]()</span>
+</span></span><span style="display:flex;"><span>nf <span style="color:#f92672">=</span> number_of_felines
+</span></span><span style="display:flex;"><span>print <span style="color:#e6db74">&#39;we met </span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> feline</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> (nf, <span style="color:#e6db74">&#39;s&#39;</span>[nf <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:])
+</span></span><span style="display:flex;"><span>print <span style="color:#e6db74">&#39;the animals we net were:&#39;</span>, <span style="color:#e6db74">&#39; &#39;</span><span style="color:#f92672">.</span>join(animals)
+</span></span></code></pre></div><p>以上代码来源于《python cookbook》 第二版4.16节，原书中在for循环中使用return会报错，但本质上就是模拟根据不同的key来调用不同函数，所以去掉return即可。运行输出结果如下：</p>
 <pre tabindex="0"><code>meow
 bark
 hug
@@ -167,21 +167,21 @@ meow
 we met 2 felines
 the animals we net were: feline canine ursine feline
 </code></pre><p>这里解释一下<code>'s'[nf == 1:]</code>这句话，这句话最终的目的其实就是决定feline的单复数形式罢了。从代码层面来讲，等同于：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">23</span>]: <span style="color:#e6db74">&#34;abc&#34;</span>[<span style="color:#66d9ef">False</span>:]
-Out[<span style="color:#ae81ff">23</span>]: <span style="color:#e6db74">&#39;abc&#39;</span>
-In [<span style="color:#ae81ff">24</span>]: <span style="color:#e6db74">&#34;abc&#34;</span>[<span style="color:#66d9ef">True</span>:]
-Out[<span style="color:#ae81ff">24</span>]: <span style="color:#e6db74">&#39;bc&#39;</span>
-</code></pre></div><p>再进一步说就是：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">25</span>]: <span style="color:#e6db74">&#34;abc&#34;</span>[<span style="color:#ae81ff">0</span>:]
-Out[<span style="color:#ae81ff">25</span>]: <span style="color:#e6db74">&#39;abc&#39;</span>
-In [<span style="color:#ae81ff">26</span>]: <span style="color:#e6db74">&#34;abc&#34;</span>[<span style="color:#ae81ff">1</span>:]
-Out[<span style="color:#ae81ff">26</span>]: <span style="color:#e6db74">&#39;bc&#39;</span>
-</code></pre></div><p>因为在py2.7中：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">28</span>]: <span style="color:#ae81ff">0</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">False</span>
-Out[<span style="color:#ae81ff">28</span>]: <span style="color:#66d9ef">True</span>
-In [<span style="color:#ae81ff">30</span>]: <span style="color:#ae81ff">1</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">True</span>
-Out[<span style="color:#ae81ff">30</span>]: <span style="color:#66d9ef">True</span>
-</code></pre></div><p>虽然举例的代码是函数，但把函数换成对象、类都是可以的。这里再向大家推荐一下《python cookbook》这本书，如果你和我一样已经过了入门阶段而想要有进一步提高的话，建议把这本书通读并实践，而不是遇到某个问题才去找解决方案，这本书里有很多让人眼前一亮的小技巧以及让人豁然开朗的技术解答。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>In [<span style="color:#ae81ff">23</span>]: <span style="color:#e6db74">&#34;abc&#34;</span>[<span style="color:#66d9ef">False</span>:]
+</span></span><span style="display:flex;"><span>Out[<span style="color:#ae81ff">23</span>]: <span style="color:#e6db74">&#39;abc&#39;</span>
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">24</span>]: <span style="color:#e6db74">&#34;abc&#34;</span>[<span style="color:#66d9ef">True</span>:]
+</span></span><span style="display:flex;"><span>Out[<span style="color:#ae81ff">24</span>]: <span style="color:#e6db74">&#39;bc&#39;</span>
+</span></span></code></pre></div><p>再进一步说就是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>In [<span style="color:#ae81ff">25</span>]: <span style="color:#e6db74">&#34;abc&#34;</span>[<span style="color:#ae81ff">0</span>:]
+</span></span><span style="display:flex;"><span>Out[<span style="color:#ae81ff">25</span>]: <span style="color:#e6db74">&#39;abc&#39;</span>
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">26</span>]: <span style="color:#e6db74">&#34;abc&#34;</span>[<span style="color:#ae81ff">1</span>:]
+</span></span><span style="display:flex;"><span>Out[<span style="color:#ae81ff">26</span>]: <span style="color:#e6db74">&#39;bc&#39;</span>
+</span></span></code></pre></div><p>因为在py2.7中：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>In [<span style="color:#ae81ff">28</span>]: <span style="color:#ae81ff">0</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>Out[<span style="color:#ae81ff">28</span>]: <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">30</span>]: <span style="color:#ae81ff">1</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>Out[<span style="color:#ae81ff">30</span>]: <span style="color:#66d9ef">True</span>
+</span></span></code></pre></div><p>虽然举例的代码是函数，但把函数换成对象、类都是可以的。这里再向大家推荐一下《python cookbook》这本书，如果你和我一样已经过了入门阶段而想要有进一步提高的话，建议把这本书通读并实践，而不是遇到某个问题才去找解决方案，这本书里有很多让人眼前一亮的小技巧以及让人豁然开朗的技术解答。</p>
 		</div>
 		<footer class="post__footer">
 			
@@ -227,7 +227,7 @@ Out[<span style="color:#ae81ff">30</span>]: <span style="color:#66d9ef">True</sp
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

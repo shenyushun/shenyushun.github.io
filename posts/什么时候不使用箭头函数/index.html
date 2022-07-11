@@ -102,109 +102,109 @@ if (!doNotTrack) {
 <p>JavaScript中的方法就是一个作为对象属性的函数，当一个方法被调用时，<code>this</code>就指向了方法所属的对象。</p>
 <h3 id="1a对象方法object-literal">1a.对象方法(Object literal)</h3>
 <p>因为箭头函数的语法简短，使用它来定义函数方法是很吸引人的。让我们试一下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">calculate</span> <span style="color:#f92672">=</span> {  
-  <span style="color:#a6e22e">array</span><span style="color:#f92672">:</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>],
-  <span style="color:#a6e22e">sum</span><span style="color:#f92672">:</span> () =&gt; {
-    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span> <span style="color:#f92672">===</span> window); <span style="color:#75715e">// =&gt; true
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">array</span>.<span style="color:#a6e22e">reduce</span>((<span style="color:#a6e22e">result</span>, <span style="color:#a6e22e">item</span>) =&gt; <span style="color:#a6e22e">result</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">item</span>);
-  }
-};
-<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span> <span style="color:#f92672">===</span> window); <span style="color:#75715e">// =&gt; true  
-</span><span style="color:#75715e">// Throws &#34;TypeError: Cannot read property &#39;reduce&#39; of undefined&#34;
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">calculate</span>.<span style="color:#a6e22e">sum</span>();  
-</code></pre></div><p>我们使用了箭头函数去定义<code>calculate.sum</code>方法，但调用<code>calculate.sum()</code>却引起了一个<code>TypeError</code>异常，因为<code>this.array</code>被设置成了<code>undefined</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">calculate</span> <span style="color:#f92672">=</span> {  
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">array</span><span style="color:#f92672">:</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">sum</span><span style="color:#f92672">:</span> () =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span> <span style="color:#f92672">===</span> window); <span style="color:#75715e">// =&gt; true
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">array</span>.<span style="color:#a6e22e">reduce</span>((<span style="color:#a6e22e">result</span>, <span style="color:#a6e22e">item</span>) =&gt; <span style="color:#a6e22e">result</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">item</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span> <span style="color:#f92672">===</span> window); <span style="color:#75715e">// =&gt; true  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Throws &#34;TypeError: Cannot read property &#39;reduce&#39; of undefined&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">calculate</span>.<span style="color:#a6e22e">sum</span>();  
+</span></span></code></pre></div><p>我们使用了箭头函数去定义<code>calculate.sum</code>方法，但调用<code>calculate.sum()</code>却引起了一个<code>TypeError</code>异常，因为<code>this.array</code>被设置成了<code>undefined</code>。</p>
 <p>当我们在<code>calculate</code>对象上调用<code>sum()</code>方法时，上下文仍然是<code>window</code>，这是因为箭头函数的词法作用域绑定在了<code>window</code>对象上。(注：关于箭头函数的this可以参考<a href="http://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/001438565969057627e5435793645b7acaee3b6869d1374000">廖大的网站</a>，讲的很详细。)</p>
 <p>所以调用<code>this.arrow</code>等同于调用<code>window.arrow</code>，即<code>undefined</code>。</p>
 <p>解决方法就是使用函数表达式或者<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Method_definitions">短语法</a>(ES6新特性)来定义方法，这种情况下<code>this</code>将由调用者决定，而不是闭包中。下面是修改后的版本：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">calculate</span> <span style="color:#f92672">=</span> {  
-  <span style="color:#a6e22e">array</span><span style="color:#f92672">:</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>],
-  <span style="color:#a6e22e">sum</span>() {
-    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">calculate</span>); <span style="color:#75715e">// =&gt; true
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">array</span>.<span style="color:#a6e22e">reduce</span>((<span style="color:#a6e22e">result</span>, <span style="color:#a6e22e">item</span>) =&gt; <span style="color:#a6e22e">result</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">item</span>);
-  }
-};
-<span style="color:#a6e22e">calculate</span>.<span style="color:#a6e22e">sum</span>(); <span style="color:#75715e">// =&gt; 6  
-</span></code></pre></div><h3 id="1b对象原型object-prototype">1b.对象原型(Object prototype)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">calculate</span> <span style="color:#f92672">=</span> {  
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">array</span><span style="color:#f92672">:</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">sum</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">calculate</span>); <span style="color:#75715e">// =&gt; true
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">array</span>.<span style="color:#a6e22e">reduce</span>((<span style="color:#a6e22e">result</span>, <span style="color:#a6e22e">item</span>) =&gt; <span style="color:#a6e22e">result</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">item</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">calculate</span>.<span style="color:#a6e22e">sum</span>(); <span style="color:#75715e">// =&gt; 6  
+</span></span></span></code></pre></div><h3 id="1b对象原型object-prototype">1b.对象原型(Object prototype)</h3>
 <p>同样的规则也适用于<code>prototype</code>对象上，使用箭头函数来定义<code>sayCatName</code>方法，造成了错误的上下文环境为<code>window</code>：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">MyCat</span>(<span style="color:#a6e22e">name</span>) {  
-  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">catName</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">name</span>;
-}
-<span style="color:#a6e22e">MyCat</span>.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">sayCatName</span> <span style="color:#f92672">=</span> () =&gt; {  
-  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span> <span style="color:#f92672">===</span> window); <span style="color:#75715e">// =&gt; true
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">catName</span>;
-};
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">cat</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">MyCat</span>(<span style="color:#e6db74">&#39;Mew&#39;</span>);  
-<span style="color:#a6e22e">cat</span>.<span style="color:#a6e22e">sayCatName</span>(); <span style="color:#75715e">// =&gt; undefined  
-</span></code></pre></div><p>使用老的函数表达式来解决：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">MyCat</span>(<span style="color:#a6e22e">name</span>) {  
-  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">catName</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">name</span>;
-}
-<span style="color:#a6e22e">MyCat</span>.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">sayCatName</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>() {  
-  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">cat</span>); <span style="color:#75715e">// =&gt; true
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">catName</span>;
-};
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">cat</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">MyCat</span>(<span style="color:#e6db74">&#39;Mew&#39;</span>);  
-<span style="color:#a6e22e">cat</span>.<span style="color:#a6e22e">sayCatName</span>(); <span style="color:#75715e">// =&gt; &#39;Mew&#39;
-</span></code></pre></div><p>当我们使用<code>cat.sayCatName()</code>这种方式调用时，我们将上下文环境绑定到了<code>cat</code>对象上。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">MyCat</span>(<span style="color:#a6e22e">name</span>) {  
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">catName</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">name</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">MyCat</span>.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">sayCatName</span> <span style="color:#f92672">=</span> () =&gt; {  
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span> <span style="color:#f92672">===</span> window); <span style="color:#75715e">// =&gt; true
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">catName</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">cat</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">MyCat</span>(<span style="color:#e6db74">&#39;Mew&#39;</span>);  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>.<span style="color:#a6e22e">sayCatName</span>(); <span style="color:#75715e">// =&gt; undefined  
+</span></span></span></code></pre></div><p>使用老的函数表达式来解决：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">MyCat</span>(<span style="color:#a6e22e">name</span>) {  
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">catName</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">name</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">MyCat</span>.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">sayCatName</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>() {  
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">cat</span>); <span style="color:#75715e">// =&gt; true
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">catName</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">cat</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">MyCat</span>(<span style="color:#e6db74">&#39;Mew&#39;</span>);  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>.<span style="color:#a6e22e">sayCatName</span>(); <span style="color:#75715e">// =&gt; &#39;Mew&#39;
+</span></span></span></code></pre></div><p>当我们使用<code>cat.sayCatName()</code>这种方式调用时，我们将上下文环境绑定到了<code>cat</code>对象上。</p>
 <h2 id="2回调函数中callback-functions-with-dynamic-context">2.回调函数中(Callback functions with dynamic context)</h2>
 <p>JavaScript中的<code>this</code>是一个很给力的特性，它准许在函数调用时改变上下文。调用目标对象时频繁的切换上下文，可以使代码看起来更加“自然”，就好象说“这个对象发生什么事情”一样。</p>
 <p>然而箭头函数在声明时候静态的绑定了上下文环境，并且不可动态修改。这样的好处就是不用考虑<code>this</code>的词法作用域了。</p>
 <p>很常见的一种情况就是给DOM元素添加监听事件。目标元素作为<code>this</code>触发了事件监听函数，这样可以简单的使用动态上下文环境了。</p>
 <p>下面的例子尝试使用箭头函数作为回调函数：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">button</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;myButton&#39;</span>);  
-<span style="color:#a6e22e">button</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;click&#39;</span>, () =&gt; {  
-  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span> <span style="color:#f92672">===</span> window); <span style="color:#75715e">// =&gt; true
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Clicked button&#39;</span>;
-});
-</code></pre></div><p>在全局上下文中<code>this</code>被指向了<code>window</code>，当点击时间发生时，浏览器尝试在<code>button</code>的上下文中去调用回调函数，但箭头函数并没有改变之前定义的上下文。<code>this.innerHTML</code>等同于<code>window.innerHTML</code>并且没任何意义。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">button</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;myButton&#39;</span>);  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">button</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;click&#39;</span>, () =&gt; {  
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span> <span style="color:#f92672">===</span> window); <span style="color:#75715e">// =&gt; true
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Clicked button&#39;</span>;
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>在全局上下文中<code>this</code>被指向了<code>window</code>，当点击时间发生时，浏览器尝试在<code>button</code>的上下文中去调用回调函数，但箭头函数并没有改变之前定义的上下文。<code>this.innerHTML</code>等同于<code>window.innerHTML</code>并且没任何意义。</p>
 <p>这时你不得不使用函数表达式，准许<code>this</code>根据目标元素来改变。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">button</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;myButton&#39;</span>);  
-<span style="color:#a6e22e">button</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;click&#39;</span>, <span style="color:#66d9ef">function</span>() {  
-  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">button</span>); <span style="color:#75715e">// =&gt; true
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Clicked button&#39;</span>;
-});
-</code></pre></div><p>当用户点击按钮后，在回调函数中<code>this</code>指向了<code>button</code>，因此点击之后<code>this.innerHTML = 'Clicked button'</code>正确的修改了按钮文本。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">button</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;myButton&#39;</span>);  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">button</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;click&#39;</span>, <span style="color:#66d9ef">function</span>() {  
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">button</span>); <span style="color:#75715e">// =&gt; true
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Clicked button&#39;</span>;
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>当用户点击按钮后，在回调函数中<code>this</code>指向了<code>button</code>，因此点击之后<code>this.innerHTML = 'Clicked button'</code>正确的修改了按钮文本。</p>
 <h2 id="3构造函数中invoking-constructors">3.构造函数中(Invoking constructors)</h2>
 <p>在构造函数中使用<code>this</code>来创建新对象，当执行<code>new MyFunction()</code>时，构造函数<code>MyFunction</code>的上下文是一个新的对象：<code>this instanceof MyFunction === true</code>。</p>
 <p>要注意，箭头函数并不能作为构造函数使用。JavaScript通过引发异常来隐式阻止那么做。不管怎么样，<code>this</code>在闭包的上下文中已经被设定而不是一个新创建的对象。换句话说，箭头函数作为构造函数使用并不是一种明确的做法并且会引起歧义。</p>
 <p>来看看下面的代码会发生什么：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">Message</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">text</span>) =&gt; {  
-  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">text</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">text</span>;
-};
-<span style="color:#75715e">// Throws &#34;TypeError: Message is not a constructor&#34;
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">helloMessage</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Message</span>(<span style="color:#e6db74">&#39;Hello World!&#39;</span>);  
-</code></pre></div><p>执行<code>new Message('Hello World!')</code>，<code>Message</code>是一个箭头函数，JavaScript引发了一个<code>TypeError</code>来阻止<code>Message</code>作为构造函数来使用。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">Message</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">text</span>) =&gt; {  
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">text</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">text</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Throws &#34;TypeError: Message is not a constructor&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">helloMessage</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Message</span>(<span style="color:#e6db74">&#39;Hello World!&#39;</span>);  
+</span></span></code></pre></div><p>执行<code>new Message('Hello World!')</code>，<code>Message</code>是一个箭头函数，JavaScript引发了一个<code>TypeError</code>来阻止<code>Message</code>作为构造函数来使用。</p>
 <p>我认为ES6中明确的给出了详细的错误提示是非常好的，相反在之前的版本中会静默的失败而没有任何提示。</p>
 <p>下面的例子使用函数表达式来正确的创建构造函数：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">Message</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">text</span>) {  
-  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">text</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">text</span>;
-};
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">helloMessage</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Message</span>(<span style="color:#e6db74">&#39;Hello World!&#39;</span>);  
-<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">helloMessage</span>.<span style="color:#a6e22e">text</span>); <span style="color:#75715e">// =&gt; &#39;Hello World!&#39;
-</span></code></pre></div><h2 id="4语句过短时too-short-syntax">4.语句过短时(Too short syntax)</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">Message</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">text</span>) {  
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">text</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">text</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">helloMessage</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Message</span>(<span style="color:#e6db74">&#39;Hello World!&#39;</span>);  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">helloMessage</span>.<span style="color:#a6e22e">text</span>); <span style="color:#75715e">// =&gt; &#39;Hello World!&#39;
+</span></span></span></code></pre></div><h2 id="4语句过短时too-short-syntax">4.语句过短时(Too short syntax)</h2>
 <p>箭头函数可以省略括号、花括号甚至在函数体只有一句话时候连return都可以省略，这有助于写出简短的代码。</p>
 <p>我的大学教授给学生一个很有意思的任务：使用C语言编写尽可能短的函数，这是一个好方法去学习、探索一个新的语言。</p>
 <p>然而在真实世界中程序的代码会被很多开发者阅读。过于简洁的代码并不有助于你的同事正确理解函数的作用。</p>
 <p>过于抽象的函数很难被理解，所以别手里有个锤子看什么都是钉子。让我们看下面这个栗子：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">multiply</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span>) =&gt; <span style="color:#a6e22e">b</span> <span style="color:#f92672">===</span> <span style="color:#66d9ef">undefined</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">b</span> =&gt; <span style="color:#a6e22e">a</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">b</span> <span style="color:#f92672">:</span> <span style="color:#a6e22e">a</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">b</span>;  
-<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">double</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">multiply</span>(<span style="color:#ae81ff">2</span>);  
-<span style="color:#66d9ef">double</span>(<span style="color:#ae81ff">3</span>);      <span style="color:#75715e">// =&gt; 6  
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">multiply</span>(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>); <span style="color:#75715e">// =&gt; 6  
-</span></code></pre></div><p><code>multiply</code>返回两个数的乘积或者使用第一个参数为后续的运算创建一个闭包。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">multiply</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span>) =&gt; <span style="color:#a6e22e">b</span> <span style="color:#f92672">===</span> <span style="color:#66d9ef">undefined</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">b</span> =&gt; <span style="color:#a6e22e">a</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">b</span> <span style="color:#f92672">:</span> <span style="color:#a6e22e">a</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">b</span>;  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> <span style="color:#66d9ef">double</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">multiply</span>(<span style="color:#ae81ff">2</span>);  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">double</span>(<span style="color:#ae81ff">3</span>);      <span style="color:#75715e">// =&gt; 6  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">multiply</span>(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>); <span style="color:#75715e">// =&gt; 6  
+</span></span></span></code></pre></div><p><code>multiply</code>返回两个数的乘积或者使用第一个参数为后续的运算创建一个闭包。</p>
 <p>这个函数可以正常使用并且十分简短，但是第一眼看上去太难理解了。</p>
 <p>为了可读性，我们将这个箭头函数还原回函数表达式：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">multiply</span>(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span>) {  
-  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">b</span> <span style="color:#f92672">===</span> <span style="color:#66d9ef">undefined</span>) {
-    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">b</span>) {
-      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">a</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">b</span>;
-    }
-  }
-  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">a</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">b</span>;
-}
-<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">double</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">multiply</span>(<span style="color:#ae81ff">2</span>);  
-<span style="color:#66d9ef">double</span>(<span style="color:#ae81ff">3</span>);      <span style="color:#75715e">// =&gt; 6  
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">multiply</span>(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>); <span style="color:#75715e">// =&gt; 6  
-</span></code></pre></div><p>在简短和冗余间做出权衡让你的代码更加清晰明确。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">multiply</span>(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span>) {  
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">b</span> <span style="color:#f92672">===</span> <span style="color:#66d9ef">undefined</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">b</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">a</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">b</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">a</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">b</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> <span style="color:#66d9ef">double</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">multiply</span>(<span style="color:#ae81ff">2</span>);  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">double</span>(<span style="color:#ae81ff">3</span>);      <span style="color:#75715e">// =&gt; 6  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">multiply</span>(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>); <span style="color:#75715e">// =&gt; 6  
+</span></span></span></code></pre></div><p>在简短和冗余间做出权衡让你的代码更加清晰明确。</p>
 <h2 id="5结论conclusion">5.结论(Conclusion)</h2>
 <p>毫无疑问箭头函数是一个不错的特性，正确的使用可以让代码更加简单明了，特别是早些时候不得不使用<code>.bind()</code>或者捕获上下文的时候。</p>
 <p>事物都有两面性，你不能在需要动态上下文环境的情况下使用箭头函数：定义方法时，使用构造函数创建对象时，当处理事件时需要使用<code>this</code>从目标获取上下文的情况。</p>
@@ -250,7 +250,7 @@ if (!doNotTrack) {
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

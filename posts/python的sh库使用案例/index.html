@@ -96,41 +96,41 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<p>sh 可让你调用任意程序，就好象是一个函数一般 <a href="http://amoffat.github.io/sh/">http://amoffat.github.io/sh/</a></p>
 <p>这里我用unzip以及mv为例：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#coding=utf-8</span>
-<span style="color:#e6db74">&#39;&#39;&#39;
-</span><span style="color:#e6db74">@CreateDate： Fri Feb 14 15:48:13 CST 2014
-</span><span style="color:#e6db74">@FileName：unzip.py
-</span><span style="color:#e6db74">@Description：负责解压并重命名聊天记录
-</span><span style="color:#e6db74">&#39;&#39;&#39;</span>
-<span style="color:#f92672">import</span> os
-<span style="color:#f92672">from</span> sh <span style="color:#f92672">import</span> unzip,mv
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">myunzip</span>():
-    <span style="color:#e6db74">&#39;&#39;&#39;只负责解压&#39;&#39;&#39;</span>
-    path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>getcwd()
-    path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">/</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (path,<span style="color:#e6db74">&#34;qqfile&#34;</span>)
-    <span style="color:#66d9ef">for</span> root,dirs,files <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>walk(path):
-        <span style="color:#75715e">#print root,type(dirs)</span>
-        <span style="color:#66d9ef">for</span> fn <span style="color:#f92672">in</span> files:
-            <span style="color:#66d9ef">if</span> fn<span style="color:#f92672">.</span>endswith(<span style="color:#e6db74">&#34;.zip&#34;</span>):
-                zippath <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(root,fn)
-                abs_zippath <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(root,fn<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#34;.zip&#34;</span>,<span style="color:#e6db74">&#34;&#34;</span>))
-                print zippath,abs_zippath
-                unzip(zippath,d<span style="color:#f92672">=</span>abs_zippath)
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">rename</span>():
-    <span style="color:#e6db74">&#39;&#39;&#39;只负责把解压出来的txt重命名&#39;&#39;&#39;</span>
-    path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>getcwd()
-    path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">/</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (path,<span style="color:#e6db74">&#34;qqfile&#34;</span>)
-    <span style="color:#66d9ef">for</span> root,dirs,files <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>walk(path):
-        <span style="color:#66d9ef">for</span> fn <span style="color:#f92672">in</span> files:
-            <span style="color:#66d9ef">if</span> fn<span style="color:#f92672">.</span>endswith(<span style="color:#e6db74">&#34;.txt&#34;</span>):
-                filename <span style="color:#f92672">=</span> root<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;/&#34;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
-                old <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(root,fn)
-                new <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">/</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">.txt&#34;</span> <span style="color:#f92672">%</span> (root,filename)
-                mv(old,new)
-<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
-    myunzip()
-    <span style="color:#75715e">#rename()</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#coding=utf-8</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">@CreateDate： Fri Feb 14 15:48:13 CST 2014
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">@FileName：unzip.py
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">@Description：负责解压并重命名聊天记录
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sh <span style="color:#f92672">import</span> unzip,mv
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">myunzip</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;只负责解压&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>getcwd()
+</span></span><span style="display:flex;"><span>    path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">/</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (path,<span style="color:#e6db74">&#34;qqfile&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> root,dirs,files <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>walk(path):
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#print root,type(dirs)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> fn <span style="color:#f92672">in</span> files:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> fn<span style="color:#f92672">.</span>endswith(<span style="color:#e6db74">&#34;.zip&#34;</span>):
+</span></span><span style="display:flex;"><span>                zippath <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(root,fn)
+</span></span><span style="display:flex;"><span>                abs_zippath <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(root,fn<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#34;.zip&#34;</span>,<span style="color:#e6db74">&#34;&#34;</span>))
+</span></span><span style="display:flex;"><span>                print zippath,abs_zippath
+</span></span><span style="display:flex;"><span>                unzip(zippath,d<span style="color:#f92672">=</span>abs_zippath)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">rename</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;只负责把解压出来的txt重命名&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>getcwd()
+</span></span><span style="display:flex;"><span>    path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">/</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (path,<span style="color:#e6db74">&#34;qqfile&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> root,dirs,files <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>walk(path):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> fn <span style="color:#f92672">in</span> files:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> fn<span style="color:#f92672">.</span>endswith(<span style="color:#e6db74">&#34;.txt&#34;</span>):
+</span></span><span style="display:flex;"><span>                filename <span style="color:#f92672">=</span> root<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;/&#34;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>                old <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(root,fn)
+</span></span><span style="display:flex;"><span>                new <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">/</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">.txt&#34;</span> <span style="color:#f92672">%</span> (root,filename)
+</span></span><span style="display:flex;"><span>                mv(old,new)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    myunzip()
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#rename()</span>
+</span></span></code></pre></div>
 		</div>
 		<footer class="post__footer">
 			
@@ -176,7 +176,7 @@ if (!doNotTrack) {
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

@@ -95,9 +95,9 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>参考了debian7的安装方式,首先运行:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># dpkg --add-architecture i386</span>
-<span style="color:#75715e"># apt-get update</span>
-</code></pre></div><p>最初的时候64位系统是无法安装32位程序的。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># dpkg --add-architecture i386</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># apt-get update</span>
+</span></span></code></pre></div><p>最初的时候64位系统是无法安装32位程序的。</p>
 <p>然后安装相关依赖:</p>
 <pre tabindex="0"><code>apt-get -f install
 </code></pre><p>下载32位skype并安装</p>
@@ -149,7 +149,7 @@ if (!doNotTrack) {
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

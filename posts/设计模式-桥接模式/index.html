@@ -108,60 +108,59 @@ if (!doNotTrack) {
 </ol>
 <p><img src="/images/design-pattern/bridge.png" alt="bridge.png"></p>
 <p>示例代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">phoneFeature</span> <span style="color:#66d9ef">interface</span> {
-	<span style="color:#a6e22e">showFeature</span>()
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">gamePhone</span> <span style="color:#66d9ef">struct</span>{}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">g</span> <span style="color:#a6e22e">gamePhone</span>) <span style="color:#a6e22e">showFeature</span>() {
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;This phone is for play game!\n&#34;</span>)
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">cameraPhone</span> <span style="color:#66d9ef">struct</span>{}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">cameraPhone</span>) <span style="color:#a6e22e">showFeature</span>() {
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;This phone is for camera!\n&#34;</span>)
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">phoneBrand</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">name</span>    <span style="color:#66d9ef">string</span>
-	<span style="color:#a6e22e">feature</span> <span style="color:#a6e22e">phoneFeature</span>
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">b</span> <span style="color:#a6e22e">phoneBrand</span>) <span style="color:#a6e22e">show</span>() {
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;This is a %s phone!\n&#34;</span>, <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">name</span>)
-	<span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">feature</span>.<span style="color:#a6e22e">showFeature</span>()
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">phoneBrand</span>) <span style="color:#a6e22e">setFeature</span>(<span style="color:#a6e22e">phonefeature</span> <span style="color:#a6e22e">phoneFeature</span>) {
-	<span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">feature</span> = <span style="color:#a6e22e">phonefeature</span>
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">huawei</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#f92672">*</span><span style="color:#a6e22e">phoneBrand</span>
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">apple</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#f92672">*</span><span style="color:#a6e22e">phoneBrand</span>
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">h</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">huawei</span>{<span style="color:#a6e22e">phoneBrand</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">phoneBrand</span>{<span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;huawei&#34;</span>}}
-	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">apple</span>{<span style="color:#a6e22e">phoneBrand</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">phoneBrand</span>{<span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;apple&#34;</span>}}
-
-	<span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">setFeature</span>(<span style="color:#a6e22e">cameraPhone</span>{})
-	<span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">show</span>()
-
-	<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">setFeature</span>(<span style="color:#a6e22e">gamePhone</span>{})
-	<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">show</span>()
-}
-
-</code></pre></div><p>这里我创建了2种类型的手机：游戏手机和拍照手机，2种品牌：华为和苹果。然后通过<code>phoneFeature</code>接口作为桥梁将这2者组合在一起，通过这种方法，不论以后是增加修改手机品牌还是类型，都不会影响到另一方了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">phoneFeature</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">showFeature</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">gamePhone</span> <span style="color:#66d9ef">struct</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">g</span> <span style="color:#a6e22e">gamePhone</span>) <span style="color:#a6e22e">showFeature</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;This phone is for play game!\n&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">cameraPhone</span> <span style="color:#66d9ef">struct</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">cameraPhone</span>) <span style="color:#a6e22e">showFeature</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;This phone is for camera!\n&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">phoneBrand</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">name</span>    <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">feature</span> <span style="color:#a6e22e">phoneFeature</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">b</span> <span style="color:#a6e22e">phoneBrand</span>) <span style="color:#a6e22e">show</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;This is a %s phone!\n&#34;</span>, <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">name</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">feature</span>.<span style="color:#a6e22e">showFeature</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">phoneBrand</span>) <span style="color:#a6e22e">setFeature</span>(<span style="color:#a6e22e">phonefeature</span> <span style="color:#a6e22e">phoneFeature</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">feature</span> = <span style="color:#a6e22e">phonefeature</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">huawei</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">*</span><span style="color:#a6e22e">phoneBrand</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">apple</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">*</span><span style="color:#a6e22e">phoneBrand</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">h</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">huawei</span>{<span style="color:#a6e22e">phoneBrand</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">phoneBrand</span>{<span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;huawei&#34;</span>}}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">apple</span>{<span style="color:#a6e22e">phoneBrand</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">phoneBrand</span>{<span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;apple&#34;</span>}}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">setFeature</span>(<span style="color:#a6e22e">cameraPhone</span>{})
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">show</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">setFeature</span>(<span style="color:#a6e22e">gamePhone</span>{})
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">show</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这里我创建了2种类型的手机：游戏手机和拍照手机，2种品牌：华为和苹果。然后通过<code>phoneFeature</code>接口作为桥梁将这2者组合在一起，通过这种方法，不论以后是增加修改手机品牌还是类型，都不会影响到另一方了。</p>
 <h2 id="使用场景">使用场景</h2>
 <ol>
 <li>类的抽象和实现都应该可以通过生成子类的方法加以扩充</li>
@@ -218,7 +217,7 @@ if (!doNotTrack) {
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

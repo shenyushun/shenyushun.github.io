@@ -95,60 +95,60 @@ if (!doNotTrack) {
 			<p><a href="https://dev.to/maxwellhertz/tutorial-integrate-gin-with-cabsin-56m0">原文</a>，省略了一些无关的内容。</p>
 <p>如果你搜到这篇文章，那么什么是gin以及casbin应该不用过多解释了。</p>
 <h2 id="项目结构">项目结构</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">root/
-    main.go              <span style="color:#75715e"># entry point of application</span>
-    handler/             <span style="color:#75715e"># Gin handler functions</span>
-    middleware/          <span style="color:#75715e"># Gin middlewares</span>
-    config/              <span style="color:#75715e"># some configuration files like Casbin&#39;s rbac_model.conf</span>
-    component/           <span style="color:#75715e"># global components like GORM DB instance</span>
-</code></pre></div><h2 id="初始化数据库和缓存">初始化数据库和缓存</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>root/
+</span></span><span style="display:flex;"><span>    main.go              <span style="color:#75715e"># entry point of application</span>
+</span></span><span style="display:flex;"><span>    handler/             <span style="color:#75715e"># Gin handler functions</span>
+</span></span><span style="display:flex;"><span>    middleware/          <span style="color:#75715e"># Gin middlewares</span>
+</span></span><span style="display:flex;"><span>    config/              <span style="color:#75715e"># some configuration files like Casbin&#39;s rbac_model.conf</span>
+</span></span><span style="display:flex;"><span>    component/           <span style="color:#75715e"># global components like GORM DB instance</span>
+</span></span></code></pre></div><h2 id="初始化数据库和缓存">初始化数据库和缓存</h2>
 <p>在<code>component</code>目录下创建<code>persistence.go</code>用于初始化，这里使用<code>GORM</code>来处理数据库，<code>BigCache</code>处理缓存：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">import</span> (
-    <span style="color:#e6db74">&#34;fmt&#34;</span>
-    <span style="color:#e6db74">&#34;github.com/allegro/bigcache&#34;</span>
-    <span style="color:#a6e22e">_</span> <span style="color:#e6db74">&#34;github.com/go-sql-driver/mysql&#34;</span>
-    <span style="color:#e6db74">&#34;github.com/jinzhu/gorm&#34;</span>
-    <span style="color:#e6db74">&#34;time&#34;</span>
-)
-
-<span style="color:#66d9ef">var</span> (
-    <span style="color:#a6e22e">DB</span>           <span style="color:#f92672">*</span><span style="color:#a6e22e">gorm</span>.<span style="color:#a6e22e">DB</span>
-    <span style="color:#a6e22e">GlobalCache</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">bigcache</span>.<span style="color:#a6e22e">BigCache</span>
-)
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
-    <span style="color:#75715e">// Connect to DB
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>
-    <span style="color:#a6e22e">DB</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">gorm</span>.<span style="color:#a6e22e">Open</span>(<span style="color:#e6db74">&#34;mysql&#34;</span>, <span style="color:#e6db74">&#34;your_db_url&#34;</span>)
-    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-        panic(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;failed to connect to DB: %v&#34;</span>, <span style="color:#a6e22e">err</span>))
-    }
-
-    <span style="color:#75715e">// Initialize cache
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">GlobalCache</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">bigcache</span>.<span style="color:#a6e22e">NewBigCache</span>(<span style="color:#a6e22e">bigcache</span>.<span style="color:#a6e22e">DefaultConfig</span>(<span style="color:#ae81ff">30</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Minute</span>)) <span style="color:#75715e">// Set expire time to 30 mins
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-        panic(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;failed to initialize cahce: %v&#34;</span>, <span style="color:#a6e22e">err</span>))
-    }
-}
-</code></pre></div><p>在这个示例中，我们使用数据库来存储casbin的polices，使用缓存存储登录用户信息。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;github.com/allegro/bigcache&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">_</span> <span style="color:#e6db74">&#34;github.com/go-sql-driver/mysql&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;github.com/jinzhu/gorm&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;time&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">DB</span>           <span style="color:#f92672">*</span><span style="color:#a6e22e">gorm</span>.<span style="color:#a6e22e">DB</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">GlobalCache</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">bigcache</span>.<span style="color:#a6e22e">BigCache</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Connect to DB
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">DB</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">gorm</span>.<span style="color:#a6e22e">Open</span>(<span style="color:#e6db74">&#34;mysql&#34;</span>, <span style="color:#e6db74">&#34;your_db_url&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        panic(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;failed to connect to DB: %v&#34;</span>, <span style="color:#a6e22e">err</span>))
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Initialize cache
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">GlobalCache</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">bigcache</span>.<span style="color:#a6e22e">NewBigCache</span>(<span style="color:#a6e22e">bigcache</span>.<span style="color:#a6e22e">DefaultConfig</span>(<span style="color:#ae81ff">30</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Minute</span>)) <span style="color:#75715e">// Set expire time to 30 mins
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        panic(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;failed to initialize cahce: %v&#34;</span>, <span style="color:#a6e22e">err</span>))
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在这个示例中，我们使用数据库来存储casbin的polices，使用缓存存储登录用户信息。</p>
 <h2 id="配置casbin">配置Casbin</h2>
 <h3 id="model-configuration-file">Model Configuration File</h3>
 <p>首先，你也许会发现casbin中有些概念让你很困惑，比如<code>Model Configuration File</code>。这里我不想讨论太多原理(因为我也不熟)，直接举个例子，使用基于角色的权限控制(RBAC，Role-based access control)。所以首先在<code>config</code>目录创建<code>rbac_model.conf</code>：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">[<span style="color:#a6e22e">request_definition</span>]
-<span style="color:#a6e22e">r</span> = <span style="color:#a6e22e">sub</span>, <span style="color:#a6e22e">obj</span>, <span style="color:#a6e22e">act</span>
-
-[<span style="color:#a6e22e">policy_definition</span>]
-<span style="color:#a6e22e">p</span> = <span style="color:#a6e22e">sub</span>, <span style="color:#a6e22e">obj</span>, <span style="color:#a6e22e">act</span>
-
-[<span style="color:#a6e22e">role_definition</span>]
-<span style="color:#a6e22e">g</span> = <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">_</span>
-
-[<span style="color:#a6e22e">policy_effect</span>]
-<span style="color:#a6e22e">e</span> = <span style="color:#a6e22e">some</span>(<span style="color:#a6e22e">where</span> (<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">eft</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">allow</span>))
-
-[<span style="color:#a6e22e">matchers</span>]
-<span style="color:#a6e22e">m</span> = <span style="color:#a6e22e">g</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">sub</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">sub</span>) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">obj</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">obj</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">act</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">act</span>
-</code></pre></div><p>上面的文件定义了casbin如何判断用户拥有什么权限，例子中我们定义了5个字段：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>[<span style="color:#a6e22e">request_definition</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">r</span> = <span style="color:#a6e22e">sub</span>, <span style="color:#a6e22e">obj</span>, <span style="color:#a6e22e">act</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">policy_definition</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">p</span> = <span style="color:#a6e22e">sub</span>, <span style="color:#a6e22e">obj</span>, <span style="color:#a6e22e">act</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">role_definition</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">g</span> = <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">_</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">policy_effect</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">e</span> = <span style="color:#a6e22e">some</span>(<span style="color:#a6e22e">where</span> (<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">eft</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">allow</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">matchers</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">m</span> = <span style="color:#a6e22e">g</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">sub</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">sub</span>) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">obj</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">obj</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">act</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">act</span>
+</span></span></code></pre></div><p>上面的文件定义了casbin如何判断用户拥有什么权限，例子中我们定义了5个字段：</p>
 <ol>
 <li><code>r = sub, obj, act</code> 定义了一个请求需要由3部分组成：sub=用户，obj=URL或资源，act=操作。</li>
 <li><code>p = sub, obj, act</code> 定义了策略的格式，比如<code>admin,dada,write</code>表示admin有data的写权限。</li>
@@ -160,10 +160,10 @@ if (!doNotTrack) {
 <blockquote>
 <p>Roy注：下面的这个更常用。程序中判断如果角色是admin则直接传&rsquo;admin&rsquo;而非用户名，这样直接有所有权限了。
 [matchers]
-m = g(r.sub, p.sub) == true<br>
-&amp;&amp; keyMatch2(r.obj, p.obj) == true<br>
-&amp;&amp; regexMatch(r.act, p.act) == true<br>
-|| r.sub == &ldquo;admin&rdquo;<br>
+m = g(r.sub, p.sub) == true <br>
+&amp;&amp; keyMatch2(r.obj, p.obj) == true <br>
+&amp;&amp; regexMatch(r.act, p.act) == true <br>
+|| r.sub == &ldquo;admin&rdquo; <br>
 || keyMatch2(r.obj, &ldquo;/login&rdquo;) == true</p>
 </blockquote>
 <h3 id="polices">Polices</h3>
@@ -185,171 +185,171 @@ g, Bob, user
 <li>Bob属于user</li>
 </ol>
 <p>所以Alice有数据的所有权限而Bob只能读取数据。官网教程中casbin使用csv来简单的存储策略，这里我们使用数据库。casbin通常把表名命名为<code>casbin_rule</code>，结构语句如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> casbin_rule (
-    p_type VARCHAR(<span style="color:#ae81ff">100</span>),
-    v0 VARCHAR(<span style="color:#ae81ff">100</span>),
-    v1 VARCHAR(<span style="color:#ae81ff">100</span>),
-    v2 VARCHAR(<span style="color:#ae81ff">100</span>)
-);
-
-<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> casbin_rule <span style="color:#66d9ef">VALUES</span>(<span style="color:#e6db74">&#39;p&#39;</span>, <span style="color:#e6db74">&#39;user&#39;</span>, <span style="color:#e6db74">&#39;resource&#39;</span>, <span style="color:#e6db74">&#39;read&#39;</span>);
-<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> casbin_rule(p_type, v0, v1) <span style="color:#66d9ef">VALUES</span>(<span style="color:#e6db74">&#39;g&#39;</span>, <span style="color:#e6db74">&#39;Bob&#39;</span>, <span style="color:#e6db74">&#39;user&#39;</span>);
-</code></pre></div><h2 id="实现gin的handler">实现Gin的Handler</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> casbin_rule (
+</span></span><span style="display:flex;"><span>    p_type VARCHAR(<span style="color:#ae81ff">100</span>),
+</span></span><span style="display:flex;"><span>    v0 VARCHAR(<span style="color:#ae81ff">100</span>),
+</span></span><span style="display:flex;"><span>    v1 VARCHAR(<span style="color:#ae81ff">100</span>),
+</span></span><span style="display:flex;"><span>    v2 VARCHAR(<span style="color:#ae81ff">100</span>)
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> casbin_rule <span style="color:#66d9ef">VALUES</span>(<span style="color:#e6db74">&#39;p&#39;</span>, <span style="color:#e6db74">&#39;user&#39;</span>, <span style="color:#e6db74">&#39;resource&#39;</span>, <span style="color:#e6db74">&#39;read&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> casbin_rule(p_type, v0, v1) <span style="color:#66d9ef">VALUES</span>(<span style="color:#e6db74">&#39;g&#39;</span>, <span style="color:#e6db74">&#39;Bob&#39;</span>, <span style="color:#e6db74">&#39;user&#39;</span>);
+</span></span></code></pre></div><h2 id="实现gin的handler">实现Gin的Handler</h2>
 <p>首先实现登录逻辑</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// handler/user_handler.go
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Login</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
-    <span style="color:#a6e22e">username</span>, <span style="color:#a6e22e">password</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">PostForm</span>(<span style="color:#e6db74">&#34;username&#34;</span>), <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">PostForm</span>(<span style="color:#e6db74">&#34;password&#34;</span>)
-        <span style="color:#75715e">// Authentication
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// blahblah...
-</span><span style="color:#75715e"></span>
-    <span style="color:#75715e">// Generate random session id
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">u</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">NewRandom</span>()
-    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#a6e22e">err</span>)
-    }
-    <span style="color:#a6e22e">sessionId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;%s-%s&#34;</span>, <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">String</span>(), <span style="color:#a6e22e">username</span>)
-    <span style="color:#75715e">// Store current subject in cache
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">GlobalCache</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">sessionId</span>, []byte(<span style="color:#a6e22e">username</span>))
-    <span style="color:#75715e">// Send cache key back to client in cookie
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">SetCookie</span>(<span style="color:#e6db74">&#34;current_subject&#34;</span>, <span style="color:#a6e22e">sessionId</span>, <span style="color:#ae81ff">30</span><span style="color:#f92672">*</span><span style="color:#ae81ff">60</span>, <span style="color:#e6db74">&#34;/resource&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#66d9ef">false</span>, <span style="color:#66d9ef">true</span>)
-    <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#ae81ff">200</span>, <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">RestResponse</span>{<span style="color:#a6e22e">Code</span>: <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">Message</span>:<span style="color:#a6e22e">username</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; logged in successfully&#34;</span>})
-}
-</code></pre></div><p>如果登录成功，我们存储用户(或者叫sub)信息到缓存中，这里不要忘记将sessionId写回cookie中。casbin只负责鉴权不负责认证，所以我们要自己实现认证逻辑。接下来实现读、写逻辑：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// handler/resource_handler.go
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">ReadResource</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
-        <span style="color:#75715e">// some stuff
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// blahblah...
-</span><span style="color:#75715e"></span>
-    <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#ae81ff">200</span>, <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">RestResponse</span>{<span style="color:#a6e22e">Code</span>: <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">Message</span>: <span style="color:#e6db74">&#34;read resource successfully&#34;</span>, <span style="color:#a6e22e">Data</span>: <span style="color:#e6db74">&#34;resource&#34;</span>})
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">WriteResource</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
-        <span style="color:#75715e">// some stuff
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// blahblah...
-</span><span style="color:#75715e"></span>
-    <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#ae81ff">200</span>, <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">RestResponse</span>{<span style="color:#a6e22e">Code</span>: <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">Message</span>: <span style="color:#e6db74">&#34;write resource successfully&#34;</span>, <span style="color:#a6e22e">Data</span>: <span style="color:#e6db74">&#34;resource&#34;</span>})
-}
-</code></pre></div><p>然后实现<code>main.go</code>：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// main.go
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">var</span> (
-    <span style="color:#a6e22e">router</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Engine</span>
-)
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
-    <span style="color:#75715e">// Initialize gin router
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">router</span> = <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Default</span>()
-    <span style="color:#a6e22e">corsConfig</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">cors</span>.<span style="color:#a6e22e">DefaultConfig</span>()
-    <span style="color:#a6e22e">corsConfig</span>.<span style="color:#a6e22e">AllowAllOrigins</span> = <span style="color:#66d9ef">true</span>
-    <span style="color:#a6e22e">corsConfig</span>.<span style="color:#a6e22e">AllowCredentials</span> = <span style="color:#66d9ef">true</span>
-    <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">Use</span>(<span style="color:#a6e22e">cors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">corsConfig</span>)) <span style="color:#75715e">// CORS configuraion
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/user/login&#34;</span>, <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">Login</span>)
-    <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">GET</span>(<span style="color:#e6db74">&#34;/resource&#34;</span>, <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">ReadResource</span>)
-    <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/resource&#34;</span>, <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">WriteResource</span>)
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">DB</span>.<span style="color:#a6e22e">Close</span>()
-
-    <span style="color:#75715e">// Start our application
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">Run</span>(<span style="color:#e6db74">&#34;:8081&#34;</span>)
-    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-        panic(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;failed to start gin engin: %v&#34;</span>, <span style="color:#a6e22e">err</span>))
-    }
-    <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;application is now running...&#34;</span>)
-}
-</code></pre></div><p>一切就绪，接下来开始集成。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// handler/user_handler.go
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Login</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">username</span>, <span style="color:#a6e22e">password</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">PostForm</span>(<span style="color:#e6db74">&#34;username&#34;</span>), <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">PostForm</span>(<span style="color:#e6db74">&#34;password&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Authentication
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// blahblah...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Generate random session id
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">u</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">NewRandom</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">sessionId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;%s-%s&#34;</span>, <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">String</span>(), <span style="color:#a6e22e">username</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Store current subject in cache
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">GlobalCache</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">sessionId</span>, []byte(<span style="color:#a6e22e">username</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Send cache key back to client in cookie
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">SetCookie</span>(<span style="color:#e6db74">&#34;current_subject&#34;</span>, <span style="color:#a6e22e">sessionId</span>, <span style="color:#ae81ff">30</span><span style="color:#f92672">*</span><span style="color:#ae81ff">60</span>, <span style="color:#e6db74">&#34;/resource&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#66d9ef">false</span>, <span style="color:#66d9ef">true</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#ae81ff">200</span>, <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">RestResponse</span>{<span style="color:#a6e22e">Code</span>: <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">Message</span>:<span style="color:#a6e22e">username</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; logged in successfully&#34;</span>})
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>如果登录成功，我们存储用户(或者叫sub)信息到缓存中，这里不要忘记将sessionId写回cookie中。casbin只负责鉴权不负责认证，所以我们要自己实现认证逻辑。接下来实现读、写逻辑：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// handler/resource_handler.go
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">ReadResource</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// some stuff
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// blahblah...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#ae81ff">200</span>, <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">RestResponse</span>{<span style="color:#a6e22e">Code</span>: <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">Message</span>: <span style="color:#e6db74">&#34;read resource successfully&#34;</span>, <span style="color:#a6e22e">Data</span>: <span style="color:#e6db74">&#34;resource&#34;</span>})
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">WriteResource</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// some stuff
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// blahblah...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#ae81ff">200</span>, <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">RestResponse</span>{<span style="color:#a6e22e">Code</span>: <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">Message</span>: <span style="color:#e6db74">&#34;write resource successfully&#34;</span>, <span style="color:#a6e22e">Data</span>: <span style="color:#e6db74">&#34;resource&#34;</span>})
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>然后实现<code>main.go</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// main.go
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">router</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Engine</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Initialize gin router
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">router</span> = <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Default</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">corsConfig</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">cors</span>.<span style="color:#a6e22e">DefaultConfig</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">corsConfig</span>.<span style="color:#a6e22e">AllowAllOrigins</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">corsConfig</span>.<span style="color:#a6e22e">AllowCredentials</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">Use</span>(<span style="color:#a6e22e">cors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">corsConfig</span>)) <span style="color:#75715e">// CORS configuraion
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/user/login&#34;</span>, <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">Login</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">GET</span>(<span style="color:#e6db74">&#34;/resource&#34;</span>, <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">ReadResource</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/resource&#34;</span>, <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">WriteResource</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">DB</span>.<span style="color:#a6e22e">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Start our application
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">Run</span>(<span style="color:#e6db74">&#34;:8081&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        panic(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;failed to start gin engin: %v&#34;</span>, <span style="color:#a6e22e">err</span>))
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;application is now running...&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>一切就绪，接下来开始集成。</p>
 <h2 id="启用casbin策略">启用casbin策略</h2>
 <h3 id="从数据库加载polices">从数据库加载polices</h3>
 <p>第一个问题就是，我们如何从数据库动态加载策略？我们可以使用<code>Casbin Adapters</code>，更精确的说我们使用的是<code>Gorm Adapter</code>。首先进行初始化：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// main.go
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
-    <span style="color:#75715e">// Initialize  casbin adapter
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">adapter</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">gormadapter</span>.<span style="color:#a6e22e">NewAdapterByDB</span>(<span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">DB</span>)
-    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-        panic(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;failed to initialize casbin adapter: %v&#34;</span>, <span style="color:#a6e22e">err</span>))
-    }
-
-    <span style="color:#75715e">// Initialize gin router
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">router</span> = <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Default</span>()
-    <span style="color:#a6e22e">corsConfig</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">cors</span>.<span style="color:#a6e22e">DefaultConfig</span>()
-    <span style="color:#a6e22e">corsConfig</span>.<span style="color:#a6e22e">AllowAllOrigins</span> = <span style="color:#66d9ef">true</span>
-    <span style="color:#a6e22e">corsConfig</span>.<span style="color:#a6e22e">AllowCredentials</span> = <span style="color:#66d9ef">true</span>
-    <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">Use</span>(<span style="color:#a6e22e">cors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">corsConfig</span>)) <span style="color:#75715e">// CORS configuraion
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/user/login&#34;</span>, <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">Login</span>)
-        <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">GET</span>(<span style="color:#e6db74">&#34;/resource&#34;</span>, <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">ReadResource</span>)
-        <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/resource&#34;</span>, <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">WriteResource</span>)
-}
-</code></pre></div><p>显然的，在进行任何操作前都需要经过鉴权，所以更优雅的方式是使用gin提供的<code>middlewares</code>和<code>grouping routes</code>：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// middleware/access_control.go
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">// Authorize determines if current subject has been authorized to take an action on an object.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Authorize</span>(<span style="color:#a6e22e">obj</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">act</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">adapter</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gormadapter</span>.<span style="color:#a6e22e">Adapter</span>) <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">HandlerFunc</span> {
-    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
-		<span style="color:#75715e">// Get current user/subject
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">val</span>, <span style="color:#a6e22e">existed</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#e6db74">&#34;current_subject&#34;</span>)
-        <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">existed</span> {
-            <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">AbortWithStatusJSON</span>(<span style="color:#ae81ff">401</span>, <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">RestResponse</span>{<span style="color:#a6e22e">Message</span>: <span style="color:#e6db74">&#34;user hasn&#39;t logged in yet&#34;</span>})
-            <span style="color:#66d9ef">return</span>
-        }
-        <span style="color:#75715e">// Casbin enforces policy
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">ok</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">enforce</span>(<span style="color:#a6e22e">val</span>.(<span style="color:#66d9ef">string</span>), <span style="color:#a6e22e">obj</span>, <span style="color:#a6e22e">act</span>, <span style="color:#a6e22e">adapter</span>)
-        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-            <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>)
-            <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">AbortWithStatusJSON</span>(<span style="color:#ae81ff">500</span>, <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">RestResponse</span>{<span style="color:#a6e22e">Message</span>: <span style="color:#e6db74">&#34;error occurred when authorizing user&#34;</span>})
-            <span style="color:#66d9ef">return</span>
-        }
-        <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ok</span> {
-            <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">AbortWithStatusJSON</span>(<span style="color:#ae81ff">403</span>, <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">RestResponse</span>{<span style="color:#a6e22e">Message</span>: <span style="color:#e6db74">&#34;forbidden&#34;</span>})
-            <span style="color:#66d9ef">return</span>
-        }
-        <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Next</span>()
-    }
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">enforce</span>(<span style="color:#a6e22e">sub</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">obj</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">act</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">adapter</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gormadapter</span>.<span style="color:#a6e22e">Adapter</span>) (<span style="color:#66d9ef">bool</span>, <span style="color:#66d9ef">error</span>) {
-	<span style="color:#75715e">// Load model configuration file and policy store adapter
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">enforcer</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">casbin</span>.<span style="color:#a6e22e">NewEnforcer</span>(<span style="color:#e6db74">&#34;config/rbac_model.conf&#34;</span>, <span style="color:#a6e22e">adapter</span>)
-    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>, <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;failed to create casbin enforcer: %w&#34;</span>, <span style="color:#a6e22e">err</span>)
-    }
-    <span style="color:#75715e">// Load policies from DB dynamically
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">enforcer</span>.<span style="color:#a6e22e">LoadPolicy</span>()
-    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>, <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;failed to load policy from DB: %w&#34;</span>, <span style="color:#a6e22e">err</span>)
-    }
-	<span style="color:#75715e">// Verify
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">ok</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">enforcer</span>.<span style="color:#a6e22e">Enforce</span>(<span style="color:#a6e22e">sub</span>, <span style="color:#a6e22e">obj</span>, <span style="color:#a6e22e">act</span>)
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ok</span>, <span style="color:#a6e22e">err</span>
-}
-</code></pre></div><p>最后进行一些修改：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// main.go
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
-    <span style="color:#75715e">// Initialize  casbin adapter
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">adapter</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">gormadapter</span>.<span style="color:#a6e22e">NewAdapterByDB</span>(<span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">DB</span>)
-    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-        panic(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;failed to initialize casbin adapter: %v&#34;</span>, <span style="color:#a6e22e">err</span>))
-    }
-
-    <span style="color:#75715e">// Initialize Gin router
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">router</span> = <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Default</span>()
-    <span style="color:#a6e22e">corsConfig</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">cors</span>.<span style="color:#a6e22e">DefaultConfig</span>()
-    <span style="color:#a6e22e">corsConfig</span>.<span style="color:#a6e22e">AllowAllOrigins</span> = <span style="color:#66d9ef">true</span>
-    <span style="color:#a6e22e">corsConfig</span>.<span style="color:#a6e22e">AllowCredentials</span> = <span style="color:#66d9ef">true</span>
-    <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">Use</span>(<span style="color:#a6e22e">cors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">corsConfig</span>)) <span style="color:#75715e">// CORS configuraion
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/user/login&#34;</span>, <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">Login</span>)
-        <span style="color:#75715e">// Secure our API
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">resource</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">Group</span>(<span style="color:#e6db74">&#34;/api&#34;</span>)
-    {
-        <span style="color:#a6e22e">resource</span>.<span style="color:#a6e22e">GET</span>(<span style="color:#e6db74">&#34;/resource&#34;</span>, <span style="color:#a6e22e">middleware</span>.<span style="color:#a6e22e">Authorize</span>(<span style="color:#e6db74">&#34;resource&#34;</span>, <span style="color:#e6db74">&#34;read&#34;</span>, <span style="color:#a6e22e">adapter</span>), <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">ReadResource</span>)
-        <span style="color:#a6e22e">resource</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/resource&#34;</span>, <span style="color:#a6e22e">middleware</span>.<span style="color:#a6e22e">Authorize</span>(<span style="color:#e6db74">&#34;resource&#34;</span>, <span style="color:#e6db74">&#34;write&#34;</span>, <span style="color:#a6e22e">adapter</span>), <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">WriteResource</span>)
-    }
-}
-</code></pre></div><p>大功告成。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// main.go
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Initialize  casbin adapter
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">adapter</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">gormadapter</span>.<span style="color:#a6e22e">NewAdapterByDB</span>(<span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">DB</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        panic(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;failed to initialize casbin adapter: %v&#34;</span>, <span style="color:#a6e22e">err</span>))
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Initialize gin router
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">router</span> = <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Default</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">corsConfig</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">cors</span>.<span style="color:#a6e22e">DefaultConfig</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">corsConfig</span>.<span style="color:#a6e22e">AllowAllOrigins</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">corsConfig</span>.<span style="color:#a6e22e">AllowCredentials</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">Use</span>(<span style="color:#a6e22e">cors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">corsConfig</span>)) <span style="color:#75715e">// CORS configuraion
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/user/login&#34;</span>, <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">Login</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">GET</span>(<span style="color:#e6db74">&#34;/resource&#34;</span>, <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">ReadResource</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/resource&#34;</span>, <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">WriteResource</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>显然的，在进行任何操作前都需要经过鉴权，所以更优雅的方式是使用gin提供的<code>middlewares</code>和<code>grouping routes</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// middleware/access_control.go
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Authorize determines if current subject has been authorized to take an action on an object.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Authorize</span>(<span style="color:#a6e22e">obj</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">act</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">adapter</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gormadapter</span>.<span style="color:#a6e22e">Adapter</span>) <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">HandlerFunc</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Get current user/subject
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">val</span>, <span style="color:#a6e22e">existed</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#e6db74">&#34;current_subject&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">existed</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">AbortWithStatusJSON</span>(<span style="color:#ae81ff">401</span>, <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">RestResponse</span>{<span style="color:#a6e22e">Message</span>: <span style="color:#e6db74">&#34;user hasn&#39;t logged in yet&#34;</span>})
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Casbin enforces policy
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">ok</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">enforce</span>(<span style="color:#a6e22e">val</span>.(<span style="color:#66d9ef">string</span>), <span style="color:#a6e22e">obj</span>, <span style="color:#a6e22e">act</span>, <span style="color:#a6e22e">adapter</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">AbortWithStatusJSON</span>(<span style="color:#ae81ff">500</span>, <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">RestResponse</span>{<span style="color:#a6e22e">Message</span>: <span style="color:#e6db74">&#34;error occurred when authorizing user&#34;</span>})
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">AbortWithStatusJSON</span>(<span style="color:#ae81ff">403</span>, <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">RestResponse</span>{<span style="color:#a6e22e">Message</span>: <span style="color:#e6db74">&#34;forbidden&#34;</span>})
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Next</span>()
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">enforce</span>(<span style="color:#a6e22e">sub</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">obj</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">act</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">adapter</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gormadapter</span>.<span style="color:#a6e22e">Adapter</span>) (<span style="color:#66d9ef">bool</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Load model configuration file and policy store adapter
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">enforcer</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">casbin</span>.<span style="color:#a6e22e">NewEnforcer</span>(<span style="color:#e6db74">&#34;config/rbac_model.conf&#34;</span>, <span style="color:#a6e22e">adapter</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>, <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;failed to create casbin enforcer: %w&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Load policies from DB dynamically
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">enforcer</span>.<span style="color:#a6e22e">LoadPolicy</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>, <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;failed to load policy from DB: %w&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Verify
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">ok</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">enforcer</span>.<span style="color:#a6e22e">Enforce</span>(<span style="color:#a6e22e">sub</span>, <span style="color:#a6e22e">obj</span>, <span style="color:#a6e22e">act</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ok</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>最后进行一些修改：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// main.go
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Initialize  casbin adapter
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">adapter</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">gormadapter</span>.<span style="color:#a6e22e">NewAdapterByDB</span>(<span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">DB</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        panic(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;failed to initialize casbin adapter: %v&#34;</span>, <span style="color:#a6e22e">err</span>))
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Initialize Gin router
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">router</span> = <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Default</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">corsConfig</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">cors</span>.<span style="color:#a6e22e">DefaultConfig</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">corsConfig</span>.<span style="color:#a6e22e">AllowAllOrigins</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">corsConfig</span>.<span style="color:#a6e22e">AllowCredentials</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">Use</span>(<span style="color:#a6e22e">cors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">corsConfig</span>)) <span style="color:#75715e">// CORS configuraion
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/user/login&#34;</span>, <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">Login</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Secure our API
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">resource</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">Group</span>(<span style="color:#e6db74">&#34;/api&#34;</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">resource</span>.<span style="color:#a6e22e">GET</span>(<span style="color:#e6db74">&#34;/resource&#34;</span>, <span style="color:#a6e22e">middleware</span>.<span style="color:#a6e22e">Authorize</span>(<span style="color:#e6db74">&#34;resource&#34;</span>, <span style="color:#e6db74">&#34;read&#34;</span>, <span style="color:#a6e22e">adapter</span>), <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">ReadResource</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">resource</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/resource&#34;</span>, <span style="color:#a6e22e">middleware</span>.<span style="color:#a6e22e">Authorize</span>(<span style="color:#e6db74">&#34;resource&#34;</span>, <span style="color:#e6db74">&#34;write&#34;</span>, <span style="color:#a6e22e">adapter</span>), <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">WriteResource</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>大功告成。</p>
 		</div>
 		<footer class="post__footer">
 			
@@ -395,7 +395,7 @@ g, Bob, user
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

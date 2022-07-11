@@ -105,66 +105,66 @@ if (!doNotTrack) {
 </ol>
 <p>这个步骤比较简单，但如果细化一下：买冰箱、接通电源、买大象、清洗大象……很可能就会有300个步骤。建造者模式则提供了一系列行为的集合，保证以后有把山羊装进冰箱这样的需求时候不会遗漏某个步骤（想想KFC、麦当劳生产食品的步骤，其实是建造者模式不错的例子）。</p>
 <p>代码实现如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> (
-	<span style="color:#e6db74">&#34;fmt&#34;</span>
-)
-
-<span style="color:#75715e">// 把xx装进冰箱
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">inFridge</span> <span style="color:#66d9ef">interface</span> {
-	<span style="color:#a6e22e">openDoor</span>()
-	<span style="color:#a6e22e">putInFridge</span>()
-	<span style="color:#a6e22e">closeDoor</span>()
-}
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">meat</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#a6e22e">meat</span>) <span style="color:#a6e22e">openDoor</span>()  {
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Open the Door!&#34;</span>)
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#a6e22e">meat</span>) <span style="color:#a6e22e">closeDoor</span>()  {
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Close the Door!&#34;</span>)
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">pig</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">meat</span>
-}
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">pig</span>) <span style="color:#a6e22e">putInFridge</span>()  {
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Put %s in fridge \n&#34;</span>,<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">name</span>)
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">chicken</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">meat</span>
-}
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">chicken</span>) <span style="color:#a6e22e">putInFridge</span>()  {
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Kill the %s \n&#34;</span>,<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">name</span>)
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Put %s in fridge \n&#34;</span>,<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">name</span>)
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">director</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">i</span> <span style="color:#a6e22e">inFridge</span>
-}
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#a6e22e">director</span>) <span style="color:#a6e22e">createMeat</span>() {
-	<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">i</span>.<span style="color:#a6e22e">openDoor</span>()
-	<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">i</span>.<span style="color:#a6e22e">putInFridge</span>()
-	<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">i</span>.<span style="color:#a6e22e">closeDoor</span>()
-}
-
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">pig</span>{<span style="color:#a6e22e">meat</span>:<span style="color:#a6e22e">meat</span>{<span style="color:#a6e22e">name</span>:<span style="color:#e6db74">&#34;pig&#34;</span>}}
-	<span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">chicken</span>{<span style="color:#a6e22e">meat</span>:<span style="color:#a6e22e">meat</span>{<span style="color:#a6e22e">name</span>:<span style="color:#e6db74">&#34;chicken&#34;</span>}}
-	
-	<span style="color:#a6e22e">d</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">director</span>{<span style="color:#a6e22e">i</span>:<span style="color:#a6e22e">p</span>}
-	<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">createMeat</span>()
-
-	<span style="color:#a6e22e">d2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">director</span>{<span style="color:#a6e22e">i</span>:<span style="color:#a6e22e">c</span>}
-	<span style="color:#a6e22e">d2</span>.<span style="color:#a6e22e">createMeat</span>()
-}
-</code></pre></div><p>代码很简单，定义了<code>meat</code>基类和<code>inFridge</code>接口，并在<code>pig</code>以及<code>chicken</code>实现。把猪肉放进冰箱和把鸡肉放进冰箱步骤是一样的，而放鸡肉时候要多进行一步“杀鸡”，所以使用建造者模式时，到底将步骤抽象提取出多少步则是需要权衡的。然后客户端通过使用<code>director</code>来创建产品(这里我偷懒了，并没返回冻肉这个产品，而仅仅是输出)，无需关心具体实现步骤，实现代码解耦。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 把xx装进冰箱
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">inFridge</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">openDoor</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">putInFridge</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">closeDoor</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">meat</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#a6e22e">meat</span>) <span style="color:#a6e22e">openDoor</span>()  {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Open the Door!&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#a6e22e">meat</span>) <span style="color:#a6e22e">closeDoor</span>()  {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Close the Door!&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">pig</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">meat</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">pig</span>) <span style="color:#a6e22e">putInFridge</span>()  {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Put %s in fridge \n&#34;</span>,<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">name</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">chicken</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">meat</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">chicken</span>) <span style="color:#a6e22e">putInFridge</span>()  {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Kill the %s \n&#34;</span>,<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">name</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Put %s in fridge \n&#34;</span>,<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">name</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">director</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">i</span> <span style="color:#a6e22e">inFridge</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#a6e22e">director</span>) <span style="color:#a6e22e">createMeat</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">i</span>.<span style="color:#a6e22e">openDoor</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">i</span>.<span style="color:#a6e22e">putInFridge</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">i</span>.<span style="color:#a6e22e">closeDoor</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">pig</span>{<span style="color:#a6e22e">meat</span>:<span style="color:#a6e22e">meat</span>{<span style="color:#a6e22e">name</span>:<span style="color:#e6db74">&#34;pig&#34;</span>}}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">chicken</span>{<span style="color:#a6e22e">meat</span>:<span style="color:#a6e22e">meat</span>{<span style="color:#a6e22e">name</span>:<span style="color:#e6db74">&#34;chicken&#34;</span>}}
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">d</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">director</span>{<span style="color:#a6e22e">i</span>:<span style="color:#a6e22e">p</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">createMeat</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">d2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">director</span>{<span style="color:#a6e22e">i</span>:<span style="color:#a6e22e">c</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">d2</span>.<span style="color:#a6e22e">createMeat</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>代码很简单，定义了<code>meat</code>基类和<code>inFridge</code>接口，并在<code>pig</code>以及<code>chicken</code>实现。把猪肉放进冰箱和把鸡肉放进冰箱步骤是一样的，而放鸡肉时候要多进行一步“杀鸡”，所以使用建造者模式时，到底将步骤抽象提取出多少步则是需要权衡的。然后客户端通过使用<code>director</code>来创建产品(这里我偷懒了，并没返回冻肉这个产品，而仅仅是输出)，无需关心具体实现步骤，实现代码解耦。</p>
 <h3 id="应用场景">应用场景</h3>
 <ol>
 <li>当生成的对象内部结构复杂时（需要很多步骤时）</li>
@@ -215,7 +215,7 @@ if (!doNotTrack) {
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

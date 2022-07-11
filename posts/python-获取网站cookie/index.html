@@ -93,42 +93,42 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>对于一般的网站来说，通过以下代码便可以获取到cookie：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> urllib2
-<span style="color:#f92672">import</span> urllib
-<span style="color:#f92672">import</span> cookielib
-logurl <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://www.digikey.com/classic/RegisteredUser/Login.aspx?&#34;</span>
-cj <span style="color:#f92672">=</span> cookielib<span style="color:#f92672">.</span>CookieJar()
-opener <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>build_opener(urllib2<span style="color:#f92672">.</span>HTTPCookieProcessor(cj))
-urllib2<span style="color:#f92672">.</span>install_opener(opener)
-resp <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>urlopen(logurl)
-<span style="color:#66d9ef">for</span> index, cookie <span style="color:#f92672">in</span> enumerate(cj):
-    print <span style="color:#e6db74">&#39;[&#39;</span>,index, <span style="color:#e6db74">&#39;]&#39;</span>,cookie
-</code></pre></div><p>然后在构造post数据向目标url发送即可（至于header，有人说如果在此时再次提交自己构造的handers将会覆盖获取到的有cookie的hander,未亲自试验，不过若是真的可以试试调用opener.addheaders方法添加）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib2
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> cookielib
+</span></span><span style="display:flex;"><span>logurl <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://www.digikey.com/classic/RegisteredUser/Login.aspx?&#34;</span>
+</span></span><span style="display:flex;"><span>cj <span style="color:#f92672">=</span> cookielib<span style="color:#f92672">.</span>CookieJar()
+</span></span><span style="display:flex;"><span>opener <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>build_opener(urllib2<span style="color:#f92672">.</span>HTTPCookieProcessor(cj))
+</span></span><span style="display:flex;"><span>urllib2<span style="color:#f92672">.</span>install_opener(opener)
+</span></span><span style="display:flex;"><span>resp <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>urlopen(logurl)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> index, cookie <span style="color:#f92672">in</span> enumerate(cj):
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;[&#39;</span>,index, <span style="color:#e6db74">&#39;]&#39;</span>,cookie
+</span></span></code></pre></div><p>然后在构造post数据向目标url发送即可（至于header，有人说如果在此时再次提交自己构造的handers将会覆盖获取到的有cookie的hander,未亲自试验，不过若是真的可以试试调用opener.addheaders方法添加）</p>
 <p>但digikey这个网站不知什么原因访问后不给返回cookie？？？</p>
 <p>经过试验发现，从浏览器中直接提取登录后的cookie添加到headers中，直接访问登录后的页面就实现了登录！连postdata似乎都是多余的。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">teurl <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://www.digikey.com/classic/RegisteredUser/MyDigikey.aspx&#34;</span>
-headers <span style="color:#f92672">=</span> {
-            <span style="color:#e6db74">&#34;User-Agent&#34;</span>: <span style="color:#e6db74">&#34;Mozilla/5.0 (X11; Linux x86_64; rv:23.0) Gecko/20100101 Firefox/23.0&#34;</span>,
-            <span style="color:#e6db74">&#34;Accept&#34;</span>: <span style="color:#e6db74">&#34;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&#34;</span>,
-            <span style="color:#e6db74">&#34;Accept-Language&#34;</span>:<span style="color:#e6db74">&#34;q=0.8,en-us&#34;</span>,
-            <span style="color:#e6db74">&#34;Host&#34;</span>:<span style="color:#e6db74">&#34;www.digikey.com&#34;</span>,
-            <span style="color:#e6db74">&#34;Cookie&#34;</span>:<span style="color:#e6db74">&#34;TS6b482d=1aa460f525235eaaaf6763d718b53ba564323; sid=5278426151-44225; TS50f921=c7b09221315dc72ed80a2b24f014fc2ffa4b16ccf877976952494826a3c65dd840b6a4ae6bad0a341809f751ca85ab033df615a7; TS168127=b58c4c2296cc37b2a5515974e403a008cdc46701e181d2a252494823019cdd5115d4a2a6a3c65dd840b6a4ae6bad0a341809f751ca85ab033df615a724f3d3ac91dbdb26; cur=USD; SiteForCur=US; utag_main=_st:1380536340264$ses_id:1380534378638%3Bexp-session; TS50f921_77=6487_b8824fd7e25d22fc_rsb_0_rs_https%3A</span><span style="color:#e6db74">%2F%2F</span><span style="color:#e6db74">www.digikey.com</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">classic</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">RegisteredUser</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">Login.aspx</span><span style="color:#e6db74">%3F</span><span style="color:#e6db74">ReturnUrl%3D</span><span style="color:#e6db74">%252f</span><span style="color:#e6db74">classic</span><span style="color:#e6db74">%252f</span><span style="color:#e6db74">registereduser</span><span style="color:#e6db74">%252f</span><span style="color:#e6db74">mydigikey.aspx</span><span style="color:#e6db74">%253f</span><span style="color:#e6db74">site</span><span style="color:#e6db74">%253d</span><span style="color:#e6db74">us</span><span style="color:#e6db74">%2526la</span><span style="color:#e6db74">ng</span><span style="color:#e6db74">%253d</span><span style="color:#e6db74">en</span><span style="color:#e6db74">%26s</span><span style="color:#e6db74">ite%3Dus</span><span style="color:#e6db74">%26la</span><span style="color:#e6db74">ng%3Den_rs_0; WT_FPC=id=36664e24-272b-40b3-9c92-2bce365f251d:lv=1380484152114:ss=1380483959856&#34;</span>
-          }
-<span style="color:#75715e">#postdata = {</span>
-<span style="color:#75715e">#            &#34;__EVENTARGUMENT&#34;:&#34;&#34;,</span>
-<span style="color:#75715e">#            &#34;__EVENTTARGET&#34;:&#34;&#34;,</span>
-<span style="color:#75715e">#            &#34;__EVENTVALIDATION&#34;:&#34;BcGpYOslmB3LGgxIVeQ+h35cvehYPZQcz1tM4jAlXqyYqV/g1blGRZnSJ4itN0YHd4C7aQtlJT0qWTL7vspdqVLEZtyljs5BJJuR+NhrIxCG0sdcfegZ1ZR1hdl/qIcNf1qpWfClikXsLCYWLe1N/Q6P1kU=&#34;,</span>
-<span style="color:#75715e">#            &#34;__LASTFOCUS&#34;:&#34;&#34;,</span>
-<span style="color:#75715e">#            &#34;__SCROLLPOSITIONX&#34;:0,</span>
-<span style="color:#75715e">#            &#34;__SCROLLPOSITIONY&#34;:0,</span>
-<span style="color:#75715e">#            &#34;ctl00$ctl00$mainContentPlaceHolder$mainContentPlaceHolder$btnLogin&#34;:&#34;Log In&#34;,</span>
-<span style="color:#75715e">#            &#34;ctl00$ctl00$mainContentPlaceHolder$mainContentPlaceHolder$txtPassword&#34;:&#34;xxxxx&#34;,</span>
-<span style="color:#75715e">#            &#34;ctl00$ctl00$mainContentPlaceHolder$mainContentPlaceHolder$txtUsername&#34;:&#34;xxxxx&#34;,</span>
-<span style="color:#75715e">#          }</span>
-<span style="color:#75715e">#postdata=urllib.urlencode(postdata)</span>
-req <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>Request(teurl,postdata,headers)
-res <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>urlopen(req)
-</code></pre></div><p>没想到最后解决的方法居然这么简单，甚至可以使用动态ip的方式抓取。但不知道以后会不会出现cookie过期的情况。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>teurl <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://www.digikey.com/classic/RegisteredUser/MyDigikey.aspx&#34;</span>
+</span></span><span style="display:flex;"><span>headers <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;User-Agent&#34;</span>: <span style="color:#e6db74">&#34;Mozilla/5.0 (X11; Linux x86_64; rv:23.0) Gecko/20100101 Firefox/23.0&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;Accept&#34;</span>: <span style="color:#e6db74">&#34;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;Accept-Language&#34;</span>:<span style="color:#e6db74">&#34;q=0.8,en-us&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;Host&#34;</span>:<span style="color:#e6db74">&#34;www.digikey.com&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;Cookie&#34;</span>:<span style="color:#e6db74">&#34;TS6b482d=1aa460f525235eaaaf6763d718b53ba564323; sid=5278426151-44225; TS50f921=c7b09221315dc72ed80a2b24f014fc2ffa4b16ccf877976952494826a3c65dd840b6a4ae6bad0a341809f751ca85ab033df615a7; TS168127=b58c4c2296cc37b2a5515974e403a008cdc46701e181d2a252494823019cdd5115d4a2a6a3c65dd840b6a4ae6bad0a341809f751ca85ab033df615a724f3d3ac91dbdb26; cur=USD; SiteForCur=US; utag_main=_st:1380536340264$ses_id:1380534378638%3Bexp-session; TS50f921_77=6487_b8824fd7e25d22fc_rsb_0_rs_https%3A</span><span style="color:#e6db74">%2F%2F</span><span style="color:#e6db74">www.digikey.com</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">classic</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">RegisteredUser</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">Login.aspx</span><span style="color:#e6db74">%3F</span><span style="color:#e6db74">ReturnUrl%3D</span><span style="color:#e6db74">%252f</span><span style="color:#e6db74">classic</span><span style="color:#e6db74">%252f</span><span style="color:#e6db74">registereduser</span><span style="color:#e6db74">%252f</span><span style="color:#e6db74">mydigikey.aspx</span><span style="color:#e6db74">%253f</span><span style="color:#e6db74">site</span><span style="color:#e6db74">%253d</span><span style="color:#e6db74">us</span><span style="color:#e6db74">%2526la</span><span style="color:#e6db74">ng</span><span style="color:#e6db74">%253d</span><span style="color:#e6db74">en</span><span style="color:#e6db74">%26s</span><span style="color:#e6db74">ite%3Dus</span><span style="color:#e6db74">%26la</span><span style="color:#e6db74">ng%3Den_rs_0; WT_FPC=id=36664e24-272b-40b3-9c92-2bce365f251d:lv=1380484152114:ss=1380483959856&#34;</span>
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#postdata = {</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#            &#34;__EVENTARGUMENT&#34;:&#34;&#34;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#            &#34;__EVENTTARGET&#34;:&#34;&#34;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#            &#34;__EVENTVALIDATION&#34;:&#34;BcGpYOslmB3LGgxIVeQ+h35cvehYPZQcz1tM4jAlXqyYqV/g1blGRZnSJ4itN0YHd4C7aQtlJT0qWTL7vspdqVLEZtyljs5BJJuR+NhrIxCG0sdcfegZ1ZR1hdl/qIcNf1qpWfClikXsLCYWLe1N/Q6P1kU=&#34;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#            &#34;__LASTFOCUS&#34;:&#34;&#34;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#            &#34;__SCROLLPOSITIONX&#34;:0,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#            &#34;__SCROLLPOSITIONY&#34;:0,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#            &#34;ctl00$ctl00$mainContentPlaceHolder$mainContentPlaceHolder$btnLogin&#34;:&#34;Log In&#34;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#            &#34;ctl00$ctl00$mainContentPlaceHolder$mainContentPlaceHolder$txtPassword&#34;:&#34;xxxxx&#34;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#            &#34;ctl00$ctl00$mainContentPlaceHolder$mainContentPlaceHolder$txtUsername&#34;:&#34;xxxxx&#34;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#          }</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#postdata=urllib.urlencode(postdata)</span>
+</span></span><span style="display:flex;"><span>req <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>Request(teurl,postdata,headers)
+</span></span><span style="display:flex;"><span>res <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>urlopen(req)
+</span></span></code></pre></div><p>没想到最后解决的方法居然这么简单，甚至可以使用动态ip的方式抓取。但不知道以后会不会出现cookie过期的情况。</p>
 <p>至于获取不到cookie的情况，或许因为302页面跳转原因。</p>
 <p>这样可以考虑用LWPCookieJar或MozillaCookieJar将获取的cookie存到文件中，再load()载入。</p>
 
@@ -177,7 +177,7 @@ res <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</s
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

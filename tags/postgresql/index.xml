@@ -48,7 +48,7 @@ import psycopg2 #省略部分代码... def ins_pictures(self, name, position, ex
       <description>数据库9.3.5，系统fedora20,不同系统操作略有不同。
 使用yum 命令安装即可：sudo yum install postgresql,postgresql-server
 安装完毕后系统中会创建一个postgres的用户，切换到这个用户后进行数据库的初始化：
-initdb --encoding=UTF-8 --no-locale -D /var/lib/pgsql/data/或者使用postgresql-setup initdb 命令。</description>
+initdb --encoding=UTF-8 --no-locale -D /var/lib/pgsql/data/ 或者使用postgresql-setup initdb 命令。</description>
     </item>
     
   </channel>

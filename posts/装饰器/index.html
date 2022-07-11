@@ -94,33 +94,33 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<p>装饰器的基础是 python 中函数也是对象，可以进行传递，可以在函数内部定义新的函数（函数内部的函数无法被单独调用）。
 <a href="http://www.codecho.com/understanding-python-decorators/">http://www.codecho.com/understanding-python-decorators/</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 装饰器makebold用于转换为粗体</span>
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">makebold</span>(fn):
-    <span style="color:#75715e"># 结果返回该函数</span>
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">wrapper</span>():
-        <span style="color:#75715e"># 插入一些执行前后的代码</span>
-        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&lt;b&gt;&#34;</span> <span style="color:#f92672">+</span> fn() <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&lt;/b&gt;&#34;</span>
-    <span style="color:#66d9ef">return</span> wrapper
-<span style="color:#75715e"># 装饰器makeitalic用于转换为斜体</span>
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">makeitalic</span>(fn):
-    <span style="color:#75715e"># 结果返回该函数</span>
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">wrapper</span>():
-        <span style="color:#75715e"># 插入一些执行前后的代码</span>
-        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&lt;i&gt;&#34;</span> <span style="color:#f92672">+</span> fn() <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&lt;/i&gt;&#34;</span>
-    <span style="color:#66d9ef">return</span> wrapper
-<span style="color:#a6e22e">@makebold</span>
-<span style="color:#a6e22e">@makeitalic</span>    <span style="color:#75715e">#注意顺序很重要！！！！！</span>
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">say</span>():
-    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;hello&#34;</span>
-print say()
-<span style="color:#75715e">#输出: &lt;b&gt;&lt;i&gt;hello&lt;/i&gt;&lt;/b&gt;</span>
-<span style="color:#75715e"># 等同于</span>
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">say</span>():
-    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;hello&#34;</span>
-say <span style="color:#f92672">=</span> makebold(makeitalic(say))
-print say()
-<span style="color:#75715e">#输出: &lt;b&gt;&lt;i&gt;hello&lt;/i&gt;&lt;/b&gt;</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 装饰器makebold用于转换为粗体</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">makebold</span>(fn):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 结果返回该函数</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">wrapper</span>():
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 插入一些执行前后的代码</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&lt;b&gt;&#34;</span> <span style="color:#f92672">+</span> fn() <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&lt;/b&gt;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> wrapper
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 装饰器makeitalic用于转换为斜体</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">makeitalic</span>(fn):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 结果返回该函数</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">wrapper</span>():
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 插入一些执行前后的代码</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&lt;i&gt;&#34;</span> <span style="color:#f92672">+</span> fn() <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&lt;/i&gt;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> wrapper
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@makebold</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@makeitalic</span>    <span style="color:#75715e">#注意顺序很重要！！！！！</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">say</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;hello&#34;</span>
+</span></span><span style="display:flex;"><span>print say()
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#输出: &lt;b&gt;&lt;i&gt;hello&lt;/i&gt;&lt;/b&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 等同于</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">say</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;hello&#34;</span>
+</span></span><span style="display:flex;"><span>say <span style="color:#f92672">=</span> makebold(makeitalic(say))
+</span></span><span style="display:flex;"><span>print say()
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#输出: &lt;b&gt;&lt;i&gt;hello&lt;/i&gt;&lt;/b&gt;</span>
+</span></span></code></pre></div>
 		</div>
 		<footer class="post__footer">
 			
@@ -166,7 +166,7 @@ print say()
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

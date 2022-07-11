@@ -98,16 +98,16 @@ if (!doNotTrack) {
 <p><a href="https://pyflame.readthedocs.io/en/latest/">pyflame</a>则是由Uber开源出来的针对python程序生成火焰图的工具。</p>
 <p>这里记录一下安装过程以及遇到的错误。</p>
 <p>安装环境CentOS7，首先安装系统依赖</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo yum install autoconf automake gcc-c++ python-devel libtool
-</code></pre></div><p>如果使用python3则需要安装<code>python3-devel</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo yum install autoconf automake gcc-c++ python-devel libtool
+</span></span></code></pre></div><p>如果使用python3则需要安装<code>python3-devel</code></p>
 <p>然后从github上clone项目到本地，并编译：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/uber/pyflame.git
-cd pyflame
-./autogen.sh
-./configure
-make
-make install
-</code></pre></div><p>然后再clone另一个项目flamegraph到本地：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/uber/pyflame.git
+</span></span><span style="display:flex;"><span>cd pyflame
+</span></span><span style="display:flex;"><span>./autogen.sh
+</span></span><span style="display:flex;"><span>./configure
+</span></span><span style="display:flex;"><span>make
+</span></span><span style="display:flex;"><span>make install
+</span></span></code></pre></div><p>然后再clone另一个项目flamegraph到本地：</p>
 <pre tabindex="0"><code>git clone https://github.com/brendangregg/FlameGraph.git
 cd FlameGraph
 </code></pre><p>查看要调试的进行ID：</p>
@@ -179,7 +179,7 @@ python-abi = 2.7
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

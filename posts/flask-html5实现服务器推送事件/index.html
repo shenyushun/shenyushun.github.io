@@ -28,7 +28,7 @@ HTTP响应头中包含content-type:text/event-stream
 流响应
 "><meta itemprop="datePublished" content="2016-08-04T13:59:38+00:00" />
 <meta itemprop="dateModified" content="2016-08-04T13:59:38+00:00" />
-<meta itemprop="wordCount" content="182">
+<meta itemprop="wordCount" content="183">
 <meta itemprop="keywords" content="flask,python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -118,89 +118,89 @@ MarkupSafe==0.23
 six==1.10.0
 Werkzeug==0.11.10
 </code></pre><p>安装完成后app.py代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># coding=utf-8</span>
-<span style="color:#e6db74">&#39;&#39;&#39;
-</span><span style="color:#e6db74">@Author：Roy.S
-</span><span style="color:#e6db74">@CreateDate： 2016年 08月 04日 星期四 10:56:37 HKT
-</span><span style="color:#e6db74">@Description：配合html5测试服务端推送事件
-</span><span style="color:#e6db74">&#39;&#39;&#39;</span>
-
-<span style="color:#f92672">import</span> random
-<span style="color:#f92672">import</span> eventlet
-eventlet<span style="color:#f92672">.</span>monkey_patch()
-<span style="color:#f92672">from</span> flask_cors <span style="color:#f92672">import</span> CORS, cross_origin
-<span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> Flask, Response
-app <span style="color:#f92672">=</span> Flask(__name__)
-CORS(app)  <span style="color:#75715e">#注意这里的CORS</span>
-
-
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">event</span>():
-    <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
-        <span style="color:#66d9ef">yield</span> <span style="color:#e6db74">&#39;data:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> </span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> random<span style="color:#f92672">.</span>random()
-        eventlet<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">1</span>)
-
-
-<span style="color:#a6e22e">@app</span><span style="color:#f92672">.</span>route(<span style="color:#e6db74">&#39;/stream/&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;GET&#39;</span>, <span style="color:#e6db74">&#39;POST&#39;</span>])
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">stream</span>():
-    <span style="color:#66d9ef">return</span> Response(event(), mimetype<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/event-stream&#34;</span>) <span style="color:#75715e"># 注意这里的响应类型</span>
-
-<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
-    app<span style="color:#f92672">.</span>run()
-</code></pre></div><p>这里有个小地方需要注意就是CORS的问题，不添加这个的话会报错<code>'Access-Control-Allow-Origin' header is present on the requested resource.</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># coding=utf-8</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">@Author：Roy.S
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">@CreateDate： 2016年 08月 04日 星期四 10:56:37 HKT
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">@Description：配合html5测试服务端推送事件
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> random
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> eventlet
+</span></span><span style="display:flex;"><span>eventlet<span style="color:#f92672">.</span>monkey_patch()
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> flask_cors <span style="color:#f92672">import</span> CORS, cross_origin
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> Flask, Response
+</span></span><span style="display:flex;"><span>app <span style="color:#f92672">=</span> Flask(__name__)
+</span></span><span style="display:flex;"><span>CORS(app)  <span style="color:#75715e">#注意这里的CORS</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">event</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">yield</span> <span style="color:#e6db74">&#39;data:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> </span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> random<span style="color:#f92672">.</span>random()
+</span></span><span style="display:flex;"><span>        eventlet<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@app</span><span style="color:#f92672">.</span>route(<span style="color:#e6db74">&#39;/stream/&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;GET&#39;</span>, <span style="color:#e6db74">&#39;POST&#39;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">stream</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Response(event(), mimetype<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/event-stream&#34;</span>) <span style="color:#75715e"># 注意这里的响应类型</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    app<span style="color:#f92672">.</span>run()
+</span></span></code></pre></div><p>这里有个小地方需要注意就是CORS的问题，不添加这个的话会报错<code>'Access-Control-Allow-Origin' header is present on the requested resource.</code></p>
 <p>为了简单这里就不进行更精细的跨域控制了。</p>
 <p>接下来编写HTML文件：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
-&lt;<span style="color:#f92672">html</span>&gt;
-
-&lt;<span style="color:#f92672">head</span>&gt;
-    &lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span>&gt;
-    &lt;<span style="color:#f92672">title</span>&gt;测试服务端主动推送&lt;/<span style="color:#f92672">title</span>&gt;
-    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;webevent.js&#34;</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
-&lt;/<span style="color:#f92672">head</span>&gt;
-
-&lt;<span style="color:#f92672">body</span>&gt;
-    &lt;<span style="color:#f92672">h1</span>&gt;data&lt;/<span style="color:#f92672">h1</span>&gt;
-    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;serverData&#39;</span>&gt;
-
-    &lt;/<span style="color:#f92672">div</span>&gt;
-    &lt;<span style="color:#f92672">h1</span>&gt;status&lt;/<span style="color:#f92672">h1</span>&gt;
-    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;serverStatus&#39;</span>&gt;
-
-    &lt;/<span style="color:#f92672">div</span>&gt;
-&lt;/<span style="color:#f92672">body</span>&gt;
-
-&lt;/<span style="color:#f92672">html</span>&gt;
-</code></pre></div><p>两个DIV分别用来显示接收到的数据和服务端状态。webevent.js代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">serverData</span>;
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">serverStatus</span>;
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">url</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;http://127.0.0.1:5000/stream/&#39;</span> <span style="color:#75715e">//服务端地址
-</span><span style="color:#75715e"></span>
-window.<span style="color:#a6e22e">onload</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>() {
-    <span style="color:#a6e22e">serverData</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;serverData&#39;</span>);
-    <span style="color:#a6e22e">serverStatus</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;serverStatus&#39;</span>);
-    <span style="color:#a6e22e">startListenServer</span>()
-}
-
-<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">startListenServer</span>() {
-    <span style="color:#a6e22e">serverStatus</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;start connect server&#34;</span>;
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">es</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">EventSource</span>(<span style="color:#a6e22e">url</span>); <span style="color:#75715e">//连接服务器
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">es</span>.<span style="color:#a6e22e">onopen</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">open</span>;
-    <span style="color:#a6e22e">es</span>.<span style="color:#a6e22e">onerror</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">error</span>;
-    <span style="color:#a6e22e">es</span>.<span style="color:#a6e22e">onmessage</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">msg</span>;
-}
-
-<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">open</span>(<span style="color:#a6e22e">e</span>) {
-    <span style="color:#a6e22e">serverStatus</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;server open&#34;</span>;
-}
-
-<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">error</span>(<span style="color:#a6e22e">e</span>) {
-    <span style="color:#a6e22e">serverStatus</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;server error&#34;</span>;
-}
-
-<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">msg</span>(<span style="color:#a6e22e">e</span>) {
-    <span style="color:#a6e22e">serverData</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">data</span>;  <span style="color:#75715e">// e.data即服务器返回的数据
-</span><span style="color:#75715e"></span>}
-</code></pre></div><p>这里重点就是<code>onopen、onerror、onmessage</code>这3个事件了，分别对应开始链接、链接错误、接收到数据的处理。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">title</span>&gt;测试服务端主动推送&lt;/<span style="color:#f92672">title</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;webevent.js&#34;</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">h1</span>&gt;data&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;serverData&#39;</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">h1</span>&gt;status&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;serverStatus&#39;</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
+</span></span></code></pre></div><p>两个DIV分别用来显示接收到的数据和服务端状态。webevent.js代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">serverData</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">serverStatus</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">url</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;http://127.0.0.1:5000/stream/&#39;</span> <span style="color:#75715e">//服务端地址
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>window.<span style="color:#a6e22e">onload</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">serverData</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;serverData&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">serverStatus</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;serverStatus&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">startListenServer</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">startListenServer</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">serverStatus</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;start connect server&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">es</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">EventSource</span>(<span style="color:#a6e22e">url</span>); <span style="color:#75715e">//连接服务器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">es</span>.<span style="color:#a6e22e">onopen</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">open</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">es</span>.<span style="color:#a6e22e">onerror</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">error</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">es</span>.<span style="color:#a6e22e">onmessage</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">msg</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">open</span>(<span style="color:#a6e22e">e</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">serverStatus</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;server open&#34;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">error</span>(<span style="color:#a6e22e">e</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">serverStatus</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;server error&#34;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">msg</span>(<span style="color:#a6e22e">e</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">serverData</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">data</span>;  <span style="color:#75715e">// e.data即服务器返回的数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p>这里重点就是<code>onopen、onerror、onmessage</code>这3个事件了，分别对应开始链接、链接错误、接收到数据的处理。</p>
 <p>完成后，使用<code>python app.py</code>启用服务器后，在浏览器中访问编写的HTML文件，就可以看到结果了。</p>
 <hr>
 <p>另外，flask已经有现成的插件<a href="https://flask-sse.readthedocs.io/en/latest/quickstart.html">flask-sse</a>来实现了，</p>
@@ -253,7 +253,7 @@ window.<span style="color:#a6e22e">onload</span> <span style="color:#f92672">=</
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

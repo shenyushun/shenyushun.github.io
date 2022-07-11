@@ -105,38 +105,38 @@ if (!doNotTrack) {
 <p>比如，<code>WashingMachine</code>这个接口中可以定义<code>Cleaning()</code>和<code>Drying()</code>方法，任何类型实现了这２个方法都可以说是实现了<code>WashingMachine</code>接口。</p>
 <h2 id="声明和实现接口">声明和实现接口</h2>
 <p>代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> (  
-    <span style="color:#e6db74">&#34;fmt&#34;</span>
-)
-
-<span style="color:#75715e">//interface definition
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">VowelsFinder</span> <span style="color:#66d9ef">interface</span> {  
-    <span style="color:#a6e22e">FindVowels</span>() []<span style="color:#66d9ef">rune</span>
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">MyString</span> <span style="color:#66d9ef">string</span>
-
-<span style="color:#75715e">//MyString implements VowelsFinder
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ms</span> <span style="color:#a6e22e">MyString</span>) <span style="color:#a6e22e">FindVowels</span>() []<span style="color:#66d9ef">rune</span> {  
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">vowels</span> []<span style="color:#66d9ef">rune</span>
-    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#66d9ef">rune</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ms</span> {
-        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">rune</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">||</span> <span style="color:#66d9ef">rune</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;e&#39;</span> <span style="color:#f92672">||</span> <span style="color:#66d9ef">rune</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;i&#39;</span> <span style="color:#f92672">||</span> <span style="color:#66d9ef">rune</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;o&#39;</span> <span style="color:#f92672">||</span> <span style="color:#66d9ef">rune</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;u&#39;</span> {
-            <span style="color:#a6e22e">vowels</span> = append(<span style="color:#a6e22e">vowels</span>, <span style="color:#66d9ef">rune</span>)
-        }
-    }
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">vowels</span>
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
-    <span style="color:#a6e22e">name</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">MyString</span>(<span style="color:#e6db74">&#34;Sam Anderson&#34;</span>)
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">v</span> <span style="color:#a6e22e">VowelsFinder</span>
-    <span style="color:#a6e22e">v</span> = <span style="color:#a6e22e">name</span> <span style="color:#75715e">// possible since MyString implements VowelsFinder
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Vowels are %c&#34;</span>, <span style="color:#a6e22e">v</span>.<span style="color:#a6e22e">FindVowels</span>())
-
-}
-</code></pre></div><p>第８行我们创建了一个接口叫做<code>VowelsFinder</code>，并且声明了一个<code>FindVowels() []rune</code>方法，接下来创建了一个<code>MyString</code>类型。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (  
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//interface definition
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">VowelsFinder</span> <span style="color:#66d9ef">interface</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FindVowels</span>() []<span style="color:#66d9ef">rune</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">MyString</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//MyString implements VowelsFinder
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ms</span> <span style="color:#a6e22e">MyString</span>) <span style="color:#a6e22e">FindVowels</span>() []<span style="color:#66d9ef">rune</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">vowels</span> []<span style="color:#66d9ef">rune</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#66d9ef">rune</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ms</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">rune</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">||</span> <span style="color:#66d9ef">rune</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;e&#39;</span> <span style="color:#f92672">||</span> <span style="color:#66d9ef">rune</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;i&#39;</span> <span style="color:#f92672">||</span> <span style="color:#66d9ef">rune</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;o&#39;</span> <span style="color:#f92672">||</span> <span style="color:#66d9ef">rune</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;u&#39;</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">vowels</span> = append(<span style="color:#a6e22e">vowels</span>, <span style="color:#66d9ef">rune</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">vowels</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">MyString</span>(<span style="color:#e6db74">&#34;Sam Anderson&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">v</span> <span style="color:#a6e22e">VowelsFinder</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">v</span> = <span style="color:#a6e22e">name</span> <span style="color:#75715e">// possible since MyString implements VowelsFinder
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Vowels are %c&#34;</span>, <span style="color:#a6e22e">v</span>.<span style="color:#a6e22e">FindVowels</span>())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>第８行我们创建了一个接口叫做<code>VowelsFinder</code>，并且声明了一个<code>FindVowels() []rune</code>方法，接下来创建了一个<code>MyString</code>类型。</p>
 <p><strong>第１５行我们给<code>MyString</code>类型添加了<code>FindVowels() []rune</code>方法，现在我们可以说MyString实现了接口VowelsFinder。这里和Java这种需要使用关键字<code>implements</code>显式声明实现某接口不同，GO中并不需要这个关键字，而是如果某个类型全部定义了接口中的方法，则隐式的实现了这个接口。</strong></p>
 <p>第２８行，我们将MyString类型的变量<code>name</code>转换成了VowelsFinder接口类型，这是可以的因为MyString实现了VowelsFinder接口。接下来通过<code>v.FindVowels()</code>方法来打印&quot;Sam Anderson&quot;中所有的元音字母，程序的输出是<code>Vowels are [a e o]</code>。</p>
 <p>恭喜！你创造并实现了自己的第一个接口。</p>
@@ -144,58 +144,58 @@ if (!doNotTrack) {
 <p>上面的程序展示了如何创建和实现一个接口，但并没什么实际用处。如果我们使用<code>name.FindVowels()</code>替代<code>v.FindVowels()</code>程序依然可以正常执行。</p>
 <p>所以现在我们来看看在实践中如何使用接口。</p>
 <p>我们写一个程序来计算公司员工的总公司，为了简洁我们假定都是用美元发工资。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> (  
-    <span style="color:#e6db74">&#34;fmt&#34;</span>
-)
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">SalaryCalculator</span> <span style="color:#66d9ef">interface</span> {  
-    <span style="color:#a6e22e">CalculateSalary</span>() <span style="color:#66d9ef">int</span>
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Permanent</span> <span style="color:#66d9ef">struct</span> {  
-    <span style="color:#a6e22e">empId</span>    <span style="color:#66d9ef">int</span>
-    <span style="color:#a6e22e">basicpay</span> <span style="color:#66d9ef">int</span>
-    <span style="color:#a6e22e">pf</span>       <span style="color:#66d9ef">int</span>
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Contract</span> <span style="color:#66d9ef">struct</span> {  
-    <span style="color:#a6e22e">empId</span>  <span style="color:#66d9ef">int</span>
-    <span style="color:#a6e22e">basicpay</span> <span style="color:#66d9ef">int</span>
-}
-
-<span style="color:#75715e">//salary of permanent employee is sum of basic pay and pf
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">Permanent</span>) <span style="color:#a6e22e">CalculateSalary</span>() <span style="color:#66d9ef">int</span> {  
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">basicpay</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">pf</span>
-}
-
-<span style="color:#75715e">//salary of contract employee is the basic pay alone
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">Contract</span>) <span style="color:#a6e22e">CalculateSalary</span>() <span style="color:#66d9ef">int</span> {  
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">basicpay</span>
-}
-
-<span style="color:#75715e">/*
-</span><span style="color:#75715e">total expense is calculated by iterating though the SalaryCalculator slice and summing  
-</span><span style="color:#75715e">the salaries of the individual employees  
-</span><span style="color:#75715e">*/</span>
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">totalExpense</span>(<span style="color:#a6e22e">s</span> []<span style="color:#a6e22e">SalaryCalculator</span>) {  
-    <span style="color:#a6e22e">expense</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
-    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">s</span> {
-        <span style="color:#a6e22e">expense</span> = <span style="color:#a6e22e">expense</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">v</span>.<span style="color:#a6e22e">CalculateSalary</span>()
-    }
-    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Total Expense Per Month $%d&#34;</span>, <span style="color:#a6e22e">expense</span>)
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
-    <span style="color:#a6e22e">pemp1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Permanent</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">5000</span>, <span style="color:#ae81ff">20</span>}
-    <span style="color:#a6e22e">pemp2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Permanent</span>{<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">6000</span>, <span style="color:#ae81ff">30</span>}
-    <span style="color:#a6e22e">cemp1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Contract</span>{<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">3000</span>}
-    <span style="color:#a6e22e">employees</span> <span style="color:#f92672">:=</span> []<span style="color:#a6e22e">SalaryCalculator</span>{<span style="color:#a6e22e">pemp1</span>, <span style="color:#a6e22e">pemp2</span>, <span style="color:#a6e22e">cemp1</span>}
-    <span style="color:#a6e22e">totalExpense</span>(<span style="color:#a6e22e">employees</span>)
-
-}
-</code></pre></div><p>第７行声明了<code>SalaryCalculator</code>接口类型并且包含一个<code>CalculateSalary() int</code>方法。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (  
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">SalaryCalculator</span> <span style="color:#66d9ef">interface</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">CalculateSalary</span>() <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Permanent</span> <span style="color:#66d9ef">struct</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">empId</span>    <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">basicpay</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">pf</span>       <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Contract</span> <span style="color:#66d9ef">struct</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">empId</span>  <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">basicpay</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//salary of permanent employee is sum of basic pay and pf
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">Permanent</span>) <span style="color:#a6e22e">CalculateSalary</span>() <span style="color:#66d9ef">int</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">basicpay</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">pf</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//salary of contract employee is the basic pay alone
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">Contract</span>) <span style="color:#a6e22e">CalculateSalary</span>() <span style="color:#66d9ef">int</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">basicpay</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">total expense is calculated by iterating though the SalaryCalculator slice and summing  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">the salaries of the individual employees  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">totalExpense</span>(<span style="color:#a6e22e">s</span> []<span style="color:#a6e22e">SalaryCalculator</span>) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">expense</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">s</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">expense</span> = <span style="color:#a6e22e">expense</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">v</span>.<span style="color:#a6e22e">CalculateSalary</span>()
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Total Expense Per Month $%d&#34;</span>, <span style="color:#a6e22e">expense</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">pemp1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Permanent</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">5000</span>, <span style="color:#ae81ff">20</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">pemp2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Permanent</span>{<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">6000</span>, <span style="color:#ae81ff">30</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">cemp1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Contract</span>{<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">3000</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">employees</span> <span style="color:#f92672">:=</span> []<span style="color:#a6e22e">SalaryCalculator</span>{<span style="color:#a6e22e">pemp1</span>, <span style="color:#a6e22e">pemp2</span>, <span style="color:#a6e22e">cemp1</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">totalExpense</span>(<span style="color:#a6e22e">employees</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>第７行声明了<code>SalaryCalculator</code>接口类型并且包含一个<code>CalculateSalary() int</code>方法。</p>
 <p>公司中有２种雇员，<code>Permanent</code>和<code>Contract</code>。Permanent的工资由<code>basicpay</code>和<code>pf</code>构成，而Contract仅有<code>basicpay</code>。各自的<code>CalculateSalary</code>方法在２３、２８行实现。Permanent和Contract都实现了<code>SalaryCalculator</code>接口。</p>
 <p>３６行定义的<code>totalExpense</code>方法是一种十分漂亮的接口使用案例，这个方法参数是一个由<code>SalaryCalculator</code>接口类型组成的切片。４９行我们把合同工和临时工这２种类型数据组成了一个切片传递给了<code>totalExpense</code>方法，而<code>totalExpense</code>方法通过调用各自的<code>CalculateSalary</code>函数来计算相应的花费。</p>
 <p><code>totalExpense</code>最大的优势就是可以扩展任意多的类型而不用修改本身代码。假定公司现在又有一个<code>Freelancer</code>类型雇员而且有不同的薪资构成，只要它实现了<code>SalaryCalculator</code>接口就可以放到切片参数中。</p>
@@ -203,186 +203,186 @@ if (!doNotTrack) {
 <h2 id="接口的内部构造">接口的内部构造</h2>
 <p>一个接口内部可以认为是由元组<code>(type, value)</code>构成，<code>type</code>记录接口的具体类型，<code>value</code>则记录接口具体类型的值。</p>
 <p>通过代码可以更好的理解：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> (  
-    <span style="color:#e6db74">&#34;fmt&#34;</span>
-)
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Test</span> <span style="color:#66d9ef">interface</span> {  
-    <span style="color:#a6e22e">Tester</span>()
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">MyFloat</span> <span style="color:#66d9ef">float64</span>
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#a6e22e">MyFloat</span>) <span style="color:#a6e22e">Tester</span>() {  
-    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">m</span>)
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">describe</span>(<span style="color:#a6e22e">t</span> <span style="color:#a6e22e">Test</span>) {  
-    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Interface type %T value %v\n&#34;</span>, <span style="color:#a6e22e">t</span>, <span style="color:#a6e22e">t</span>)
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">t</span> <span style="color:#a6e22e">Test</span>
-    <span style="color:#a6e22e">f</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">MyFloat</span>(<span style="color:#ae81ff">89.7</span>)
-    <span style="color:#a6e22e">t</span> = <span style="color:#a6e22e">f</span>
-    <span style="color:#a6e22e">describe</span>(<span style="color:#a6e22e">t</span>)
-    <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Tester</span>()
-}
-</code></pre></div><p>接口<code>Test</code>拥有一个<code>Tester()</code>方法，并且<code>MyFloat</code>实现了它，第２４行我们转换<code>MyFloat</code>类型的变量<code>f</code>为<code>Test</code>类型并赋值给<code>t</code>。现在具体类型是<code>MyFloat</code>并且值为<code>89.7</code>。<code>describe</code>函数输出了接口的真实类型和值，输出如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">Interface</span> <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">main</span>.<span style="color:#a6e22e">MyFloat</span> <span style="color:#a6e22e">value</span> <span style="color:#ae81ff">89.7</span>  
-<span style="color:#ae81ff">89.7</span>
-</code></pre></div><h2 id="空接口">空接口</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (  
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Test</span> <span style="color:#66d9ef">interface</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Tester</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">MyFloat</span> <span style="color:#66d9ef">float64</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#a6e22e">MyFloat</span>) <span style="color:#a6e22e">Tester</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">m</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">describe</span>(<span style="color:#a6e22e">t</span> <span style="color:#a6e22e">Test</span>) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Interface type %T value %v\n&#34;</span>, <span style="color:#a6e22e">t</span>, <span style="color:#a6e22e">t</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">t</span> <span style="color:#a6e22e">Test</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">f</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">MyFloat</span>(<span style="color:#ae81ff">89.7</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">t</span> = <span style="color:#a6e22e">f</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">describe</span>(<span style="color:#a6e22e">t</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Tester</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>接口<code>Test</code>拥有一个<code>Tester()</code>方法，并且<code>MyFloat</code>实现了它，第２４行我们转换<code>MyFloat</code>类型的变量<code>f</code>为<code>Test</code>类型并赋值给<code>t</code>。现在具体类型是<code>MyFloat</code>并且值为<code>89.7</code>。<code>describe</code>函数输出了接口的真实类型和值，输出如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">Interface</span> <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">main</span>.<span style="color:#a6e22e">MyFloat</span> <span style="color:#a6e22e">value</span> <span style="color:#ae81ff">89.7</span>  
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">89.7</span>
+</span></span></code></pre></div><h2 id="空接口">空接口</h2>
 <p>如果一个接口没有任何方法，则被称为空接口。用<code>interface{}</code>来表示。因为空接口没有方法，所以任何接口都实现了空接口。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> (  
-    <span style="color:#e6db74">&#34;fmt&#34;</span>
-)
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">describe</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">interface</span>{}) {  
-    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Type = %T, value = %v\n&#34;</span>, <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">i</span>)
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
-    <span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;Hello World&#34;</span>
-    <span style="color:#a6e22e">describe</span>(<span style="color:#a6e22e">s</span>)
-    <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">55</span>
-    <span style="color:#a6e22e">describe</span>(<span style="color:#a6e22e">i</span>)
-    <span style="color:#a6e22e">strt</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">struct</span> {
-        <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
-    }{
-        <span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;Naveen R&#34;</span>,
-    }
-    <span style="color:#a6e22e">describe</span>(<span style="color:#a6e22e">strt</span>)
-}
-</code></pre></div><p>在第７行，<code>describe(i interface{})</code>函数使用一个空接口作为参数，所以可以接受任何类型数据。我们分别传递<code>int</code>、<code>string</code>、<code>struct</code>类型数据到函数中，输出如下:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">Type</span> = <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">value</span> = <span style="color:#a6e22e">Hello</span> <span style="color:#a6e22e">World</span>  
-<span style="color:#a6e22e">Type</span> = <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">value</span> = <span style="color:#ae81ff">55</span>  
-<span style="color:#a6e22e">Type</span> = <span style="color:#66d9ef">struct</span> { <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span> }, <span style="color:#a6e22e">value</span> = {<span style="color:#a6e22e">Naveen</span> <span style="color:#a6e22e">R</span>}  
-</code></pre></div><h2 id="类型断言">类型断言</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (  
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">describe</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">interface</span>{}) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Type = %T, value = %v\n&#34;</span>, <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">i</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;Hello World&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">describe</span>(<span style="color:#a6e22e">s</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">55</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">describe</span>(<span style="color:#a6e22e">i</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">strt</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    }{
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;Naveen R&#34;</span>,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">describe</span>(<span style="color:#a6e22e">strt</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在第７行，<code>describe(i interface{})</code>函数使用一个空接口作为参数，所以可以接受任何类型数据。我们分别传递<code>int</code>、<code>string</code>、<code>struct</code>类型数据到函数中，输出如下:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">Type</span> = <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">value</span> = <span style="color:#a6e22e">Hello</span> <span style="color:#a6e22e">World</span>  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Type</span> = <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">value</span> = <span style="color:#ae81ff">55</span>  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Type</span> = <span style="color:#66d9ef">struct</span> { <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span> }, <span style="color:#a6e22e">value</span> = {<span style="color:#a6e22e">Naveen</span> <span style="color:#a6e22e">R</span>}  
+</span></span></code></pre></div><h2 id="类型断言">类型断言</h2>
 <p>类型断言被用于提取接口的隐含值(underlying value)。</p>
 <p><strong>i.(T)</strong>　用来获取接口的隐含值，接口i的具体类型为<code>T</code>。</p>
 <p>一码胜千言，我们来写个类型断言的例子：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> (  
-    <span style="color:#e6db74">&#34;fmt&#34;</span>
-)
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">interface</span>{}) {  
-    <span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i</span>.(<span style="color:#66d9ef">int</span>) <span style="color:#75715e">//get the underlying int value from i
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s</span>)
-}
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> <span style="color:#66d9ef">interface</span>{} = <span style="color:#ae81ff">56</span>
-    <span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">s</span>)
-}
-</code></pre></div><p><code>s</code>的真实类型是<code>int</code>所以我们在第８行使用语法<code>i.(int)</code>来获取i的隐藏整数值，程序输出为<code>56</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (  
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">interface</span>{}) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i</span>.(<span style="color:#66d9ef">int</span>) <span style="color:#75715e">//get the underlying int value from i
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> <span style="color:#66d9ef">interface</span>{} = <span style="color:#ae81ff">56</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">s</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>s</code>的真实类型是<code>int</code>所以我们在第８行使用语法<code>i.(int)</code>来获取i的隐藏整数值，程序输出为<code>56</code>。</p>
 <p>那么如果真实类型不是int呢？</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> (  
-    <span style="color:#e6db74">&#34;fmt&#34;</span>
-)
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">interface</span>{}) {  
-    <span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i</span>.(<span style="color:#66d9ef">int</span>)
-    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s</span>)
-}
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> <span style="color:#66d9ef">interface</span>{} = <span style="color:#e6db74">&#34;Steven Paul&#34;</span>
-    <span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">s</span>)
-}
-</code></pre></div><p>我们传递<code>string</code>类型的变量s到<code>assert</code>函数，并且尝试从中获取一个整数的值，程序将报错<code>panic: interface conversion: interface {} is string, not int</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (  
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">interface</span>{}) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i</span>.(<span style="color:#66d9ef">int</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> <span style="color:#66d9ef">interface</span>{} = <span style="color:#e6db74">&#34;Steven Paul&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">s</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>我们传递<code>string</code>类型的变量s到<code>assert</code>函数，并且尝试从中获取一个整数的值，程序将报错<code>panic: interface conversion: interface {} is string, not int</code>。</p>
 <p>解决这个问题可以使用语法</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">v</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i</span>.(<span style="color:#a6e22e">T</span>)
-</code></pre></div><p>如果i的类型是T，那么v将得到i的隐含值并且ok为<code>true</code>。否则ok为<code>false</code>并且v为T类型的零值， <strong>程序不会报错！</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> (  
-    <span style="color:#e6db74">&#34;fmt&#34;</span>
-)
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">interface</span>{}) {  
-    <span style="color:#a6e22e">v</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i</span>.(<span style="color:#66d9ef">int</span>)
-    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">v</span>, <span style="color:#a6e22e">ok</span>)
-}
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> <span style="color:#66d9ef">interface</span>{} = <span style="color:#ae81ff">56</span>
-    <span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">s</span>)
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">i</span> <span style="color:#66d9ef">interface</span>{} = <span style="color:#e6db74">&#34;Steven Paul&#34;</span>
-    <span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">i</span>)
-}
-</code></pre></div><p>当“Steven Paul”被传入<code>assert</code>函数，ok将为false，因为i的真实类型不是<code>int</code>，v将得到０因为int类型的零值是０。(roy注：把assert函数中的int改成string则将返回空字符串，零值意思应该是默认初始值。)</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#ae81ff">56</span> <span style="color:#66d9ef">true</span>  
-<span style="color:#ae81ff">0</span> <span style="color:#66d9ef">false</span>
-</code></pre></div><h2 id="类型判断">类型判断</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">v</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i</span>.(<span style="color:#a6e22e">T</span>)
+</span></span></code></pre></div><p>如果i的类型是T，那么v将得到i的隐含值并且ok为<code>true</code>。否则ok为<code>false</code>并且v为T类型的零值， <strong>程序不会报错！</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (  
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">interface</span>{}) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">v</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i</span>.(<span style="color:#66d9ef">int</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">v</span>, <span style="color:#a6e22e">ok</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> <span style="color:#66d9ef">interface</span>{} = <span style="color:#ae81ff">56</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">s</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">i</span> <span style="color:#66d9ef">interface</span>{} = <span style="color:#e6db74">&#34;Steven Paul&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">i</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>当“Steven Paul”被传入<code>assert</code>函数，ok将为false，因为i的真实类型不是<code>int</code>，v将得到０因为int类型的零值是０。(roy注：把assert函数中的int改成string则将返回空字符串，零值意思应该是默认初始值。)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#ae81ff">56</span> <span style="color:#66d9ef">true</span>  
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0</span> <span style="color:#66d9ef">false</span>
+</span></span></code></pre></div><h2 id="类型判断">类型判断</h2>
 <p>(roy注：原文是Type Switch，内容就是使用<code>switch</code>语法判断某接口的类型。)</p>
 <p><code>Type Switch</code>用来比较某个接口的具体类型是否在多个指定的case分支中，和<code>switch-case</code>语法类似，区别就是case后的类型不再是普通的值。</p>
 <p>语法上和类型断言也很像，在<code>i.(T)</code>语法中，把T用<code>type</code>关键字替换掉就成了<code>type switch</code>。代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> (  
-    <span style="color:#e6db74">&#34;fmt&#34;</span>
-)
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">findType</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">interface</span>{}) {  
-    <span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">i</span>.(<span style="color:#66d9ef">type</span>) {
-    <span style="color:#66d9ef">case</span> <span style="color:#66d9ef">string</span>:
-        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;I am a string and my value is %s\n&#34;</span>, <span style="color:#a6e22e">i</span>.(<span style="color:#66d9ef">string</span>))
-    <span style="color:#66d9ef">case</span> <span style="color:#66d9ef">int</span>:
-        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;I am an int and my value is %d\n&#34;</span>, <span style="color:#a6e22e">i</span>.(<span style="color:#66d9ef">int</span>))
-    <span style="color:#66d9ef">default</span>:
-        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Unknown type\n&#34;</span>)
-    }
-}
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
-    <span style="color:#a6e22e">findType</span>(<span style="color:#e6db74">&#34;Naveen&#34;</span>)
-    <span style="color:#a6e22e">findType</span>(<span style="color:#ae81ff">77</span>)
-    <span style="color:#a6e22e">findType</span>(<span style="color:#ae81ff">89.98</span>)
-}
-</code></pre></div><p>第８行<code>switch i.(type)</code>指定了一个<code>type switch</code>，每一个case语句都用来比较i的实际类型和后面指定的类型。如果有匹配的则进行相应的输出。执行结果如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (  
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">findType</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">interface</span>{}) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">i</span>.(<span style="color:#66d9ef">type</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> <span style="color:#66d9ef">string</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;I am a string and my value is %s\n&#34;</span>, <span style="color:#a6e22e">i</span>.(<span style="color:#66d9ef">string</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> <span style="color:#66d9ef">int</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;I am an int and my value is %d\n&#34;</span>, <span style="color:#a6e22e">i</span>.(<span style="color:#66d9ef">int</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">default</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Unknown type\n&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">findType</span>(<span style="color:#e6db74">&#34;Naveen&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">findType</span>(<span style="color:#ae81ff">77</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">findType</span>(<span style="color:#ae81ff">89.98</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>第８行<code>switch i.(type)</code>指定了一个<code>type switch</code>，每一个case语句都用来比较i的实际类型和后面指定的类型。如果有匹配的则进行相应的输出。执行结果如下：</p>
 <pre tabindex="0"><code>I am a string and my value is Naveen  
 I am an int and my value is 77  
 Unknown type  
 </code></pre><p>88.98是<code>float64</code>类型不匹配任何一项，所以最后输出<code>Unknow type</code>。</p>
 <p><strong>对某类型和接口进行比较也是可以的，如果我们定义了某个类型并且这个实现了某个接口，那么就可以对这２者进行比较：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Describer</span> <span style="color:#66d9ef">interface</span> {  
-    <span style="color:#a6e22e">Describe</span>()
-}
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {  
-    <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
-    <span style="color:#a6e22e">age</span>  <span style="color:#66d9ef">int</span>
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Describe</span>() {  
-    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s is %d years old&#34;</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">age</span>)
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">findType</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">interface</span>{}) {  
-    <span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i</span>.(<span style="color:#66d9ef">type</span>) {
-    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">Describer</span>:
-        <span style="color:#a6e22e">v</span>.<span style="color:#a6e22e">Describe</span>()
-    <span style="color:#66d9ef">default</span>:
-        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;unknown type\n&#34;</span>)
-    }
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
-    <span style="color:#a6e22e">findType</span>(<span style="color:#e6db74">&#34;Naveen&#34;</span>)
-    <span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Person</span>{
-        <span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;Naveen R&#34;</span>,
-        <span style="color:#a6e22e">age</span>:  <span style="color:#ae81ff">25</span>,
-    }
-    <span style="color:#a6e22e">findType</span>(<span style="color:#a6e22e">p</span>)
-}
-</code></pre></div><p>上述代码中，<code>Person</code>结构体实现了<code>Describer</code>接口。１９行，变量<code>v</code>和<code>Describer</code>接口类型进行比较。<code>p</code>实现了<code>Describer</code>所以满足第一个case判断，<code>Describe</code>函数也被调用。输出如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Describer</span> <span style="color:#66d9ef">interface</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Describe</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">age</span>  <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Describe</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s is %d years old&#34;</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">age</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">findType</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">interface</span>{}) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i</span>.(<span style="color:#66d9ef">type</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">Describer</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">v</span>.<span style="color:#a6e22e">Describe</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">default</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;unknown type\n&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">findType</span>(<span style="color:#e6db74">&#34;Naveen&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Person</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;Naveen R&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">age</span>:  <span style="color:#ae81ff">25</span>,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">findType</span>(<span style="color:#a6e22e">p</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>上述代码中，<code>Person</code>结构体实现了<code>Describer</code>接口。１９行，变量<code>v</code>和<code>Describer</code>接口类型进行比较。<code>p</code>实现了<code>Describer</code>所以满足第一个case判断，<code>Describe</code>函数也被调用。输出如下：</p>
 <pre tabindex="0"><code>unknown type  
 Naveen R is 25 years old
 </code></pre><p>这篇文章至此结束，剩下的部分将在第二篇文章中讨论。</p>
@@ -431,7 +431,7 @@ Naveen R is 25 years old
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

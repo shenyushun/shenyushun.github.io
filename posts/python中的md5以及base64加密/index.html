@@ -93,28 +93,28 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>最近要和某公司进行系统对接，对方使用C#给出了这样一个加密函数：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">public <span style="color:#66d9ef">static</span> string <span style="color:#a6e22e">MD5ToBase64String</span>(string str)
-{
-    MD5 md5 <span style="color:#f92672">=</span> new MD5CryptoServiceProvider();
-    byte[] temp <span style="color:#f92672">=</span> System.Text.Encoding.UTF8.GetBytes(str);
-    byte[] MD5 <span style="color:#f92672">=</span> md5.ComputeHash(System.Text.Encoding.UTF8.GetBytes(str));<span style="color:#75715e">//MD5
-</span><span style="color:#75715e"></span>    string result <span style="color:#f92672">=</span> Convert.ToBase64String(MD5, <span style="color:#ae81ff">0</span>, MD5.Length);<span style="color:#75715e">//Base64
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> result;
-    }
-</code></pre></div><p>首先把字符串变成字节的形式，然后再对其MD5加密，最后再BASE64加密。首先注意在Python2中中文编码是个很容易出错的地方，所以要先把字符串变成unicode形式，然后再分别对其进行encode：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> hashlib
-<span style="color:#f92672">import</span> base64
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getcode</span>(unicxml):
-    <span style="color:#e6db74">&#39;&#39;&#39;根据拼接后的XML生成校验码
-</span><span style="color:#e6db74">       XML需要是unicode
-</span><span style="color:#e6db74">    &#39;&#39;&#39;</span>
-    temp <span style="color:#f92672">=</span> unicxml<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#34;utf-8&#34;</span>)
-    md5 <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>md5()
-    md5<span style="color:#f92672">.</span>update(temp)
-    md5str <span style="color:#f92672">=</span> md5<span style="color:#f92672">.</span>digest()  <span style="color:#75715e"># 16位</span>
-    b64str <span style="color:#f92672">=</span> base64<span style="color:#f92672">.</span>b64encode(md5str)
-    <span style="color:#66d9ef">return</span> b64str
-</code></pre></div><p>从流程上看算法应该是一样的，但不知为什么得出的base64码却始终不能通过验证。不得已情况下搭建了.net开发环境后发现C#中md5加密是16位，所以在python中不要使用md5.hexdigest生成32位密文。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>public <span style="color:#66d9ef">static</span> string <span style="color:#a6e22e">MD5ToBase64String</span>(string str)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    MD5 md5 <span style="color:#f92672">=</span> new MD5CryptoServiceProvider();
+</span></span><span style="display:flex;"><span>    byte[] temp <span style="color:#f92672">=</span> System.Text.Encoding.UTF8.GetBytes(str);
+</span></span><span style="display:flex;"><span>    byte[] MD5 <span style="color:#f92672">=</span> md5.ComputeHash(System.Text.Encoding.UTF8.GetBytes(str));<span style="color:#75715e">//MD5
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    string result <span style="color:#f92672">=</span> Convert.ToBase64String(MD5, <span style="color:#ae81ff">0</span>, MD5.Length);<span style="color:#75715e">//Base64
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> result;
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>首先把字符串变成字节的形式，然后再对其MD5加密，最后再BASE64加密。首先注意在Python2中中文编码是个很容易出错的地方，所以要先把字符串变成unicode形式，然后再分别对其进行encode：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> hashlib
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> base64
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getcode</span>(unicxml):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;根据拼接后的XML生成校验码
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">       XML需要是unicode
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    temp <span style="color:#f92672">=</span> unicxml<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#34;utf-8&#34;</span>)
+</span></span><span style="display:flex;"><span>    md5 <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>md5()
+</span></span><span style="display:flex;"><span>    md5<span style="color:#f92672">.</span>update(temp)
+</span></span><span style="display:flex;"><span>    md5str <span style="color:#f92672">=</span> md5<span style="color:#f92672">.</span>digest()  <span style="color:#75715e"># 16位</span>
+</span></span><span style="display:flex;"><span>    b64str <span style="color:#f92672">=</span> base64<span style="color:#f92672">.</span>b64encode(md5str)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> b64str
+</span></span></code></pre></div><p>从流程上看算法应该是一样的，但不知为什么得出的base64码却始终不能通过验证。不得已情况下搭建了.net开发环境后发现C#中md5加密是16位，所以在python中不要使用md5.hexdigest生成32位密文。</p>
 
 		</div>
 		<footer class="post__footer">
@@ -161,7 +161,7 @@ if (!doNotTrack) {
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

@@ -11,7 +11,7 @@
 <meta property="og:description" content="很多情况下我们都需要进行端口转发，这里以centos为例记录一下linux系统上端口转发的3种方式。
 iptables
 想利用iptables进行端口转发，首先要打开内核转发功能：
-echo &quot;net.ipv4.ip_forward = 1&quot; &gt;&gt; /etc/sysctl.conf
+echo &#34;net.ipv4.ip_forward = 1&#34; &gt;&gt; /etc/sysctl.conf
 sysctl -p
 然后编辑转发的服务器的/etc/sysconfig/iptables文件，添加
 *nat
@@ -33,7 +33,7 @@ COMMIT
 <meta itemprop="description" content="很多情况下我们都需要进行端口转发，这里以centos为例记录一下linux系统上端口转发的3种方式。
 iptables
 想利用iptables进行端口转发，首先要打开内核转发功能：
-echo &quot;net.ipv4.ip_forward = 1&quot; &gt;&gt; /etc/sysctl.conf
+echo &#34;net.ipv4.ip_forward = 1&#34; &gt;&gt; /etc/sysctl.conf
 sysctl -p
 然后编辑转发的服务器的/etc/sysconfig/iptables文件，添加
 *nat
@@ -121,7 +121,7 @@ if (!doNotTrack) {
 			<p>很多情况下我们都需要进行端口转发，这里以centos为例记录一下linux系统上端口转发的3种方式。</p>
 <h2 id="iptables">iptables</h2>
 <p>想利用iptables进行端口转发，首先要打开内核转发功能：</p>
-<pre tabindex="0"><code>echo &quot;net.ipv4.ip_forward = 1&quot; &gt;&gt; /etc/sysctl.conf
+<pre tabindex="0"><code>echo &#34;net.ipv4.ip_forward = 1&#34; &gt;&gt; /etc/sysctl.conf
 sysctl -p
 </code></pre><p>然后编辑转发的服务器的/etc/sysconfig/iptables文件，添加</p>
 <pre tabindex="0"><code>*nat
@@ -152,17 +152,17 @@ AllowTcpForwarding yes
 <pre tabindex="0"><code>ssh -N -R 转发服务器IP:转发服务器端口:本机IP:本机端口 username@转发服务器IP -p转发服务器SSH端口
 </code></pre><p>这样，其他原本访问不了本机服务的机器就可以通过链接转发服务器IP：转发服务器端口来访问本机提供的服务了。</p>
 <p>socket代理，配合chrome,firefox浏览器插件翻墙的利器，不多说，给个脚本：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/usr/bin/expect -f
-</span><span style="color:#75715e"></span>set port <span style="color:#ae81ff">7070</span>
-set user xxxx
-set host xxx.xxx.xxx.xxx
-set password xxxx
-set timeout -1  
-spawn autossh -p <span style="color:#ae81ff">22</span> -M <span style="color:#ae81ff">9998</span> -NC -D $port $user@$host
-expect <span style="color:#e6db74">&#34;*assword:*&#34;</span>  
-send <span style="color:#e6db74">&#34;</span>$password<span style="color:#e6db74">\r&#34;</span>  
-expect eof
-</code></pre></div><p>autossh、spawn、expect命令需要安装，当然也可以使用ssh-copy-id进行免密码登录设置。然后浏览器代理插件端口设置成7070即可。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/expect -f
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>set port <span style="color:#ae81ff">7070</span>
+</span></span><span style="display:flex;"><span>set user xxxx
+</span></span><span style="display:flex;"><span>set host xxx.xxx.xxx.xxx
+</span></span><span style="display:flex;"><span>set password xxxx
+</span></span><span style="display:flex;"><span>set timeout -1  
+</span></span><span style="display:flex;"><span>spawn autossh -p <span style="color:#ae81ff">22</span> -M <span style="color:#ae81ff">9998</span> -NC -D $port $user@$host
+</span></span><span style="display:flex;"><span>expect <span style="color:#e6db74">&#34;*assword:*&#34;</span>  
+</span></span><span style="display:flex;"><span>send <span style="color:#e6db74">&#34;</span>$password<span style="color:#e6db74">\r&#34;</span>  
+</span></span><span style="display:flex;"><span>expect eof
+</span></span></code></pre></div><p>autossh、spawn、expect命令需要安装，当然也可以使用ssh-copy-id进行免密码登录设置。然后浏览器代理插件端口设置成7070即可。</p>
 <h2 id="rinetd">rinetd</h2>
 <p>这个软件看说明很强大，没真正使用过。官网：<a href="https://boutell.com/rinetd/">https://boutell.com/rinetd/</a>
 安装后配置vi /etc/rinetd.conf即可，编写的格式是</p>
@@ -202,7 +202,7 @@ expect eof
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

@@ -95,7 +95,7 @@ if (!doNotTrack) {
 	<div class="content list__excerpt post__content clearfix">
 		原来使用apache进行部署，感觉内存占用大以及速度比较慢就换成了nginx+uwsgi的方式，结果完爆apache啊！
 首先安装nginx以及uwsgi：
-yum install nginxpip install uwsgi然后编辑uwsgi的配置文件，这里我使用ini文件格式，示例如下：
+yum install nginxpip install uwsgi 然后编辑uwsgi的配置文件，这里我使用ini文件格式，示例如下：
 [uwsgi]socket = 127.
 	</div>
 	<div class="list__footer clearfix">
@@ -119,7 +119,7 @@ yum install nginxpip install uwsgi然后编辑uwsgi的配置文件，这里我
 	<div class="content list__excerpt post__content clearfix">
 		安装完kali系统后应该已经默认安装了这个程序，如果没有的话使用apt-get install tightvncserver
 安装完成后执行
-tightvncserver -depth 24 -geometry 1440x900 :1-depth 24 使用24位颜色，这里一般用16或者24
+tightvncserver -depth 24 -geometry 1440x900 :1 -depth 24 使用24位颜色，这里一般用16或者24
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/tightvnc%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AEkali%E6%A1%8C%E9%9D%A2%E7%B3%BB%E7%BB%9F/">Read more…</a>
@@ -142,7 +142,7 @@ tightvncserver -depth 24 -geometry 1440x900 :1-depth 24 使用24位颜色，这
 	<div class="content list__excerpt post__content clearfix">
 		首先需要注意的是openerp7需要python2.7+版本，而centos6下默认是python2.6，这里我使用centos7。
 首先安装postgresql
-yum install http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3-1.noarch.rpmyum install postgresql93-server postgresql93-contrib postgresql93-develcentos7中安装psql后初始化数据库和6不同，需要切换到postgres用户进入安装目录的bin文件夹执行手动初始化
+yum install http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3-1.noarch.rpmyum install postgresql93-server postgresql93-contrib postgresql93-devel centos7中安装psql后初始化数据库和6不同，需要切换到postgres用户进入安装目录的bin文件夹执行手动初始化
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/centos%E4%B8%8B%E9%83%A8%E7%BD%B2openerp7/">Read more…</a>
@@ -163,7 +163,7 @@ yum install http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		最近联通不知道抽什么疯，Linux电脑只要访问二级域名就会跳转到恶心的DNS错误页面，甚至百度的二级域名都不行。那我玩ipad结果又访问不了App store，使用某些软件下东西又提示&rsquo;未能找到使用指定主机名的服务器'，但是微信又好用。
+		最近联通不知道抽什么疯，Linux电脑只要访问二级域名就会跳转到恶心的DNS错误页面，甚至百度的二级域名都不行。那我玩ipad结果又访问不了App store，使用某些软件下东西又提示&rsquo;未能找到使用指定主机名的服务器&rsquo;，但是微信又好用。
 愤怒了，一看就是dns的问题，那就把动态链接改成静态链接，IP地址子网掩码默认路由根据实际情况修改，dns设置为8.8.8.8。
 这样就能正常使用相关功能了。
 	</div>
@@ -208,7 +208,7 @@ yum install http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3
 	<div class="content list__excerpt post__content clearfix">
 		不知道什么原因，安装kalilinux的时候总是安装失败，失败步骤：安装操作系统。偶尔这步通过了，又出现了grub无法安装的情况。
 下载了各个版本都是这样之后，对比了一下sha的值，发现和官网上给出的并不一样&hellip;.什么情况？！然后根据http://cdimage.kali.org/kali-latest/amd64/这发现，正确的值应该是
-d859cc2798a24c48ddd37c6aafd88c5dc5e6e123 kali-linux-1.0.6-amd64-mini.iso281ddb3d14619a973e254b8f484b7fe27defa822 kali-linux-1.0.6-amd64.iso3cf383be7778d1676c015cb5430422e672ec59fa kali-linux-1.0.6-amd64-mini.torrentcfa0ad0dce1d4a170adf1cd342c622db23e785ef kali-linux-1.0.6-amd64.torrent又下载了sha值一样的镜像后，还是无法安装操作系统。
+d859cc2798a24c48ddd37c6aafd88c5dc5e6e123 kali-linux-1.0.6-amd64-mini.iso281ddb3d14619a973e254b8f484b7fe27defa822 kali-linux-1.0.6-amd64.iso3cf383be7778d1676c015cb5430422e672ec59fa kali-linux-1.0.6-amd64-mini.torrentcfa0ad0dce1d4a170adf1cd342c622db23e785ef kali-linux-1.0.6-amd64.torrent 又下载了sha值一样的镜像后，还是无法安装操作系统。
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/kalilinux%E5%AE%89%E8%A3%85%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">Read more…</a>
@@ -237,11 +237,11 @@ d859cc2798a24c48ddd37c6aafd88c5dc5e6e123 kali-linux-1.0.6-amd64-mini.iso281ddb3
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 		</ul>
 	</div>
 </div>
@@ -279,11 +279,11 @@ d859cc2798a24c48ddd37c6aafd88c5dc5e6e123 kali-linux-1.0.6-amd64-mini.iso281ddb3
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">132</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">30</span>
+				<span class="widget__counter widget__counter--bubble">31</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

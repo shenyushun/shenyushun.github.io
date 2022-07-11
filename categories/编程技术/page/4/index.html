@@ -80,6 +80,29 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" rel="bookmark">
+			设计模式-原型模式
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-10-14T17:58:08Z">2019-10-14</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>原型模式(Prototype Pattern)：使用原型实例创建指定创建对象的种类，并通过拷贝这些原型创建新对象。这个模式很好理解，就是<code>ctrl+c，ctrl+v</code>后做一些小修改。</p>
+<p>这里面涉及一个知识点就是深拷贝和浅拷贝的问题，但我相信任何python开发人员都知道<code>copy()</code>和<code>deepcopy()</code>的区别，这里就不多说了（有兴趣的可以去看python中这2个函数的实现）。</p>
+<p>个人理解当需要多个类对象时，如果要进行很多复杂的、消耗时间的初始化操作，而这些对象之间又仅有少量不同时，可以考虑使用原型模式。</p>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="bookmark">
 			设计模式-建造者模式
 			</a>
@@ -183,30 +206,30 @@ if (!doNotTrack) {
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		<p>上次学习了Nova创建虚拟机的过程，这次来看一下Glance是如何上传镜像的。相比于Nova，Glance源码使用了大量的代理模式和装饰器模式，阅读代码时候一个不仔细就会一脸懵X。根据上次说的Openstack套路，我们通过<code>setup.cfg</code>直奔主题——<code>glance/cmd/api.py</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
-    <span style="color:#66d9ef">try</span>:
-        config<span style="color:#f92672">.</span>parse_args()
-        config<span style="color:#f92672">.</span>set_config_defaults()
-        wsgi<span style="color:#f92672">.</span>set_eventlet_hub()
-        logging<span style="color:#f92672">.</span>setup(CONF, <span style="color:#e6db74">&#39;glance&#39;</span>)
-        notifier<span style="color:#f92672">.</span>set_defaults()
-        <span style="color:#66d9ef">if</span> cfg<span style="color:#f92672">.</span>CONF<span style="color:#f92672">.</span>profiler<span style="color:#f92672">.</span>enabled:
-            _notifier <span style="color:#f92672">=</span> osprofiler<span style="color:#f92672">.</span>notifier<span style="color:#f92672">.</span>create(<span style="color:#e6db74">&#34;Messaging&#34;</span>,
-                                                   oslo_messaging, {},
-                                                   notifier<span style="color:#f92672">.</span>get_transport(),
-                                                   <span style="color:#e6db74">&#34;glance&#34;</span>, <span style="color:#e6db74">&#34;api&#34;</span>,
-                                                   cfg<span style="color:#f92672">.</span>CONF<span style="color:#f92672">.</span>bind_host)
-            osprofiler<span style="color:#f92672">.</span>notifier<span style="color:#f92672">.</span>set(_notifier)
-            osprofiler<span style="color:#f92672">.</span>web<span style="color:#f92672">.</span>enable(cfg<span style="color:#f92672">.</span>CONF<span style="color:#f92672">.</span>profiler<span style="color:#f92672">.</span>hmac_keys)
-        <span style="color:#66d9ef">else</span>:
-            osprofiler<span style="color:#f92672">.</span>web<span style="color:#f92672">.</span>disable()
-        server <span style="color:#f92672">=</span> wsgi<span style="color:#f92672">.</span>Server(initialize_glance_store<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-        server<span style="color:#f92672">.</span>start(config<span style="color:#f92672">.</span>load_paste_app(<span style="color:#e6db74">&#39;glance-api&#39;</span>), default_port<span style="color:#f92672">=</span><span style="color:#ae81ff">9292</span>)
-        server<span style="color:#f92672">.</span>wait()
-    <span style="color:#66d9ef">except</span> KNOWN_EXCEPTIONS <span style="color:#66d9ef">as</span> e:
-        print(e)
-        fail(e)
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        config<span style="color:#f92672">.</span>parse_args()
+</span></span><span style="display:flex;"><span>        config<span style="color:#f92672">.</span>set_config_defaults()
+</span></span><span style="display:flex;"><span>        wsgi<span style="color:#f92672">.</span>set_eventlet_hub()
+</span></span><span style="display:flex;"><span>        logging<span style="color:#f92672">.</span>setup(CONF, <span style="color:#e6db74">&#39;glance&#39;</span>)
+</span></span><span style="display:flex;"><span>        notifier<span style="color:#f92672">.</span>set_defaults()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> cfg<span style="color:#f92672">.</span>CONF<span style="color:#f92672">.</span>profiler<span style="color:#f92672">.</span>enabled:
+</span></span><span style="display:flex;"><span>            _notifier <span style="color:#f92672">=</span> osprofiler<span style="color:#f92672">.</span>notifier<span style="color:#f92672">.</span>create(<span style="color:#e6db74">&#34;Messaging&#34;</span>,
+</span></span><span style="display:flex;"><span>                                                   oslo_messaging, {},
+</span></span><span style="display:flex;"><span>                                                   notifier<span style="color:#f92672">.</span>get_transport(),
+</span></span><span style="display:flex;"><span>                                                   <span style="color:#e6db74">&#34;glance&#34;</span>, <span style="color:#e6db74">&#34;api&#34;</span>,
+</span></span><span style="display:flex;"><span>                                                   cfg<span style="color:#f92672">.</span>CONF<span style="color:#f92672">.</span>bind_host)
+</span></span><span style="display:flex;"><span>            osprofiler<span style="color:#f92672">.</span>notifier<span style="color:#f92672">.</span>set(_notifier)
+</span></span><span style="display:flex;"><span>            osprofiler<span style="color:#f92672">.</span>web<span style="color:#f92672">.</span>enable(cfg<span style="color:#f92672">.</span>CONF<span style="color:#f92672">.</span>profiler<span style="color:#f92672">.</span>hmac_keys)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            osprofiler<span style="color:#f92672">.</span>web<span style="color:#f92672">.</span>disable()
+</span></span><span style="display:flex;"><span>        server <span style="color:#f92672">=</span> wsgi<span style="color:#f92672">.</span>Server(initialize_glance_store<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>        server<span style="color:#f92672">.</span>start(config<span style="color:#f92672">.</span>load_paste_app(<span style="color:#e6db74">&#39;glance-api&#39;</span>), default_port<span style="color:#f92672">=</span><span style="color:#ae81ff">9292</span>)
+</span></span><span style="display:flex;"><span>        server<span style="color:#f92672">.</span>wait()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> KNOWN_EXCEPTIONS <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>        print(e)
+</span></span><span style="display:flex;"><span>        fail(e)
+</span></span></code></pre></div>
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">Read more…</a>
@@ -266,34 +289,6 @@ if (!doNotTrack) {
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/scrapy-redis%E7%BB%93%E5%90%88post%E8%AF%B7%E6%B1%82%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE/" rel="bookmark">
-			Scrapy-Redis结合POST请求获取数据
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-05-06T16:31:37Z">2019-05-06</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>能看到这篇文章的小伙伴肯定已经知道什么是Scrapy以及Scrapy-Redis了，基础概念这里就不再介绍。默认情况下Scrapy-Redis是发送GET请求获取数据的，对于某些使用POST请求的情况需要重写<code>make_request_from_data</code>函数即可，但奇怪的是居然没在网上搜到简洁明了的答案，或许是太简单了？</p>
-<p>这里我以<code>httpbin.org</code>这个网站为例，首先在<code>settings.py</code>中添加所需配置，这里需要根据实际情况进行修改：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">SCHEDULER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;scrapy_redis.scheduler.Scheduler&#34;</span>  <span style="color:#75715e">#启用Redis调度存储请求队列</span>
-SCHEDULER_PERSIST <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>    <span style="color:#75715e">#不清除Redis队列、这样可以暂停/恢复 爬取</span>
-DUPEFILTER_CLASS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;scrapy_redis.dupefilter.RFPDupeFilter&#34;</span>  <span style="color:#75715e">#确保所有的爬虫通过Redis去重</span>
-SCHEDULER_QUEUE_CLASS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;scrapy_redis.queue.SpiderPriorityQueue&#39;</span>
-REDIS_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;redis://127.0.0.1:6379&#34;</span>
-</code></pre></div>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/scrapy-redis%E7%BB%93%E5%90%88post%E8%AF%B7%E6%B1%82%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -318,11 +313,11 @@ REDIS_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 		</ul>
 	</div>
 </div>
@@ -360,11 +355,11 @@ REDIS_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">132</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">30</span>
+				<span class="widget__counter widget__counter--bubble">31</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

@@ -9,7 +9,7 @@
 	<meta name="description" content="">
 		<meta property="og:title" content="虚拟环境下安装mysql-python" />
 <meta property="og:description" content="使用virtualenv虚拟环境的时候，mysql-python安装时报错：
-_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &quot;my_config." />
+_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &#34;my_config." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2014-03-12T17:54:50+00:00" />
@@ -18,7 +18,7 @@ _mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &qu
 
 		<meta itemprop="name" content="虚拟环境下安装mysql-python">
 <meta itemprop="description" content="使用virtualenv虚拟环境的时候，mysql-python安装时报错：
-_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &quot;my_config."><meta itemprop="datePublished" content="2014-03-12T17:54:50+00:00" />
+_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &#34;my_config."><meta itemprop="datePublished" content="2014-03-12T17:54:50+00:00" />
 <meta itemprop="dateModified" content="2014-03-12T17:54:50+00:00" />
 <meta itemprop="wordCount" content="25">
 <meta itemprop="keywords" content="python,fedora,mysql," />
@@ -94,10 +94,10 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<p>使用virtualenv虚拟环境的时候，mysql-python安装时报错：</p>
 <pre tabindex="0"><code>_mysql.c:44:23: fatal error: my_config.h: No such file or directory
- #include &quot;my_config.h&quot;
+ #include &#34;my_config.h&#34;
                        ^
 compilation terminated.
-error: command 'gcc' failed with exit status 1
+error: command &#39;gcc&#39; failed with exit status 1
 </code></pre><p>我的系统是fedora20,解决方法就是安装mariadb-devel</p>
 <p>如果是ubuntu的话，应该是有个libmysqlclient-dev，安装后就可以在虚拟环境下安装mysql-python了。</p>
 
@@ -152,7 +152,7 @@ error: command 'gcc' failed with exit status 1
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

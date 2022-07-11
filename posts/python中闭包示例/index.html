@@ -92,79 +92,79 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<p>概念上的东西这里就不详细解释了，为什么需要闭包（Closures）呢？个人理解就是某些情况下你需要在外部访问函数内部的变量时，闭包就该大显身手了。闭包的一种典型表现就是函数内部定义了新的函数。这里举几个例子以记录使用闭包时的几个注意点，例子来源于<a href="http://coolshell.cn/articles/6731.html">这里</a>，大神用javascript写的示例，这里改成python的，也顺便说说遇到的坑。</p>
 <h3 id="例子1闭包中局部变量是引用而非拷贝">例子1:闭包中局部变量是引用而非拷贝</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">say667</span>():
-    <span style="color:#e6db74">&#39;&#39;&#39;闭包中局部变量是引用而非拷贝&#39;&#39;&#39;</span>
-    num <span style="color:#f92672">=</span> <span style="color:#ae81ff">666</span>
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">saynum</span>():
-        print <span style="color:#e6db74">&#34;in saynum:&#34;</span>, num
-    num <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-    <span style="color:#66d9ef">return</span> saynum
-temp <span style="color:#f92672">=</span> say667()
-temp()
-</code></pre></div><p>输出结果是667，有C、C++基础的应该不难理解这个吧？</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">say667</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;闭包中局部变量是引用而非拷贝&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    num <span style="color:#f92672">=</span> <span style="color:#ae81ff">666</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">saynum</span>():
+</span></span><span style="display:flex;"><span>        print <span style="color:#e6db74">&#34;in saynum:&#34;</span>, num
+</span></span><span style="display:flex;"><span>    num <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> saynum
+</span></span><span style="display:flex;"><span>temp <span style="color:#f92672">=</span> say667()
+</span></span><span style="display:flex;"><span>temp()
+</span></span></code></pre></div><p>输出结果是667，有C、C++基础的应该不难理解这个吧？</p>
 <h3 id="例子2多个函数绑定同一个闭包因为他们定义在同一个函数内">例子2：多个函数绑定同一个闭包，因为他们定义在同一个函数内。</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">setupSomeGlobals</span>():
-    <span style="color:#e6db74">&#39;&#39;&#39;多个函数绑定同一个闭包，因为他们定义在同一个函数内。&#39;&#39;&#39;</span>
-    num <span style="color:#f92672">=</span> [<span style="color:#ae81ff">666</span>]
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_num</span>():
-        print <span style="color:#e6db74">&#34;num:&#34;</span>, num
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add_num</span>():
-        num[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">set_num</span>(x):
-        num[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> x
-    <span style="color:#66d9ef">global</span> getnum
-    getnum <span style="color:#f92672">=</span> get_num
-    <span style="color:#66d9ef">global</span> addnum
-    addnum <span style="color:#f92672">=</span> add_num
-    <span style="color:#66d9ef">global</span> setnum
-    setnum <span style="color:#f92672">=</span> set_num
-setupSomeGlobals()
-getnum()
-addnum()
-getnum()
-setnum(<span style="color:#ae81ff">10</span>)
-getnum()
-</code></pre></div><p>注意这个例子中使用py2有坑,见<a href="https://stackoverflow.com/questions/3190706/nonlocal-keyword-in-python-2-x">这里</a>。如果你定义一个比如整型这种不可变类型，则在py2中报错“UnboundLocalError: local variable &lsquo;num&rsquo; referenced before assignment”。解决办法就是定义列表、字典甚至类，在py3中使用nonlocal关键字。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">setupSomeGlobals</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;多个函数绑定同一个闭包，因为他们定义在同一个函数内。&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    num <span style="color:#f92672">=</span> [<span style="color:#ae81ff">666</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_num</span>():
+</span></span><span style="display:flex;"><span>        print <span style="color:#e6db74">&#34;num:&#34;</span>, num
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add_num</span>():
+</span></span><span style="display:flex;"><span>        num[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">set_num</span>(x):
+</span></span><span style="display:flex;"><span>        num[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> x
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">global</span> getnum
+</span></span><span style="display:flex;"><span>    getnum <span style="color:#f92672">=</span> get_num
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">global</span> addnum
+</span></span><span style="display:flex;"><span>    addnum <span style="color:#f92672">=</span> add_num
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">global</span> setnum
+</span></span><span style="display:flex;"><span>    setnum <span style="color:#f92672">=</span> set_num
+</span></span><span style="display:flex;"><span>setupSomeGlobals()
+</span></span><span style="display:flex;"><span>getnum()
+</span></span><span style="display:flex;"><span>addnum()
+</span></span><span style="display:flex;"><span>getnum()
+</span></span><span style="display:flex;"><span>setnum(<span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>getnum()
+</span></span></code></pre></div><p>注意这个例子中使用py2有坑,见<a href="https://stackoverflow.com/questions/3190706/nonlocal-keyword-in-python-2-x">这里</a>。如果你定义一个比如整型这种不可变类型，则在py2中报错“UnboundLocalError: local variable &rsquo;num&rsquo; referenced before assignment”。解决办法就是定义列表、字典甚至类，在py3中使用nonlocal关键字。</p>
 <h3 id="例子3当在一个循环中赋值函数时这些函数将绑定同样的闭包">例子3：当在一个循环中赋值函数时，这些函数将绑定同样的闭包</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">buildlist</span>(mylist):
-    <span style="color:#e6db74">&#39;&#39;&#39;当在一个循环中赋值函数时，这些函数将绑定同样的闭包,可以理解为上一个例子的变体&#39;&#39;&#39;</span>
-    result <span style="color:#f92672">=</span> []
-    <span style="color:#66d9ef">for</span> one <span style="color:#f92672">in</span> mylist:
-        item <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;item:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> one
-        result<span style="color:#f92672">.</span>append(<span style="color:#66d9ef">lambda</span> :(item,one))
-    <span style="color:#66d9ef">return</span> result
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">testlist</span>():
-    fnlist <span style="color:#f92672">=</span> buildlist([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>])
-    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> fnlist:
-        print i()
-testlist()
-</code></pre></div><p>这个例子中python和javascript的返回结果不同，因为python的for循环结束时就是值就是最后一个，而不会再+1。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">buildlist</span>(mylist):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;当在一个循环中赋值函数时，这些函数将绑定同样的闭包,可以理解为上一个例子的变体&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    result <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> one <span style="color:#f92672">in</span> mylist:
+</span></span><span style="display:flex;"><span>        item <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;item:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> one
+</span></span><span style="display:flex;"><span>        result<span style="color:#f92672">.</span>append(<span style="color:#66d9ef">lambda</span> :(item,one))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> result
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">testlist</span>():
+</span></span><span style="display:flex;"><span>    fnlist <span style="color:#f92672">=</span> buildlist([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> fnlist:
+</span></span><span style="display:flex;"><span>        print i()
+</span></span><span style="display:flex;"><span>testlist()
+</span></span></code></pre></div><p>这个例子中python和javascript的返回结果不同，因为python的for循环结束时就是值就是最后一个，而不会再+1。</p>
 <h3 id="例子4外部函数所有局部变量都在闭包内即使这个变量声明在内部函数定义之后">例子4：外部函数所有局部变量都在闭包内，即使这个变量声明在内部函数定义之后。</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sayAlice</span>():
-    <span style="color:#e6db74">&#39;&#39;&#39;外部函数所有局部变量都在闭包内，即使这个变量声明在内部函数定义之后。&#39;&#39;&#39;</span>
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">say</span>():
-        print <span style="color:#e6db74">&#34;hello,&#34;</span>,name
-    name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Alice&#34;</span>
-    <span style="color:#66d9ef">return</span> say
-helloAlice <span style="color:#f92672">=</span> sayAlice()
-helloAlice()
-</code></pre></div><p>这个我以前还真没注意到……</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sayAlice</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;外部函数所有局部变量都在闭包内，即使这个变量声明在内部函数定义之后。&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">say</span>():
+</span></span><span style="display:flex;"><span>        print <span style="color:#e6db74">&#34;hello,&#34;</span>,name
+</span></span><span style="display:flex;"><span>    name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Alice&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> say
+</span></span><span style="display:flex;"><span>helloAlice <span style="color:#f92672">=</span> sayAlice()
+</span></span><span style="display:flex;"><span>helloAlice()
+</span></span></code></pre></div><p>这个我以前还真没注意到……</p>
 <h3 id="例子5每次函数调用的时候创建一个新的闭包">例子5：每次函数调用的时候创建一个新的闭包</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">newClosure</span>(someNum,someRef):
-    <span style="color:#e6db74">&#39;&#39;&#39;每次函数调用的时候创建一个新的闭包&#39;&#39;&#39;</span>
-    num <span style="color:#f92672">=</span> [someNum] <span style="color:#75715e">#注意这里，理由同示例2</span>
-    arr <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>]
-    ref <span style="color:#f92672">=</span> someRef
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fun</span>(x):
-        num[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+=</span> x
-        arr<span style="color:#f92672">.</span>append(x)
-        print <span style="color:#e6db74">&#34;num:&#34;</span>,num,<span style="color:#e6db74">&#34;arr:&#34;</span>,arr,<span style="color:#e6db74">&#34;ref:&#34;</span>,ref
-    <span style="color:#66d9ef">return</span> fun
-closure1<span style="color:#f92672">=</span>newClosure(<span style="color:#ae81ff">40</span>,{<span style="color:#e6db74">&#39;someVar&#39;</span>:<span style="color:#e6db74">&#39;closure 1&#39;</span>});
-closure2<span style="color:#f92672">=</span>newClosure(<span style="color:#ae81ff">1000</span>,{<span style="color:#e6db74">&#39;someVar&#39;</span>:<span style="color:#e6db74">&#39;closure 2&#39;</span>});
-closure1(<span style="color:#ae81ff">5</span>)
-closure2(<span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>)
-</code></pre></div><p>至于应用，我第一个想到的就是python中各种装饰器了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">newClosure</span>(someNum,someRef):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;每次函数调用的时候创建一个新的闭包&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    num <span style="color:#f92672">=</span> [someNum] <span style="color:#75715e">#注意这里，理由同示例2</span>
+</span></span><span style="display:flex;"><span>    arr <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>    ref <span style="color:#f92672">=</span> someRef
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fun</span>(x):
+</span></span><span style="display:flex;"><span>        num[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+=</span> x
+</span></span><span style="display:flex;"><span>        arr<span style="color:#f92672">.</span>append(x)
+</span></span><span style="display:flex;"><span>        print <span style="color:#e6db74">&#34;num:&#34;</span>,num,<span style="color:#e6db74">&#34;arr:&#34;</span>,arr,<span style="color:#e6db74">&#34;ref:&#34;</span>,ref
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> fun
+</span></span><span style="display:flex;"><span>closure1<span style="color:#f92672">=</span>newClosure(<span style="color:#ae81ff">40</span>,{<span style="color:#e6db74">&#39;someVar&#39;</span>:<span style="color:#e6db74">&#39;closure 1&#39;</span>});
+</span></span><span style="display:flex;"><span>closure2<span style="color:#f92672">=</span>newClosure(<span style="color:#ae81ff">1000</span>,{<span style="color:#e6db74">&#39;someVar&#39;</span>:<span style="color:#e6db74">&#39;closure 2&#39;</span>});
+</span></span><span style="display:flex;"><span>closure1(<span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>closure2(<span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>)
+</span></span></code></pre></div><p>至于应用，我第一个想到的就是python中各种装饰器了。</p>
 		</div>
 		<footer class="post__footer">
 			
@@ -210,7 +210,7 @@ closure2(<span style="color:#f92672">-</span><span style="color:#ae81ff">10</spa
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

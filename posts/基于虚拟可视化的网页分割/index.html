@@ -126,50 +126,50 @@ if (!doNotTrack) {
 <p>当构建聚类模型时，我们发现一个主要的特性就是每一个块最左边和最右边的像素位置。确实，如果你看一个页面，不同的内容块会被垂直空隙分割。</p>
 <p>添加每个元素块的中心位置和DOM深度提高了聚类效果。</p>
 <p>下面是第一个python版本实现那些概念，使用<code>scikit-learn</code>执行聚类。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#f92672">from</span> sklearn.cluster <span style="color:#f92672">import</span> DBSCAN <span style="color:#75715e"># Use scikit-learn to perform clustering</span>
-
-<span style="color:#75715e"># ElementList contains a line for each element we want to cluster with his top and left position, width and eight and xpath</span>
-
-xpath_dict <span style="color:#f92672">=</span> set() <span style="color:#75715e"># Build a dictionnary of XPATH of each element</span>
-<span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> ElementList:
-    path_split_idx <span style="color:#f92672">=</span> find(item[<span style="color:#e6db74">&#34;xpath&#34;</span>],<span style="color:#e6db74">&#34;/&#34;</span>)
-    <span style="color:#66d9ef">for</span> idx <span style="color:#f92672">in</span> path_split_idx:
-        xpath_dict<span style="color:#f92672">.</span>add(item[<span style="color:#e6db74">&#34;xpath&#34;</span>][:idx])
-xpath_dict<span style="color:#f92672">=</span>list(xpath_dict)
-
-<span style="color:#75715e"># Build feature matrix with each element</span>
-
-features <span style="color:#f92672">=</span> [] <span style="color:#75715e"># Table will store features for each element to cluster</span>
-<span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> ElementList:
-    <span style="color:#75715e"># Keep only inside browser visual boundary</span>
-    <span style="color:#66d9ef">if</span> (item[<span style="color:#e6db74">&#34;left&#34;</span>] <span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> (item[<span style="color:#e6db74">&#34;top&#34;</span>] <span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>
-        <span style="color:#f92672">and</span> item[<span style="color:#e6db74">&#34;features&#34;</span>][<span style="color:#e6db74">&#34;left&#34;</span>]<span style="color:#f92672">+</span>item[<span style="color:#e6db74">&#34;width&#34;</span>] <span style="color:#f92672">&lt;</span><span style="color:#ae81ff">1200</span>):
-        visual_features <span style="color:#f92672">=</span> (
-            [item[<span style="color:#e6db74">&#34;left&#34;</span>] ,
-            item[<span style="color:#e6db74">&#34;left&#34;</span>] <span style="color:#f92672">+</span> item[<span style="color:#e6db74">&#34;width&#34;</span>],
-            item[<span style="color:#e6db74">&#34;top&#34;</span>],
-            item[<span style="color:#e6db74">&#34;top&#34;</span>] <span style="color:#f92672">+</span> item[<span style="color:#e6db74">&#34;height&#34;</span>],
-            (item[<span style="color:#e6db74">&#34;left&#34;</span>] <span style="color:#f92672">+</span> item[<span style="color:#e6db74">&#34;width&#34;</span>] <span style="color:#f92672">+</span> item[<span style="color:#e6db74">&#34;left&#34;</span>]) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>,
-            (item[<span style="color:#e6db74">&#34;top&#34;</span>] <span style="color:#f92672">+</span> item[<span style="color:#e6db74">&#34;top&#34;</span>] <span style="color:#f92672">+</span> item[<span style="color:#e6db74">&#34;height2&#34;</span>])<span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>)
-        dom_features <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> len(xpath_dict) <span style="color:#75715e"># using DOM parent presence as a feature. Default as 0</span>
-        path_split_idx <span style="color:#f92672">=</span> find(item[<span style="color:#e6db74">&#34;xpath&#34;</span>], <span style="color:#e6db74">&#34;/&#34;</span>)
-
-        <span style="color:#66d9ef">for</span> i, idx <span style="color:#f92672">in</span> enumerate(path_split_idx):
-            <span style="color:#75715e"># give an empirical 70 pixels distance weight to each level of the DOM (far from perfect implementation)</span>
-            dom_features[xpath_dict<span style="color:#f92672">.</span>index(item[<span style="color:#e6db74">&#34;xpath&#34;</span>][:idx])] <span style="color:#f92672">=</span> <span style="color:#ae81ff">800</span> <span style="color:#f92672">/</span> (i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
-
-        <span style="color:#75715e"># create feature vector combining visual and DOM features</span>
-        feayures<span style="color:#f92672">.</span>append(visual_features <span style="color:#f92672">+</span> dom_features)
-
-features <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>asarray(features) <span style="color:#75715e"># Convert to numpy array to make DBSCAN work</span>
-
-<span style="color:#75715e"># DBSCAN is a good general clustering algorithm</span>
-eps_value<span style="color:#f92672">=</span><span style="color:#ae81ff">900</span> <span style="color:#75715e"># maximum distance between clusters</span>
-db <span style="color:#f92672">=</span> DBSCAN(eps<span style="color:#f92672">=</span>eps_value, min_samples<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, metric<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;cityblock&#39;</span>)<span style="color:#f92672">.</span>fit(features)
-
-<span style="color:#75715e"># DBSCAN Algorithm returns a label for each vector of input array</span>
-labels <span style="color:#f92672">=</span> db<span style="color:#f92672">.</span>labels_
-</code></pre></div><p>上面的算法远不算完美，但是一个好的开始当尝试聚类视觉块时候。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.cluster <span style="color:#f92672">import</span> DBSCAN <span style="color:#75715e"># Use scikit-learn to perform clustering</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ElementList contains a line for each element we want to cluster with his top and left position, width and eight and xpath</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>xpath_dict <span style="color:#f92672">=</span> set() <span style="color:#75715e"># Build a dictionnary of XPATH of each element</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> ElementList:
+</span></span><span style="display:flex;"><span>    path_split_idx <span style="color:#f92672">=</span> find(item[<span style="color:#e6db74">&#34;xpath&#34;</span>],<span style="color:#e6db74">&#34;/&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> idx <span style="color:#f92672">in</span> path_split_idx:
+</span></span><span style="display:flex;"><span>        xpath_dict<span style="color:#f92672">.</span>add(item[<span style="color:#e6db74">&#34;xpath&#34;</span>][:idx])
+</span></span><span style="display:flex;"><span>xpath_dict<span style="color:#f92672">=</span>list(xpath_dict)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Build feature matrix with each element</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>features <span style="color:#f92672">=</span> [] <span style="color:#75715e"># Table will store features for each element to cluster</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> ElementList:
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Keep only inside browser visual boundary</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (item[<span style="color:#e6db74">&#34;left&#34;</span>] <span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> (item[<span style="color:#e6db74">&#34;top&#34;</span>] <span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">and</span> item[<span style="color:#e6db74">&#34;features&#34;</span>][<span style="color:#e6db74">&#34;left&#34;</span>]<span style="color:#f92672">+</span>item[<span style="color:#e6db74">&#34;width&#34;</span>] <span style="color:#f92672">&lt;</span><span style="color:#ae81ff">1200</span>):
+</span></span><span style="display:flex;"><span>        visual_features <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>            [item[<span style="color:#e6db74">&#34;left&#34;</span>] ,
+</span></span><span style="display:flex;"><span>            item[<span style="color:#e6db74">&#34;left&#34;</span>] <span style="color:#f92672">+</span> item[<span style="color:#e6db74">&#34;width&#34;</span>],
+</span></span><span style="display:flex;"><span>            item[<span style="color:#e6db74">&#34;top&#34;</span>],
+</span></span><span style="display:flex;"><span>            item[<span style="color:#e6db74">&#34;top&#34;</span>] <span style="color:#f92672">+</span> item[<span style="color:#e6db74">&#34;height&#34;</span>],
+</span></span><span style="display:flex;"><span>            (item[<span style="color:#e6db74">&#34;left&#34;</span>] <span style="color:#f92672">+</span> item[<span style="color:#e6db74">&#34;width&#34;</span>] <span style="color:#f92672">+</span> item[<span style="color:#e6db74">&#34;left&#34;</span>]) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>            (item[<span style="color:#e6db74">&#34;top&#34;</span>] <span style="color:#f92672">+</span> item[<span style="color:#e6db74">&#34;top&#34;</span>] <span style="color:#f92672">+</span> item[<span style="color:#e6db74">&#34;height2&#34;</span>])<span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>        dom_features <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> len(xpath_dict) <span style="color:#75715e"># using DOM parent presence as a feature. Default as 0</span>
+</span></span><span style="display:flex;"><span>        path_split_idx <span style="color:#f92672">=</span> find(item[<span style="color:#e6db74">&#34;xpath&#34;</span>], <span style="color:#e6db74">&#34;/&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i, idx <span style="color:#f92672">in</span> enumerate(path_split_idx):
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># give an empirical 70 pixels distance weight to each level of the DOM (far from perfect implementation)</span>
+</span></span><span style="display:flex;"><span>            dom_features[xpath_dict<span style="color:#f92672">.</span>index(item[<span style="color:#e6db74">&#34;xpath&#34;</span>][:idx])] <span style="color:#f92672">=</span> <span style="color:#ae81ff">800</span> <span style="color:#f92672">/</span> (i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># create feature vector combining visual and DOM features</span>
+</span></span><span style="display:flex;"><span>        feayures<span style="color:#f92672">.</span>append(visual_features <span style="color:#f92672">+</span> dom_features)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>features <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>asarray(features) <span style="color:#75715e"># Convert to numpy array to make DBSCAN work</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># DBSCAN is a good general clustering algorithm</span>
+</span></span><span style="display:flex;"><span>eps_value<span style="color:#f92672">=</span><span style="color:#ae81ff">900</span> <span style="color:#75715e"># maximum distance between clusters</span>
+</span></span><span style="display:flex;"><span>db <span style="color:#f92672">=</span> DBSCAN(eps<span style="color:#f92672">=</span>eps_value, min_samples<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, metric<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;cityblock&#39;</span>)<span style="color:#f92672">.</span>fit(features)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># DBSCAN Algorithm returns a label for each vector of input array</span>
+</span></span><span style="display:flex;"><span>labels <span style="color:#f92672">=</span> db<span style="color:#f92672">.</span>labels_
+</span></span></code></pre></div><p>上面的算法远不算完美，但是一个好的开始当尝试聚类视觉块时候。</p>
 <p>下面就是对上图进行聚类后的结果:</p>
 <p><img src="http://blog.mapado.com/wp-content/uploads/2013/12/branly-clustering.png" alt="img2"></p>
 <p>Ps.这13年的文章了，而且作者并没给出上述代码中某些缺失变量的解释。</p>
@@ -218,7 +218,7 @@ labels <span style="color:#f92672">=</span> db<span style="color:#f92672">.</spa
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

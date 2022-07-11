@@ -103,43 +103,43 @@ if (!doNotTrack) {
 <p>既然不知道跳转过程中网站到底干了写什么，那就直接上大杀器吧。</p>
 <p>phantomjs可以简单的理解为js解释器，selenium更不用多介绍了，用pip安装即可。
 从 <a href="http://phantomjs.org/download.html">http://phantomjs.org/download.html</a> 下载编译后的包（当然你可以自己下源码），解压后的bin目录中就是我们需要的东西。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> sys
-reload(sys)
-sys<span style="color:#f92672">.</span>setdefaultencoding(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
-<span style="color:#f92672">from</span> selenium <span style="color:#f92672">import</span> webdriver
-<span style="color:#f92672">from</span> selenium.webdriver.common.desired_capabilities <span style="color:#f92672">import</span> DesiredCapabilities
-<span style="color:#f92672">import</span> time
-<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
-    dcap <span style="color:#f92672">=</span> dict(DesiredCapabilities<span style="color:#f92672">.</span>PHANTOMJS)
-    dcap[<span style="color:#e6db74">&#34;phantomjs.page.settings.resourceTimeout&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>  <span style="color:#75715e"># 超时</span>
-    dcap[<span style="color:#e6db74">&#34;phantomjs.page.settings.loadImages&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
-    <span style="color:#75715e"># 伪造ua信息</span>
-    dcap[<span style="color:#e6db74">&#34;phantomjs.page.settings.userAgent&#34;</span>] <span style="color:#f92672">=</span> (<span style="color:#e6db74">&#34;myua&#34;</span>)
-
-    <span style="color:#75715e"># 添加头文件</span>
-    <span style="color:#75715e"># dcap[&#34;phantomjs.page.customHeaders.Referer&#34;] = (</span>
-    <span style="color:#75715e">#    &#34;https://www.google.com/&#34;</span>
-    <span style="color:#75715e">#)</span>
-    <span style="color:#75715e"># 代理</span>
-    service_args <span style="color:#f92672">=</span> [
-        <span style="color:#e6db74">&#39;--proxy=127.0.0.1:8080&#39;</span>,
-        <span style="color:#75715e">#&#39;--proxy-type=http&#39;,</span>
-        <span style="color:#75715e">#&#39;--proxy-type=socks5&#39;,</span>
-        <span style="color:#75715e">#&#39;--proxy-auth=username:password&#39;</span>
-    ]
-    driver <span style="color:#f92672">=</span> webdriver<span style="color:#f92672">.</span>PhantomJS(
-         executable_path<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;./phantomjs&#39;</span>,
-         service_args<span style="color:#f92672">=</span>service_args,
-         desired_capabilities<span style="color:#f92672">=</span>dcap
-    )
-    driver<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;http://www.xxx.cn/&#34;</span>)
-    driver<span style="color:#f92672">.</span>find_element_by_id(<span style="color:#e6db74">&#39;kw&#39;</span>)<span style="color:#f92672">.</span>send_keys(<span style="color:#e6db74">&#34;xxx&#34;</span>) <span style="color:#75715e">#模仿填写搜索内容</span>
-    driver<span style="color:#f92672">.</span>find_element_by_id(<span style="color:#e6db74">&#34;btn_ci&#34;</span>)<span style="color:#f92672">.</span>click() <span style="color:#75715e">#模仿点击搜索按钮</span>
-    time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">7</span>)<span style="color:#75715e">#等待页面加载</span>
-    page <span style="color:#f92672">=</span> driver<span style="color:#f92672">.</span>page_source
-    open(<span style="color:#e6db74">&#34;res.html&#34;</span>,<span style="color:#e6db74">&#34;w&#34;</span>)<span style="color:#f92672">.</span>write(page)
-    driver<span style="color:#f92672">.</span>quit()
-</code></pre></div><p>其中，我的源码直接放在了bin目录，所以executable_path直接指向当前目录，find_element_by_id这个查看目标网站源码就能知道，sleep的时间也要根据实际情况修改。这里也可以使用driver.implicitly_wait(<!-- raw HTML omitted -->30<!-- raw HTML omitted -->)，不过这个网站的数据id都是随机生成的，所以我直接使用sleep了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> sys
+</span></span><span style="display:flex;"><span>reload(sys)
+</span></span><span style="display:flex;"><span>sys<span style="color:#f92672">.</span>setdefaultencoding(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> selenium <span style="color:#f92672">import</span> webdriver
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> selenium.webdriver.common.desired_capabilities <span style="color:#f92672">import</span> DesiredCapabilities
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> time
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    dcap <span style="color:#f92672">=</span> dict(DesiredCapabilities<span style="color:#f92672">.</span>PHANTOMJS)
+</span></span><span style="display:flex;"><span>    dcap[<span style="color:#e6db74">&#34;phantomjs.page.settings.resourceTimeout&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>  <span style="color:#75715e"># 超时</span>
+</span></span><span style="display:flex;"><span>    dcap[<span style="color:#e6db74">&#34;phantomjs.page.settings.loadImages&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 伪造ua信息</span>
+</span></span><span style="display:flex;"><span>    dcap[<span style="color:#e6db74">&#34;phantomjs.page.settings.userAgent&#34;</span>] <span style="color:#f92672">=</span> (<span style="color:#e6db74">&#34;myua&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 添加头文件</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># dcap[&#34;phantomjs.page.customHeaders.Referer&#34;] = (</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#    &#34;https://www.google.com/&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 代理</span>
+</span></span><span style="display:flex;"><span>    service_args <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;--proxy=127.0.0.1:8080&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#&#39;--proxy-type=http&#39;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#&#39;--proxy-type=socks5&#39;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#&#39;--proxy-auth=username:password&#39;</span>
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>    driver <span style="color:#f92672">=</span> webdriver<span style="color:#f92672">.</span>PhantomJS(
+</span></span><span style="display:flex;"><span>         executable_path<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;./phantomjs&#39;</span>,
+</span></span><span style="display:flex;"><span>         service_args<span style="color:#f92672">=</span>service_args,
+</span></span><span style="display:flex;"><span>         desired_capabilities<span style="color:#f92672">=</span>dcap
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    driver<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;http://www.xxx.cn/&#34;</span>)
+</span></span><span style="display:flex;"><span>    driver<span style="color:#f92672">.</span>find_element_by_id(<span style="color:#e6db74">&#39;kw&#39;</span>)<span style="color:#f92672">.</span>send_keys(<span style="color:#e6db74">&#34;xxx&#34;</span>) <span style="color:#75715e">#模仿填写搜索内容</span>
+</span></span><span style="display:flex;"><span>    driver<span style="color:#f92672">.</span>find_element_by_id(<span style="color:#e6db74">&#34;btn_ci&#34;</span>)<span style="color:#f92672">.</span>click() <span style="color:#75715e">#模仿点击搜索按钮</span>
+</span></span><span style="display:flex;"><span>    time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">7</span>)<span style="color:#75715e">#等待页面加载</span>
+</span></span><span style="display:flex;"><span>    page <span style="color:#f92672">=</span> driver<span style="color:#f92672">.</span>page_source
+</span></span><span style="display:flex;"><span>    open(<span style="color:#e6db74">&#34;res.html&#34;</span>,<span style="color:#e6db74">&#34;w&#34;</span>)<span style="color:#f92672">.</span>write(page)
+</span></span><span style="display:flex;"><span>    driver<span style="color:#f92672">.</span>quit()
+</span></span></code></pre></div><p>其中，我的源码直接放在了bin目录，所以executable_path直接指向当前目录，find_element_by_id这个查看目标网站源码就能知道，sleep的时间也要根据实际情况修改。这里也可以使用driver.implicitly_wait(<!-- raw HTML omitted -->30<!-- raw HTML omitted -->)，不过这个网站的数据id都是随机生成的，所以我直接使用sleep了。</p>
 <p>参考网站：</p>
 <p><a href="http://phantomjs.org/quick-start.html">http://phantomjs.org/quick-start.html</a></p>
 <p><a href="http://blog.chinaunix.net/uid-22414998-id-3692113.html">http://blog.chinaunix.net/uid-22414998-id-3692113.html</a></p>
@@ -191,7 +191,7 @@ sys<span style="color:#f92672">.</span>setdefaultencoding(<span style="color:#e6
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

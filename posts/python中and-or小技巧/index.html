@@ -99,44 +99,44 @@ if (!doNotTrack) {
 			<p>首先，python中逻辑运算从左到右进行，and运算返回第一个假值，若都为真则返回最后一个真值。or运算返回第一个真值，若都为假则返回最后一个假值。</p>
 <p>其次，python中0,(),[],{},None,空字符串都是假。</p>
 <p>下面用简单的例子说明一下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">f</span>():
-    print <span style="color:#e6db74">&#34;in f&#34;</span>
-    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">t</span>():
-    print <span style="color:#e6db74">&#34;in t&#34;</span>
-    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">n</span>():
-    print <span style="color:#e6db74">&#34;in n&#34;</span>
-In [<span style="color:#ae81ff">105</span>]: r <span style="color:#f92672">=</span> t() <span style="color:#f92672">and</span> f() <span style="color:#f92672">or</span> n()
-<span style="color:#f92672">in</span> t
-<span style="color:#f92672">in</span> f
-<span style="color:#f92672">in</span> n
-In [<span style="color:#ae81ff">106</span>]: r
-In [<span style="color:#ae81ff">107</span>]: r <span style="color:#f92672">=</span> t() <span style="color:#f92672">and</span> n() <span style="color:#f92672">or</span> f()
-<span style="color:#f92672">in</span> t
-<span style="color:#f92672">in</span> n
-<span style="color:#f92672">in</span> f
-In [<span style="color:#ae81ff">108</span>]: r
-Out[<span style="color:#ae81ff">108</span>]: <span style="color:#66d9ef">False</span>
-In [<span style="color:#ae81ff">111</span>]: r <span style="color:#f92672">=</span> f() <span style="color:#f92672">and</span> n() <span style="color:#f92672">or</span> t()
-<span style="color:#f92672">in</span> f
-<span style="color:#f92672">in</span> t
-In [<span style="color:#ae81ff">112</span>]: r
-Out[<span style="color:#ae81ff">112</span>]: <span style="color:#66d9ef">True</span>
-</code></pre></div><p>上面我们定义了3个函数，没返回值的情况下函数会默认返回None。这里有个地方需要注意，虽然函数可以返回true、false、none，但函数本身都是为真的，比如：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">127</span>]: rr <span style="color:#f92672">=</span> f <span style="color:#f92672">and</span> t <span style="color:#f92672">or</span> n
-In [<span style="color:#ae81ff">128</span>]: rr
-Out[<span style="color:#ae81ff">128</span>]: <span style="color:#f92672">&lt;</span>function __main__<span style="color:#f92672">.</span>t<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">&gt;</span>
-In [<span style="color:#ae81ff">129</span>]: rr <span style="color:#f92672">=</span> f <span style="color:#f92672">and</span> n <span style="color:#f92672">or</span> t
-In [<span style="color:#ae81ff">130</span>]: rr
-Out[<span style="color:#ae81ff">130</span>]: <span style="color:#f92672">&lt;</span>function __main__<span style="color:#f92672">.</span>n<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">&gt;</span>
-<span style="color:#f92672">&lt;/</span>function<span style="color:#f92672">&gt;&lt;/</span>function<span style="color:#f92672">&gt;</span>
-</code></pre></div><p>再举个《python简明教程》的例子：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">processFunc <span style="color:#f92672">=</span> collapse <span style="color:#f92672">and</span> (<span style="color:#66d9ef">lambda</span> s: <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">.</span>join(s<span style="color:#f92672">.</span>split())) <span style="color:#f92672">or</span> (<span style="color:#66d9ef">lambda</span> s: s)
-</code></pre></div><p>processFunc 现在是一个函数，但是它到底是哪一个函数还要取决于 collapse 变量。如果 collapse 为真，processFunc(string) 将压缩空白；否则 processFunc(string) 将返回未改变的参数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">f</span>():
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#34;in f&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">t</span>():
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#34;in t&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">n</span>():
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#34;in n&#34;</span>
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">105</span>]: r <span style="color:#f92672">=</span> t() <span style="color:#f92672">and</span> f() <span style="color:#f92672">or</span> n()
+</span></span><span style="display:flex;"><span><span style="color:#f92672">in</span> t
+</span></span><span style="display:flex;"><span><span style="color:#f92672">in</span> f
+</span></span><span style="display:flex;"><span><span style="color:#f92672">in</span> n
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">106</span>]: r
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">107</span>]: r <span style="color:#f92672">=</span> t() <span style="color:#f92672">and</span> n() <span style="color:#f92672">or</span> f()
+</span></span><span style="display:flex;"><span><span style="color:#f92672">in</span> t
+</span></span><span style="display:flex;"><span><span style="color:#f92672">in</span> n
+</span></span><span style="display:flex;"><span><span style="color:#f92672">in</span> f
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">108</span>]: r
+</span></span><span style="display:flex;"><span>Out[<span style="color:#ae81ff">108</span>]: <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">111</span>]: r <span style="color:#f92672">=</span> f() <span style="color:#f92672">and</span> n() <span style="color:#f92672">or</span> t()
+</span></span><span style="display:flex;"><span><span style="color:#f92672">in</span> f
+</span></span><span style="display:flex;"><span><span style="color:#f92672">in</span> t
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">112</span>]: r
+</span></span><span style="display:flex;"><span>Out[<span style="color:#ae81ff">112</span>]: <span style="color:#66d9ef">True</span>
+</span></span></code></pre></div><p>上面我们定义了3个函数，没返回值的情况下函数会默认返回None。这里有个地方需要注意，虽然函数可以返回true、false、none，但函数本身都是为真的，比如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>In [<span style="color:#ae81ff">127</span>]: rr <span style="color:#f92672">=</span> f <span style="color:#f92672">and</span> t <span style="color:#f92672">or</span> n
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">128</span>]: rr
+</span></span><span style="display:flex;"><span>Out[<span style="color:#ae81ff">128</span>]: <span style="color:#f92672">&lt;</span>function __main__<span style="color:#f92672">.</span>t<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">129</span>]: rr <span style="color:#f92672">=</span> f <span style="color:#f92672">and</span> n <span style="color:#f92672">or</span> t
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">130</span>]: rr
+</span></span><span style="display:flex;"><span>Out[<span style="color:#ae81ff">130</span>]: <span style="color:#f92672">&lt;</span>function __main__<span style="color:#f92672">.</span>n<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/</span>function<span style="color:#f92672">&gt;&lt;/</span>function<span style="color:#f92672">&gt;</span>
+</span></span></code></pre></div><p>再举个《python简明教程》的例子：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>processFunc <span style="color:#f92672">=</span> collapse <span style="color:#f92672">and</span> (<span style="color:#66d9ef">lambda</span> s: <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">.</span>join(s<span style="color:#f92672">.</span>split())) <span style="color:#f92672">or</span> (<span style="color:#66d9ef">lambda</span> s: s)
+</span></span></code></pre></div><p>processFunc 现在是一个函数，但是它到底是哪一个函数还要取决于 collapse 变量。如果 collapse 为真，processFunc(string) 将压缩空白；否则 processFunc(string) 将返回未改变的参数。</p>
 <p>假设我们有一个对象，我们需要先判断这个对象是否存在，如果存在的话则取它的id，就可以这么写:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">pid <span style="color:#f92672">=</span> user <span style="color:#f92672">and</span> user<span style="color:#f92672">.</span>id <span style="color:#f92672">or</span> <span style="color:#66d9ef">False</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pid <span style="color:#f92672">=</span> user <span style="color:#f92672">and</span> user<span style="color:#f92672">.</span>id <span style="color:#f92672">or</span> <span style="color:#66d9ef">False</span>
+</span></span></code></pre></div>
 		</div>
 		<footer class="post__footer">
 			
@@ -182,7 +182,7 @@ Out[<span style="color:#ae81ff">130</span>]: <span style="color:#f92672">&lt;</s
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

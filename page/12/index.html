@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
-	<meta name="generator" content="Hugo 0.88.1" />
+	<meta name="generator" content="Hugo 0.101.0" />
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -79,6 +79,30 @@ if (!doNotTrack) {
 	<article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB5/" rel="bookmark">
+			python验证码识别5:滴水算法补充
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-09-26T15:51:23Z">2017-09-26</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		关于之前说的滴水算法，一直以为看不懂是因为智商不够，直到上周腾出时间看了原版论文才恍然大悟……之前看的都是“残篇”，怪不得很多地方看的都稀里糊涂的！
+所以有英语能力的还是要看一手资料才行啊！否则看二手甚至多手的东西有时候会让人怀疑智商。
+这里原版的论文链接 提供给各位，60280.pdf是最最原版的滴水算法，dropfall.pdf是经过改造的《基于惯性的滴水算法》和《基于惯性的大滴水算法》。另外改造版的算法是国人发表的，看的时候一种自豪感油然而生，虽然我也不知道自豪个什么劲……
+基于惯性的滴水算法为了解决传统滴水算法遇到有“毛边”的情况，在传统水滴算法基础上多考虑了之前一步的方向。比如周围5个点都是黑或者白时，传统算法是应该向下滴落，但如果之前一步的方向是向右，那么综合考虑后滴落方向就变成了右下。另外，在基于惯性的滴水算法中，“左”是受到“歧视”的。
+再进一步，对于类似字母Y这种凹陷情况，把判断范围扩大而不是仅仅考虑某一个像素点，就变成了基于惯性的大滴水算法了。
+另外，关于起始点的选择，原版论文中是从上到下、从左到右依次遍历所有像素，找到第一个 左侧为黑色像素、右侧有黑的像素的白色像素点 开始滴落（确实挺拗口，看论文中的图就明白了）。
+至于代码，先挖坑病好以后有空再和大家一起讨论分享。
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB4/" rel="bookmark">
 			python验证码识别4:滴水算法分割图片
 			</a>
@@ -145,14 +169,14 @@ if (!doNotTrack) {
 <p>使用GIMP打开图片后，按 <em>加号</em> 放大图片，然后点击<code>View-&gt;Show Grid</code>来显示网格线：</p>
 <!-- raw HTML omitted -->
 <p>其中，每个正方形边长为10像素，所以数字1切割坐标为左20、上20、右40、下70。以此类推可以知道剩下3个数字的切割位置。代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> PIL <span style="color:#f92672">import</span> Image
-p <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(<span style="color:#e6db74">&#34;1.png&#34;</span>)
-<span style="color:#75715e"># 注意位置顺序为左、上、右、下</span>
-cuts <span style="color:#f92672">=</span> [(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">40</span>,<span style="color:#ae81ff">70</span>),(<span style="color:#ae81ff">60</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">90</span>,<span style="color:#ae81ff">70</span>),(<span style="color:#ae81ff">100</span>,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">130</span>,<span style="color:#ae81ff">60</span>),(<span style="color:#ae81ff">140</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">170</span>,<span style="color:#ae81ff">50</span>)]
-<span style="color:#66d9ef">for</span> i,n <span style="color:#f92672">in</span> enumerate(cuts,<span style="color:#ae81ff">1</span>):
-    temp <span style="color:#f92672">=</span> p<span style="color:#f92672">.</span>crop(n) <span style="color:#75715e"># 调用crop函数进行切割</span>
-    temp<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#34;cut</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">.png&#34;</span> <span style="color:#f92672">%</span> i)
-</code></pre></div><p>切割后得到4张图片：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> PIL <span style="color:#f92672">import</span> Image
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(<span style="color:#e6db74">&#34;1.png&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 注意位置顺序为左、上、右、下</span>
+</span></span><span style="display:flex;"><span>cuts <span style="color:#f92672">=</span> [(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">40</span>,<span style="color:#ae81ff">70</span>),(<span style="color:#ae81ff">60</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">90</span>,<span style="color:#ae81ff">70</span>),(<span style="color:#ae81ff">100</span>,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">130</span>,<span style="color:#ae81ff">60</span>),(<span style="color:#ae81ff">140</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">170</span>,<span style="color:#ae81ff">50</span>)]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i,n <span style="color:#f92672">in</span> enumerate(cuts,<span style="color:#ae81ff">1</span>):
+</span></span><span style="display:flex;"><span>    temp <span style="color:#f92672">=</span> p<span style="color:#f92672">.</span>crop(n) <span style="color:#75715e"># 调用crop函数进行切割</span>
+</span></span><span style="display:flex;"><span>    temp<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#34;cut</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">.png&#34;</span> <span style="color:#f92672">%</span> i)
+</span></span></code></pre></div><p>切割后得到4张图片：</p>
 <!-- raw HTML omitted -->
 <p>那么，如果字符位置不固定怎么办呢？现在假设一种随机位置宽度、无粘连、无干扰线的情况。</p>
 	</div>
@@ -215,53 +239,30 @@ cuts <span style="color:#f92672">=</span> [(<span style="color:#ae81ff">20</span
 	<div class="content list__excerpt post__content clearfix">
 		<p>最近面试了几家公司，各行各业的都有，涨了很多见识也发现了自己的技术盲点。这里来一个汇总简单纪录。</p>
 <h1 id="行列转换">行列转换</h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
-已知有一个二维列表(每一行的元素个数相同)<span style="color:#960050;background-color:#1e0010">，</span>写出函数对其行列转换并输出<span style="color:#960050;background-color:#1e0010">，</span>比如<span style="color:#960050;background-color:#1e0010">：</span>
-a <span style="color:#f92672">=</span> [[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>],
-     [<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>]]
-输出<span style="color:#960050;background-color:#1e0010">：</span>
-[
-[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>],
-[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>],
-[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>],
-[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>]
-]
-</code></pre></div><p>这里建议笔试时候尽量使用简单清晰的写法，让面试官一眼就能看出答案对错：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">convert</span>(alist):
-    result <span style="color:#f92672">=</span> []
-    <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(len(alist[<span style="color:#ae81ff">0</span>])):
-        tmp <span style="color:#f92672">=</span> []
-        <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(len(alist)):
-            tmp<span style="color:#f92672">.</span>append(alist[y][x])
-        result<span style="color:#f92672">.</span>append(tmp)
-    print result
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>已知有一个二维列表(每一行的元素个数相同)<span style="color:#960050;background-color:#1e0010">，</span>写出函数对其行列转换并输出<span style="color:#960050;background-color:#1e0010">，</span>比如<span style="color:#960050;background-color:#1e0010">：</span>
+</span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> [[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>],
+</span></span><span style="display:flex;"><span>     [<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>]]
+</span></span><span style="display:flex;"><span>输出<span style="color:#960050;background-color:#1e0010">：</span>
+</span></span><span style="display:flex;"><span>[
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>],
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>],
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>],
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><p>这里建议笔试时候尽量使用简单清晰的写法，让面试官一眼就能看出答案对错：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">convert</span>(alist):
+</span></span><span style="display:flex;"><span>    result <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(len(alist[<span style="color:#ae81ff">0</span>])):
+</span></span><span style="display:flex;"><span>        tmp <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(len(alist)):
+</span></span><span style="display:flex;"><span>            tmp<span style="color:#f92672">.</span>append(alist[y][x])
+</span></span><span style="display:flex;"><span>        result<span style="color:#f92672">.</span>append(tmp)
+</span></span><span style="display:flex;"><span>    print result
+</span></span></code></pre></div>
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/python%E9%9D%A2%E8%AF%95%E9%A2%982/">Read more…</a>
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/django%E4%B8%AD%E7%9A%84session%E5%92%8Ccookie/" rel="bookmark">
-			django中的Session和Cookie
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-07-28T11:55:08Z">2017-07-28</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>简单来说，Cookie和Session都是为了记录用户相关信息的方式，最大的区别就是Cookie在客户端记录而Session在服务端记录内容。</p>
-<p>那么Cookie和Session之间的联系是怎么建立的呢？换言之，当服务器接收到一个请求时候，根据什么来判断读取哪个Session的呢？</p>
-<p>对于Django默认情况来说，当用户登录后就可以发现Cookie里有一个<code>sessionid</code>的字段，根据这个key就可以取得在服务器端记录的详细内容。如果将这个字段删除，刷新页面就会发现变成未登录状态了。</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/django%E4%B8%AD%E7%9A%84session%E5%92%8Ccookie/">Read more…</a>
 	</div>
 </article>
 </main>
@@ -286,11 +287,11 @@ a <span style="color:#f92672">=</span> [[<span style="color:#ae81ff">1</span>,<s
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 		</ul>
 	</div>
 </div>
@@ -328,11 +329,11 @@ a <span style="color:#f92672">=</span> [[<span style="color:#ae81ff">1</span>,<s
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">132</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">30</span>
+				<span class="widget__counter widget__counter--bubble">31</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

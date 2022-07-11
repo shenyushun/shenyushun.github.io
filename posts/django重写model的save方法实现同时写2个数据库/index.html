@@ -96,50 +96,50 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<p>最近有个需求就是当执行save时需要把数据写入2个数据库，查看文档后发现直接重写save方法比较简单。</p>
 <p>首先建立2个测试数据库testa和testb，然后在settings中配置数据库：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">DATABASES <span style="color:#f92672">=</span> {
-    <span style="color:#e6db74">&#39;default&#39;</span>: {
-        <span style="color:#e6db74">&#39;ENGINE&#39;</span>: <span style="color:#e6db74">&#39;django.db.backends.mysql&#39;</span>,
-        <span style="color:#e6db74">&#39;NAME&#39;</span>: <span style="color:#e6db74">&#39;testa&#39;</span>,
-        <span style="color:#e6db74">&#39;USER&#39;</span>: <span style="color:#e6db74">&#39;root&#39;</span>,
-        <span style="color:#e6db74">&#39;PASSWORD&#39;</span>: <span style="color:#e6db74">&#39;asdasd&#39;</span>,
-        <span style="color:#e6db74">&#39;HOST&#39;</span>: <span style="color:#e6db74">&#39;192.168.0.17&#39;</span>,
-    },
-    <span style="color:#e6db74">&#39;testdb&#39;</span>: {
-        <span style="color:#e6db74">&#39;ENGINE&#39;</span>: <span style="color:#e6db74">&#39;django.db.backends.mysql&#39;</span>,
-        <span style="color:#e6db74">&#39;NAME&#39;</span>: <span style="color:#e6db74">&#39;testb&#39;</span>,
-        <span style="color:#e6db74">&#39;USER&#39;</span>: <span style="color:#e6db74">&#39;root&#39;</span>,
-        <span style="color:#e6db74">&#39;PASSWORD&#39;</span>: <span style="color:#e6db74">&#39;asdasd&#39;</span>,
-        <span style="color:#e6db74">&#39;HOST&#39;</span>: <span style="color:#e6db74">&#39;192.168.0.18&#39;</span>,
-    },
-}
-</code></pre></div><p>接下来定义model：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.db <span style="color:#f92672">import</span> models
-<span style="color:#75715e"># Create your models here.</span>
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ABCD</span>(models<span style="color:#f92672">.</span>Model):
-    name <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">200</span>, unique<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__unicode__</span>(self):
-        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>name)
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">save</span>(self, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
-        print <span style="color:#e6db74">&#34;save testa&#34;</span>
-        super(ABCD, self)<span style="color:#f92672">.</span>save(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
-        print <span style="color:#e6db74">&#34;save testb&#34;</span>
-        super(ABCD, self)<span style="color:#f92672">.</span>save(using<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;testdb&#34;</span>, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
-</code></pre></div><p>注意最后一行的using指定了写入哪个库中，接下来执行syncdb命令创建表，这里只会在default中创建，所以我们手动在testdb中创建表。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>DATABASES <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;default&#39;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;ENGINE&#39;</span>: <span style="color:#e6db74">&#39;django.db.backends.mysql&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;NAME&#39;</span>: <span style="color:#e6db74">&#39;testa&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;USER&#39;</span>: <span style="color:#e6db74">&#39;root&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;PASSWORD&#39;</span>: <span style="color:#e6db74">&#39;asdasd&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;HOST&#39;</span>: <span style="color:#e6db74">&#39;192.168.0.17&#39;</span>,
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;testdb&#39;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;ENGINE&#39;</span>: <span style="color:#e6db74">&#39;django.db.backends.mysql&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;NAME&#39;</span>: <span style="color:#e6db74">&#39;testb&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;USER&#39;</span>: <span style="color:#e6db74">&#39;root&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;PASSWORD&#39;</span>: <span style="color:#e6db74">&#39;asdasd&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;HOST&#39;</span>: <span style="color:#e6db74">&#39;192.168.0.18&#39;</span>,
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>接下来定义model：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.db <span style="color:#f92672">import</span> models
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create your models here.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ABCD</span>(models<span style="color:#f92672">.</span>Model):
+</span></span><span style="display:flex;"><span>    name <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">200</span>, unique<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__unicode__</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>name)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">save</span>(self, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+</span></span><span style="display:flex;"><span>        print <span style="color:#e6db74">&#34;save testa&#34;</span>
+</span></span><span style="display:flex;"><span>        super(ABCD, self)<span style="color:#f92672">.</span>save(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
+</span></span><span style="display:flex;"><span>        print <span style="color:#e6db74">&#34;save testb&#34;</span>
+</span></span><span style="display:flex;"><span>        super(ABCD, self)<span style="color:#f92672">.</span>save(using<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;testdb&#34;</span>, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
+</span></span></code></pre></div><p>注意最后一行的using指定了写入哪个库中，接下来执行syncdb命令创建表，这里只会在default中创建，所以我们手动在testdb中创建表。</p>
 <p>然后进入shell中测试一下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">%</span> python manage<span style="color:#f92672">.</span>py shell
-Python <span style="color:#ae81ff">2.7.8</span> (default, Nov <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">2014</span>, <span style="color:#ae81ff">08</span>:<span style="color:#ae81ff">19</span>:<span style="color:#ae81ff">18</span>)
-Type <span style="color:#e6db74">&#34;copyright&#34;</span>, <span style="color:#e6db74">&#34;credits&#34;</span> <span style="color:#f92672">or</span> <span style="color:#e6db74">&#34;license&#34;</span> <span style="color:#66d9ef">for</span> more information<span style="color:#f92672">.</span>
-IPython <span style="color:#ae81ff">2.3.0</span> <span style="color:#f92672">--</span> An enhanced Interactive Python<span style="color:#f92672">.</span>
-<span style="color:#960050;background-color:#1e0010">?</span>         <span style="color:#f92672">-&gt;</span> Introduction <span style="color:#f92672">and</span> overview of IPython<span style="color:#e6db74">&#39;s features.</span>
-<span style="color:#f92672">%</span>quickref <span style="color:#f92672">-&gt;</span> Quick reference<span style="color:#f92672">.</span>
-help      <span style="color:#f92672">-&gt;</span> Python<span style="color:#e6db74">&#39;s own help system.</span>
-object<span style="color:#960050;background-color:#1e0010">?</span>   <span style="color:#f92672">-&gt;</span> Details about <span style="color:#e6db74">&#39;object&#39;</span>, use <span style="color:#e6db74">&#39;object??&#39;</span> <span style="color:#66d9ef">for</span> extra details<span style="color:#f92672">.</span>
-In [<span style="color:#ae81ff">1</span>]: <span style="color:#f92672">from</span> abcd.models <span style="color:#f92672">import</span> ABCD
-In [<span style="color:#ae81ff">2</span>]: c <span style="color:#f92672">=</span> ABCD(name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;testc&#34;</span>)
-In [<span style="color:#ae81ff">3</span>]: c<span style="color:#f92672">.</span>save()
-save testa
-save testb
-</code></pre></div><p>再看数据库中，插入都成功了。这里可能产生的问题就是大量并发请求时造成主键的不一致，但对于写操作不频繁的情况下也是一种可以接受的选择。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">%</span> python manage<span style="color:#f92672">.</span>py shell
+</span></span><span style="display:flex;"><span>Python <span style="color:#ae81ff">2.7.8</span> (default, Nov <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">2014</span>, <span style="color:#ae81ff">08</span>:<span style="color:#ae81ff">19</span>:<span style="color:#ae81ff">18</span>)
+</span></span><span style="display:flex;"><span>Type <span style="color:#e6db74">&#34;copyright&#34;</span>, <span style="color:#e6db74">&#34;credits&#34;</span> <span style="color:#f92672">or</span> <span style="color:#e6db74">&#34;license&#34;</span> <span style="color:#66d9ef">for</span> more information<span style="color:#f92672">.</span>
+</span></span><span style="display:flex;"><span>IPython <span style="color:#ae81ff">2.3.0</span> <span style="color:#f92672">--</span> An enhanced Interactive Python<span style="color:#f92672">.</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">?</span>         <span style="color:#f92672">-&gt;</span> Introduction <span style="color:#f92672">and</span> overview of IPython<span style="color:#e6db74">&#39;s features.</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">%</span>quickref <span style="color:#f92672">-&gt;</span> Quick reference<span style="color:#f92672">.</span>
+</span></span><span style="display:flex;"><span>help      <span style="color:#f92672">-&gt;</span> Python<span style="color:#e6db74">&#39;s own help system.</span>
+</span></span><span style="display:flex;"><span>object<span style="color:#960050;background-color:#1e0010">?</span>   <span style="color:#f92672">-&gt;</span> Details about <span style="color:#e6db74">&#39;object&#39;</span>, use <span style="color:#e6db74">&#39;object??&#39;</span> <span style="color:#66d9ef">for</span> extra details<span style="color:#f92672">.</span>
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">1</span>]: <span style="color:#f92672">from</span> abcd.models <span style="color:#f92672">import</span> ABCD
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">2</span>]: c <span style="color:#f92672">=</span> ABCD(name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;testc&#34;</span>)
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">3</span>]: c<span style="color:#f92672">.</span>save()
+</span></span><span style="display:flex;"><span>save testa
+</span></span><span style="display:flex;"><span>save testb
+</span></span></code></pre></div><p>再看数据库中，插入都成功了。这里可能产生的问题就是大量并发请求时造成主键的不一致，但对于写操作不频繁的情况下也是一种可以接受的选择。</p>
 
 		</div>
 		<footer class="post__footer">
@@ -189,7 +189,7 @@ save testb
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

@@ -11,7 +11,7 @@
 <meta property="og:description" content="最近公司有个异地多机房数据同步需求，mysql原生支持双主同步，所以只能另寻他法，于是找到了Percona XtraDB Cluster。这个可以理解为给Mysql打了个补丁，以便支持多主同步。
 测试环境：centos 6.5
 IP分配:
- 192.168.0.154(DB) 192.168.0.152(DB) 192.168.0.153(DB) 192." />
+192.168.0.154(DB) 192.168.0.152(DB) 192.168.0.153(DB) 192.168.0.151(HA) 首先安装Percona XtraDB Cluster的源： yum install http://www." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/percona-xtradb-cluster-haproxy%E9%85%8D%E7%BD%AE/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2015-01-06T17:33:37+00:00" />
@@ -22,7 +22,7 @@ IP分配:
 <meta itemprop="description" content="最近公司有个异地多机房数据同步需求，mysql原生支持双主同步，所以只能另寻他法，于是找到了Percona XtraDB Cluster。这个可以理解为给Mysql打了个补丁，以便支持多主同步。
 测试环境：centos 6.5
 IP分配:
- 192.168.0.154(DB) 192.168.0.152(DB) 192.168.0.153(DB) 192."><meta itemprop="datePublished" content="2015-01-06T17:33:37+00:00" />
+192.168.0.154(DB) 192.168.0.152(DB) 192.168.0.153(DB) 192.168.0.151(HA) 首先安装Percona XtraDB Cluster的源： yum install http://www."><meta itemprop="datePublished" content="2015-01-06T17:33:37+00:00" />
 <meta itemprop="dateModified" content="2015-01-06T17:33:37+00:00" />
 <meta itemprop="wordCount" content="661">
 <meta itemprop="keywords" content="mysql," />
@@ -131,7 +131,7 @@ wsrep_sst_method=xtrabackup-v2
 # Cluster name
 wsrep_cluster_name=my_centos_cluster
 # Authentication forSST method----来做节点间数据同步的账号密码
-wsrep_sst_auth=&quot;root:asdasd&quot;
+wsrep_sst_auth=&#34;root:asdasd&#34;
 # Disabling symbolic-links is recommended to prevent assorted security risks
 symbolic-links=0
 [mysqld_safe]
@@ -144,7 +144,7 @@ Bootstrapping PXC (Percona XtraDB Cluster)Starting MySQL (Percona XtraDB Cluster
 </code></pre><p>然后根据配置文件修改用于同步的用户名和密码，由于是实验环境我偷懒直接使用root了：</p>
 <pre tabindex="0"><code>mysqladmin -u root password asdasd
 </code></pre><p>进入mysql终端后可以看当前信息：</p>
-<pre tabindex="0"><code>mysql&gt; show status like 'wsrep%';
+<pre tabindex="0"><code>mysql&gt; show status like &#39;wsrep%&#39;;
 +----------------------------+--------------------------------------+
 | Variable_name              | Value                                |
 +----------------------------+--------------------------------------+
@@ -206,7 +206,7 @@ global
    # to have these messages end up in /var/log/haproxy.log you will
    # need to:
    # 1) configure syslog to accept network log events.  This is done
-   #    by adding the '-r' option tothe SYSLOGD_OPTIONS in
+   #    by adding the &#39;-r&#39; option tothe SYSLOGD_OPTIONS in
    #    /etc/sysconfig/syslog
    # 2) configure local2 events to go to the /var/log/haproxy.log
    #   file. A line like thefollowing can be added to
@@ -225,7 +225,7 @@ global
    # turn on stats unix socket
    stats socket /var/lib/haproxy/stats
 #---------------------------------------------------------------------
-# common defaults that all the'listen' and 'backend' sections will
+# common defaults that all the&#39;listen&#39; and &#39;backend&#39; sections will
 # use if not designated in their block
 #---------------------------------------------------------------------
 defaults
@@ -261,8 +261,8 @@ listen status 192.168.0.151:8080
 <p>然后编辑/etc/services，添加</p>
 <pre tabindex="0"><code>mysqlchk        9200/tcp
 </code></pre><p>然后编辑/usr/bin/clustercheck，修改</p>
-<pre tabindex="0"><code>MYSQL_USERNAME=&quot;${1-root}&quot;
-MYSQL_PASSWORD=&quot;${2-asdasd}&quot;
+<pre tabindex="0"><code>MYSQL_USERNAME=&#34;${1-root}&#34;
+MYSQL_PASSWORD=&#34;${2-asdasd}&#34;
 </code></pre><p>这里我偷懒使用root，大家根据实际情况修改。保存后启动xinetd服务</p>
 <pre tabindex="0"><code>[root@test4 ~]# /etc/init.d/xinetd start
 Starting xinetd:                                           [  OK  ]
@@ -328,7 +328,7 @@ Percona XtraDB Cluster Node is synced.
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

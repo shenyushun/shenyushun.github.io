@@ -101,56 +101,56 @@ if (!doNotTrack) {
 </ol>
 <p>当只有一个被装饰者时，也可以吧Component和ConcreateComponent合并成一个，灵活运用而不要死板。</p>
 <p>示例代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> (
-	<span style="color:#e6db74">&#34;fmt&#34;</span>
-)
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Component</span> <span style="color:#66d9ef">interface</span> {
-	<span style="color:#a6e22e">show</span>()
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ConcreteComponent</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">ConcreteComponent</span>) <span style="color:#a6e22e">show</span>() {
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;This is %s\n&#34;</span>, <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">name</span>)
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Decorator</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">Component</span>
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Decorator</span>) <span style="color:#a6e22e">show</span>() {
-	<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">show</span>()
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Decorator</span>) <span style="color:#a6e22e">setComponent</span>(<span style="color:#a6e22e">com</span> <span style="color:#a6e22e">Component</span>) {
-	<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">c</span> = <span style="color:#a6e22e">com</span>
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ConcreteDecorator</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">d</span>   <span style="color:#a6e22e">Decorator</span>
-	<span style="color:#a6e22e">age</span> <span style="color:#66d9ef">int</span>
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ConcreteDecorator</span>) <span style="color:#a6e22e">show</span>() {
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;In ConcreteDecorator show func! im %d old!\n&#34;</span>, <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">age</span>)
-	<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">show</span>()
-}
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ConcreteDecorator</span>) <span style="color:#a6e22e">setComponent</span>(<span style="color:#a6e22e">com</span> <span style="color:#a6e22e">Component</span>) {
-	<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">setComponent</span>(<span style="color:#a6e22e">com</span>)
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ConcreteComponent</span>{<span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;tom&#34;</span>}
-	<span style="color:#a6e22e">cd</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ConcreteDecorator</span>{<span style="color:#a6e22e">age</span>: <span style="color:#ae81ff">10</span>}
-	<span style="color:#a6e22e">cd</span>.<span style="color:#a6e22e">setComponent</span>(<span style="color:#a6e22e">c</span>)
-	<span style="color:#a6e22e">cd</span>.<span style="color:#a6e22e">show</span>()
-}
-</code></pre></div><p>程序输出：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Component</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">show</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ConcreteComponent</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">ConcreteComponent</span>) <span style="color:#a6e22e">show</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;This is %s\n&#34;</span>, <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">name</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Decorator</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">Component</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Decorator</span>) <span style="color:#a6e22e">show</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">show</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Decorator</span>) <span style="color:#a6e22e">setComponent</span>(<span style="color:#a6e22e">com</span> <span style="color:#a6e22e">Component</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">c</span> = <span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ConcreteDecorator</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">d</span>   <span style="color:#a6e22e">Decorator</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">age</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ConcreteDecorator</span>) <span style="color:#a6e22e">show</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;In ConcreteDecorator show func! im %d old!\n&#34;</span>, <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">age</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">show</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ConcreteDecorator</span>) <span style="color:#a6e22e">setComponent</span>(<span style="color:#a6e22e">com</span> <span style="color:#a6e22e">Component</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">setComponent</span>(<span style="color:#a6e22e">com</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ConcreteComponent</span>{<span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;tom&#34;</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">cd</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ConcreteDecorator</span>{<span style="color:#a6e22e">age</span>: <span style="color:#ae81ff">10</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">cd</span>.<span style="color:#a6e22e">setComponent</span>(<span style="color:#a6e22e">c</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">cd</span>.<span style="color:#a6e22e">show</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>程序输出：</p>
 <pre tabindex="0"><code>In ConcreteDecorator show func! im 10 old!
 This is concrete_component
 </code></pre><h2 id="使用场景">使用场景</h2>
@@ -208,7 +208,7 @@ This is concrete_component
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

@@ -111,72 +111,72 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>使用requests来模拟HTTP请求本来是一件非常轻松的事情，比如上传图片来说，简单的几行代码即可：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> requests
-files <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;attachment_file&#39;</span>: (<span style="color:#e6db74">&#39;1.png&#39;</span>, open(<span style="color:#e6db74">&#39;1.png&#39;</span>, <span style="color:#e6db74">&#39;rb&#39;</span>), <span style="color:#e6db74">&#39;image/png&#39;</span>, {})}
-values <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;next&#39;</span>:<span style="color:#e6db74">&#34;http://www.xxxx.com/xxxx&#34;</span>}
-r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 成功</span>
-r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 失败</span>
-r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 失败</span>
-r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 失败</span>
-r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 失败</span>
-<span style="color:#f92672">...</span>
-</code></pre></div><p>不过我今天在调试一个django程序的时候却遇到了大坑————为了偷懒，我直接在<strong>ipython</strong>中执行了上述代码，第一次提交的时候一切正常，但第二次之后提交就怎么也通过不了django的form验证。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
+</span></span><span style="display:flex;"><span>files <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;attachment_file&#39;</span>: (<span style="color:#e6db74">&#39;1.png&#39;</span>, open(<span style="color:#e6db74">&#39;1.png&#39;</span>, <span style="color:#e6db74">&#39;rb&#39;</span>), <span style="color:#e6db74">&#39;image/png&#39;</span>, {})}
+</span></span><span style="display:flex;"><span>values <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;next&#39;</span>:<span style="color:#e6db74">&#34;http://www.xxxx.com/xxxx&#34;</span>}
+</span></span><span style="display:flex;"><span>r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 成功</span>
+</span></span><span style="display:flex;"><span>r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 失败</span>
+</span></span><span style="display:flex;"><span>r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 失败</span>
+</span></span><span style="display:flex;"><span>r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 失败</span>
+</span></span><span style="display:flex;"><span>r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values) <span style="color:#75715e"># 失败</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">...</span>
+</span></span></code></pre></div><p>不过我今天在调试一个django程序的时候却遇到了大坑————为了偷懒，我直接在<strong>ipython</strong>中执行了上述代码，第一次提交的时候一切正常，但第二次之后提交就怎么也通过不了django的form验证。</p>
 <p>验证部分的代码很简单：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">......</span>
-
-form <span style="color:#f92672">=</span> AttachmentForm(request<span style="color:#f92672">.</span>POST, request<span style="color:#f92672">.</span>FILES)
-<span style="color:#66d9ef">if</span> form<span style="color:#f92672">.</span>is_valid():
-    form<span style="color:#f92672">.</span>save(request, obj)
-    messages<span style="color:#f92672">.</span>success(request,_(<span style="color:#e6db74">&#39;Your attachment was uploaded.&#39;</span>))
-    <span style="color:#66d9ef">return</span> HttpResponseRedirect(next)
-
-<span style="color:#f92672">......</span>
-</code></pre></div><p>什么鬼！？怎么只有第一次成功提交？？？后面全失败？？只好一步一步的跟进到django源码中，发现问题出在<code>django/forms/fields.py</code>文件中:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">to_python</span>(self, data):
-    <span style="color:#66d9ef">if</span> data <span style="color:#f92672">in</span> validators<span style="color:#f92672">.</span>EMPTY_VALUES:
-        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
-
-    <span style="color:#75715e"># UploadedFile objects should have name and size attributes.</span>
-    <span style="color:#66d9ef">try</span>:
-        file_name <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>name
-        file_size <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>size
-    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">AttributeError</span>:
-        <span style="color:#66d9ef">raise</span> ValidationError(self<span style="color:#f92672">.</span>error_messages[<span style="color:#e6db74">&#39;invalid&#39;</span>])
-
-    <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>max_length <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span> <span style="color:#f92672">and</span> len(file_name) <span style="color:#f92672">&gt;</span> self<span style="color:#f92672">.</span>max_length:
-        error_values <span style="color:#f92672">=</span>  {<span style="color:#e6db74">&#39;max&#39;</span>: self<span style="color:#f92672">.</span>max_length, <span style="color:#e6db74">&#39;length&#39;</span>: len(file_name)}
-        <span style="color:#66d9ef">raise</span> ValidationError(self<span style="color:#f92672">.</span>error_messages[<span style="color:#e6db74">&#39;max_length&#39;</span>] <span style="color:#f92672">%</span> error_values)
-    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> file_name:
-        <span style="color:#66d9ef">raise</span> ValidationError(self<span style="color:#f92672">.</span>error_messages[<span style="color:#e6db74">&#39;invalid&#39;</span>])
-    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> self<span style="color:#f92672">.</span>allow_empty_file <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> file_size:
-        <span style="color:#66d9ef">raise</span> ValidationError(self<span style="color:#f92672">.</span>error_messages[<span style="color:#e6db74">&#39;empty&#39;</span>])
-
-    <span style="color:#66d9ef">return</span> data
-</code></pre></div><p>在第一次执行的时候，一切正常，这个data即<code>InMemoryUploadFile</code>文件类型，name、size就是我们上传的图片名、大小，而第二次执行post请求时候，发现<code>data.size</code>居然变成了0？！怪不得直接引发了<code>if not self.allow_empty_file and not file_size</code>这个判断的异常呢！</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">......</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>form <span style="color:#f92672">=</span> AttachmentForm(request<span style="color:#f92672">.</span>POST, request<span style="color:#f92672">.</span>FILES)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> form<span style="color:#f92672">.</span>is_valid():
+</span></span><span style="display:flex;"><span>    form<span style="color:#f92672">.</span>save(request, obj)
+</span></span><span style="display:flex;"><span>    messages<span style="color:#f92672">.</span>success(request,_(<span style="color:#e6db74">&#39;Your attachment was uploaded.&#39;</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> HttpResponseRedirect(next)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">......</span>
+</span></span></code></pre></div><p>什么鬼！？怎么只有第一次成功提交？？？后面全失败？？只好一步一步的跟进到django源码中，发现问题出在<code>django/forms/fields.py</code>文件中:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">to_python</span>(self, data):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> data <span style="color:#f92672">in</span> validators<span style="color:#f92672">.</span>EMPTY_VALUES:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># UploadedFile objects should have name and size attributes.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        file_name <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>name
+</span></span><span style="display:flex;"><span>        file_size <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>size
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">AttributeError</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">raise</span> ValidationError(self<span style="color:#f92672">.</span>error_messages[<span style="color:#e6db74">&#39;invalid&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>max_length <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span> <span style="color:#f92672">and</span> len(file_name) <span style="color:#f92672">&gt;</span> self<span style="color:#f92672">.</span>max_length:
+</span></span><span style="display:flex;"><span>        error_values <span style="color:#f92672">=</span>  {<span style="color:#e6db74">&#39;max&#39;</span>: self<span style="color:#f92672">.</span>max_length, <span style="color:#e6db74">&#39;length&#39;</span>: len(file_name)}
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">raise</span> ValidationError(self<span style="color:#f92672">.</span>error_messages[<span style="color:#e6db74">&#39;max_length&#39;</span>] <span style="color:#f92672">%</span> error_values)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> file_name:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">raise</span> ValidationError(self<span style="color:#f92672">.</span>error_messages[<span style="color:#e6db74">&#39;invalid&#39;</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> self<span style="color:#f92672">.</span>allow_empty_file <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> file_size:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">raise</span> ValidationError(self<span style="color:#f92672">.</span>error_messages[<span style="color:#e6db74">&#39;empty&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> data
+</span></span></code></pre></div><p>在第一次执行的时候，一切正常，这个data即<code>InMemoryUploadFile</code>文件类型，name、size就是我们上传的图片名、大小，而第二次执行post请求时候，发现<code>data.size</code>居然变成了0？！怪不得直接引发了<code>if not self.allow_empty_file and not file_size</code>这个判断的异常呢！</p>
 <p>由此可知，问题的核心并不出现在django对于表单验证的部分，而是出自发送请求的部分。不过发请求的部分代码很简单啊？分别输出了正常情况和错误情况requests发出的请求包，发现区别了：</p>
 <pre tabindex="0"><code>#正常情况
-In [28]: r = requests.post('http://www.xxxx.com/upload', files=files, data=values)
+In [28]: r = requests.post(&#39;http://www.xxxx.com/upload&#39;, files=files, data=values)
 In [29]: r.request.body
 
 
 #错误情况
-In [33]: r = requests.post('http://www.xxxx.com/upload', files=files, data=values)
+In [33]: r = requests.post(&#39;http://www.xxxx.com/upload&#39;, files=files, data=values)
 
 In [34]: r.request.body
-Out[34]: '--155322d3e780432bb06e58135e041c8f\r\nContent-Disposition: form-data; name=&quot;next&quot;\r\n\r\nhttp://www.xxxx.com/upload\r\n--155322d3e780432bb06e58135e041c8f\r\nContent-Disposition: form-data; name=&quot;attachment_file&quot;; filename=&quot;1.png&quot;\r\nContent-Type: image/png\r\n\r\n\r\n--155322d3e780432bb06e58135e041c8f--\r\n'
+Out[34]: &#39;--155322d3e780432bb06e58135e041c8f\r\nContent-Disposition: form-data; name=&#34;next&#34;\r\n\r\nhttp://www.xxxx.com/upload\r\n--155322d3e780432bb06e58135e041c8f\r\nContent-Disposition: form-data; name=&#34;attachment_file&#34;; filename=&#34;1.png&#34;\r\nContent-Type: image/png\r\n\r\n\r\n--155322d3e780432bb06e58135e041c8f--\r\n&#39;
 </code></pre><p>正常情况没输出，错误情况反而看着像正常情况下的输出？这不科学啊？</p>
 <p>结合以上2点，我隐约感觉问题出在数据的构造上，关键在于<code>files = {'attachment_file': ('1.png', open('1.png', 'rb'), 'image/png', {})}</code>这里，首先关于字典、列表这种可变类型作为函数的参数传递时候就需要特别注意，其次<code>open</code>函数打开了一个文件，那么哪里关闭文件了呢？</p>
 <p>带着这个怀疑，我把代码改写成：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fl <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#39;1.png&#39;</span>,<span style="color:#e6db74">&#39;rb&#39;</span>)
-files <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;attachment_file&#39;</span>: (<span style="color:#e6db74">&#39;1.png&#39;</span>, fl, <span style="color:#e6db74">&#39;image/png&#39;</span>, {})}
-r1 <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values)
-
-fl<span style="color:#f92672">.</span>close()
-
-fl <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#39;1.png&#39;</span>,<span style="color:#e6db74">&#39;rb&#39;</span>)
-files <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;attachment_file&#39;</span>: (<span style="color:#e6db74">&#39;1.png&#39;</span>, fl, <span style="color:#e6db74">&#39;image/png&#39;</span>, {})}
-r2 <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values)
-</code></pre></div><p>然后再执行，果然成功上传了2张图片。其实按照正常情况不会出现测试时候这种打开一张图片不停上传的情形，不过也正因为这样才会遇到如此有意思的问题。关于requests中files对象的处理代码在<code>models.py</code>文件中，有兴趣的读者可以自行调试。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fl <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#39;1.png&#39;</span>,<span style="color:#e6db74">&#39;rb&#39;</span>)
+</span></span><span style="display:flex;"><span>files <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;attachment_file&#39;</span>: (<span style="color:#e6db74">&#39;1.png&#39;</span>, fl, <span style="color:#e6db74">&#39;image/png&#39;</span>, {})}
+</span></span><span style="display:flex;"><span>r1 <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>fl<span style="color:#f92672">.</span>close()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>fl <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#39;1.png&#39;</span>,<span style="color:#e6db74">&#39;rb&#39;</span>)
+</span></span><span style="display:flex;"><span>files <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;attachment_file&#39;</span>: (<span style="color:#e6db74">&#39;1.png&#39;</span>, fl, <span style="color:#e6db74">&#39;image/png&#39;</span>, {})}
+</span></span><span style="display:flex;"><span>r2 <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;http://www.xxxx.com/upload&#39;</span>, files<span style="color:#f92672">=</span>files, data<span style="color:#f92672">=</span>values)
+</span></span></code></pre></div><p>然后再执行，果然成功上传了2张图片。其实按照正常情况不会出现测试时候这种打开一张图片不停上传的情形，不过也正因为这样才会遇到如此有意思的问题。关于requests中files对象的处理代码在<code>models.py</code>文件中，有兴趣的读者可以自行调试。</p>
 <p>另外，requests调用时上传文件名中不能包含中文，否则也不能通过django表单验证，这里也不深究原因了。</p>
 		</div>
 		<footer class="post__footer">
@@ -226,7 +226,7 @@ r2 <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</s
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

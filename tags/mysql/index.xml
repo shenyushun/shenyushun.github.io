@@ -62,7 +62,7 @@
       <description>最近公司有个异地多机房数据同步需求，mysql原生支持双主同步，所以只能另寻他法，于是找到了Percona XtraDB Cluster。这个可以理解为给Mysql打了个补丁，以便支持多主同步。
 测试环境：centos 6.5
 IP分配:
- 192.168.0.154(DB) 192.168.0.152(DB) 192.168.0.153(DB) 192.</description>
+192.168.0.154(DB) 192.168.0.152(DB) 192.168.0.153(DB) 192.168.0.151(HA) 首先安装Percona XtraDB Cluster的源： yum install http://www.</description>
     </item>
     
     <item>
@@ -93,7 +93,7 @@ posistion = &amp;#34;top&amp;#34; order = r&amp;#34;select id,p_name,p_explain,p
       
       <guid>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/</guid>
       <description>使用virtualenv虚拟环境的时候，mysql-python安装时报错：
-_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &amp;quot;my_config.</description>
+_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &amp;#34;my_config.</description>
     </item>
     
   </channel>

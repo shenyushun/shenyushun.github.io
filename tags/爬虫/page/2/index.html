@@ -119,14 +119,14 @@ if (!doNotTrack) {
 <p>使用GIMP打开图片后，按 <em>加号</em> 放大图片，然后点击<code>View-&gt;Show Grid</code>来显示网格线：</p>
 <!-- raw HTML omitted -->
 <p>其中，每个正方形边长为10像素，所以数字1切割坐标为左20、上20、右40、下70。以此类推可以知道剩下3个数字的切割位置。代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> PIL <span style="color:#f92672">import</span> Image
-p <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(<span style="color:#e6db74">&#34;1.png&#34;</span>)
-<span style="color:#75715e"># 注意位置顺序为左、上、右、下</span>
-cuts <span style="color:#f92672">=</span> [(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">40</span>,<span style="color:#ae81ff">70</span>),(<span style="color:#ae81ff">60</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">90</span>,<span style="color:#ae81ff">70</span>),(<span style="color:#ae81ff">100</span>,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">130</span>,<span style="color:#ae81ff">60</span>),(<span style="color:#ae81ff">140</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">170</span>,<span style="color:#ae81ff">50</span>)]
-<span style="color:#66d9ef">for</span> i,n <span style="color:#f92672">in</span> enumerate(cuts,<span style="color:#ae81ff">1</span>):
-    temp <span style="color:#f92672">=</span> p<span style="color:#f92672">.</span>crop(n) <span style="color:#75715e"># 调用crop函数进行切割</span>
-    temp<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#34;cut</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">.png&#34;</span> <span style="color:#f92672">%</span> i)
-</code></pre></div><p>切割后得到4张图片：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> PIL <span style="color:#f92672">import</span> Image
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(<span style="color:#e6db74">&#34;1.png&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 注意位置顺序为左、上、右、下</span>
+</span></span><span style="display:flex;"><span>cuts <span style="color:#f92672">=</span> [(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">40</span>,<span style="color:#ae81ff">70</span>),(<span style="color:#ae81ff">60</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">90</span>,<span style="color:#ae81ff">70</span>),(<span style="color:#ae81ff">100</span>,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">130</span>,<span style="color:#ae81ff">60</span>),(<span style="color:#ae81ff">140</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">170</span>,<span style="color:#ae81ff">50</span>)]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i,n <span style="color:#f92672">in</span> enumerate(cuts,<span style="color:#ae81ff">1</span>):
+</span></span><span style="display:flex;"><span>    temp <span style="color:#f92672">=</span> p<span style="color:#f92672">.</span>crop(n) <span style="color:#75715e"># 调用crop函数进行切割</span>
+</span></span><span style="display:flex;"><span>    temp<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#34;cut</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">.png&#34;</span> <span style="color:#f92672">%</span> i)
+</span></span></code></pre></div><p>切割后得到4张图片：</p>
 <!-- raw HTML omitted -->
 <p>那么，如果字符位置不固定怎么办呢？现在假设一种随机位置宽度、无粘连、无干扰线的情况。</p>
 	</div>
@@ -217,11 +217,11 @@ cuts <span style="color:#f92672">=</span> [(<span style="color:#ae81ff">20</span
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 		</ul>
 	</div>
 </div>
@@ -259,11 +259,11 @@ cuts <span style="color:#f92672">=</span> [(<span style="color:#ae81ff">20</span
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">132</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">30</span>
+				<span class="widget__counter widget__counter--bubble">31</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

@@ -93,94 +93,94 @@ if (!doNotTrack) {
 </div></div>
 		</header><div class="content post__content clearfix">
 			<p>看高手写出来的东西果然能学到很多阿！！昨天学到了如何用OptionParser生成命令行帮助信息，本来今天是要从中学习doctest使用的，不过却发现了这样一段代码：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> datetime
-<span style="color:#f92672">&gt;&gt;&gt;</span> logger <span style="color:#f92672">=</span> configLogger(<span style="color:#e6db74">&#39;test.log&#39;</span>)
-<span style="color:#f92672">&gt;&gt;&gt;</span> time <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>datetime<span style="color:#f92672">.</span>now()<span style="color:#f92672">.</span>strftime(<span style="color:#e6db74">&#34;%m</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">%H%M%S&#34;</span>)
-<span style="color:#f92672">&gt;&gt;&gt;</span> sq <span style="color:#f92672">=</span> mySqlite(<span style="color:#e6db74">&#39;test.db&#39;</span>, logger, <span style="color:#ae81ff">1</span>)
-<span style="color:#f92672">&gt;&gt;&gt;</span> table <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;d&#39;</span> <span style="color:#f92672">+</span> str(time)
-<span style="color:#f92672">&gt;&gt;&gt;</span> sq<span style="color:#f92672">.</span>create(table)
-<span style="color:#f92672">&gt;&gt;&gt;</span> tp <span style="color:#f92672">=</span> ThreadPool(<span style="color:#ae81ff">5</span>)
-<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">t</span>():<span style="color:#66d9ef">pass</span>
-<span style="color:#f92672">&gt;&gt;&gt;</span> t<span style="color:#f92672">.</span>depth<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
-<span style="color:#f92672">&gt;&gt;&gt;</span> t<span style="color:#f92672">.</span>urlpth<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;http://www.baidu.com&#39;</span>
-<span style="color:#f92672">&gt;&gt;&gt;</span> t<span style="color:#f92672">.</span>logfile <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;test.log&#39;</span>
-<span style="color:#f92672">&gt;&gt;&gt;</span> t<span style="color:#f92672">.</span>loglevel <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-<span style="color:#f92672">&gt;&gt;&gt;</span> t<span style="color:#f92672">.</span>dbpth <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;test.db&#39;</span>
-<span style="color:#f92672">&gt;&gt;&gt;</span> t<span style="color:#f92672">.</span>key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;test&#39;</span>
-<span style="color:#f92672">&gt;&gt;&gt;</span> d <span style="color:#f92672">=</span> Crawler(t, tp, table, logger)
-<span style="color:#f92672">&gt;&gt;&gt;</span> d<span style="color:#f92672">.</span>getPageSource(t<span style="color:#f92672">.</span>urlpth, t<span style="color:#f92672">.</span>key, t<span style="color:#f92672">.</span>depth)
-<span style="color:#66d9ef">True</span>
-</code></pre></div><p>doctest功能就是根据写的模仿终端输入的字符串来进行测试，猛一看到定义了一个函数并给函数添加属性最后当作参数传递时候十分不解，后来突然想起来 <strong>python中一切皆是对象</strong> 这句话后恍然大悟，这里作者把函数当作字典（或者说C中的结构体？）来用了！又学到一招，不过为什么他不直接传递个字典进去呢？等下午研究研究&hellip;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> datetime
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> logger <span style="color:#f92672">=</span> configLogger(<span style="color:#e6db74">&#39;test.log&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> time <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>datetime<span style="color:#f92672">.</span>now()<span style="color:#f92672">.</span>strftime(<span style="color:#e6db74">&#34;%m</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">%H%M%S&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> sq <span style="color:#f92672">=</span> mySqlite(<span style="color:#e6db74">&#39;test.db&#39;</span>, logger, <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> table <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;d&#39;</span> <span style="color:#f92672">+</span> str(time)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> sq<span style="color:#f92672">.</span>create(table)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> tp <span style="color:#f92672">=</span> ThreadPool(<span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">t</span>():<span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> t<span style="color:#f92672">.</span>depth<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> t<span style="color:#f92672">.</span>urlpth<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;http://www.baidu.com&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> t<span style="color:#f92672">.</span>logfile <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;test.log&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> t<span style="color:#f92672">.</span>loglevel <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> t<span style="color:#f92672">.</span>dbpth <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;test.db&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> t<span style="color:#f92672">.</span>key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;test&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> d <span style="color:#f92672">=</span> Crawler(t, tp, table, logger)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> d<span style="color:#f92672">.</span>getPageSource(t<span style="color:#f92672">.</span>urlpth, t<span style="color:#f92672">.</span>key, t<span style="color:#f92672">.</span>depth)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">True</span>
+</span></span></code></pre></div><p>doctest功能就是根据写的模仿终端输入的字符串来进行测试，猛一看到定义了一个函数并给函数添加属性最后当作参数传递时候十分不解，后来突然想起来 <strong>python中一切皆是对象</strong> 这句话后恍然大悟，这里作者把函数当作字典（或者说C中的结构体？）来用了！又学到一招，不过为什么他不直接传递个字典进去呢？等下午研究研究&hellip;</p>
 <p>借此正好复习一下python中类对象、实例对象等基础知识吧，整理如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#coding=utf-8</span>
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">a</span>():
-    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-    <span style="color:#66d9ef">def</span> __init__(self):
-        self<span style="color:#f92672">.</span>cou <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-        self<span style="color:#f92672">.</span>__class__<span style="color:#f92672">.</span>count <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>__class__<span style="color:#f92672">.</span>count <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>  <span style="color:#75715e">#这里调用类属性</span>
-print dir(a)<span style="color:#75715e">#输出里没有cou</span>
-print <span style="color:#e6db74">&#34;~~~~~~~~~~~~~~~~&#34;</span>
-aa <span style="color:#f92672">=</span> a()
-aa<span style="color:#f92672">.</span>cou <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-print aa<span style="color:#f92672">.</span>cou
-print aa<span style="color:#f92672">.</span>count
-print a<span style="color:#f92672">.</span>count
-<span style="color:#75715e">#print a.cou  用self修饰的是实例变量，类无法调用</span>
-print dir(aa)
-print <span style="color:#e6db74">&#34;~~~~~~~~~~~~~~~~~~~~&#34;</span>
-ab <span style="color:#f92672">=</span> a()
-ab<span style="color:#f92672">.</span>cou <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
-print ab<span style="color:#f92672">.</span>cou
-print ab<span style="color:#f92672">.</span>count
-print a<span style="color:#f92672">.</span>count
-print dir(ab)
-print <span style="color:#e6db74">&#34;~~~~~~~~~~~~~~~~&#34;</span>
-ac <span style="color:#f92672">=</span> a()
-ac<span style="color:#f92672">.</span>cou <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
-print ac<span style="color:#f92672">.</span>cou
-print a<span style="color:#f92672">.</span>count
-ac<span style="color:#f92672">.</span>count <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>  <span style="color:#75715e">#由于这里修改了类的count属性，所以count变成了实例属性</span>
-print ac<span style="color:#f92672">.</span>count
-print a<span style="color:#f92672">.</span>count
-print dir(ac)
-print <span style="color:#e6db74">&#34;~~~~~~~~~~~~~~~~~&#34;</span>
-ad <span style="color:#f92672">=</span> a()
-print aa<span style="color:#f92672">.</span>count
-print ab<span style="color:#f92672">.</span>count
-print ac<span style="color:#f92672">.</span>count <span style="color:#75715e">#这里输出的不是4而是30，因为变成实例属性了，不再和其他实例公用类属性。</span>
-print <span style="color:#e6db74">&#34;~~~~~~~~~~~~~~~~~~~~&#34;</span>
-a<span style="color:#f92672">.</span>ex <span style="color:#f92672">=</span>  <span style="color:#ae81ff">0</span>  <span style="color:#75715e">#动态添加一个类属性，所有对象共用</span>
-print dir(a)
-print dir(aa)
-print dir(ab)
-print dir(ac)
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">prints</span>(self):    <span style="color:#75715e">#记得添加self参数,是实例才能调用</span>
-    print <span style="color:#e6db74">&#34;in class function&#34;</span>
-    print self<span style="color:#f92672">.</span>cou,self<span style="color:#f92672">.</span>ex
-a<span style="color:#f92672">.</span>prin <span style="color:#f92672">=</span> prints <span style="color:#75715e">#动态添加函数，共用</span>
-print dir(a)
-<span style="color:#75715e">#a.prin()  类无法调用</span>
-aa<span style="color:#f92672">.</span>prin()
-ab<span style="color:#f92672">.</span>prin()
-ac<span style="color:#f92672">.</span>prin()
-ad<span style="color:#f92672">.</span>prin <span style="color:#f92672">=</span> <span style="color:#66d9ef">lambda</span> : <span style="color:#e6db74">&#34;new function&#34;</span><span style="color:#75715e">#这里把实例方法变成了普通函数</span>
-print ad<span style="color:#f92672">.</span>prin()
-print dir(ad)
-print type(aa<span style="color:#f92672">.</span>prin)  <span style="color:#75715e">#&lt;type &#39;instancemethod&#39;&gt;</span>
-print type(ad<span style="color:#f92672">.</span>prin)  <span style="color:#75715e">#&lt;type &#39;function&#39;&gt;</span>
-print <span style="color:#e6db74">&#34;~~~~~~~~~~~~~~~~~~~&#34;</span>
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fun</span>():
-    <span style="color:#e6db74">&#39;&#39;&#39;is a function&#39;&#39;&#39;</span>
-    print <span style="color:#e6db74">&#34;in fun&#34;</span>
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">funs</span>():
-    print <span style="color:#e6db74">&#34;in funs&#34;</span>
-fun()  <span style="color:#75715e">#函数也是对象，可以动态添加属性,可以和原有的__doc__一类的属性对比。</span>
-print fun<span style="color:#f92672">.</span>___doc__
-fun<span style="color:#f92672">.</span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-print fun<span style="color:#f92672">.</span>x
-fun<span style="color:#f92672">.</span>pr <span style="color:#f92672">=</span> funs
-fun<span style="color:#f92672">.</span>pr()
-</code></pre></div><p>看样子基础还是不够牢固阿，得加强基础的复习哈～</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#coding=utf-8</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">a</span>():
+</span></span><span style="display:flex;"><span>    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>cou <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>__class__<span style="color:#f92672">.</span>count <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>__class__<span style="color:#f92672">.</span>count <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>  <span style="color:#75715e">#这里调用类属性</span>
+</span></span><span style="display:flex;"><span>print dir(a)<span style="color:#75715e">#输出里没有cou</span>
+</span></span><span style="display:flex;"><span>print <span style="color:#e6db74">&#34;~~~~~~~~~~~~~~~~&#34;</span>
+</span></span><span style="display:flex;"><span>aa <span style="color:#f92672">=</span> a()
+</span></span><span style="display:flex;"><span>aa<span style="color:#f92672">.</span>cou <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>print aa<span style="color:#f92672">.</span>cou
+</span></span><span style="display:flex;"><span>print aa<span style="color:#f92672">.</span>count
+</span></span><span style="display:flex;"><span>print a<span style="color:#f92672">.</span>count
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#print a.cou  用self修饰的是实例变量，类无法调用</span>
+</span></span><span style="display:flex;"><span>print dir(aa)
+</span></span><span style="display:flex;"><span>print <span style="color:#e6db74">&#34;~~~~~~~~~~~~~~~~~~~~&#34;</span>
+</span></span><span style="display:flex;"><span>ab <span style="color:#f92672">=</span> a()
+</span></span><span style="display:flex;"><span>ab<span style="color:#f92672">.</span>cou <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>print ab<span style="color:#f92672">.</span>cou
+</span></span><span style="display:flex;"><span>print ab<span style="color:#f92672">.</span>count
+</span></span><span style="display:flex;"><span>print a<span style="color:#f92672">.</span>count
+</span></span><span style="display:flex;"><span>print dir(ab)
+</span></span><span style="display:flex;"><span>print <span style="color:#e6db74">&#34;~~~~~~~~~~~~~~~~&#34;</span>
+</span></span><span style="display:flex;"><span>ac <span style="color:#f92672">=</span> a()
+</span></span><span style="display:flex;"><span>ac<span style="color:#f92672">.</span>cou <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>print ac<span style="color:#f92672">.</span>cou
+</span></span><span style="display:flex;"><span>print a<span style="color:#f92672">.</span>count
+</span></span><span style="display:flex;"><span>ac<span style="color:#f92672">.</span>count <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>  <span style="color:#75715e">#由于这里修改了类的count属性，所以count变成了实例属性</span>
+</span></span><span style="display:flex;"><span>print ac<span style="color:#f92672">.</span>count
+</span></span><span style="display:flex;"><span>print a<span style="color:#f92672">.</span>count
+</span></span><span style="display:flex;"><span>print dir(ac)
+</span></span><span style="display:flex;"><span>print <span style="color:#e6db74">&#34;~~~~~~~~~~~~~~~~~&#34;</span>
+</span></span><span style="display:flex;"><span>ad <span style="color:#f92672">=</span> a()
+</span></span><span style="display:flex;"><span>print aa<span style="color:#f92672">.</span>count
+</span></span><span style="display:flex;"><span>print ab<span style="color:#f92672">.</span>count
+</span></span><span style="display:flex;"><span>print ac<span style="color:#f92672">.</span>count <span style="color:#75715e">#这里输出的不是4而是30，因为变成实例属性了，不再和其他实例公用类属性。</span>
+</span></span><span style="display:flex;"><span>print <span style="color:#e6db74">&#34;~~~~~~~~~~~~~~~~~~~~&#34;</span>
+</span></span><span style="display:flex;"><span>a<span style="color:#f92672">.</span>ex <span style="color:#f92672">=</span>  <span style="color:#ae81ff">0</span>  <span style="color:#75715e">#动态添加一个类属性，所有对象共用</span>
+</span></span><span style="display:flex;"><span>print dir(a)
+</span></span><span style="display:flex;"><span>print dir(aa)
+</span></span><span style="display:flex;"><span>print dir(ab)
+</span></span><span style="display:flex;"><span>print dir(ac)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">prints</span>(self):    <span style="color:#75715e">#记得添加self参数,是实例才能调用</span>
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#34;in class function&#34;</span>
+</span></span><span style="display:flex;"><span>    print self<span style="color:#f92672">.</span>cou,self<span style="color:#f92672">.</span>ex
+</span></span><span style="display:flex;"><span>a<span style="color:#f92672">.</span>prin <span style="color:#f92672">=</span> prints <span style="color:#75715e">#动态添加函数，共用</span>
+</span></span><span style="display:flex;"><span>print dir(a)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#a.prin()  类无法调用</span>
+</span></span><span style="display:flex;"><span>aa<span style="color:#f92672">.</span>prin()
+</span></span><span style="display:flex;"><span>ab<span style="color:#f92672">.</span>prin()
+</span></span><span style="display:flex;"><span>ac<span style="color:#f92672">.</span>prin()
+</span></span><span style="display:flex;"><span>ad<span style="color:#f92672">.</span>prin <span style="color:#f92672">=</span> <span style="color:#66d9ef">lambda</span> : <span style="color:#e6db74">&#34;new function&#34;</span><span style="color:#75715e">#这里把实例方法变成了普通函数</span>
+</span></span><span style="display:flex;"><span>print ad<span style="color:#f92672">.</span>prin()
+</span></span><span style="display:flex;"><span>print dir(ad)
+</span></span><span style="display:flex;"><span>print type(aa<span style="color:#f92672">.</span>prin)  <span style="color:#75715e">#&lt;type &#39;instancemethod&#39;&gt;</span>
+</span></span><span style="display:flex;"><span>print type(ad<span style="color:#f92672">.</span>prin)  <span style="color:#75715e">#&lt;type &#39;function&#39;&gt;</span>
+</span></span><span style="display:flex;"><span>print <span style="color:#e6db74">&#34;~~~~~~~~~~~~~~~~~~~&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fun</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;is a function&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#34;in fun&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">funs</span>():
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#34;in funs&#34;</span>
+</span></span><span style="display:flex;"><span>fun()  <span style="color:#75715e">#函数也是对象，可以动态添加属性,可以和原有的__doc__一类的属性对比。</span>
+</span></span><span style="display:flex;"><span>print fun<span style="color:#f92672">.</span>___doc__
+</span></span><span style="display:flex;"><span>fun<span style="color:#f92672">.</span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>print fun<span style="color:#f92672">.</span>x
+</span></span><span style="display:flex;"><span>fun<span style="color:#f92672">.</span>pr <span style="color:#f92672">=</span> funs
+</span></span><span style="display:flex;"><span>fun<span style="color:#f92672">.</span>pr()
+</span></span></code></pre></div><p>看样子基础还是不够牢固阿，得加强基础的复习哈～</p>
 
 		</div>
 		<footer class="post__footer">
@@ -227,7 +227,7 @@ fun<span style="color:#f92672">.</span>pr()
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

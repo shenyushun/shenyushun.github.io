@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
-	<meta name="generator" content="Hugo 0.88.1" />
+	<meta name="generator" content="Hugo 0.101.0" />
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -77,6 +77,29 @@ if (!doNotTrack) {
 			
 <main class="main list" role="main">
 	<article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/fedora19%E5%AE%89%E8%A3%85cairo-dock/" rel="bookmark">
+			fedora19安装cairo-dock
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-17T21:52:48Z">2013-11-17</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		最近又把电脑折腾残废了，没办法，只好重安装系统。本来想告别fedora回到opensuse的怀抱，不过却发现opensuse下用zypper安装的软件版本都比较低，为了能和我已经编好的程序保持一致性，只好又换回fedora19。
+安装过程还算顺利，添加国内源、三方源后更新系统却发现
+错误：软件包：perl-PathTools-3.2701-1.el5.rf.x86_64 (rpmforge)需要：perl(VMS::Filespec)您可以尝试用 --skip-broken 来解决该问题您可以尝试运行： rpm -Va --nofiles --nodigest 即便安装了perl、使用了提示的命令也是不好使。折腾了很久都不知道结果，只好卸载了rpmforge源后问题解决。不过发现卸载了这个源后很多软件都yum找不到了&hellip;&hellip;直到刚才我才发现我居然用的是el5的架构&hellip;&hellip;眼残了阿&hellip;&hellip;而用yum erase rpmforge-release 这个命令居然把我的rpmfusion源也给删除了。不知道什么原理&hellip;&hellip;重新安rpmfusion源，却死活提示以经安装。
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/fedora19%E5%AE%89%E8%A3%85cairo-dock/">Read more…</a>
+	</div>
+</article><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
 			<a href="/posts/fedora19%E5%AE%89%E8%A3%85skype/" rel="bookmark">
@@ -184,33 +207,10 @@ import urllib2 import urllib import cookielib logurl = &#34;https://www.digikey.
 	<div class="content list__excerpt post__content clearfix">
 		如果我们再程序中写出一个会引发异常的代码，比如1/0，就会引发一个异常，程序中止。
 输出：
-Traceback (most recent call last):File &quot;trackbacks.py&quot;, line 1, in &lt;module&gt;1/0ZeroDivisionError: integer division or modulo by zeroShell 已返回1为了程序的健壮性，我们常常加入异常处理。
+Traceback (most recent call last):File &#34;trackbacks.py&#34;, line 1, in &lt;module&gt;1/0ZeroDivisionError: integer division or modulo by zeroShell 已返回1 为了程序的健壮性，我们常常加入异常处理。
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/python-traceback%E6%A8%A1%E5%9D%97/">Read more…</a>
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/python-lxml%E6%A8%A1%E5%9D%97/" rel="bookmark">
-			python lxml模块
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-13T18:11:17Z">2013-11-13</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		继续分析那个爬虫程序，今天从中学习了lxml模块的基本使用。这个模块用来解析XML、HTML内容，据说速度上秒杀了&quot;美丽的汤&quot;。
-官网： http://lxml.de/api/index.html
-#coding=utf-8 &#39;&#39;&#39; Created on 2013年11月13日 学习使用lxml @author: dear_shen &#39;&#39;&#39; from lxml import etree if __name__ == &#39;__main__&#39;: broken_str = &#39;&#39;&#39; &lt;!
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/python-lxml%E6%A8%A1%E5%9D%97/">Read more…</a>
 	</div>
 </article>
 </main>
@@ -235,11 +235,11 @@ Traceback (most recent call last):File &quot;trackbacks.py&quot;, line 1, in &l
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 		</ul>
 	</div>
 </div>
@@ -277,11 +277,11 @@ Traceback (most recent call last):File &quot;trackbacks.py&quot;, line 1, in &l
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">132</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">30</span>
+				<span class="widget__counter widget__counter--bubble">31</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

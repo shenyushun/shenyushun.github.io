@@ -6,7 +6,16 @@
     <description>Recent content in Tags on Hi~Roy!</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 14 Apr 2022 11:28:55 +0800</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 11 Jul 2022 14:26:27 +0800</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>golang</title>
+      <link>/tags/golang/</link>
+      <pubDate>Mon, 11 Jul 2022 14:26:27 +0800</pubDate>
+      
+      <guid>/tags/golang/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>iptables</title>
       <link>/tags/iptables/</link>
@@ -31,15 +40,6 @@
       <pubDate>Fri, 28 Jan 2022 15:15:03 +0800</pubDate>
       
       <guid>/tags/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>golang</title>
-      <link>/tags/golang/</link>
-      <pubDate>Tue, 02 Nov 2021 11:05:20 +0800</pubDate>
-      
-      <guid>/tags/golang/</guid>
       <description></description>
     </item>
     

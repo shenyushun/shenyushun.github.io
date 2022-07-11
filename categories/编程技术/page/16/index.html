@@ -80,6 +80,30 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/python%E4%B8%ADand-or%E5%B0%8F%E6%8A%80%E5%B7%A7/" rel="bookmark">
+			python中and-or小技巧
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-09-11T16:22:43Z">2014-09-11</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		首先，python中逻辑运算从左到右进行，and运算返回第一个假值，若都为真则返回最后一个真值。or运算返回第一个真值，若都为假则返回最后一个假值。
+其次，python中0,(),[],{},None,空字符串都是假。
+下面用简单的例子说明一下：
+def f(): print &#34;in f&#34; return False def t(): print &#34;in t&#34; return True def n(): print &#34;in n&#34; In [105]: r = t() and f() or n() in t in f in n In [106]: r In [107]: r = t() and n() or f() in t in n in f In [108]: r Out[108]: False In [111]: r = f() and n() or t() in f in t In [112]: r Out[112]: True 上面我们定义了3个函数，没返回值的情况下函数会默认返回None。这里有个地方需要注意，虽然函数可以返回true、false、none，但函数本身都是为真的，比如：
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/python%E4%B8%ADand-or%E5%B0%8F%E6%8A%80%E5%B7%A7/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/64%E4%BD%8Dwin7%E5%AE%89%E8%A3%85mysql-python/" rel="bookmark">
 			64位win7安装mysql-python
 			</a>
@@ -113,7 +137,7 @@ if (!doNotTrack) {
 	<div class="content list__excerpt post__content clearfix">
 		回来半个月，终于抽出时间写点东西了。最近这天气真是让人不开心阿～不过昨天居然见到了彩虹，突然想起来在飞机上看见的彩虹是直立在太阳两边而不是桥形的，各有各的美感。
 至于在win下如何安装python、setuptools、pip等网上很多这里不再重复，可是那些大小姐们向我反映说她们不会“运行cmd,输入python manage.py runserver”。正所谓收人钱财替人消灾，干脆写个批处理让她们双击运行算了，内容如下：
-@echo offpython %cd%\manage.py runserverpause真是被微软“惯坏了”的孩子们阿&hellip;.
+@echo offpython %cd%\manage.py runserverpause 真是被微软“惯坏了”的孩子们阿&hellip;.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/windows%E4%B8%8B%E7%9A%84django%E6%89%B9%E5%A4%84%E7%90%86%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/">Read more…</a>
@@ -135,7 +159,7 @@ if (!doNotTrack) {
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		今天需要在虚拟环境下使用pycurl，使用pip安装时候没问题，不过再代码中import后则报错：
-ImportError: pycurl: libcurl link-time ssl backend (nss) is different from compile-time ssl backend (none/other)解决方法：
+ImportError: pycurl: libcurl link-time ssl backend (nss) is different from compile-time ssl backend (none/other) 解决方法：
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83pycurl%E7%9A%84import%E9%94%99%E8%AF%AF/">Read more…</a>
@@ -187,30 +211,6 @@ arr = [1, [1, 2, [2, 3]], [4], [4]] final=[] def change(x): print &#34;x is:&#34
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/python%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/django%E8%87%AA%E5%B8%A6%E7%9A%84%E8%AF%84%E8%AE%BA%E6%A8%A1%E5%9D%97/" rel="bookmark">
-			django自带的评论模块
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-04-04T11:01:59Z">2014-04-04</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		某个设计本来采用了一个比较不错的在线评论模块，不过答辩的时候丫居然不给网！！想偷个懒还是挺难啊&hellip;.
-那就用自带的评论模块吧，django版本是1.5.3。
-首先把'django.contrib.comments'添加到INSTALLED_APPS中，然后添加url:
-urlpatterns = patterns(&#39;&#39;, ...... url(r&#39;^comments/&#39;, include(&#39;django.contrib.comments.urls&#39;)), ...... ) 在需要显示评论的HTML中：
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/django%E8%87%AA%E5%B8%A6%E7%9A%84%E8%AF%84%E8%AE%BA%E6%A8%A1%E5%9D%97/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -235,11 +235,11 @@ urlpatterns = patterns(&#39;&#39;, ...... url(r&#39;^comments/&#39;, include(&#3
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 		</ul>
 	</div>
 </div>
@@ -277,11 +277,11 @@ urlpatterns = patterns(&#39;&#39;, ...... url(r&#39;^comments/&#39;, include(&#3
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">132</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">30</span>
+				<span class="widget__counter widget__counter--bubble">31</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

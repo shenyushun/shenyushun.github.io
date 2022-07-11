@@ -98,23 +98,23 @@ if (!doNotTrack) {
 <p>这里首先面临的就是语言的选择——oc和swift。经过“深思熟虑”我还是选择了oc，因为相关的资料比较多，遇到问题google起来效果较好。很多人觉得ios开发很难学是因为oc——别的不敢讲，就我这两天的学习来看，oc虽说是c的超集，不过语法看起来题确实挺奇怪，但对于任何有其他语言开发基础的人来说，语法仅仅是一个需要习惯的过程。ios开发的真正难点在于cocos引擎部分，所以对于英语好的来说swift也是不错的选择（英语硬伤还是啊……）。</p>
 <p>直接从appstore中安装xcode，安装完成后运行选择“create a new Xcode project”，再选择os x列表下的“application”，然后在右边的窗口中选择“command line tool”，点击“next”后输入项目名称等相关信息，语言选择“Objective－c”，再选择保存位置后点击“finish”即可。</p>
 <p>点击左边列表的main.m文件就是程序自动生成的模版文件了，代码如下</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#75715e">#import &lt;Foundation/Foundation.h&gt;
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> argv[]) {
-    <span style="color:#66d9ef">@autoreleasepool</span> {
-        <span style="color:#75715e">// insert code here...
-</span><span style="color:#75715e"></span>        NSLog(<span style="color:#e6db74">@&#34;Hello, World!&#34;</span>);
-    }
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-}
-</code></pre></div><p>这个像c语言又不是c语言的家伙就是oc了，又感觉有些python影子，比如引入头文件的语法变成了import，释放内存池的语法@autoreleasepool和python的装饰器语法、功能相似等。虽然oc也是用.h做头文件后缀，不过却用.m做代码文件后缀。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objc" data-lang="objc"><span style="display:flex;"><span><span style="color:#75715e">#import &lt;Foundation/Foundation.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> argv[]) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">@autoreleasepool</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// insert code here...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        NSLog(<span style="color:#e6db74">@&#34;Hello, World!&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这个像c语言又不是c语言的家伙就是oc了，又感觉有些python影子，比如引入头文件的语法变成了import，释放内存池的语法@autoreleasepool和python的装饰器语法、功能相似等。虽然oc也是用.h做头文件后缀，不过却用.m做代码文件后缀。</p>
 <p>第一行的Foundation/Foundation.h作用类似stdio.h或iostream，定义了很多核心函数在里面，比如NSLog，这个函数功能就是输出，和printf一样，不过里面那个@又是神马东东呢？</p>
 <p>这里就要引出oc中的一个新类型——NSString，字符串。动态构建NSString有2种方法：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc">        NSString <span style="color:#f92672">*</span>str <span style="color:#f92672">=</span> <span style="color:#e6db74">@&#34;is a number&#34;</span>;
-        NSLog(<span style="color:#e6db74">@&#34;%d  %@&#34;</span>,<span style="color:#ae81ff">1</span>,str);
-        NSString <span style="color:#f92672">*</span>str1 <span style="color:#f92672">=</span> [[NSString alloc] initWithFormat:<span style="color:#e6db74">@&#34;%d + %d = %s&#34;</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#e6db74">&#34;3&#34;</span>];
-        NSLog(<span style="color:#e6db74">@&#34;%@&#34;</span>,str1);
-        <span style="color:#75715e">//[str1 release];
-</span></code></pre></div><p>由于oc中内存都是在堆上分配的，所以返回的都是指针（至于原因这里先留个坑，我也没太深究），注意占位符和%d、%s类似，不过变成了“%@”代表这是个NSString类型（换言之@是否就是代表这个类型呢？）。第三行的alloc作用和c中的malloc一样，分配内存的。大小为NSString类型大小，并且用后面的参数进行格式化。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objc" data-lang="objc"><span style="display:flex;"><span>        NSString <span style="color:#f92672">*</span>str <span style="color:#f92672">=</span> <span style="color:#e6db74">@&#34;is a number&#34;</span>;
+</span></span><span style="display:flex;"><span>        NSLog(<span style="color:#e6db74">@&#34;%d  %@&#34;</span>,<span style="color:#ae81ff">1</span>,str);
+</span></span><span style="display:flex;"><span>        NSString <span style="color:#f92672">*</span>str1 <span style="color:#f92672">=</span> [[NSString alloc] initWithFormat:<span style="color:#e6db74">@&#34;%d + %d = %s&#34;</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#e6db74">&#34;3&#34;</span>];
+</span></span><span style="display:flex;"><span>        NSLog(<span style="color:#e6db74">@&#34;%@&#34;</span>,str1);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//[str1 release];
+</span></span></span></code></pre></div><p>由于oc中内存都是在堆上分配的，所以返回的都是指针（至于原因这里先留个坑，我也没太深究），注意占位符和%d、%s类似，不过变成了“%@”代表这是个NSString类型（换言之@是否就是代表这个类型呢？）。第三行的alloc作用和c中的malloc一样，分配内存的。大小为NSString类型大小，并且用后面的参数进行格式化。</p>
 <p>这里可能还有个疑问，那个［］又是神马意思呢？难道是python的列表？据目前所学知识，［］是oc中调用函数的方式，这个在后面的学习应该还会遇到。</p>
 <p>最后一行又是神马意思呢？为什么又注释呢？从字面意思来看，明显和内存释放有关。不过由于最新版的xcode默认开启了arc，所以在这种情况下写这句代码会报错。不过在之前的某些版本中，如果关闭了arc则申请了内存后一定记得释放。</p>
 
@@ -152,7 +152,7 @@ if (!doNotTrack) {
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

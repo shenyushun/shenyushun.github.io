@@ -96,57 +96,57 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<p>有些时候我们需要项目中的app访问不同的数据库，这时就要进行分库操作。</p>
 <p>首先建立一个db_router.py，内容示例：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#coding=utf-8</span>
-DATABASES <span style="color:#f92672">=</span> {
-    <span style="color:#e6db74">&#39;default&#39;</span>: {
-        <span style="color:#e6db74">&#39;ENGINE&#39;</span>: <span style="color:#e6db74">&#39;django.db.backends.mysql&#39;</span>, <span style="color:#75715e"># Add &#39;postgresql_psycopg2&#39;, &#39;postgresql&#39;, &#39;mysql&#39;, &#39;sqlite3&#39; or &#39;oracle&#39;.</span>
-        <span style="color:#e6db74">&#39;NAME&#39;</span>: <span style="color:#e6db74">&#39;xxxx&#39;</span>,                      <span style="color:#75715e"># Or path to database file if using sqlite3.</span>
-        <span style="color:#e6db74">&#39;USER&#39;</span>: <span style="color:#e6db74">&#39;root&#39;</span>,                      <span style="color:#75715e"># Not used with sqlite3.</span>
-        <span style="color:#e6db74">&#39;PASSWORD&#39;</span>: <span style="color:#e6db74">&#39;123456&#39;</span>,                  <span style="color:#75715e"># Not used with sqlite3.</span>
-        <span style="color:#e6db74">&#39;HOST&#39;</span>: <span style="color:#e6db74">&#39;&#39;</span>,                      <span style="color:#75715e"># Set to empty string for localhost. Not used with sqlite3.</span>
-        <span style="color:#e6db74">&#39;PORT&#39;</span>: <span style="color:#e6db74">&#39;3306&#39;</span>,                      <span style="color:#75715e"># Set to empty string for default. Not used with sqlite3.</span>
-        <span style="color:#e6db74">&#39;OPTIONS&#39;</span>: {  
-                    <span style="color:#e6db74">&#39;init_command&#39;</span>: <span style="color:#e6db74">&#39;SET storage_engine=MyISAM&#39;</span>,  
-        },         
-    },
-    <span style="color:#e6db74">&#39;analysis_db&#39;</span>:{
-        <span style="color:#e6db74">&#39;ENGINE&#39;</span>: <span style="color:#e6db74">&#39;django.db.backends.mysql&#39;</span>,
-        <span style="color:#e6db74">&#39;NAME&#39;</span>: <span style="color:#e6db74">&#39;analysis_qq&#39;</span>,                      <span style="color:#75715e">#分析相关的操作用这个库</span>
-        <span style="color:#e6db74">&#39;HOST&#39;</span>: <span style="color:#e6db74">&#39;&#39;</span>,
-        <span style="color:#e6db74">&#39;USER&#39;</span>: <span style="color:#e6db74">&#39;root&#39;</span>,
-        <span style="color:#e6db74">&#39;PASSWORD&#39;</span>: <span style="color:#e6db74">&#39;123456&#39;</span>,
-        <span style="color:#e6db74">&#39;PORT&#39;</span>:<span style="color:#e6db74">&#39;3306&#39;</span>,
-        <span style="color:#e6db74">&#39;OPTIONS&#39;</span>:{
-                    <span style="color:#e6db74">&#39;init_command&#39;</span>: <span style="color:#e6db74">&#39;SET storage_engine=MyISAM&#39;</span>,
-        },
-    },
-}
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MasterSlaveRouter</span>(object):
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">db_for_read</span>(self, model, <span style="color:#f92672">**</span>hints):
-        <span style="color:#66d9ef">if</span> model<span style="color:#f92672">.</span>_meta<span style="color:#f92672">.</span>app_label <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;analysisqq&#39;</span>:
-            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;analysis_db&#39;</span>
-        <span style="color:#66d9ef">else</span>:
-            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;default&#39;</span>
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">db_for_write</span>(self, model, <span style="color:#f92672">**</span>hints):
-        <span style="color:#66d9ef">if</span> model<span style="color:#f92672">.</span>_meta<span style="color:#f92672">.</span>app_label <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;analysisqq&#39;</span>:
-            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;analysis_db&#39;</span>
-        <span style="color:#66d9ef">else</span>:
-            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;default&#39;</span>
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">allow_relation</span>(self, obj1, obj2, <span style="color:#f92672">**</span>hints):
-        db_list <span style="color:#f92672">=</span> (<span style="color:#e6db74">&#39;default&#39;</span>,<span style="color:#e6db74">&#39;analysis_db&#39;</span>,)
-        <span style="color:#66d9ef">if</span> obj1<span style="color:#f92672">.</span>_state<span style="color:#f92672">.</span>db <span style="color:#f92672">in</span> db_list <span style="color:#f92672">and</span> obj2<span style="color:#f92672">.</span>_state<span style="color:#f92672">.</span>db <span style="color:#f92672">in</span> db_list:
-            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
-        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">allow_syncdb</span>(self, db, model):
-        <span style="color:#66d9ef">if</span> db <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;analysis_db&#39;</span>:
-            print <span style="color:#e6db74">&#34; in analysis db&#34;</span>
-            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
-        <span style="color:#66d9ef">elif</span> db <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;default&#39;</span>:
-            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
-        <span style="color:#66d9ef">else</span>:
-            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
-DATABASE_ROUTERS <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;db_router.MasterSlaveRouter&#39;</span>]
-</code></pre></div><p>然后在settings.py中删除和数据库相关的代码，添加<code>from db_router import * </code>,这样之后指定的app就会使用特定的库了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#coding=utf-8</span>
+</span></span><span style="display:flex;"><span>DATABASES <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;default&#39;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;ENGINE&#39;</span>: <span style="color:#e6db74">&#39;django.db.backends.mysql&#39;</span>, <span style="color:#75715e"># Add &#39;postgresql_psycopg2&#39;, &#39;postgresql&#39;, &#39;mysql&#39;, &#39;sqlite3&#39; or &#39;oracle&#39;.</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;NAME&#39;</span>: <span style="color:#e6db74">&#39;xxxx&#39;</span>,                      <span style="color:#75715e"># Or path to database file if using sqlite3.</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;USER&#39;</span>: <span style="color:#e6db74">&#39;root&#39;</span>,                      <span style="color:#75715e"># Not used with sqlite3.</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;PASSWORD&#39;</span>: <span style="color:#e6db74">&#39;123456&#39;</span>,                  <span style="color:#75715e"># Not used with sqlite3.</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;HOST&#39;</span>: <span style="color:#e6db74">&#39;&#39;</span>,                      <span style="color:#75715e"># Set to empty string for localhost. Not used with sqlite3.</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;PORT&#39;</span>: <span style="color:#e6db74">&#39;3306&#39;</span>,                      <span style="color:#75715e"># Set to empty string for default. Not used with sqlite3.</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;OPTIONS&#39;</span>: {  
+</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#39;init_command&#39;</span>: <span style="color:#e6db74">&#39;SET storage_engine=MyISAM&#39;</span>,  
+</span></span><span style="display:flex;"><span>        },         
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;analysis_db&#39;</span>:{
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;ENGINE&#39;</span>: <span style="color:#e6db74">&#39;django.db.backends.mysql&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;NAME&#39;</span>: <span style="color:#e6db74">&#39;analysis_qq&#39;</span>,                      <span style="color:#75715e">#分析相关的操作用这个库</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;HOST&#39;</span>: <span style="color:#e6db74">&#39;&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;USER&#39;</span>: <span style="color:#e6db74">&#39;root&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;PASSWORD&#39;</span>: <span style="color:#e6db74">&#39;123456&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;PORT&#39;</span>:<span style="color:#e6db74">&#39;3306&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;OPTIONS&#39;</span>:{
+</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#39;init_command&#39;</span>: <span style="color:#e6db74">&#39;SET storage_engine=MyISAM&#39;</span>,
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MasterSlaveRouter</span>(object):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">db_for_read</span>(self, model, <span style="color:#f92672">**</span>hints):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> model<span style="color:#f92672">.</span>_meta<span style="color:#f92672">.</span>app_label <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;analysisqq&#39;</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;analysis_db&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;default&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">db_for_write</span>(self, model, <span style="color:#f92672">**</span>hints):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> model<span style="color:#f92672">.</span>_meta<span style="color:#f92672">.</span>app_label <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;analysisqq&#39;</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;analysis_db&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;default&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">allow_relation</span>(self, obj1, obj2, <span style="color:#f92672">**</span>hints):
+</span></span><span style="display:flex;"><span>        db_list <span style="color:#f92672">=</span> (<span style="color:#e6db74">&#39;default&#39;</span>,<span style="color:#e6db74">&#39;analysis_db&#39;</span>,)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> obj1<span style="color:#f92672">.</span>_state<span style="color:#f92672">.</span>db <span style="color:#f92672">in</span> db_list <span style="color:#f92672">and</span> obj2<span style="color:#f92672">.</span>_state<span style="color:#f92672">.</span>db <span style="color:#f92672">in</span> db_list:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">allow_syncdb</span>(self, db, model):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> db <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;analysis_db&#39;</span>:
+</span></span><span style="display:flex;"><span>            print <span style="color:#e6db74">&#34; in analysis db&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">elif</span> db <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;default&#39;</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>DATABASE_ROUTERS <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;db_router.MasterSlaveRouter&#39;</span>]
+</span></span></code></pre></div><p>然后在settings.py中删除和数据库相关的代码，添加<code>from db_router import * </code>,这样之后指定的app就会使用特定的库了。</p>
 <p>注意，这里分库是针对于读写操作，以及default已经存在后的syncdb，如果说你想执行syncdb同时就在不同数据库建表，这样操作是无效的。知道怎么做的请告知!</p>
 
 		</div>
@@ -197,7 +197,7 @@ DATABASE_ROUTERS <span style="color:#f92672">=</span> [<span style="color:#e6db7
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

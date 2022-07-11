@@ -159,7 +159,7 @@ if (!doNotTrack) {
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		Metasploit应该不用多说了吧？Kali自带、Win和Mac都提供了现成的安装包，不过我莫名的对apt系不感冒，这里记录一下在centos7上安装metasploit框架的步骤，理论上yum系的都应该通用。 首先执行
-curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb &gt; msfinstallchmod 755 msfinstall./msfinstall然后安装postgresql：
+curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb &gt; msfinstallchmod 755 msfinstall./msfinstall 然后安装postgresql：
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/centos7%E5%AE%89%E8%A3%85metasploit%E6%A1%86%E6%9E%B6/">Read more…</a>
@@ -202,8 +202,8 @@ curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/t
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		最近有个需求需要搭建一个在线web代理，懒得自己写就找到两个php程序：
- knProxy:https://github.com/jabbany/knProxy glype:https://www.glype.com/download.php  从部署角度来讲这两个都很简单，功能上也很类似，这里我就以第二个为例吧，使用nginx来部署。先来安装nginx和php-fpm
-yum install nginxyum install php-fpm&lt;/pre&gt;下载glype后解压到/var/www/html/glype目录，并在/etc/nginx/conf.
+knProxy:https://github.com/jabbany/knProxy glype:https://www.glype.com/download.php 从部署角度来讲这两个都很简单，功能上也很类似，这里我就以第二个为例吧，使用nginx来部署。先来安装nginx和php-fpm
+yum install nginxyum install php-fpm&lt;/pre&gt; 下载glype后解压到/var/www/html/glype目录，并在/etc/nginx/conf.
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/centos6%E6%90%AD%E5%BB%BA%E5%9C%A8%E7%BA%BFweb%E4%BB%A3%E7%90%86/">Read more…</a>
@@ -231,11 +231,11 @@ yum install nginxyum install php-fpm&lt;/pre&gt;下载glype后解压到/var/ww
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">eBPF学习笔记2</a></li>
 		</ul>
 	</div>
 </div>
@@ -273,11 +273,11 @@ yum install nginxyum install php-fpm&lt;/pre&gt;下载glype后解压到/var/ww
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">131</span>
+				<span class="widget__counter widget__counter--bubble">132</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">30</span>
+				<span class="widget__counter widget__counter--bubble">31</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;

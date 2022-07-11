@@ -96,79 +96,79 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<p>虽说接触过的大部分接口都是以restfullapi的形式返回json数据,但最近有些接口是soap的,如果只是需要一个python的soap客户端的话,suds库是十分不错的一个选择,<a href="https://fedorahosted.org/suds/wiki/Documentation">文档</a></p>
 <p>使用pip安装即可,最基础的使用方法如下,示例来源官网:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> suds.client <span style="color:#f92672">import</span> Client
-url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;http://localhost:7080/webservices/WebServiceTestBean?wsdl&#39;</span>
-client <span style="color:#f92672">=</span> Client(url)
-print client
-Suds <span style="color:#f92672">-</span> version: <span style="color:#ae81ff">0.3.3</span> build: (beta) R397<span style="color:#f92672">-</span><span style="color:#ae81ff">20081121</span>
-Service (WebServiceTestBeanService) tns<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://test.server.enterprise.rhq.org/&#34;</span>
-   Prefixes (<span style="color:#ae81ff">1</span>):
-     ns0 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;http://test.server.enterprise.rhq.org/&#34;</span>
-   Ports (<span style="color:#ae81ff">1</span>):
-     (Soap)
-       Methods:
-         addPerson(Person person, )
-         echo(xs:string arg0, )
-         getList(xs:string str, xs:int length, )
-         getPercentBodyFat(xs:string name, xs:int height, xs:int weight)
-         getPersonByName(Name name, )
-         hello()
-         testExceptions()
-         testListArg(xs:string[] list, )
-         testVoid()
-         updatePerson(AnotherPerson person, name name, )
-   Types (<span style="color:#ae81ff">23</span>):
-     Person
-     Name
-     Phone
-     AnotherPerson
-</code></pre></div><p>其中methods就是实现各个功能的方法,types则定义了数据类型:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">result <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>service<span style="color:#f92672">.</span>getPercentBodyFat(<span style="color:#e6db74">&#39;jeff&#39;</span>, <span style="color:#ae81ff">68</span>, <span style="color:#ae81ff">170</span>)
-print result
-</code></pre></div><p>比如string,int等简单类型就不多说了,如果想知道Person类型是什么,则可以使用:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">person <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>factory<span style="color:#f92672">.</span>create(<span style="color:#e6db74">&#39;Person&#39;</span>)
-print person
-</code></pre></div><p>来查看具体细节:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">(Person)<span style="color:#f92672">=</span>
-  {
-    phone <span style="color:#f92672">=</span> []
-    age <span style="color:#f92672">=</span> NONE
-    name(Name) <span style="color:#f92672">=</span>
-        {
-            last <span style="color:#f92672">=</span> NONE
-            first <span style="color:#f92672">=</span> NONE
-        }
-   }
-</code></pre></div><p>同理phone,name都是一种类型,可以使用ractory.create方法进行创建并赋值:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">phone <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>factory<span style="color:#f92672">.</span>create(<span style="color:#e6db74">&#39;Phone&#39;</span>)
-phone<span style="color:#f92672">.</span>npa <span style="color:#f92672">=</span> <span style="color:#ae81ff">202</span>
-phone<span style="color:#f92672">.</span>nxx <span style="color:#f92672">=</span> <span style="color:#ae81ff">555</span>
-phone<span style="color:#f92672">.</span>number <span style="color:#f92672">=</span> <span style="color:#ae81ff">1212</span>
-name <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>factory<span style="color:#f92672">.</span>create(<span style="color:#e6db74">&#39;Name&#39;</span>)
-name<span style="color:#f92672">.</span>first <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Elmer&#39;</span>
-name<span style="color:#f92672">.</span>last <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Fudd&#39;</span>
-person<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
-person<span style="color:#f92672">.</span>age <span style="color:#f92672">=</span> <span style="color:#ae81ff">35</span>
-person<span style="color:#f92672">.</span>phone <span style="color:#f92672">=</span> [phone]
-</code></pre></div><p>然后就可以调用相关的方法了:<code>client.service.addPerson(person)</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> suds.client <span style="color:#f92672">import</span> Client
+</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;http://localhost:7080/webservices/WebServiceTestBean?wsdl&#39;</span>
+</span></span><span style="display:flex;"><span>client <span style="color:#f92672">=</span> Client(url)
+</span></span><span style="display:flex;"><span>print client
+</span></span><span style="display:flex;"><span>Suds <span style="color:#f92672">-</span> version: <span style="color:#ae81ff">0.3.3</span> build: (beta) R397<span style="color:#f92672">-</span><span style="color:#ae81ff">20081121</span>
+</span></span><span style="display:flex;"><span>Service (WebServiceTestBeanService) tns<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://test.server.enterprise.rhq.org/&#34;</span>
+</span></span><span style="display:flex;"><span>   Prefixes (<span style="color:#ae81ff">1</span>):
+</span></span><span style="display:flex;"><span>     ns0 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;http://test.server.enterprise.rhq.org/&#34;</span>
+</span></span><span style="display:flex;"><span>   Ports (<span style="color:#ae81ff">1</span>):
+</span></span><span style="display:flex;"><span>     (Soap)
+</span></span><span style="display:flex;"><span>       Methods:
+</span></span><span style="display:flex;"><span>         addPerson(Person person, )
+</span></span><span style="display:flex;"><span>         echo(xs:string arg0, )
+</span></span><span style="display:flex;"><span>         getList(xs:string str, xs:int length, )
+</span></span><span style="display:flex;"><span>         getPercentBodyFat(xs:string name, xs:int height, xs:int weight)
+</span></span><span style="display:flex;"><span>         getPersonByName(Name name, )
+</span></span><span style="display:flex;"><span>         hello()
+</span></span><span style="display:flex;"><span>         testExceptions()
+</span></span><span style="display:flex;"><span>         testListArg(xs:string[] list, )
+</span></span><span style="display:flex;"><span>         testVoid()
+</span></span><span style="display:flex;"><span>         updatePerson(AnotherPerson person, name name, )
+</span></span><span style="display:flex;"><span>   Types (<span style="color:#ae81ff">23</span>):
+</span></span><span style="display:flex;"><span>     Person
+</span></span><span style="display:flex;"><span>     Name
+</span></span><span style="display:flex;"><span>     Phone
+</span></span><span style="display:flex;"><span>     AnotherPerson
+</span></span></code></pre></div><p>其中methods就是实现各个功能的方法,types则定义了数据类型:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>result <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>service<span style="color:#f92672">.</span>getPercentBodyFat(<span style="color:#e6db74">&#39;jeff&#39;</span>, <span style="color:#ae81ff">68</span>, <span style="color:#ae81ff">170</span>)
+</span></span><span style="display:flex;"><span>print result
+</span></span></code></pre></div><p>比如string,int等简单类型就不多说了,如果想知道Person类型是什么,则可以使用:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>person <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>factory<span style="color:#f92672">.</span>create(<span style="color:#e6db74">&#39;Person&#39;</span>)
+</span></span><span style="display:flex;"><span>print person
+</span></span></code></pre></div><p>来查看具体细节:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>(Person)<span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    phone <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    age <span style="color:#f92672">=</span> NONE
+</span></span><span style="display:flex;"><span>    name(Name) <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            last <span style="color:#f92672">=</span> NONE
+</span></span><span style="display:flex;"><span>            first <span style="color:#f92672">=</span> NONE
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>   }
+</span></span></code></pre></div><p>同理phone,name都是一种类型,可以使用ractory.create方法进行创建并赋值:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>phone <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>factory<span style="color:#f92672">.</span>create(<span style="color:#e6db74">&#39;Phone&#39;</span>)
+</span></span><span style="display:flex;"><span>phone<span style="color:#f92672">.</span>npa <span style="color:#f92672">=</span> <span style="color:#ae81ff">202</span>
+</span></span><span style="display:flex;"><span>phone<span style="color:#f92672">.</span>nxx <span style="color:#f92672">=</span> <span style="color:#ae81ff">555</span>
+</span></span><span style="display:flex;"><span>phone<span style="color:#f92672">.</span>number <span style="color:#f92672">=</span> <span style="color:#ae81ff">1212</span>
+</span></span><span style="display:flex;"><span>name <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>factory<span style="color:#f92672">.</span>create(<span style="color:#e6db74">&#39;Name&#39;</span>)
+</span></span><span style="display:flex;"><span>name<span style="color:#f92672">.</span>first <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Elmer&#39;</span>
+</span></span><span style="display:flex;"><span>name<span style="color:#f92672">.</span>last <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Fudd&#39;</span>
+</span></span><span style="display:flex;"><span>person<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
+</span></span><span style="display:flex;"><span>person<span style="color:#f92672">.</span>age <span style="color:#f92672">=</span> <span style="color:#ae81ff">35</span>
+</span></span><span style="display:flex;"><span>person<span style="color:#f92672">.</span>phone <span style="color:#f92672">=</span> [phone]
+</span></span></code></pre></div><p>然后就可以调用相关的方法了:<code>client.service.addPerson(person)</code></p>
 <p>有些接口还需要设置soap:Header属性,使用<code>client.set_options(soapheaders=(userid,password))</code></p>
 <p>这里需要注意的就是如果header中有多个节点的话,要使用一个元组添加而不是调用多次set_options函数.</p>
 <p>再比较有用的就是如果想看suds构造出的xml信息的话,使用</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> logging
-logging<span style="color:#f92672">.</span>basicConfig(level<span style="color:#f92672">=</span>logging<span style="color:#f92672">.</span>INFO)
-logging<span style="color:#f92672">.</span>getLogger(<span style="color:#e6db74">&#39;suds.client&#39;</span>)<span style="color:#f92672">.</span>setLevel(logging<span style="color:#f92672">.</span>DEBUG)
-</code></pre></div><p>就可以了,如果还想看更详细的信息,比如请求头,状态码等,还可以使用
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> logging
+</span></span><span style="display:flex;"><span>logging<span style="color:#f92672">.</span>basicConfig(level<span style="color:#f92672">=</span>logging<span style="color:#f92672">.</span>INFO)
+</span></span><span style="display:flex;"><span>logging<span style="color:#f92672">.</span>getLogger(<span style="color:#e6db74">&#39;suds.client&#39;</span>)<span style="color:#f92672">.</span>setLevel(logging<span style="color:#f92672">.</span>DEBUG)
+</span></span></code></pre></div><p>就可以了,如果还想看更详细的信息,比如请求头,状态码等,还可以使用
 <code>logging.getLogger('suds.transport').setLevel(logging.DEBUG)</code>
 至于更高级的用法,比如安全认证,xml信息修改注入,多server调用等文档描述的也很详细.</p>
 <p>其实soap接口的本质就是向某个url以post方式提交一个xml格式的字符串,当然http头信息也需要相应变化,比如:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">headers <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;Content-Type&#34;</span>: <span style="color:#e6db74">&#34;text/xml; charset=utf-8&#34;</span>,
-           <span style="color:#e6db74">&#34;SOAPAction&#34;</span>: <span style="color:#e6db74">&#34;http://www.xxxx.com/service/xxxx&#34;</span>,
-           <span style="color:#e6db74">&#34;Host&#34;</span>: <span style="color:#e6db74">&#34;www.xxxx.com&#34;</span>
- }
-</code></pre></div><p>可以使用requests以及urllib2等库发送请求,得到结果使用正则或lxml进行处理.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>headers <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;Content-Type&#34;</span>: <span style="color:#e6db74">&#34;text/xml; charset=utf-8&#34;</span>,
+</span></span><span style="display:flex;"><span>           <span style="color:#e6db74">&#34;SOAPAction&#34;</span>: <span style="color:#e6db74">&#34;http://www.xxxx.com/service/xxxx&#34;</span>,
+</span></span><span style="display:flex;"><span>           <span style="color:#e6db74">&#34;Host&#34;</span>: <span style="color:#e6db74">&#34;www.xxxx.com&#34;</span>
+</span></span><span style="display:flex;"><span> }
+</span></span></code></pre></div><p>可以使用requests以及urllib2等库发送请求,得到结果使用正则或lxml进行处理.</p>
 <p>之前我由于某些原因不想使用suds就是这么做的,这种方法有2点需要注意:</p>
 <ol>
-<li>构造xml字符串的编码问题,以及特殊符号转意:'&amp;&lsquo;转成&rsquo;<code>&amp;amp;</code>',&quot;&lt;&ldquo;转成&rdquo;<code>&amp;lt;</code>&quot;</li>
+<li>构造xml字符串的编码问题,以及特殊符号转意:&rsquo;&amp;&lsquo;转成&rsquo;<code>&amp;amp;</code>&rsquo;,&quot;&lt;&ldquo;转成&rdquo;<code>&amp;lt;</code>&quot;</li>
 <li>某些函数必须进行顺序调用(比如必须先调用登录函数才能调用查询函数&hellip;),注意把上一个调用结果的cookie带入到下一个调用中,建议使用requests库的session进行自动处理</li>
 </ol>
 
@@ -217,7 +217,7 @@ logging<span style="color:#f92672">.</span>getLogger(<span style="color:#e6db74"
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

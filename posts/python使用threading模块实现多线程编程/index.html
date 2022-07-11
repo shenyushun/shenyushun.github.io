@@ -20,7 +20,7 @@
 <meta itemprop="description" content="原文链接找不到了，故整理格式后记录于此。
 常用函数 &#39;&#39;&#39;&#39;&#39; Created on 2012-9-7 @author: walfred @module: thread.ThreadTest3 @description: &#39;&#39;&#39; import threading class MyThread(threading."><meta itemprop="datePublished" content="2013-11-13T11:44:22+00:00" />
 <meta itemprop="dateModified" content="2013-11-13T11:44:22+00:00" />
-<meta itemprop="wordCount" content="798">
+<meta itemprop="wordCount" content="802">
 <meta itemprop="keywords" content="python," />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -94,23 +94,23 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<p>原文链接找不到了，故整理格式后记录于此。</p>
 <h3 id="常用函数">常用函数</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#e6db74">&#39;&#39;&#39;&#39;&#39;  
-</span><span style="color:#e6db74">    Created on 2012-9-7  
-</span><span style="color:#e6db74">    @author:  walfred
-</span><span style="color:#e6db74">    @module: thread.ThreadTest3  
-</span><span style="color:#e6db74">    @description:
-</span><span style="color:#e6db74">    &#39;&#39;&#39;</span>    
-    <span style="color:#f92672">import</span> threading  
-    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyThread</span>(threading<span style="color:#f92672">.</span>Thread):  
-        <span style="color:#66d9ef">def</span> __init__(self):  
-            threading<span style="color:#f92672">.</span>Thread<span style="color:#f92672">.</span>__init__(self)  
-        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):  
-            print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>name)  
-    <span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:  
-        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">5</span>):  
-            my_thread <span style="color:#f92672">=</span> MyThread()  
-            my_thread<span style="color:#f92672">.</span>start()
-</code></pre></div><h4 id="name相关">name相关</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;&#39;&#39;  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Created on 2012-9-7  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    @author:  walfred
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    @module: thread.ThreadTest3  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    @description:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#39;&#39;&#39;</span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">import</span> threading  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyThread</span>(threading<span style="color:#f92672">.</span>Thread):  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> __init__(self):  
+</span></span><span style="display:flex;"><span>            threading<span style="color:#f92672">.</span>Thread<span style="color:#f92672">.</span>__init__(self)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):  
+</span></span><span style="display:flex;"><span>            print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>name)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">5</span>):  
+</span></span><span style="display:flex;"><span>            my_thread <span style="color:#f92672">=</span> MyThread()  
+</span></span><span style="display:flex;"><span>            my_thread<span style="color:#f92672">.</span>start()
+</span></span></code></pre></div><h4 id="name相关">name相关</h4>
 <p>你可以为每一个thread指定name，默认的是Thread-No形式的，如上述实例代码打印出的一样：</p>
 <pre tabindex="0"><code>    I am Thread-1
     I am Thread-2
@@ -118,36 +118,36 @@ if (!doNotTrack) {
     I am Thread-4
     I am Thread-5
 </code></pre><p>当然你可以指定每一个thread的name，这个通过setName方法，代码：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> __init__(self):  
-    threading<span style="color:#f92672">.</span>Thread<span style="color:#f92672">.</span>__init__(self)  
-    self<span style="color:#f92672">.</span>setName(<span style="color:#e6db74">&#34;new&#34;</span> <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>name)
-</code></pre></div><h4 id="join方法">join方法</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> __init__(self):  
+</span></span><span style="display:flex;"><span>    threading<span style="color:#f92672">.</span>Thread<span style="color:#f92672">.</span>__init__(self)  
+</span></span><span style="display:flex;"><span>    self<span style="color:#f92672">.</span>setName(<span style="color:#e6db74">&#34;new&#34;</span> <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>name)
+</span></span></code></pre></div><h4 id="join方法">join方法</h4>
 <p>join方法原型如下，这个方法是用来阻塞当前上下文，直至该线程运行结束。</p>
 <h4 id="setdaemon方法">setDaemon方法</h4>
 <p>当我们在程序运行中，执行一个主线程，如果主线程又创建一个子线程，主线程和子线程就分兵两路，当主线程完成想退出时，会检验子线 程是否完成。如果子线程未完成，则主线程会等待子线程完成后再退出。但是有时候我们需要的是，只要主线程完成了，不管子线程是否完成，都要和主线程一起退 出，这时就可以用setDaemon方法，并设置其参数为True。</p>
 <h3 id="使用lock互斥锁">使用Lock互斥锁</h3>
 <p>假设各个线程需要访问同一公共资源，我们的代码该怎么写？</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#e6db74">&#39;&#39;&#39;&#39;&#39;
-</span><span style="color:#e6db74">    Created on 2012-9-8
-</span><span style="color:#e6db74">    @author: walfred
-</span><span style="color:#e6db74">    @module: thread.ThreadTest3
-</span><span style="color:#e6db74">    &#39;&#39;&#39;</span>  
-    <span style="color:#f92672">import</span> threading  
-    <span style="color:#f92672">import</span> time  
-    counter <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>  
-    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyThread</span>(threading<span style="color:#f92672">.</span>Thread):  
-        <span style="color:#66d9ef">def</span> __init__(self):  
-            threading<span style="color:#f92672">.</span>Thread<span style="color:#f92672">.</span>__init__(self)  
-        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):  
-            <span style="color:#66d9ef">global</span> counter  
-            time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">1</span>);  
-            counter <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>  
-            print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">, set counter:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>name, counter)  
-    <span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:  
-        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">200</span>):  
-            my_thread <span style="color:#f92672">=</span> MyThread()  
-            my_thread<span style="color:#f92672">.</span>start()
-</code></pre></div><p>解决上面的问题，我们兴许会写出这样的代码，我们假设跑200个线程，但是这200个线程都会去访问counter这个公共资源，并对该资源进行处理(counter += 1)，代码看起来就是这个样了，但是我们看下运行结果：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Created on 2012-9-8
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    @author: walfred
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    @module: thread.ThreadTest3
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#39;&#39;&#39;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">import</span> threading  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">import</span> time  
+</span></span><span style="display:flex;"><span>    counter <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyThread</span>(threading<span style="color:#f92672">.</span>Thread):  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> __init__(self):  
+</span></span><span style="display:flex;"><span>            threading<span style="color:#f92672">.</span>Thread<span style="color:#f92672">.</span>__init__(self)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">global</span> counter  
+</span></span><span style="display:flex;"><span>            time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">1</span>);  
+</span></span><span style="display:flex;"><span>            counter <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>  
+</span></span><span style="display:flex;"><span>            print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">, set counter:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>name, counter)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">200</span>):  
+</span></span><span style="display:flex;"><span>            my_thread <span style="color:#f92672">=</span> MyThread()  
+</span></span><span style="display:flex;"><span>            my_thread<span style="color:#f92672">.</span>start()
+</span></span></code></pre></div><p>解决上面的问题，我们兴许会写出这样的代码，我们假设跑200个线程，但是这200个线程都会去访问counter这个公共资源，并对该资源进行处理(counter += 1)，代码看起来就是这个样了，但是我们看下运行结果：</p>
 <pre tabindex="0"><code>I am Thread-69, set counter:64I am Thread-73, set counter:66I am Thread-74, set counter:67I am Thread-75, set counter:68
 I am Thread-76, set counter:69I am Thread-78, set counter:70I am Thread-77, set counter:71I am Thread-58, set counter:72
 I am Thread-60, set counter:73I am Thread-62, set counter:74I am Thread-66, set counter:75I am Thread-70, set counter:76
@@ -156,30 +156,30 @@ I am Thread-72, set counter:77I am Thread-79, set counter:78I am Thread-71, set 
 <h4 id="互斥锁概念">互斥锁概念</h4>
 <p>Python编程中，引入了对象互斥锁的概念，来保证共享数据操作的完整性。每个对象都对应于一个可称为&quot; 互斥锁&quot; 的标记，这个标记用来保证在任一时刻，只能有一个线程访问该对象。在Python中我们使用threading模块提供的Lock类。
 我们对上面的程序进行整改，为此我们需要添加一个互斥锁变量mutex = threading.Lock()，然后在争夺资源的时候之前我们会先抢占这把锁mutex.acquire()，对资源使用完成之后我们在释放这把锁 mutex.release()。代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#e6db74">&#39;&#39;&#39;
-</span><span style="color:#e6db74">    Created on 2012-9-8
-</span><span style="color:#e6db74">    @author: walfred
-</span><span style="color:#e6db74">    @module: thread.ThreadTest4
-</span><span style="color:#e6db74">    &#39;&#39;&#39;</span>  
-    <span style="color:#f92672">import</span> threading  
-    <span style="color:#f92672">import</span> time  
-    counter <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>  
-    mutex <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Lock()  
-    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyThread</span>(threading<span style="color:#f92672">.</span>Thread):  
-        <span style="color:#66d9ef">def</span> __init__(self):  
-            threading<span style="color:#f92672">.</span>Thread<span style="color:#f92672">.</span>__init__(self)  
-        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):  
-            <span style="color:#66d9ef">global</span> counter, mutex  
-            time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">1</span>);  
-            <span style="color:#66d9ef">if</span> mutex<span style="color:#f92672">.</span>acquire():  
-                counter <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>  
-                print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">, set counter:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>name, counter)  
-                mutex<span style="color:#f92672">.</span>release()  
-    <span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:  
-        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">100</span>):  
-            my_thread <span style="color:#f92672">=</span> MyThread()  
-            my_thread<span style="color:#f92672">.</span>start()
-</code></pre></div><h4 id="同步阻塞"> 同步阻塞</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Created on 2012-9-8
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    @author: walfred
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    @module: thread.ThreadTest4
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#39;&#39;&#39;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">import</span> threading  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">import</span> time  
+</span></span><span style="display:flex;"><span>    counter <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span>    mutex <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Lock()  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyThread</span>(threading<span style="color:#f92672">.</span>Thread):  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> __init__(self):  
+</span></span><span style="display:flex;"><span>            threading<span style="color:#f92672">.</span>Thread<span style="color:#f92672">.</span>__init__(self)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">global</span> counter, mutex  
+</span></span><span style="display:flex;"><span>            time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">1</span>);  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> mutex<span style="color:#f92672">.</span>acquire():  
+</span></span><span style="display:flex;"><span>                counter <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>  
+</span></span><span style="display:flex;"><span>                print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">, set counter:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>name, counter)  
+</span></span><span style="display:flex;"><span>                mutex<span style="color:#f92672">.</span>release()  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">100</span>):  
+</span></span><span style="display:flex;"><span>            my_thread <span style="color:#f92672">=</span> MyThread()  
+</span></span><span style="display:flex;"><span>            my_thread<span style="color:#f92672">.</span>start()
+</span></span></code></pre></div><h4 id="同步阻塞"> 同步阻塞</h4>
 <p>当一个线程调用Lock对象的acquire()方法获得锁时，这把锁就进入“locked”状态。因为每次只有一个线程1可以获 得锁，所以如果此时另一个线程2试图获得这个锁，该线程2就会变为“blo同步阻塞状态。直到拥有锁的线程1调用锁的release()方法释放锁之后， 该锁进入“unlocked”状态。线程调度程序从处于同步阻塞状态的线程中选择一个来获得锁，并使得该线程进入运行（running）状态。
 进一步考虑
 通过对公共资源使用互斥锁，这样就简单的到达了我们的目的，但是如果我们又遇到下面的情况：</p>
@@ -192,43 +192,43 @@ I am Thread-72, set counter:77I am Thread-79, set counter:78I am Thread-71, set 
 <p>如果有多个公共资源，在线程间共享多个资源的时候，如果两个线程分别占有一部分资源并且同时等待对方的资源，这会引起什么问题？</p>
 <h4 id="死锁概念">死锁概念</h4>
 <p>所谓死锁： 是指两个或两个以上的进程在执行过程中，因争夺资源而造成的一种互相等待的现象，若无外力作用，它们都将无法推进下去。此时称系统处于死锁状态或系统产生 了死锁，这些永远在互相等待的进程称为死锁进程。 由于资源占用是互斥的，当某个进程提出申请资源后，使得有关进程在无外力协助下，永远分配不到必需的资源而无法继续运行，这就产生了一种特殊现象死锁。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#e6db74">&#39;&#39;&#39;&#39;&#39;
-</span><span style="color:#e6db74">    Created on 2012-9-8
-</span><span style="color:#e6db74">    @author: walfred
-</span><span style="color:#e6db74">    @module: thread.TreadTest5
-</span><span style="color:#e6db74">    &#39;&#39;&#39;</span>   
-    <span style="color:#f92672">import</span> threading  
-    counterA <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>  
-    counterB <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>  
-    mutexA <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Lock()  
-    mutexB <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Lock()  
-    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyThread</span>(threading<span style="color:#f92672">.</span>Thread):  
-        <span style="color:#66d9ef">def</span> __init__(self):  
-            threading<span style="color:#f92672">.</span>Thread<span style="color:#f92672">.</span>__init__(self)  
-        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):  
-            self<span style="color:#f92672">.</span>fun1()  
-            self<span style="color:#f92672">.</span>fun2()  
-        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fun1</span>(self):  
-            <span style="color:#66d9ef">global</span> mutexA, mutexB  
-            <span style="color:#66d9ef">if</span> mutexA<span style="color:#f92672">.</span>acquire():  
-                print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> , get res: </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span>(self<span style="color:#f92672">.</span>name, <span style="color:#e6db74">&#34;ResA&#34;</span>)  
-                <span style="color:#66d9ef">if</span> mutexB<span style="color:#f92672">.</span>acquire():  
-                    print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> , get res: </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span>(self<span style="color:#f92672">.</span>name, <span style="color:#e6db74">&#34;ResB&#34;</span>)  
-                    mutexB<span style="color:#f92672">.</span>release()  
-            mutexA<span style="color:#f92672">.</span>release()   
-        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fun2</span>(self):  
-            <span style="color:#66d9ef">global</span> mutexA, mutexB  
-            <span style="color:#66d9ef">if</span> mutexB<span style="color:#f92672">.</span>acquire():  
-                print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> , get res: </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span>(self<span style="color:#f92672">.</span>name, <span style="color:#e6db74">&#34;ResB&#34;</span>)  
-                <span style="color:#66d9ef">if</span> mutexA<span style="color:#f92672">.</span>acquire():  
-                    print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> , get res: </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span>(self<span style="color:#f92672">.</span>name, <span style="color:#e6db74">&#34;ResA&#34;</span>)  
-                    mutexA<span style="color:#f92672">.</span>release()  
-            mutexB<span style="color:#f92672">.</span>release()   
-    <span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:  
-        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">100</span>):  
-            my_thread <span style="color:#f92672">=</span> MyThread()  
-            my_thread<span style="color:#f92672">.</span>start()
-</code></pre></div><p>代码中展示了一个线程的两个功能函数分别在获取了一个竞争资源之后再次获取另外的竞争资源，我们看运行结果：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Created on 2012-9-8
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    @author: walfred
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    @module: thread.TreadTest5
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#39;&#39;&#39;</span>   
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">import</span> threading  
+</span></span><span style="display:flex;"><span>    counterA <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span>    counterB <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span>    mutexA <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Lock()  
+</span></span><span style="display:flex;"><span>    mutexB <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Lock()  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyThread</span>(threading<span style="color:#f92672">.</span>Thread):  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> __init__(self):  
+</span></span><span style="display:flex;"><span>            threading<span style="color:#f92672">.</span>Thread<span style="color:#f92672">.</span>__init__(self)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):  
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>fun1()  
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>fun2()  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fun1</span>(self):  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">global</span> mutexA, mutexB  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> mutexA<span style="color:#f92672">.</span>acquire():  
+</span></span><span style="display:flex;"><span>                print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> , get res: </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span>(self<span style="color:#f92672">.</span>name, <span style="color:#e6db74">&#34;ResA&#34;</span>)  
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> mutexB<span style="color:#f92672">.</span>acquire():  
+</span></span><span style="display:flex;"><span>                    print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> , get res: </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span>(self<span style="color:#f92672">.</span>name, <span style="color:#e6db74">&#34;ResB&#34;</span>)  
+</span></span><span style="display:flex;"><span>                    mutexB<span style="color:#f92672">.</span>release()  
+</span></span><span style="display:flex;"><span>            mutexA<span style="color:#f92672">.</span>release()   
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fun2</span>(self):  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">global</span> mutexA, mutexB  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> mutexB<span style="color:#f92672">.</span>acquire():  
+</span></span><span style="display:flex;"><span>                print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> , get res: </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span>(self<span style="color:#f92672">.</span>name, <span style="color:#e6db74">&#34;ResB&#34;</span>)  
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> mutexA<span style="color:#f92672">.</span>acquire():  
+</span></span><span style="display:flex;"><span>                    print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> , get res: </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span>(self<span style="color:#f92672">.</span>name, <span style="color:#e6db74">&#34;ResA&#34;</span>)  
+</span></span><span style="display:flex;"><span>                    mutexA<span style="color:#f92672">.</span>release()  
+</span></span><span style="display:flex;"><span>            mutexB<span style="color:#f92672">.</span>release()   
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">100</span>):  
+</span></span><span style="display:flex;"><span>            my_thread <span style="color:#f92672">=</span> MyThread()  
+</span></span><span style="display:flex;"><span>            my_thread<span style="color:#f92672">.</span>start()
+</span></span></code></pre></div><p>代码中展示了一个线程的两个功能函数分别在获取了一个竞争资源之后再次获取另外的竞争资源，我们看运行结果：</p>
 <pre tabindex="0"><code>I am Thread-1 , get res: ResA
 I am Thread-1 , get res: ResB
 I am Thread-2 , get res: ResAI am Thread-1 , get res: ResB
@@ -238,34 +238,34 @@ I am Thread-2 , get res: ResAI am Thread-1 , get res: ResB
 <h3 id="可重入锁rlock"> 可重入锁RLock</h3>
 <p>考虑这种情况：如果一个线程遇到锁嵌套的情况该怎么办，这个嵌套是指当我一个线程在获取临界资源时，又需要再次获取。</p>
 <p>根据这种情况，代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#e6db74">&#39;&#39;&#39;&#39;&#39;
-</span><span style="color:#e6db74">    Created on 2012-9-8
-</span><span style="color:#e6db74">    @author: walfred
-</span><span style="color:#e6db74">    @module: thread.ThreadTest6
-</span><span style="color:#e6db74">    &#39;&#39;&#39;</span>  
-    <span style="color:#f92672">import</span> threading  
-    <span style="color:#f92672">import</span> time  
-    counter <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>  
-    mutex <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Lock()  
-    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyThread</span>(threading<span style="color:#f92672">.</span>Thread):  
-        <span style="color:#66d9ef">def</span> __init__(self):  
-            threading<span style="color:#f92672">.</span>Thread<span style="color:#f92672">.</span>__init__(self)  
-        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):  
-            <span style="color:#66d9ef">global</span> counter, mutex  
-            time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">1</span>);  
-            <span style="color:#66d9ef">if</span> mutex<span style="color:#f92672">.</span>acquire():  
-                counter <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>  
-                print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">, set counter:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>name, counter)  
-                <span style="color:#66d9ef">if</span> mutex<span style="color:#f92672">.</span>acquire():  
-                    counter <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>  
-                    print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">, set counter:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>name, counter)  
-                    mutex<span style="color:#f92672">.</span>release()  
-                mutex<span style="color:#f92672">.</span>release()  
-    <span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:  
-        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">200</span>):  
-            my_thread <span style="color:#f92672">=</span> MyThread()  
-            my_thread<span style="color:#f92672">.</span>start()
-</code></pre></div><p>这种情况的代码运行情况如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Created on 2012-9-8
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    @author: walfred
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    @module: thread.ThreadTest6
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#39;&#39;&#39;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">import</span> threading  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">import</span> time  
+</span></span><span style="display:flex;"><span>    counter <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span>    mutex <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Lock()  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyThread</span>(threading<span style="color:#f92672">.</span>Thread):  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> __init__(self):  
+</span></span><span style="display:flex;"><span>            threading<span style="color:#f92672">.</span>Thread<span style="color:#f92672">.</span>__init__(self)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">global</span> counter, mutex  
+</span></span><span style="display:flex;"><span>            time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">1</span>);  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> mutex<span style="color:#f92672">.</span>acquire():  
+</span></span><span style="display:flex;"><span>                counter <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>  
+</span></span><span style="display:flex;"><span>                print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">, set counter:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>name, counter)  
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> mutex<span style="color:#f92672">.</span>acquire():  
+</span></span><span style="display:flex;"><span>                    counter <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>  
+</span></span><span style="display:flex;"><span>                    print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">, set counter:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>name, counter)  
+</span></span><span style="display:flex;"><span>                    mutex<span style="color:#f92672">.</span>release()  
+</span></span><span style="display:flex;"><span>                mutex<span style="color:#f92672">.</span>release()  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">200</span>):  
+</span></span><span style="display:flex;"><span>            my_thread <span style="color:#f92672">=</span> MyThread()  
+</span></span><span style="display:flex;"><span>            my_thread<span style="color:#f92672">.</span>start()
+</span></span></code></pre></div><p>这种情况的代码运行情况如下：</p>
 <pre tabindex="0"><code>I am Thread-1, set counter:1
 </code></pre><p>之后就直接挂起了，这种情况形成了最简单的死锁。</p>
 <p>那有没有一种情况可以在某一个线程使用互斥锁访问某一个竞争资源时，可以再次获取呢？在Python中为了支持在同一线程中多次请求同一资源，python提供了“可重入锁”：threading.RLock。这个RLock内部维护着一个Lock和一个counter变量，counter 记录了acquire的次数，从而使得资源可以被多次require。直到一个线程所有的acquire都被release，其他的线程才能获得资源。上 面的例子如果使用RLock代替Lock，则不会发生死锁：<code>mutex = threading.RLock()</code></p>
@@ -274,55 +274,55 @@ I am Thread-2 , get res: ResAI am Thread-1 , get res: ResB
 <p>Python提供的Condition对象提供了对复杂线程同步问题的支持。Condition被称为条件变量，除了提供与Lock类似的acquire和release方法外，还提供了wait和notify方法。</p>
 <p>使用Condition的主要方式为：线程首先acquire一个条件变量，然后判断一些条件。如果条件不满足则wait；如果条件满足，进行一些处理改 变条件后，通过notify方法通知其他线程，其他处于wait状态的线程接到通知后会重新判断条件。不断的重复这一过程，从而解决复杂的同步问题。</p>
 <p>下面我们通过很著名的“生产者-消费者”模型来来演示下，在Python中使用Condition实现复杂同步。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#e6db74">&#39;&#39;&#39;&#39;&#39;
-</span><span style="color:#e6db74">    Created on 2012-9-8
-</span><span style="color:#e6db74">    @author: walfred
-</span><span style="color:#e6db74">    @module: thread.TreadTest7
-</span><span style="color:#e6db74">    &#39;&#39;&#39;</span>  
-    <span style="color:#f92672">import</span> threading  
-    <span style="color:#f92672">import</span> time  
-    condition <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Condition()  
-    products <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>  
-    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Producer</span>(threading<span style="color:#f92672">.</span>Thread):  
-        <span style="color:#66d9ef">def</span> __init__(self):  
-            threading<span style="color:#f92672">.</span>Thread<span style="color:#f92672">.</span>__init__(self)  
-        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):  
-            <span style="color:#66d9ef">global</span> condition, products  
-            <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:  
-                <span style="color:#66d9ef">if</span> condition<span style="color:#f92672">.</span>acquire():  
-                    <span style="color:#66d9ef">if</span> products <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>:  
-                        products <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>;  
-                        print <span style="color:#e6db74">&#34;Producer(</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">):deliver one, now products:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span>(self<span style="color:#f92672">.</span>name, products)  
-                        condition<span style="color:#f92672">.</span>notify()  
-                    <span style="color:#66d9ef">else</span>:  
-                        print <span style="color:#e6db74">&#34;Producer(</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">):already 10, stop deliver, now products:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span>(self<span style="color:#f92672">.</span>name, products)  
-                        condition<span style="color:#f92672">.</span>wait();  
-                    condition<span style="color:#f92672">.</span>release()  
-                    time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">2</span>)  
-    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Consumer</span>(threading<span style="color:#f92672">.</span>Thread):  
-        <span style="color:#66d9ef">def</span> __init__(self):  
-            threading<span style="color:#f92672">.</span>Thread<span style="color:#f92672">.</span>__init__(self)  
-        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):  
-            <span style="color:#66d9ef">global</span> condition, products  
-            <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:  
-                <span style="color:#66d9ef">if</span> condition<span style="color:#f92672">.</span>acquire():  
-                    <span style="color:#66d9ef">if</span> products <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>:  
-                        products <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>  
-                        print <span style="color:#e6db74">&#34;Consumer(</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">):consume one, now products:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span>(self<span style="color:#f92672">.</span>name, products)  
-                        condition<span style="color:#f92672">.</span>notify()  
-                    <span style="color:#66d9ef">else</span>:  
-                        print <span style="color:#e6db74">&#34;Consumer(</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">):only 1, stop consume, products:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span>(self<span style="color:#f92672">.</span>name, products)  
-                        condition<span style="color:#f92672">.</span>wait();  
-                    condition<span style="color:#f92672">.</span>release()  
-                    time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">2</span>)  
-    <span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:  
-        <span style="color:#66d9ef">for</span> p <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">2</span>):  
-            p <span style="color:#f92672">=</span> Producer()  
-            p<span style="color:#f92672">.</span>start()  
-        <span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">10</span>):  
-            c <span style="color:#f92672">=</span> Consumer()  
-            c<span style="color:#f92672">.</span>start()
-</code></pre></div><p>代码中主要实现了生产者和消费者线程，双方将会围绕products来产生同步问题，首先是2个生成者生产products ，而接下来的10个消费者将会消耗products，代码运行如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Created on 2012-9-8
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    @author: walfred
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    @module: thread.TreadTest7
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#39;&#39;&#39;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">import</span> threading  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">import</span> time  
+</span></span><span style="display:flex;"><span>    condition <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Condition()  
+</span></span><span style="display:flex;"><span>    products <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Producer</span>(threading<span style="color:#f92672">.</span>Thread):  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> __init__(self):  
+</span></span><span style="display:flex;"><span>            threading<span style="color:#f92672">.</span>Thread<span style="color:#f92672">.</span>__init__(self)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">global</span> condition, products  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:  
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> condition<span style="color:#f92672">.</span>acquire():  
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> products <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>:  
+</span></span><span style="display:flex;"><span>                        products <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>;  
+</span></span><span style="display:flex;"><span>                        print <span style="color:#e6db74">&#34;Producer(</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">):deliver one, now products:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span>(self<span style="color:#f92672">.</span>name, products)  
+</span></span><span style="display:flex;"><span>                        condition<span style="color:#f92672">.</span>notify()  
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">else</span>:  
+</span></span><span style="display:flex;"><span>                        print <span style="color:#e6db74">&#34;Producer(</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">):already 10, stop deliver, now products:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span>(self<span style="color:#f92672">.</span>name, products)  
+</span></span><span style="display:flex;"><span>                        condition<span style="color:#f92672">.</span>wait();  
+</span></span><span style="display:flex;"><span>                    condition<span style="color:#f92672">.</span>release()  
+</span></span><span style="display:flex;"><span>                    time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">2</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Consumer</span>(threading<span style="color:#f92672">.</span>Thread):  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> __init__(self):  
+</span></span><span style="display:flex;"><span>            threading<span style="color:#f92672">.</span>Thread<span style="color:#f92672">.</span>__init__(self)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">global</span> condition, products  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:  
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> condition<span style="color:#f92672">.</span>acquire():  
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> products <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>:  
+</span></span><span style="display:flex;"><span>                        products <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>  
+</span></span><span style="display:flex;"><span>                        print <span style="color:#e6db74">&#34;Consumer(</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">):consume one, now products:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span>(self<span style="color:#f92672">.</span>name, products)  
+</span></span><span style="display:flex;"><span>                        condition<span style="color:#f92672">.</span>notify()  
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">else</span>:  
+</span></span><span style="display:flex;"><span>                        print <span style="color:#e6db74">&#34;Consumer(</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">):only 1, stop consume, products:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span>(self<span style="color:#f92672">.</span>name, products)  
+</span></span><span style="display:flex;"><span>                        condition<span style="color:#f92672">.</span>wait();  
+</span></span><span style="display:flex;"><span>                    condition<span style="color:#f92672">.</span>release()  
+</span></span><span style="display:flex;"><span>                    time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">2</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> p <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">2</span>):  
+</span></span><span style="display:flex;"><span>            p <span style="color:#f92672">=</span> Producer()  
+</span></span><span style="display:flex;"><span>            p<span style="color:#f92672">.</span>start()  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">10</span>):  
+</span></span><span style="display:flex;"><span>            c <span style="color:#f92672">=</span> Consumer()  
+</span></span><span style="display:flex;"><span>            c<span style="color:#f92672">.</span>start()
+</span></span></code></pre></div><p>代码中主要实现了生产者和消费者线程，双方将会围绕products来产生同步问题，首先是2个生成者生产products ，而接下来的10个消费者将会消耗products，代码运行如下：</p>
 <pre tabindex="0"><code>Producer(Thread-1):deliver one, now products:1
 Producer(Thread-2):deliver one, now products:2
 Consumer(Thread-3):consume one, now products:1
@@ -339,30 +339,30 @@ Consumer(Thread-11):only 1, stop consume, products:1
 <h3 id="使用event实现线程间通信">使用Event实现线程间通信</h3>
 <p>使用threading.Event可以实现线程间相互通信，之前我们已经初步实现了线程间通信的基本功能，但是更为通用的一种做法是使用threading.Event对象。</p>
 <p>使用threading.Event可以使一个线程等待其他线程的通知，我们把这个Event传递到线程对象中，Event默认内置了一个标志，初始值为 False。一旦该线程通过wait()方法进入等待状态，直到另一个线程调用该Event的set()方法将内置标志设置为True时，该Event会 通知所有等待状态的线程恢复运行。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#e6db74">&#39;&#39;&#39;&#39;&#39;
-</span><span style="color:#e6db74">    Created on 2012-9-9
-</span><span style="color:#e6db74">    @author: walfred
-</span><span style="color:#e6db74">    @module: thread.TreadTest8
-</span><span style="color:#e6db74">    &#39;&#39;&#39;</span>  
-    <span style="color:#f92672">import</span> threading  
-    <span style="color:#f92672">import</span> time  
-    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyThread</span>(threading<span style="color:#f92672">.</span>Thread):  
-        <span style="color:#66d9ef">def</span> __init__(self, signal):  
-            threading<span style="color:#f92672">.</span>Thread<span style="color:#f92672">.</span>__init__(self)  
-            self<span style="color:#f92672">.</span>singal <span style="color:#f92672">=</span> signal  
-        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):  
-            print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">,I will sleep ...&#34;</span><span style="color:#f92672">%</span>self<span style="color:#f92672">.</span>name  
-            self<span style="color:#f92672">.</span>singal<span style="color:#f92672">.</span>wait()  
-            print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">, I awake...&#34;</span> <span style="color:#f92672">%</span>self<span style="color:#f92672">.</span>name  
-    <span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:  
-        singal <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Event()  
-        <span style="color:#66d9ef">for</span> t <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">3</span>):  
-            thread <span style="color:#f92672">=</span> MyThread(singal)  
-            thread<span style="color:#f92672">.</span>start()  
-        print <span style="color:#e6db74">&#34;main thread sleep 3 seconds... &#34;</span>  
-        time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">3</span>)  
-        singal<span style="color:#f92672">.</span>set()
-</code></pre></div><p>运行效果如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Created on 2012-9-9
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    @author: walfred
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    @module: thread.TreadTest8
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#39;&#39;&#39;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">import</span> threading  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">import</span> time  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyThread</span>(threading<span style="color:#f92672">.</span>Thread):  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> __init__(self, signal):  
+</span></span><span style="display:flex;"><span>            threading<span style="color:#f92672">.</span>Thread<span style="color:#f92672">.</span>__init__(self)  
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>singal <span style="color:#f92672">=</span> signal  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):  
+</span></span><span style="display:flex;"><span>            print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">,I will sleep ...&#34;</span><span style="color:#f92672">%</span>self<span style="color:#f92672">.</span>name  
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>singal<span style="color:#f92672">.</span>wait()  
+</span></span><span style="display:flex;"><span>            print <span style="color:#e6db74">&#34;I am </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">, I awake...&#34;</span> <span style="color:#f92672">%</span>self<span style="color:#f92672">.</span>name  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:  
+</span></span><span style="display:flex;"><span>        singal <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Event()  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> t <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">3</span>):  
+</span></span><span style="display:flex;"><span>            thread <span style="color:#f92672">=</span> MyThread(singal)  
+</span></span><span style="display:flex;"><span>            thread<span style="color:#f92672">.</span>start()  
+</span></span><span style="display:flex;"><span>        print <span style="color:#e6db74">&#34;main thread sleep 3 seconds... &#34;</span>  
+</span></span><span style="display:flex;"><span>        time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">3</span>)  
+</span></span><span style="display:flex;"><span>        singal<span style="color:#f92672">.</span>set()
+</span></span></code></pre></div><p>运行效果如下：</p>
 <pre tabindex="0"><code>I am Thread-1,I will sleep ...
 I am Thread-2,I will sleep ...
 I am Thread-3,I will sleep ...
@@ -415,7 +415,7 @@ I am Thread-3, I awake...
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

@@ -114,7 +114,7 @@ tcp        0      0 198.74.121.150:80           38.103.160.12:59726         TIME
 tcp        0      0 198.74.121.150:80           38.103.160.12:52097         TIME_WAIT   -                   
 tcp        0      0 198.74.121.150:80           38.103.160.12:46378         TIME_WAIT   -
 </code></pre><p>这尼玛绝对是非正常现象，想查看各个链接状态可以用下面的语句</p>
-<pre tabindex="0"><code>netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'
+<pre tabindex="0"><code>netstat -n | awk &#39;/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}&#39;
 </code></pre><p>结果如下：</p>
 <pre tabindex="0"><code>TIME_WAIT 10968
 </code></pre><p>我就呵呵了，看了一下这个ip，米国的，发现blocklist上面这个IP也上榜了</p>
@@ -171,7 +171,7 @@ tcp        0      0 198.74.121.150:80           38.103.160.12:46378         TIME
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

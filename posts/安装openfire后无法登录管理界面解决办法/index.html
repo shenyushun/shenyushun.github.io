@@ -99,21 +99,21 @@ if (!doNotTrack) {
 <li>使用安装目录下的openfire.sh启动并设置完成后，再使用service方式启动你会发现醋要重新配置，但设置数据库时候就报错，需要卸载程序后重新安装，所以建议直接使用service方式启动并初始化程序。</li>
 </ol>
 <p>顺便提供一个centos下的重新安装的脚本：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#/bin/sh</span>
-echo <span style="color:#e6db74">&#34;remove openfire...&#34;</span>
-rpm -e openfire-3.9.3-1.i386
-sleep <span style="color:#ae81ff">10</span>
-echo <span style="color:#e6db74">&#34;clear file&#34;</span>
-rm -rf /opt/openfire/
-sleep <span style="color:#ae81ff">3</span>
-echo <span style="color:#e6db74">&#34;install new openfire&#34;</span>
-rpm -ivh /root/openfire-3.9.3-1.i386.rpm
-sleep <span style="color:#ae81ff">10</span>
-echo <span style="color:#e6db74">&#34;start service&#34;</span>
-service openfire start
-sleep <span style="color:#ae81ff">10</span>
-echo <span style="color:#e6db74">&#34;sucess&#34;</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#/bin/sh</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;remove openfire...&#34;</span>
+</span></span><span style="display:flex;"><span>rpm -e openfire-3.9.3-1.i386
+</span></span><span style="display:flex;"><span>sleep <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;clear file&#34;</span>
+</span></span><span style="display:flex;"><span>rm -rf /opt/openfire/
+</span></span><span style="display:flex;"><span>sleep <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;install new openfire&#34;</span>
+</span></span><span style="display:flex;"><span>rpm -ivh /root/openfire-3.9.3-1.i386.rpm
+</span></span><span style="display:flex;"><span>sleep <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;start service&#34;</span>
+</span></span><span style="display:flex;"><span>service openfire start
+</span></span><span style="display:flex;"><span>sleep <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;sucess&#34;</span>
+</span></span></code></pre></div>
 		</div>
 		<footer class="post__footer">
 			
@@ -159,7 +159,7 @@ echo <span style="color:#e6db74">&#34;sucess&#34;</span>
 <section class="comments">
 	<div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     
