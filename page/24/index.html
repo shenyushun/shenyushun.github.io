@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
-	<meta name="generator" content="Hugo 0.101.0" />
+	<meta name="generator" content="Hugo 0.102.3" />
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -77,6 +77,33 @@ if (!doNotTrack) {
 			
 <main class="main list" role="main">
 	<article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/nodejs%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/" rel="bookmark">
+			NodeJS学习记录1
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-03-19T17:03:56Z">2015-03-19</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		本来学oc学的正爽，结果由于某些原因必须先学习NodeJS，所以oc的学习就先暂停一段时间吧。这几天恶补了相关基础知识，如果oc只是语法上让我不太习惯的话，那nodejs就是从编程思想上将原来所学的知识进行了颠覆。至于nodejs相关介绍、优缺点等这里就不多说了，如果想在学习过程中不“一头雾水”，就要理解几个概念：同步/异步、阻塞/非阻塞、闭包、回调、事件轮循。
+本人以前并没有任何javascript语言的学习经验，这里仅仅记录我这几天学习的理解，如有什么偏颇，还望大家指正。
+首先，nodejs是单线程的，同时只能进行一项任务。这点引起较大的批评就是无法利用多核CPU的能力，但同时在多个CPU运行程序也并不是完美的，因为想要多个CPU有效的拆分任务并执行，它们之间需要频繁的交换信息，比如当前执行状态、各自完成了哪些操作等。
+关于上面的几个概念，网上答案五花八门都有，不过我更倾向于下面的答案，引用于知乎，原文链接：
+“阻塞”与&quot;非阻塞&quot;与&quot;同步&quot;与“异步&quot;不能简单的从字面理解，提供一个从分布式系统角度的回答。
+1.同步与异步
+同步和异步关注的是消息通信机制 (synchronous communication/ asynchronous communication)
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/nodejs%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/">Read more…</a>
+	</div>
+</article><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
 			<a href="/posts/mongodb%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2replica-set/" rel="bookmark">
@@ -192,29 +219,6 @@ public static string MD5ToBase64String(string str) { MD5 md5 = new MD5CryptoServ
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/python%E4%B8%AD%E7%9A%84md5%E4%BB%A5%E5%8F%8Abase64%E5%8A%A0%E5%AF%86/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/%E5%AE%89%E8%A3%85mysql%E5%90%8E%E7%9A%8410%E7%A7%8D%E8%B0%83%E4%BC%98%E6%96%B9%E6%B3%95%E7%BF%BB%E8%AF%91/" rel="bookmark">
-			安装MYSQL后的10种调优方法（翻译）
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-01-22T18:22:24Z">2015-01-22</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p><a href="http://www.percona.com/blog/2014/01/28/10-mysql-settings-to-tune-after-installation/">原文</a>。</p>
-<p>当我们被聘请去做MYSQL性能审计时，我们被期望审查MYSQL配置文件并提出改进建议。在大多数情况下很多人都感到惊奇，因为我们仅仅在成百上千的变量中改变了很少的一部分。这篇文章的目的就是告诉你一些至关重要的设置项。
-我们在几年前曾经在博客中给出过一些建议，但从那之后MYSQL的世界发生了很多改变！</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E5%AE%89%E8%A3%85mysql%E5%90%8E%E7%9A%8410%E7%A7%8D%E8%B0%83%E4%BC%98%E6%96%B9%E6%B3%95%E7%BF%BB%E8%AF%91/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -238,11 +242,11 @@ public static string MD5ToBase64String(string str) { MD5 md5 = new MD5CryptoServ
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/docker%E9%95%9C%E5%83%8F%E5%A4%9A%E6%9E%B6%E6%9E%84%E6%9E%84%E5%BB%BA/">Docker镜像多架构构建</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
 		</ul>
 	</div>
 </div>
@@ -256,7 +260,7 @@ public static string MD5ToBase64String(string str) { MD5 md5 = new MD5CryptoServ
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">6</span>
+				<span class="widget__counter widget__counter--bubble">7</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>&nbsp;
@@ -298,6 +302,7 @@ public static string MD5ToBase64String(string str) { MD5 md5 = new MD5CryptoServ
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/centos/" title="centos">centos</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/django/" title="django">django</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="DOCKER">DOCKER</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ebpf/" title="eBPF">eBPF</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/fedora/" title="fedora">fedora</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/flask/" title="flask">flask</a>

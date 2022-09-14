@@ -6,7 +6,16 @@
     <description>Recent content in Tags on Hi~Roy!</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 11 Jul 2022 14:26:27 +0800</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 14 Sep 2022 19:54:11 +0800</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DOCKER</title>
+      <link>/tags/docker/</link>
+      <pubDate>Wed, 14 Sep 2022 19:54:11 +0800</pubDate>
+      
+      <guid>/tags/docker/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>golang</title>
       <link>/tags/golang/</link>

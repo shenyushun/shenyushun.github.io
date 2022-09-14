@@ -80,6 +80,41 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/%E6%88%91%E7%89%B9%E4%B9%88%E6%98%AF%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8django-django-rest-framework-angular-1-1-x%E5%92%8Cwebpack%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE%E7%9A%84/" rel="bookmark">
+			我特么是如何利用Django, Django REST Framework, Angular 1.1.x和Webpack构建一个项目的
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-11-08T13:50:46Z">2016-11-08</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>, <a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p><a href="http://gregblogs.com/how-the-do-i-build-a-django-django-rest-framework-angular-1-1-x-and-webpack-project/#prereq">原文地址</a>，向原作者表示感谢。由于本人并没学习过angular，所以翻译有误的地方恳请指正。</p>
+<hr>
+<p>我已经受够了JS社区的那帮二货，我只是想使用Django作为后端结合Angular做一个简单的、可复用的项目，却没有一个简明的指导教我如何做到。如果你也为此挣扎，这里有一份指南教你如何构建一个由Django作为后端、Webpack进行组织的Angular程序。</p>
+<h2 id="问题">问题</h2>
+<p>我想开发一个Angular1.1.x的项目并使用Django作为后端提供数据，我喜欢使用Django REST Framework(DRF)来构造RESTful API。我也想打包需要的JavaScript资源。目前，我打算使用单一的服务器上运行这个程序。</p>
+<h2 id="依赖">依赖</h2>
+<ul>
+<li>Python 2.x</li>
+<li>a virtual Python environment</li>
+<li>Django 1.9.x (pip install django)</li>
+<li>npm 2.15.8+</li>
+<li>Webpack 1.13.x (sudo npm i -g webpack)</li>
+<li>ESLint 2.13.1+ (sudo npm i -g eslint)</li>
+<li>NodeJS 4.4.7+</li>
+</ul>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/%E6%88%91%E7%89%B9%E4%B9%88%E6%98%AF%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8django-django-rest-framework-angular-1-1-x%E5%92%8Cwebpack%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE%E7%9A%84/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/django%E8%A7%A3%E6%9E%90%E7%94%A8%E6%88%B7%E4%B8%8A%E4%BC%A0%E7%9A%84excel%E6%96%87%E4%BB%B6/" rel="bookmark">
 			django解析用户上传的excel文件
 			</a>
@@ -198,32 +233,6 @@ django-auth-ldap中文文档
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/%E5%9C%A8mysql%E4%B8%AD%E5%AD%98%E5%82%A8%E6%A0%91%E7%BB%93%E6%9E%84/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/flask-html5%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8E%A8%E9%80%81%E4%BA%8B%E4%BB%B6/" rel="bookmark">
-			Flask&#43;HTML5实现服务器推送事件
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-08-04T13:59:38Z">2016-08-04</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>服务器推送事件(server-sent events，SSE)是一种除websocket、ajax简单轮寻外另一种实现服务器数据主动推送数据到浏览器的方式。</p>
-<p>这里，举一个的例子来说明如何使用基于pyhon的服务端来实现，为了简单我使用flask框架来实现。关键点有2个：</p>
-<ol>
-<li>HTTP响应头中包含<code>content-type:text/event-stream</code></li>
-<li>流响应</li>
-</ol>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/flask-html5%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8E%A8%E9%80%81%E4%BA%8B%E4%BB%B6/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -248,11 +257,11 @@ django-auth-ldap中文文档
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/docker%E9%95%9C%E5%83%8F%E5%A4%9A%E6%9E%B6%E6%9E%84%E6%9E%84%E5%BB%BA/">Docker镜像多架构构建</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
 		</ul>
 	</div>
 </div>
@@ -266,7 +275,7 @@ django-auth-ldap中文文档
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">6</span>
+				<span class="widget__counter widget__counter--bubble">7</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>&nbsp;
@@ -308,6 +317,7 @@ django-auth-ldap中文文档
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/centos/" title="centos">centos</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/django/" title="django">django</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="DOCKER">DOCKER</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ebpf/" title="eBPF">eBPF</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/fedora/" title="fedora">fedora</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/flask/" title="flask">flask</a>

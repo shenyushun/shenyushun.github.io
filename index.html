@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
-	<meta name="generator" content="Hugo 0.101.0" />
+	<meta name="generator" content="Hugo 0.102.3" />
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -79,6 +79,28 @@ if (!doNotTrack) {
 	<article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/docker%E9%95%9C%E5%83%8F%E5%A4%9A%E6%9E%B6%E6%9E%84%E6%9E%84%E5%BB%BA/" rel="bookmark">
+			Docker镜像多架构构建
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2022-09-14T19:54:11&#43;08:00">2022-09-14</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/" rel="category">云计算</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>目前arm系统越来越常见，对镜像的多架构需求也越来越大。对于同一个镜像，最简单的办法就是在amd64或arm机器上build后通过不同的tag进行区分，比如<code>nginx:v1-amd64</code>、<code>nginx:v1-arm64</code>，但这种方式比较丑陋，而且没有对应架构的机器用来构建怎么办？</p>
+<p>目前最新的办法就是使用buildx来进行构建，不过这个特性目前默认是没启用的，需要在docker的配置文件中添加<code>&quot;experimental&quot;: true</code>后重启docker服务生效。</p>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/docker%E9%95%9C%E5%83%8F%E5%A4%9A%E6%9E%B6%E6%9E%84%E6%9E%84%E5%BB%BA/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/" rel="bookmark">
 			在Golang中保持TCP链接
 			</a>
@@ -92,13 +114,9 @@ if (!doNotTrack) {
 </div></div>
 	</header>
 	<div class="content list__excerpt post__content clearfix">
-		原文地址：这里，省略了一些非重点片段。
-尽管目前大多数系统都是通过gRPC或HTTP进行通信的，但仍有相当多的应用程序使用自定义协议。而且这些自定义协议中的许多都没有类似net/http这样方便的包来管理TCP连接。
-这篇文章是为了那些直接和TCP连接打交道的人准备的。本文将讨论如何长期维护健康的TCP会话，以及如何对操持长链接的系统进行调优。
-健康的链接 对于使用了长链接的应用来说最常见的问题就是如何保证这些链接的健康，很多情况都不利于长链接的保持。比如，防火墙管理员经常会设置最大空闲时间，当TCP链接中长时间没有数据传输时这些链接将被杀死。
-修改了客户端或者服务端也可能导致链接断开，虽然其中一方可能知道链接被断开，而另一方则不一定知道，直到他试图发送一条消息。
-一种有用的办法解决上面问题就是启用TCP存活消息机制。
-TCP Keepalive keepalive是TCP一种特性，当长时间不活跃时将发送一个特殊的数据包。这个数据包不包含任何数据而是要求一个ACK响应，当对端收到这个keepalive数据包时，将发送一个ACK响应回去。
+		<p>原文地址：<a href="https://madflojo.medium.com/keeping-tcp-connections-alive-in-golang-801a78b7cf1">这里</a>，省略了一些非重点片段。</p>
+<p>尽管目前大多数系统都是通过gRPC或HTTP进行通信的，但仍有相当多的应用程序使用自定义协议。而且这些自定义协议中的许多都没有类似<code>net/http</code>这样方便的包来管理TCP连接。</p>
+<p>这篇文章是为了那些直接和TCP连接打交道的人准备的。本文将讨论如何长期维护健康的TCP会话，以及如何对操持长链接的系统进行调优。</p>
 	</div>
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">Read more…</a>
@@ -201,34 +219,6 @@ TCP Keepalive keepalive是TCP一种特性，当长时间不活跃时将发送一
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" rel="bookmark">
-			eBPF学习笔记2
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2022-02-08T15:15:03&#43;08:00">2022-02-08</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/ebpf/" rel="category">eBPF</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>上一篇笔记里说编写运行BPF程序推荐2种方法：bpftrace和BCC，按照惯例来个hello world。</p>
-<p>之前说过很多功能都是新版内核才支持，想使用CO-RE内核需要开启<code>CONFIG_DEBUG_INFO_BTF=y</code>和<code>CONFIG_DEBUG_INFO=y</code> 这两个编译选项，所以建议使用最新的发行版，比如：</p>
-<ul>
-<li>Ubuntu 20.10+</li>
-<li>Fedora 31+</li>
-<li>RHEL 8.2+</li>
-<li>Debian 11+</li>
-</ul>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -251,11 +241,11 @@ TCP Keepalive keepalive是TCP一种特性，当长时间不活跃时将发送一
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/docker%E9%95%9C%E5%83%8F%E5%A4%9A%E6%9E%B6%E6%9E%84%E6%9E%84%E5%BB%BA/">Docker镜像多架构构建</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">eBPF学习笔记3</a></li>
 		</ul>
 	</div>
 </div>
@@ -269,7 +259,7 @@ TCP Keepalive keepalive是TCP一种特性，当长时间不活跃时将发送一
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">6</span>
+				<span class="widget__counter widget__counter--bubble">7</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>&nbsp;
@@ -311,6 +301,7 @@ TCP Keepalive keepalive是TCP一种特性，当长时间不活跃时将发送一
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/centos/" title="centos">centos</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/django/" title="django">django</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="DOCKER">DOCKER</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ebpf/" title="eBPF">eBPF</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/fedora/" title="fedora">fedora</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/flask/" title="flask">flask</a>

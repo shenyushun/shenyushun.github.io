@@ -10,11 +10,7 @@
 		<meta property="og:title" content="在Golang中保持TCP链接" />
 <meta property="og:description" content="原文地址：这里，省略了一些非重点片段。
 尽管目前大多数系统都是通过gRPC或HTTP进行通信的，但仍有相当多的应用程序使用自定义协议。而且这些自定义协议中的许多都没有类似net/http这样方便的包来管理TCP连接。
-这篇文章是为了那些直接和TCP连接打交道的人准备的。本文将讨论如何长期维护健康的TCP会话，以及如何对操持长链接的系统进行调优。
-健康的链接 对于使用了长链接的应用来说最常见的问题就是如何保证这些链接的健康，很多情况都不利于长链接的保持。比如，防火墙管理员经常会设置最大空闲时间，当TCP链接中长时间没有数据传输时这些链接将被杀死。
-修改了客户端或者服务端也可能导致链接断开，虽然其中一方可能知道链接被断开，而另一方则不一定知道，直到他试图发送一条消息。
-一种有用的办法解决上面问题就是启用TCP存活消息机制。
-TCP Keepalive keepalive是TCP一种特性，当长时间不活跃时将发送一个特殊的数据包。这个数据包不包含任何数据而是要求一个ACK响应，当对端收到这个keepalive数据包时，将发送一个ACK响应回去。" />
+这篇文章是为了那些直接和TCP连接打交道的人准备的。本文将讨论如何长期维护健康的TCP会话，以及如何对操持长链接的系统进行调优。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-07-11T14:26:27+08:00" />
@@ -24,11 +20,7 @@ TCP Keepalive keepalive是TCP一种特性，当长时间不活跃时将发送一
 		<meta itemprop="name" content="在Golang中保持TCP链接">
 <meta itemprop="description" content="原文地址：这里，省略了一些非重点片段。
 尽管目前大多数系统都是通过gRPC或HTTP进行通信的，但仍有相当多的应用程序使用自定义协议。而且这些自定义协议中的许多都没有类似net/http这样方便的包来管理TCP连接。
-这篇文章是为了那些直接和TCP连接打交道的人准备的。本文将讨论如何长期维护健康的TCP会话，以及如何对操持长链接的系统进行调优。
-健康的链接 对于使用了长链接的应用来说最常见的问题就是如何保证这些链接的健康，很多情况都不利于长链接的保持。比如，防火墙管理员经常会设置最大空闲时间，当TCP链接中长时间没有数据传输时这些链接将被杀死。
-修改了客户端或者服务端也可能导致链接断开，虽然其中一方可能知道链接被断开，而另一方则不一定知道，直到他试图发送一条消息。
-一种有用的办法解决上面问题就是启用TCP存活消息机制。
-TCP Keepalive keepalive是TCP一种特性，当长时间不活跃时将发送一个特殊的数据包。这个数据包不包含任何数据而是要求一个ACK响应，当对端收到这个keepalive数据包时，将发送一个ACK响应回去。"><meta itemprop="datePublished" content="2022-07-11T14:26:27+08:00" />
+这篇文章是为了那些直接和TCP连接打交道的人准备的。本文将讨论如何长期维护健康的TCP会话，以及如何对操持长链接的系统进行调优。"><meta itemprop="datePublished" content="2022-07-11T14:26:27+08:00" />
 <meta itemprop="dateModified" content="2022-07-11T14:26:27+08:00" />
 <meta itemprop="wordCount" content="209">
 <meta itemprop="keywords" content="golang," />
@@ -183,7 +175,6 @@ if (!doNotTrack) {
 </span></span></code></pre></div><p>上面的代码通过修改了<code>tcp_keepalive_intvl</code>的值为30秒，同时也修改了<code>tcp_keepalive_time</code>为30秒。原理可以看<a href="%5Bhttps://%5D(https://github.com/golang/go/blob/release-branch.go1.18/src/net/tcpsockopt_unix.go#L21)">这里</a>。</p>
 <h2 id="总结">总结</h2>
 <p>正如前文所述，TCP KEEPALIVE是一种保持长连接健康和存活的好办法，对于大多数情况默认的2小时11分钟去识别一个”死“连接都可以接受，某些场景则需要一些修改。对于这些场景通过<code>net.TCPConn.SetKeepAlivePeriod()</code>来进行修改是一个不错的选择。</p>
-
 		</div>
 		<footer class="post__footer">
 			
@@ -216,6 +207,12 @@ if (!doNotTrack) {
 		<a class="pager__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/" rel="prev">
 			<span class="pager__subtitle">«&thinsp;Previous</span>
 			<p class="pager__title">Iptables笔记</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/docker%E9%95%9C%E5%83%8F%E5%A4%9A%E6%9E%B6%E6%9E%84%E6%9E%84%E5%BB%BA/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Docker镜像多架构构建</p>
 		</a>
 	</div>
 </nav>
