@@ -6,7 +6,18 @@
     <description>Recent content in 菜鸟翻译屋 on Hi~Roy!</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 11 Jul 2022 14:26:27 +0800</lastBuildDate><atom:link href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 19 Jan 2023 11:10:48 +0800</lastBuildDate><atom:link href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>在Golang中如何使用并发</title>
+      <link>/posts/%E5%9C%A8golang%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B9%B6%E5%8F%91/</link>
+      <pubDate>Thu, 19 Jan 2023 11:10:48 +0800</pubDate>
+      
+      <guid>/posts/%E5%9C%A8golang%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B9%B6%E5%8F%91/</guid>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://madflojo.medium.com/keeping-tcp-connections-alive-in-golang-801a78b7cf1&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
+&lt;p&gt;本文的主要目标是展示在哪些场景下使用并发更加合适。因此本文中不会讲述并发相关的基本术语，比如goroutines、wait groups、channels、数据竞争等。
+我打算创建一系列文章，详细解释最常用的并发相关示例。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>在Golang中保持TCP链接</title>
       <link>/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/</link>

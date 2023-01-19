@@ -80,6 +80,29 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/python%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="bookmark">
+			python异步任务队列、消息队列
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-07T14:50:01Z">2013-11-07</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		<p>提起gevent,就不得不提起greenlet。按照官方解释greenlet是轻量级的并行编程，而gevent呢，就是利用greenlet实现的基于协程的python的网络library。</p>
+<p>官方文档：http://www.gevent.org/contents.html</p>
+<p>说说协程，进程和线程大家平时了解的都比较多，而协程算是一种轻量级进程，但又不能叫进程，因为操作系统并不知道它的存在。什么意思呢，就是说，协程像是一种在程序级别来模拟系统级别的进程，由于是单进程，并且少了上下文切换，于是相对来说系统消耗很少，而且网上的各种测试也表明，协程确实拥有惊人的速度。并且在实现过程中，协程可以用以前同步思路的写法，而运行起来确是异步的，也确实很有意思。话说有一种说法就是说进化历程是多进程-&gt;多线程-&gt;异步-&gt;协程，暂且不论说的对不对，单从诸多赞誉来看，协程还是有必要理解一下的。</p>
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/python%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/gil%E7%BA%BF%E7%A8%8B%E5%8D%8F%E7%A8%8B/" rel="bookmark">
 			GIL，线程，协程
 			</a>
@@ -197,33 +220,13 @@ from django.core.management.base import BaseCommand, CommandError from django.
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/python%E4%B8%AD%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%A3%E6%9E%90%E5%9F%9F%E5%90%8D/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/python%E5%B8%B8%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93-%E8%BD%AC%E8%BD%BD/" rel="bookmark">
-			Python常用第三方库(转载)
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-10-31T09:05:39Z">2013-10-31</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		wxPython 如果你之前是 windows 程序员，用 MFC 或者 WIN32API 开发界面程序，那进入 Python 国度最好的 GUI 选择应该是 wxPython。它是 wxWidgets 的 Python Bind，与 wxWidgets 的开发完美同步，最为重要的一点是它的消息机制与 MFC 颇为相似，以前在 MFC 的经验完全可以稍作变化就套用在 wxPython 上面。在 WIN32 开发中，最讨厌的一环肯定有 WM_SIZE 消息的处，在主窗口大小变化的时候，保持控件布局在 WIN32 是一件麻烦事。这件事情 wx 解决得非常完美，它的sizer 概念可以让我轻松地在不同窗口尺寸的情况下保持完美的控件布局。另外如果你已经讨厌了 MFC 的 doc-view 模型，wx 也可以给你一个新的选择；如果你非常喜欢 doc-view 模型，放心，在 wx 中仍然可以轻松实现，以前的思想依然可以在这里发挥余热。 wxPython 有两个封装，一个 PythonCard，另一个是 dabo。前者是 wxPython 的有限封装，不支持wxPython 的全部特性，它的目标是让 wxPython 更加 Pythonic。后者比 PythonCard 要庞大不少，确切来说，它应该是一个三层架构的 C/S 模式的开发框架。如果你想开发基于数据库的应用（如 MIS、ERP 等）用 dabo 是一个不错的选择；另外，如果你之前习惯了 VB、VFP、Delphi 等 RAD 开发环境，dabo 并不比这些昂贵的工具差多少哦！
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/python%E5%B8%B8%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93-%E8%BD%AC%E8%BD%BD/">Read more…</a>
-	</div>
 </article>
 </main>
 
 <div class="pagination">
 	<a class="pagination__item pagination__item--prev btn" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/page/21/">«</a>
-	<span class="pagination__item pagination__item--current">22/22</span>
+	<span class="pagination__item pagination__item--current">22/23</span>
+	<a class="pagination__item pagination__item--next btn" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/page/23/">»</a>
 </div>
 
 			</div>
@@ -241,11 +244,11 @@ from django.core.management.base import BaseCommand, CommandError from django.
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B9%B6%E5%8F%91/">在Golang中如何使用并发</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/docker%E9%95%9C%E5%83%8F%E5%A4%9A%E6%9E%B6%E6%9E%84%E6%9E%84%E5%BB%BA/">Docker镜像多架构构建</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/">eBPF学习笔记5</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/">eBPF学习笔记4</a></li>
 		</ul>
 	</div>
 </div>
@@ -283,11 +286,11 @@ from django.core.management.base import BaseCommand, CommandError from django.
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/">编程技术</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">132</span>
+				<span class="widget__counter widget__counter--bubble">133</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/">菜鸟翻译屋</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">31</span>
+				<span class="widget__counter widget__counter--bubble">32</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E9%87%91%E8%9E%8D%E7%90%86%E8%B4%A2/">金融理财</a>&nbsp;
@@ -355,7 +358,7 @@ from django.core.management.base import BaseCommand, CommandError from django.
 	<a class="footer__link" href="/about/">About</a>
 </div>
 		<div class="footer__copyright">
-			&copy; 2022 Roy.
+			&copy; 2023 Roy.
 			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
 		</div>
 	</div>
