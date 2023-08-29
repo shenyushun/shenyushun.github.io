@@ -79,6 +79,28 @@ if (!doNotTrack) {
 	</header><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/centos%E9%83%A8%E7%BD%B2ganglia/" rel="bookmark">
+			centos部署Ganglia
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-11-28T17:01:10Z">2014-11-28</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
+	</span>
+</div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		Ganglia+RRDTool这对组合可以说是不错的机群监控软件了，在centos6下安装是十分简单的，服务端安装
+yum install rrdtool-develyum install ganglia-gmetadyum install ganglia-web 然后配置文件基本不用大量修改，位于/etc/ganglia/gmetad.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/centos%E9%83%A8%E7%BD%B2ganglia/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/iptables%E7%A6%81%E6%AD%A2%E6%9F%90ip/" rel="bookmark">
 			iptables禁止某Ip
 			</a>
@@ -188,31 +210,6 @@ HOSTS_DENY = /etc/hosts.
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/svn%E9%94%99%E8%AF%AF-a-peg-revision-is-not-allowed-here%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/%E4%B8%80%E9%A2%97%E7%A0%B4%E7%A2%8E%E7%9A%84%E5%BF%83%E8%BF%98%E4%BC%9A%E6%84%9F%E5%88%B0%E5%BF%83%E7%97%9B%E5%90%97/" rel="bookmark">
-			一颗破碎的心，还会感到心痛吗
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-10-11T23:56:19Z">2014-10-11</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%9D%82%E8%B0%88/" rel="category">杂谈</a>
-	</span>
-</div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		<p>僵尸新娘是为数不多的几部从高中看到现在依然不会厌倦的的电影之一，除了各个经典台词之外，里面的各种音乐也是超级棒。</p>
-<p>不过始终有一个问题盘桓在我脑中：维克多最后真的是因为爱才迎娶艾米莉的吗？</p>
-<p>不得不说，艾米莉对维克多是十分好的。即便维克多欺骗了自己，也很快的原谅了他，最后还用自己的身体为维克多挡下致命一刀。但促使维克多做出决定的，却是在他得知心中的白玫瑰——维多利亚要嫁给别人，而艾米莉宁愿让他走也不愿伤害他的情况下。</p>
-<p>维克多并不知道维多利亚是被迫嫁人，只好颓然的说了一句：“i&rsquo;m too late.”在这种情况下，无意间听到了艾米莉对骨耐德回答，将会是一种怎样的心态呢？一方面，一个女人弃自己而去；另一方面，一个女人对自己如此深情。所以当骨耐德老人问他是否明白这种选择付出的代价时，维克多握起艾米莉的手，说：“i do.”</p>
-<p>但事情总是戏剧性的，当维克多对艾米莉说出了完整的婚礼誓言，艾米莉却看到了角落中的维多利亚。艾米莉最后决定放弃维克多，对他说出了相当经典的台词：“I was a bride. My dreams were taken from me. But now - now I&rsquo;ve stolen them from someone else. I love you, Victor, but you are not mine.”</p>
-	</div>
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore btn" href="/posts/%E4%B8%80%E9%A2%97%E7%A0%B4%E7%A2%8E%E7%9A%84%E5%BF%83%E8%BF%98%E4%BC%9A%E6%84%9F%E5%88%B0%E5%BF%83%E7%97%9B%E5%90%97/">Read more…</a>
-	</div>
 </article>
 </main>
 
@@ -237,11 +234,11 @@ HOSTS_DENY = /etc/hosts.
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/web3%E6%BC%AB%E6%B8%B8%E8%AE%B0mev%E5%A5%97%E5%88%A9%E6%8A%80%E8%83%BD%E6%A0%91/">Web3漫游记——MEV套利技能树</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/web3%E6%BC%AB%E6%B8%B8%E8%AE%B0mev%E4%BB%A5%E5%8F%8A%E8%B5%9A%E9%92%B1%E5%A7%BF%E5%8A%BF/">Web3漫游记——MEV以及赚钱姿势</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B9%B6%E5%8F%91/">在Golang中如何使用并发</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/docker%E9%95%9C%E5%83%8F%E5%A4%9A%E6%9E%B6%E6%9E%84%E6%9E%84%E5%BB%BA/">Docker镜像多架构构建</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/">在Golang中保持TCP链接</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/">Iptables笔记</a></li>
 		</ul>
 	</div>
 </div>
@@ -255,11 +252,11 @@ HOSTS_DENY = /etc/hosts.
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/mev/">MEV</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">1</span>
+				<span class="widget__counter widget__counter--bubble">2</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/web3/">Web3</a>&nbsp;
-				<span class="widget__counter widget__counter--bubble">1</span>
+				<span class="widget__counter widget__counter--bubble">2</span>
 				</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>&nbsp;
