@@ -14,7 +14,6 @@
 <meta property="article:published_time" content="2013-11-13T11:16:09+00:00" />
 <meta property="article:modified_time" content="2013-11-13T11:16:09+00:00" />
 
-
 		<meta itemprop="name" content="python threading模块">
 <meta itemprop="description" content="threading模块 Thread 线程类，这是我们用的最多的一个类，你可以指定线程函数执行或者继承自它都可以实现子线程功能； Timer与Thread类似，但要等待一段时间后才开始运行； Lock 锁原语，这个我们可以对全局变量互斥时使用； RLock 可重入锁，使单线程可以再次获得已经获得的锁； Condition 条件变量，能让一个线程停下来，等待其他线程满足某个“条件”； Event 通用的条件变量。多个线程可以等待某个事件发生，在事件发生后，所有的线程都被激活； Semaphore为等待锁的线程提供一个类似“等候室”的结构； BoundedSemaphore 与semaphore类似，但不允许超过初始值； Thread类 是你主要的线程类，可以创建进程实例。该类提供的函数包括： getName(self) 返回线程的名字 isAlive(self) 布尔标志，表示这个线程是否还在运行中 isDaemon(self) 返回线程的daemon标志 join(self, timeout=None) 程序挂起，直到线程结束，如果给出timeout，则最多阻塞timeout秒 run(self) 定义线程的功能函数 setDaemon(self, daemonic) 把线程的daemon标志设为daemonic setName(self, name) 设置线程的名字 start(self) 开始线程执行 关于join()和setDaemon join：如在一个线程B中调用threada."><meta itemprop="datePublished" content="2013-11-13T11:16:09+00:00" />
 <meta itemprop="dateModified" content="2013-11-13T11:16:09+00:00" />

@@ -18,7 +18,6 @@ import sys reload(sys) sys." />
 <meta property="article:published_time" content="2014-11-05T14:52:09+00:00" />
 <meta property="article:modified_time" content="2014-11-05T14:52:09+00:00" />
 
-
 		<meta itemprop="name" content="python&#43;selenium&#43;phantomjs抓取ajax动态页面">
 <meta itemprop="description" content="一般情况下，python爬虫遇到ajax动态页面一般都是直接分析后模拟ajax请求获得数据。不过今天遇到个网站，由于某些原因不透露网址了，点击搜索按钮后，它先跳转到a页面，然后从a页面跳转到b页面，再由b页面跳回a页面。当完成这2次跳转后，ajax向a页面提交的请求才会返回结果。
 也怀疑是不是cookie或者refenen的问题，但最终证实不是因为这个。即便伪造了请求头再访问a页面，返回的也不是真实的结果页面而是一段跳转到b页面的js代码。

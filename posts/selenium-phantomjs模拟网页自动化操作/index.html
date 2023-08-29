@@ -16,7 +16,6 @@
 <meta property="article:published_time" content="2015-06-15T15:32:11+00:00" />
 <meta property="article:modified_time" content="2015-06-15T15:32:11+00:00" />
 
-
 		<meta itemprop="name" content="Selenium&#43;phantomjs模拟网页自动化操作">
 <meta itemprop="description" content="N久之前使用这对好伙伴实现支持抓取ajax数据的爬虫，最近有个需求是完全模拟某网站的购物操作，结果这个网站比较奇葩，对于表单中某些文本框、复选框等修改后会触发post操作并更改页面内容，而且这些控件之间还会互相影响，直接使用post方式的话比较困难，于是再次祭出神器： selenium 和phantomjs,此外还可以尝试selenium-ide。
 这里phantomjs2.0版本并没提供编译好的通用Linux版，所以本文依然使用1.9版，但在2.0版上测试通过。

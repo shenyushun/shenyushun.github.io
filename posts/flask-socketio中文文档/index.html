@@ -31,7 +31,6 @@ flask 基于Werkzeug的开发服务也能用，不过性能上不如上面2个�
 <meta property="article:published_time" content="2015-12-29T16:18:34+00:00" />
 <meta property="article:modified_time" content="2015-12-29T16:18:34+00:00" />
 
-
 		<meta itemprop="name" content="flask-socketio中文文档">
 <meta itemprop="description" content="官网在这里，英语好的直接去看官网文档吧，我是英语渣只能翻译个大概;另外注意本文翻译时间，可能你看到的时候官网已经更新了。
 
@@ -163,25 +162,25 @@ if (!doNotTrack) {
 </span></span></code></pre></div><h2 id="接收消息">接收消息</h2>
 <p>当使用Socketio时，消息以事件的形式被双方接收。客户端使用Javascript的回调函数，服务端需要为事件注册处理函数，就像在视图中注册路由处理函数那样。</p>
 <p>下面的代码展示了如何创建服务端未命名事件处理函数：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#39;message&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#39;message&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle_message</span>(message):
 </span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;received message: &#39;</span> <span style="color:#f92672">+</span> message)
 </span></span></code></pre></div><p>上面的例子使用了字符串消息，下面的例子展示如何使用json格式的消息：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#39;json&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#39;json&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle_json</span>(json):
 </span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;received json: &#39;</span> <span style="color:#f92672">+</span> str(json))
 </span></span></code></pre></div><p>更灵活的方式是使用自定义的事件名称：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#39;my event&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#39;my event&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle_my_custom_event</span>(json):
 </span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;received json: &#39;</span> <span style="color:#f92672">+</span> str(json))
 </span></span></code></pre></div><p>命名事件是非常灵活的，这种方式不需要添加额外的数据来描述消息类型（不过截至到翻译这里，没看出自定义名称的好处&hellip;待使用后看看吧）</p>
 <p>Flask-SocketIO也支持SocketIO的命名空间，准许客户端在同一个socket上建立多个独立的链接：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#39;my event&#39;</span>, namespace<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/test&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#39;my event&#39;</span>, namespace<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/test&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle_my_custom_namespace_event</span>(json):
 </span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;received json: &#39;</span> <span style="color:#f92672">+</span> str(json))
 </span></span></code></pre></div><p>如果没有指定命名空间，默认使用全局默认命名空间“/”。</p>
 <p>客户端也许需要一个回调来确认收到了消息，任何从服务端处理函数返回的值将作为客户端回调函数的参数被传递回客户端：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#39;my event&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#39;my event&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle_my_custom_event</span>(json):
 </span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;received json: &#39;</span> <span style="color:#f92672">+</span> str(json))
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;one&#39;</span>, <span style="color:#ae81ff">2</span>
@@ -189,21 +188,21 @@ if (!doNotTrack) {
 <h2 id="发送消息">发送消息</h2>
 <p>正如上面说的，SocketIO事件处理函数可以通过调用send()和emit()函数来向链接的客户端发送回应消息。下面的例子展示了服务端接受客户端的消息并返回给客户端：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> flask_socketio <span style="color:#f92672">import</span> send, emit
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#39;message&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#39;message&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle_message</span>(message):
 </span></span><span style="display:flex;"><span>    send(message)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#39;json&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#39;json&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle_json</span>(json):
 </span></span><span style="display:flex;"><span>    send(json, json<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#39;my event&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#39;my event&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle_my_custom_event</span>(json):
 </span></span><span style="display:flex;"><span>    emit(<span style="color:#e6db74">&#39;my response&#39;</span>, json)
 </span></span></code></pre></div><p>注意send()用于非自定义的事件而emit()用于自定义的事件中。</p>
 <p>当使用命名空间时，send()和emit()默认使用传进来的消息的命名空间，我们也可以使用namespace参数来指定使用哪个命名空间：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#39;message&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#39;message&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle_message</span>(message):
 </span></span><span style="display:flex;"><span>    send(message, namespace<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/chat&#39;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#39;my event&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#39;my event&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle_my_custom_event</span>(json):
 </span></span><span style="display:flex;"><span>    emit(<span style="color:#e6db74">&#39;my response&#39;</span>, json, namespace<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/chat&#39;</span>)
 </span></span><span style="display:flex;"><span>
@@ -211,19 +210,19 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">```</span>python
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">ack</span>():
 </span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;message was received!&#39;</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#39;my event&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#39;my event&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle_my_custom_event</span>(json):
 </span></span><span style="display:flex;"><span>    emit(<span style="color:#e6db74">&#39;my response&#39;</span>, json, callback<span style="color:#f92672">=</span>ack)
 </span></span></code></pre></div><p>当使用回调的时候Javascript客户端接受一个回调函数来调用接收到的消息，在客户端回调函数执行完成后服务端相应的回调函数将被执行。如果客户端的回调函数返回了任何值，它们将被作为参数传递给服务端的回调函数。</p>
 <p>应用程序的客户端也可以向服务端为一个事件请求确认回调，如果服务端想为这个回调提供参数，仅需要在事件处理函数中返回它们就可以了：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#39;my event&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#39;my event&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle_my_custom_event</span>(json):
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># ... handle the event</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;bar&#39;</span>, <span style="color:#ae81ff">123</span>  <span style="color:#75715e"># client callback will receive these 3 arguments</span>
 </span></span></code></pre></div><p>（关于上面客户端回调、服务端回调以及相关确认回调神码的有些绕，需要从代码层面去理解一下真正的含义）</p>
 <h2 id="广播">广播</h2>
 <p>SocketIO中另一个特别有用的特性就是消息广播。Flask-SocketIO通过在send()和emit()函数中设定参数broadcast=True来支持这一特性：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#39;my event&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#39;my event&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle_my_custom_event</span>(data):
 </span></span><span style="display:flex;"><span>    emit(<span style="color:#e6db74">&#39;my response&#39;</span>, data, broadcast<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span></code></pre></div><p>当一条消息以广播方式发送时，同命名空间下的所有建立了链接的客户端都将收到这条消息，包括发送者自己。如果没有使用命名空间，所以链接到全局命名空间的客户端都将收到这条消息。注意，回调函数不会被广播消息触发。</p>
@@ -236,13 +235,13 @@ if (!doNotTrack) {
 <h2 id="房间">房间</h2>
 <p>在很多程序需要对用户进行分组，并且每个组之间的成员可以相互发送消息。典型的例子就是聊天室程序，用户接受他们进入的房间的消息，而不会收到其它房间发送的消息。Flask-SocketIO通过join_room() 和leave_room()函数来支持这种特性：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> flask_socketio <span style="color:#f92672">import</span> join_room, leave_room
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#39;join&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#39;join&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">on_join</span>(data):
 </span></span><span style="display:flex;"><span>    username <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;username&#39;</span>]
 </span></span><span style="display:flex;"><span>    room <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;room&#39;</span>]
 </span></span><span style="display:flex;"><span>    join_room(room)
 </span></span><span style="display:flex;"><span>    send(username <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39; has entered the room.&#39;</span>, room<span style="color:#f92672">=</span>room)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#39;leave&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#39;leave&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">on_leave</span>(data):
 </span></span><span style="display:flex;"><span>    username <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;username&#39;</span>]
 </span></span><span style="display:flex;"><span>    room <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;room&#39;</span>]
@@ -253,32 +252,32 @@ if (!doNotTrack) {
 <p>每个客户端都被指定了个人房间后，向个人发送消息可以使用客户端的session id作为room的参数。（个人理解就是私聊功能）</p>
 <h2 id="链接事件">链接事件</h2>
 <p>Flask-SocketIO也分离了建立链接和断开链接事件，下面的示例展示了如何为这2个事件注册处理函数：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#39;connect&#39;</span>, namespace<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/chat&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#39;connect&#39;</span>, namespace<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/chat&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_connect</span>():
 </span></span><span style="display:flex;"><span>    emit(<span style="color:#e6db74">&#39;my response&#39;</span>, {<span style="color:#e6db74">&#39;data&#39;</span>: <span style="color:#e6db74">&#39;Connected&#39;</span>})
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#39;disconnect&#39;</span>, namespace<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/chat&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#39;disconnect&#39;</span>, namespace<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/chat&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_disconnect</span>():
 </span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;Client disconnected&#39;</span>)
 </span></span></code></pre></div><p>connect事件可以选择return False来拒绝链接，这样可以对客户端进行身份认证。</p>
 <p>注意connect和disconnect事件在每个命名空间中被单独发送。</p>
 <h2 id="错误控制">错误控制</h2>
 <p>Flask-SocketIO也可以处理异常：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on_error()        <span style="color:#75715e"># Handles the default namespace</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on_error</span>()        <span style="color:#75715e"># Handles the default namespace</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">error_handler</span>(e):
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pass</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on_error(<span style="color:#e6db74">&#39;/chat&#39;</span>) <span style="color:#75715e"># handles the &#39;/chat&#39; namespace</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on_error</span>(<span style="color:#e6db74">&#39;/chat&#39;</span>) <span style="color:#75715e"># handles the &#39;/chat&#39; namespace</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">error_handler_chat</span>(e):
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pass</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on_error_default  <span style="color:#75715e"># handles all namespaces without an explicit error handler</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on_error_default</span>  <span style="color:#75715e"># handles all namespaces without an explicit error handler</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">default_error_handler</span>(e):
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pass</span>
 </span></span></code></pre></div><p>错误处理程序接受exception object作为参数。</p>
 <p>当前请求的消息和数据可以通过request.event 来获取，这在记录错误日志和调试程序时候是非常有用的：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> request
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#34;my error event&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#34;my error event&#34;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">on_my_event</span>(data):
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">RuntimeError</span>()
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on_error_default
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on_error_default</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">default_error_handler</span>(e):
 </span></span><span style="display:flex;"><span>    print request<span style="color:#f92672">.</span>event[<span style="color:#e6db74">&#34;message&#34;</span>] <span style="color:#75715e"># &#34;my error event&#34;</span>
 </span></span><span style="display:flex;"><span>    print request<span style="color:#f92672">.</span>event[<span style="color:#e6db74">&#34;args&#34;</span>]    <span style="color:#75715e"># (data,)</span>
@@ -299,7 +298,7 @@ if (!doNotTrack) {
 <p>然而更方便的方法是在建立SocketIO链接之前进行传统的认证，用户的认证信息可以被存储在session或者cookie中，晚些时候在SocketIO链接建立时候，这些认证信息将可以在事件处理函数中使用。</p>
 <h2 id="结合使用flask-login与flask-socketio">结合使用Flask-Login与Flask-SocketIO</h2>
 <p>Flask_socketIO能够使用由Flask-Login维护的用户信息。当常规的Flask-Login身份验证执行后， login_user()被调用在session中记录用户信息，任何事件处理函数都可以使用current_user变量：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#39;connect&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#39;connect&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">connect_handler</span>():
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> current_user<span style="color:#f92672">.</span>is_authenticated:
 </span></span><span style="display:flex;"><span>        emit(<span style="color:#e6db74">&#39;my response&#39;</span>,
@@ -313,14 +312,14 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> flask_login <span style="color:#f92672">import</span> current_user
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> flask_socketio <span style="color:#f92672">import</span> disconnect
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">authenticated_only</span>(f):
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@functools</span><span style="color:#f92672">.</span>wraps(f)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@functools.wraps</span>(f)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">wrapped</span>(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> current_user<span style="color:#f92672">.</span>is_authenticated:
 </span></span><span style="display:flex;"><span>            disconnect()
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> f(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> wrapped
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio</span><span style="color:#f92672">.</span>on(<span style="color:#e6db74">&#39;my event&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@socketio.on</span>(<span style="color:#e6db74">&#39;my event&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">@authenticated_only</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle_my_custom_event</span>(data):
 </span></span><span style="display:flex;"><span>    emit(<span style="color:#e6db74">&#39;my response&#39;</span>, {<span style="color:#e6db74">&#39;message&#39;</span>: <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{0}</span><span style="color:#e6db74"> has joined&#39;</span><span style="color:#f92672">.</span>format(current_user<span style="color:#f92672">.</span>name)},

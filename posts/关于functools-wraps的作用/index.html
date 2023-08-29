@@ -15,7 +15,6 @@ from functools import wraps def http_basic_auth(func): &#39;&#39;&#39;定义http
 <meta property="article:published_time" content="2016-01-12T13:38:44+00:00" />
 <meta property="article:modified_time" content="2016-01-12T13:38:44+00:00" />
 
-
 		<meta itemprop="name" content="关于functools.wraps的作用">
 <meta itemprop="description" content="今天看代码时候有这么一段：
 from functools import wraps def http_basic_auth(func): &#39;&#39;&#39;定义httpbasicauth装饰器&#39;&#39;&#39; @wraps(func) def _decorator(request, *args, **kwargs): authorization = request."><meta itemprop="datePublished" content="2016-01-12T13:38:44+00:00" />

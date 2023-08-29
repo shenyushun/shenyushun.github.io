@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mev on Hi~Roy!</title>
+    <link>/tags/mev/</link>
+    <description>Recent content in mev on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 16 Aug 2023 15:15:03 +0800</lastBuildDate><atom:link href="/tags/mev/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Web3漫游记——MEV以及赚钱姿势</title>
+      <link>/posts/web3%E6%BC%AB%E6%B8%B8%E8%AE%B0mev%E4%BB%A5%E5%8F%8A%E8%B5%9A%E9%92%B1%E5%A7%BF%E5%8A%BF/</link>
+      <pubDate>Wed, 16 Aug 2023 15:15:03 +0800</pubDate>
+      
+      <guid>/posts/web3%E6%BC%AB%E6%B8%B8%E8%AE%B0mev%E4%BB%A5%E5%8F%8A%E8%B5%9A%E9%92%B1%E5%A7%BF%E5%8A%BF/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;对MEV没兴趣可以直接拉到文章末尾。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这篇文章假定你已经有了一些Web3相关最基础概念，比如什么是区块链、什么是Defi、什么是挖矿、什么是POW和POS、什么是CEX和DEX等等，这篇主要来聊聊什么是MEV以及MEV相关套利原理，至于技术同学最感兴趣的&amp;quot;Show Me The Code&amp;quot;，后面再说。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

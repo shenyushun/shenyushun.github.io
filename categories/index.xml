@@ -6,7 +6,25 @@
     <description>Recent content in Categories on Hi~Roy!</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 19 Jan 2023 11:10:48 +0800</lastBuildDate><atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 16 Aug 2023 15:15:03 +0800</lastBuildDate><atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MEV</title>
+      <link>/categories/mev/</link>
+      <pubDate>Wed, 16 Aug 2023 15:15:03 +0800</pubDate>
+      
+      <guid>/categories/mev/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Web3</title>
+      <link>/categories/web3/</link>
+      <pubDate>Wed, 16 Aug 2023 15:15:03 +0800</pubDate>
+      
+      <guid>/categories/web3/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>编程技术</title>
       <link>/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/</link>

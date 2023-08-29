@@ -15,7 +15,6 @@ _SERVER_RETRIES = 10 # how many times to try finding a free server." />
 <meta property="article:published_time" content="2015-08-13T18:47:40+00:00" />
 <meta property="article:modified_time" content="2015-08-13T18:47:40+00:00" />
 
-
 		<meta itemprop="name" content="python-memcached源码小窥">
 <meta itemprop="description" content="以前经常使用python-memcached对内存进行操作，但应用都比较简单，最近需要有一个分布式缓存系统于是看了看关于twemproxy 以及 mcrouter 这两款分别由twitter和facebook开源的软件文档。这2个软件都能容易的扩展缓存节点以及自动删除问题节点，并且提供不同的算法把数据缓存到各个节点中。这时候我想起来使用python-memcached的时候，也可以使用多个节点，并且某个节点挂掉后并不影响整个缓存程序的使用，那么它是怎么将数据分配到不同的节点呢？以及怎么处理的故障节点呢？ python-memcached的源码只有一个文件，不管是get或者set，取得服务节点Ip的函数如下：
 _SERVER_RETRIES = 10 # how many times to try finding a free server."><meta itemprop="datePublished" content="2015-08-13T18:47:40+00:00" />

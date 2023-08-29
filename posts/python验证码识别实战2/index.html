@@ -15,7 +15,6 @@
 <meta property="article:published_time" content="2018-01-06T16:27:04+00:00" />
 <meta property="article:modified_time" content="2018-01-06T16:27:04+00:00" />
 
-
 		<meta itemprop="name" content="python验证码识别实战2">
 <meta itemprop="description" content="在上一篇文章中，我们使用sklearn对验证码进行了识别，为了提高识别率，今天来进行进一步优化。
 观察验证码后，发现还可以对其进行旋转处理，这个验证码旋转角度在-30～30之间，那么如何判断旋转角度呢？这里我使用最简单粗暴的判断方式——如果旋转后的字符宽度小于旋转之前，则认为是合理的旋转。但这里还有一个问题需要处理，上一篇文章中我们为了简便直接根据固定的宽度对字符进行了分割，但是分割后字符在小图片中的位置不是固定的，需要手动将其放在中心位置。"><meta itemprop="datePublished" content="2018-01-06T16:27:04+00:00" />

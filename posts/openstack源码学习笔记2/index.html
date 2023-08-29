@@ -38,7 +38,6 @@ def main():
 <meta property="article:published_time" content="2019-09-18T12:46:29+00:00" />
 <meta property="article:modified_time" content="2019-09-18T12:46:29+00:00" />
 
-
 		<meta itemprop="name" content="OpenStack源码学习笔记2">
 <meta itemprop="description" content="上次学习了Nova创建虚拟机的过程，这次来看一下Glance是如何上传镜像的。相比于Nova，Glance源码使用了大量的代理模式和装饰器模式，阅读代码时候一个不仔细就会一脸懵X。根据上次说的Openstack套路，我们通过setup.cfg直奔主题——glance/cmd/api.py:
 def main():
@@ -327,7 +326,7 @@ if (!doNotTrack) {
 <h3 id="upload">upload</h3>
 <p><a href="https://docs.openstack.org/api-ref/image/v2/?expanded=upload-binary-image-data-detail#upload-binary-image-data">文档</a>中定义，上传数据行为是向<code>/v2/images/{image_id}/file</code>发送PUT请求，实际处理函数为<code>glance/api/v2/image_data.py</code>中的<code>ImageDataController</code>类的<code>upload</code>方法：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#f92672">......</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@utils</span><span style="color:#f92672">.</span>mutating
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@utils.mutating</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">upload</span>(self, req, image_id, data, size):
 </span></span><span style="display:flex;"><span>        backend <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
 </span></span><span style="display:flex;"><span>        image_repo <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>gateway<span style="color:#f92672">.</span>get_repo(req<span style="color:#f92672">.</span>context)
@@ -395,8 +394,8 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> store_add_to_backend_with_multihash(
 </span></span><span style="display:flex;"><span>        image_id, data, size, hashing_algo, store, context, verifier)
 </span></span></code></pre></div><p>其中<code>get_store_from_scheme</code>函数作用是获取到文章开头所说的绑定到<code>SCHEME_TO_CLS_MAP</code>中的对应的<code>driver</code>，然后经过<code>store_add_to_backend_with_multihash</code>函数进入相应的<code>driver</code>的<code>add</code>方法，这里以Ceph的块存储RBD(RADOS Block Device)为例，函数位于<code>glance_store/_drivers/rbd.py</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>    <span style="color:#a6e22e">@driver</span><span style="color:#f92672">.</span>back_compat_add
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@capabilities</span><span style="color:#f92672">.</span>check
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>    <span style="color:#a6e22e">@driver.back_compat_add</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@capabilities.check</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add</span>(self, image_id, image_file, image_size, hashing_algo, context<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
 </span></span><span style="display:flex;"><span>            verifier<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
 </span></span><span style="display:flex;"><span>        checksum <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>md5()

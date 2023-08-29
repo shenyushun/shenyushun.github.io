@@ -16,7 +16,6 @@
 <meta property="article:published_time" content="2020-03-30T17:46:29+00:00" />
 <meta property="article:modified_time" content="2020-03-30T17:46:29+00:00" />
 
-
 		<meta itemprop="name" content="OpenStack源码学习笔记5">
 <meta itemprop="description" content="今天遇到一个诡异的问题，对某个有问题的计算节点进行疏散，结果有些虚拟机的根磁盘居然消！失！了？首先能够确定的是ceph不会自动删除，那么一定是某个地方触发了删除根磁盘的操作。
 这如果发生在生产环境可是一个极其严重的问题，正好借此排查的机会梳理一下nova关于主机疏散的流程。

@@ -17,7 +17,6 @@
 <meta property="article:published_time" content="2020-07-20T17:46:29+00:00" />
 <meta property="article:modified_time" content="2020-07-20T17:46:29+00:00" />
 
-
 		<meta itemprop="name" content="OpenStack源码学习笔记6">
 <meta itemprop="description" content="很久之前发现一个现象，在生产环境中配置了保留内存reserved_host_memory_mb以及 没配置 内存超分比ram_allocation_ratio的情况下，虚拟机使用的内存居然已经快将物理内存耗尽了。
 比如物理机内存300G，方便举例忽略掉一些系统占用，当设置了reserved_host_memory_mb为20G，那么理论上所有虚拟机最大占用内存量为280G，而查看居然已经使用了290G的内存，还是在虚拟机并没有将各自申请的内存全部使用掉的情况下(比如申请一台4G的虚拟机，但物理机操作系统层面并没有分配4G给对应的进程，除非虚拟机内部把内存占满)。

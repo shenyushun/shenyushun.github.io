@@ -43,7 +43,6 @@ Keystone：负责鉴权以及服务注册。
 <meta property="article:published_time" content="2019-09-16T17:46:29+00:00" />
 <meta property="article:modified_time" content="2019-09-16T17:46:29+00:00" />
 
-
 		<meta itemprop="name" content="OpenStack源码学习笔记1">
 <meta itemprop="description" content="
 预备知识
@@ -466,7 +465,7 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">......</span>
 </span></span></code></pre></div><p>经过一些获取、验证操作后，调用了<code>self.compute_api.create()</code>方法，这个<code>compute_api</code>就是<code>nova/compute/api.py</code>中定义的<code>API</code>类，<code>create</code>函数定义如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@hooks</span><span style="color:#f92672">.</span>add_hook(<span style="color:#e6db74">&#34;create_instance&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@hooks.add_hook</span>(<span style="color:#e6db74">&#34;create_instance&#34;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create</span>(self, context, instance_type,
 </span></span><span style="display:flex;"><span>            image_href, kernel_id<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, ramdisk_id<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
 </span></span><span style="display:flex;"><span>            min_count<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, max_count<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
@@ -633,7 +632,7 @@ if (!doNotTrack) {
 </span></span></code></pre></div><p>注意这里使用的<code>call</code>而不是<code>cast</code>，所以是一个同步调用，此时nova-conductor会堵塞等待直到nova-scheduler返回。</p>
 <h3 id="nova-scheduler">Nova-Scheduler</h3>
 <p>根据套路，在<code>nova/scheduler/manager.py</code>中找到函数定义如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@messaging</span><span style="color:#f92672">.</span>expected_exceptions(exception<span style="color:#f92672">.</span>NoValidHost)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@messaging.expected_exceptions</span>(exception<span style="color:#f92672">.</span>NoValidHost)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">select_destinations</span>(self, ctxt, request_spec<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
 </span></span><span style="display:flex;"><span>        filter_properties<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, spec_obj<span style="color:#f92672">=</span>_sentinel, instance_uuids<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
 </span></span><span style="display:flex;"><span>        return_objects<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>, return_alternates<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>):

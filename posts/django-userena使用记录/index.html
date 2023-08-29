@@ -16,7 +16,6 @@
 <meta property="article:published_time" content="2015-04-09T17:31:47+00:00" />
 <meta property="article:modified_time" content="2015-04-09T17:31:47+00:00" />
 
-
 		<meta itemprop="name" content="django-userena使用记录">
 <meta itemprop="description" content="django-userena扩展了django原生的用户系统，提供了注册、登录、修改密码、邮件验证等一系列常用功能。直接使用pip安装即可：pip install django-userena
 会自动安装其所需的依赖包，不过个人建议为了更好的定制模板或相关功能，把这个包放到项目目录下当作一个app更方便一些。安装完成后修改settings.py，首先来创建一个app用于扩展用户系统 python manage.py startapp accounts 然后修改Models.py来扩展原生用户字段，我这里以添加用户等级为例：

@@ -14,7 +14,6 @@
 <meta property="article:published_time" content="2016-02-23T15:30:02+00:00" />
 <meta property="article:modified_time" content="2016-02-23T15:30:02+00:00" />
 
-
 		<meta itemprop="name" content="Django&#43;Celery&#43;Rabbitmq&#43;Flower使用小记">
 <meta itemprop="description" content="之前的博客中简单的介绍了celery的安装配置以及如何在python程序中使用，这里记录一下我使用django结合celery以及rabbitmq提供web服务，同时使用flower进行监控的过程。至于这几样东西是什么、怎么安装这里就不再细说了。"><meta itemprop="datePublished" content="2016-02-23T15:30:02+00:00" />
 <meta itemprop="dateModified" content="2016-02-23T15:30:02+00:00" />
@@ -123,7 +122,7 @@ djce
 </span></span><span style="display:flex;"><span>app <span style="color:#f92672">=</span> Celery(<span style="color:#e6db74">&#39;djce&#39;</span>)
 </span></span><span style="display:flex;"><span>app<span style="color:#f92672">.</span>config_from_object(<span style="color:#e6db74">&#39;django.conf:settings&#39;</span>)
 </span></span><span style="display:flex;"><span>app<span style="color:#f92672">.</span>autodiscover_tasks(<span style="color:#66d9ef">lambda</span>: settings<span style="color:#f92672">.</span>INSTALLED_APPS)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@app</span><span style="color:#f92672">.</span>task(bind<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@app.task</span>(bind<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">debug_task</span>(self):
 </span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;Request: </span><span style="color:#e6db74">{0!r}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>request))
 </span></span></code></pre></div><p>修改<code>__init__.py</code>添加：</p>

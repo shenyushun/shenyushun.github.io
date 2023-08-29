@@ -15,7 +15,6 @@
 <meta property="article:published_time" content="2017-09-21T20:38:00+00:00" />
 <meta property="article:modified_time" content="2017-09-21T20:38:00+00:00" />
 
-
 		<meta itemprop="name" content="python验证码识别3:滑动验证码">
 <meta itemprop="description" content="上篇文章记录了2种分割验证码的方法，此外还有一种叫做&quot;滴水算法&quot;(Drop Fall Algorithm)的方法，但本人智商原因看这个算法看的云里雾里的，所以今天记录滑动验证码的处理吧。网上据说有大神已经破解了滑动验证码的算法，可以不使用selenium来破解，但本人能力不足还是使用笨方法吧。
 基础原理很简单，首先点击验证码按钮后的图片是滑动后的完整结果，点击一下滑块后会出现拼图，对这2个分别截图后比较像素值来找出滑动距离，并结合selenium来实现拖拽效果。"><meta itemprop="datePublished" content="2017-09-21T20:38:00+00:00" />

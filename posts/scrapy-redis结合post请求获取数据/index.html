@@ -21,7 +21,6 @@ REDIS_URL = &#34;redis://127.0.0.1:6379&#34;
 <meta property="article:published_time" content="2019-05-06T16:31:37+00:00" />
 <meta property="article:modified_time" content="2019-05-06T16:31:37+00:00" />
 
-
 		<meta itemprop="name" content="Scrapy-Redis结合POST请求获取数据">
 <meta itemprop="description" content="能看到这篇文章的小伙伴肯定已经知道什么是Scrapy以及Scrapy-Redis了，基础概念这里就不再介绍。默认情况下Scrapy-Redis是发送GET请求获取数据的，对于某些使用POST请求的情况需要重写make_request_from_data函数即可，但奇怪的是居然没在网上搜到简洁明了的答案，或许是太简单了？
 这里我以httpbin.org这个网站为例，首先在settings.py中添加所需配置，这里需要根据实际情况进行修改：
