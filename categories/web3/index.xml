@@ -6,7 +6,17 @@
     <description>Recent content in Web3 on Hi~Roy!</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 29 Aug 2023 15:15:03 +0800</lastBuildDate><atom:link href="/categories/web3/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 11 Sep 2023 03:15:03 +0800</lastBuildDate><atom:link href="/categories/web3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Web3漫游记——MEV机器人实践1</title>
+      <link>/posts/web3%E6%BC%AB%E6%B8%B8%E8%AE%B0mev%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%AE%9E%E8%B7%B51/</link>
+      <pubDate>Mon, 11 Sep 2023 03:15:03 +0800</pubDate>
+      
+      <guid>/posts/web3%E6%BC%AB%E6%B8%B8%E8%AE%B0mev%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%AE%9E%E8%B7%B51/</guid>
+      <description>&lt;p&gt;今天开始进入技术同学最喜欢的代码环节，虽然前一篇文章&lt;a href=&#34;https://www.hi-roy.com/posts/web3%E6%BC%AB%E6%B8%B8%E8%AE%B0mev%E5%A5%97%E5%88%A9%E6%8A%80%E8%83%BD%E6%A0%91/&#34;&gt;《Web3漫游记——MEV套利技能树》&lt;/a&gt;主推Rust作为首选，但后续文章会以Golang为主。主要因为个人技术栈是Golang+Python，用熟悉的语言可以更专注于MEV相关逻辑实现。而使用Golang而非Python则是为了顺便熟悉一下Geth这个库，为了后面做私有节点优化提前做一些准备。有其他语言编程基础的小伙伴看懂应该都不是问题，只不过用到的库以及语法可能略有差别而已。&lt;/p&gt;
+&lt;p&gt;另外提醒一下Python技术栈的小伙伴，截止到发文日期，&lt;code&gt;Python3.11&lt;/code&gt;、&lt;code&gt;web3.py-v6.9&lt;/code&gt;和&lt;code&gt;web3-flashbots-v1.1.1&lt;/code&gt;的SDK目前有兼容性问题，使用python3.8可正常测试。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Web3漫游记——MEV套利技能树</title>
       <link>/posts/web3%E6%BC%AB%E6%B8%B8%E8%AE%B0mev%E5%A5%97%E5%88%A9%E6%8A%80%E8%83%BD%E6%A0%91/</link>
