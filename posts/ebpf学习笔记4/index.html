@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>eBPF学习笔记4 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="eBPF学习笔记4" />
+<meta property="og:description" content="上一篇文章记录了如何使用bpftrace来编写bpf程序，这篇就来说说如何使用BCC(BPF Compiler Collection)。正如前一篇笔记说的，bpftrace简单是简单，但是对于某些复杂场景功能还略有不足。比如，很多的Linux工具都支持各种各样的参数，这时bpftrace就不能满足需求了。
+如图所示，BCC已经提供了大量的二进制工具可以直接使用，这篇笔记主要侧重于如何使用BCC编写eBPF程序。
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/" />
+<meta property="article:published_time" content="2022-02-14T19:49:25+08:00" />
+<meta property="article:modified_time" content="2022-02-14T19:49:25+08:00" />
+
+		<meta itemprop="name" content="eBPF学习笔记4">
+<meta itemprop="description" content="上一篇文章记录了如何使用bpftrace来编写bpf程序，这篇就来说说如何使用BCC(BPF Compiler Collection)。正如前一篇笔记说的，bpftrace简单是简单，但是对于某些复杂场景功能还略有不足。比如，很多的Linux工具都支持各种各样的参数，这时bpftrace就不能满足需求了。
+如图所示，BCC已经提供了大量的二进制工具可以直接使用，这篇笔记主要侧重于如何使用BCC编写eBPF程序。
+">
+<meta itemprop="datePublished" content="2022-02-14T19:49:25&#43;08:00" />
+<meta itemprop="dateModified" content="2022-02-14T19:49:25&#43;08:00" />
+<meta itemprop="wordCount" content="404">
+
+
+
+<meta itemprop="keywords" content="eBPF," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">eBPF学习笔记4</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2022-02-14T19:49:25&#43;08:00">2022-02-14</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/ebpf/" rel="category">eBPF</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>上一篇文章记录了如何使用bpftrace来编写bpf程序，这篇就来说说如何使用BCC(BPF Compiler Collection)。正如前一篇笔记说的，bpftrace简单是简单，但是对于某些复杂场景功能还略有不足。比如，很多的Linux工具都支持各种各样的参数，这时bpftrace就不能满足需求了。</p>
+<p>如图所示，<a href="https://github.com/iovisor/bcc/blob/master/docs/tutorial.md">BCC</a>已经提供了大量的二进制工具可以直接使用，这篇笔记主要侧重于如何使用BCC编写eBPF程序。</p>
+<p><img src="https://www.brendangregg.com/Perf/bcc_tracing_tools.png" alt="bcc"></p>
+<p>举个例子，来源于官网。首先建立一个<code>hello.c</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;linux/sched.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// 定义一个结构体来存储数据
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> data_t {
+    u32 pid;
+    u64 ts;
+    <span style="color:#66d9ef">char</span> comm[TASK_COMM_LEN];
+};
+
+<span style="color:#75715e">// 辅助函数，用于定义一个名字叫做events的table用于存放自定义事件到用户空间
+</span><span style="color:#75715e"></span>BPF_PERF_OUTPUT(events);
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">hello</span>(<span style="color:#66d9ef">struct</span> pt_regs <span style="color:#f92672">*</span>ctx) {
+    <span style="color:#66d9ef">struct</span> data_t data <span style="color:#f92672">=</span> {};
+	
+	<span style="color:#75715e">// 辅助函数，获取TGID和PID，由于data_t的pid定义为u32，高32位舍弃后刚好是PID
+</span><span style="color:#75715e"></span>    data.pid <span style="color:#f92672">=</span> bpf_get_current_pid_tgid();
+    <span style="color:#75715e">// 辅助函数，获取系统启动以来的时间，纳秒
+</span><span style="color:#75715e"></span>	data.ts <span style="color:#f92672">=</span> bpf_ktime_get_ns(); 
+	<span style="color:#75715e">// 辅助函数，获取进程名称并且复制到对应的缓冲区
+</span><span style="color:#75715e"></span>    bpf_get_current_comm(<span style="color:#f92672">&amp;</span>data.comm, <span style="color:#66d9ef">sizeof</span>(data.comm));
+	<span style="color:#75715e">// 辅助函数，向用户空间提交自定义事件数据
+</span><span style="color:#75715e"></span>    events.perf_submit(ctx, <span style="color:#f92672">&amp;</span>data, <span style="color:#66d9ef">sizeof</span>(data));
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><p>具体含义可以看注释，然后再创建一个<code>hello.py</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> bcc <span style="color:#f92672">import</span> BPF
+
+<span style="color:#75715e"># 加载BPF程序</span>
+b <span style="color:#f92672">=</span> BPF(src_file<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hello.c&#34;</span>)
+
+<span style="color:#75715e"># 将程序插桩到`clone`系统调用，fn_name参数就是上面C程序函数名称。</span>
+b<span style="color:#f92672">.</span>attach_kprobe(event<span style="color:#f92672">=</span>b<span style="color:#f92672">.</span>get_syscall_fnname(<span style="color:#e6db74">&#34;clone&#34;</span>), fn_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hello&#34;</span>)
+<span style="color:#75715e"># 也可以直接写需要插桩的函数名称</span>
+<span style="color:#75715e"># b.attach_kprobe(event=&#34;do_sys_openat2&#34;, fn_name=&#34;hello_world&#34;)</span>
+
+
+<span style="color:#75715e"># 打印表头</span>
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%-18s</span><span style="color:#e6db74"> </span><span style="color:#e6db74">%-16s</span><span style="color:#e6db74"> </span><span style="color:#e6db74">%-6s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (<span style="color:#e6db74">&#34;TIME(s)&#34;</span>, <span style="color:#e6db74">&#34;COMM&#34;</span>, <span style="color:#e6db74">&#34;PID&#34;</span>))
+
+start <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+
+<span style="color:#75715e"># 定义回调函数</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">print_event</span>(cpu, data, size):
+    <span style="color:#66d9ef">global</span> start
+    event <span style="color:#f92672">=</span> b[<span style="color:#e6db74">&#34;events&#34;</span>]<span style="color:#f92672">.</span>event(data)
+    <span style="color:#66d9ef">if</span> start <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+        start <span style="color:#f92672">=</span> event<span style="color:#f92672">.</span>ts
+    time_s <span style="color:#f92672">=</span> (float(event<span style="color:#f92672">.</span>ts <span style="color:#f92672">-</span> start)) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1000000000</span>
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%-18.9f</span><span style="color:#e6db74"> </span><span style="color:#e6db74">%-16s</span><span style="color:#e6db74"> </span><span style="color:#e6db74">%-6d</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (time_s, event<span style="color:#f92672">.</span>comm, event<span style="color:#f92672">.</span>pid))
+
+<span style="color:#75715e"># 打开从上面C代码中使用`BPF_PERF_OUTPUT`定义的table，并且和回调函数建立关联</span>
+b[<span style="color:#e6db74">&#34;events&#34;</span>]<span style="color:#f92672">.</span>open_perf_buffer(print_event)
+
+<span style="color:#75715e"># 循环读取数据</span>
+<span style="color:#66d9ef">while</span> <span style="color:#ae81ff">1</span>:
+    <span style="color:#66d9ef">try</span>:
+        b<span style="color:#f92672">.</span>perf_buffer_poll()
+    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">KeyboardInterrupt</span>:
+        exit()
+</code></pre></div><p>然后执行<code>python3 hello.py</code>会看到如下输出：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">In file included from &lt;built-in&gt;:2:
+In file included from /virtual/include/bcc/bpf.h:12:
+In file included from include/linux/types.h:6:
+In file included from include/uapi/linux/types.h:14:
+In file included from include/uapi/linux/posix_types.h:5:
+In file included from include/linux/stddef.h:5:
+In file included from include/uapi/linux/stddef.h:2:
+In file included from include/linux/compiler_types.h:80:
+include/linux/compiler-clang.h:41:9: warning: <span style="color:#e6db74">&#39;__HAVE_BUILTIN_BSWAP32__&#39;</span> macro redefined <span style="color:#f92672">[</span>-Wmacro-redefined<span style="color:#f92672">]</span>
+<span style="color:#75715e">#define __HAVE_BUILTIN_BSWAP32__</span>
+        ^
+&lt;command line&gt;:4:9: note: previous definition is here
+
+<span style="color:#ae81ff">3</span> warnings generated.
+TIME<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>            COMM             PID   
+0.000000000        b<span style="color:#e6db74">&#39;node&#39;</span>          <span style="color:#ae81ff">38928</span> 
+0.002119888        b<span style="color:#e6db74">&#39;node&#39;</span>          <span style="color:#ae81ff">38928</span> 
+0.008244036        b<span style="color:#e6db74">&#39;node&#39;</span>          <span style="color:#ae81ff">38928</span> 
+0.009920322        b<span style="color:#e6db74">&#39;cpuUsage.sh&#39;</span>   <span style="color:#ae81ff">43984</span> 
+0.010913998        b<span style="color:#e6db74">&#39;cpuUsage.sh&#39;</span>   <span style="color:#ae81ff">43984</span> 
+0.011550577        b<span style="color:#e6db74">&#39;cpuUsage.sh&#39;</span>   <span style="color:#ae81ff">43984</span> 
+0.012182933        b<span style="color:#e6db74">&#39;cpuUsage.sh&#39;</span>   <span style="color:#ae81ff">43984</span> 
+0.512549552        b<span style="color:#e6db74">&#39;node&#39;</span>          <span style="color:#ae81ff">39443</span> 
+0.518012445        b<span style="color:#e6db74">&#39;sh&#39;</span>            <span style="color:#ae81ff">43989</span> 
+0.518069208        b<span style="color:#e6db74">&#39;sh&#39;</span>            <span style="color:#ae81ff">43989</span> 
+1.012800058        b<span style="color:#e6db74">&#39;cpuUsage.sh&#39;</span>   <span style="color:#ae81ff">43984</span> 
+1.013940943        b<span style="color:#e6db74">&#39;cpuUsage.sh&#39;</span>   <span style="color:#ae81ff">43984</span>
+</code></pre></div><p>可以看出执行python程序时候自动进行了编译、挂载行为。</p>
+<h2 id="ebpf程序的编译加载运行">eBPF程序的编译、加载、运行？</h2>
+<p>当编写完成BPF程序后，首先会通过clang生成LLVM IR文件，然后再经过LLVM生成BPF字节码。字节码经过加载器通过<code>bpf()</code>系统调用（注意从这里开始由用户态进入了内核态）进入验证器验证，最后通过JIT执行。</p>
+<p>eBPF程序指令都是在内核的特定插桩点执行，将指令加载到内核时，内核会创建bpf_prog存储指令，然后将bpf_prog和内核中的插桩点进行关联，当插桩点被访问到时执行这些指令。</p>
+<p>举个例子，以kprobe为例，首先kprobe会复制保存原来的目标地址，然后使用int3或者jmp指令替换掉它，当程序控制流执行到断点时，检查如果由kprobe替换的，则执行kprobe相关指令，然后再执行原来的程序。当kprobe程序停止时，再把原来的目标地址拷贝回去，来恢复现场。</p>
+<h2 id="如何查找bpf辅助函数">如何查找BPF辅助函数？</h2>
+<ol>
+<li><a href="https://github.com/iovisor/bcc/blob/master/docs/reference_guide.md">reference_guide</a>，常用的、推荐的都列在里面了，必读。</li>
+<li><a href="https://github.com/torvalds/linux/blob/f40ddce8/include/uapi/linux/bpf.h">bpf.h</a>。</li>
+<li><code>bpftool feature probe</code>，这个命令也可以查看所有支持的辅助函数。</li>
+</ol>
+<h2 id="如何查找系统调用和插桩点">如何查找系统调用和插桩点？</h2>
+<p>这部分主要作为小白的知识点补充，熟悉内核的大佬可以略过。</p>
+<p>首先推荐的肯定是各类经典Unix/Linux书籍，常用的系统调用都会在里面有相关介绍。比如《UNIX环境高级编程》、《UNIX网络编程》、《深入理解Linux内核》、《Linux系统编程手册》……最大的挑战就是每一本都是大砖头书，没事就翻翻吧……</p>
+<p>其次是推荐几个网站：</p>
+<ul>
+<li><a href="https://www.kernel.org/doc/html/latest/index.html">linux内核文档</a>，这个可以约等于上面的砖头书，不过更方便检索……</li>
+<li><a href="https://github.com/torvalds/linux/blob/18a3c5f7abfdf97f88536d35338ebbee119c355c/arch/x86/entry/syscalls/syscall_64.tbl">linux系统调用表</a></li>
+<li><a href="https://elixir.bootlin.com/">elixir</a>，可以在线搜索各个版本的内核源码。</li>
+<li><a href="https://livegrep.com/">livegrep</a>，也是搜索内核代码的，结合上2个一起使用效果奇佳。</li>
+<li><a href="https://0xax.gitbooks.io/linux-insides/content/">linux-insides</a>，部分有中文版。</li>
+</ul>
+<p>目前系统调用一般会使用宏<code>SYSCALL_DEFINEx</code>来创建，位于<code>syscalls.h</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#ifndef SYSCALL_DEFINE0
+</span><span style="color:#75715e">#define SYSCALL_DEFINE0(sname)					\
+</span><span style="color:#75715e">	SYSCALL_METADATA(_##sname, 0);				\
+</span><span style="color:#75715e">	asmlinkage long sys_##sname(void);			\
+</span><span style="color:#75715e">	ALLOW_ERROR_INJECTION(sys_##sname, ERRNO);		\
+</span><span style="color:#75715e">	asmlinkage long sys_##sname(void)
+</span><span style="color:#75715e">#endif </span><span style="color:#75715e">/* SYSCALL_DEFINE0 */</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)
+</span><span style="color:#75715e">#define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
+</span><span style="color:#75715e">#define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+</span><span style="color:#75715e">#define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
+</span><span style="color:#75715e">#define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+</span><span style="color:#75715e">#define SYSCALL_DEFINE6(name, ...) SYSCALL_DEFINEx(6, _##name, __VA_ARGS__)
+</span></code></pre></div><p>其中：</p>
+<ul>
+<li>反斜杠\：当宏定义过长需要换行时，在行尾要加上换行标志“\”</li>
+<li>…：省略号代表可变的部分，下面用__VA_AEGS__ 代表省略的变长部分</li>
+<li>##：分隔连接方式，它的作用是先分隔，然后进行强制连接</li>
+</ul>
+<p><code>SYSCALL_DEFINE</code>后面的数字表示函数调用需要的参数个数，比如对于<code>openat2</code>这个系统调用，可以在elixir里查询到声明和定义：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">asmlinkage <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">sys_openat2</span>(<span style="color:#66d9ef">int</span> dfd, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> __user <span style="color:#f92672">*</span>filename,
+			    <span style="color:#66d9ef">struct</span> open_how <span style="color:#f92672">*</span>how, size_t size);
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">SYSCALL_DEFINE4(openat2, <span style="color:#66d9ef">int</span>, dfd, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> __user <span style="color:#f92672">*</span>, filename,
+		<span style="color:#66d9ef">struct</span> open_how __user <span style="color:#f92672">*</span>, how, size_t, usize)
+{
+	<span style="color:#66d9ef">int</span> err;
+	<span style="color:#66d9ef">struct</span> open_how tmp;
+
+	BUILD_BUG_ON(<span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">struct</span> open_how) <span style="color:#f92672">&lt;</span> OPEN_HOW_SIZE_VER0);
+	BUILD_BUG_ON(<span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">struct</span> open_how) <span style="color:#f92672">!=</span> OPEN_HOW_SIZE_LATEST);
+
+	<span style="color:#66d9ef">if</span> (unlikely(usize <span style="color:#f92672">&lt;</span> OPEN_HOW_SIZE_VER0))
+		<span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span>EINVAL;
+
+	err <span style="color:#f92672">=</span> copy_struct_from_user(<span style="color:#f92672">&amp;</span>tmp, <span style="color:#66d9ef">sizeof</span>(tmp), how, usize);
+	<span style="color:#66d9ef">if</span> (err)
+		<span style="color:#66d9ef">return</span> err;
+
+	audit_openat2_how(<span style="color:#f92672">&amp;</span>tmp);
+
+	<span style="color:#75715e">/* O_LARGEFILE is only allowed for non-O_PATH. */</span>
+	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>(tmp.flags <span style="color:#f92672">&amp;</span> O_PATH) <span style="color:#f92672">&amp;&amp;</span> force_o_largefile())
+		tmp.flags <span style="color:#f92672">|=</span> O_LARGEFILE;
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">do_sys_openat2</span>(dfd, filename, <span style="color:#f92672">&amp;</span>tmp);
+}
+</code></pre></div><p>然后这个<code>do_sys_openat2</code>就是<code>openat2()</code>在内核的实现了，也就是BPF程序的插桩点。</p>
+<p>所以流程就是：</p>
+<ol>
+<li>确认系统调用的名称和参数数量</li>
+<li>构造<code>SYSCALL_DEFINEx(syscall_func_name</code>，比如<code>SYSCALL_DEFINE2(creat,</code></li>
+<li>去livegrep搜索上面的字符串位于哪个文件</li>
+<li>去elixir找到对应的文件查看对应的代码</li>
+<li>在BPF内插桩，比如<code>do_sys_xxx</code></li>
+</ol>
+<h2 id="参考链接">参考链接</h2>
+<ul>
+<li><a href="https://github.com/iovisor/bcc">BCC</a></li>
+<li><a href="https://petermalmgren.com/tracing-linux-kernel-bpftrace/">tracing-linux-kernel-bpftrace</a></li>
+<li><a href="https://github.com/goldshtn/linux-tracing-workshop">linux-tracing-workshop</a></li>
+<li><a href="https://www.cnblogs.com/hazir/p/syscall_marco_define.html">系统调用宏定义</a></li>
+</ul>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/ebpf/" rel="tag">eBPF</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">eBPF学习笔记3</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">eBPF学习笔记5</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

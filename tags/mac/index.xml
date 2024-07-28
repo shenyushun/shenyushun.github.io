@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mac on Hi~Roy!</title>
+    <link>/tags/mac/</link>
+    <description>Recent content in mac on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 17 Oct 2015 12:04:27 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/mac/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>MacOS读写ntfs格式硬盘</title>
+      <link>/posts/macos%E8%AF%BB%E5%86%99ntfs%E6%A0%BC%E5%BC%8F%E7%A1%AC%E7%9B%98/</link>
+      <pubDate>Sat, 17 Oct 2015 12:04:27 +0000</pubDate>
+      
+      <guid>/posts/macos%E8%AF%BB%E5%86%99ntfs%E6%A0%BC%E5%BC%8F%E7%A1%AC%E7%9B%98/</guid>
+      <description>系统OS X 10.11，之前就有发现ntfs格式的移动硬盘在mac上只能读不能写，通俗点说就是不能保存文件。
+总体而言解决方法不外乎4种：
+ 硬盘在Mac上格式化成ExFAT这种通用格式 安装第三方插件，比如Paragon NTFS for MAC（收费） 安装osxfuse+ntfs-3g（命令行） 修改配置文件打开原生支持方法  首先硬盘里有东西就把第一种方式排除了，缺钱也不想用破解版的第二种也排除，虽说mac也是类unix系统不过看网上改的文件内容也不是特别明白原理排除，所以使用第三种方式吧。</description>
+    </item>
+    
+    <item>
+      <title>MacOS安装Wireshark-qt</title>
+      <link>/posts/macos%E5%AE%89%E8%A3%85wiresharkqt/</link>
+      <pubDate>Mon, 06 Apr 2015 11:29:54 +0000</pubDate>
+      
+      <guid>/posts/macos%E5%AE%89%E8%A3%85wiresharkqt/</guid>
+      <description>大名鼎鼎的Wireshark不必多说，在win、linux系统中安装也都比较便捷，不过在网上大多写MacOS中如何安装的都狠麻烦，因为他们写的都是安装gtk版本的方式，而wireshark早就投入了qt阵营的怀抱了。
+在brew中直接使用brew install wireshark --with-qt即可安装成功，不过安装后会提示:
+&amp;gt; If your list of available capture interfaces is empty&amp;gt; (default OS X behavior), try the following commands:&amp;gt; curl https://bugs.</description>
+    </item>
+    
+    <item>
+      <title>RMBP我的记录</title>
+      <link>/posts/rmbp%E6%88%91%E7%9A%84%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Sun, 18 Jan 2015 13:58:11 +0000</pubDate>
+      
+      <guid>/posts/rmbp%E6%88%91%E7%9A%84%E8%AE%B0%E5%BD%95/</guid>
+      <description>不出意料的，2015计划单中首先完成了“其它”——换台新电脑。新电脑已经入手半个多月了，记录一下这段时间我是怎么折腾的。
+作为一名忠实的键盘党，感觉MBP的触控板简直爽爆了，在告别鼠标的道路上又进一步，而且“合盖就走，无需关机”这点也让我很喜欢。最初的时候可能需要重新熟悉一下os x的快捷键（不改键盘键位映射的情况下），command键取代了ctrl键的大部分功能，比如复制、粘贴、切换输入法一类的。再比如网页刷新是command+r而非F5，这里推荐第一款软件——cheatsheet。
+这个小东西的作用就是当你长按command键时显示常用快捷键，不仅是系统级别的，而且还包含了软件层面的。
+第二个推荐的软件就是alfred，相信使用os x的没有不知道这个的吧？绝对是os x下的第一效率神器。
+另外，虽说os x也算是*unix家族的成员，但从习惯了linux的强大的包管理功能后还是希望能在ox s中也有类似功能，于是请出os x下的包管理大师——homebrew。</description>
+    </item>
+    
+    <item>
+      <title>解决ipad未能找到使用指定主机名的服务器</title>
+      <link>/posts/%E8%A7%A3%E5%86%B3ipad%E6%9C%AA%E8%83%BD%E6%89%BE%E5%88%B0%E4%BD%BF%E7%94%A8%E6%8C%87%E5%AE%9A%E4%B8%BB%E6%9C%BA%E5%90%8D%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+      <pubDate>Wed, 25 Jun 2014 11:15:35 +0000</pubDate>
+      
+      <guid>/posts/%E8%A7%A3%E5%86%B3ipad%E6%9C%AA%E8%83%BD%E6%89%BE%E5%88%B0%E4%BD%BF%E7%94%A8%E6%8C%87%E5%AE%9A%E4%B8%BB%E6%9C%BA%E5%90%8D%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+      <description>最近联通不知道抽什么疯，Linux电脑只要访问二级域名就会跳转到恶心的DNS错误页面，甚至百度的二级域名都不行。那我玩ipad结果又访问不了App store，使用某些软件下东西又提示&#39;未能找到使用指定主机名的服务器&amp;rsquo;，但是微信又好用。
+愤怒了，一看就是dns的问题，那就把动态链接改成静态链接，IP地址子网掩码默认路由根据实际情况修改，dns设置为8.8.8.8。
+这样就能正常使用相关功能了。</description>
+    </item>
+    
+  </channel>
+</rss>

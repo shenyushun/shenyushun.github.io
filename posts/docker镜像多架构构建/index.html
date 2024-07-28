@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Docker镜像多架构构建 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Docker镜像多架构构建" />
+<meta property="og:description" content="目前arm系统越来越常见，对镜像的多架构需求也越来越大。对于同一个镜像，最简单的办法就是在amd64或arm机器上build后通过不同的tag进行区分，比如nginx:v1-amd64、nginx:v1-arm64，但这种方式比较丑陋，而且没有对应架构的机器用来构建怎么办？
+目前最新的办法就是使用buildx来进行构建，不过这个特性目前默认是没启用的，需要在docker的配置文件中添加&quot;experimental&quot;: true后重启docker服务生效。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/docker%E9%95%9C%E5%83%8F%E5%A4%9A%E6%9E%B6%E6%9E%84%E6%9E%84%E5%BB%BA/" />
+<meta property="article:published_time" content="2022-09-14T19:54:11+08:00" />
+<meta property="article:modified_time" content="2022-09-14T19:54:11+08:00" />
+
+		<meta itemprop="name" content="Docker镜像多架构构建">
+<meta itemprop="description" content="目前arm系统越来越常见，对镜像的多架构需求也越来越大。对于同一个镜像，最简单的办法就是在amd64或arm机器上build后通过不同的tag进行区分，比如nginx:v1-amd64、nginx:v1-arm64，但这种方式比较丑陋，而且没有对应架构的机器用来构建怎么办？
+目前最新的办法就是使用buildx来进行构建，不过这个特性目前默认是没启用的，需要在docker的配置文件中添加&quot;experimental&quot;: true后重启docker服务生效。">
+<meta itemprop="datePublished" content="2022-09-14T19:54:11&#43;08:00" />
+<meta itemprop="dateModified" content="2022-09-14T19:54:11&#43;08:00" />
+<meta itemprop="wordCount" content="268">
+
+
+
+<meta itemprop="keywords" content="DOCKER," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Docker镜像多架构构建</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2022-09-14T19:54:11&#43;08:00">2022-09-14</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/" rel="category">云计算</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>目前arm系统越来越常见，对镜像的多架构需求也越来越大。对于同一个镜像，最简单的办法就是在amd64或arm机器上build后通过不同的tag进行区分，比如<code>nginx:v1-amd64</code>、<code>nginx:v1-arm64</code>，但这种方式比较丑陋，而且没有对应架构的机器用来构建怎么办？</p>
+<p>目前最新的办法就是使用buildx来进行构建，不过这个特性目前默认是没启用的，需要在docker的配置文件中添加<code>&quot;experimental&quot;: true</code>后重启docker服务生效。</p>
+<p>首先执行下面的命令让amd64的机器也可以构建arm的镜像：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker run --rm --privileged tonistiigi/binfmt:latest --install all
+</code></pre></div><p>然后创建一个新的build实例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker buildx create --use --name<span style="color:#f92672">=</span>mybuilder-cn --driver docker-container --driver-opt image<span style="color:#f92672">=</span>dockerpracticesig/buildkit:master
+</code></pre></div><p>这样准备工作就全都做好了。</p>
+<p>接下来以一个kubebuilder命令创建的operator项目默认的Dockerfile为例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-docker" data-lang="docker"><span style="color:#75715e"># Build the manager binary</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> --platform=$TARGETPLATFORM golang:1.16 as builder</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ARG</span> TARGETOS TARGETARCH<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /workspace</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Copy the Go Modules manifests</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> go.mod go.mod<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> go.sum go.sum<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># cache deps before building and copying source so that we don&#39;t need to re-download as much</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># and so that source changes don&#39;t invalidate our downloaded layer</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> go mod download<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Copy the go source</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> main.go main.go<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> api/ api/<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> controllers/ controllers/<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Build</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> CGO_ENABLED<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> GOOS<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TARGETOS<span style="color:#e6db74">}</span> GOARCH<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>TARGETARCH<span style="color:#e6db74">}</span> go build -a -o manager main.go<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Use distroless as minimal base image to package the manager binary</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Refer to https://github.com/GoogleContainerTools/distroless for more details</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74">  --platform=$TARGETPLATFORM gcr.io/distroless/static:nonroot</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>builder /workspace/manager .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">USER</span><span style="color:#e6db74"> 65532:65532</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;/manager&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>修改点有2个:</p>
+<ol>
+<li>FROM后面使用<code>--platform=$TARGETPLATFORM</code> 参数来指定构建架构版本。</li>
+<li><code>GOOS=${TARGETOS} GOARCH=${TARGETARCH}</code> 参数来指定go程序的编译架构。</li>
+</ol>
+<p>这些TARGET开头的变量可以在参考链接2里看到全部含义。</p>
+<p>接下来使用这个文件进行构建：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-docker" data-lang="docker">docker buildx build -t hello/namespace/name:v1 -f Dockerfile .  --platform linux/amd64,linux/arm64 --push<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>注意这里的<code>buildx</code>、<code>--platform</code>参数后面跟随需要构建的版本、以及<code>--push</code>，buildx构建的多架构镜像要么使用这个参数push到镜像仓库，要么使用<code>--load</code>加载到本地，不可省略。</p>
+<p>构建完成后就会生成相应的多架构镜像了，可以使用<code>docker manifest inspect</code>来进行验证，比如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker manifest inspect hello/namespace/name:v1
+<span style="color:#f92672">{</span>
+   <span style="color:#e6db74">&#34;schemaVersion&#34;</span>: 2,
+   <span style="color:#e6db74">&#34;mediaType&#34;</span>: <span style="color:#e6db74">&#34;application/vnd.docker.distribution.manifest.list.v2+json&#34;</span>,
+   <span style="color:#e6db74">&#34;manifests&#34;</span>: <span style="color:#f92672">[</span>
+      <span style="color:#f92672">{</span>
+         <span style="color:#e6db74">&#34;mediaType&#34;</span>: <span style="color:#e6db74">&#34;application/vnd.docker.distribution.manifest.v2+json&#34;</span>,
+         <span style="color:#e6db74">&#34;size&#34;</span>: 1367,
+         <span style="color:#e6db74">&#34;digest&#34;</span>: <span style="color:#e6db74">&#34;sha256:a7b99854e13939e3beaf21c1da8b4654022018eda9f438155b18ae16eeff49a5&#34;</span>,
+         <span style="color:#e6db74">&#34;platform&#34;</span>: <span style="color:#f92672">{</span>
+            <span style="color:#e6db74">&#34;architecture&#34;</span>: <span style="color:#e6db74">&#34;amd64&#34;</span>,
+            <span style="color:#e6db74">&#34;os&#34;</span>: <span style="color:#e6db74">&#34;linux&#34;</span>
+         <span style="color:#f92672">}</span>
+      <span style="color:#f92672">}</span>,
+      <span style="color:#f92672">{</span>
+         <span style="color:#e6db74">&#34;mediaType&#34;</span>: <span style="color:#e6db74">&#34;application/vnd.docker.distribution.manifest.v2+json&#34;</span>,
+         <span style="color:#e6db74">&#34;size&#34;</span>: 2169,
+         <span style="color:#e6db74">&#34;digest&#34;</span>: <span style="color:#e6db74">&#34;sha256:844885928813685ffa8c5ea4c6e9e7a09d95ac79e417afae0be7b73086762cfd&#34;</span>,
+         <span style="color:#e6db74">&#34;platform&#34;</span>: <span style="color:#f92672">{</span>
+            <span style="color:#e6db74">&#34;architecture&#34;</span>: <span style="color:#e6db74">&#34;arm64&#34;</span>,
+            <span style="color:#e6db74">&#34;os&#34;</span>: <span style="color:#e6db74">&#34;linux&#34;</span>
+         <span style="color:#f92672">}</span>
+      <span style="color:#f92672">}</span>
+   <span style="color:#f92672">]</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>可以看出确实是生成了多个架构的镜像，使用时直接在不同架构的机器上pull就会自动下载对应的架构镜像了。或者也可以使用<code>docker pull --platform arm64|amd64 xxxxx</code>来指定拉取镜像的架构。</p>
+<p>对于某些没有办法使用buildx的场景，我们可以手动build不同架构的镜像，然后再手动创建manifest，比如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 指定拉取amd64架构</span>
+docker pull --platform amd64 gcr.io/distroless/static:nonroot
+<span style="color:#75715e"># 重新打tag</span>
+docker tag 9ef34  hello/ns/static:nonroot-amd64
+<span style="color:#75715e"># 推送</span>
+docker push hello/ns/static:nonroot-amd64
+
+<span style="color:#75715e"># 指定拉取arm64架构</span>
+docker pull --platform arm64 gcr.io/distroless/static:nonroot
+<span style="color:#75715e"># 重新打tag</span>
+docker tag <span style="color:#ae81ff">91714</span>  hello/ns/static:nonroot-arm64
+<span style="color:#75715e"># 推送</span>
+docker push hello/ns/static:nonroot-arm64
+
+<span style="color:#75715e">## 制作manifest</span>
+docker manifest create hello/ns/static:nonroot  hello/ns/static:nonroot-amd64 hello/ns/static:nonroot-arm64
+docker manifest push hello/ns/static:nonroot
+docker manifest rm hello/ns/static:nonroot
+</code></pre></div><p>重点是最后3行，push manifest后使用就和第一种方法一样了。</p>
+<p>另外如果想进行多架构构建有几个注意点：</p>
+<ol>
+<li>确定使用的FROM镜像是不是支持多架构。</li>
+<li>如果Dockerfile文件里使用了COPY、ADD等复制到镜像的文件，确保这些文件也是跨平台的。（比如Java源码跨平台，但javac不是&hellip;）</li>
+<li>如果Dockerfile文件里使用了<code>yum|apt install</code>一类的命令，注意软件包不要指定架构。</li>
+</ol>
+<h2 id="其他">其他</h2>
+<p>查看镜像仓库里都有哪些镜像：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">curl -u <span style="color:#e6db74">&#34;用户名&#34;</span>:<span style="color:#e6db74">&#34;密码&#34;</span>  -X GET http://镜像地址:5000/v2/_catalog?n<span style="color:#f92672">=</span><span style="color:#ae81ff">2000</span>  | python -m json.tool
+</code></pre></div><p>查看镜像有哪些tag:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">curl -u <span style="color:#e6db74">&#34;用户名&#34;</span>:<span style="color:#e6db74">&#34;密码&#34;</span> -X GET http://镜像地址:5000/v2/命名空间/镜像名称/tags/list | python -m json.tool
+</code></pre></div><h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="https://docs.docker.com/build/buildx/multiplatform-images/">docker官网</a></li>
+<li><a href="https://yeasy.gitbook.io/docker_practice/buildx/multi-arch-images">docker_practice</a></li>
+</ol>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/docker/" rel="tag">DOCKER</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">在Golang中保持TCP链接</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B9%B6%E5%8F%91/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">在Golang中如何使用并发</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ipfs on Hi~Roy!</title>
+    <link>/tags/ipfs/</link>
+    <description>Recent content in ipfs on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 10 Oct 2018 15:26:16 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/ipfs/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>IPFS初窥3</title>
+      <link>/posts/ipfs%E5%88%9D%E7%AA%A53/</link>
+      <pubDate>Wed, 10 Oct 2018 15:26:16 +0000</pubDate>
+      
+      <guid>/posts/ipfs%E5%88%9D%E7%AA%A53/</guid>
+      <description>&lt;p&gt;在&lt;a href=&#34;http://www.hi-roy.com/2018/09/19/IPFS%E5%88%9D%E7%AA%A52/&#34;&gt;上一篇文章&lt;/a&gt;中记录到了IPFS的&lt;code&gt;BitSwap&lt;/code&gt;协议，今天接着往下看关于&lt;code&gt;Object&lt;/code&gt;的部分。&lt;/p&gt;
+&lt;h2 id=&#34;merkle-dag&#34;&gt;Merkle DAG&lt;/h2&gt;
+&lt;p&gt;Merkle DAG是IPFS核心概念之一，在Git的数据结构上进行了改造。理解Merkle DAG之前先来了解下&lt;a href=&#34;https://en.wikipedia.org/wiki/Merkle_tree&#34;&gt;Merkle Tree&lt;/a&gt;。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>IPFS初窥2</title>
+      <link>/posts/ipfs%E5%88%9D%E7%AA%A52/</link>
+      <pubDate>Wed, 19 Sep 2018 10:52:06 +0000</pubDate>
+      
+      <guid>/posts/ipfs%E5%88%9D%E7%AA%A52/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;在&lt;a href=&#34;http://www.hi-roy.com/2018/09/04/IPFS%E5%88%9D%E7%AA%A5/&#34;&gt;上一篇文章&lt;/a&gt;中初步介绍了IPFS的基本概念和使用方法，今天更深入一些了解IPFS的设计理念。&lt;/p&gt;
+&lt;p&gt;根据 &lt;strong&gt;第三版&lt;/strong&gt; 白皮书，IPFS体系可以分为7层：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;身份：负责节点的身份生成和认证。&lt;/li&gt;
+&lt;li&gt;网络：负责节点间的网络连接，可以配置使用各种网络协议。&lt;/li&gt;
+&lt;li&gt;路由：维护路由信息来找出特定的节点和对象。默认使用DHT，可以替换。&lt;/li&gt;
+&lt;li&gt;交换：一个新型的块交换协议(BitSwap)来高效管理块分发。有点类似超市，对数据复制有激励。交易策略可以替换。&lt;/li&gt;
+&lt;li&gt;对象：带有链接的、内容寻址的不可变对象组成的Merkle DAG，可以代表任意数据结构。比如文件层级和通信系统。&lt;/li&gt;
+&lt;li&gt;文件：受到Git启发的版本控制文件层级系统。&lt;/li&gt;
+&lt;li&gt;命名：自验证的可变命名系统。&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
+    <item>
+      <title>IPFS初窥</title>
+      <link>/posts/ipfs%E5%88%9D%E7%AA%A5/</link>
+      <pubDate>Tue, 04 Sep 2018 10:41:30 +0000</pubDate>
+      
+      <guid>/posts/ipfs%E5%88%9D%E7%AA%A5/</guid>
+      <description>&lt;p&gt;虽然区块链有很多令人兴奋的特性，但是也有其固有的缺点。比如，文件或者长度较长的文本信息就不适合存储在链上。那么如何解决这个缺点呢？一个解决方案就是IPFS(Interplanetary File System)——星际文件系统。&lt;/p&gt;
+&lt;p&gt;本文作为简介篇不打算涉及网络及数据结构相关知识(比如什么是协议、什么是树、什么是图……)，不过我相信各位看官既然能找到本文网络基础应该不是问题。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>几道python面试题 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="几道python面试题" />
+<meta property="og:description" content="前几天去笔试，这里记录一下遇到的几个编程题，比较基础。
+生成斐波那契数列并取前10项
+
+def func(m):
+  n,a,b = 0,1,1
+  while n &lt; m:
+    yield a
+    a,b = b,a&#43;b
+    n &#43;= 1
+
+for one in func(10):
+  print one
+这个可以说是一道常见的简单算法题了，关键点就是理解a,b=b,a&#43;b以及yield的作用。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E5%87%A0%E9%81%93python%E9%9D%A2%E8%AF%95%E9%A2%98/" />
+<meta property="article:published_time" content="2017-07-21T09:41:36+00:00" />
+<meta property="article:modified_time" content="2017-07-21T09:41:36+00:00" />
+
+		<meta itemprop="name" content="几道python面试题">
+<meta itemprop="description" content="前几天去笔试，这里记录一下遇到的几个编程题，比较基础。
+生成斐波那契数列并取前10项
+
+def func(m):
+  n,a,b = 0,1,1
+  while n &lt; m:
+    yield a
+    a,b = b,a&#43;b
+    n &#43;= 1
+
+for one in func(10):
+  print one
+这个可以说是一道常见的简单算法题了，关键点就是理解a,b=b,a&#43;b以及yield的作用。">
+<meta itemprop="datePublished" content="2017-07-21T09:41:36&#43;00:00" />
+<meta itemprop="dateModified" content="2017-07-21T09:41:36&#43;00:00" />
+<meta itemprop="wordCount" content="168">
+
+
+
+<meta itemprop="keywords" content="python," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">几道python面试题</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-07-21T09:41:36Z">2017-07-21</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>前几天去笔试，这里记录一下遇到的几个编程题，比较基础。</p>
+<h1 id="生成斐波那契数列并取前10项">生成斐波那契数列并取前10项</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func</span>(m):
+  n,a,b <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>
+  <span style="color:#66d9ef">while</span> n <span style="color:#f92672">&lt;</span> m:
+    <span style="color:#66d9ef">yield</span> a
+    a,b <span style="color:#f92672">=</span> b,a<span style="color:#f92672">+</span>b
+    n <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+
+<span style="color:#66d9ef">for</span> one <span style="color:#f92672">in</span> func(<span style="color:#ae81ff">10</span>):
+  <span style="color:#66d9ef">print</span> one
+</code></pre></div><p>这个可以说是一道常见的简单算法题了，关键点就是理解<code>a,b=b,a+b</code>以及yield的作用。</p>
+<h1 id="扩展一个列表列表中的元素可能也包含列表">扩展一个列表，列表中的元素可能也包含列表</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">myextend</span>(alist):
+    tmp <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> one <span style="color:#f92672">in</span> alist:
+        <span style="color:#66d9ef">if</span> isinstance(one,list):
+            tmp<span style="color:#f92672">.</span>extend(myextend(one))
+        <span style="color:#66d9ef">else</span>:
+            tmp<span style="color:#f92672">.</span>append(one)
+    <span style="color:#66d9ef">return</span> tmp
+
+t <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">5</span>,[<span style="color:#ae81ff">3</span>,[],<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">2</span>,[<span style="color:#ae81ff">57</span>]],<span style="color:#ae81ff">90</span>]
+
+<span style="color:#66d9ef">print</span> t
+<span style="color:#66d9ef">print</span> myextend(t)
+</code></pre></div><p>考察递归调用的思想。</p>
+<h1 id="有如下代码请写出输出">有如下代码，请写出输出</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test</span>(x,l<span style="color:#f92672">=</span>[]):
+    <span style="color:#66d9ef">for</span> o <span style="color:#f92672">in</span> range(x):
+        l<span style="color:#f92672">.</span>append(o)
+    <span style="color:#66d9ef">print</span> l
+
+test(<span style="color:#ae81ff">3</span>)
+test(<span style="color:#ae81ff">1</span>,[<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>])
+test(<span style="color:#ae81ff">3</span>)
+</code></pre></div><p>输入如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>]
+[<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>]
+[<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>]
+</code></pre></div><p>可变类型作为参数在不显示传递参数时，每次函数调用时候都是共用的；如果传递了参数(比如第二种)则不会互相影响。</p>
+<h1 id="已知某列表中包含重复数据保持列表中元素第一次出现的顺序并去重要求复杂度为on">已知某列表中包含重复数据，保持列表中元素第一次出现的顺序并去重，要求复杂度为O(n)。</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fun</span>(alist):
+    result <span style="color:#f92672">=</span> []
+    temp <span style="color:#f92672">=</span> set()
+    <span style="color:#66d9ef">for</span> o <span style="color:#f92672">in</span> alist:
+        <span style="color:#66d9ef">if</span> o <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> temp:
+            result<span style="color:#f92672">.</span>append(o)
+            temp<span style="color:#f92672">.</span>add(o)
+    <span style="color:#66d9ef">return</span> result
+</code></pre></div><p>考察列表、集合等常见操作的复杂度。</p>
+<h1 id="已知如下函数请写出输出并写出正确写法">已知如下函数，请写出输出，并写出正确写法：</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">z <span style="color:#f92672">=</span> [<span style="color:#66d9ef">lambda</span> x:x<span style="color:#f92672">*</span>i <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">3</span>)]
+
+x <span style="color:#f92672">=</span> [o(<span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">for</span> o <span style="color:#f92672">in</span> z]
+
+<span style="color:#66d9ef">print</span> x
+</code></pre></div><p>输出为[4,4,4]</p>
+<p>这里主要考察python中闭包、返回值为函数时候的知识点。由于<code>lambda</code>函数共用了<code>i</code>变量，当调用时候<code>i</code>已经变成了2，所以输出都是4。</p>
+<p>改正：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func</span>():
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">m</span>(x):
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">n</span>(y):
+            <span style="color:#66d9ef">return</span> x <span style="color:#f92672">*</span> y
+        <span style="color:#66d9ef">return</span> n
+    <span style="color:#66d9ef">return</span> [f(one) <span style="color:#66d9ef">for</span> one <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">3</span>)]
+
+z <span style="color:#f92672">=</span> func()
+
+x <span style="color:#f92672">=</span> [o(<span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">for</span> o <span style="color:#f92672">in</span> z]
+
+<span style="color:#66d9ef">print</span> x
+</code></pre></div><p>输出[0,2,4]</p>
+<h1 id="创建一个类并输出某个属性如果这个属性存在则输出值否则输出这个属性名的字符串">创建一个类，并输出某个属性。如果这个属性存在则输出值，否则输出这个属性名的字符串</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Mycls</span>(object):
+    a <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">def</span> __getattr__(self,name):
+        <span style="color:#66d9ef">print</span> name
+
+z <span style="color:#f92672">=</span> Mycls()
+<span style="color:#66d9ef">print</span> z<span style="color:#f92672">.</span>a,z<span style="color:#f92672">.</span>b
+</code></pre></div><p>输出为0，b。</p>
+<p>主要考察python的反射机制，以及类相关的<code>__getattr__</code>方法。</p>
+<p>注意<code>__getattr__</code>方法和<code>__getattribute__</code>方法的区别，前者只有在属性不存在时候调用，返回一个值或者引发异常。而后者是每次都会被调用的。</p>
+<p>另外可以看看<code>getattr()</code>,<code>hasattr()</code>这种内置函数。</p>
+<h1 id="简答题">简答题</h1>
+<ol>
+<li>简述py2和py3的区别</li>
+<li>python的垃圾回收机制</li>
+<li>python中多线程的方法，局限，以及有什么其他方式进行并发处理</li>
+<li>简述epoll、select、poll三种模型</li>
+</ol>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/python%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Python常见操作时间复杂度</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/mysql%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%E5%B0%8F%E8%AE%B0/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">MySQL索引优化小记</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

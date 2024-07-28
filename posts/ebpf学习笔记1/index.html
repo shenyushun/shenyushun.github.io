@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>eBPF学习笔记1 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="eBPF学习笔记1" />
+<meta property="og:description" content="
+什么是eBPF？
+为什么需要eBPF？
+如何使用eBPF？
+使用eBPF时应该注意？
+eBPF的应用领域？
+eBPF的优缺点？
+
+优点
+缺点
+
+
+推荐阅读
+
+按照惯例，第一篇先来个概览，做一些基础知识的铺垫。
+目前这个技术领域还相对较“新”，本人也刚刚开始摸索学习，有错误的地方还请大佬们多多指正。
+什么是eBPF？
+eBPF由BPF(Berkeley Packet Filter)扩展而来，提供了一种在内核事件和用户程序事件发生时安全注入代码的机制，使得非内核开发人员也可以对内核进行控制，无需修改内核源码和重新编译内核就可以扩展内核的功能。（简单类比的话，就类似未成年人可以在有限的范围内安全的做一些成年人才能做的事了）
+之前想对内核做点什么，需要编写内核模块后编译进去，一个不小心就把内核搞崩了。而eBPF则通过即时编译器(JIT)，保证只有经过验证的、安全的eBFP指令才会被内核执行。
+为什么需要eBPF？
+从业界的角度看，最主要的因素还是对性能的追求。比如，小规模的k8s使用iptables就可以搞定容器网络通信，但随着规模的增大iptables性能问题越发明显，然后就有了IPVS模式。虽然IPVS和iptables都是基于Netfilter，但由于IPVS使用哈希表而iptables使用规则链表，导致前者的性能高于后者。然后随着集群规模的再次扩大，对性能有了更高的要求，于是乎eBPF就成了目前进一步提高性能的技术方案：
+
+The aforementioned KubeCon Talk performed specific measurements on iptables as a bottleneck for Kubernetes service forwarding and noted that throughput degraded by ~30% with 5,000 services deployed, and by 80% with 10,000 services (a 6X performance difference). Likewise, rule updates at 5,000 services took 11 minutes, ages in a world of continuous delivery.
+Thanks to the flexibility of BPF, Cilium performs this same operation with O(1) average runtime behavior using a simple BPF map based hash table, meaning the lookup latency at 10,000 or even 20,000 services is constant. Likewise, updates to these BPF maps from userspace are highly-efficient, meaning that even with 20,000&#43; services, the time to update a forwarding rule is microseconds, not hours.
+For these reasons, Facebook has recently presented their use of BPF and XDP for load-balancing in a public talk to replace IPVS after measuring an almost 10x performance increase.
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" />
+<meta property="article:published_time" content="2022-02-02T15:15:03+08:00" />
+<meta property="article:modified_time" content="2022-02-02T15:15:03+08:00" />
+
+		<meta itemprop="name" content="eBPF学习笔记1">
+<meta itemprop="description" content="
+什么是eBPF？
+为什么需要eBPF？
+如何使用eBPF？
+使用eBPF时应该注意？
+eBPF的应用领域？
+eBPF的优缺点？
+
+优点
+缺点
+
+
+推荐阅读
+
+按照惯例，第一篇先来个概览，做一些基础知识的铺垫。
+目前这个技术领域还相对较“新”，本人也刚刚开始摸索学习，有错误的地方还请大佬们多多指正。
+什么是eBPF？
+eBPF由BPF(Berkeley Packet Filter)扩展而来，提供了一种在内核事件和用户程序事件发生时安全注入代码的机制，使得非内核开发人员也可以对内核进行控制，无需修改内核源码和重新编译内核就可以扩展内核的功能。（简单类比的话，就类似未成年人可以在有限的范围内安全的做一些成年人才能做的事了）
+之前想对内核做点什么，需要编写内核模块后编译进去，一个不小心就把内核搞崩了。而eBPF则通过即时编译器(JIT)，保证只有经过验证的、安全的eBFP指令才会被内核执行。
+为什么需要eBPF？
+从业界的角度看，最主要的因素还是对性能的追求。比如，小规模的k8s使用iptables就可以搞定容器网络通信，但随着规模的增大iptables性能问题越发明显，然后就有了IPVS模式。虽然IPVS和iptables都是基于Netfilter，但由于IPVS使用哈希表而iptables使用规则链表，导致前者的性能高于后者。然后随着集群规模的再次扩大，对性能有了更高的要求，于是乎eBPF就成了目前进一步提高性能的技术方案：
+
+The aforementioned KubeCon Talk performed specific measurements on iptables as a bottleneck for Kubernetes service forwarding and noted that throughput degraded by ~30% with 5,000 services deployed, and by 80% with 10,000 services (a 6X performance difference). Likewise, rule updates at 5,000 services took 11 minutes, ages in a world of continuous delivery.
+Thanks to the flexibility of BPF, Cilium performs this same operation with O(1) average runtime behavior using a simple BPF map based hash table, meaning the lookup latency at 10,000 or even 20,000 services is constant. Likewise, updates to these BPF maps from userspace are highly-efficient, meaning that even with 20,000&#43; services, the time to update a forwarding rule is microseconds, not hours.
+For these reasons, Facebook has recently presented their use of BPF and XDP for load-balancing in a public talk to replace IPVS after measuring an almost 10x performance increase.
+">
+<meta itemprop="datePublished" content="2022-02-02T15:15:03&#43;08:00" />
+<meta itemprop="dateModified" content="2022-02-02T15:15:03&#43;08:00" />
+<meta itemprop="wordCount" content="209">
+
+
+
+<meta itemprop="keywords" content="eBPF," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">eBPF学习笔记1</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2022-02-02T15:15:03&#43;08:00">2022-02-02</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/ebpf/" rel="category">eBPF</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<ul>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFebpf">什么是eBPF？</a></li>
+<li><a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81ebpf">为什么需要eBPF？</a></li>
+<li><a href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ebpf">如何使用eBPF？</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8ebpf%E6%97%B6%E5%BA%94%E8%AF%A5%E6%B3%A8%E6%84%8F">使用eBPF时应该注意？</a></li>
+<li><a href="#ebpf%E7%9A%84%E5%BA%94%E7%94%A8%E9%A2%86%E5%9F%9F">eBPF的应用领域？</a></li>
+<li><a href="#ebpf%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9">eBPF的优缺点？</a>
+<ul>
+<li><a href="#%E4%BC%98%E7%82%B9">优点</a></li>
+<li><a href="#%E7%BC%BA%E7%82%B9">缺点</a></li>
+</ul>
+</li>
+<li><a href="#%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB">推荐阅读</a></li>
+</ul>
+<p>按照惯例，第一篇先来个概览，做一些基础知识的铺垫。</p>
+<p>目前这个技术领域还相对较“新”，本人也刚刚开始摸索学习，有错误的地方还请大佬们多多指正。</p>
+<h2 id="什么是ebpf">什么是eBPF？</h2>
+<p>eBPF由BPF(Berkeley Packet Filter)扩展而来，提供了一种在内核事件和用户程序事件发生时安全注入代码的机制，使得非内核开发人员也可以对内核进行控制，无需修改内核源码和重新编译内核就可以扩展内核的功能。（简单类比的话，就类似未成年人可以在有限的范围内安全的做一些成年人才能做的事了）</p>
+<p>之前想对内核做点什么，需要编写内核模块后编译进去，一个不小心就把内核搞崩了。而eBPF则通过即时编译器(JIT)，保证只有经过验证的、安全的eBFP指令才会被内核执行。</p>
+<h2 id="为什么需要ebpf">为什么需要eBPF？</h2>
+<p>从业界的角度看，最主要的因素还是对性能的追求。比如，小规模的k8s使用iptables就可以搞定容器网络通信，但随着规模的增大iptables性能问题越发明显，然后就有了IPVS模式。虽然IPVS和iptables都是基于Netfilter，但由于IPVS使用哈希表而iptables使用规则链表，导致前者的性能高于后者。然后随着集群规模的再次扩大，对性能有了更高的要求，于是乎eBPF就成了目前进一步提高性能的技术方案：</p>
+<blockquote>
+<p>The aforementioned KubeCon Talk performed specific measurements on iptables as a bottleneck for Kubernetes service forwarding and noted that throughput degraded by ~30% with 5,000 services deployed, and by 80% with 10,000 services (a 6X performance difference). Likewise, rule updates at 5,000 services took 11 minutes, ages in a world of continuous delivery.</p>
+<p>Thanks to the flexibility of BPF, Cilium performs this same operation with O(1) average runtime behavior using a simple BPF map based hash table, meaning the lookup latency at 10,000 or even 20,000 services is constant. Likewise, updates to these BPF maps from userspace are highly-efficient, meaning that even with 20,000+ services, the time to update a forwarding rule is microseconds, not hours.</p>
+<p>For these reasons, Facebook has recently presented their use of BPF and XDP for load-balancing in a public talk to replace IPVS after measuring an almost 10x performance increase.</p>
+</blockquote>
+<h2 id="如何使用ebpf">如何使用eBPF？</h2>
+<p>大神的<a href="https://www.brendangregg.com/ebpf.html">博客</a>有非常详细的说明，从易到难依次是使用：</p>
+<ol>
+<li>bpftrace，大神重点推荐这个，这个是一种简单的语言来调用eBPF强大的能力。</li>
+<li>bcc，第二推荐这个，既提供了一堆开箱即用的工具，也提供了方便python、go等语言集成使用的框架。</li>
+<li>纯C语言开发，大神的表格里只写了一个单词，“DIFFICULT”……</li>
+</ol>
+<p><img src="https://www.brendangregg.com/eBPF/ebpf_tracing_landscape_jan2019.png" alt="image"></p>
+<p>后面的系列笔记将围绕这里来展开。</p>
+<h2 id="使用ebpf时应该注意">使用eBPF时应该注意？</h2>
+<ul>
+<li>不能随意调用内核函数，只能调用API中定义的辅助函数。</li>
+<li>栈空间最多只有512字节，如果需要更大存储则需要借助映射存储。</li>
+<li>内核5.2之前，字节码最多支持4096条指令，5.2后这个限制变成了100万条。</li>
+<li>程序必须通过验证器验证后才能执行。</li>
+</ul>
+<p>下图说明了eBPF程序的执行过程：
+<img src="https://www.brendangregg.com/eBPF/linux_ebpf_internals.png" alt="image"></p>
+<p>各个内核支持的特性可以参考 <a href="https://github.com/iovisor/bcc/blob/master/docs/kernel-versions.md#main-features">这里</a>。</p>
+<h2 id="ebpf的应用领域">eBPF的应用领域？</h2>
+<p>目前运用在故障诊断、网络优化、安全控制、性能监控这几个领域的比较多，下面的图来自 <a href="https://ebpf.io/">官网</a>：</p>
+<p><img src="https://ebpf.io/static/overview-bf463455a5666fc3fb841b9240d588ff.png" alt="image"></p>
+<h2 id="ebpf的优缺点">eBPF的优缺点？</h2>
+<h3 id="优点">优点</h3>
+<ol>
+<li>由于直接运行在内核态，所以高效是最大的一个优点。</li>
+<li>安全稳定。eBPF程序首先经过<a href="https://llvm.org/">LLVM</a>转换成BPF字节码后，通过bpf系统调用交给内核执行，字节码需要通过校验才会交给JIT执行。</li>
+</ol>
+<h3 id="缺点">缺点</h3>
+<ol>
+<li>目前来看，还是有一定的门槛。虽然使用BCC、bpftrace写个小工具相对简单，但想要更进一步，还是需要对操作系统原理、内核主要模块有一定的了解。</li>
+<li>目前来看，由于不同的内核版本之前的差别，会导致某个内核版本上编写的eBPF程序没法在另一个内核版本上完美运行。不过随着CO-RE（Compile Once – Run Everywhere）的完善，这个问题迟早会被解决。</li>
+</ol>
+<h2 id="推荐阅读">推荐阅读</h2>
+<ul>
+<li><a href="https://ebpf.io/">官网</a></li>
+<li><a href="https://ebpf.io/summit-2021/">ebpf-2021峰会</a>，视频需要科学上网。</li>
+<li><a href="https://ebpf.io/summit-2020/">ebpf-2020峰会</a>，视频需要科学上网。</li>
+<li><a href="https://github.com/iovisor/bcc">BCC</a>，BCC工具集。</li>
+<li><a href="https://github.com/iovisor/bpftrace">bpftrace</a>，目前还是短平快的语言，用来写简单的BPF程序。</li>
+<li><a href="https://github.com/libbpf/libbpf">libbpf</a>，上面提到的CO-RE，可以看看这个库。</li>
+<li><a href="https://cilium.io/">cilium</a>，基于eBPF的容器网络插件。</li>
+<li><a href="https://www.youtube.com/c/TaiwanLinuxKernelHackers">BPF夜读</a>，这个名字我起的，是一群台湾的小伙伴互相分享的读书心得，可惜只到前8章。</li>
+<li>《BPF Performance tools》（中译本：《BPF之巅》），截至2022.2.2有2本BPF相关的书，就看这本，当作工具书。</li>
+<li><a href="https://www.brendangregg.com/overview.html">brendangregg大神的博客</a>，上面书的作者，大神级人物，博客里好多高质量文章。</li>
+<li><a href="https://www.usenix.org/conference/lisa21/presentation/gregg-bpf">BPF Internals</a>，大神关于bpf内部原理的讲解。</li>
+<li>《eBPF核心技术与实战》，极客时间倪朋飞大神的课程。</li>
+<li><a href="https://cloud.tencent.com/developer/article/1687922">绕过conntrack，使用eBPF增强 IPVS优化K8s网络性能</a>，来自腾讯云的一篇分享，关于使用eBPF+IPVS后性能提升的相关指标。</li>
+</ul>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/ebpf/" rel="tag">eBPF</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/1%E5%88%86%E9%92%9Flinux%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">1分钟Linux性能分析</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">eBPF学习笔记2</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mysql on Hi~Roy!</title>
+    <link>/tags/mysql/</link>
+    <description>Recent content in mysql on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 24 Jul 2017 14:40:04 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>MySQL索引优化小记</title>
+      <link>/posts/mysql%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%E5%B0%8F%E8%AE%B0/</link>
+      <pubDate>Mon, 24 Jul 2017 14:40:04 +0000</pubDate>
+      
+      <guid>/posts/mysql%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%E5%B0%8F%E8%AE%B0/</guid>
+      <description>&lt;p&gt;有2种数据类型，一种重复率高、一种重复率低，选择这2种类型哪个建立索引好？为什么？&lt;/p&gt;
+&lt;p&gt;之前确实没考虑过这个问题，但觉得既然是使用空间换时间，数据结构本身重复率那么高索引的作用应该就不大了吧。&lt;/p&gt;
+&lt;p&gt;后来结束到家查看资料后，发现这个名词叫做&amp;quot;离散率&amp;rdquo;。对于DBA这个问题应该是最最基础的了。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>在MySQL中存储树状结构</title>
+      <link>/posts/%E5%9C%A8mysql%E4%B8%AD%E5%AD%98%E5%82%A8%E6%A0%91%E7%BB%93%E6%9E%84/</link>
+      <pubDate>Mon, 15 Aug 2016 17:46:18 +0000</pubDate>
+      
+      <guid>/posts/%E5%9C%A8mysql%E4%B8%AD%E5%AD%98%E5%82%A8%E6%A0%91%E7%BB%93%E6%9E%84/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://mikehillyer.com/articles/managing-hierarchical-data-in-mysql/&#34;&gt;原文地址&lt;/a&gt;，原文中&lt;code&gt;Hierarchical Data&lt;/code&gt;直译为 &lt;em&gt;分层结构&lt;/em&gt;，这里我翻译成 &lt;em&gt;树状结构&lt;/em&gt;。&lt;/p&gt;
+&lt;p&gt;补充资源：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://django-mptt.github.io/django-mptt/&#34;&gt;https://django-mptt.github.io/django-mptt/&lt;/a&gt; ，如果你也使用python和django，这个是现成的APP。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;另外，个人觉得这种方法对于搜索的效率提升最大，而相应的新增、删除等操作则会变慢，个人猜测未经测试。&lt;/p&gt;
+&lt;p&gt;个人总结的核心：如果一个节点A是节点B的子节点，那么A的左值一定大于B的左值，A的右值一定小于B的右值。或者说，A的左值一定在B的左值和右值之间。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>MySQL数据库修复</title>
+      <link>/posts/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BF%AE%E5%A4%8D/</link>
+      <pubDate>Mon, 18 Jul 2016 22:28:36 +0000</pubDate>
+      
+      <guid>/posts/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BF%AE%E5%A4%8D/</guid>
+      <description>&lt;p&gt;把博客服务器搬到香港之后，发现这个供应商的服务器经常自动重启，不过mysql、nginx都设定了开机自启动，所以也就没当事。结果今天出了大问题：服务器ip可以ping的通，但博客就是无法访问，登录到服务器一看，我擦——整个数据盘不见了！由于把网站放在了/home目录下，而现在home目录空荡荡的啥也没有。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>安装MYSQL后的10种调优方法（翻译）</title>
+      <link>/posts/%E5%AE%89%E8%A3%85mysql%E5%90%8E%E7%9A%8410%E7%A7%8D%E8%B0%83%E4%BC%98%E6%96%B9%E6%B3%95%E7%BF%BB%E8%AF%91/</link>
+      <pubDate>Thu, 22 Jan 2015 18:22:24 +0000</pubDate>
+      
+      <guid>/posts/%E5%AE%89%E8%A3%85mysql%E5%90%8E%E7%9A%8410%E7%A7%8D%E8%B0%83%E4%BC%98%E6%96%B9%E6%B3%95%E7%BF%BB%E8%AF%91/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.percona.com/blog/2014/01/28/10-mysql-settings-to-tune-after-installation/&#34;&gt;原文&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;当我们被聘请去做MYSQL性能审计时，我们被期望审查MYSQL配置文件并提出改进建议。在大多数情况下很多人都感到惊奇，因为我们仅仅在成百上千的变量中改变了很少的一部分。这篇文章的目的就是告诉你一些至关重要的设置项。
+我们在几年前曾经在博客中给出过一些建议，但从那之后MYSQL的世界发生了很多改变！&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Percona XtraDB Cluster&#43;HAProxy配置</title>
+      <link>/posts/percona-xtradb-cluster-haproxy%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Tue, 06 Jan 2015 17:33:37 +0000</pubDate>
+      
+      <guid>/posts/percona-xtradb-cluster-haproxy%E9%85%8D%E7%BD%AE/</guid>
+      <description>最近公司有个异地多机房数据同步需求，mysql原生支持双主同步，所以只能另寻他法，于是找到了Percona XtraDB Cluster。这个可以理解为给Mysql打了个补丁，以便支持多主同步。
+测试环境：centos 6.5
+IP分配:
+ 192.168.0.154(DB) 192.168.0.152(DB) 192.168.0.153(DB) 192.</description>
+    </item>
+    
+    <item>
+      <title>64位win7安装mysql-python</title>
+      <link>/posts/64%E4%BD%8Dwin7%E5%AE%89%E8%A3%85mysql-python/</link>
+      <pubDate>Sun, 06 Jul 2014 09:01:14 +0000</pubDate>
+      
+      <guid>/posts/64%E4%BD%8Dwin7%E5%AE%89%E8%A3%85mysql-python/</guid>
+      <description>64位win7使用pip安装mysql-python时提示unable to find vcvarsall.bat， 网上很多说这个解决这个需要安装那个MinGW，不过我安装并设置环境变量后依然没解决这个问题， 错误提示倒是变成了什么gcc错误一类的。 而从网上下载的win安装包都是32位，在我的机器上提示找不到python，找了很久后终于发现一个地方:http://www.lfd.uci.edu/~gohlke/pythonlibs/ 上有64位的， 而且这上面还有很多其他的64位三方包。 方便国内同学下载我把mysql-python转存到了我的网盘：http://pan.baidu.com/s/13vgjs</description>
+    </item>
+    
+    <item>
+      <title>mysql-python:not all arguments converted during string formatting</title>
+      <link>/posts/mysql-python-not-all-arguments-converted-during-string-formatting/</link>
+      <pubDate>Thu, 27 Mar 2014 18:07:49 +0000</pubDate>
+      
+      <guid>/posts/mysql-python-not-all-arguments-converted-during-string-formatting/</guid>
+      <description>今天把django从1.5.5升级到了1.6.2，结果使用mysql-python查询数据库时候就报了这个错误：“not all arguments converted during string formatting”
+貌似这个问题应该和django没什么关系，正好今天就看看mysql-python的源码吧。想看如何解决的请直接跳到最后。
+查询部分简化后如下：
+posistion = &amp;#34;top&amp;#34;order = r&amp;#34;select id,p_name,p_explain,p_href from pictures where p_position = %s and p_show = 1 order by -id&amp;#34;self.</description>
+    </item>
+    
+    <item>
+      <title>虚拟环境下安装mysql-python</title>
+      <link>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/</link>
+      <pubDate>Wed, 12 Mar 2014 17:54:50 +0000</pubDate>
+      
+      <guid>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/</guid>
+      <description>使用virtualenv虚拟环境的时候，mysql-python安装时报错：
+_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &amp;quot;my_config.</description>
+    </item>
+    
+  </channel>
+</rss>

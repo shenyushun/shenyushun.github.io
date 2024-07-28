@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>django on Hi~Roy!</title>
+    <link>/tags/django/</link>
+    <description>Recent content in django on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 28 Jul 2017 11:55:08 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/django/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>django中的Session和Cookie</title>
+      <link>/posts/django%E4%B8%AD%E7%9A%84session%E5%92%8Ccookie/</link>
+      <pubDate>Fri, 28 Jul 2017 11:55:08 +0000</pubDate>
+      
+      <guid>/posts/django%E4%B8%AD%E7%9A%84session%E5%92%8Ccookie/</guid>
+      <description>&lt;p&gt;简单来说，Cookie和Session都是为了记录用户相关信息的方式，最大的区别就是Cookie在客户端记录而Session在服务端记录内容。&lt;/p&gt;
+&lt;p&gt;那么Cookie和Session之间的联系是怎么建立的呢？换言之，当服务器接收到一个请求时候，根据什么来判断读取哪个Session的呢？&lt;/p&gt;
+&lt;p&gt;对于Django默认情况来说，当用户登录后就可以发现Cookie里有一个&lt;code&gt;sessionid&lt;/code&gt;的字段，根据这个key就可以取得在服务器端记录的详细内容。如果将这个字段删除，刷新页面就会发现变成未登录状态了。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>django-rest-jwt认证</title>
+      <link>/posts/django-rest-jwt%E8%AE%A4%E8%AF%81/</link>
+      <pubDate>Wed, 11 Jan 2017 10:37:34 +0000</pubDate>
+      
+      <guid>/posts/django-rest-jwt%E8%AE%A4%E8%AF%81/</guid>
+      <description>&lt;p&gt;关于JWT(Json Web Token)是一种较新的用户认证方式，官网在&lt;a href=&#34;https://jwt.io/&#34;&gt;这里&lt;/a&gt;，网上有篇中文解释写的很好，&lt;a href=&#34;http://blog.leapoahead.com/2015/09/06/understanding-jwt/&#34;&gt;点此跳转&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;用户认证(Authentication)和用户授权(Authorization)是两个不同的概念，认证解决的是“有没有”的问题，而授权解决的是“能不能”的问题。&lt;/p&gt;
+&lt;p&gt;一般用到JWT认证的情况大多都是配合REST框架使用，比如我大Django的Django-REST-framework框架，就已经有了现成的三方库&lt;a href=&#34;http://getblimp.github.io/django-rest-framework-jwt/&#34;&gt;django-rest-framework-jwt&lt;/a&gt;。不过这个库默认只支持基于&lt;code&gt;Header&lt;/code&gt;传递信息，所以改成基于Cookie方式还需要我们来手动处理一下。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>将Django模板变量传递给外部JS调用的几种方式</title>
+      <link>/posts/%E5%B0%86django%E6%A8%A1%E6%9D%BF%E5%8F%98%E9%87%8F%E4%BC%A0%E9%80%92%E7%BB%99%E5%A4%96%E9%83%A8js%E8%B0%83%E7%94%A8%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/</link>
+      <pubDate>Tue, 20 Dec 2016 11:55:19 +0000</pubDate>
+      
+      <guid>/posts/%E5%B0%86django%E6%A8%A1%E6%9D%BF%E5%8F%98%E9%87%8F%E4%BC%A0%E9%80%92%E7%BB%99%E5%A4%96%E9%83%A8js%E8%B0%83%E7%94%A8%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/</guid>
+      <description>&lt;p&gt;最近一直在思考如何更好的组织Django中的静态资源，比如JS、CSS一类，如何结合前端构建工具写出更好的代码以及结构呢？&lt;/p&gt;
+&lt;p&gt;首先需要解决的一个问题就是某些时候需要把JS代码写在模板里来获取后台传递过来的变量，比如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
+&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;h1&lt;/span&gt;&amp;gt;Test&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;h1&lt;/span&gt;&amp;gt;
+&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;id&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;my-test&amp;#34;&lt;/span&gt; &amp;gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
+&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
+&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;script&lt;/span&gt;&amp;gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;$&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;(){
+  &lt;span style=&#34;color:#a6e22e&#34;&gt;$&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;#my-test&amp;#39;&lt;/span&gt;).&lt;span style=&#34;color:#a6e22e&#34;&gt;html&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;{{ some_var_from_view }}&amp;#34;&lt;/span&gt;)
+});
+&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;script&lt;/span&gt;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这么写代码的话，别扭不说，前端的那些构建工具比如webpack，gulp的使用范围也将大大降低。&lt;/p&gt;
+&lt;p&gt;首先说结论，想完全剥离JS和模板而又需要使用模板渲染的数据，我是没想到什么好办法。如果读者有好办法希望赐教。
+既然不能完全剥离，那么就进最大的努力分离JS所需的数据和代码吧。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>我特么是如何利用Django, Django REST Framework, Angular 1.1.x和Webpack构建一个项目的</title>
+      <link>/posts/%E6%88%91%E7%89%B9%E4%B9%88%E6%98%AF%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8django-django-rest-framework-angular-1-1-x%E5%92%8Cwebpack%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE%E7%9A%84/</link>
+      <pubDate>Tue, 08 Nov 2016 13:50:46 +0000</pubDate>
+      
+      <guid>/posts/%E6%88%91%E7%89%B9%E4%B9%88%E6%98%AF%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8django-django-rest-framework-angular-1-1-x%E5%92%8Cwebpack%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE%E7%9A%84/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://gregblogs.com/how-the-do-i-build-a-django-django-rest-framework-angular-1-1-x-and-webpack-project/#prereq&#34;&gt;原文地址&lt;/a&gt;，向原作者表示感谢。由于本人并没学习过angular，所以翻译有误的地方恳请指正。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;我已经受够了JS社区的那帮二货，我只是想使用Django作为后端结合Angular做一个简单的、可复用的项目，却没有一个简明的指导教我如何做到。如果你也为此挣扎，这里有一份指南教你如何构建一个由Django作为后端、Webpack进行组织的Angular程序。&lt;/p&gt;
+&lt;h2 id=&#34;问题&#34;&gt;问题&lt;/h2&gt;
+&lt;p&gt;我想开发一个Angular1.1.x的项目并使用Django作为后端提供数据，我喜欢使用Django REST Framework(DRF)来构造RESTful API。我也想打包需要的JavaScript资源。目前，我打算使用单一的服务器上运行这个程序。&lt;/p&gt;
+&lt;h2 id=&#34;依赖&#34;&gt;依赖&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Python 2.x&lt;/li&gt;
+&lt;li&gt;a virtual Python environment&lt;/li&gt;
+&lt;li&gt;Django 1.9.x (pip install django)&lt;/li&gt;
+&lt;li&gt;npm 2.15.8+&lt;/li&gt;
+&lt;li&gt;Webpack 1.13.x (sudo npm i -g webpack)&lt;/li&gt;
+&lt;li&gt;ESLint 2.13.1+ (sudo npm i -g eslint)&lt;/li&gt;
+&lt;li&gt;NodeJS 4.4.7+&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>django解析用户上传的excel文件</title>
+      <link>/posts/django%E8%A7%A3%E6%9E%90%E7%94%A8%E6%88%B7%E4%B8%8A%E4%BC%A0%E7%9A%84excel%E6%96%87%E4%BB%B6/</link>
+      <pubDate>Thu, 13 Oct 2016 09:09:46 +0000</pubDate>
+      
+      <guid>/posts/django%E8%A7%A3%E6%9E%90%E7%94%A8%E6%88%B7%E4%B8%8A%E4%BC%A0%E7%9A%84excel%E6%96%87%E4%BB%B6/</guid>
+      <description>有些时候我们会有这种需求：用户上传一个格式固定excel表格到网站上，然后程序负债解析内容并进行处理。 举一个简单的栗子，比如我们有这样一个HTML：
+&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;&amp;lt;meta charset=&amp;#34;utf-8&amp;#34;&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;上传EXCEL表格&amp;lt;/p&amp;gt;&amp;lt;form class=&amp;#34;&amp;#34; action=&amp;#34;&amp;#34; method=&amp;#34;post&amp;#34; enctype=&amp;#34;multipart/form-data&amp;#34; &amp;gt;{% csrf_token %}&amp;lt;input type=&amp;#34;file&amp;#34; name=&amp;#34;excel&amp;#34;&amp;gt;&amp;lt;input type=&amp;#34;submit&amp;#34; value=&amp;#34;上传&amp;#34;&amp;gt;&amp;lt;/form&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;forms.</description>
+    </item>
+    
+    <item>
+      <title>使用python模拟POST请求提交图片</title>
+      <link>/posts/%E4%BD%BF%E7%94%A8python%E6%A8%A1%E6%8B%9Fpost%E8%AF%B7%E6%B1%82%E6%8F%90%E4%BA%A4%E5%9B%BE%E7%89%87/</link>
+      <pubDate>Wed, 14 Sep 2016 09:54:37 +0000</pubDate>
+      
+      <guid>/posts/%E4%BD%BF%E7%94%A8python%E6%A8%A1%E6%8B%9Fpost%E8%AF%B7%E6%B1%82%E6%8F%90%E4%BA%A4%E5%9B%BE%E7%89%87/</guid>
+      <description>&lt;p&gt;使用requests来模拟HTTP请求本来是一件非常轻松的事情，比如上传图片来说，简单的几行代码即可：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; requests
+files &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;attachment_file&amp;#39;&lt;/span&gt;: (&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1.png&amp;#39;&lt;/span&gt;, open(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1.png&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;rb&amp;#39;&lt;/span&gt;), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;image/png&amp;#39;&lt;/span&gt;, {})}
+values &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;next&amp;#39;&lt;/span&gt;:&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://www.xxxx.com/xxxx&amp;#34;&lt;/span&gt;}
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 成功&lt;/span&gt;
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;不过我今天在调试一个django程序的时候却遇到了大坑————为了偷懒，我直接在&lt;strong&gt;ipython&lt;/strong&gt;中执行了上述代码，第一次提交的时候一切正常，但第二次之后提交就怎么也通过不了django的form验证。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>django-auth-ldap中文文档</title>
+      <link>/posts/django-auth-ldap%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/</link>
+      <pubDate>Fri, 09 Sep 2016 10:08:51 +0000</pubDate>
+      
+      <guid>/posts/django-auth-ldap%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/</guid>
+      <description>最近在学习如何结合Django和LDAP服务进行用户认证，关于在Centos7上LDAP的服务器如何搭建可以参考这里。
+阅读文档的时候发现网上没有关于django-auth-ldap的完整翻译，所以把我阅读文档时的理解记录下来，如有错误还请指正。
+django-auth-ldap中文文档</description>
+    </item>
+    
+    <item>
+      <title>django自定义用户模型</title>
+      <link>/posts/django%E8%87%AA%E5%AE%9A%E4%B9%89%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Wed, 29 Jun 2016 10:13:27 +0000</pubDate>
+      
+      <guid>/posts/django%E8%87%AA%E5%AE%9A%E4%B9%89%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9E%8B/</guid>
+      <description>&lt;p&gt;Django最方便的一点可以说就是自带的用户系统了，不过某些情况下自带的用户系统不太符合项目需求，比如你想添加几个字段怎么办？当然可以使用自定Model然后外键关联User类来实现，不过一方面关联查询的效率比直接查询效率要低，另一方面想删除系统自带用户系统的某些字段怎么办呢？&lt;/p&gt;
+&lt;p&gt;所以，自定义用户模型可以说是一种很常见的需求。这里以Django1.9为例，记录一下自定义用户模型的方法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Django-REST-framework中文文档教程</title>
+      <link>/posts/django-rest-framework%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3%E6%95%99%E7%A8%8B/</link>
+      <pubDate>Mon, 27 Jun 2016 13:44:46 +0000</pubDate>
+      
+      <guid>/posts/django-rest-framework%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3%E6%95%99%E7%A8%8B/</guid>
+      <description>目前网上的关于Django-REST-framework中文文档教程大多数都是你抄我我抄你，也找不出到底是出自谁手以及哪个版本的文档翻译了。于是我决定将自己阅读文档的翻译记录下来，供有需要的人阅读。
+但经过排版，发现这种由多章组成的系列教程，在博客上怎么弄都不方便看，所以教程直接放到gitbook上，请移步至:
+https://darkcooking.gitbooks.io/django-rest-framework-cn/content/</description>
+    </item>
+    
+    <item>
+      <title>解决django使用logging时“character mapping must return integer, None or unicode”错误</title>
+      <link>/posts/%E8%A7%A3%E5%86%B3django%E4%BD%BF%E7%94%A8logging%E6%97%B6character-mapping-must-return-integer-none-or-unicode%E9%94%99%E8%AF%AF/</link>
+      <pubDate>Tue, 21 Jun 2016 17:42:27 +0000</pubDate>
+      
+      <guid>/posts/%E8%A7%A3%E5%86%B3django%E4%BD%BF%E7%94%A8logging%E6%97%B6character-mapping-must-return-integer-none-or-unicode%E9%94%99%E8%AF%AF/</guid>
+      <description>&lt;p&gt;今天调试Django项目时候，使用Logging记录异常并发送邮件给网站管理人员，测试时候始终报错：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;Traceback (most recent call last):
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/wsgiref/handlers.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;85&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; run
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;result &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; application(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;environ, self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start_response)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/handlers/wsgi.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;177&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; __call__
+    response &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_response(request)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/handlers/base.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;230&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; get_response
+    response &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;handle_uncaught_exception(request, resolver, sys&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;exc_info())
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/handlers/base.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;284&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; handle_uncaught_exception
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;request&amp;#39;&lt;/span&gt;: request
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1185&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; error
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_log(ERROR, msg, args, &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;kwargs)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1278&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; _log
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;handle(record)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1288&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; handle
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;callHandlers(record)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1328&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; callHandlers
+    hdlr&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;handle(record)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;751&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; handle
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;emit(record)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/utils/log.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;117&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; emit
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;send_mail(subject, message, fail_silently&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;True, html_message&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;html_message)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/utils/log.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;120&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; send_mail
+    mail&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;mail_admins(subject, message, &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;args, connection&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connection(), &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;kwargs)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;97&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; mail_admins
+    mail&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;send(fail_silently&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;fail_silently)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/message.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;292&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; send
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_connection(fail_silently)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;send_messages([self])
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/backends/smtp.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; send_messages
+    new_conn_created &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;open()
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/backends/smtp.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;67&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; open
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connection&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;login(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;username, self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;password)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/smtplib.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;607&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; login
+    (code, resp) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;docmd(encode_cram_md5(resp, user, password))
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/smtplib.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;571&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; encode_cram_md5
+    response &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; user &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; &amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; hmac&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;HMAC(password, challenge)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hexdigest()
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/hmac.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;78&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; __init__
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;outer&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;update(key&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;translate(trans_5C))
+&lt;span style=&#34;color:#a6e22e&#34;&gt;TypeError&lt;/span&gt;: character mapping must &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; integer, None &lt;span style=&#34;color:#f92672&#34;&gt;or&lt;/span&gt; unicode
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;根据错误提示，追进了hmac.py中看了源码，发现key其实就是一个字符串，是配置在settings中的EMAIL_HOST_USER以及EMAIL_HOST_PASSWORD，而translate函数则是根据给出的参数表将字符串进行映射加密的，而且是最简单的凯撒加密法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Django常用三方库</title>
+      <link>/posts/django%E5%B8%B8%E7%94%A8%E4%B8%89%E6%96%B9%E5%BA%93/</link>
+      <pubDate>Wed, 15 Jun 2016 13:55:06 +0000</pubDate>
+      
+      <guid>/posts/django%E5%B8%B8%E7%94%A8%E4%B8%89%E6%96%B9%E5%BA%93/</guid>
+      <description>&lt;p&gt;更新于2017.01.10&lt;/p&gt;
+&lt;p&gt;首先安利本书《two scoops of django1.8》目前还没有中文版，不过是我看过关于django的书中收获最大的一本。本来有机会和作者面基，可惜我大天朝的签证太难办了，只得作罢。&lt;/p&gt;
+&lt;p&gt;这里推荐三方库的大部分出自这本书，移除了部分失效或者不维护的库，添加了一些其他库，强烈建议大家阅读原书。&lt;/p&gt;
+&lt;p&gt;下面的模块有些是django模块，有些则是python模块，可以脱离django直接使用。&lt;/p&gt;
+&lt;p&gt;话说那些复制到别地方然后标注“原创”的，敢加个本文链接不？手工整理很累的好不？&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>eventlet，django，requests问题杂记</title>
+      <link>/posts/eventletdjangorequests%E9%97%AE%E9%A2%98%E6%9D%82%E8%AE%B0/</link>
+      <pubDate>Tue, 03 May 2016 13:28:49 +0000</pubDate>
+      
+      <guid>/posts/eventletdjangorequests%E9%97%AE%E9%A2%98%E6%9D%82%E8%AE%B0/</guid>
+      <description>&lt;p&gt;最近使用django+requests+eventlet做了个小程序，eventlet用来替代原生的多线程，最后发现有关manage.py的功能全都不能用了，报错信息类似：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;django&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;db&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;utils&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;DatabaseError: DatabaseWrapper objects created &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; a thread can only be used &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; that same thread&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; The object &lt;span style=&#34;color:#66d9ef&#34;&gt;with&lt;/span&gt; alias &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;default&amp;#39;&lt;/span&gt; was created &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; thread id &lt;span style=&#34;color:#ae81ff&#34;&gt;139911009593152&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;and&lt;/span&gt; this &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; thread id &lt;span style=&#34;color:#ae81ff&#34;&gt;51055504.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;产生这个问题的原因在于我的monky_patch()是在爬虫模块中执行，而希望这个爬虫模块能够保持独立性不希望和django融合的太深，所以解决问题只需根据实际需求在manage.py或settings.py或wsgi.py中先把monkey_patch()执行了即可。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>解决flower Substantial drift from.. may mean clocks are out of sync错误</title>
+      <link>/posts/%E8%A7%A3%E5%86%B3flower-substantial-drift-from-may-mean-clocks-are-out-of-sync%E9%94%99%E8%AF%AF/</link>
+      <pubDate>Wed, 24 Feb 2016 14:27:30 +0000</pubDate>
+      
+      <guid>/posts/%E8%A7%A3%E5%86%B3flower-substantial-drift-from-may-mean-clocks-are-out-of-sync%E9%94%99%E8%AF%AF/</guid>
+      <description>打开flower的监控页面，发现monitor页的succeeded tasks图表始终为空，打印日志发现有下面的警告：
+[2016-02-24 12:00:21,799: WARNING/MainProcess] celery@localhost.localdomain ready.[2016-02-24 12:00:22,297: WARNING/MainProcess] Substantial drift from celery@centos7-181 may mean clocks are out of sync.</description>
+    </item>
+    
+    <item>
+      <title>Django&#43;Celery&#43;Rabbitmq&#43;Flower使用小记</title>
+      <link>/posts/django-celery-rabbitmq-flower%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/</link>
+      <pubDate>Tue, 23 Feb 2016 15:30:02 +0000</pubDate>
+      
+      <guid>/posts/django-celery-rabbitmq-flower%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/</guid>
+      <description>&lt;p&gt;之前的博客中简单的介绍了celery的安装配置以及如何在python程序中使用，这里记录一下我使用django结合celery以及rabbitmq提供web服务，同时使用flower进行监控的过程。至于这几样东西是什么、怎么安装这里就不再细说了。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>django性能分析</title>
+      <link>/posts/django%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/</link>
+      <pubDate>Fri, 20 Nov 2015 18:13:57 +0000</pubDate>
+      
+      <guid>/posts/django%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/</guid>
+      <description>一般情况我们使用django-debug-toolbar就能够看到每个步骤的耗时等信息，不过如果需要调试某个接口就不那么直观了，这种情况下我们可以使用下面的中间件来解决问题：
+# Orignal version taken from http://www.djangosnippets.org/snippets/186/ # Original author: udfalkso # Modified by: Shwagroo Team and Gun.</description>
+    </item>
+    
+    <item>
+      <title>django-userena使用记录</title>
+      <link>/posts/django-userena%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Thu, 09 Apr 2015 17:31:47 +0000</pubDate>
+      
+      <guid>/posts/django-userena%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</guid>
+      <description>django-userena扩展了django原生的用户系统，提供了注册、登录、修改密码、邮件验证等一系列常用功能。直接使用pip安装即可：pip install django-userena
+会自动安装其所需的依赖包，不过个人建议为了更好的定制模板或相关功能，把这个包放到项目目录下当作一个app更方便一些。安装完成后修改settings.py，首先来创建一个app用于扩展用户系统 python manage.py startapp accounts 然后修改Models.py来扩展原生用户字段，我这里以添加用户等级为例：
+# coding=utf-8 from django.</description>
+    </item>
+    
+    <item>
+      <title>django重写model的save方法实现同时写2个数据库</title>
+      <link>/posts/django%E9%87%8D%E5%86%99model%E7%9A%84save%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%90%8C%E6%97%B6%E5%86%992%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+      <pubDate>Sat, 28 Feb 2015 11:10:28 +0000</pubDate>
+      
+      <guid>/posts/django%E9%87%8D%E5%86%99model%E7%9A%84save%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%90%8C%E6%97%B6%E5%86%992%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/</guid>
+      <description>最近有个需求就是当执行save时需要把数据写入2个数据库，查看文档后发现直接重写save方法比较简单。
+首先建立2个测试数据库testa和testb，然后在settings中配置数据库：
+DATABASES = {&amp;#39;default&amp;#39;: {&amp;#39;ENGINE&amp;#39;: &amp;#39;django.db.backends.mysql&amp;#39;,&amp;#39;NAME&amp;#39;: &amp;#39;testa&amp;#39;,&amp;#39;USER&amp;#39;: &amp;#39;root&amp;#39;,&amp;#39;PASSWORD&amp;#39;: &amp;#39;asdasd&amp;#39;,&amp;#39;HOST&amp;#39;: &amp;#39;192.</description>
+    </item>
+    
+    <item>
+      <title>Windows下的django批处理运行脚本</title>
+      <link>/posts/windows%E4%B8%8B%E7%9A%84django%E6%89%B9%E5%A4%84%E7%90%86%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/</link>
+      <pubDate>Thu, 15 May 2014 12:03:58 +0000</pubDate>
+      
+      <guid>/posts/windows%E4%B8%8B%E7%9A%84django%E6%89%B9%E5%A4%84%E7%90%86%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/</guid>
+      <description>回来半个月，终于抽出时间写点东西了。最近这天气真是让人不开心阿～不过昨天居然见到了彩虹，突然想起来在飞机上看见的彩虹是直立在太阳两边而不是桥形的，各有各的美感。
+至于在win下如何安装python、setuptools、pip等网上很多这里不再重复，可是那些大小姐们向我反映说她们不会“运行cmd,输入python manage.py runserver”。正所谓收人钱财替人消灾，干脆写个批处理让她们双击运行算了，内容如下：
+@echo offpython %cd%\manage.py runserverpause真是被微软“惯坏了”的孩子们阿&amp;hellip;.</description>
+    </item>
+    
+    <item>
+      <title>django自带的评论模块</title>
+      <link>/posts/django%E8%87%AA%E5%B8%A6%E7%9A%84%E8%AF%84%E8%AE%BA%E6%A8%A1%E5%9D%97/</link>
+      <pubDate>Fri, 04 Apr 2014 11:01:59 +0000</pubDate>
+      
+      <guid>/posts/django%E8%87%AA%E5%B8%A6%E7%9A%84%E8%AF%84%E8%AE%BA%E6%A8%A1%E5%9D%97/</guid>
+      <description>某个设计本来采用了一个比较不错的在线评论模块，不过答辩的时候丫居然不给网！！想偷个懒还是挺难啊&amp;hellip;.
+那就用自带的评论模块吧，django版本是1.5.3。
+首先把&#39;django.contrib.comments&#39;添加到INSTALLED_APPS中，然后添加url:
+urlpatterns = patterns(&amp;#39;&amp;#39;,......url(r&amp;#39;^comments/&amp;#39;, include(&amp;#39;django.contrib.comments.urls&amp;#39;)),......)在需要显示评论的HTML中：</description>
+    </item>
+    
+    <item>
+      <title>django中由类实例引起的小坑</title>
+      <link>/posts/django%E4%B8%AD%E7%94%B1%E7%B1%BB%E5%AE%9E%E4%BE%8B%E5%BC%95%E8%B5%B7%E7%9A%84%E5%B0%8F%E5%9D%91/</link>
+      <pubDate>Tue, 01 Apr 2014 11:38:13 +0000</pubDate>
+      
+      <guid>/posts/django%E4%B8%AD%E7%94%B1%E7%B1%BB%E5%AE%9E%E4%BE%8B%E5%BC%95%E8%B5%B7%E7%9A%84%E5%B0%8F%E5%9D%91/</guid>
+      <description>自己封装了一个logging在django中使用，结果发现输出的时候总是重复输出，比如：
+DEBUG---- 2014/03/31 10:38:13:!!DEBUG---- 2014/03/31 10:38:13:!!DEBUG---- 2014/03/31 10:38:13:!</description>
+    </item>
+    
+    <item>
+      <title>mysql-python:not all arguments converted during string formatting</title>
+      <link>/posts/mysql-python-not-all-arguments-converted-during-string-formatting/</link>
+      <pubDate>Thu, 27 Mar 2014 18:07:49 +0000</pubDate>
+      
+      <guid>/posts/mysql-python-not-all-arguments-converted-during-string-formatting/</guid>
+      <description>今天把django从1.5.5升级到了1.6.2，结果使用mysql-python查询数据库时候就报了这个错误：“not all arguments converted during string formatting”
+貌似这个问题应该和django没什么关系，正好今天就看看mysql-python的源码吧。想看如何解决的请直接跳到最后。
+查询部分简化后如下：
+posistion = &amp;#34;top&amp;#34;order = r&amp;#34;select id,p_name,p_explain,p_href from pictures where p_position = %s and p_show = 1 order by -id&amp;#34;self.</description>
+    </item>
+    
+    <item>
+      <title>Django的view中常用return方法</title>
+      <link>/posts/django%E7%9A%84view%E4%B8%AD%E5%B8%B8%E7%94%A8return%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Tue, 25 Mar 2014 18:28:00 +0000</pubDate>
+      
+      <guid>/posts/django%E7%9A%84view%E4%B8%AD%E5%B8%B8%E7%94%A8return%E6%96%B9%E6%B3%95/</guid>
+      <description>&lt;p&gt;第一种HttpResponse，最基本的返回方式，可以直接返回字符:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; django.http &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; HttpResponse
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;index&lt;/span&gt;(request):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; HttpResponse(&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;“&lt;/span&gt;a test&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;”&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;或者结合contextloder返回网页：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; django.template &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Context, loader  
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; polls.models &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Poll
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;index&lt;/span&gt;(request):  
+    latest_poll_list &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Poll&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;objects&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;order_by(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-pub_date&amp;#39;&lt;/span&gt;)[:&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;]  
+    template &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; loader&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_template(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;polls/index.html&amp;#39;&lt;/span&gt;)
+    context &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Context({ &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;latest_poll_list&amp;#39;&lt;/span&gt;: latest_poll_list, })  
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; HttpResponse(template&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;render(context))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>django数据库分库</title>
+      <link>/posts/django%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E5%BA%93/</link>
+      <pubDate>Tue, 11 Feb 2014 09:34:25 +0000</pubDate>
+      
+      <guid>/posts/django%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E5%BA%93/</guid>
+      <description>有些时候我们需要项目中的app访问不同的数据库，这时就要进行分库操作。
+首先建立一个db_router.py，内容示例：
+#coding=utf-8 DATABASES = {&amp;#39;default&amp;#39;: {&amp;#39;ENGINE&amp;#39;: &amp;#39;django.</description>
+    </item>
+    
+    <item>
+      <title>django文件上传功能</title>
+      <link>/posts/django%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%8A%9F%E8%83%BD/</link>
+      <pubDate>Wed, 04 Dec 2013 17:13:50 +0000</pubDate>
+      
+      <guid>/posts/django%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%8A%9F%E8%83%BD/</guid>
+      <description>今天需要一个文件上传功能，所以代码如下
+def ci_test(request):try:if request.POST.has_key(&amp;#34;send&amp;#34;):xml_string=&amp;#34;&amp;#34;final_xml = &amp;#34;&amp;#34;file_obj = request.</description>
+    </item>
+    
+    <item>
+      <title>django中静态文件的使用</title>
+      <link>/posts/django%E4%B8%AD%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Tue, 19 Nov 2013 18:04:21 +0000</pubDate>
+      
+      <guid>/posts/django%E4%B8%AD%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+      <description>记得我刚刚开始接触django的时候，对于静态文件的引用始终一头雾水，按照网上说明的添加代码就是不好使。 今天再回头看看，突然发现以前自己还真是笨阿！补一篇记录算是弥补以前的缺憾了～ django版本1.5.3 目录结构：
+projectname----projectname--------templates------------base.html------------appname----------------a.html--------media------------mp3------------flv--------static------------img----------------s.</description>
+    </item>
+    
+    <item>
+      <title>django-I18n-国际化语言</title>
+      <link>/posts/django-i18n-%E5%9B%BD%E9%99%85%E5%8C%96%E8%AF%AD%E8%A8%80/</link>
+      <pubDate>Tue, 12 Nov 2013 14:58:47 +0000</pubDate>
+      
+      <guid>/posts/django-i18n-%E5%9B%BD%E9%99%85%E5%8C%96%E8%AF%AD%E8%A8%80/</guid>
+      <description>上一篇文章提到了django 的语言问题，查阅资料后发现刚才的解释不是十分准确，看到一篇介绍相关内容的博客感觉不错，节选部分全文
+先来看两个概念：
+ 国际化：是指为了该软件在任何地区的潜在使用而进行程序设计的过程。 它包括了为将来翻译而标记的文本（比如用户界面要素和错误信息等）、日期和时间的抽象显示以便保证不同地区的标准得到遵循、为不同时区提供支持，并且一般 确保代码中不会存在关于使用者所在地区的假设。 您会经常看到国际化被缩写为“I18N” (18表示Internationlization这个单词首字母I和结尾字母N之间的字母有18个)。 本地化： 是指使一个国际化的程序为了在某个特定地区使用而进行实际翻译的过程。 有时，本地化缩写为L10N 。  使用Django 国际化  第一步：在你的Python代码和模板中嵌入待翻译的字符串。 第二步：把那些字符串翻译成你要支持的语言。 第三步：在你的Django settings文件中激活本地中间件。  如何嵌入待翻译的字符串 使用函数django.</description>
+    </item>
+    
+    <item>
+      <title>django-groundwork个人1.5.3修改版</title>
+      <link>/posts/django-groundwork%E4%B8%AA%E4%BA%BA1-5-3%E4%BF%AE%E6%94%B9%E7%89%88/</link>
+      <pubDate>Fri, 01 Nov 2013 17:05:17 +0000</pubDate>
+      
+      <guid>/posts/django-groundwork%E4%B8%AA%E4%BA%BA1-5-3%E4%BF%AE%E6%94%B9%E7%89%88/</guid>
+      <description>django-groundwork,它不实现具体的功能，而是扩展了manage.py 的命令，使得通过命令行可以生成一些代码/文件。根据你的模型自动生成模板、view、url等。 将下载好的groundwork放到与APP同级的目录，在setting.py 中添加&#39;django-groundwork&#39;。
+网上流传的都不太适合我使用的1.5.3版本，所以个人对其进行了小修改。
+groundwork.py:
+from django.core.management.base import BaseCommand, CommandErrorfrom django.</description>
+    </item>
+    
+    <item>
+      <title>django版本更换</title>
+      <link>/posts/django%E7%89%88%E6%9C%AC%E6%9B%B4%E6%8D%A2/</link>
+      <pubDate>Fri, 01 Nov 2013 16:36:35 +0000</pubDate>
+      
+      <guid>/posts/django%E7%89%88%E6%9C%AC%E6%9B%B4%E6%8D%A2/</guid>
+      <description>如果你打算从过去的一个版本升级Django, 你需要先删除老版本的Django之后, 再安装新的版本.
+如果你是通过执行命令 setup.py install 来安装 Django, 卸载的方法很简单,
+只要在site-packages 目录下删除 django 目录就可以了.</description>
+    </item>
+    
+  </channel>
+</rss>

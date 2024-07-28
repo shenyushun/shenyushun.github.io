@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>python动态添加类属性、实例属性 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="python动态添加类属性、实例属性" />
+<meta property="og:description" content="看高手写出来的东西果然能学到很多阿！！昨天学到了如何用OptionParser生成命令行帮助信息，本来今天是要从中学习doctest使用的，不过却发现了这样一段代码：
+&gt;&gt;&gt; import datetime&gt;&gt;&gt; logger = configLogger(&#39;test.log&#39;)&gt;&gt;&gt; time = datetime." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/python%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E7%B1%BB%E5%B1%9E%E6%80%A7%E5%AE%9E%E4%BE%8B%E5%B1%9E%E6%80%A7/" />
+<meta property="article:published_time" content="2013-11-12T11:58:07+00:00" />
+<meta property="article:modified_time" content="2013-11-12T11:58:07+00:00" />
+
+		<meta itemprop="name" content="python动态添加类属性、实例属性">
+<meta itemprop="description" content="看高手写出来的东西果然能学到很多阿！！昨天学到了如何用OptionParser生成命令行帮助信息，本来今天是要从中学习doctest使用的，不过却发现了这样一段代码：
+&gt;&gt;&gt; import datetime&gt;&gt;&gt; logger = configLogger(&#39;test.log&#39;)&gt;&gt;&gt; time = datetime.">
+<meta itemprop="datePublished" content="2013-11-12T11:58:07&#43;00:00" />
+<meta itemprop="dateModified" content="2013-11-12T11:58:07&#43;00:00" />
+<meta itemprop="wordCount" content="238">
+
+
+
+<meta itemprop="keywords" content="python," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">python动态添加类属性、实例属性</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-12T11:58:07Z">2013-11-12</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>看高手写出来的东西果然能学到很多阿！！昨天学到了如何用OptionParser生成命令行帮助信息，本来今天是要从中学习doctest使用的，不过却发现了这样一段代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> datetime
+<span style="color:#f92672">&gt;&gt;&gt;</span> logger <span style="color:#f92672">=</span> configLogger(<span style="color:#e6db74">&#39;test.log&#39;</span>)
+<span style="color:#f92672">&gt;&gt;&gt;</span> time <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>datetime<span style="color:#f92672">.</span>now()<span style="color:#f92672">.</span>strftime(<span style="color:#e6db74">&#34;%m</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">%H%M%S&#34;</span>)
+<span style="color:#f92672">&gt;&gt;&gt;</span> sq <span style="color:#f92672">=</span> mySqlite(<span style="color:#e6db74">&#39;test.db&#39;</span>, logger, <span style="color:#ae81ff">1</span>)
+<span style="color:#f92672">&gt;&gt;&gt;</span> table <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;d&#39;</span> <span style="color:#f92672">+</span> str(time)
+<span style="color:#f92672">&gt;&gt;&gt;</span> sq<span style="color:#f92672">.</span>create(table)
+<span style="color:#f92672">&gt;&gt;&gt;</span> tp <span style="color:#f92672">=</span> ThreadPool(<span style="color:#ae81ff">5</span>)
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">t</span>():<span style="color:#66d9ef">pass</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> t<span style="color:#f92672">.</span>depth<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> t<span style="color:#f92672">.</span>urlpth<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;http://www.baidu.com&#39;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> t<span style="color:#f92672">.</span>logfile <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;test.log&#39;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> t<span style="color:#f92672">.</span>loglevel <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> t<span style="color:#f92672">.</span>dbpth <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;test.db&#39;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> t<span style="color:#f92672">.</span>key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;test&#39;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> d <span style="color:#f92672">=</span> Crawler(t, tp, table, logger)
+<span style="color:#f92672">&gt;&gt;&gt;</span> d<span style="color:#f92672">.</span>getPageSource(t<span style="color:#f92672">.</span>urlpth, t<span style="color:#f92672">.</span>key, t<span style="color:#f92672">.</span>depth)
+True
+</code></pre></div><p>doctest功能就是根据写的模仿终端输入的字符串来进行测试，猛一看到定义了一个函数并给函数添加属性最后当作参数传递时候十分不解，后来突然想起来 <strong>python中一切皆是对象</strong> 这句话后恍然大悟，这里作者把函数当作字典（或者说C中的结构体？）来用了！又学到一招，不过为什么他不直接传递个字典进去呢？等下午研究研究&hellip;</p>
+<p>借此正好复习一下python中类对象、实例对象等基础知识吧，整理如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#coding=utf-8</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">a</span>():
+    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">def</span> __init__(self):
+        self<span style="color:#f92672">.</span>cou <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        self<span style="color:#f92672">.</span>__class__<span style="color:#f92672">.</span>count <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>__class__<span style="color:#f92672">.</span>count <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>  <span style="color:#75715e">#这里调用类属性</span>
+<span style="color:#66d9ef">print</span> dir(a)<span style="color:#75715e">#输出里没有cou</span>
+<span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;~~~~~~~~~~~~~~~~&#34;</span>
+aa <span style="color:#f92672">=</span> a()
+aa<span style="color:#f92672">.</span>cou <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">print</span> aa<span style="color:#f92672">.</span>cou
+<span style="color:#66d9ef">print</span> aa<span style="color:#f92672">.</span>count
+<span style="color:#66d9ef">print</span> a<span style="color:#f92672">.</span>count
+<span style="color:#75715e">#print a.cou  用self修饰的是实例变量，类无法调用</span>
+<span style="color:#66d9ef">print</span> dir(aa)
+<span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;~~~~~~~~~~~~~~~~~~~~&#34;</span>
+ab <span style="color:#f92672">=</span> a()
+ab<span style="color:#f92672">.</span>cou <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+<span style="color:#66d9ef">print</span> ab<span style="color:#f92672">.</span>cou
+<span style="color:#66d9ef">print</span> ab<span style="color:#f92672">.</span>count
+<span style="color:#66d9ef">print</span> a<span style="color:#f92672">.</span>count
+<span style="color:#66d9ef">print</span> dir(ab)
+<span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;~~~~~~~~~~~~~~~~&#34;</span>
+ac <span style="color:#f92672">=</span> a()
+ac<span style="color:#f92672">.</span>cou <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+<span style="color:#66d9ef">print</span> ac<span style="color:#f92672">.</span>cou
+<span style="color:#66d9ef">print</span> a<span style="color:#f92672">.</span>count
+ac<span style="color:#f92672">.</span>count <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>  <span style="color:#75715e">#由于这里修改了类的count属性，所以count变成了实例属性</span>
+<span style="color:#66d9ef">print</span> ac<span style="color:#f92672">.</span>count
+<span style="color:#66d9ef">print</span> a<span style="color:#f92672">.</span>count
+<span style="color:#66d9ef">print</span> dir(ac)
+<span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;~~~~~~~~~~~~~~~~~&#34;</span>
+ad <span style="color:#f92672">=</span> a()
+<span style="color:#66d9ef">print</span> aa<span style="color:#f92672">.</span>count
+<span style="color:#66d9ef">print</span> ab<span style="color:#f92672">.</span>count
+<span style="color:#66d9ef">print</span> ac<span style="color:#f92672">.</span>count <span style="color:#75715e">#这里输出的不是4而是30，因为变成实例属性了，不再和其他实例公用类属性。</span>
+<span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;~~~~~~~~~~~~~~~~~~~~&#34;</span>
+a<span style="color:#f92672">.</span>ex <span style="color:#f92672">=</span>  <span style="color:#ae81ff">0</span>  <span style="color:#75715e">#动态添加一个类属性，所有对象共用</span>
+<span style="color:#66d9ef">print</span> dir(a)
+<span style="color:#66d9ef">print</span> dir(aa)
+<span style="color:#66d9ef">print</span> dir(ab)
+<span style="color:#66d9ef">print</span> dir(ac)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">prints</span>(self):    <span style="color:#75715e">#记得添加self参数,是实例才能调用</span>
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;in class function&#34;</span>
+    <span style="color:#66d9ef">print</span> self<span style="color:#f92672">.</span>cou,self<span style="color:#f92672">.</span>ex
+a<span style="color:#f92672">.</span>prin <span style="color:#f92672">=</span> prints <span style="color:#75715e">#动态添加函数，共用</span>
+<span style="color:#66d9ef">print</span> dir(a)
+<span style="color:#75715e">#a.prin()  类无法调用</span>
+aa<span style="color:#f92672">.</span>prin()
+ab<span style="color:#f92672">.</span>prin()
+ac<span style="color:#f92672">.</span>prin()
+ad<span style="color:#f92672">.</span>prin <span style="color:#f92672">=</span> <span style="color:#66d9ef">lambda</span> : <span style="color:#e6db74">&#34;new function&#34;</span><span style="color:#75715e">#这里把实例方法变成了普通函数</span>
+<span style="color:#66d9ef">print</span> ad<span style="color:#f92672">.</span>prin()
+<span style="color:#66d9ef">print</span> dir(ad)
+<span style="color:#66d9ef">print</span> type(aa<span style="color:#f92672">.</span>prin)  <span style="color:#75715e">#&lt;type &#39;instancemethod&#39;&gt;</span>
+<span style="color:#66d9ef">print</span> type(ad<span style="color:#f92672">.</span>prin)  <span style="color:#75715e">#&lt;type &#39;function&#39;&gt;</span>
+<span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;~~~~~~~~~~~~~~~~~~~&#34;</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fun</span>():
+    <span style="color:#e6db74">&#39;&#39;&#39;is a function&#39;&#39;&#39;</span>
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;in fun&#34;</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">funs</span>():
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;in funs&#34;</span>
+fun()  <span style="color:#75715e">#函数也是对象，可以动态添加属性,可以和原有的__doc__一类的属性对比。</span>
+<span style="color:#66d9ef">print</span> fun<span style="color:#f92672">.</span>___doc__
+fun<span style="color:#f92672">.</span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">print</span> fun<span style="color:#f92672">.</span>x
+fun<span style="color:#f92672">.</span>pr <span style="color:#f92672">=</span> funs
+fun<span style="color:#f92672">.</span>pr()
+</code></pre></div><p>看样子基础还是不够牢固阿，得加强基础的复习哈～</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/python-optionparser%E6%A8%A1%E5%9D%97/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Python optionParser模块</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E5%85%B3%E4%BA%8Elambda-s-s/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">关于lambda s:s</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

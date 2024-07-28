@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>python 获取网站cookie - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="python 获取网站cookie" />
+<meta property="og:description" content="对于一般的网站来说，通过以下代码便可以获取到cookie：
+import urllib2import urllibimport cookieliblogurl = &#34;https://www.digikey.com/classic/RegisteredUser/Login.aspx?&#34;cj = cookielib." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/python-%E8%8E%B7%E5%8F%96%E7%BD%91%E7%AB%99cookie/" />
+<meta property="article:published_time" content="2013-11-15T15:20:14+00:00" />
+<meta property="article:modified_time" content="2013-11-15T15:20:14+00:00" />
+
+		<meta itemprop="name" content="python 获取网站cookie">
+<meta itemprop="description" content="对于一般的网站来说，通过以下代码便可以获取到cookie：
+import urllib2import urllibimport cookieliblogurl = &#34;https://www.digikey.com/classic/RegisteredUser/Login.aspx?&#34;cj = cookielib.">
+<meta itemprop="datePublished" content="2013-11-15T15:20:14&#43;00:00" />
+<meta itemprop="dateModified" content="2013-11-15T15:20:14&#43;00:00" />
+<meta itemprop="wordCount" content="93">
+
+
+
+<meta itemprop="keywords" content="python," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">python 获取网站cookie</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-15T15:20:14Z">2013-11-15</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>对于一般的网站来说，通过以下代码便可以获取到cookie：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> urllib2
+<span style="color:#f92672">import</span> urllib
+<span style="color:#f92672">import</span> cookielib
+logurl <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://www.digikey.com/classic/RegisteredUser/Login.aspx?&#34;</span>
+cj <span style="color:#f92672">=</span> cookielib<span style="color:#f92672">.</span>CookieJar()
+opener <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>build_opener(urllib2<span style="color:#f92672">.</span>HTTPCookieProcessor(cj))
+urllib2<span style="color:#f92672">.</span>install_opener(opener)
+resp <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>urlopen(logurl)
+<span style="color:#66d9ef">for</span> index, cookie <span style="color:#f92672">in</span> enumerate(cj):
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;[&#39;</span>,index, <span style="color:#e6db74">&#39;]&#39;</span>,cookie
+</code></pre></div><p>然后在构造post数据向目标url发送即可（至于header，有人说如果在此时再次提交自己构造的handers将会覆盖获取到的有cookie的hander,未亲自试验，不过若是真的可以试试调用opener.addheaders方法添加）</p>
+<p>但digikey这个网站不知什么原因访问后不给返回cookie？？？</p>
+<p>经过试验发现，从浏览器中直接提取登录后的cookie添加到headers中，直接访问登录后的页面就实现了登录！连postdata似乎都是多余的。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">teurl <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://www.digikey.com/classic/RegisteredUser/MyDigikey.aspx&#34;</span>
+headers <span style="color:#f92672">=</span> {
+            <span style="color:#e6db74">&#34;User-Agent&#34;</span>: <span style="color:#e6db74">&#34;Mozilla/5.0 (X11; Linux x86_64; rv:23.0) Gecko/20100101 Firefox/23.0&#34;</span>,
+            <span style="color:#e6db74">&#34;Accept&#34;</span>: <span style="color:#e6db74">&#34;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&#34;</span>,
+            <span style="color:#e6db74">&#34;Accept-Language&#34;</span>:<span style="color:#e6db74">&#34;q=0.8,en-us&#34;</span>,
+            <span style="color:#e6db74">&#34;Host&#34;</span>:<span style="color:#e6db74">&#34;www.digikey.com&#34;</span>,
+            <span style="color:#e6db74">&#34;Cookie&#34;</span>:<span style="color:#e6db74">&#34;TS6b482d=1aa460f525235eaaaf6763d718b53ba564323; sid=5278426151-44225; TS50f921=c7b09221315dc72ed80a2b24f014fc2ffa4b16ccf877976952494826a3c65dd840b6a4ae6bad0a341809f751ca85ab033df615a7; TS168127=b58c4c2296cc37b2a5515974e403a008cdc46701e181d2a252494823019cdd5115d4a2a6a3c65dd840b6a4ae6bad0a341809f751ca85ab033df615a724f3d3ac91dbdb26; cur=USD; SiteForCur=US; utag_main=_st:1380536340264$ses_id:1380534378638%3Bexp-session; TS50f921_77=6487_b8824fd7e25d22fc_rsb_0_rs_https%3A</span><span style="color:#e6db74">%2F%2F</span><span style="color:#e6db74">www.digikey.com</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">classic</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">RegisteredUser</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">Login.aspx</span><span style="color:#e6db74">%3F</span><span style="color:#e6db74">ReturnUrl%3D</span><span style="color:#e6db74">%252f</span><span style="color:#e6db74">classic</span><span style="color:#e6db74">%252f</span><span style="color:#e6db74">registereduser</span><span style="color:#e6db74">%252f</span><span style="color:#e6db74">mydigikey.aspx</span><span style="color:#e6db74">%253f</span><span style="color:#e6db74">site</span><span style="color:#e6db74">%253d</span><span style="color:#e6db74">us%2526lang</span><span style="color:#e6db74">%253d</span><span style="color:#e6db74">en</span><span style="color:#e6db74">%26s</span><span style="color:#e6db74">ite%3Dus%26lang%3Den_rs_0; WT_FPC=id=36664e24-272b-40b3-9c92-2bce365f251d:lv=1380484152114:ss=1380483959856&#34;</span>
+          }
+<span style="color:#75715e">#postdata = {</span>
+<span style="color:#75715e">#            &#34;__EVENTARGUMENT&#34;:&#34;&#34;,</span>
+<span style="color:#75715e">#            &#34;__EVENTTARGET&#34;:&#34;&#34;,</span>
+<span style="color:#75715e">#            &#34;__EVENTVALIDATION&#34;:&#34;BcGpYOslmB3LGgxIVeQ+h35cvehYPZQcz1tM4jAlXqyYqV/g1blGRZnSJ4itN0YHd4C7aQtlJT0qWTL7vspdqVLEZtyljs5BJJuR+NhrIxCG0sdcfegZ1ZR1hdl/qIcNf1qpWfClikXsLCYWLe1N/Q6P1kU=&#34;,</span>
+<span style="color:#75715e">#            &#34;__LASTFOCUS&#34;:&#34;&#34;,</span>
+<span style="color:#75715e">#            &#34;__SCROLLPOSITIONX&#34;:0,</span>
+<span style="color:#75715e">#            &#34;__SCROLLPOSITIONY&#34;:0,</span>
+<span style="color:#75715e">#            &#34;ctl00$ctl00$mainContentPlaceHolder$mainContentPlaceHolder$btnLogin&#34;:&#34;Log In&#34;,</span>
+<span style="color:#75715e">#            &#34;ctl00$ctl00$mainContentPlaceHolder$mainContentPlaceHolder$txtPassword&#34;:&#34;xxxxx&#34;,</span>
+<span style="color:#75715e">#            &#34;ctl00$ctl00$mainContentPlaceHolder$mainContentPlaceHolder$txtUsername&#34;:&#34;xxxxx&#34;,</span>
+<span style="color:#75715e">#          }</span>
+<span style="color:#75715e">#postdata=urllib.urlencode(postdata)</span>
+req <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>Request(teurl,postdata,headers)
+res <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>urlopen(req)
+</code></pre></div><p>没想到最后解决的方法居然这么简单，甚至可以使用动态ip的方式抓取。但不知道以后会不会出现cookie过期的情况。</p>
+<p>至于获取不到cookie的情况，或许因为302页面跳转原因。</p>
+<p>这样可以考虑用LWPCookieJar或MozillaCookieJar将获取的cookie存到文件中，再load()载入。</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E5%A6%82%E4%BD%95%E4%B8%BAgnome3%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">如何为Gnome3添加自启动程序</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E4%BC%AA%E9%80%A0header%E7%AA%81%E7%A0%B4ip%E9%99%90%E5%88%B6%E6%8A%93%E5%8F%96%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">伪造header突破ip限制抓取网站内容</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

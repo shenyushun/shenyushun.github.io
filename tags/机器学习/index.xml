@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>机器学习 on Hi~Roy!</title>
+    <link>/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
+    <description>Recent content in 机器学习 on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 21 Dec 2017 20:01:41 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>朴素贝叶斯</title>
+      <link>/posts/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/</link>
+      <pubDate>Thu, 21 Dec 2017 20:01:41 +0000</pubDate>
+      
+      <guid>/posts/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;朴素贝叶斯是贝叶斯决策理论的一部分，贝叶斯概率引入先验知识和逻辑推理来处理不确定命题。又可以称为“条件概率”（Conditional probability），与之相对的则是“频数概率”（frequency probability）。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>决策树</title>
+      <link>/posts/%E5%86%B3%E7%AD%96%E6%A0%91/</link>
+      <pubDate>Tue, 17 Oct 2017 20:55:02 +0000</pubDate>
+      
+      <guid>/posts/%E5%86%B3%E7%AD%96%E6%A0%91/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;决策树是机器学习中一种简单明了的分类算法，用程序语言描述就是&lt;code&gt;if...elif...else...&lt;/code&gt;，关键问题则是如何选择合适的特征对数据集进行切割，常见算法有： ID3、C4.5、CART等。&lt;/p&gt;
+&lt;p&gt;今天主要记录一下ID3这个算法，想使用这个算法首先要了解信息增益，想了解信息增益则要先明白什么是&amp;quot;熵&amp;rdquo;。熵描述了一个系统的混乱复杂程度，有一个理论叫做&amp;quot;熵增加&amp;rdquo;，含义就是一个没有外力干涉的系统混乱程度总是增加的，比如一个房间如果没人打扫的话只会越来越混乱，而不会自己变得整洁。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

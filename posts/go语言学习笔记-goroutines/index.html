@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>GO语言学习笔记-Goroutines - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="GO语言学习笔记-Goroutines" />
+<meta property="og:description" content="原文，建议理解并发(concurrency)、并行(parallelism)区别后再看这方面的内容。
+Goroutines是啥？
+Goroutines是一个可以和其他函数或方法并发执行的函数或方法。也可以把它理解为轻量级的线程(roy注:这话听起来和大python中的协程很像啊！)，而创建Goroutine的开销却远远小于线程。因此在大多数的Go程序都可以并发执行成千上万的Goroutine。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-goroutines/" />
+<meta property="article:published_time" content="2018-06-01T11:51:33+00:00" />
+<meta property="article:modified_time" content="2018-06-01T11:51:33+00:00" />
+
+		<meta itemprop="name" content="GO语言学习笔记-Goroutines">
+<meta itemprop="description" content="原文，建议理解并发(concurrency)、并行(parallelism)区别后再看这方面的内容。
+Goroutines是啥？
+Goroutines是一个可以和其他函数或方法并发执行的函数或方法。也可以把它理解为轻量级的线程(roy注:这话听起来和大python中的协程很像啊！)，而创建Goroutine的开销却远远小于线程。因此在大多数的Go程序都可以并发执行成千上万的Goroutine。">
+<meta itemprop="datePublished" content="2018-06-01T11:51:33&#43;00:00" />
+<meta itemprop="dateModified" content="2018-06-01T11:51:33&#43;00:00" />
+<meta itemprop="wordCount" content="157">
+
+
+
+<meta itemprop="keywords" content="golang," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">GO语言学习笔记-Goroutines</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-06-01T11:51:33Z">2018-06-01</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p><a href="https://golangbot.com/goroutines/">原文</a>，建议理解并发(concurrency)、并行(parallelism)区别后再看这方面的内容。</p>
+<h2 id="goroutines是啥">Goroutines是啥？</h2>
+<p>Goroutines是一个可以和其他函数或方法并发执行的函数或方法。也可以把它理解为轻量级的线程(roy注:这话听起来和大python中的协程很像啊！)，而创建Goroutine的开销却远远小于线程。因此在大多数的Go程序都可以并发执行成千上万的Goroutine。</p>
+<h2 id="goroutines的优势">Goroutines的优势</h2>
+<ul>
+<li>Goroutine和线程相比及其节省开销，它们仅需要占用几kb的栈空间，而且栈空间可以根据程序的需要增加或回收。而同样情形下线程占用的栈空间只能被指定并且不可修改。</li>
+<li>Goroutine采用多路复用的方式来减少对系统线程的占用。程序中一个线程中可能包含几千个Goroutine，如果任何Goroutine在线程中阻塞比如需要等待用户输入，那么将会创建新的系统线程并把剩下的Goroutine转移到新系统线程中。所有的操作都由运行时自动处理，作为开发人员不用纠结于实现这个的细节了，Go为此提供了清晰的API。</li>
+<li>Goroutine之间的通信使用channel，channel被设计用来防止Goroutine之间访问共享内存可能造成的冲突。channel可以理解为Goroutine通信的管道。我们将在后面的文章中讨论channel。</li>
+</ul>
+<!-- raw HTML omitted -->
+<h2 id="如何启动一个goroutine">如何启动一个Goroutine</h2>
+<p>在调用函数或者方法时前面加上<code>go</code>你将启动一个新的Goroutine。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (  
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">hello</span>() {  
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Hello world goroutine&#34;</span>)
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">hello</span>()
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;main function&#34;</span>)
+}
+</code></pre></div><p>在11行，<code>go hello()</code>启动了一个新的Goroutine，现在<code>hello()</code>函数将和<code>main()</code>函数并发执行，<code>main()</code>函数在其拥有的被称为<code>main Goroutine</code>的Goroutine中执行。</p>
+<p>运行上面代码，你将发现只有<code>main function</code>被输出了，搞毛线？我们需要理解Goroutine的２个主要的属性来解释为什么会这样。</p>
+<ul>
+<li>当一个新Goroutine开始执行时将会立刻返回。和函数不同，程序并不会等待Goroutine执行结束，而是立刻执行下一行代码并且忽略Goroutine的返回值。</li>
+<li>如果<code>main Goroutine</code>结束，那么程序就结束了而且所有的Goroutine都不会运行。</li>
+</ul>
+<p>我猜你已经明白为什么我们的Goroutine没有执行了。１１行程序立刻执行了下一行输出了<code>main function</code>而不是等待Goroutine执行结束。<code>main Goroutine</code>执行结束后其他代码没有机会执行，所以<code>hello</code>Goroutine没机会执行。</p>
+<p>现在我们修复这个问题：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (  
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+    <span style="color:#e6db74">&#34;time&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">hello</span>() {  
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Hello world goroutine&#34;</span>)
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">hello</span>()
+    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">1</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;main function&#34;</span>)
+}
+</code></pre></div><p>13行我们调用<code>time</code>包中的<code>Sleep</code>方法，这样<code>main Goroutine</code>被阻塞１秒钟，程序结束前<code>go hello()</code>有足够的时间执行。所以这个程序先输出<code>Hello world goroutine</code>，然后输出<code>main function</code>。</p>
+<p>在<code>main Goroutine</code>中使用<code>Sleep</code>来等待其他Goroutine执行完毕仅仅是用来方便理解Goroutine如何工作，<code>Channel</code>才是用来阻塞<code>main Goroutine</code>等待其他Goroutine执行完毕的主要方式。我们将在下一篇文章解释。</p>
+<h2 id="启动多个goroutine">启动多个Goroutine</h2>
+<p>让我们写个启动多个Goroutine的程序来更好的理解：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (  
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+    <span style="color:#e6db74">&#34;time&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">numbers</span>() {  
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">5</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+        <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">250</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Millisecond</span>)
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%d &#34;</span>, <span style="color:#a6e22e">i</span>)
+    }
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">alphabets</span>() {  
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#39;a&#39;</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#e6db74">&#39;e&#39;</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+        <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">400</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Millisecond</span>)
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%c &#34;</span>, <span style="color:#a6e22e">i</span>)
+    }
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">numbers</span>()
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">alphabets</span>()
+    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">3000</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Millisecond</span>)
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;main terminated&#34;</span>)
+}
+</code></pre></div><p>上面的程序启动了２个Goroutine，这２个Goroutine并发执行。<code>numbers</code>sleep　250毫秒后输出<code>1</code>然后再次sleep输出<code>2</code>，直到循环结束输出<code>5</code>。同样的<code>alphabets</code>函数输出<code>a</code>到<code>e</code>，每次sleep　400毫秒。<code>main Goroutine</code>启动上面２个Goroutine后sleep 3000毫秒并结束。</p>
+<p>程序输出如下:</p>
+<p><code>1 a 2 3 b 4 c 5 d e main terminated</code></p>
+<hr>
+<p>原文最后还有个图解释输出为啥是上面那样，这里roy就不翻译了，不明白的可以自己去原文中查看。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/golang/" rel="tag">golang</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/basicpaxos%E7%AE%97%E6%B3%95/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">BasicPaxos算法</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-channels/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">GO语言学习笔记-Channels</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

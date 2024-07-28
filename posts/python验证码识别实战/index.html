@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>python验证码识别实战 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="python验证码识别实战" />
+<meta property="og:description" content="陆陆续续的学习了验证码的灰度、二值化、分割等方法，还了解了机器学习中最基本的3个分类方式——KNN、决策树、朴素贝叶斯。基于这些，今天结合这些工具来写一个简单的验证码识别程序，本来想使用现有的库来生成验证码，但无意间发现了之前写某个程序时下载的200个验证码，正好可以拿来练手。另外，虽然之前已经实现了上面3种算法，但这里还是会使用sklearn这个强大的三方库，学习原理是为了知其所以然，有现成工具还是要拿来用的。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/" />
+<meta property="article:published_time" content="2017-12-29T19:07:39+00:00" />
+<meta property="article:modified_time" content="2017-12-29T19:07:39+00:00" />
+
+		<meta itemprop="name" content="python验证码识别实战">
+<meta itemprop="description" content="陆陆续续的学习了验证码的灰度、二值化、分割等方法，还了解了机器学习中最基本的3个分类方式——KNN、决策树、朴素贝叶斯。基于这些，今天结合这些工具来写一个简单的验证码识别程序，本来想使用现有的库来生成验证码，但无意间发现了之前写某个程序时下载的200个验证码，正好可以拿来练手。另外，虽然之前已经实现了上面3种算法，但这里还是会使用sklearn这个强大的三方库，学习原理是为了知其所以然，有现成工具还是要拿来用的。">
+<meta itemprop="datePublished" content="2017-12-29T19:07:39&#43;00:00" />
+<meta itemprop="dateModified" content="2017-12-29T19:07:39&#43;00:00" />
+<meta itemprop="wordCount" content="391">
+
+
+
+<meta itemprop="keywords" content="爬虫,python,验证码识别," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">python验证码识别实战</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-12-29T19:07:39Z">2017-12-29</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>陆陆续续的学习了验证码的灰度、二值化、分割等方法，还了解了机器学习中最基本的3个分类方式——KNN、决策树、朴素贝叶斯。基于这些，今天结合这些工具来写一个简单的验证码识别程序，本来想使用现有的库来生成验证码，但无意间发现了之前写某个程序时下载的200个验证码，正好可以拿来练手。另外，虽然之前已经实现了上面3种算法，但这里还是会使用<code>sklearn</code>这个强大的三方库，学习原理是为了知其所以然，有现成工具还是要拿来用的。</p>
+<p>原始验证码如图所示：</p>
+<p><img src="http://mypic-1252424367.coshk.myqcloud.com/Screenshot%20from%202017-12-29%2019-15-23.png" alt="captchar"></p>
+<p>可以看出，字符红色，干扰线绿色，字符之间没有粘连扭曲，只包含数字和大写英文，经过查看后每个字符宽30像素，可以说是一种很简单的验证码。</p>
+<p>首先去掉绿色的干扰线：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#f92672">from</span> PIL <span style="color:#f92672">import</span> Image
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">denoise</span>(img):
+    <span style="color:#e6db74">&#34;&#34;&#34;去除绿色干扰线&#34;&#34;&#34;</span>
+    pixdata <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>load()
+    w, h <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>size
+    <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(h):
+        <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(w):
+            r, g, b <span style="color:#f92672">=</span> pixdata[x, y]
+            <span style="color:#66d9ef">if</span> r <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">110</span> <span style="color:#f92672">and</span> g <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">130</span>:
+                <span style="color:#66d9ef">pass</span>
+            <span style="color:#66d9ef">else</span>:
+                img<span style="color:#f92672">.</span>putpixel((x, y), (<span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>))
+    <span style="color:#66d9ef">return</span> img
+</code></pre></div><p>使用<code>putpixel</code>函数把符合判断条件的元素改成白色，接下来就是分割、二值化等操作，之前有记录过不再赘述：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#f92672">import</span> uuid
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">split_img</span>(img):
+    <span style="color:#e6db74">&#34;&#34;&#34;验证码每个字符都比较固定，直接固定位置切割&#34;&#34;&#34;</span>
+    w, h <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>size
+    cuts <span style="color:#f92672">=</span> [(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">30</span>, h), (<span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">60</span>, h), (<span style="color:#ae81ff">60</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">90</span>, h), (<span style="color:#ae81ff">90</span>, <span style="color:#ae81ff">0</span>, w, h)]
+    <span style="color:#66d9ef">for</span> i, n <span style="color:#f92672">in</span> enumerate(cuts, <span style="color:#ae81ff">1</span>):
+        tmp <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>crop(n)
+        tmp<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#34;split/</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">.jpeg&#34;</span> <span style="color:#f92672">%</span> uuid<span style="color:#f92672">.</span>uuid1())
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">binarizing</span>(img, threshold):
+    <span style="color:#e6db74">&#34;&#34;&#34;传入image对象进行灰度、二值处理&#34;&#34;&#34;</span>
+    img <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>convert(<span style="color:#e6db74">&#34;L&#34;</span>)  <span style="color:#75715e"># 转灰度</span>
+    pixdata <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>load()
+    w, h <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>size
+    <span style="color:#75715e"># 遍历所有像素，大于阈值的为黑色</span>
+    <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(h):
+        <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(w):
+            <span style="color:#66d9ef">if</span> pixdata[x, y] <span style="color:#f92672">&lt;</span> threshold:
+                pixdata[x, y] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+            <span style="color:#66d9ef">else</span>:
+                pixdata[x, y] <span style="color:#f92672">=</span> <span style="color:#ae81ff">255</span>
+    <span style="color:#66d9ef">return</span> img
+</code></pre></div><p>处理后，手动分类到不同的文件夹中（使用实际验证码就是坑在这点，需要手动打码，所以数据集较小），总共200个验证码切分出800个字符：</p>
+<p><img src="http://mypic-1252424367.coshk.myqcloud.com/Screenshot%20from%202017-12-29%2019-27-59.png" alt="img2"></p>
+<p>然后就是加载数据进行训练了:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#f92672">import</span> os
+<span style="color:#f92672">from</span> sklearn.metrics <span style="color:#f92672">import</span> accuracy_score
+<span style="color:#f92672">from</span> sklearn.naive_bayes <span style="color:#f92672">import</span> GaussianNB
+<span style="color:#f92672">from</span> sklearn.tree <span style="color:#f92672">import</span> DecisionTreeClassifier
+<span style="color:#f92672">from</span> sklearn.neighbors <span style="color:#f92672">import</span> KNeighborsClassifier
+
+train_data <span style="color:#f92672">=</span> []
+train_label <span style="color:#f92672">=</span> []
+test_data <span style="color:#f92672">=</span> []
+test_label <span style="color:#f92672">=</span> []
+<span style="color:#66d9ef">for</span> r, d, f <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>walk(<span style="color:#e6db74">&#39;data_train&#39;</span>):
+    <span style="color:#66d9ef">for</span> each <span style="color:#f92672">in</span> f:
+        imgname <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(r, each)
+        img <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(imgname)
+        data <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(binarizing(img, <span style="color:#ae81ff">200</span>))
+        label <span style="color:#f92672">=</span> r<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;/&#39;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+        train_data<span style="color:#f92672">.</span>append(np<span style="color:#f92672">.</span>reshape(data, <span style="color:#ae81ff">30</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">30</span>)) <span style="color:#75715e"># 展开成1维数组</span>
+        train_label<span style="color:#f92672">.</span>append(label)
+
+<span style="color:#66d9ef">for</span> r, d, f <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>walk(<span style="color:#e6db74">&#39;data_test&#39;</span>):
+    <span style="color:#66d9ef">for</span> each <span style="color:#f92672">in</span> f:
+        imgname <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(r, each)
+        img <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(imgname)
+        data <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(binarizing(img, <span style="color:#ae81ff">200</span>))
+        label <span style="color:#f92672">=</span> r<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;/&#39;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+        test_data<span style="color:#f92672">.</span>append(np<span style="color:#f92672">.</span>reshape(data, <span style="color:#ae81ff">30</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">30</span>))
+        test_label<span style="color:#f92672">.</span>append(label)
+
+gnb <span style="color:#f92672">=</span> GaussianNB()
+gnb<span style="color:#f92672">.</span>fit(train_data, train_label)
+clf <span style="color:#f92672">=</span> DecisionTreeClassifier()
+clf<span style="color:#f92672">.</span>fit(train_data, train_label)
+knn <span style="color:#f92672">=</span> KNeighborsClassifier()
+knn<span style="color:#f92672">.</span>fit(train_data, train_label)
+
+g <span style="color:#f92672">=</span> gnb<span style="color:#f92672">.</span>predict(test_data)
+c <span style="color:#f92672">=</span> clf<span style="color:#f92672">.</span>predict(test_data)
+k <span style="color:#f92672">=</span> knn<span style="color:#f92672">.</span>predict(test_data)
+
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;knn score:&#34;</span>, accuracy_score(test_label, k))
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;bayes score:&#34;</span>, accuracy_score(test_label, g))
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;description tree score:&#34;</span>, accuracy_score(test_label, c))
+</code></pre></div><p>输出如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">knn score: <span style="color:#ae81ff">0.695</span>
+bayes score: <span style="color:#ae81ff">0.675</span>
+description tree score: <span style="color:#ae81ff">0.79</span>
+</code></pre></div><p>没想到决策树在这个情况中成功率可以达到0.79，最看好的贝叶斯居然是最低的。当然，这里仅仅演示都使用了默认参数进行训练，实际使用中还需要更多的进行调参。</p>
+<p>虽然这个程序还很low，但总算把之前学习的各个知识点结合来起来。另外关于阈值的选取，有一个叫做 <strong>大津算法(OTSU)</strong>，以后有机会可以试试看：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">otsu_threshold</span>(im):
+    pixel_counts <span style="color:#f92672">=</span> [np<span style="color:#f92672">.</span>sum(im <span style="color:#f92672">==</span> i) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">256</span>)]
+    <span style="color:#75715e"># 得到图片的以0-255索引的像素值个数列表</span>
+    s_max <span style="color:#f92672">=</span> (<span style="color:#ae81ff">0</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>)
+    ss <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> threshold <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">256</span>):
+        <span style="color:#75715e"># 遍历所有阈值，根据公式挑选出最好的</span>
+        <span style="color:#75715e"># 更新</span>
+        w_0 <span style="color:#f92672">=</span> sum(pixel_counts[:threshold])  <span style="color:#75715e"># 得到阈值以下像素个数</span>
+        w_1 <span style="color:#f92672">=</span> sum(pixel_counts[threshold:])  <span style="color:#75715e"># 得到阈值以上像素个数</span>
+        mu_0 <span style="color:#f92672">=</span> sum([i <span style="color:#f92672">*</span> pixel_counts[i]
+                    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, threshold)]) <span style="color:#f92672">/</span> w_0 <span style="color:#66d9ef">if</span> w_0 <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#75715e"># 得到阈值下所有像素的均值</span>
+        mu_1 <span style="color:#f92672">=</span> sum([i <span style="color:#f92672">*</span> pixel_counts[i]
+                    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(threshold, <span style="color:#ae81ff">256</span>)]) <span style="color:#f92672">/</span> w_1 <span style="color:#66d9ef">if</span> w_1 <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#75715e"># 得到阈值上所有像素的均值</span>
+        <span style="color:#75715e"># 根据公式计算</span>
+        s <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0</span> <span style="color:#f92672">*</span> w_0 <span style="color:#f92672">*</span> w_1 <span style="color:#f92672">*</span> (mu_0 <span style="color:#f92672">-</span> mu_1) <span style="color:#f92672">**</span> <span style="color:#ae81ff">2</span>
+        <span style="color:#75715e"># 直接使用w_0 * w_1可能会造成整数相乘溢出，所以先乘一个1.0变为浮点数</span>
+        ss<span style="color:#f92672">.</span>append(s)
+        <span style="color:#75715e"># 取最大的</span>
+        <span style="color:#66d9ef">if</span> s <span style="color:#f92672">&gt;</span> s_max[<span style="color:#ae81ff">1</span>]:
+            s_max <span style="color:#f92672">=</span> (threshold, s)
+    <span style="color:#66d9ef">return</span> s_max[<span style="color:#ae81ff">0</span>]
+</code></pre></div><p>最后把手工标记好的数据传到 <a href="https://github.com/shenyushun/data_captchar">github</a> 上，有兴趣的可以拿去玩。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" rel="tag">验证码识别</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">朴素贝叶斯</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%982/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">python验证码识别实战2</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

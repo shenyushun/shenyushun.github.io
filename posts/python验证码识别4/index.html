@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>python验证码识别4:滴水算法分割图片 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="python验证码识别4:滴水算法分割图片" />
+<meta property="og:description" content="之前提过对于有粘连的字符可以使用滴水算法来解决分割，但智商捉急的我实在是领悟不了这个算法的精髓，幸好有小伙伴已经实现相关代码。
+我对上面的代码进行了一些小修改，同时升级为python3的代码。
+还是以这张图片为例：
+
+在以前的我们已经知道这种简单的粘连可以通过控制阈值来实现分割，这里我们使用滴水算法。
+首先使用之前文章中介绍的垂直投影或者连通域先进行一次切割处理，得到结果如下：
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB4/" />
+<meta property="article:published_time" content="2017-09-22T16:50:04+00:00" />
+<meta property="article:modified_time" content="2017-09-22T16:50:04+00:00" />
+
+		<meta itemprop="name" content="python验证码识别4:滴水算法分割图片">
+<meta itemprop="description" content="之前提过对于有粘连的字符可以使用滴水算法来解决分割，但智商捉急的我实在是领悟不了这个算法的精髓，幸好有小伙伴已经实现相关代码。
+我对上面的代码进行了一些小修改，同时升级为python3的代码。
+还是以这张图片为例：
+
+在以前的我们已经知道这种简单的粘连可以通过控制阈值来实现分割，这里我们使用滴水算法。
+首先使用之前文章中介绍的垂直投影或者连通域先进行一次切割处理，得到结果如下：
+">
+<meta itemprop="datePublished" content="2017-09-22T16:50:04&#43;00:00" />
+<meta itemprop="dateModified" content="2017-09-22T16:50:04&#43;00:00" />
+<meta itemprop="wordCount" content="684">
+
+
+
+<meta itemprop="keywords" content="爬虫,python,验证码识别," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">python验证码识别4:滴水算法分割图片</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-09-22T16:50:04Z">2017-09-22</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>之前提过对于有粘连的字符可以使用滴水算法来解决分割，但智商捉急的我实在是领悟不了这个算法的精髓，幸好有小伙伴已经实现相关<a href="https://github.com/lan2720/fuck-captcha/blob/master/fuck_sjtu_captcha.py">代码</a>。</p>
+<p>我对上面的代码进行了一些小修改，同时升级为python3的代码。</p>
+<p>还是以这张图片为例：</p>
+<!-- raw HTML omitted -->
+<p>在以前的我们已经知道这种简单的粘连可以通过控制阈值来实现分割，这里我们使用滴水算法。</p>
+<p>首先使用<a href="http://www.hi-roy.com/2017/09/20/Python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB2/">之前文章</a>中介绍的垂直投影或者连通域先进行一次切割处理，得到结果如下：</p>
+<!-- raw HTML omitted -->
+<p>针对于最后粘连情况来使用滴水算法处理：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> itertools <span style="color:#f92672">import</span> groupby
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">binarizing</span>(img,threshold):
+    <span style="color:#e6db74">&#34;&#34;&#34;传入image对象进行灰度、二值处理&#34;&#34;&#34;</span>
+    img <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>convert(<span style="color:#e6db74">&#34;L&#34;</span>) <span style="color:#75715e"># 转灰度</span>
+    pixdata <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>load()
+    w, h <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>size
+    <span style="color:#75715e"># 遍历所有像素，大于阈值的为黑色</span>
+    <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(h):
+        <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(w):
+            <span style="color:#66d9ef">if</span> pixdata[x, y] <span style="color:#f92672">&lt;</span> threshold:
+                pixdata[x, y] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+            <span style="color:#66d9ef">else</span>:
+                pixdata[x, y] <span style="color:#f92672">=</span> <span style="color:#ae81ff">255</span>
+    <span style="color:#66d9ef">return</span> img
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">vertical</span>(img):
+    <span style="color:#e6db74">&#34;&#34;&#34;传入二值化后的图片进行垂直投影&#34;&#34;&#34;</span>
+    pixdata <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>load()
+    w,h <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>size
+    result <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(w):
+        black <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(h):
+            <span style="color:#66d9ef">if</span> pixdata[x,y] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+                black <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+        result<span style="color:#f92672">.</span>append(black)
+    <span style="color:#66d9ef">return</span> result
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_start_x</span>(hist_width):
+    <span style="color:#e6db74">&#34;&#34;&#34;根据图片垂直投影的结果来确定起点
+</span><span style="color:#e6db74">       hist_width中间值 前后取4个值 再这范围内取最小值
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    mid <span style="color:#f92672">=</span> len(hist_width) <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span> <span style="color:#75715e"># 注意py3 除法和py2不同</span>
+    temp <span style="color:#f92672">=</span> hist_width[mid<span style="color:#f92672">-</span><span style="color:#ae81ff">4</span>:mid<span style="color:#f92672">+</span><span style="color:#ae81ff">5</span>]
+    <span style="color:#66d9ef">return</span> mid <span style="color:#f92672">-</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">+</span> temp<span style="color:#f92672">.</span>index(min(temp))
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_nearby_pix_value</span>(img_pix,x,y,j):
+    <span style="color:#e6db74">&#34;&#34;&#34;获取临近5个点像素数据&#34;&#34;&#34;</span>
+    <span style="color:#66d9ef">if</span> j <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">if</span> img_pix[x<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,y<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">elif</span> j <span style="color:#f92672">==</span><span style="color:#ae81ff">2</span>:
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">if</span> img_pix[x,y<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">elif</span> j <span style="color:#f92672">==</span><span style="color:#ae81ff">3</span>:
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">if</span> img_pix[x<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>,y<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">elif</span> j <span style="color:#f92672">==</span><span style="color:#ae81ff">4</span>:
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">if</span> img_pix[x<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>,y] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">elif</span> j <span style="color:#f92672">==</span><span style="color:#ae81ff">5</span>:
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">if</span> img_pix[x<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,y] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">else</span>:
+        <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">Exception</span>(<span style="color:#e6db74">&#34;get_nearby_pix_value error&#34;</span>)
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_end_route</span>(img,start_x,height):
+    <span style="color:#e6db74">&#34;&#34;&#34;获取滴水路径&#34;&#34;&#34;</span>
+    left_limit <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    right_limit <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>size[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+    end_route <span style="color:#f92672">=</span> []
+    cur_p <span style="color:#f92672">=</span> (start_x,<span style="color:#ae81ff">0</span>)
+    last_p <span style="color:#f92672">=</span> cur_p
+    end_route<span style="color:#f92672">.</span>append(cur_p)
+
+    <span style="color:#66d9ef">while</span> cur_p[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">&lt;</span> (height<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>):
+        sum_n <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        max_w <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        next_x <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">0</span>]
+        next_y <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">1</span>]
+        pix_img <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>load()
+        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">6</span>):
+            cur_w <span style="color:#f92672">=</span> get_nearby_pix_value(pix_img,cur_p[<span style="color:#ae81ff">0</span>],cur_p[<span style="color:#ae81ff">1</span>],i) <span style="color:#f92672">*</span> (<span style="color:#ae81ff">6</span><span style="color:#f92672">-</span>i)
+            sum_n <span style="color:#f92672">+=</span> cur_w
+            <span style="color:#66d9ef">if</span> max_w <span style="color:#f92672">&lt;</span> cur_w:
+                max_w <span style="color:#f92672">=</span> cur_w
+        <span style="color:#66d9ef">if</span> sum_n <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+            <span style="color:#75715e"># 如果全黑则看惯性</span>
+            max_w <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
+        <span style="color:#66d9ef">if</span> sum_n <span style="color:#f92672">==</span> <span style="color:#ae81ff">15</span>:
+            max_w <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>
+
+        <span style="color:#66d9ef">if</span> max_w <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+            next_x <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+            next_y <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">1</span>]
+        <span style="color:#66d9ef">elif</span> max_w <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>:
+            next_x <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+            next_y <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">1</span>]
+        <span style="color:#66d9ef">elif</span> max_w <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>:
+            next_x <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+            next_y <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">elif</span> max_w <span style="color:#f92672">==</span> <span style="color:#ae81ff">5</span>:
+            next_x <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+            next_y <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">elif</span> max_w <span style="color:#f92672">==</span> <span style="color:#ae81ff">6</span>:
+            next_x <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">0</span>]
+            next_y <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">elif</span> max_w <span style="color:#f92672">==</span> <span style="color:#ae81ff">4</span>:
+            <span style="color:#66d9ef">if</span> next_x <span style="color:#f92672">&gt;</span> last_p[<span style="color:#ae81ff">0</span>]:
+                <span style="color:#75715e"># 向右</span>
+                next_x <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+                next_y <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">if</span> next_x <span style="color:#f92672">&lt;</span> last_p[<span style="color:#ae81ff">0</span>]:
+                next_x <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">0</span>]
+                next_y <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">if</span> sum_n <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+                next_x <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">0</span>]
+                next_y <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">else</span>:
+            <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">Exception</span>(<span style="color:#e6db74">&#34;get end route error&#34;</span>)
+
+        <span style="color:#66d9ef">if</span> last_p[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> next_x <span style="color:#f92672">and</span> last_p[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> next_y:
+            <span style="color:#66d9ef">if</span> next_x <span style="color:#f92672">&lt;</span> cur_p[<span style="color:#ae81ff">0</span>]:
+                max_w <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+                next_x <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+                next_y <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">else</span>:
+                max_w <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+                next_x <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+                next_y <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+        last_p <span style="color:#f92672">=</span> cur_p
+
+        <span style="color:#66d9ef">if</span> next_x <span style="color:#f92672">&gt;</span> right_limit:
+            next_x <span style="color:#f92672">=</span> right_limit
+            next_y <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">if</span> next_x <span style="color:#f92672">&lt;</span> left_limit:
+            next_x <span style="color:#f92672">=</span> left_limit
+            next_y <span style="color:#f92672">=</span> cur_p[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+        cur_p <span style="color:#f92672">=</span> (next_x,next_y)
+        end_route<span style="color:#f92672">.</span>append(cur_p)
+    <span style="color:#66d9ef">return</span> end_route
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_split_seq</span>(projection_x):
+    split_seq <span style="color:#f92672">=</span> []
+    start_x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    length <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">for</span> pos_x, val <span style="color:#f92672">in</span> enumerate(projection_x):
+        <span style="color:#66d9ef">if</span> val <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> length <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+            <span style="color:#66d9ef">continue</span>
+        <span style="color:#66d9ef">elif</span> val <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> length <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>:
+            split_seq<span style="color:#f92672">.</span>append([start_x, length])
+            length <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">elif</span> val <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+            <span style="color:#66d9ef">if</span> length <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+                start_x <span style="color:#f92672">=</span> pos_x
+            length <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">else</span>:
+            <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">Exception</span>(<span style="color:#e6db74">&#39;generating split sequence occurs error&#39;</span>)
+    <span style="color:#75715e"># 循环结束时如果length不为0，说明还有一部分需要append</span>
+    <span style="color:#66d9ef">if</span> length <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>:
+        split_seq<span style="color:#f92672">.</span>append([start_x, length])
+    <span style="color:#66d9ef">return</span> split_seq
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">do_split</span>(source_image, starts, filter_ends):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    具体实行切割
+</span><span style="color:#e6db74">    : param starts: 每一行的起始点 tuple of list
+</span><span style="color:#e6db74">    : param ends: 每一行的终止点
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    left <span style="color:#f92672">=</span> starts[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>]
+    top <span style="color:#f92672">=</span> starts[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">1</span>]
+    right <span style="color:#f92672">=</span> filter_ends[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>]
+    bottom <span style="color:#f92672">=</span> filter_ends[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">1</span>]
+    pixdata <span style="color:#f92672">=</span> source_image<span style="color:#f92672">.</span>load()
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(starts)):
+        left <span style="color:#f92672">=</span> min(starts[i][<span style="color:#ae81ff">0</span>], left)
+        top <span style="color:#f92672">=</span> min(starts[i][<span style="color:#ae81ff">1</span>], top)
+        right <span style="color:#f92672">=</span> max(filter_ends[i][<span style="color:#ae81ff">0</span>], right)
+        bottom <span style="color:#f92672">=</span> max(filter_ends[i][<span style="color:#ae81ff">1</span>], bottom)
+    width <span style="color:#f92672">=</span> right <span style="color:#f92672">-</span> left <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+    height <span style="color:#f92672">=</span> bottom <span style="color:#f92672">-</span> top <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+    image <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>new(<span style="color:#e6db74">&#39;RGB&#39;</span>, (width, height), (<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">255</span>))
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(height):
+        start <span style="color:#f92672">=</span> starts[i]
+        end <span style="color:#f92672">=</span> filter_ends[i]
+        <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(start[<span style="color:#ae81ff">0</span>], end[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>):
+            <span style="color:#66d9ef">if</span> pixdata[x,start[<span style="color:#ae81ff">1</span>]] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+                image<span style="color:#f92672">.</span>putpixel((x <span style="color:#f92672">-</span> left, start[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> top), (<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>))
+    <span style="color:#66d9ef">return</span> image
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">drop_fall</span>(img):
+    <span style="color:#e6db74">&#34;&#34;&#34;滴水分割&#34;&#34;&#34;</span>
+    width,height <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>size
+    <span style="color:#75715e"># 1 二值化</span>
+    b_img <span style="color:#f92672">=</span> binarizing(img,<span style="color:#ae81ff">200</span>)
+    <span style="color:#75715e"># 2 垂直投影</span>
+    hist_width <span style="color:#f92672">=</span> vertical(b_img)
+    <span style="color:#75715e"># 3 获取起点</span>
+    start_x <span style="color:#f92672">=</span> get_start_x(hist_width)
+
+    <span style="color:#75715e"># 4 开始滴水算法</span>
+    start_route <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(height):
+        start_route<span style="color:#f92672">.</span>append((<span style="color:#ae81ff">0</span>,y))
+
+    end_route <span style="color:#f92672">=</span> get_end_route(img,start_x,height)
+    filter_end_route <span style="color:#f92672">=</span> [max(list(k)) <span style="color:#66d9ef">for</span> _,k <span style="color:#f92672">in</span> groupby(end_route,<span style="color:#66d9ef">lambda</span> x:x[<span style="color:#ae81ff">1</span>])] <span style="color:#75715e"># 注意这里groupby</span>
+    img1 <span style="color:#f92672">=</span> do_split(img,start_route,filter_end_route)
+    img1<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#39;cuts-d-1.png&#39;</span>)
+
+    start_route <span style="color:#f92672">=</span> list(map(<span style="color:#66d9ef">lambda</span> x : (x[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>,x[<span style="color:#ae81ff">1</span>]),filter_end_route)) <span style="color:#75715e"># python3中map不返回list需要自己转换</span>
+    end_route <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(height):
+        end_route<span style="color:#f92672">.</span>append((width<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,y))
+    img2 <span style="color:#f92672">=</span> do_split(img,start_route,end_route)
+    img2<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#39;cuts-d-2.png&#39;</span>)
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    p <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(<span style="color:#e6db74">&#34;cuts-2.png&#34;</span>)
+    drop_fall(p)
+</code></pre></div><p>执行后会得到切分后的2个照片：</p>
+<!-- raw HTML omitted -->
+<p>从这张图片来看，虽然切分成功但是效果比较一般。另外目前的代码只能对2个字符粘连的情况切分，参悟了滴水算法精髓的小伙伴可以试着改成多个字符粘连的情况。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" rel="tag">验证码识别</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB3/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">python验证码识别3:滑动验证码</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB5/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">python验证码识别5:滴水算法补充</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

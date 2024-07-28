@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>在MySQL中存储树状结构 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="在MySQL中存储树状结构" />
+<meta property="og:description" content="原文地址，原文中Hierarchical Data直译为 分层结构，这里我翻译成 树状结构。
+补充资源：
+
+https://django-mptt.github.io/django-mptt/ ，如果你也使用python和django，这个是现成的APP。
+
+另外，个人觉得这种方法对于搜索的效率提升最大，而相应的新增、删除等操作则会变慢，个人猜测未经测试。
+个人总结的核心：如果一个节点A是节点B的子节点，那么A的左值一定大于B的左值，A的右值一定小于B的右值。或者说，A的左值一定在B的左值和右值之间。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E5%9C%A8mysql%E4%B8%AD%E5%AD%98%E5%82%A8%E6%A0%91%E7%BB%93%E6%9E%84/" />
+<meta property="article:published_time" content="2016-08-15T17:46:18+00:00" />
+<meta property="article:modified_time" content="2016-08-15T17:46:18+00:00" />
+
+		<meta itemprop="name" content="在MySQL中存储树状结构">
+<meta itemprop="description" content="原文地址，原文中Hierarchical Data直译为 分层结构，这里我翻译成 树状结构。
+补充资源：
+
+https://django-mptt.github.io/django-mptt/ ，如果你也使用python和django，这个是现成的APP。
+
+另外，个人觉得这种方法对于搜索的效率提升最大，而相应的新增、删除等操作则会变慢，个人猜测未经测试。
+个人总结的核心：如果一个节点A是节点B的子节点，那么A的左值一定大于B的左值，A的右值一定小于B的右值。或者说，A的左值一定在B的左值和右值之间。">
+<meta itemprop="datePublished" content="2016-08-15T17:46:18&#43;00:00" />
+<meta itemprop="dateModified" content="2016-08-15T17:46:18&#43;00:00" />
+<meta itemprop="wordCount" content="2115">
+
+
+
+<meta itemprop="keywords" content="mysql," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">在MySQL中存储树状结构</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-08-15T17:46:18Z">2016-08-15</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>, <a class="meta__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="category">数据库</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p><a href="http://mikehillyer.com/articles/managing-hierarchical-data-in-mysql/">原文地址</a>，原文中<code>Hierarchical Data</code>直译为 <em>分层结构</em>，这里我翻译成 <em>树状结构</em>。</p>
+<p>补充资源：</p>
+<ol>
+<li><a href="https://django-mptt.github.io/django-mptt/">https://django-mptt.github.io/django-mptt/</a> ，如果你也使用python和django，这个是现成的APP。</li>
+</ol>
+<p>另外，个人觉得这种方法对于搜索的效率提升最大，而相应的新增、删除等操作则会变慢，个人猜测未经测试。</p>
+<p>个人总结的核心：如果一个节点A是节点B的子节点，那么A的左值一定大于B的左值，A的右值一定小于B的右值。或者说，A的左值一定在B的左值和右值之间。</p>
+<h2 id="介绍">介绍</h2>
+<p>许多人都遇到过需要在MySQL中处理树状结构数据的情况，毫无疑问管理树状结构并不是关系型数据库的强项。关系型数据库的表并不是树状结构(比如XML)而是一种扁平结构。树状结构中的&quot;父&ndash;子&quot;关系并不被MySQL天生支持。</p>
+<p>在我们看来，树状结构是一类数据的集合，集合中每一个元素都有一个父节点和零或多个子节点(除了根节点，根节点没有父节点)。树状结构在很多程序中都会出现，比如论坛、邮件列表、公司组织架构图、内容分类管理、产品目录等。在这里，我们使用下面的产品分来目录来虚构一个电子产品目录：
+<img src="http://mikehillyer.com/media//categories.png" alt="product"></p>
+<p>上面的分类构成了一种树状结构，在这篇文章中我们将使用2种方法来在MySQL中操作它。首先使用传统的<a href="http://baike.baidu.com/link?url=7nphm8gNv5PfOEt96w90Oj6G9qSTU7ETc2lJVHRyp7zOnWpWBmV8Gzj7GZPeYW5UuEIck3RuyaElm8Tt2Jvy-q">邻接表</a>的方式。</p>
+<h2 id="邻接表">邻接表</h2>
+<p>典型的分类示例将以下面的结构存储在表中(下面包含了完整的create和insert操作，所以你可以自行测试)：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> category(
+        category_id INT AUTO_INCREMENT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+        name VARCHAR(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+        parent INT <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>
+);
+
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> category <span style="color:#66d9ef">VALUES</span>(<span style="color:#ae81ff">1</span>,<span style="color:#e6db74">&#39;ELECTRONICS&#39;</span>,<span style="color:#66d9ef">NULL</span>),(<span style="color:#ae81ff">2</span>,<span style="color:#e6db74">&#39;TELEVISIONS&#39;</span>,<span style="color:#ae81ff">1</span>),(<span style="color:#ae81ff">3</span>,<span style="color:#e6db74">&#39;TUBE&#39;</span>,<span style="color:#ae81ff">2</span>),
+        (<span style="color:#ae81ff">4</span>,<span style="color:#e6db74">&#39;LCD&#39;</span>,<span style="color:#ae81ff">2</span>),(<span style="color:#ae81ff">5</span>,<span style="color:#e6db74">&#39;PLASMA&#39;</span>,<span style="color:#ae81ff">2</span>),(<span style="color:#ae81ff">6</span>,<span style="color:#e6db74">&#39;PORTABLE ELECTRONICS&#39;</span>,<span style="color:#ae81ff">1</span>),(<span style="color:#ae81ff">7</span>,<span style="color:#e6db74">&#39;MP3 PLAYERS&#39;</span>,<span style="color:#ae81ff">6</span>),(<span style="color:#ae81ff">8</span>,<span style="color:#e6db74">&#39;FLASH&#39;</span>,<span style="color:#ae81ff">7</span>),
+        (<span style="color:#ae81ff">9</span>,<span style="color:#e6db74">&#39;CD PLAYERS&#39;</span>,<span style="color:#ae81ff">6</span>),(<span style="color:#ae81ff">10</span>,<span style="color:#e6db74">&#39;2 WAY RADIOS&#39;</span>,<span style="color:#ae81ff">6</span>);
+
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> category <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> category_id;
+<span style="color:#f92672">+</span><span style="color:#75715e">-------------+----------------------+--------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> category_id <span style="color:#f92672">|</span> name                 <span style="color:#f92672">|</span> parent <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-------------+----------------------+--------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span>           <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span> ELECTRONICS          <span style="color:#f92672">|</span>   <span style="color:#66d9ef">NULL</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>           <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span> TELEVISIONS          <span style="color:#f92672">|</span>      <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>           <span style="color:#ae81ff">3</span> <span style="color:#f92672">|</span> TUBE                 <span style="color:#f92672">|</span>      <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>           <span style="color:#ae81ff">4</span> <span style="color:#f92672">|</span> LCD                  <span style="color:#f92672">|</span>      <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>           <span style="color:#ae81ff">5</span> <span style="color:#f92672">|</span> PLASMA               <span style="color:#f92672">|</span>      <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>           <span style="color:#ae81ff">6</span> <span style="color:#f92672">|</span> PORTABLE ELECTRONICS <span style="color:#f92672">|</span>      <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>           <span style="color:#ae81ff">7</span> <span style="color:#f92672">|</span> MP3 PLAYERS          <span style="color:#f92672">|</span>      <span style="color:#ae81ff">6</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>           <span style="color:#ae81ff">8</span> <span style="color:#f92672">|</span> FLASH                <span style="color:#f92672">|</span>      <span style="color:#ae81ff">7</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>           <span style="color:#ae81ff">9</span> <span style="color:#f92672">|</span> CD PLAYERS           <span style="color:#f92672">|</span>      <span style="color:#ae81ff">6</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>          <span style="color:#ae81ff">10</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">2</span> WAY RADIOS         <span style="color:#f92672">|</span>      <span style="color:#ae81ff">6</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-------------+----------------------+--------+
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">10</span> <span style="color:#66d9ef">rows</span> <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">set</span> (<span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">00</span> sec)
+</code></pre></div><p>在邻接表中，每一条数据都有一个字段指向它的父节点。本例中的根节点<code>ELECTRONICS</code>的<code>parent</code>则为<code>NULL</code>。邻接表的特点就是简单，可以很容易的看出<code>FLASH</code>是<code>MP3 PLAYERS</code>的子节点。同时<code>MP3 PLAYERS</code>是<code>PORTABLE ELECTRONICS</code>的子节点，而<code>PORTABLE ELECTRONICS</code>又是<code>ELECTRONICS</code>的子节点。尽管邻接表可以在客户端代码被很容易的处理，但对于原生的SQL语句则可能会产生问题。</p>
+<h3 id="遍历树">遍历树</h3>
+<p>在操作树状结构时最常见的一个操作就是以缩进的形式来展示整个树，使用SQL语句实现的最常见方法就是使用<code>join</code>语句：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> t1.name <span style="color:#66d9ef">AS</span> lev1, t2.name <span style="color:#66d9ef">as</span> lev2, t3.name <span style="color:#66d9ef">as</span> lev3, t4.name <span style="color:#66d9ef">as</span> lev4
+<span style="color:#66d9ef">FROM</span> category <span style="color:#66d9ef">AS</span> t1
+<span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> category <span style="color:#66d9ef">AS</span> t2 <span style="color:#66d9ef">ON</span> t2.parent <span style="color:#f92672">=</span> t1.category_id
+<span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> category <span style="color:#66d9ef">AS</span> t3 <span style="color:#66d9ef">ON</span> t3.parent <span style="color:#f92672">=</span> t2.category_id
+<span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> category <span style="color:#66d9ef">AS</span> t4 <span style="color:#66d9ef">ON</span> t4.parent <span style="color:#f92672">=</span> t3.category_id
+<span style="color:#66d9ef">WHERE</span> t1.name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;ELECTRONICS&#39;</span>;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">-------------+----------------------+--------------+-------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> lev1        <span style="color:#f92672">|</span> lev2                 <span style="color:#f92672">|</span> lev3         <span style="color:#f92672">|</span> lev4  <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-------------+----------------------+--------------+-------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> ELECTRONICS <span style="color:#f92672">|</span> TELEVISIONS          <span style="color:#f92672">|</span> TUBE         <span style="color:#f92672">|</span> <span style="color:#66d9ef">NULL</span>  <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> ELECTRONICS <span style="color:#f92672">|</span> TELEVISIONS          <span style="color:#f92672">|</span> LCD          <span style="color:#f92672">|</span> <span style="color:#66d9ef">NULL</span>  <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> ELECTRONICS <span style="color:#f92672">|</span> TELEVISIONS          <span style="color:#f92672">|</span> PLASMA       <span style="color:#f92672">|</span> <span style="color:#66d9ef">NULL</span>  <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> ELECTRONICS <span style="color:#f92672">|</span> PORTABLE ELECTRONICS <span style="color:#f92672">|</span> MP3 PLAYERS  <span style="color:#f92672">|</span> FLASH <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> ELECTRONICS <span style="color:#f92672">|</span> PORTABLE ELECTRONICS <span style="color:#f92672">|</span> CD PLAYERS   <span style="color:#f92672">|</span> <span style="color:#66d9ef">NULL</span>  <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> ELECTRONICS <span style="color:#f92672">|</span> PORTABLE ELECTRONICS <span style="color:#f92672">|</span> <span style="color:#ae81ff">2</span> WAY RADIOS <span style="color:#f92672">|</span> <span style="color:#66d9ef">NULL</span>  <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-------------+----------------------+--------------+-------+
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">6</span> <span style="color:#66d9ef">rows</span> <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">set</span> (<span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">00</span> sec)
+</code></pre></div><h3 id="找出所有叶子节点">找出所有叶子节点</h3>
+<p>我们可以使用<code>LEFT JOIN</code>语句来找出所有的叶子节点(没有子节点的节点)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> t1.name <span style="color:#66d9ef">FROM</span>
+category <span style="color:#66d9ef">AS</span> t1 <span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> category <span style="color:#66d9ef">as</span> t2
+<span style="color:#66d9ef">ON</span> t1.category_id <span style="color:#f92672">=</span> t2.parent
+<span style="color:#66d9ef">WHERE</span> t2.category_id <span style="color:#66d9ef">IS</span> <span style="color:#66d9ef">NULL</span>;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">--------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> name         <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">--------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> TUBE         <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> LCD          <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> PLASMA       <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> FLASH        <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> CD PLAYERS   <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#ae81ff">2</span> WAY RADIOS <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">--------------+
+</span></code></pre></div><h3 id="寻找单一路径">寻找单一路径</h3>
+<p>可以使用<code>JOIN</code>语句在树状结构中查看某一条路径：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> t1.name <span style="color:#66d9ef">AS</span> lev1, t2.name <span style="color:#66d9ef">as</span> lev2, t3.name <span style="color:#66d9ef">as</span> lev3, t4.name <span style="color:#66d9ef">as</span> lev4
+<span style="color:#66d9ef">FROM</span> category <span style="color:#66d9ef">AS</span> t1
+<span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> category <span style="color:#66d9ef">AS</span> t2 <span style="color:#66d9ef">ON</span> t2.parent <span style="color:#f92672">=</span> t1.category_id
+<span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> category <span style="color:#66d9ef">AS</span> t3 <span style="color:#66d9ef">ON</span> t3.parent <span style="color:#f92672">=</span> t2.category_id
+<span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> category <span style="color:#66d9ef">AS</span> t4 <span style="color:#66d9ef">ON</span> t4.parent <span style="color:#f92672">=</span> t3.category_id
+<span style="color:#66d9ef">WHERE</span> t1.name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;ELECTRONICS&#39;</span> <span style="color:#66d9ef">AND</span> t4.name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;FLASH&#39;</span>;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">-------------+----------------------+-------------+-------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> lev1        <span style="color:#f92672">|</span> lev2                 <span style="color:#f92672">|</span> lev3        <span style="color:#f92672">|</span> lev4  <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-------------+----------------------+-------------+-------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> ELECTRONICS <span style="color:#f92672">|</span> PORTABLE ELECTRONICS <span style="color:#f92672">|</span> MP3 PLAYERS <span style="color:#f92672">|</span> FLASH <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-------------+----------------------+-------------+-------+
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">row</span> <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">set</span> (<span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">01</span> sec)
+</code></pre></div><p>这种方式最大的缺点就是每一层查询都要使用<code>JOIN</code>语句，随着树状结构的层次越来越复杂，查询的性能也越来越低下。</p>
+<h3 id="邻接表的局限性">邻接表的局限性</h3>
+<p>使用原生SQL语句操作邻接表是十分困难的，在我们知道某个节点在分类中的路径之前，我们必须知道它所在的层级。除此之外，在执行删除操作时要额外的小心，因为这个操作可能潜在的使整个子树都变成孤儿节点。(比如删除了PORTABLE ELECTRONICS则它所有的子节点都会成为孤儿节点。)这些限制可以通过客户端代码或存储过程来解决。在程序代码中，我们可以通过从树底部向上遍历返回完整的树或一个单一路径，也可以通过重新指定一个父节点并对其他子节点进行重新排序来让他们指向新的父节点的方式来删除一个节点而不产生孤儿节点。</p>
+<h2 id="嵌套集">嵌套集</h2>
+<p>这篇文章中我想重点解释一下嵌套集(Nested Set Model)。在嵌套集中，我们可以用一种新的视角来看待树状结构。不是使用节点或行，而是使用嵌套的容器。想想一下我们的结构如下：
+<img src="http://mikehillyer.com/media//nested_categories.png" alt="nested">
+请注意我们仍然保持了树状结构，作为父节点的分类包含了子节点。我们使用左值和右值的方式来在表中表现节点的层级关系：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> nested_category (
+        category_id INT AUTO_INCREMENT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+        name VARCHAR(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+        lft INT <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+        rgt INT <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>
+);
+
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> nested_category <span style="color:#66d9ef">VALUES</span>(<span style="color:#ae81ff">1</span>,<span style="color:#e6db74">&#39;ELECTRONICS&#39;</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">20</span>),(<span style="color:#ae81ff">2</span>,<span style="color:#e6db74">&#39;TELEVISIONS&#39;</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">9</span>),(<span style="color:#ae81ff">3</span>,<span style="color:#e6db74">&#39;TUBE&#39;</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>),
+ (<span style="color:#ae81ff">4</span>,<span style="color:#e6db74">&#39;LCD&#39;</span>,<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">6</span>),(<span style="color:#ae81ff">5</span>,<span style="color:#e6db74">&#39;PLASMA&#39;</span>,<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">8</span>),(<span style="color:#ae81ff">6</span>,<span style="color:#e6db74">&#39;PORTABLE ELECTRONICS&#39;</span>,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">19</span>),(<span style="color:#ae81ff">7</span>,<span style="color:#e6db74">&#39;MP3 PLAYERS&#39;</span>,<span style="color:#ae81ff">11</span>,<span style="color:#ae81ff">14</span>),(<span style="color:#ae81ff">8</span>,<span style="color:#e6db74">&#39;FLASH&#39;</span>,<span style="color:#ae81ff">12</span>,<span style="color:#ae81ff">13</span>),
+ (<span style="color:#ae81ff">9</span>,<span style="color:#e6db74">&#39;CD PLAYERS&#39;</span>,<span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">16</span>),(<span style="color:#ae81ff">10</span>,<span style="color:#e6db74">&#39;2 WAY RADIOS&#39;</span>,<span style="color:#ae81ff">17</span>,<span style="color:#ae81ff">18</span>);
+
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> category_id;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">-------------+----------------------+-----+-----+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> category_id <span style="color:#f92672">|</span> name                 <span style="color:#f92672">|</span> lft <span style="color:#f92672">|</span> rgt <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-------------+----------------------+-----+-----+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span>           <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span> ELECTRONICS          <span style="color:#f92672">|</span>   <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span>  <span style="color:#ae81ff">20</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>           <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span> TELEVISIONS          <span style="color:#f92672">|</span>   <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span>   <span style="color:#ae81ff">9</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>           <span style="color:#ae81ff">3</span> <span style="color:#f92672">|</span> TUBE                 <span style="color:#f92672">|</span>   <span style="color:#ae81ff">3</span> <span style="color:#f92672">|</span>   <span style="color:#ae81ff">4</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>           <span style="color:#ae81ff">4</span> <span style="color:#f92672">|</span> LCD                  <span style="color:#f92672">|</span>   <span style="color:#ae81ff">5</span> <span style="color:#f92672">|</span>   <span style="color:#ae81ff">6</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>           <span style="color:#ae81ff">5</span> <span style="color:#f92672">|</span> PLASMA               <span style="color:#f92672">|</span>   <span style="color:#ae81ff">7</span> <span style="color:#f92672">|</span>   <span style="color:#ae81ff">8</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>           <span style="color:#ae81ff">6</span> <span style="color:#f92672">|</span> PORTABLE ELECTRONICS <span style="color:#f92672">|</span>  <span style="color:#ae81ff">10</span> <span style="color:#f92672">|</span>  <span style="color:#ae81ff">19</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>           <span style="color:#ae81ff">7</span> <span style="color:#f92672">|</span> MP3 PLAYERS          <span style="color:#f92672">|</span>  <span style="color:#ae81ff">11</span> <span style="color:#f92672">|</span>  <span style="color:#ae81ff">14</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>           <span style="color:#ae81ff">8</span> <span style="color:#f92672">|</span> FLASH                <span style="color:#f92672">|</span>  <span style="color:#ae81ff">12</span> <span style="color:#f92672">|</span>  <span style="color:#ae81ff">13</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>           <span style="color:#ae81ff">9</span> <span style="color:#f92672">|</span> CD PLAYERS           <span style="color:#f92672">|</span>  <span style="color:#ae81ff">15</span> <span style="color:#f92672">|</span>  <span style="color:#ae81ff">16</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>          <span style="color:#ae81ff">10</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">2</span> WAY RADIOS         <span style="color:#f92672">|</span>  <span style="color:#ae81ff">17</span> <span style="color:#f92672">|</span>  <span style="color:#ae81ff">18</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-------------+----------------------+-----+-----+
+</span></code></pre></div><p>我们使用<code>lft</code>和<code>rgt</code>是因为<code>left</code>和<code>right</code>是SQL中的关键字，在<a href="http://dev.mysql.com/doc/mysql/en/reserved-words.html">这里</a>可以看到完整的关键字列表。
+那么，我们如何来确定节点的左值和右值呢？我们从左向右依次进行编号：
+<img src="http://mikehillyer.com/media//nested_numbered.png" alt="nested2">
+这种设计可以使用树状结构来展示：
+<img src="http://mikehillyer.com/media//numbered_tree.png" alt="nested3">
+构建这种树我们需要从左向右、每次一层的向下遍历其子节点，对于叶子节点则指定其右值并移动到其右边的兄弟节点。这种方法被称为“前序遍历树算法变异版”(modified preorder tree traversal algorithm)。</p>
+<h3 id="遍历树-1">遍历树</h3>
+<p>我们可以基于这样一个前提遍历整个树：一个节点的左值总是处在父节点的左值和右值之间：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> node.name
+<span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
+        nested_category <span style="color:#66d9ef">AS</span> parent
+<span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
+        <span style="color:#66d9ef">AND</span> parent.name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;ELECTRONICS&#39;</span>
+<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> node.lft;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">----------------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> name                 <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----------------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> ELECTRONICS          <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> TELEVISIONS          <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> TUBE                 <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> LCD                  <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> PLASMA               <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> PORTABLE ELECTRONICS <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> MP3 PLAYERS          <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> FLASH                <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> CD PLAYERS           <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#ae81ff">2</span> WAY RADIOS         <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----------------------+
+</span></code></pre></div><p>与前面说的邻接表不同，这里的查询不会考虑树的深度。也无需考虑节点的右值因为右值永远小于父节点的右值。</p>
+<h3 id="找出所有叶子节点-1">找出所有叶子节点</h3>
+<p>在嵌套集中找出所有叶子节点比在邻接表中使用<code>JOIN</code>查询简单的多。如果你仔细观察，会发现叶子节点的左值和右值永远是连续的，所以找到叶子节点，我们仅需找到<code>rgt = lft + 1</code>的节点即可：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> name
+<span style="color:#66d9ef">FROM</span> nested_category
+<span style="color:#66d9ef">WHERE</span> rgt <span style="color:#f92672">=</span> lft <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">--------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> name         <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">--------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> TUBE         <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> LCD          <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> PLASMA       <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> FLASH        <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> CD PLAYERS   <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#ae81ff">2</span> WAY RADIOS <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">--------------+
+</span></code></pre></div><h3 id="寻找单一路径-1">寻找单一路径</h3>
+<p>在嵌套集中我们可以寻找单一路径而不使用大量的<code>JOIN</code>操作：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> parent.name
+<span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
+        nested_category <span style="color:#66d9ef">AS</span> parent
+<span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
+        <span style="color:#66d9ef">AND</span> node.name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;FLASH&#39;</span>
+<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> parent.lft;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">----------------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> name                 <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----------------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> ELECTRONICS          <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> PORTABLE ELECTRONICS <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> MP3 PLAYERS          <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> FLASH                <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----------------------+
+</span></code></pre></div><h3 id="获取节点深度">获取节点深度</h3>
+<p>我们已经知道了如何遍历整个树，但如何表示每个节点在树中的深度呢？如何更好的识别每个节点所处的层次呢？这里可以使用<code>COUNT</code>以及<code>GROUP BY</code>来实现：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> node.name, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">AS</span> depth
+<span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
+        nested_category <span style="color:#66d9ef">AS</span> parent
+<span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
+<span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> node.name
+<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> node.lft;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">----------------------+-------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> name                 <span style="color:#f92672">|</span> depth <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----------------------+-------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> ELECTRONICS          <span style="color:#f92672">|</span>     <span style="color:#ae81ff">0</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> TELEVISIONS          <span style="color:#f92672">|</span>     <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> TUBE                 <span style="color:#f92672">|</span>     <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> LCD                  <span style="color:#f92672">|</span>     <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> PLASMA               <span style="color:#f92672">|</span>     <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> PORTABLE ELECTRONICS <span style="color:#f92672">|</span>     <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> MP3 PLAYERS          <span style="color:#f92672">|</span>     <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> FLASH                <span style="color:#f92672">|</span>     <span style="color:#ae81ff">3</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> CD PLAYERS           <span style="color:#f92672">|</span>     <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#ae81ff">2</span> WAY RADIOS         <span style="color:#f92672">|</span>     <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----------------------+-------+
+</span></code></pre></div><p>也可以使用<code>depth</code>结合<code>CONCAT</code>以及<code>REPEAT</code>函数来在前面添加空格：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> CONCAT( REPEAT(<span style="color:#e6db74">&#39; &#39;</span>, <span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>), node.name) <span style="color:#66d9ef">AS</span> name
+<span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
+        nested_category <span style="color:#66d9ef">AS</span> parent
+<span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
+<span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> node.name
+<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> node.lft;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">-----------------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> name                  <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-----------------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> ELECTRONICS           <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>  TELEVISIONS          <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   TUBE                <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   LCD                 <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   PLASMA              <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>  PORTABLE ELECTRONICS <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   MP3 PLAYERS         <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>    FLASH              <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   CD PLAYERS          <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   <span style="color:#ae81ff">2</span> WAY RADIOS        <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-----------------------+
+</span></code></pre></div><p>当然，在客户端程序中你可能更喜欢直接使用<code>depth</code>来展示树状结构，WEB开发人员可以通过循环来遍历树，使用<code>depth</code>控制<code>&lt;li&gt;&lt;/li&gt;</code>和 <code>&lt;ul&gt;&lt;/ul&gt;</code>的数量增减。</p>
+<h3 id="子树的深度">子树的深度</h3>
+<p>当我们需要子树的深度信息时，我们既不能限制表中的子节点也不能限制父节点，因为这样做会破坏结果。相反的，我们添加一个新的自关联查询来构造一个子树，并将根节点指向构造出来的子树后进行深度的查询：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> node.name, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> (sub_tree.depth <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)) <span style="color:#66d9ef">AS</span> depth
+<span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
+        nested_category <span style="color:#66d9ef">AS</span> parent,
+        nested_category <span style="color:#66d9ef">AS</span> sub_parent,
+        (
+                <span style="color:#66d9ef">SELECT</span> node.name, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">AS</span> depth
+                <span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
+                nested_category <span style="color:#66d9ef">AS</span> parent
+                <span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
+                <span style="color:#66d9ef">AND</span> node.name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;PORTABLE ELECTRONICS&#39;</span>
+                <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> node.name
+                <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> node.lft
+        )<span style="color:#66d9ef">AS</span> sub_tree
+<span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
+        <span style="color:#66d9ef">AND</span> node.lft <span style="color:#66d9ef">BETWEEN</span> sub_parent.lft <span style="color:#66d9ef">AND</span> sub_parent.rgt
+        <span style="color:#66d9ef">AND</span> sub_parent.name <span style="color:#f92672">=</span> sub_tree.name
+<span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> node.name
+<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> node.lft;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">----------------------+-------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> name                 <span style="color:#f92672">|</span> depth <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----------------------+-------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> PORTABLE ELECTRONICS <span style="color:#f92672">|</span>     <span style="color:#ae81ff">0</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> MP3 PLAYERS          <span style="color:#f92672">|</span>     <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> FLASH                <span style="color:#f92672">|</span>     <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> CD PLAYERS           <span style="color:#f92672">|</span>     <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#ae81ff">2</span> WAY RADIOS         <span style="color:#f92672">|</span>     <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----------------------+-------+
+</span></code></pre></div><p>这个函数可以被应用到任何节点上，包括根节点。获得的深度总是相对于给出的节点。</p>
+<h3 id="找到一个节点的直属子节点">找到一个节点的直属子节点</h3>
+<p>想像一下你要在一个网站上展示电子产品的分类，当用户点击某个分类后，你想展示这个分类的直属子分类而不是全部的子分类(ps:即相对这个节点深度为1的子节点)。例如，当展示<code>PORTABLE ELECTRONICS</code>分类时，我们仅想展示<code>MP3 PLAYERS</code>、<code>CD PLAYERS</code>、<code>2 WAY RADIOS</code>，而不包括<code>FLASH</code>。</p>
+<p>这可以通过添加<code>HAVING</code>关键字来实现：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> node.name, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> (sub_tree.depth <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)) <span style="color:#66d9ef">AS</span> depth
+<span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
+        nested_category <span style="color:#66d9ef">AS</span> parent,
+        nested_category <span style="color:#66d9ef">AS</span> sub_parent,
+        (
+                <span style="color:#66d9ef">SELECT</span> node.name, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">AS</span> depth
+                <span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
+                        nested_category <span style="color:#66d9ef">AS</span> parent
+                <span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
+                        <span style="color:#66d9ef">AND</span> node.name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;PORTABLE ELECTRONICS&#39;</span>
+                <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> node.name
+                <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> node.lft
+        )<span style="color:#66d9ef">AS</span> sub_tree
+<span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
+        <span style="color:#66d9ef">AND</span> node.lft <span style="color:#66d9ef">BETWEEN</span> sub_parent.lft <span style="color:#66d9ef">AND</span> sub_parent.rgt
+        <span style="color:#66d9ef">AND</span> sub_parent.name <span style="color:#f92672">=</span> sub_tree.name
+<span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> node.name
+<span style="color:#66d9ef">HAVING</span> depth <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> node.lft;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">----------------------+-------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> name                 <span style="color:#f92672">|</span> depth <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----------------------+-------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> PORTABLE ELECTRONICS <span style="color:#f92672">|</span>     <span style="color:#ae81ff">0</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> MP3 PLAYERS          <span style="color:#f92672">|</span>     <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> CD PLAYERS           <span style="color:#f92672">|</span>     <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#ae81ff">2</span> WAY RADIOS         <span style="color:#f92672">|</span>     <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----------------------+-------+
+</span></code></pre></div><p>如果你不想展示父节点，把<code>HAVING depth &lt;= 1</code>替换成<code>HAVING depth = 1</code>即可。</p>
+<h3 id="在嵌套集中使用聚合函数">在嵌套集中使用聚合函数</h3>
+<p>首先添加一个<code>product</code>表来方便演示</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> product
+(
+        product_id INT AUTO_INCREMENT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+        name VARCHAR(<span style="color:#ae81ff">40</span>),
+        category_id INT <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>
+);
+
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> product(name, category_id) <span style="color:#66d9ef">VALUES</span>(<span style="color:#e6db74">&#39;20&#34; TV&#39;</span>,<span style="color:#ae81ff">3</span>),(<span style="color:#e6db74">&#39;36&#34; TV&#39;</span>,<span style="color:#ae81ff">3</span>),
+(<span style="color:#e6db74">&#39;Super-LCD 42&#34;&#39;</span>,<span style="color:#ae81ff">4</span>),(<span style="color:#e6db74">&#39;Ultra-Plasma 62&#34;&#39;</span>,<span style="color:#ae81ff">5</span>),(<span style="color:#e6db74">&#39;Value Plasma 38&#34;&#39;</span>,<span style="color:#ae81ff">5</span>),
+(<span style="color:#e6db74">&#39;Power-MP3 5gb&#39;</span>,<span style="color:#ae81ff">7</span>),(<span style="color:#e6db74">&#39;Super-Player 1gb&#39;</span>,<span style="color:#ae81ff">8</span>),(<span style="color:#e6db74">&#39;Porta CD&#39;</span>,<span style="color:#ae81ff">9</span>),(<span style="color:#e6db74">&#39;CD To go!&#39;</span>,<span style="color:#ae81ff">9</span>),
+(<span style="color:#e6db74">&#39;Family Talk 360&#39;</span>,<span style="color:#ae81ff">10</span>);
+
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> product;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">------------+-------------------+-------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> product_id <span style="color:#f92672">|</span> name              <span style="color:#f92672">|</span> category_id <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">------------+-------------------+-------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span>          <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">20</span><span style="color:#e6db74">&#34; TV            |           3 |
+</span><span style="color:#e6db74">|          2 | 36&#34;</span> TV            <span style="color:#f92672">|</span>           <span style="color:#ae81ff">3</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>          <span style="color:#ae81ff">3</span> <span style="color:#f92672">|</span> Super<span style="color:#f92672">-</span>LCD <span style="color:#ae81ff">42</span><span style="color:#e6db74">&#34;     |           4 |
+</span><span style="color:#e6db74">|          4 | Ultra-Plasma 62&#34;</span>  <span style="color:#f92672">|</span>           <span style="color:#ae81ff">5</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>          <span style="color:#ae81ff">5</span> <span style="color:#f92672">|</span> Value Plasma <span style="color:#ae81ff">38</span><span style="color:#e6db74">&#34;  |           5 |
+</span><span style="color:#e6db74">|          6 | Power-MP3 128mb   |           7 |
+</span><span style="color:#e6db74">|          7 | Super-Shuffle 1gb |           8 |
+</span><span style="color:#e6db74">|          8 | Porta CD          |           9 |
+</span><span style="color:#e6db74">|          9 | CD To go!         |           9 |
+</span><span style="color:#e6db74">|         10 | Family Talk 360   |          10 |
+</span><span style="color:#e6db74">+------------+-------------------+-------------+
+</span><span style="color:#e6db74">
+</span></code></pre></div><p>下面我们进行一个查询，来统计每个分类下的产品数量：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> parent.name, <span style="color:#66d9ef">COUNT</span>(product.name)
+<span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node ,
+        nested_category <span style="color:#66d9ef">AS</span> parent,
+        product
+<span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
+        <span style="color:#66d9ef">AND</span> node.category_id <span style="color:#f92672">=</span> product.category_id
+<span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> parent.name
+<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> node.lft;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">----------------------+---------------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> name                 <span style="color:#f92672">|</span> <span style="color:#66d9ef">COUNT</span>(product.name) <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----------------------+---------------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> ELECTRONICS          <span style="color:#f92672">|</span>                  <span style="color:#ae81ff">10</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> TELEVISIONS          <span style="color:#f92672">|</span>                   <span style="color:#ae81ff">5</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> TUBE                 <span style="color:#f92672">|</span>                   <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> LCD                  <span style="color:#f92672">|</span>                   <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> PLASMA               <span style="color:#f92672">|</span>                   <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> PORTABLE ELECTRONICS <span style="color:#f92672">|</span>                   <span style="color:#ae81ff">5</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> MP3 PLAYERS          <span style="color:#f92672">|</span>                   <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> FLASH                <span style="color:#f92672">|</span>                   <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> CD PLAYERS           <span style="color:#f92672">|</span>                   <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#ae81ff">2</span> WAY RADIOS         <span style="color:#f92672">|</span>                   <span style="color:#ae81ff">1</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">----------------------+---------------------+
+</span></code></pre></div><p>这是一种典型的示例，展示了使用<code>COUNT</code>、<code>GROUP BY</code>以及<code>WHERE</code>语句和<code>product</code>表进行关联查询。正如你看到的，每一个分类的数量都被统计出来了并反映在父类别中。</p>
+<h3 id="添加节点">添加节点</h3>
+<p>之前我们学习了如何查询，现在来看看如何新增一个节点。让我们再看一下嵌套集的示例图：
+<img src="http://mikehillyer.com/media//nested_numbered.png" alt="nested2">
+如果我们想在<code>TELEVISIONS</code>和<code>PORTABLE ELECTRONICS</code>节点之间添加一个新节点，这个新节点左值应该是10而右值为11，而它右边所有的节点的值都应该加2。我们可以在MySQL5中使用存储过程来实现，这里我假设MySQL版本为4.1(译者注：这是一篇旧文，写作时mysql稳定版本还是4.1)。使用下面的语句：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">LOCK</span> <span style="color:#66d9ef">TABLE</span> nested_category <span style="color:#66d9ef">WRITE</span>;
+
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">@</span>myRight :<span style="color:#f92672">=</span> rgt <span style="color:#66d9ef">FROM</span> nested_category
+<span style="color:#66d9ef">WHERE</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;TELEVISIONS&#39;</span>;
+
+<span style="color:#66d9ef">UPDATE</span> nested_category <span style="color:#66d9ef">SET</span> rgt <span style="color:#f92672">=</span> rgt <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#66d9ef">WHERE</span> rgt <span style="color:#f92672">&gt;</span> <span style="color:#f92672">@</span>myRight;
+<span style="color:#66d9ef">UPDATE</span> nested_category <span style="color:#66d9ef">SET</span> lft <span style="color:#f92672">=</span> lft <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#66d9ef">WHERE</span> lft <span style="color:#f92672">&gt;</span> <span style="color:#f92672">@</span>myRight;
+
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> nested_category(name, lft, rgt) <span style="color:#66d9ef">VALUES</span>(<span style="color:#e6db74">&#39;GAME CONSOLES&#39;</span>, <span style="color:#f92672">@</span>myRight <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#f92672">@</span>myRight <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
+
+UNLOCK TABLES;
+</code></pre></div><p>我们可以来检查一下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> CONCAT( REPEAT( <span style="color:#e6db74">&#39; &#39;</span>, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) ), node.name) <span style="color:#66d9ef">AS</span> name
+<span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
+        nested_category <span style="color:#66d9ef">AS</span> parent
+<span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
+<span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> node.name
+<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> node.lft;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">-----------------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> name                  <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-----------------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> ELECTRONICS           <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>  TELEVISIONS          <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   TUBE                <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   LCD                 <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   PLASMA              <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>  GAME CONSOLES        <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>  PORTABLE ELECTRONICS <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   MP3 PLAYERS         <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>    FLASH              <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   CD PLAYERS          <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   <span style="color:#ae81ff">2</span> WAY RADIOS        <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-----------------------+
+</span></code></pre></div><p>如果我们想给一个叶子节点添加子节点，需要修改一下代码。这里我们给<code>2 WAY RADIOS</code>添加一个<code>FRS</code>做子节点：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">LOCK</span> <span style="color:#66d9ef">TABLE</span> nested_category <span style="color:#66d9ef">WRITE</span>;
+
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">@</span>myLeft :<span style="color:#f92672">=</span> lft <span style="color:#66d9ef">FROM</span> nested_category
+
+<span style="color:#66d9ef">WHERE</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;2 WAY RADIOS&#39;</span>;
+
+<span style="color:#66d9ef">UPDATE</span> nested_category <span style="color:#66d9ef">SET</span> rgt <span style="color:#f92672">=</span> rgt <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#66d9ef">WHERE</span> rgt <span style="color:#f92672">&gt;</span> <span style="color:#f92672">@</span>myLeft;
+<span style="color:#66d9ef">UPDATE</span> nested_category <span style="color:#66d9ef">SET</span> lft <span style="color:#f92672">=</span> lft <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#66d9ef">WHERE</span> lft <span style="color:#f92672">&gt;</span> <span style="color:#f92672">@</span>myLeft;
+
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> nested_category(name, lft, rgt) <span style="color:#66d9ef">VALUES</span>(<span style="color:#e6db74">&#39;FRS&#39;</span>, <span style="color:#f92672">@</span>myLeft <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#f92672">@</span>myLeft <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
+
+UNLOCK TABLES;
+</code></pre></div><p>在这个示例中我们修改了新的父节点的右值，正如所见，新的节点被插入了正确的位置：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> CONCAT( REPEAT( <span style="color:#e6db74">&#39; &#39;</span>, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) ), node.name) <span style="color:#66d9ef">AS</span> name
+<span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
+        nested_category <span style="color:#66d9ef">AS</span> parent
+<span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
+<span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> node.name
+<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> node.lft;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">-----------------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> name                  <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-----------------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> ELECTRONICS           <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>  TELEVISIONS          <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   TUBE                <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   LCD                 <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   PLASMA              <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>  GAME CONSOLES        <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>  PORTABLE ELECTRONICS <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   MP3 PLAYERS         <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>    FLASH              <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   CD PLAYERS          <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   <span style="color:#ae81ff">2</span> WAY RADIOS        <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>    FRS                <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-----------------------+
+</span></code></pre></div><h3 id="删除节点">删除节点</h3>
+<p>最后一个基础操作就是删除节点。删除节点的行为取决于被删除节点在树状结构中所处的层级，删除叶子节点比删除子节点容易，因为不用考虑孤儿节点的问题。</p>
+<p>当删除叶子节点时，操作仅仅和添加节点相反，代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">LOCK</span> <span style="color:#66d9ef">TABLE</span> nested_category <span style="color:#66d9ef">WRITE</span>;
+
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">@</span>myLeft :<span style="color:#f92672">=</span> lft, <span style="color:#f92672">@</span>myRight :<span style="color:#f92672">=</span> rgt, <span style="color:#f92672">@</span>myWidth :<span style="color:#f92672">=</span> rgt <span style="color:#f92672">-</span> lft <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">FROM</span> nested_category
+<span style="color:#66d9ef">WHERE</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;GAME CONSOLES&#39;</span>;
+
+<span style="color:#66d9ef">DELETE</span> <span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">WHERE</span> lft <span style="color:#66d9ef">BETWEEN</span> <span style="color:#f92672">@</span>myLeft <span style="color:#66d9ef">AND</span> <span style="color:#f92672">@</span>myRight;
+
+<span style="color:#66d9ef">UPDATE</span> nested_category <span style="color:#66d9ef">SET</span> rgt <span style="color:#f92672">=</span> rgt <span style="color:#f92672">-</span> <span style="color:#f92672">@</span>myWidth <span style="color:#66d9ef">WHERE</span> rgt <span style="color:#f92672">&gt;</span> <span style="color:#f92672">@</span>myRight;
+<span style="color:#66d9ef">UPDATE</span> nested_category <span style="color:#66d9ef">SET</span> lft <span style="color:#f92672">=</span> lft <span style="color:#f92672">-</span> <span style="color:#f92672">@</span>myWidth <span style="color:#66d9ef">WHERE</span> lft <span style="color:#f92672">&gt;</span> <span style="color:#f92672">@</span>myRight;
+
+UNLOCK TABLES;
+</code></pre></div><p>我们来执行查询操作确认删除成功：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> CONCAT( REPEAT( <span style="color:#e6db74">&#39; &#39;</span>, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) ), node.name) <span style="color:#66d9ef">AS</span> name
+<span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
+        nested_category <span style="color:#66d9ef">AS</span> parent
+<span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
+<span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> node.name
+<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> node.lft;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">-----------------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> name                  <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-----------------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> ELECTRONICS           <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>  TELEVISIONS          <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   TUBE                <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   LCD                 <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   PLASMA              <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>  PORTABLE ELECTRONICS <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   MP3 PLAYERS         <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>    FLASH              <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   CD PLAYERS          <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   <span style="color:#ae81ff">2</span> WAY RADIOS        <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>    FRS                <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-----------------------+
+</span></code></pre></div><p>这个方法也可以用于删除子节点以及这个节点的所有节点：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">LOCK</span> <span style="color:#66d9ef">TABLE</span> nested_category <span style="color:#66d9ef">WRITE</span>;
+
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">@</span>myLeft :<span style="color:#f92672">=</span> lft, <span style="color:#f92672">@</span>myRight :<span style="color:#f92672">=</span> rgt, <span style="color:#f92672">@</span>myWidth :<span style="color:#f92672">=</span> rgt <span style="color:#f92672">-</span> lft <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">FROM</span> nested_category
+<span style="color:#66d9ef">WHERE</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;MP3 PLAYERS&#39;</span>;
+
+<span style="color:#66d9ef">DELETE</span> <span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">WHERE</span> lft <span style="color:#66d9ef">BETWEEN</span> <span style="color:#f92672">@</span>myLeft <span style="color:#66d9ef">AND</span> <span style="color:#f92672">@</span>myRight;
+
+<span style="color:#66d9ef">UPDATE</span> nested_category <span style="color:#66d9ef">SET</span> rgt <span style="color:#f92672">=</span> rgt <span style="color:#f92672">-</span> <span style="color:#f92672">@</span>myWidth <span style="color:#66d9ef">WHERE</span> rgt <span style="color:#f92672">&gt;</span> <span style="color:#f92672">@</span>myRight;
+<span style="color:#66d9ef">UPDATE</span> nested_category <span style="color:#66d9ef">SET</span> lft <span style="color:#f92672">=</span> lft <span style="color:#f92672">-</span> <span style="color:#f92672">@</span>myWidth <span style="color:#66d9ef">WHERE</span> lft <span style="color:#f92672">&gt;</span> <span style="color:#f92672">@</span>myRight;
+
+UNLOCK TABLES;
+</code></pre></div><p>再来查询一遍，确认我们是否删除了整个子树：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> CONCAT( REPEAT( <span style="color:#e6db74">&#39; &#39;</span>, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) ), node.name) <span style="color:#66d9ef">AS</span> name
+<span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
+        nested_category <span style="color:#66d9ef">AS</span> parent
+<span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
+<span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> node.name
+<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> node.lft;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">-----------------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> name                  <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-----------------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> ELECTRONICS           <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>  TELEVISIONS          <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   TUBE                <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   LCD                 <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   PLASMA              <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>  PORTABLE ELECTRONICS <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   CD PLAYERS          <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   <span style="color:#ae81ff">2</span> WAY RADIOS        <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>    FRS                <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-----------------------+
+</span></code></pre></div><p>在某些情况下我们仅想删除父节点而保留子节点，而这些子节点则被提升至和父节点平级：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">LOCK</span> <span style="color:#66d9ef">TABLE</span> nested_category <span style="color:#66d9ef">WRITE</span>;
+
+<span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">@</span>myLeft :<span style="color:#f92672">=</span> lft, <span style="color:#f92672">@</span>myRight :<span style="color:#f92672">=</span> rgt, <span style="color:#f92672">@</span>myWidth :<span style="color:#f92672">=</span> rgt <span style="color:#f92672">-</span> lft <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">FROM</span> nested_category
+<span style="color:#66d9ef">WHERE</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;PORTABLE ELECTRONICS&#39;</span>;
+
+<span style="color:#66d9ef">DELETE</span> <span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">WHERE</span> lft <span style="color:#f92672">=</span> <span style="color:#f92672">@</span>myLeft;
+
+<span style="color:#66d9ef">UPDATE</span> nested_category <span style="color:#66d9ef">SET</span> rgt <span style="color:#f92672">=</span> rgt <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, lft <span style="color:#f92672">=</span> lft <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">WHERE</span> lft <span style="color:#66d9ef">BETWEEN</span> <span style="color:#f92672">@</span>myLeft <span style="color:#66d9ef">AND</span> <span style="color:#f92672">@</span>myRight;
+<span style="color:#66d9ef">UPDATE</span> nested_category <span style="color:#66d9ef">SET</span> rgt <span style="color:#f92672">=</span> rgt <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#66d9ef">WHERE</span> rgt <span style="color:#f92672">&gt;</span> <span style="color:#f92672">@</span>myRight;
+<span style="color:#66d9ef">UPDATE</span> nested_category <span style="color:#66d9ef">SET</span> lft <span style="color:#f92672">=</span> lft <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#66d9ef">WHERE</span> lft <span style="color:#f92672">&gt;</span> <span style="color:#f92672">@</span>myRight;
+
+UNLOCK TABLES;
+</code></pre></div><p>在这里，我们把这个节点的所有右侧节点的值减2(因为没有子节点的宽度为2)，并且把这个节点的子节点的值减1(使用被删除的父节点的左值来弥补差距)。再来确认一下操作是否成功：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> CONCAT( REPEAT( <span style="color:#e6db74">&#39; &#39;</span>, (<span style="color:#66d9ef">COUNT</span>(parent.name) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) ), node.name) <span style="color:#66d9ef">AS</span> name
+<span style="color:#66d9ef">FROM</span> nested_category <span style="color:#66d9ef">AS</span> node,
+        nested_category <span style="color:#66d9ef">AS</span> parent
+<span style="color:#66d9ef">WHERE</span> node.lft <span style="color:#66d9ef">BETWEEN</span> parent.lft <span style="color:#66d9ef">AND</span> parent.rgt
+<span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> node.name
+<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> node.lft;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">---------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> name          <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">---------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> ELECTRONICS   <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>  TELEVISIONS  <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   TUBE        <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   LCD         <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   PLASMA      <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>  CD PLAYERS   <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>  <span style="color:#ae81ff">2</span> WAY RADIOS <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span>   FRS         <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">---------------+
+</span></code></pre></div><p>其他的情形比如：移动节点到兄弟节点下、使一个子节点替代原来的父节点等，这里不再进行说明。</p>
+<h2 id="总结">总结</h2>
+<p>希望这篇文章对你有用，关于嵌套集的概念在SQL中已经有很多年的历史了，网上和书中也有很多额外的信息。在我看来关于管理树状结构最全面的一本书是《<a href="http://www.openwin.org/mike/books/index.php/trees-and-hierarchies-in-sql"> Joe Celko’s Trees and Hierarchies in SQL for Smarties</a>》，作者是MYSQL大牛Joe Celko。他的书是一个宝库，我强烈建议每个人都读读他的作品。这本书中包含了很多文章中没提到的高级技巧，并且提供了除邻接表和嵌套集外其他的管理树状结构的方法。</p>
+<p>(还有一段原作者介绍下面资源的话，略)</p>
+<h2 id="引用资源">引用/资源</h2>
+<ol>
+<li><a href="http://www.openwin.org/mike/books/index.php/trees-and-hierarchies-in-sql">Joe Celko’s Trees and Hierarchies in SQL for Smarties</a> – ISBN 1-55860-920-2</li>
+<li><a href="http://www.sitepoint.com/article/hierarchical-data-database">Storing Hierarchical Data in a Database</a></li>
+<li><a href="http://www.dbmsmag.com/9603d06.html">A Look at SQL Trees</a></li>
+<li><a href="http://www.dbmsmag.com/9604d06.html">SQL Lessons</a></li>
+<li><a href="http://www.dbmsmag.com/9605d06.html">Nontraditional Databases</a></li>
+<li><a href="http://www.intelligententerprise.com/001020/celko.jhtml?_requestid=123193">Trees in SQL</a></li>
+<li><a href="http://searchdatabase.techtarget.com/tip/1,289483,sid13_gci537290,00.html">Trees in SQL (2)</a></li>
+<li><a href="http://searchdatabase.techtarget.com/tip/1,289483,sid13_gci801943,00.html">Converting an adjacency list model to a nested set model</a></li>
+<li><a href="http://www.klempert.de/php/nested_sets_demo">Nested Sets in PHP Demonstration (German)</a></li>
+<li><a href="http://dev.e-taller.net/dbtree/">A Nested Set Library in PHP</a></li>
+</ol>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/mysql/" rel="tag">mysql</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/flask-html5%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8E%A8%E9%80%81%E4%BA%8B%E4%BB%B6/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Flask&#43;HTML5实现服务器推送事件</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/gpg%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">GPG使用记录</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

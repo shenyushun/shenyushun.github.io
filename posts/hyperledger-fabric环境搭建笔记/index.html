@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Hyperledger-Fabric环境搭建笔记 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Hyperledger-Fabric环境搭建笔记" />
+<meta property="og:description" content="环境搭建
+前提需要电脑中存在git、docker、docker-compose命令以及有golang开发环境。
+首先创建目录存放Fabric代码，注意路径和权限，在启动服务时候会向其中写一些文件，最开始我就是没注意到这点报错了。
+sudo mkdir /opt/gopath/src/github.com/hyperledger/
+进入刚才创建的目录后拉取代码：
+cd /opt/gopath/src/github.com/hyperledger
+git clone https://github.com/hyperledger/fabric.git
+当前版本是1.1。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/hyperledger-fabric%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E7%AC%94%E8%AE%B0/" />
+<meta property="article:published_time" content="2018-06-15T10:43:49+00:00" />
+<meta property="article:modified_time" content="2018-06-15T10:43:49+00:00" />
+
+		<meta itemprop="name" content="Hyperledger-Fabric环境搭建笔记">
+<meta itemprop="description" content="环境搭建
+前提需要电脑中存在git、docker、docker-compose命令以及有golang开发环境。
+首先创建目录存放Fabric代码，注意路径和权限，在启动服务时候会向其中写一些文件，最开始我就是没注意到这点报错了。
+sudo mkdir /opt/gopath/src/github.com/hyperledger/
+进入刚才创建的目录后拉取代码：
+cd /opt/gopath/src/github.com/hyperledger
+git clone https://github.com/hyperledger/fabric.git
+当前版本是1.1。">
+<meta itemprop="datePublished" content="2018-06-15T10:43:49&#43;00:00" />
+<meta itemprop="dateModified" content="2018-06-15T10:43:49&#43;00:00" />
+<meta itemprop="wordCount" content="1303">
+
+
+
+<meta itemprop="keywords" content="" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Hyperledger-Fabric环境搭建笔记</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-06-15T10:43:49Z">2018-06-15</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="category">区块链</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<h2 id="环境搭建">环境搭建</h2>
+<p>前提需要电脑中存在<code>git</code>、<code>docker</code>、<code>docker-compose</code>命令以及有<code>golang</code>开发环境。</p>
+<p>首先创建目录存放Fabric代码，<strong>注意路径和权限</strong>，在启动服务时候会向其中写一些文件，最开始我就是没注意到这点报错了。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo mkdir /opt/gopath/src/github.com/hyperledger/
+</code></pre></div><p>进入刚才创建的目录后拉取代码：</p>
+<pre><code>cd /opt/gopath/src/github.com/hyperledger
+git clone https://github.com/hyperledger/fabric.git
+</code></pre><p>当前版本是1.1。</p>
+<p>然后拉取所需镜像，这步速度慢需要耐心等待。</p>
+<pre><code>sh /opt/gopath/src/github.com/hyperledger/fabric/scripts/bootstrap.sh
+</code></pre><p>完成后进入<code>/opt/gopath/src/github.com/hyperledger/fabric/examples/e2e_cli</code>目录，执行：</p>
+<pre><code>bash network_setup.sh up
+</code></pre><p>这个文件干了几件事：</p>
+<ol>
+<li>编译生成Fabric公私钥、证书的程序，程序在目录：/opt/gopath/src/github.com/hyperledger/fabric/release/linux-amd64/bin</li>
+<li>基于configtx.yaml生成创世区块和通道相关信息，并保存在channel-artifacts文件夹。</li>
+<li>基于crypto-config.yaml生成公私钥和证书信息，并保存在crypto-config文件夹中。</li>
+<li>基于docker-compose-cli.yaml启动1Orderer+2org*2Peer+1CLI的Fabric容器。</li>
+<li>在CLI启动的时候，会运行scripts/script.sh文件，这个脚本文件包含了创建Channel，加入Channel，安装Example02，运行Example02等功能。</li>
+</ol>
+<p>成功后会看到提示：</p>
+<pre><code>===================== All GOOD, End-2-End execution completed =====================
+
+
+ _____   _   _   ____            _____   ____    _____
+| ____| | \ | | |  _ \          | ____| |___ \  | ____|
+|  _|   |  \| | | | | |  _____  |  _|     __) | |  _|  
+| |___  | |\  | | |_| | |_____| | |___   / __/  | |___
+|_____| |_| \_| |____/          |_____| |_____| |_____|
+
+</code></pre><p>查看创建的容器：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker ps --format <span style="color:#e6db74">&#34;{{.ID}}:{{.Names}}&#34;</span>
+
+a2adbbe090ce:dev-peer1.org2.example.com-mycc-1.0
+434f146382d3:dev-peer0.org1.example.com-mycc-1.0
+f07e03296c11:dev-peer0.org2.example.com-mycc-1.0
+6eee69b127ff:cli
+f323f3bf5b0e:orderer.example.com
+f8eae1488dce:kafka3
+3b79d89b3928:kafka0
+dd5cd1d8c35a:kafka2
+c7953a8951f1:kafka1
+7d28f6dc8c3b:peer0.org1.example.com
+aeb4ce4d57c3:zookeeper2
+734e25a4430e:zookeeper0
+6b051d7edb2e:peer1.org2.example.com
+f19e5663a764:zookeeper1
+9494e1f87c56:peer1.org1.example.com
+7bada708f807:peer0.org2.example.com
+</code></pre></div><blockquote>
+<p>默认安装了：4个peer（2个是org1的，2个是org2的）节点、4节点构成的kafka集群、3节点构成的zookeeper集群、1个orderer节点。这是因为：fabric提供的共识机制，PBFT目前还未达到生产级别的应用，只能靠kafka+zookeeper实现PAXOS算法下的共识机制（不能有作恶结点）</p>
+</blockquote>
+<h2 id="简单操作">简单操作</h2>
+<p>先进入容器中<code>docker exec -it cli sh</code>，然后看看<code>peer</code>命令都支持什么操作：</p>
+<pre><code>docker exec -it cli sh
+
+# pwd
+/opt/gopath/src/github.com/hyperledger/fabric/peer
+# peer -h
+Usage:
+  peer [flags]
+  peer [command]
+
+Available Commands:
+  chaincode   Operate a chaincode: install|instantiate|invoke|package|query|signpackage|upgrade|list.
+  channel     Operate a channel: create|fetch|join|list|update|signconfigtx|getinfo.
+  logging     Log levels: getlevel|setlevel|revertlevels.
+  node        Operate a peer node: start|status.
+  version     Print fabric peer version.
+
+Flags:
+      --logging-level string   Default logging level and overrides, see core.yaml for full syntax
+  -v, --version                Display current version of fabric peer server
+
+Use &quot;peer [command] --help&quot; for more information about a command.
+</code></pre><p>和以太坊类似，fabric中交易也要通过chaincode操作。chancode支持的命令如下：</p>
+<ul>
+<li>package 智能合约需要打包后才能使用</li>
+<li>install    智能合约必须安装后才能使用</li>
+<li>instantiate   置初始状态。比如设系统一开始用户a有100元，用户b有200元</li>
+<li>invoke  调用智能合约</li>
+<li>query    查询状态</li>
+<li>signpackage  包签名</li>
+<li>upgrade    智能合约升级</li>
+<li>list        显示智能合约</li>
+</ul>
+<p>首先执行命令查询余额：</p>
+<pre><code># peer chaincode query -C mychannel -n mycc -c '{&quot;Args&quot;:[&quot;query&quot;,&quot;a&quot;]}'
+2018-06-15 03:16:39.226 UTC [msp] GetLocalMSP -&gt; DEBU 001 Returning existing local MSP
+2018-06-15 03:16:39.226 UTC [msp] GetDefaultSigningIdentity -&gt; DEBU 002 Obtaining default signing identity
+2018-06-15 03:16:39.226 UTC [chaincodeCmd] checkChaincodeCmdParams -&gt; INFO 003 Using default escc
+2018-06-15 03:16:39.227 UTC [chaincodeCmd] checkChaincodeCmdParams -&gt; INFO 004 Using default vscc
+2018-06-15 03:16:39.227 UTC [chaincodeCmd] getChaincodeSpec -&gt; DEBU 005 java chaincode disabled
+2018-06-15 03:16:39.227 UTC [msp/identity] Sign -&gt; DEBU 006 Sign: plaintext: 0ABE070A6608031A0B0897DF8CD90510...6D7963631A0A0A0571756572790A0161
+2018-06-15 03:16:39.227 UTC [msp/identity] Sign -&gt; DEBU 007 Sign: digest: 916F0EE6336EADD59FEBF6538B30645BED4C60C64AD65255ABFCADD189655300
+Query Result: 90
+</code></pre><p>等等，为什么我们什么安装操作都没做就能执行查询命令而且还有结果呢？原因在启动服务的过程中有这么一段：</p>
+<pre><code>Installing chaincode on org1/peer0...
+....
+2018-06-15 02:35:10.647 UTC [container] WriteFileToPackage -&gt; DEBU 00c Writing file to tarball: src/github.com/hyperledger/fabric/examples/chaincode/go/chaincode_example02/chaincode_example02.go
+2018-06-15 02:35:10.648 UTC [container] WriteFileToPackage -&gt; DEBU 00d Writing file to tarball: src/github.com/hyperledger/fabric/examples/chaincode/go/chaincode_example02/chaincode_example02_test.go
+2018-06-15 02:35:10.648 UTC [msp/identity] Sign -&gt; DEBU 00e Sign: plaintext: 0AB4070A5C08031A0C08DECB8CD90510...83C77F030000FFFF1E416A37002E0000
+2018-06-15 02:35:10.648 UTC [msp/identity] Sign -&gt; DEBU 00f Sign: digest: 45EC14B3196DC03ACB6A413DED651FBBAF8BEF4B109DA6F0D8E821F150DA7ED1
+2018-06-15 02:35:10.650 UTC [chaincodeCmd] install -&gt; DEBU 010 Installed remotely response:&lt;status:200 payload:&quot;OK&quot; &gt;
+2018-06-15 02:35:10.650 UTC [main] main -&gt; INFO 011 Exiting.....
+===================== Chaincode is installed on remote peer PEER0 =====================
+</code></pre><p>启动脚本中已经帮我们安装好<code>src/github.com/hyperledger/fabric/examples/chaincode/go/chaincode_example02/chaincode_example02.go</code>这个Chaincode并且初始化了。
+如果后续需要创建或修改代码，则需要重新安装：</p>
+<pre><code>peer chaincode install -n mycc -v 1.0 -p github.com/hyperledger/fabric/examples/chaincode/go/chaincode_example02
+</code></pre><p>其中<code>-n</code>表示合约名字，<code>-p</code>指向合约文件目录路径，<code>-v</code>是版本号。</p>
+<p>而初始化则需要注意，是否开启了<code>tls</code>方法不同，见<code>/opt/gopath/src/github.com/hyperledger/fabric/examples/e2e_cli/scripts/script.sh</code>中：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">instantiateChaincode <span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    PEER<span style="color:#f92672">=</span>$1
+    setGlobals $PEER
+    <span style="color:#75715e"># while &#39;peer chaincode&#39; command can get the orderer endpoint from the peer (if join was successful),</span>
+    <span style="color:#75715e"># lets supply it directly as we know it using the &#34;-o&#34; option</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -z <span style="color:#e6db74">&#34;</span>$CORE_PEER_TLS_ENABLED<span style="color:#e6db74">&#34;</span> -o <span style="color:#e6db74">&#34;</span>$CORE_PEER_TLS_ENABLED<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+        peer chaincode instantiate -o orderer.example.com:7050 -C $CHANNEL_NAME -n mycc -v 1.0 -c <span style="color:#e6db74">&#39;{&#34;Args&#34;:[&#34;init&#34;,&#34;a&#34;,&#34;100&#34;,&#34;b&#34;,&#34;200&#34;]}&#39;</span> -P <span style="color:#e6db74">&#34;OR    (&#39;Org1MSP.member&#39;,&#39;Org2MSP.member&#39;)&#34;</span> &gt;&amp;log.txt
+    <span style="color:#66d9ef">else</span>
+        peer chaincode instantiate -o orderer.example.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -v 1.0 -c <span style="color:#e6db74">&#39;{&#34;Args&#34;:[&#34;init&#34;,&#34;a&#34;,&#34;100&#34;,&#34;b&#34;,&#34;200&#34;]}&#39;</span> -P <span style="color:#e6db74">&#34;OR  (&#39;Org1MSP.member&#39;,&#39;Org2MSP.member&#39;)&#34;</span> &gt;&amp;log.txt
+    <span style="color:#66d9ef">fi</span>
+    res<span style="color:#f92672">=</span>$?
+    cat log.txt
+    verifyResult $res <span style="color:#e6db74">&#34;Chaincode instantiation on PEER</span>$PEER<span style="color:#e6db74"> on channel &#39;</span>$CHANNEL_NAME<span style="color:#e6db74">&#39; failed&#34;</span>
+    echo <span style="color:#e6db74">&#34;===================== Chaincode Instantiation on PEER</span>$PEER<span style="color:#e6db74"> on channel &#39;</span>$CHANNEL_NAME<span style="color:#e6db74">&#39; is successful ===================== &#34;</span>
+    echo
+<span style="color:#f92672">}</span>
+</code></pre></div><p>比如没开启<code>tls</code>初始化代码就是：</p>
+<pre><code>peer chaincode instantiate -o orderer.example.com:7050 -C mychannel -n mycc -v 1.0 -c '{&quot;Args&quot;:[&quot;init&quot;,&quot;a&quot;,&quot;100&quot;,&quot;b&quot;,&quot;200&quot;]}' -P &quot;OR    ('Org1MSP.peer','Org2MSP.peer')&quot;
+</code></pre><p>其中，-C指向channel名字，-c则是初始构造json格式的消息，-P是背书策略，-o指定共识节点。这里置帐户a初始余额为100，帐户b初始余额为200。</p>
+<p>每个chaincode都要实现Init和Invoke两个方法，其中前者用于初始化，后者是日常调用。 以我们调用的<code>Example02.go</code>代码为例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SimpleChaincode</span>) <span style="color:#a6e22e">Init</span>(<span style="color:#a6e22e">stub</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">ChaincodeStubInterface</span>) <span style="color:#a6e22e">pb</span>.<span style="color:#a6e22e">Response</span> {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;ex02 Init&#34;</span>)
+	<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">args</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">stub</span>.<span style="color:#a6e22e">GetFunctionAndParameters</span>() <span style="color:#75715e">//获取传入的参数并解析
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">A</span>, <span style="color:#a6e22e">B</span> <span style="color:#66d9ef">string</span>    <span style="color:#75715e">// Entities
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">Aval</span>, <span style="color:#a6e22e">Bval</span> <span style="color:#66d9ef">int</span> <span style="color:#75715e">// Asset holdings
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>
+
+	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">args</span>) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">4</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#e6db74">&#34;Incorrect number of arguments. Expecting 4&#34;</span>)
+	}
+
+	<span style="color:#75715e">// Initialize the chaincode
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">A</span> = <span style="color:#a6e22e">args</span>[<span style="color:#ae81ff">0</span>]
+	<span style="color:#a6e22e">Aval</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Atoi</span>(<span style="color:#a6e22e">args</span>[<span style="color:#ae81ff">1</span>])
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#e6db74">&#34;Expecting integer value for asset holding&#34;</span>)
+	}
+	<span style="color:#a6e22e">B</span> = <span style="color:#a6e22e">args</span>[<span style="color:#ae81ff">2</span>]
+	<span style="color:#a6e22e">Bval</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Atoi</span>(<span style="color:#a6e22e">args</span>[<span style="color:#ae81ff">3</span>])
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#e6db74">&#34;Expecting integer value for asset holding&#34;</span>)
+	}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Aval = %d, Bval = %d\n&#34;</span>, <span style="color:#a6e22e">Aval</span>, <span style="color:#a6e22e">Bval</span>)
+
+	<span style="color:#75715e">// Write the state to the ledger
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">stub</span>.<span style="color:#a6e22e">PutState</span>(<span style="color:#a6e22e">A</span>, []byte(<span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Itoa</span>(<span style="color:#a6e22e">Aval</span>)))
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+	}
+
+	<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">stub</span>.<span style="color:#a6e22e">PutState</span>(<span style="color:#a6e22e">B</span>, []byte(<span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Itoa</span>(<span style="color:#a6e22e">Bval</span>)))
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Success</span>(<span style="color:#66d9ef">nil</span>)
+}
+</code></pre></div><p><code>invoke</code>函数如下，可以理解为所有日常操作的入口：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SimpleChaincode</span>) <span style="color:#a6e22e">Invoke</span>(<span style="color:#a6e22e">stub</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">ChaincodeStubInterface</span>) <span style="color:#a6e22e">pb</span>.<span style="color:#a6e22e">Response</span> {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;ex02 Invoke&#34;</span>)
+	<span style="color:#a6e22e">function</span>, <span style="color:#a6e22e">args</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">stub</span>.<span style="color:#a6e22e">GetFunctionAndParameters</span>()
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">function</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;invoke&#34;</span> {
+		<span style="color:#75715e">// Make payment of X units from A to B
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">invoke</span>(<span style="color:#a6e22e">stub</span>, <span style="color:#a6e22e">args</span>)
+	} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">function</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;delete&#34;</span> {
+		<span style="color:#75715e">// Deletes an entity from its state
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">t</span>.delete(<span style="color:#a6e22e">stub</span>, <span style="color:#a6e22e">args</span>)
+	} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">function</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;query&#34;</span> {
+		<span style="color:#75715e">// the old &#34;Query&#34; is now implemtned in invoke
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">query</span>(<span style="color:#a6e22e">stub</span>, <span style="color:#a6e22e">args</span>)
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#e6db74">&#34;Invalid invoke function name. Expecting \&#34;invoke\&#34; \&#34;delete\&#34; \&#34;query\&#34;&#34;</span>)
+}
+</code></pre></div><p>可以看到实现了3种操作，转帐、删除用户、查询余额。</p>
+<p>先看查询余额，函数定义如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// query callback representing the query of a chaincode
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SimpleChaincode</span>) <span style="color:#a6e22e">query</span>(<span style="color:#a6e22e">stub</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">ChaincodeStubInterface</span>, <span style="color:#a6e22e">args</span> []<span style="color:#66d9ef">string</span>) <span style="color:#a6e22e">pb</span>.<span style="color:#a6e22e">Response</span> {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">A</span> <span style="color:#66d9ef">string</span> <span style="color:#75715e">// Entities
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>
+
+	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">args</span>) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">1</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#e6db74">&#34;Incorrect number of arguments. Expecting name of the person to query&#34;</span>)
+	}
+
+	<span style="color:#a6e22e">A</span> = <span style="color:#a6e22e">args</span>[<span style="color:#ae81ff">0</span>] <span style="color:#75715e">//帐户名
+</span><span style="color:#75715e"></span>
+	<span style="color:#75715e">// Get the state from the ledger
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Avalbytes</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">stub</span>.<span style="color:#a6e22e">GetState</span>(<span style="color:#a6e22e">A</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">jsonResp</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;{\&#34;Error\&#34;:\&#34;Failed to get state for &#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">A</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;\&#34;}&#34;</span>
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">jsonResp</span>)
+	}
+
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">Avalbytes</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">jsonResp</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;{\&#34;Error\&#34;:\&#34;Nil amount for &#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">A</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;\&#34;}&#34;</span>
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">jsonResp</span>)
+	}
+  <span style="color:#75715e">// 返回json格式结果
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">jsonResp</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;{\&#34;Name\&#34;:\&#34;&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">A</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;\&#34;,\&#34;Amount\&#34;:\&#34;&#34;</span> <span style="color:#f92672">+</span> string(<span style="color:#a6e22e">Avalbytes</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;\&#34;}&#34;</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Query Response:%s\n&#34;</span>, <span style="color:#a6e22e">jsonResp</span>)
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Success</span>(<span style="color:#a6e22e">Avalbytes</span>)
+}
+</code></pre></div><p>先正常从b给a支付50，这里注意我们开启了tls（<em>疑问：查询时候为啥不用指定tls而转帐不指定则会报错？</em>）：</p>
+<pre><code>peer chaincode invoke -o orderer.example.com:7050  --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem  -C mychannel -n mycc -c '{&quot;Args&quot;:[&quot;invoke&quot;,&quot;b&quot;,&quot;a&quot;,&quot;50&quot;]}'
+</code></pre><p>查看a的余额：</p>
+<pre><code># peer chaincode query -C mychannel -n mycc -c '{&quot;Args&quot;:[&quot;query&quot;,&quot;a&quot;]}'
+2018-06-15 03:31:01.268 UTC [msp] GetLocalMSP -&gt; DEBU 001 Returning existing local MSP
+2018-06-15 03:31:01.268 UTC [msp] GetDefaultSigningIdentity -&gt; DEBU 002 Obtaining default signing identity
+2018-06-15 03:31:01.268 UTC [chaincodeCmd] checkChaincodeCmdParams -&gt; INFO 003 Using default escc
+2018-06-15 03:31:01.268 UTC [chaincodeCmd] checkChaincodeCmdParams -&gt; INFO 004 Using default vscc
+2018-06-15 03:31:01.268 UTC [chaincodeCmd] getChaincodeSpec -&gt; DEBU 005 java chaincode disabled
+2018-06-15 03:31:01.268 UTC [msp/identity] Sign -&gt; DEBU 006 Sign: plaintext: 0ABF070A6708031A0C08F5E58CD90510...6D7963631A0A0A0571756572790A0161
+2018-06-15 03:31:01.268 UTC [msp/identity] Sign -&gt; DEBU 007 Sign: digest: 6BAE5E272C5A3FD13D3921B98F0C4C35D6BBD6433DD66CFFF42B04561CDBE688
+Query Result: 140
+</code></pre><p>再看b的：</p>
+<pre><code># peer chaincode query -C mychannel -n mycc -c '{&quot;Args&quot;:[&quot;query&quot;,&quot;b&quot;]}'
+2018-06-15 03:48:24.458 UTC [msp] GetLocalMSP -&gt; DEBU 001 Returning existing local MSP
+2018-06-15 03:48:24.458 UTC [msp] GetDefaultSigningIdentity -&gt; DEBU 002 Obtaining default signing identity
+2018-06-15 03:48:24.458 UTC [chaincodeCmd] checkChaincodeCmdParams -&gt; INFO 003 Using default escc
+2018-06-15 03:48:24.458 UTC [chaincodeCmd] checkChaincodeCmdParams -&gt; INFO 004 Using default vscc
+2018-06-15 03:48:24.458 UTC [chaincodeCmd] getChaincodeSpec -&gt; DEBU 005 java chaincode disabled
+2018-06-15 03:48:24.459 UTC [msp/identity] Sign -&gt; DEBU 006 Sign: plaintext: 0ABF070A6708031A0C0888EE8CD90510...6D7963631A0A0A0571756572790A0162
+2018-06-15 03:48:24.459 UTC [msp/identity] Sign -&gt; DEBU 007 Sign: digest: B422147DF2CBDF964CAFA860B2FEF3E0928F1B317F599188284860D5EA5902A2
+Query Result: 160
+</code></pre><p>a有140，b有160。</p>
+<pre><code>peer chaincode invoke -o orderer.example.com:7050  --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem  -C mychannel -n mycc -c '{&quot;Args&quot;:[&quot;invoke&quot;,&quot;a&quot;,&quot;b&quot;,&quot;150&quot;]}'
+</code></pre><p>这里我们从a向b转150，结果也成功执行了，a余额变成-10，因为<code>invoke</code>代码中并没有对余额和转帐金额的大小进行判断。</p>
+<p>转帐函数<code>invoke</code>定义如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Transaction makes payment of X units from A to B
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SimpleChaincode</span>) <span style="color:#a6e22e">invoke</span>(<span style="color:#a6e22e">stub</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">ChaincodeStubInterface</span>, <span style="color:#a6e22e">args</span> []<span style="color:#66d9ef">string</span>) <span style="color:#a6e22e">pb</span>.<span style="color:#a6e22e">Response</span> {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">A</span>, <span style="color:#a6e22e">B</span> <span style="color:#66d9ef">string</span>    <span style="color:#75715e">// Entities
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">Aval</span>, <span style="color:#a6e22e">Bval</span> <span style="color:#66d9ef">int</span> <span style="color:#75715e">// Asset holdings
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">X</span> <span style="color:#66d9ef">int</span>          <span style="color:#75715e">// Transaction value
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>
+
+	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">args</span>) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">3</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#e6db74">&#34;Incorrect number of arguments. Expecting 3&#34;</span>)
+	}
+
+	<span style="color:#a6e22e">A</span> = <span style="color:#a6e22e">args</span>[<span style="color:#ae81ff">0</span>] <span style="color:#75715e">//转出帐户
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">B</span> = <span style="color:#a6e22e">args</span>[<span style="color:#ae81ff">1</span>] <span style="color:#75715e">//转入帐户
+</span><span style="color:#75715e"></span>
+	<span style="color:#75715e">// Get the state from the ledger
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// TODO: will be nice to have a GetAllState call to ledger
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Avalbytes</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">stub</span>.<span style="color:#a6e22e">GetState</span>(<span style="color:#a6e22e">A</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#e6db74">&#34;Failed to get state&#34;</span>)
+	}
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">Avalbytes</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#e6db74">&#34;Entity not found&#34;</span>)
+	}
+	<span style="color:#a6e22e">Aval</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Atoi</span>(string(<span style="color:#a6e22e">Avalbytes</span>))
+
+	<span style="color:#a6e22e">Bvalbytes</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">stub</span>.<span style="color:#a6e22e">GetState</span>(<span style="color:#a6e22e">B</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#e6db74">&#34;Failed to get state&#34;</span>)
+	}
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">Bvalbytes</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#e6db74">&#34;Entity not found&#34;</span>)
+	}
+	<span style="color:#a6e22e">Bval</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Atoi</span>(string(<span style="color:#a6e22e">Bvalbytes</span>))
+
+	<span style="color:#75715e">// Perform the execution
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">X</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Atoi</span>(<span style="color:#a6e22e">args</span>[<span style="color:#ae81ff">2</span>])
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#e6db74">&#34;Invalid transaction amount, expecting a integer value&#34;</span>)
+	}
+  <span style="color:#75715e">//关键在于这里缺少判断
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Aval</span> = <span style="color:#a6e22e">Aval</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">X</span>
+	<span style="color:#a6e22e">Bval</span> = <span style="color:#a6e22e">Bval</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">X</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Aval = %d, Bval = %d\n&#34;</span>, <span style="color:#a6e22e">Aval</span>, <span style="color:#a6e22e">Bval</span>)
+
+	<span style="color:#75715e">// Write the state back to the ledger
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">stub</span>.<span style="color:#a6e22e">PutState</span>(<span style="color:#a6e22e">A</span>, []byte(<span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Itoa</span>(<span style="color:#a6e22e">Aval</span>)))
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+	}
+
+	<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">stub</span>.<span style="color:#a6e22e">PutState</span>(<span style="color:#a6e22e">B</span>, []byte(<span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Itoa</span>(<span style="color:#a6e22e">Bval</span>)))
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">shim</span>.<span style="color:#a6e22e">Success</span>(<span style="color:#66d9ef">nil</span>)
+}
+</code></pre></div><p>这样，我们就可以尝试修改这个chaincode并重新安装部署初始化了，具体操作下次记录。</p>
+<hr>
+<p>参考链接：</p>
+<ol>
+<li><a href="http://www.taohui.pub/530.html">http://www.taohui.pub/530.html</a></li>
+<li><a href="http://nm1024.com/?p=10">http://nm1024.com/?p=10</a></li>
+</ol>
+		</div>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/raft%E7%AE%97%E6%B3%95/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Raft算法</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE3/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">200行GO代码实现区块链3</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

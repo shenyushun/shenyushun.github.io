@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>你真的会python吗? - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="你真的会python吗?" />
+<meta property="og:description" content="声明：这篇文章转自http://www.dongwm.com/archives/ni-zhen-de-hui-pythonma/，我看后颇有当头棒喝之感，故收于此顺便修改几处错字，十分感谢原作者！
+前言 我这个博客一直都是一些技术分享,show code的地方，我从来没有写过个人生活或者情感杂谈,当然我也从来没有谈论过我对什么东西的喜恶. 很多人喜欢喷XX语言，喜欢谈论XX和YY的优缺,甚至凑了一本不知所云的书…好吧,我觉得没有使用一门语言超过10年，没有对一个技术研究个5,6年， 不好意思说自己懂(天才除外).我也觉得我没有资格讨论什么，也许我有我的观点看法，但是我怀着怀疑的心态看自己，生怕自己理解错了. 下文纯属个人吐槽,也许没有指定路怎么走，只是希望提个醒… 使用python2年，可喜的是python被越来越多的人接受，甚至前端工程师…但是却有点烂大街的感觉:感觉出门不聊几句python都不好意思和人打招呼.但是你真的懂python嘛?
+你会python真的不重要 python实在太好学习了,假如你会其它的语言，可能搞本书翻一翻，一周后就能写很高端的python程序，由于web框架的普及，你甚至可以让一个网站应用跑起来. 你会我也会，你有什么竞争力?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E4%BD%A0%E7%9C%9F%E7%9A%84%E4%BC%9Apython%E5%90%97/" />
+<meta property="article:published_time" content="2013-11-07T17:28:12+00:00" />
+<meta property="article:modified_time" content="2013-11-07T17:28:12+00:00" />
+
+		<meta itemprop="name" content="你真的会python吗?">
+<meta itemprop="description" content="声明：这篇文章转自http://www.dongwm.com/archives/ni-zhen-de-hui-pythonma/，我看后颇有当头棒喝之感，故收于此顺便修改几处错字，十分感谢原作者！
+前言 我这个博客一直都是一些技术分享,show code的地方，我从来没有写过个人生活或者情感杂谈,当然我也从来没有谈论过我对什么东西的喜恶. 很多人喜欢喷XX语言，喜欢谈论XX和YY的优缺,甚至凑了一本不知所云的书…好吧,我觉得没有使用一门语言超过10年，没有对一个技术研究个5,6年， 不好意思说自己懂(天才除外).我也觉得我没有资格讨论什么，也许我有我的观点看法，但是我怀着怀疑的心态看自己，生怕自己理解错了. 下文纯属个人吐槽,也许没有指定路怎么走，只是希望提个醒… 使用python2年，可喜的是python被越来越多的人接受，甚至前端工程师…但是却有点烂大街的感觉:感觉出门不聊几句python都不好意思和人打招呼.但是你真的懂python嘛?
+你会python真的不重要 python实在太好学习了,假如你会其它的语言，可能搞本书翻一翻，一周后就能写很高端的python程序，由于web框架的普及，你甚至可以让一个网站应用跑起来. 你会我也会，你有什么竞争力?">
+<meta itemprop="datePublished" content="2013-11-07T17:28:12&#43;00:00" />
+<meta itemprop="dateModified" content="2013-11-07T17:28:12&#43;00:00" />
+<meta itemprop="wordCount" content="138">
+
+
+
+<meta itemprop="keywords" content="python," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">你真的会python吗?</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-07T17:28:12Z">2013-11-07</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>声明：这篇文章转自http://www.dongwm.com/archives/ni-zhen-de-hui-pythonma/，我看后颇有当头棒喝之感，故收于此顺便修改几处错字，十分感谢原作者！</p>
+<h3 id="前言">前言</h3>
+<p>我这个博客一直都是一些技术分享,show code的地方，我从来没有写过个人生活或者情感杂谈,当然我也从来没有谈论过我对什么东西的喜恶. 很多人喜欢喷XX语言，喜欢谈论XX和YY的优缺,甚至凑了一本不知所云的书…好吧,我觉得没有使用一门语言超过10年，没有对一个技术研究个5,6年， 不好意思说自己懂(天才除外).我也觉得我没有资格讨论什么，也许我有我的观点看法，但是我怀着怀疑的心态看自己，生怕自己理解错了. 下文纯属个人吐槽,也许没有指定路怎么走，只是希望提个醒…
+使用python2年，可喜的是python被越来越多的人接受，甚至前端工程师…但是却有点烂大街的感觉:感觉出门不聊几句python都不好意思和人打招呼.但是你真的懂python嘛?</p>
+<h3 id="你会python真的不重要">你会python真的不重要</h3>
+<p>python实在太好学习了,假如你会其它的语言，可能搞本书翻一翻，一周后就能写很高端的python程序，由于web框架的普及，你甚至可以让一个网站应用跑起来. 你会我也会，你有什么竞争力?</p>
+<h3 id="你知道python怎么用嘛">你知道python怎么用嘛?</h3>
+<ol>
+<li>在什么时候需要使用OOP？</li>
+<li>在什么时候使用类装饰器?</li>
+<li>你用过元类嘛?</li>
+<li>在什么时候用静态方法什么时候使用类方法?</li>
+<li>你了解那些管理属性? <code>__call__</code> , <code>__init__</code> , <code>__new__</code>都是在什么时候被触发?<code>__getattr__</code>和<code>__getattribute__</code>应用有什么不同?</li>
+<li>你知道标准库里面的多少个模块?你能在需要的时候知道这个功能其实标准库里面已经实现了?</li>
+<li>什么时候用回调？</li>
+<li>什么时候用signal？假如你会django你知道django的signal是什么?你了解orm嘛?</li>
+<li>asyncore，contextlib， functools， collections， heapq，itertools， SocketServer， weakref，operator(知道3个就算)这些你会几个？</li>
+<li>python的多态是什么?</li>
+<li>在什么场景可以尝试python的设计模式中的XX(能想到2个场景就算)?</li>
+<li>在什么时候可以使用Mixin？</li>
+<li>在什么时候可以使用python的闭包？</li>
+<li>你曾经用过yield嘛？生成器和迭代器的区别和应用场景是什么?</li>
+<li>在什么可以使用python的函数式编程?</li>
+<li><code>__future__</code>模块里面都有什么定义的用法?</li>
+</ol>
+<p>提笔想了这上面16点我认为体现python的东西，假如你不能有效的回答上面1/4, 好吧不要和我说你原来是会python的，踏实下来..你的路还很长.假如你回答不超过一半,我提醒你-你只是刚入行而已(这是我的角度)</p>
+<h3 id="假如我是一个入职后的带新人的引导者">假如我是一个入职后的带新人的引导者</h3>
+<ol>
+<li>学好git… 呵呵</li>
+<li>假如新人还不熟悉python,python_koans是和不错的入门选择</li>
+<li>首先就是严格的代码规范，加上团队的文化以及风格.</li>
+<li>我会给一个任务，比如一周内写个多线程的socket命令行聊天程序,支持群组，加好友，群聊，发送文件等功能，看新人能力而定</li>
+<li>而后把项目一部分略棘手的工作教给他，注意这里是生产环境，在他完成任务的过程中会熟悉我们的上线/code review/代码风格等东西</li>
+<li>我希望整个团队一起贡献一个基础的公共库，包含一些常用的功能，然后新人首先学习这些东西，以后就不需要浪费时间造轮子，但是可以修改完善公共库， 这个公共库可以在新服务器部署时候直接使用pypi或者ubuntuPPA安装进来</li>
+</ol>
+<h3 id="什么算是好的python代码">什么算是好的python代码?</h3>
+<p>假如你的代码没使用pep8检验过，你已经无敌了. 最差你也要使用<a href="https://github.com/hhatto/autopep8">autopep8</a>格式化差劲的代码吧?如果你想对自己的代码质量有要求，我强烈建议你了解什么是pythonic:</p>
+<ol>
+<li><a href="http://www.slideshare.net/doughellmann/an-introduction-to-the-zen-of-python">doughellmann 的作者 an-introduction-to-the-zen-of-python</a></li>
+<li><a href="http://sssslide.com/www.slideshare.net/hychen/be-pythonic-14859746">be-pythonic</a></li>
+</ol>
+<h3 id="代码易懂但是堆和代码难懂但是精炼的取舍">代码易懂但是堆和代码难懂但是精炼的取舍</h3>
+<p>我想很多对代码有追求的人都发现一件事情?看见项目中存在大量，没有被重用的函数，似曾相似的方法甚至方法的名字… 我是极为见不得ugly或者华而不实的代码的人, 但是有个问题. 我封装的代码很不直观，难懂..原来的代码貌似极为好懂.每个人都有自己的理解吧.就象我的团队里面有人说django代码太难懂，因为它们有django项目组的文化… celery代码写的不好这样的安慰似的评论…但是我不这样认为,我还在读celery代码，我也承认里面是有作者风格的取名或者实现的方式，但是我学到了很多.</p>
+<p>通过看开源代码，比如django，requests，flask. 我会发现和总结很多别人的用法，思考别人为啥这样用.比如项目代码目录结构，解决一些问题使用的方式. 还有一些pep8中没有提到的规范. 比如一些代码实用的风格，举个例子：</p>
+<p>我们的代码引用其它模块是这样的:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> test <span style="color:#f92672">import</span> long_long_long_test1
+<span style="color:#f92672">from</span> test <span style="color:#f92672">import</span> long_long_long_test2
+form test <span style="color:#f92672">import</span> long_long_long_test3
+</code></pre></div><p>省略20多行，很脑残吧? 有一种风格是</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> test <span style="color:#f92672">import</span> long_long_long_test1,
+                 long_long_long_test2,
+                 long_long_long_test3
+</code></pre></div><p>说一个技巧:当我不知道该用什么，去看很NB项目怎么用 结果django和requests是这样的风格</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> test <span style="color:#f92672">import</span> (long_long_long_test1,
+                  long_long_long_test2,
+                  long_long_long_test3)
+</code></pre></div><p>怎么样进步?不是闭门造车..先去看看别人是怎么用的..</p>
+<p>比如我以前拼接一个文件路径都是这样:<code>'{0}/{1}'.fotmat(dir, filename)</code></p>
+<p>其实人家本来有<code>os.path.join(dir, filename)</code></p>
+<p>（这里插句嘴，我是只知道第二个而不知道第一个）</p>
+<p>很惭愧.然后花了半个小时，把以前我这样用的地方全改了</p>
+<p>这是我说的重要的一点: 知道了什么是对的 就要改….</p>
+<p>对于这个主题我的答案: 我喜欢难懂但是精炼的代码. 境界就是你看的懂就能写的出来. 假如你连这点代码都看不懂.你看不了开源项目的做法.你会一直是个堆代码的码农..你会一直在堆着垃圾的代码.你会增加未来接手人的维护成本</p>
+<h3 id="怎么样提高python可读性和质量">怎么样提高python可读性和质量</h3>
+<p>以下是我的想法</p>
+<ol>
+<li>首先给函数/类/方法取个好懂的名字(我这点很失败，英语太烂…是不是应该加一个学好英语)</li>
+<li>当一个差不多的操作出现了三次，不要继续堆代码，要抽象出来</li>
+<li>我倾向于写FIXME，TODO, 写文件/函数的用途的注释，在不是很好理解的代码上面注释作用，标明输入和输出都是什么(如果不是要修改维护你的代码，没人在乎你的算法多NB)</li>
+<li>上面说的，请不要让别人需要仔细研究你的代码才明白是什么意思.. 我写代码很有压力，因为我不想接手我代码的人骂我.</li>
+<li>不要炫技，请不要乱用函数式编程/闭包.我在乎的是性能和简单粗暴的实现功能</li>
+<li>多用标准库的实现，如果不知道有这个功能实现前先google.</li>
+<li>多读有名的项目，github上面有很多.思考别人为什么这样用</li>
+</ol>
+<h3 id="我们是封装开源项目还是直接修改开源代码给自己用">我们是封装开源项目还是直接修改开源代码给自己用</h3>
+<p>其实我这样描述,比如有个项目因为历史原因是一个很早的版本.但是和其它新的版本组件有兼容问题以及我们业务的特殊需要.我看了源码发现需要改动几个地方. 问题改动后就需要自己维护这个项目，对于新部署的环境甚至其它版本我还继续需要这个变动. 还有一种声音是”你不能修改XX源码”,你要在上面封装出一个新的东西， 也就是不直接调用XX，而是在我的自己的项目对XX有了个封装YY，然后我们的调用YY.</p>
+<p>我觉得这个东西自己部署是一个可行的方案，首先这个修改不是一个patch，不是主流的修改.只能算是我们业务的二次开发而已，封装只是在掩耳盗铃. 着让我想起一个问题:为什么中国鲜有好的开源项目:中国人不缺好的idea?是因为中国人觉得这件事情做不了，是因为它们觉得别人实现的就是很牛比的， 自己改了就会有问题…其实这是自卑..首先是代码就会有bug，tornado/flask/requests不还是在开发和解决问题嘛？bug一直在只是你没有发现和注意. 我觉得开源项目的代码看懂了，了解了就可以修改..没什么可担心的…我指的是角度.我觉得每个人学了一门语言看了某个项目的源码只要你有胆量， 你有一个怀疑的善于发现和思考的心，那么你都能贡献你的代码，做你的二次开发.</p>
+<p>和本文相关: 如果你没有做过这件事，你怎么可以说你会python?</p>
+<h3 id="我的感想">我的感想</h3>
+<p>我不赞同”做好工作就好了”的调调.对你个人来说你明年今天做的事情和现在是一样的，不同的是你老了一岁. 如果是为什么完成工作而完成工作. 其实你这个代码就是线上运行的代码，并且是以后很长时间再用的版本，你随意的一些代码会在很久之后很难的变动.. 我也不同意一上来就把你的程序写的能承受千万级PV的架构.我认为对于现在项目状态，我要思考大约未来一年可能的发展，它如何简单的扩展就好了..</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E9%82%A3%E4%B8%AA%E4%B8%8D%E5%AB%8C%E4%BD%A0%E7%A9%B7%E7%9A%84%E5%A7%91%E5%A8%98%E4%B8%BA%E4%BB%80%E4%B9%88%E6%B2%A1%E9%99%AA%E4%BD%A0%E8%B5%B0%E5%88%B0%E6%9C%80%E5%90%8E/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">那个不嫌你穷的姑娘，为什么没陪你走到最后</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E5%88%9B%E4%B8%9A%E5%89%8D%E8%AF%B7%E6%80%9D%E8%80%83%E8%BD%AC/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">创业前请思考（转）</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

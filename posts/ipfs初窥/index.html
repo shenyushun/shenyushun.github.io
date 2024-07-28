@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>IPFS初窥 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="IPFS初窥" />
+<meta property="og:description" content="虽然区块链有很多令人兴奋的特性，但是也有其固有的缺点。比如，文件或者长度较长的文本信息就不适合存储在链上。那么如何解决这个缺点呢？一个解决方案就是IPFS(Interplanetary File System)——星际文件系统。
+本文作为简介篇不打算涉及网络及数据结构相关知识(比如什么是协议、什么是树、什么是图……)，不过我相信各位看官既然能找到本文网络基础应该不是问题。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/ipfs%E5%88%9D%E7%AA%A5/" />
+<meta property="article:published_time" content="2018-09-04T10:41:30+00:00" />
+<meta property="article:modified_time" content="2018-09-04T10:41:30+00:00" />
+
+		<meta itemprop="name" content="IPFS初窥">
+<meta itemprop="description" content="虽然区块链有很多令人兴奋的特性，但是也有其固有的缺点。比如，文件或者长度较长的文本信息就不适合存储在链上。那么如何解决这个缺点呢？一个解决方案就是IPFS(Interplanetary File System)——星际文件系统。
+本文作为简介篇不打算涉及网络及数据结构相关知识(比如什么是协议、什么是树、什么是图……)，不过我相信各位看官既然能找到本文网络基础应该不是问题。">
+<meta itemprop="datePublished" content="2018-09-04T10:41:30&#43;00:00" />
+<meta itemprop="dateModified" content="2018-09-04T10:41:30&#43;00:00" />
+<meta itemprop="wordCount" content="378">
+
+
+
+<meta itemprop="keywords" content="ipfs," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">IPFS初窥</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-09-04T10:41:30Z">2018-09-04</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="category">区块链</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>虽然区块链有很多令人兴奋的特性，但是也有其固有的缺点。比如，文件或者长度较长的文本信息就不适合存储在链上。那么如何解决这个缺点呢？一个解决方案就是IPFS(Interplanetary File System)——星际文件系统。</p>
+<p>本文作为简介篇不打算涉及网络及数据结构相关知识(比如什么是协议、什么是树、什么是图……)，不过我相信各位看官既然能找到本文网络基础应该不是问题。</p>
+<h2 id="为什么需要ipfs">为什么需要IPFS?</h2>
+<p>说这个之前，我们看看现在互联网基石 —— <a href="https://baike.baidu.com/link?url=OBnU342D_H3DsMIofgdDvKsuy42D6BIdvLtFH7Y62gaeTON6Znlw_9ADYFHI4qPR5u9Bdw4dfPI1VueLNQRnpq">HTTP协议</a>，网址(URL)由几部份构成:</p>
+<ol>
+<li>协议</li>
+<li>服务器地址（IP地址，或者域名)</li>
+<li>端口</li>
+<li>路径</li>
+<li>参数</li>
+</ol>
+<p>HTTP是路径(位置)导向的、中心化的，而IPFS则是资源导向的、分布式的。以网站举例，如果某个网站服务器关闭，那么如果没有其他三方对其进行过快照的话，基本就是再也看不到上面的内容了。而IPFS则不然，只要IPFS网络中有对应的副本，则不会因为某个&quot;人&quot;删除资源而导致无法访问。(单点问题)</p>
+<p>老司机应该觉得眼熟，这不就和BT种子类似么？是的，IPFS结合了Git版本系统、Bittorrent、DHT等技术。也正因如此，IPFS刚好可以用来弥补区块链不适合存储文件或长文本这个缺陷。</p>
+<p>基于路径导向还会导致某些安全问题，假定你需要下载<code>http://www.aa.com/file.zip</code>这个文件，如果这个文件被替换成木马病毒一类的，客户端是无法判断数据是否被更改的。换言之，客户端只知道&quot;在哪里&rdquo;，而不知道&quot;是什么&rdquo;。</p>
+<p>此外，随着媒体类资源如音频、视频越发流行，带宽资源也越发成为限制HTTP传输速度的瓶颈。而如果你需要的资源在IPFS存在，则会自动选择一个最近的下载，传输速度大大提升。</p>
+<h2 id="什么是ipfs">什么是IPFS?</h2>
+<p>官网原话:</p>
+<blockquote>
+<p>IPFS aims to replace HTTP and build a better web for all of us.</p>
+</blockquote>
+<p>翻译过来就是：IPFS是来干掉现有HTTP协议、带领农奴翻身的。所以咧，<a href="https://ipfs.io/">官网</a>就被&quot;墙&quot;了。但从技术角度，更好的解释在<a href="https://github.com/ipfs/papers/raw/master/ipfs-cap2pfs/ipfs-p2p-file-system.pdf">白皮书</a>中。</p>
+<p>白皮书标题就3点：</p>
+<ul>
+<li>内容寻址：通过文件内容生成唯一哈希值来标识文件，而不是通过文件保存位置来标识。相同内容的文件在系统中只会存在一份，节约存储空间。</li>
+<li>版本化：可追溯文件修改历史。（参照git、svn）</li>
+<li>点对点文件系统：P2P保存各种各样类型的数据。</li>
+</ul>
+<p>涉及的技术点有5个:</p>
+<ol>
+<li>分布式哈希表(DHT)</li>
+<li>块交换</li>
+<li>Merkle DAG</li>
+<li>版本控制系统</li>
+<li>自验证文件系统(SFS)</li>
+</ol>
+<p>上面的技术点基本每个都能写一系列文章，这里就简单说一下，如果有时间以后再补充完善。(没错，我又开始挖坑了！)</p>
+<p>DHT被广泛用于维护协调p2p网络的元数据，比如BitTorrent中的<code>MainlineDHT</code>就追踪了torrent网络中节点的集合。而IPFS中则是结合了<code>Coral DSHT</code>和<code>S/Kademlia DHT</code>，这两个都是<code>Kademlia DHT</code>的扩展。(再简单说就是用来查找节点的。)</p>
+<p>块交换，IPFS在BitTorrent的基础上实现了更通用的版本——<code>BitSwap</code>，这也是<a href="https://filecoin.io/">Filecoin</a>的基础。</p>
+<p>Merkle DAG，如果涉及过轻钱包应用的应该知道Merkle Tree，在Merkle Tree中每个父节点的值都是其子节点值的哈希。Merkle DAG则是Merkle Tree和有向无环图(DAG)的结合体，广义上所有数据都在Merkle DAG进行建模，这是保证数据正确、安全传输的关键点。</p>
+<p>版本控制，这个不用多说了吧？</p>
+<p>自验证文件系统(Self-certifying File System,SFS)是一种不需要特殊权限的分布式文件系统，因为每个用户上传是生成的文件名已经是经过其私钥签名过的了。在这个基础上，又可以引出星际命名空间(InterPlanetary Name Space,IPNS)的概念。之前说过IPFS上的文件哈希后都是唯一识别的，推广开来，每个节点也有公钥、私钥和节点ID，节点ID是其公钥的哈希值，节点可以使用私钥来对其发布的数据签名，其他用户检索时，可以检查发送者的公钥来验证数据真实性。</p>
+<h2 id="如何使用ipfs">如何使用IPFS?</h2>
+<p>首先下载<a href="https://dist.ipfs.io/#go-ipfs">go-ipfs</a>，我这里直接使用linux版本的，解压后执行:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">go-ipfs❯ sudo sh install.sh
+<span style="color:#f92672">[</span>sudo<span style="color:#f92672">]</span> password <span style="color:#66d9ef">for</span> roy:
+Moved ./ipfs to /usr/local/bin
+
+go-ipfs❯ ipfs init
+initializing IPFS node at /home/roy/.ipfs
+generating 2048-bit RSA keypair...done
+peer identity: QmcWR5hMnF7LNqNJBC6fxSBdXRUBgJEnXca3MHWN8kpdXC
+to get started, enter:
+
+	ipfs cat /ipfs/QmS4ustL54uo8FzR9455qaxZwuMiUhyvMcX9Ba8nUH4uVv/readme
+
+go-ipfs❯ ipfs cat /ipfs/QmS4ustL54uo8FzR9455qaxZwuMiUhyvMcX9Ba8nUH4uVv/readme
+Hello and Welcome to IPFS!
+
+██╗██████╗ ███████╗███████╗
+██║██╔══██╗██╔════╝██╔════╝
+██║██████╔╝█████╗  ███████╗
+██║██╔═══╝ ██╔══╝  ╚════██║
+██║██║     ██║     ███████║
+╚═╝╚═╝     ╚═╝     ╚══════╝
+
+If you seeing this, you have successfully installed
+IPFS and are now interfacing with the ipfs merkledag!
+
+ -------------------------------------------------------
+| Warning:                                              |
+|   This is alpha software. Use at your own discretion! |
+|   Much is missing or lacking polish. There are bugs.  |
+|   Not yet secure. Read the security notes <span style="color:#66d9ef">for</span> more.   |
+ -------------------------------------------------------
+
+Check out some of the other files in this directory:
+
+  ./about
+  ./help
+  ./quick-start     &lt;-- usage examples
+  ./readme          &lt;-- this file
+  ./security-notes
+</code></pre></div><p>建议使用提示中的哦命令看看<code>quick-start</code>，常用操作都在里面了。</p>
+<p>然后启动ipfs服务：</p>
+<pre><code>go-ipfs❯ ipfs daemon
+Initializing daemon...
+Successfully raised file descriptor limit to 2048.
+
+Swarm listening on /ip4/127.0.0.1/tcp/4001
+Swarm listening on /ip4/172.17.0.1/tcp/4001
+Swarm listening on /ip4/172.18.0.1/tcp/4001
+Swarm listening on /ip4/192.168.1.104/tcp/4001
+Swarm listening on /ip4/192.168.124.1/tcp/4001
+Swarm listening on /ip6/::1/tcp/4001
+Swarm listening on /p2p-circuit/ipfs/QmcWR5hMnF7LNqNJBC6fxSBdXRUBgJEnXca3MHWN8kpdXC
+Swarm announcing /ip4/100.64.109.213/tcp/12182
+Swarm announcing /ip4/127.0.0.1/tcp/4001
+Swarm announcing /ip4/172.17.0.1/tcp/4001
+Swarm announcing /ip4/172.18.0.1/tcp/4001
+Swarm announcing /ip4/192.168.1.104/tcp/4001
+Swarm announcing /ip4/192.168.124.1/tcp/4001
+Swarm announcing /ip6/::1/tcp/4001
+API server listening on /ip4/127.0.0.1/tcp/5001
+Gateway (readonly) server listening on /ip4/127.0.0.1/tcp/8080
+Daemon is ready
+</code></pre><p>然后访问<code>http://localhost:5001/webui</code>可以查看系统信息、创建文件夹、添加文件等。</p>
+<p>添加个文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">~ » mkdir roy_test
+~ » echo <span style="color:#e6db74">&#34;www.hi-roy.com&#34;</span> &gt; roy_test/roy.txt
+~ » ipfs add -r roy_test
+added QmTbyi4XTyG8PrJo7KDcexNGxBJNKfJCwjfmY4HmtENqYd roy_test/roy.txt
+added QmUK6CHzQyn2CWpHumysxhQXjzi4dA373DYLD2zgj8n7kx roy_test
+</code></pre></div><p>然后测试下文件是否添加成功：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ipfs ls QmUK6CHzQyn2CWpHumysxhQXjzi4dA373DYLD2zgj8n7kx
+QmTbyi4XTyG8PrJo7KDcexNGxBJNKfJCwjfmY4HmtENqYd <span style="color:#ae81ff">23</span> roy.txt
+
+ipfs cat /ipfs/QmTbyi4XTyG8PrJo7KDcexNGxBJNKfJCwjfmY4HmtENqYd
+www.hi-roy.com
+</code></pre></div><p>也可以通过本地网关访问<code>http://localhost:8080/ipfs/QmTbyi4XTyG8PrJo7KDcexNGxBJNKfJCwjfmY4HmtENqYd</code>。</p>
+<p>然后我们来修改一下文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;www.hi-roy.com&#34;</span> &gt;&gt; roy_test/roy.txt
+echo <span style="color:#e6db74">&#34;www.hi-roy.com&#34;</span> &gt;&gt; roy_test/roy.txt
+ipfs add roy_test/roy.txt
+added QmUcwEGLBhLKYG7X1DrbMbbSKSJ3GbDHWibymwXqUG1PCK roy.txt
+</code></pre></div><p>注意，修改文件后哈希值发生了变化，原来的文件依然存在。但每次更新文件都有一个新哈希也太麻烦了，这时可以使用上面说的<code>IPNS</code>了:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ipfs name publish QmUK6CHzQyn2CWpHumysxhQXjzi4dA373DYLD2zgj8n7kx
+Published to QmcWR5hMnF7LNqNJBC6fxSBdXRUBgJEnXca3MHWN8kpdXC: /ipfs/QmUK6CHzQyn2CWpHumysxhQXjzi4dA373DYLD2zgj8n7kx
+</code></pre></div><p>这里我把文件夹的哈希值作为根发布，然后就可以使用<code>ipns</code>查看文件了：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ipfs cat /ipns/QmcWR5hMnF7LNqNJBC6fxSBdXRUBgJEnXca3MHWN8kpdXC/roy.txt
+
+www.hi-roy.com
+www.hi-roy.com
+www.hi-roy.com
+</code></pre></div><p>以后更新文件后再publish就可以了。不过 <strong>使用ipns会很慢</strong>。</p>
+<h2 id="使用ipfs时应该注意">使用IPFS时应该注意？</h2>
+<p>永久性(Permanence)不等同于持久性(Persistence)。</p>
+<blockquote>
+<p>Objects are permanent。</p>
+</blockquote>
+<p>也就是说，你在IPFS网络中上传了某个文件，指向你这个文件的链接是永久不变的，但如果每个节点都觉得这个文件没什么价值而将其删除，那么这个文件是会&quot;消失&quot;的。</p>
+<h2 id="ipfs的应用领域">IPFS的应用领域?</h2>
+<p>白皮书3.8节提到了12个应用场景：</p>
+<ol>
+<li>作为全球文件系统挂载到<code>/ipfs</code>和<code>/ipns</code>下。</li>
+<li>作为个人同步文件夹自动控制版本、推送、备份。</li>
+<li>作为加密文件或者数据共享系统。</li>
+<li>作为所有软件的版本控制器。</li>
+<li>作为虚拟机的根文件系统。</li>
+<li>作为VM的引导文件。</li>
+<li>作为数据库:程序可以直接写入Merkle DAG数据模型，并获得IPFS提供的版本控制、缓存、分发功能。</li>
+<li>作为一个加密的通信平台。</li>
+<li>作为一个大文件完整性校验的CDN平台(不需要SSL)。</li>
+<li>作为加密CDN。</li>
+<li>作为网站CDN。</li>
+<li>作为一个永远不会消失的网站。</li>
+</ol>
+<p>利用IPFS的项目比较多，但大多处于探索阶段，杀手级的目前还没出现。这里给大家介绍我认为比较有意思的：</p>
+<ol>
+<li><a href="https://akasha.world/">akasha</a>，号称下一代社交网络，测试玩的话chrome浏览器可以装个<code>MetaMask</code>插件，并将网络设置为<code>Rinkeby Test Network</code>。</li>
+<li><a href="https://github.com/ipfs/distributed-wikipedia-mirror">基于IPFS的维基百科</a>，维基百科镜像。</li>
+<li><a href="https://livepeer.org/">livepeer</a>，去中心化流媒体平台，可以贡献自己的带宽获取token。</li>
+</ol>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*N3BFp35i_jfTo7RMHsDNwg.jpeg" alt="应用"></p>
+<h2 id="ipfs的缺点">IPFS的缺点?</h2>
+<p>目前觉得缺点有２个：</p>
+<ol>
+<li>
+<p>域名不友好，比如<code>ipfs.io/ipns/Qmxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/</code>。当然可以引入域名系统DNS，但又会面临现有DNS系统的各种缺陷，比如域名污染等。</p>
+</li>
+<li>
+<p>数据节点没动力维持网络数据的长期备份，如果所有的数据节点都将某份数据清除来节省空间，理论上这个文件最终会&quot;消失&rdquo;。为了缓解这个问题，引入了<code>FileCoin</code>来为IPFS添加经济激励，毕竟有句话叫做&quot;无利不起早&quot;么。</p>
+</li>
+</ol>
+<p>写到这让我想起了《人月神话》中的经典台词：</p>
+<blockquote>
+<p>　没有银弹。</p>
+</blockquote>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/ipfs/" rel="tag">ipfs</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E5%A2%A8%E5%8D%A1%E6%89%98%E5%9D%90%E6%A0%87%E8%BD%AC%E7%BB%8F%E7%BA%AC%E5%BA%A6/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">墨卡托坐标转经纬度</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/ipfs%E5%88%9D%E7%AA%A52/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">IPFS初窥2</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

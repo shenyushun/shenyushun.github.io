@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>OpenStack源码学习笔记3 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="OpenStack源码学习笔记3" />
+<meta property="og:description" content="最近看了下关于OpenStack如何统计更新CPU、内存、硬盘等硬件资源的部分，由于历史原因下面的代码来自newton版。
+简单说，OpenStack先通过定时任务进行资源统计，入口代码位于nova\compute\manager.py中ComputeManager类的update_available_resource函数。默认情况下每分钟更新一次：
+
+@periodic_task.periodic_task(spacing=CONF.update_resources_interval)
+def update_available_resource(self, context):
+    &#34;&#34;&#34;See driver.get_available_resource()
+
+    Periodic process that keeps that the compute host&#39;s understanding of
+    resource availability and usage in sync with the underlying hypervisor.
+
+    :param context: security context
+    &#34;&#34;&#34;
+
+    compute_nodes_in_db = self._get_compute_nodes_in_db(context,
+                                                        use_slave=True)
+    nodenames = set(self.driver.get_available_nodes())
+    for nodename in nodenames:
+        self.update_available_resource_for_node(context, nodename)
+
+    self._resource_tracker_dict = {
+        k: v for k, v in self._resource_tracker_dict.items()
+        if k in nodenames}
+
+    # Delete orphan compute node not reported by driver but still in db
+    for cn in compute_nodes_in_db:
+        if cn.hypervisor_hostname not in nodenames:
+            LOG.info(_LI(&#34;Deleting orphan compute node %s&#34;), cn.id)
+            cn.destroy()
+首先获取所有节点，然后维护了一个名为_resource_tracker_dict的字典用来记录host和ResourceTracker实例的对应关系，所有的资源更新行为都在ResourceTracker中进行处理。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/" />
+<meta property="article:published_time" content="2019-11-04T12:46:29+00:00" />
+<meta property="article:modified_time" content="2019-11-04T12:46:29+00:00" />
+
+		<meta itemprop="name" content="OpenStack源码学习笔记3">
+<meta itemprop="description" content="最近看了下关于OpenStack如何统计更新CPU、内存、硬盘等硬件资源的部分，由于历史原因下面的代码来自newton版。
+简单说，OpenStack先通过定时任务进行资源统计，入口代码位于nova\compute\manager.py中ComputeManager类的update_available_resource函数。默认情况下每分钟更新一次：
+
+@periodic_task.periodic_task(spacing=CONF.update_resources_interval)
+def update_available_resource(self, context):
+    &#34;&#34;&#34;See driver.get_available_resource()
+
+    Periodic process that keeps that the compute host&#39;s understanding of
+    resource availability and usage in sync with the underlying hypervisor.
+
+    :param context: security context
+    &#34;&#34;&#34;
+
+    compute_nodes_in_db = self._get_compute_nodes_in_db(context,
+                                                        use_slave=True)
+    nodenames = set(self.driver.get_available_nodes())
+    for nodename in nodenames:
+        self.update_available_resource_for_node(context, nodename)
+
+    self._resource_tracker_dict = {
+        k: v for k, v in self._resource_tracker_dict.items()
+        if k in nodenames}
+
+    # Delete orphan compute node not reported by driver but still in db
+    for cn in compute_nodes_in_db:
+        if cn.hypervisor_hostname not in nodenames:
+            LOG.info(_LI(&#34;Deleting orphan compute node %s&#34;), cn.id)
+            cn.destroy()
+首先获取所有节点，然后维护了一个名为_resource_tracker_dict的字典用来记录host和ResourceTracker实例的对应关系，所有的资源更新行为都在ResourceTracker中进行处理。">
+<meta itemprop="datePublished" content="2019-11-04T12:46:29&#43;00:00" />
+<meta itemprop="dateModified" content="2019-11-04T12:46:29&#43;00:00" />
+<meta itemprop="wordCount" content="1014">
+
+
+
+<meta itemprop="keywords" content="python,openstack," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">OpenStack源码学习笔记3</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-11-04T12:46:29Z">2019-11-04</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/" rel="category">云计算</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>最近看了下关于OpenStack如何统计更新CPU、内存、硬盘等硬件资源的部分，由于历史原因下面的代码来自<code>newton</code>版。</p>
+<p>简单说，OpenStack先通过定时任务进行资源统计，入口代码位于<code>nova\compute\manager.py</code>中<code>ComputeManager</code>类的<code>update_available_resource</code>函数。默认情况下每分钟更新一次：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">
+<span style="color:#a6e22e">@periodic_task.periodic_task</span>(spacing<span style="color:#f92672">=</span>CONF<span style="color:#f92672">.</span>update_resources_interval)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">update_available_resource</span>(self, context):
+    <span style="color:#e6db74">&#34;&#34;&#34;See driver.get_available_resource()
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Periodic process that keeps that the compute host&#39;s understanding of
+</span><span style="color:#e6db74">    resource availability and usage in sync with the underlying hypervisor.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    :param context: security context
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+
+    compute_nodes_in_db <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_compute_nodes_in_db(context,
+                                                        use_slave<span style="color:#f92672">=</span>True)
+    nodenames <span style="color:#f92672">=</span> set(self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>get_available_nodes())
+    <span style="color:#66d9ef">for</span> nodename <span style="color:#f92672">in</span> nodenames:
+        self<span style="color:#f92672">.</span>update_available_resource_for_node(context, nodename)
+
+    self<span style="color:#f92672">.</span>_resource_tracker_dict <span style="color:#f92672">=</span> {
+        k: v <span style="color:#66d9ef">for</span> k, v <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>_resource_tracker_dict<span style="color:#f92672">.</span>items()
+        <span style="color:#66d9ef">if</span> k <span style="color:#f92672">in</span> nodenames}
+
+    <span style="color:#75715e"># Delete orphan compute node not reported by driver but still in db</span>
+    <span style="color:#66d9ef">for</span> cn <span style="color:#f92672">in</span> compute_nodes_in_db:
+        <span style="color:#66d9ef">if</span> cn<span style="color:#f92672">.</span>hypervisor_hostname <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> nodenames:
+            LOG<span style="color:#f92672">.</span>info(_LI(<span style="color:#e6db74">&#34;Deleting orphan compute node </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span>), cn<span style="color:#f92672">.</span>id)
+            cn<span style="color:#f92672">.</span>destroy()
+</code></pre></div><p>首先获取所有节点，然后维护了一个名为<code>_resource_tracker_dict</code>的字典用来记录host和<code>ResourceTracker</code>实例的对应关系，所有的资源更新行为都在<code>ResourceTracker</code>中进行处理。</p>
+<p>在字典中找到对应的<code>ResourceTracker</code>实例后调用其<code>update_available_resource</code>函数，位于<code>nova\compute\resource_tracker.py</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">update_available_resource</span>(self, context):
+    <span style="color:#e6db74">&#34;&#34;&#34;Override in-memory calculations of compute node resource usage based
+</span><span style="color:#e6db74">    on data audited from the hypervisor layer.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Add in resource claims in progress to account for operations that have
+</span><span style="color:#e6db74">    declared a need for resources, but not necessarily retrieved them from
+</span><span style="color:#e6db74">    the hypervisor layer yet.
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    LOG<span style="color:#f92672">.</span>info(_LI(<span style="color:#e6db74">&#34;Auditing locally available compute resources for &#34;</span>
+                    <span style="color:#e6db74">&#34;node </span><span style="color:#e6db74">%(node)s</span><span style="color:#e6db74">&#34;</span>),
+                {<span style="color:#e6db74">&#39;node&#39;</span>: self<span style="color:#f92672">.</span>nodename})
+    resources <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>get_available_resource(self<span style="color:#f92672">.</span>nodename)
+    resources[<span style="color:#e6db74">&#39;host_ip&#39;</span>] <span style="color:#f92672">=</span> CONF<span style="color:#f92672">.</span>my_ip
+    <span style="color:#75715e"># We want the &#39;cpu_info&#39; to be None from the POV of the</span>
+    <span style="color:#75715e"># virt driver, but the DB requires it to be non-null so</span>
+    <span style="color:#75715e"># just force it to empty string</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#34;cpu_info&#34;</span> <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> resources <span style="color:#f92672">or</span> resources[<span style="color:#e6db74">&#34;cpu_info&#34;</span>] <span style="color:#f92672">is</span> None:
+        resources[<span style="color:#e6db74">&#34;cpu_info&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>
+    self<span style="color:#f92672">.</span>_verify_resources(resources)
+    self<span style="color:#f92672">.</span>_report_hypervisor_resource_view(resources)
+    self<span style="color:#f92672">.</span>_update_available_resource(context, resources)
+</code></pre></div><p>使用不同的dirver获取资源的方法不一样，以使用libvirt为例，相关代码位于<code>nova\virt\libvirt\driver.py</code>中的<code>get_available_resource</code>函数:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_available_resource</span>(self, nodename):
+    <span style="color:#f92672">...</span>
+    data <span style="color:#f92672">=</span> {}
+    data[<span style="color:#e6db74">&#34;memory_mb&#34;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_host<span style="color:#f92672">.</span>get_memory_mb_total()
+    data[<span style="color:#e6db74">&#34;memory_mb_used&#34;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_host<span style="color:#f92672">.</span>get_memory_mb_used()
+    <span style="color:#f92672">....</span>
+    <span style="color:#66d9ef">return</span> data
+</code></pre></div><p>这里我以获取内存为例，获取内存信息分为2步，首先调用<code>libvirt</code>库获取总内存，代码位于<code>nova\virt\libvirt\host.py</code>，这里我直接给出相关验证代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#f92672">import</span> libvirt
+conn <span style="color:#f92672">=</span> libvirt<span style="color:#f92672">.</span>open(<span style="color:#e6db74">&#34;qemu:///system&#34;</span>)
+c <span style="color:#f92672">=</span> conn<span style="color:#f92672">.</span>getInfo()[<span style="color:#ae81ff">1</span>]
+</code></pre></div><p>这段代码就是<code>get_memory_mb_total()</code>的底层实现。测试的话注意使用root用户否则会报权限错误。</p>
+<p>获取使用内存代码如下:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_memory_mb_used</span>(self):
+    <span style="color:#e6db74">&#34;&#34;&#34;Get the used memory size(MB) of physical computer.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    :returns: the total usage of memory(MB).
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    <span style="color:#66d9ef">if</span> sys<span style="color:#f92672">.</span>platform<span style="color:#f92672">.</span>upper() <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> [<span style="color:#e6db74">&#39;LINUX2&#39;</span>, <span style="color:#e6db74">&#39;LINUX3&#39;</span>]:
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+
+    <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;/proc/meminfo&#39;</span>) <span style="color:#66d9ef">as</span> fp:
+        m <span style="color:#f92672">=</span> fp<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>split()
+    idx1 <span style="color:#f92672">=</span> m<span style="color:#f92672">.</span>index(<span style="color:#e6db74">&#39;MemFree:&#39;</span>)
+    idx2 <span style="color:#f92672">=</span> m<span style="color:#f92672">.</span>index(<span style="color:#e6db74">&#39;Buffers:&#39;</span>)
+    idx3 <span style="color:#f92672">=</span> m<span style="color:#f92672">.</span>index(<span style="color:#e6db74">&#39;Cached:&#39;</span>)
+    <span style="color:#66d9ef">if</span> CONF<span style="color:#f92672">.</span>libvirt<span style="color:#f92672">.</span>virt_type <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;xen&#39;</span>:
+        used <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">for</span> guest <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>list_guests(only_guests<span style="color:#f92672">=</span>False):
+            <span style="color:#66d9ef">try</span>:
+                <span style="color:#75715e"># TODO(sahid): Use get_info...</span>
+                dom_mem <span style="color:#f92672">=</span> int(guest<span style="color:#f92672">.</span>_get_domain_info(self)[<span style="color:#ae81ff">2</span>])
+            <span style="color:#66d9ef">except</span> libvirt<span style="color:#f92672">.</span>libvirtError <span style="color:#66d9ef">as</span> e:
+                LOG<span style="color:#f92672">.</span>warning(_LW(<span style="color:#e6db74">&#34;couldn&#39;t obtain the memory from domain:&#34;</span>
+                                <span style="color:#e6db74">&#34; </span><span style="color:#e6db74">%(uuid)s</span><span style="color:#e6db74">, exception: </span><span style="color:#e6db74">%(ex)s</span><span style="color:#e6db74">&#34;</span>),
+                            {<span style="color:#e6db74">&#34;uuid&#34;</span>: guest<span style="color:#f92672">.</span>uuid, <span style="color:#e6db74">&#34;ex&#34;</span>: e})
+                <span style="color:#66d9ef">continue</span>
+            <span style="color:#75715e"># skip dom0</span>
+            <span style="color:#66d9ef">if</span> guest<span style="color:#f92672">.</span>id <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>:
+                used <span style="color:#f92672">+=</span> dom_mem
+            <span style="color:#66d9ef">else</span>:
+                <span style="color:#75715e"># the mem reported by dom0 is be greater of what</span>
+                <span style="color:#75715e"># it is being used</span>
+                used <span style="color:#f92672">+=</span> (dom_mem <span style="color:#f92672">-</span>
+                            (int(m[idx1 <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]) <span style="color:#f92672">+</span>
+                            int(m[idx2 <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]) <span style="color:#f92672">+</span>
+                            int(m[idx3 <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>])))
+        <span style="color:#75715e"># Convert it to MB</span>
+        <span style="color:#66d9ef">return</span> used <span style="color:#f92672">//</span> units<span style="color:#f92672">.</span>Ki
+    <span style="color:#66d9ef">else</span>:
+        avail <span style="color:#f92672">=</span> (int(m[idx1 <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]) <span style="color:#f92672">+</span> int(m[idx2 <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]) <span style="color:#f92672">+</span> int(m[idx3 <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]))
+        <span style="color:#75715e"># Convert it to MB</span>
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>get_memory_mb_total() <span style="color:#f92672">-</span> avail <span style="color:#f92672">//</span> units<span style="color:#f92672">.</span>Ki
+</code></pre></div><p>可以看出其实是读取的<code>/proc/meminfo</code>。</p>
+<p>然后更新行为位于<code>_update_available_resource</code>函数中：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#a6e22e">@utils.synchronized</span>(COMPUTE_RESOURCE_SEMAPHORE)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_update_available_resource</span>(self, context, resources):
+
+    <span style="color:#75715e"># initialize the compute node object, creating it</span>
+    <span style="color:#75715e"># if it does not already exist.</span>
+    self<span style="color:#f92672">.</span>_init_compute_node(context, resources)
+
+    <span style="color:#75715e"># if we could not init the compute node the tracker will be</span>
+    <span style="color:#75715e"># disabled and we should quit now</span>
+    <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>disabled:
+        <span style="color:#66d9ef">return</span>
+
+    <span style="color:#75715e"># Grab all instances assigned to this node:</span>
+    instances <span style="color:#f92672">=</span> objects<span style="color:#f92672">.</span>InstanceList<span style="color:#f92672">.</span>get_by_host_and_node(
+        context, self<span style="color:#f92672">.</span>host, self<span style="color:#f92672">.</span>nodename,
+        expected_attrs<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;system_metadata&#39;</span>,
+                        <span style="color:#e6db74">&#39;numa_topology&#39;</span>,
+                        <span style="color:#e6db74">&#39;flavor&#39;</span>, <span style="color:#e6db74">&#39;migration_context&#39;</span>])
+
+    <span style="color:#75715e"># Now calculate usage based on instance utilization:</span>
+    self<span style="color:#f92672">.</span>_update_usage_from_instances(context, instances)
+
+    <span style="color:#75715e"># Grab all in-progress migrations:</span>
+    migrations <span style="color:#f92672">=</span> objects<span style="color:#f92672">.</span>MigrationList<span style="color:#f92672">.</span>get_in_progress_by_host_and_node(
+            context, self<span style="color:#f92672">.</span>host, self<span style="color:#f92672">.</span>nodename)
+
+    self<span style="color:#f92672">.</span>_pair_instances_to_migrations(migrations, instances)
+    self<span style="color:#f92672">.</span>_update_usage_from_migrations(context, migrations)
+
+    <span style="color:#75715e"># Detect and account for orphaned instances that may exist on the</span>
+    <span style="color:#75715e"># hypervisor, but are not in the DB:</span>
+    orphans <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_find_orphaned_instances()
+    self<span style="color:#f92672">.</span>_update_usage_from_orphans(orphans)
+
+    <span style="color:#75715e"># NOTE(yjiang5): Because pci device tracker status is not cleared in</span>
+    <span style="color:#75715e"># this periodic task, and also because the resource tracker is not</span>
+    <span style="color:#75715e"># notified when instances are deleted, we need remove all usages</span>
+    <span style="color:#75715e"># from deleted instances.</span>
+    self<span style="color:#f92672">.</span>pci_tracker<span style="color:#f92672">.</span>clean_usage(instances, migrations, orphans)
+    dev_pools_obj <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>pci_tracker<span style="color:#f92672">.</span>stats<span style="color:#f92672">.</span>to_device_pools_obj()
+    self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>pci_device_pools <span style="color:#f92672">=</span> dev_pools_obj
+
+    self<span style="color:#f92672">.</span>_report_final_resource_view()
+
+    metrics <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_host_metrics(context, self<span style="color:#f92672">.</span>nodename)
+    <span style="color:#75715e"># TODO(pmurray): metrics should not be a json string in ComputeNode,</span>
+    <span style="color:#75715e"># but it is. This should be changed in ComputeNode</span>
+    self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>metrics <span style="color:#f92672">=</span> jsonutils<span style="color:#f92672">.</span>dumps(metrics)
+
+    <span style="color:#75715e"># update the compute_node</span>
+    self<span style="color:#f92672">.</span>_update(context)
+    LOG<span style="color:#f92672">.</span>info(_LI(<span style="color:#e6db74">&#39;Compute_service record updated for </span><span style="color:#e6db74">%(host)s</span><span style="color:#e6db74">:</span><span style="color:#e6db74">%(node)s</span><span style="color:#e6db74">&#39;</span>),
+                    {<span style="color:#e6db74">&#39;host&#39;</span>: self<span style="color:#f92672">.</span>host, <span style="color:#e6db74">&#39;node&#39;</span>: self<span style="color:#f92672">.</span>nodename})
+</code></pre></div><p>首先调用<code>_init_compute_node()</code>函数初始化，这里首先从数据库中读取数据，然后用刚刚获取到的最新数据进行覆盖，再进行下面的计算。</p>
+<p>这里可以分为3类，一种是运行中的实例，一种是迁移中的实例，一种是孤儿实例（这个目前我还没见到过）。这里以第一种为例，跟进<code>_update_usage_from_instances</code>函数：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_update_usage_from_instances</span>(self, context, instances):
+    <span style="color:#e6db74">&#34;&#34;&#34;Calculate resource usage based on instance utilization.  This is
+</span><span style="color:#e6db74">    different than the hypervisor&#39;s view as it will account for all
+</span><span style="color:#e6db74">    instances assigned to the local compute host, even if they are not
+</span><span style="color:#e6db74">    currently powered on.
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    self<span style="color:#f92672">.</span>tracked_instances<span style="color:#f92672">.</span>clear()
+
+    <span style="color:#75715e"># set some initial values, reserve room for host/hypervisor:</span>
+    self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>local_gb_used <span style="color:#f92672">=</span> CONF<span style="color:#f92672">.</span>reserved_host_disk_mb <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span>
+    self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>memory_mb_used <span style="color:#f92672">=</span> CONF<span style="color:#f92672">.</span>reserved_host_memory_mb
+    self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>vcpus_used <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>free_ram_mb <span style="color:#f92672">=</span> (self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>memory_mb <span style="color:#f92672">-</span>
+                                        self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>memory_mb_used)
+    self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>free_disk_gb <span style="color:#f92672">=</span> (self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>local_gb <span style="color:#f92672">-</span>
+                                        self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>local_gb_used)
+    self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>current_workload <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>running_vms <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+
+    <span style="color:#66d9ef">for</span> instance <span style="color:#f92672">in</span> instances:
+        <span style="color:#66d9ef">if</span> instance<span style="color:#f92672">.</span>vm_state <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> vm_states<span style="color:#f92672">.</span>ALLOW_RESOURCE_REMOVAL:
+            self<span style="color:#f92672">.</span>_update_usage_from_instance(context, instance)
+
+    self<span style="color:#f92672">.</span>scheduler_client<span style="color:#f92672">.</span>reportclient<span style="color:#f92672">.</span>remove_deleted_instances(
+            self<span style="color:#f92672">.</span>compute_node, self<span style="color:#f92672">.</span>tracked_instances<span style="color:#f92672">.</span>values())
+</code></pre></div><p>这里有个小细节，关于内存只是使用了调用<code>libvirt</code>获取到的总内存，至于使用内存都是每次重新计算的。</p>
+<p>首先减去配置文件中设定的保留内存和保留硬盘，如果状态不是&rsquo;deleted'或者&rsquo;shelved_offloaded'开始对实例进行循环计算：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_update_usage_from_instance</span>(self, context, instance, is_removed<span style="color:#f92672">=</span>False):
+    <span style="color:#e6db74">&#34;&#34;&#34;Update usage for a single instance.&#34;&#34;&#34;</span>
+    uuid <span style="color:#f92672">=</span> instance[<span style="color:#e6db74">&#39;uuid&#39;</span>]
+    is_new_instance <span style="color:#f92672">=</span> uuid <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>tracked_instances
+    <span style="color:#75715e"># NOTE(sfinucan): Both brand new instances as well as instances that</span>
+    <span style="color:#75715e"># are being unshelved will have is_new_instance == True</span>
+    is_removed_instance <span style="color:#f92672">=</span> <span style="color:#f92672">not</span> is_new_instance <span style="color:#f92672">and</span> (is_removed <span style="color:#f92672">or</span>
+        instance[<span style="color:#e6db74">&#39;vm_state&#39;</span>] <span style="color:#f92672">in</span> vm_states<span style="color:#f92672">.</span>ALLOW_RESOURCE_REMOVAL)
+    <span style="color:#66d9ef">if</span> is_new_instance:
+        self<span style="color:#f92672">.</span>tracked_instances[uuid] <span style="color:#f92672">=</span> obj_base<span style="color:#f92672">.</span>obj_to_primitive(instance)
+        sign <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">if</span> is_removed_instance:
+        self<span style="color:#f92672">.</span>tracked_instances<span style="color:#f92672">.</span>pop(uuid)
+        sign <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+    self<span style="color:#f92672">.</span>stats<span style="color:#f92672">.</span>update_stats_for_instance(instance, is_removed_instance)
+    self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>stats <span style="color:#f92672">=</span> copy<span style="color:#f92672">.</span>deepcopy(self<span style="color:#f92672">.</span>stats)
+    <span style="color:#75715e"># if it&#39;s a new or deleted instance:</span>
+    <span style="color:#66d9ef">if</span> is_new_instance <span style="color:#f92672">or</span> is_removed_instance:
+        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>pci_tracker:
+            self<span style="color:#f92672">.</span>pci_tracker<span style="color:#f92672">.</span>update_pci_for_instance(context,
+                                                        instance,
+                                                        sign<span style="color:#f92672">=</span>sign)
+        self<span style="color:#f92672">.</span>scheduler_client<span style="color:#f92672">.</span>reportclient<span style="color:#f92672">.</span>update_instance_allocation(
+            self<span style="color:#f92672">.</span>compute_node, instance, sign)
+        <span style="color:#75715e"># new instance, update compute node resource usage:</span>
+        self<span style="color:#f92672">.</span>_update_usage(self<span style="color:#f92672">.</span>_get_usage_dict(instance), sign<span style="color:#f92672">=</span>sign)
+
+    self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>current_workload <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>stats<span style="color:#f92672">.</span>calculate_workload()
+    <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>pci_tracker:
+        obj <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>pci_tracker<span style="color:#f92672">.</span>stats<span style="color:#f92672">.</span>to_device_pools_obj()
+        self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>pci_device_pools <span style="color:#f92672">=</span> obj
+    <span style="color:#66d9ef">else</span>:
+        self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>pci_device_pools <span style="color:#f92672">=</span> objects<span style="color:#f92672">.</span>PciDevicePoolList()
+</code></pre></div><p>由于很多请求都是异步的，所以在函数中又判断了一次主机是否删除，如果删除了的话sign则为负值。</p>
+<p>然后调用<code>_update_usage</code>函数进行最终计算，这里通过<code>sign</code>参数来控制加减：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_update_usage</span>(self, usage, sign<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>):
+    mem_usage <span style="color:#f92672">=</span> usage[<span style="color:#e6db74">&#39;memory_mb&#39;</span>]
+    disk_usage <span style="color:#f92672">=</span> usage<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;root_gb&#39;</span>, <span style="color:#ae81ff">0</span>)
+
+    overhead <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>estimate_instance_overhead(usage)
+    mem_usage <span style="color:#f92672">+=</span> overhead[<span style="color:#e6db74">&#39;memory_mb&#39;</span>]
+    disk_usage <span style="color:#f92672">+=</span> overhead<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;disk_gb&#39;</span>, <span style="color:#ae81ff">0</span>)
+
+    self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>memory_mb_used <span style="color:#f92672">+=</span> sign <span style="color:#f92672">*</span> mem_usage
+    self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>local_gb_used <span style="color:#f92672">+=</span> sign <span style="color:#f92672">*</span> disk_usage
+    self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>local_gb_used <span style="color:#f92672">+=</span> sign <span style="color:#f92672">*</span> usage<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;ephemeral_gb&#39;</span>, <span style="color:#ae81ff">0</span>)
+    self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>vcpus_used <span style="color:#f92672">+=</span> sign <span style="color:#f92672">*</span> usage<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;vcpus&#39;</span>, <span style="color:#ae81ff">0</span>)
+
+    <span style="color:#75715e"># free ram and disk may be negative, depending on policy:</span>
+    self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>free_ram_mb <span style="color:#f92672">=</span> (self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>memory_mb <span style="color:#f92672">-</span>
+                                        self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>memory_mb_used)
+    self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>free_disk_gb <span style="color:#f92672">=</span> (self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>local_gb <span style="color:#f92672">-</span>
+                                        self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>local_gb_used)
+
+    self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>running_vms <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>stats<span style="color:#f92672">.</span>num_instances
+
+    <span style="color:#75715e"># Calculate the numa usage</span>
+    free <span style="color:#f92672">=</span> sign <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+    updated_numa_topology <span style="color:#f92672">=</span> hardware<span style="color:#f92672">.</span>get_host_numa_usage_from_instance(
+            self<span style="color:#f92672">.</span>compute_node, usage, free)
+    self<span style="color:#f92672">.</span>compute_node<span style="color:#f92672">.</span>numa_topology <span style="color:#f92672">=</span> updated_numa_topology
+</code></pre></div><p>这里的mem_usage其实是创建主机时指定的flavor的值，关于<code>estimate_instance_overhead</code>函数貌似只有xen和hyperv驱动才有实际用途，对于libvirt返回的就是0，有兴趣的小伙伴可以深入研究下。</p>
+<p>然后再经过第二步、第三步处理后将结果存入数据库中。</p>
+<p>这里有一点需要注意，如果配置了超分参数，创建迁移主机时并不是直接使用上述计算结果的，而是要乘以配置的超分参数，相关代码位于<code>nova\scheduler\filters\ram_filter.py</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">host_passes</span>(self, host_state, spec_obj):
+    <span style="color:#e6db74">&#34;&#34;&#34;Only return hosts with sufficient available RAM.&#34;&#34;&#34;</span>
+    requested_ram <span style="color:#f92672">=</span> spec_obj<span style="color:#f92672">.</span>memory_mb
+    free_ram_mb <span style="color:#f92672">=</span> host_state<span style="color:#f92672">.</span>free_ram_mb
+    total_usable_ram_mb <span style="color:#f92672">=</span> host_state<span style="color:#f92672">.</span>total_usable_ram_mb
+    <span style="color:#75715e"># Do not allow an instance to overcommit against itself, only against</span>
+    <span style="color:#75715e"># other instances.</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> total_usable_ram_mb <span style="color:#f92672">&gt;=</span> requested_ram:
+        LOG<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%(host_state)s</span><span style="color:#e6db74"> does not have </span><span style="color:#e6db74">%(requested_ram)s</span><span style="color:#e6db74"> MB &#34;</span>
+                    <span style="color:#e6db74">&#34;usable ram before overcommit, it only has &#34;</span>
+                    <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%(usable_ram)s</span><span style="color:#e6db74"> MB.&#34;</span>,
+                    {<span style="color:#e6db74">&#39;host_state&#39;</span>: host_state,
+                    <span style="color:#e6db74">&#39;requested_ram&#39;</span>: requested_ram,
+                    <span style="color:#e6db74">&#39;usable_ram&#39;</span>: total_usable_ram_mb})
+        <span style="color:#66d9ef">return</span> False
+    ram_allocation_ratio <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_ram_allocation_ratio(host_state,
+                                                            spec_obj)
+    memory_mb_limit <span style="color:#f92672">=</span> total_usable_ram_mb <span style="color:#f92672">*</span> ram_allocation_ratio
+    used_ram_mb <span style="color:#f92672">=</span> total_usable_ram_mb <span style="color:#f92672">-</span> free_ram_mb
+    usable_ram <span style="color:#f92672">=</span> memory_mb_limit <span style="color:#f92672">-</span> used_ram_mb
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> usable_ram <span style="color:#f92672">&gt;=</span> requested_ram:
+        LOG<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%(host_state)s</span><span style="color:#e6db74"> does not have </span><span style="color:#e6db74">%(requested_ram)s</span><span style="color:#e6db74"> MB &#34;</span>
+                <span style="color:#e6db74">&#34;usable ram, it only has </span><span style="color:#e6db74">%(usable_ram)s</span><span style="color:#e6db74"> MB usable ram.&#34;</span>,
+                {<span style="color:#e6db74">&#39;host_state&#39;</span>: host_state,
+                    <span style="color:#e6db74">&#39;requested_ram&#39;</span>: requested_ram,
+                    <span style="color:#e6db74">&#39;usable_ram&#39;</span>: usable_ram})
+        <span style="color:#66d9ef">return</span> False
+    <span style="color:#75715e"># save oversubscription limit for compute node to test against:</span>
+    host_state<span style="color:#f92672">.</span>limits[<span style="color:#e6db74">&#39;memory_mb&#39;</span>] <span style="color:#f92672">=</span> memory_mb_limit
+    <span style="color:#66d9ef">return</span> True
+</code></pre></div><p>这也是为什么有时候看<code>free_ram_mb</code>、<code>free_disk_gb</code>为负的原因。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/openstack/" rel="tag">openstack</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">设计模式-单例模式</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">设计模式-适配器模式</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>如何对Go代码解偶 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="如何对Go代码解偶" />
+<meta property="og:description" content="原文，文章作者也是《Hands-On Dependency Injection in Go》的作者，向原作者表示感谢。
+
+你是否曾经由于添加某个新功能却导致另一个功能出问题？修复好这个，另一个又出问题，就好象打地鼠一般。
+你是否曾经花费大量的时间调试Bug，最后却发现问题潜伏在另一个、甚至毫不相关的模块中？
+这些问题都是由于高耦合引起的。
+在这篇文章中，我们来使用解偶的方式来让代码更加易于理解、维护、测试。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E5%A6%82%E4%BD%95%E5%AF%B9go%E4%BB%A3%E7%A0%81%E8%A7%A3%E5%81%B6/" />
+<meta property="article:published_time" content="2019-02-11T11:05:03+00:00" />
+<meta property="article:modified_time" content="2019-02-11T11:05:03+00:00" />
+
+		<meta itemprop="name" content="如何对Go代码解偶">
+<meta itemprop="description" content="原文，文章作者也是《Hands-On Dependency Injection in Go》的作者，向原作者表示感谢。
+
+你是否曾经由于添加某个新功能却导致另一个功能出问题？修复好这个，另一个又出问题，就好象打地鼠一般。
+你是否曾经花费大量的时间调试Bug，最后却发现问题潜伏在另一个、甚至毫不相关的模块中？
+这些问题都是由于高耦合引起的。
+在这篇文章中，我们来使用解偶的方式来让代码更加易于理解、维护、测试。">
+<meta itemprop="datePublished" content="2019-02-11T11:05:03&#43;00:00" />
+<meta itemprop="dateModified" content="2019-02-11T11:05:03&#43;00:00" />
+<meta itemprop="wordCount" content="337">
+
+
+
+<meta itemprop="keywords" content="golang," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">如何对Go代码解偶</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-02-11T11:05:03Z">2019-02-11</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p><a href="https://www.sage42.org/2019/01/30/how-to-fix-tightly-coupled-go-code/">原文</a>，文章作者也是《Hands-On Dependency Injection in Go》的作者，向原作者表示感谢。</p>
+<hr>
+<p>你是否曾经由于添加某个新功能却导致另一个功能出问题？修复好这个，另一个又出问题，就好象打地鼠一般。</p>
+<p>你是否曾经花费大量的时间调试Bug，最后却发现问题潜伏在另一个、甚至毫不相关的模块中？</p>
+<p>这些问题都是由于高耦合引起的。</p>
+<p>在这篇文章中，我们来使用解偶的方式来让代码更加易于理解、维护、测试。</p>
+<h1 id="什么是耦合">什么是耦合？</h1>
+<p>在软件开发中，耦合是用来测量2个部分（对象、包、函数）之间相互依赖程度的指标。参考下面的例子：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Config</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">DSN</span>            <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">MaxConnections</span> <span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">Timeout</span>        <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Duration</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PersonLoader</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">Config</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Config</span>
+}
+</code></pre></div><p>这2个对象不能离开另一个单独存在(Roy个人理解：虽然可以单独声明Config对象，但单独这个对象是什么也做不了的。)，所以说这2者是高耦合的(tightly coupled)。</p>
+<h1 id="为什么高耦合的代码是个问题">为什么高耦合的代码是个问题？</h1>
+<p>高耦合代码会带来很多问题，但最明显的一个就是会导致散弹式修改(shotgun surgery)。散弹式修改是一个术语，用来描述那种修改一个地方的代码导致要修改很多其他地方代码的情况。</p>
+<p>考虑下面的代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetUserEndpoint</span>(<span style="color:#a6e22e">resp</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+	<span style="color:#75715e">// get and check inputs
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ID</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">getRequestedID</span>(<span style="color:#a6e22e">req</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">WriteHeader</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusBadRequest</span>)
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#75715e">// load requested data
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">user</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">loadUser</span>(<span style="color:#a6e22e">ID</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#75715e">// technical error
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">WriteHeader</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusInternalServerError</span>)
+		<span style="color:#66d9ef">return</span>
+	}
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">user</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#75715e">// user not found
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">WriteHeader</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusNoContent</span>)
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#75715e">// prepare output
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">Header</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#e6db74">&#34;Accept&#34;</span>) {
+	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;text/csv&#34;</span>:
+		<span style="color:#a6e22e">outputAsCSV</span>(<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">user</span>)
+
+	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;application/xml&#34;</span>:
+		<span style="color:#a6e22e">outputAsXML</span>(<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">user</span>)
+
+	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;application/json&#34;</span>:
+		<span style="color:#66d9ef">fallthrough</span>
+
+	<span style="color:#66d9ef">default</span>:
+		<span style="color:#a6e22e">outputAsJSON</span>(<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">user</span>)
+	}
+}
+</code></pre></div><p>现在假设我们要在User对象中添加一个Password字段，但我们不想让这个字段出现在API返回数据中，我们不得不同时修改<code>outputAsCSV()</code>， <code>outputAsXML()</code>和<code>outputAsJSON()</code>这3个函数。</p>
+<p>这看上去似乎没什么问题，但试想如果我们还有其他的接口(endpoint)也将User作为输出的一部分，比如&quot;GetAllUsers&rdquo;，我们不得不做同样的工作。这一切都是由于&quot;GetUser&quot;接口和User类型输出的形式是高耦合的。</p>
+<p>换言之，我们把渲染逻辑从&quot;GetUserHandler&quot;接口转移到User类型中，这样我们修改一个地方就可以了。更重要的是，如果我们需要添加新的字段，User类显然更加明显和容易找到，这样也提高了整体代码的可维护性。</p>
+<p>在我们深入讨论如何解偶之前，我们还需要讨论一下依赖倒置原则(Dependency Inversion Principle)。</p>
+<h1 id="依赖倒置原则">依赖倒置原则</h1>
+<p>依赖倒置原则(DIP)由Robert C. Martin在1996年在 <a href="http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod">Dependency Inversion Principle</a>中提出，他对此定义如下:</p>
+<blockquote>
+<p>顶层模块不应该依赖底层模块。这2者都应该依赖于抽象。抽象不应该依赖于细节。细节应该依赖于抽象。
+High level modules should not depend on low level modules. Both should depend on abstractions. Abstractions should not depend upon details. Details should depend on abstractions
+Robert C. Martin</p>
+</blockquote>
+<p>(Roy注：为了统一下面把modules、packages都翻译成模块。)</p>
+<p>正如Robert所言，大智慧往往浓缩成非常精炼的句子。下面是我的理解并且翻译成Go代码：</p>
+<ol>
+<li><strong>顶层模块不应该依赖底层模块</strong> - 当我们编写Go程序时，一些包被<code>main()</code>函数调用，这些可以认为是顶层模块。相反的，一些和外部资源交互的模块，比如数据库，典型的不由<code>main()</code>调用而是由逻辑层调用，这就要低1-2级。</li>
+</ol>
+<p>顶层模块应该依赖于抽象而不是这些实现细节的模块，这有助于解偶。</p>
+<ol start="2">
+<li><strong>结构体不应该依赖于结构体</strong> - 当一个结构体接受另一个结构体作为方法参数或成员变量时:</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PizzaMaker</span> <span style="color:#66d9ef">struct</span>{}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">PizzaMaker</span>) <span style="color:#a6e22e">MakePizza</span>(<span style="color:#a6e22e">oven</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SuperPizaOven5000</span>) {
+	<span style="color:#a6e22e">pizza</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">buildPizza</span>()
+	<span style="color:#a6e22e">oven</span>.<span style="color:#a6e22e">Bake</span>(<span style="color:#a6e22e">pizza</span>)
+}
+</code></pre></div><p>这样的代码耦合度很高导致及其不灵活，让我们考虑一个实际情况：我走进一家旅行社并说:&ldquo;我想购买一张澳洲航空在星期四3点30分飞往悉尼的15D座位机票。&ldquo;这种说法旅行社是很难满足我的要求的。</p>
+<p>但如果我放松要求，就好像我们将输入的参数由结构体类型改成接口类型一般:&ldquo;我想购买一张星期四飞往悉尼的机票。&ldquo;这样旅行社可以更加灵活处理我的请求，也就更可能买到机票。</p>
+<p>修改代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PizzaMaker</span> <span style="color:#66d9ef">struct</span>{}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">PizzaMaker</span>) <span style="color:#a6e22e">MakePizza</span>(<span style="color:#a6e22e">oven</span> <span style="color:#a6e22e">Oven</span>) {
+	<span style="color:#a6e22e">pizza</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">buildPizza</span>()
+	<span style="color:#a6e22e">oven</span>.<span style="color:#a6e22e">Bake</span>(<span style="color:#a6e22e">pizza</span>)
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Oven</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">Bake</span>(<span style="color:#a6e22e">pizza</span> <span style="color:#a6e22e">Pizza</span>)
+}
+</code></pre></div><p>这样就可以使用任何类型来实现<code>Bake()</code>方法。</p>
+<ol start="3">
+<li><strong>接口不应该依赖结构体</strong> - 和前文类似，根据特定的情况，我们定义接口：</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Config</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">DSN</span>            <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">MaxConnections</span> <span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">Timeout</span>        <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Duration</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PersonLoader</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">Load</span>(<span style="color:#a6e22e">cfg</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Config</span>, <span style="color:#a6e22e">ID</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>
+}
+</code></pre></div><p>我们将<code>PersonLoader</code>和<code>Config</code>这个特定的额结构体绑定到了一起，也就是说想在其他项目中复用<code>PersonLoader</code>将需要修改代码，而这些修改可能导致Bug。换句话说，如果我们像下面这样定义<code>PersonLoader</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PersonLoaderConfig</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">DSN</span>() <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">MaxConnections</span>() <span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">Timeout</span>() <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Duration</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PersonLoader</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">Load</span>(<span style="color:#a6e22e">cfg</span> <span style="color:#a6e22e">PersonLoaderConfig</span>, <span style="color:#a6e22e">ID</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>
+}
+</code></pre></div><p>这样我们就可以在其他地方复用<code>PersonLoader</code>了。</p>
+<p>上面的结构体应该用作提供逻辑实现接口而不是用作传递数据。（原文&rsquo;Structs above should be taken to mean structs that provide logic and/or implement interfaces and does not include structs that are used as Data Transfer Objects&rsquo;，翻译的有点别扭。）</p>
+<h1 id="解偶">解偶</h1>
+<p>了解背景后，我们来深入了解一下如何解偶。这个例子中我们有2个对象，<code>Person</code>和<code>BlueShoes</code>分别在2个不同的包中：</p>
+<p><img src="https://i0.wp.com/www.sage42.org/wp-content/uploads/2019/01/step1.png?w=579&amp;ssl=1" alt="img1"></p>
+<p>正如图中所示，它们是高耦合的，<code>Person</code>没法离开<code>BlueShoes</code>单独存在。</p>
+<p>如果你之前使用Java/C++，本能的解偶方法是在<code>shoes</code>包中定义一个接口：
+<img src="https://i1.wp.com/www.sage42.org/wp-content/uploads/2019/01/step2.png?w=609&amp;ssl=1" alt="img2"></p>
+<p>在大多数语言中到此为止了，然而在Go中，我们可以更进一步。</p>
+<p>在我们这么做之前，需要注意一个问题。</p>
+<p>你也许注意到了，<code>Person</code>结构只实现了一个<code>Walk()</code>方法，而在<code>Footwear</code>中实现了<code>Walk()</code>和<code>Run()</code>。这种差异导致了<code>Person</code>和 <code>Footwear</code>之间的关系有些不明确并且违反了Robert C. Martin提出的另一个原则: <a href="http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod">接口隔离原则(Interface Segregation Principle ,ISP)</a>。</p>
+<blockquote>
+<p>使用者不应该被强迫依赖那些它们不使用的方法。
+Clients should not be forced to depend on methods they do not use.
+Robert C. Martin</p>
+</blockquote>
+<p>幸运的是，我们可以同过在<code>people</code>包中而非<code>shoes</code>包中定义接口来解决这些问题：</p>
+<p><img src="https://i2.wp.com/www.sage42.org/wp-content/uploads/2019/01/step3-1.png?w=582&amp;ssl=1" alt="img3"></p>
+<p>这也许看起来是个小事，不值得为此花费时间，但实际上这是意义深远的。在上面这个例子中2个包完全解偶了，<code>people</code>再也不需要依赖或使用<code>shoes</code>包了。</p>
+<p>通过这种改变，<code>people</code>包更加简洁明了易于发现，而且以后修改<code>shoes</code>包不会影响到<code>people</code>包。</p>
+<h1 id="小结">小结</h1>
+<p>正如我在《Hands-On Dependency Injection in Go》中写的，Go语言中一个流行的概念和<a href="https://en.wikipedia.org/wiki/Unix_philosophy">Unix哲学</a>相似：</p>
+<blockquote>
+<p>Write programs that do one thing and do it well. Write programs to work together</p>
+</blockquote>
+<p>(这句就不翻译了，翻译的没意境。)</p>
+<p>这个概念充满在Go标准库中，甚至影响到了Go语言的设计。像隐式实现接口（即没有“implements”关键字）使我们（该语言的用户）能够实现解耦代码，这些代码可以用于单一目标并且易于编写。</p>
+<p>低耦合的代码更易于理解，因为你需要的所有信息都在一个地方，反过来说使代码更容易测试和扩展。</p>
+<p>所以下次你看到一个具体的对象作为函数参数或者成员变量，问问自己&quot;这真的必要吗？&quot;，&ldquo;如果把这个改成接口类型，会不会更加灵活、易于理解和维护？&rdquo;</p>
+<p>Happy Coding!</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/golang/" rel="tag">golang</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/go-get%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8socket%E4%BB%A3%E7%90%86/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">go get命令使用socket代理</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E6%8F%90%E5%8D%87keras%E5%87%86%E7%A1%AE%E7%8E%87%E5%92%8C%E9%80%9F%E5%BA%A6%E7%9A%84tips/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">提升keras准确率和速度的小tips</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

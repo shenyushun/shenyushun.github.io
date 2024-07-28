@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>redis主从复制-切换配置 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="redis主从复制-切换配置" />
+<meta property="og:description" content="首先从官网下载源码进行安装:
+wget http://download.redis.io/releases/redis-3.2.1.tar.gz
+tar -zxvf redis-3.2.1.tar.gz
+make &amp;&amp; make test
+sudo make install
+默认安装到/usr/local/bin目录。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6-%E5%88%87%E6%8D%A2%E9%85%8D%E7%BD%AE/" />
+<meta property="article:published_time" content="2018-01-16T10:56:48+00:00" />
+<meta property="article:modified_time" content="2018-01-16T10:56:48+00:00" />
+
+		<meta itemprop="name" content="redis主从复制-切换配置">
+<meta itemprop="description" content="首先从官网下载源码进行安装:
+wget http://download.redis.io/releases/redis-3.2.1.tar.gz
+tar -zxvf redis-3.2.1.tar.gz
+make &amp;&amp; make test
+sudo make install
+默认安装到/usr/local/bin目录。">
+<meta itemprop="datePublished" content="2018-01-16T10:56:48&#43;00:00" />
+<meta itemprop="dateModified" content="2018-01-16T10:56:48&#43;00:00" />
+<meta itemprop="wordCount" content="79">
+
+
+
+<meta itemprop="keywords" content="redis," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">redis主从复制-切换配置</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-01-16T10:56:48Z">2018-01-16</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="category">数据库</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>首先从官网下载源码进行安装:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">wget http://download.redis.io/releases/redis-3.2.1.tar.gz
+tar -zxvf redis-3.2.1.tar.gz
+make <span style="color:#f92672">&amp;&amp;</span> make test
+sudo make install
+</code></pre></div><p>默认安装到<code>/usr/local/bin</code>目录。</p>
+<p>修改配置文件，生产环境要修改绑定端口、设定密码、日志等，比如：</p>
+<pre><code>    requirepass 123456
+</code></pre><p>我这里进行测试就直接修改禁用保护模式了，<strong>生产模式千万别这么干!!!</strong></p>
+<pre><code>    protected-mode no
+    daemonize yes
+    bind 0.0.0.0
+</code></pre><p>对于从服务器，需要额外制定下面的配置：</p>
+<pre><code>    slaveof xxx.xxx.xxx.xxx port
+    # masterauth xxxxx
+</code></pre><p>如果主服务器有密码认证取消<code>masterauth</code>的注释并修改，完成后启动redis服务。</p>
+<p>接下来配置哨兵</p>
+<pre><code>    port 26379                #sentinel使用的端口
+    bind 0.0.0.0   # 添加这行才能在其他机器上使用redis-cli -h xxx.xxx.xxx.xxx -p 26379 info Sentinel
+    daemonize yes             #sentinel后台运行。这行配置是添加的
+    logfile &quot;/apps/logs/redis/sentinel.log&quot;  #log文件地址，这行配置是添加的
+    sentinel monitor mymaster 172.16.203.10 6379 1   #指定master。后面的数字表示，当有几个节点认为主节点down时才认为主节点进入ODOWN状态，就是真正挂了。
+    sentinel down-after-milliseconds mymaster 5000   #当多久，连接不上节点时，认为被连接节点进入S_DOWN（主观认为它down了）；
+    sentinel failover-timeout mymaster 15000         #这个配置有很多作用。1、重新执行failover的时间是该值的2倍；2、取消一个没更改配置的failover3、failover中等待所有slave更改新的配置的最大时间。
+    sentinel auth-pass mymaster 123456              #设置校验的密码。如果redis设置了密码，这个一定要设置
+</code></pre><p>主、从服务器的哨兵配置一样，可以单独在其他机器上部署哨兵程序。</p>
+<p>然后启动<code>redis-server ./sentinel.conf --sentinel</code></p>
+<p>如果主服务器的服务挂掉，哨兵会自动选举主服务器。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/redis/" rel="tag">redis</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%982/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">python验证码识别实战2</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/effective-go%E4%B8%AD%E6%96%87%E7%BF%BB%E8%AF%91/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Effective-Go中文翻译</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

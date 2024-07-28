@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>火焰图 on Hi~Roy!</title>
+    <link>/tags/%E7%81%AB%E7%84%B0%E5%9B%BE/</link>
+    <description>Recent content in 火焰图 on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 27 Jul 2016 10:46:53 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/%E7%81%AB%E7%84%B0%E5%9B%BE/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>centos7安装systemtap</title>
+      <link>/posts/centos7%E5%AE%89%E8%A3%85systemtap/</link>
+      <pubDate>Wed, 27 Jul 2016 10:46:53 +0000</pubDate>
+      
+      <guid>/posts/centos7%E5%AE%89%E8%A3%85systemtap/</guid>
+      <description>&lt;p&gt;这两天突然对火焰图起了兴趣，至于什么是systemtap、什么是火焰图这里我不多说了，网上有很多介绍，这里说记录一下我的安装过程以及
+碰到的坑。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

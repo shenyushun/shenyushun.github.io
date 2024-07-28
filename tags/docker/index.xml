@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DOCKER on Hi~Roy!</title>
+    <link>/tags/docker/</link>
+    <description>Recent content in DOCKER on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 14 Sep 2022 19:54:11 +0800</lastBuildDate>
+    
+	<atom:link href="/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Docker镜像多架构构建</title>
+      <link>/posts/docker%E9%95%9C%E5%83%8F%E5%A4%9A%E6%9E%B6%E6%9E%84%E6%9E%84%E5%BB%BA/</link>
+      <pubDate>Wed, 14 Sep 2022 19:54:11 +0800</pubDate>
+      
+      <guid>/posts/docker%E9%95%9C%E5%83%8F%E5%A4%9A%E6%9E%B6%E6%9E%84%E6%9E%84%E5%BB%BA/</guid>
+      <description>&lt;p&gt;目前arm系统越来越常见，对镜像的多架构需求也越来越大。对于同一个镜像，最简单的办法就是在amd64或arm机器上build后通过不同的tag进行区分，比如&lt;code&gt;nginx:v1-amd64&lt;/code&gt;、&lt;code&gt;nginx:v1-arm64&lt;/code&gt;，但这种方式比较丑陋，而且没有对应架构的机器用来构建怎么办？&lt;/p&gt;
+&lt;p&gt;目前最新的办法就是使用buildx来进行构建，不过这个特性目前默认是没启用的，需要在docker的配置文件中添加&lt;code&gt;&amp;quot;experimental&amp;quot;: true&lt;/code&gt;后重启docker服务生效。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

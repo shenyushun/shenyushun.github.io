@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>使用firewalld-cmd配置防火墙 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="使用firewalld-cmd配置防火墙" />
+<meta property="og:description" content="CentOS7和fedora中的默认防火墙都变成了firewalld，当然你也可以选择禁用这个并自己安装iptables，下面内容原文：这里，而且只翻译我用到的部分文章。原文中还展示了如何使用图形界面进行配置，不过作为键盘爱好者，能不用鼠标的就尽量不用鼠标了，直接上命令行操作。
+ 4.5.4 理解域概念 firewalld可以根据不同的信任级别，将处于不同域内的设备进行分离。NetworkManager用于管理firewalld将接口分配到哪个域中，可以通过NetworkManager界面或filrewall-config工具来进行设置。
+默认的配置文件位于/etc/firewalld/可以快速的应用在网络接口上，这里有一份关于域的简短的说明：
+dorp:任何入站请求都被忽略，无任何回复，只有发起的网络链接请求被放行。
+block:任何入站请求都被拒绝，ipv4协议回复&quot;icmp-host-prohibited&quot;消息，ipv6协议回复&quot;icmp6-adm-prohibited&rdquo;，只有从系统内部发出的链接请求才被放行。
+（个人感觉上面两个区别就是在于有无回复，对内的话用block、对外用dorp好一些，让外部扫描费点劲才知道被防火墙过滤了）
+public:为在公共场所准备，你不相信网络中的其他电脑不会对你的电脑造成伤害，只有被选定的入站链接被接受。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E4%BD%BF%E7%94%A8firewalld-cmd%E9%85%8D%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99/" />
+<meta property="article:published_time" content="2015-04-23T17:44:52+00:00" />
+<meta property="article:modified_time" content="2015-04-23T17:44:52+00:00" />
+
+		<meta itemprop="name" content="使用firewalld-cmd配置防火墙">
+<meta itemprop="description" content="CentOS7和fedora中的默认防火墙都变成了firewalld，当然你也可以选择禁用这个并自己安装iptables，下面内容原文：这里，而且只翻译我用到的部分文章。原文中还展示了如何使用图形界面进行配置，不过作为键盘爱好者，能不用鼠标的就尽量不用鼠标了，直接上命令行操作。
+ 4.5.4 理解域概念 firewalld可以根据不同的信任级别，将处于不同域内的设备进行分离。NetworkManager用于管理firewalld将接口分配到哪个域中，可以通过NetworkManager界面或filrewall-config工具来进行设置。
+默认的配置文件位于/etc/firewalld/可以快速的应用在网络接口上，这里有一份关于域的简短的说明：
+dorp:任何入站请求都被忽略，无任何回复，只有发起的网络链接请求被放行。
+block:任何入站请求都被拒绝，ipv4协议回复&quot;icmp-host-prohibited&quot;消息，ipv6协议回复&quot;icmp6-adm-prohibited&rdquo;，只有从系统内部发出的链接请求才被放行。
+（个人感觉上面两个区别就是在于有无回复，对内的话用block、对外用dorp好一些，让外部扫描费点劲才知道被防火墙过滤了）
+public:为在公共场所准备，你不相信网络中的其他电脑不会对你的电脑造成伤害，只有被选定的入站链接被接受。">
+<meta itemprop="datePublished" content="2015-04-23T17:44:52&#43;00:00" />
+<meta itemprop="dateModified" content="2015-04-23T17:44:52&#43;00:00" />
+<meta itemprop="wordCount" content="324">
+
+
+
+<meta itemprop="keywords" content="centos," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">使用firewalld-cmd配置防火墙</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-04-23T17:44:52Z">2015-04-23</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>, <a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>CentOS7和fedora中的默认防火墙都变成了firewalld，当然你也可以选择禁用这个并自己安装iptables，下面内容原文：<a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Security_Guide/sec-Using_Firewalls.html">这里</a>，而且只翻译我用到的部分文章。原文中还展示了如何使用图形界面进行配置，不过作为键盘爱好者，能不用鼠标的就尽量不用鼠标了，直接上命令行操作。</p>
+<hr>
+<h3 id="454-理解域概念">4.5.4 理解域概念</h3>
+<p>firewalld可以根据不同的信任级别，将处于不同域内的设备进行分离。NetworkManager用于管理firewalld将接口分配到哪个域中，可以通过NetworkManager界面或filrewall-config工具来进行设置。</p>
+<p>默认的配置文件位于/etc/firewalld/可以快速的应用在网络接口上，这里有一份关于域的简短的说明：</p>
+<p>dorp:任何入站请求都被忽略，无任何回复，只有发起的网络链接请求被放行。</p>
+<p>block:任何入站请求都被拒绝，ipv4协议回复&quot;icmp-host-prohibited&quot;消息，ipv6协议回复&quot;icmp6-adm-prohibited&rdquo;，只有从系统内部发出的链接请求才被放行。</p>
+<p>（个人感觉上面两个区别就是在于有无回复，对内的话用block、对外用dorp好一些，让外部扫描费点劲才知道被防火墙过滤了）</p>
+<p>public:为在公共场所准备，你不相信网络中的其他电脑不会对你的电脑造成伤害，只有被选定的入站链接被接受。</p>
+<p>external:为有伪装的外部网络特别是路由器准备，你不相信网络中的其他电脑不会对你的电脑造成伤害，只有被选定的入站链接被接受。</p>
+<p>dmz:为那些处于隔离区(demilitarized zone)可以访问部分内部网络的电脑准备，只有被选定的入站链接被接受。</p>
+<p>work:为工作域的电脑准备，你相信网络中其他电脑不会对你的电脑造成伤害，只有被选定的入站链接被接受。</p>
+<p>home:为家庭域的电脑准备，你相信网络中其他电脑不会对你的电脑造成伤害，只有被选定的入站链接被接受。</p>
+<p>internal:为内部域的电脑准备，你相信网络中其他电脑不会对你的电脑造成伤害，只有被选定的入站链接被接受。</p>
+<p>trusted:接受全部请求。</p>
+<p>你可以指定一个域为默认域，当一个新接口被添加到NetworkManager中时，它将被分配到默认域中。在默认情况下public为默认域。</p>
+<h3 id="456-理解预设服务">4.5.6 理解预设服务</h3>
+<p>如果一个服务可用的话，它应该有一份本地端口和目标端口的列表，同时防火墙辅助模块自动载入这份列表。使用预设服务可以让用户轻松控制服务是否可以被访问，通过使用预设服务或用户自定义服务的方式来控制访问权限而不是通过管理端口或端口范围也许让管理员更加轻松。(翻译的不好，意思就是只记mysql而不用记3306端口了)服务的配置选项和通用文件信息在firewalld.service(5)中有介绍。服务被指定使用xml文件格式并且命名为service-name.xml这种格式。
+可以通过下面的命令查看默认的预设服务：<code>ls /usr/lib/firewalld/services/</code></p>
+<p>不要修改/usr/lib/firewalld/services中的文件，只有/etc/firewalld/services/才可以被修改。</p>
+<p>查看系统或用户创建的服务可以使用:<code>ls /etc/firewalld/services/</code></p>
+<p>服务可以通过图形界面或编辑/etc/firewalld/services/中的文件来新增或删除，如果你还没添加或修改过任何一个服务，/etc/firewalld/services/目录下是没有任何文件的，可以把从/usr/lib/firewalld/services/中复制出一个文件作为模板，比如：
+<code>cp /usr/lib/firewalld/services/[service].xml /etc/firewalld/services/[service].xml</code></p>
+<p>你也许想新建一个文件，firewalld更喜欢新文件在/etc/firewalld/services/中而非/usr/lib/firewalld/services/中。</p>
+<h3 id="457-理解直接接口">4.5.7 理解直接接口</h3>
+<p>firewalld中有一个功能叫做”直接接口“，它能直接通过iptables、ip6tables、ebtables的规则，这是为应用准备而不是为用户准备的。如果你对iptables不是十分熟悉的话用直接接口是很危险的，这无意间可能导致防火墙规则漏洞。某些规则被添加时仍然被firewalld所追踪，所以还可以用firewalld查看那些应用程序使用直接接口引起变化的规则。可以通过在firewalld-cmd 添加&ndash;direct来使用直接接口。</p>
+<p>直接接口的目的是让服务或程序在运行时添加特定的防火墙规则, 通过使用&ndash;permanent参数或修改/etc/firewalld/direct.xml文件可以让这些规则持久化。如果规则没被持久化，则每次重启、重加载时都要重新添加。</p>
+<h3 id="45153-通过命令行查看firewalld">4.5.15.3 通过命令行查看firewalld</h3>
+<p>查看状态：
+<code>firewall-cmd --state</code></p>
+<p>查看当前域：</p>
+<pre><code>firewall-cmd --get-active-zones
+public
+  interfaces: em1
+</code></pre><p>根据接口查看所属域：</p>
+<pre><code>firewall-cmd --get-zone-of-interface=em1
+public
+</code></pre><p>查看某域下所有接口：</p>
+<pre><code>firewall-cmd --zone=public --list-interfaces
+em1 wlan0
+</code></pre><p>这个命令的结果来自Networkmanager而且只显示接口不显示链接。</p>
+<p>查看某域的所有设定：</p>
+<pre><code>firewall-cmd --zone=public --list-all
+public
+  interfaces:
+  services: mdns dhcpv6-client ssh
+  ports:
+  forward-ports:
+  icmp-blocks: source-quench
+</code></pre><p>查看当前哪些服务被加载：</p>
+<pre><code>firewall-cmd --get-services
+cluster-suite pop3s bacula-client smtp ipp radius bacula ftp mdns samba dhcpv6-client dns openvpn imaps samba-client http https ntp vnc-server telnet libvirt ssh ipsec ipp-client amanda-client tftp-client nfs tftp libvirt-tls
+</code></pre><p>这将展示出所有位于/usr/lib/firewalld/services/的预设服务和当前载入的所有用户自定义服务，注意xml文件名必须是_service-name_.xml。如果用户自定义服务以及创建但没被加载，可以使用命令：<code>firewall-cmd --permanent --get-services</code></p>
+<p>这个命令将展示所有的服务，包括未被加载的那些位于/etc/firewalld/services/的服务。</p>
+<h3 id="45154-通过命令行设置firewalld">4.5.15.4 通过命令行设置firewalld</h3>
+<h4 id="451541-忽略所有包">4.5.15.4.1 忽略所有包</h4>
+<p>使用下面的命令忽略所有入站和出站请求：<code>firewall-cmd --panic-on</code></p>
+<p>已经建立的链接将在会话过期后被终止。重新接受所有请求：<code>firewall-cmd --panic-off</code></p>
+<p>查看panic状态：<code>firewall-cmd --query-panic</code></p>
+<p>yes为启用，no为关闭。</p>
+<h4 id="451542-重载防火墙">4.5.15.4.2 重载防火墙</h4>
+<p>重载防火墙但并不打断用户链接：<code>firewall-cmd --reload</code></p>
+<p>重载防火墙同时打断用户链接：<code>firewall-cmd --complete-reload</code></p>
+<p>通常情况这个命令只有在防火墙服务出问题了才被使用。</p>
+<h4 id="451543-通过命令行添加新接口到某个域">4.5.15.4.3 通过命令行添加新接口到某个域</h4>
+<p>更改接口到某个域:<code>firewall-cmd --zone=public --add-interface=em1</code></p>
+<p>从域中删除某接口:<code>firewall-cmd --zone=dmz --change-interface=em1</code></p>
+<p>如果想要持久化，记得添加&ndash;permanent参数以及重载防火墙:<code>firewall-cmd --zone=public --remove-interface=em1</code></p>
+<h4 id="451544-通过修改文件添加新接口到某个域">4.5.15.4.4 通过修改文件添加新接口到某个域</h4>
+<p>编辑ifcfg-em1文件(一般位于/ets/sysconfig/network-scripts目录)，添加
+<code>ZONE=work</code></p>
+<p>如果你省略zone或zone=&rdquo;&quot;,默认将使用默认域。修改完成后NetworkManager将自动重连并设置相应域。</p>
+<h4 id="451545-通过修改配置文件修改默认域">4.5.15.4.5 通过修改配置文件修改默认域</h4>
+<p>编辑 /etc/firewalld/firewalld.conf</p>
+<pre><code> default zone
+ # The default zone used if an empty zone string is used.
+ # Default: public
+ DefaultZone=home
+</code></pre><p>保存后重载防火墙，这将中断所有链接。</p>
+<h4 id="451546-通过命令行修改默认域">4.5.15.4.6 通过命令行修改默认域</h4>
+<p>使用命令：<code>firewall-cmd --set-default-zone=public</code></p>
+<p>将立即生效而不需要重载防火墙 。</p>
+<h4 id="451547-通过命令行开放端口">4.5.15.4.7 通过命令行开放端口</h4>
+<p>首先列出所有开放的端口，以dmz域为例：<code>firewall-cmd --zone=dmz --list-ports</code></p>
+<p>注意，这里不会展示被&ndash;add-services参数打开的端口。</p>
+<p>开放某域内的端口，比如开放dmz域的8080端口，命令如下：<code>firewall-cmd --zone=dmz --add-port=8080/tcp</code></p>
+<p>开放某段的端口，命令如下：<code>firewall-cmd --zone=public --add-port=5060-5065/udp</code></p>
+<p>如果需要的话，记得使用<code>--permanent</code>参数进行持久化。</p>
+<h4 id="451548-通过命令行添加删除服务到某域">4.5.15.4.8 通过命令行添加删除服务到某域</h4>
+<p>这里以smtp服务添加到work域为例：</p>
+<pre><code>firewall-cmd --zone=work --add-service=smtp
+firewall-cmd --zone=work --remove-service=smtp
+</code></pre><p>同样的添加<code>--permanent</code>进行持久化，如果你使用了这个参数并想立即生效，请重载防火墙。</p>
+<h4 id="451549-通过修改xml文件添加删除服务到某域">4.5.15.4.9 通过修改xml文件添加删除服务到某域</h4>
+<p>首先查看默认域文件：</p>
+<pre><code>ls /usr/lib/firewalld/zones/
+block.xml  drop.xml      home.xml      public.xml   work.xml
+dmz.xml    external.xml  internal.xml  trusted.xml
+</code></pre><p>不要编辑这些文件，如果/etc/firewalld/zones/目录中没有等效文件这些文件将被使用。</p>
+<p>想查看哪些域文件被修改，使用：</p>
+<pre><code>ls /etc/firewalld/zones/
+external.xml  public.xml  public.xml.old
+</code></pre><p>这里我们以向work域添加服务为例，首先：</p>
+<pre><code>cp /usr/lib/firewalld/zones/work.xml /etc/firewalld/zones/
+</code></pre><p>现在可以编辑位于/etc/firewalld/zones下的文件了，以添加smtp服务为例，修改work.xml添加：<code>&lt;service name=&quot;smtp&quot;/&gt;</code></p>
+<p>如果你删除了这个文件，那么/usr/lib/firewalld/zones/中的文件将被使用。</p>
+<p>删除操作和添加相反，删除我们编辑的xml文件中添加的行就行了，就不翻了。</p>
+<h4 id="4514412-ip地址伪装">4.5.14.4.12 ip地址伪装</h4>
+<p>查看:<code>firewall-cmd --zone=external --query-masquerade</code></p>
+<p>启用:<code>firewall-cmd --zone=external --add-masquerade</code></p>
+<p>禁用:<code>firewall-cmd --zone=external --remove-masquerade</code></p>
+<p>记得添加<code>--permanent</code>以及重载防火墙。</p>
+<h4 id="4514412-端口转发"> 4.5.14.4.12 端口转发</h4>
+<p>想要进行端口转发，先要启用ip地址伪装，然后使用:<code>firewall-cmd --zone=external --add-forward-port=port=22:proto=tcp:toport=3753</code></p>
+<p>上面的例子中把external域中22端口转发给本机的3753端口，协议为tcp。其中端口可以是一个端口也可以是端口范围，而proto则只能是tcp或udp的协议中的一个。</p>
+<p>如果是转发给另一个ip，通常是内部Ip并且端口不变，则<code>firewall-cmd --zone=external --add-forward-port=port=22:proto=tcp:toaddr=192.0.2.55</code></p>
+<p>如果端口也变了:<code>firewall-cmd --zone=external --add-forward-port=port=22:proto=tcp:toport=2055:toaddr=192.0.2.55</code></p>
+<p>记得添加<code>--permanent</code>以及重载防火墙。</p>
+<h3 id="45146-使用直接接口">4.5.14.6 使用直接接口</h3>
+<p>车轱辘话略过，见上面</p>
+<h4 id="451461-添加用户规则">4.5.14.6.1 添加用户规则</h4>
+<p>添加规则链</p>
+<pre><code>firewall-cmd --direct --add-rule ipv4 filter IN_public_allow \
+      0 -m tcp -p tcp --dport 666 -j ACCEPT
+</code></pre><h4 id="451462-删除用户规则">4.5.14.6.2 删除用户规则</h4>
+<pre><code>firewall-cmd --direct --remove-rule ipv4 filter IN_public_allow \
+      0 -m tcp -p tcp --dport 666 -j ACCEPT
+</code></pre><h4 id="451463-展示用户规则">4.5.14.6.3 展示用户规则</h4>
+<pre><code>firewall-cmd --direct --get-rules ipv4 filter IN_public_allow
+</code></pre><p>如果需要的话，同样使用<code>--permanent</code>以及重载防火墙。</p>
+<hr>
+<p>翻到后面发现车轮话太多了，就只进行了意译，而且个人也就使用开放端口、转发一类的常见操作，高深地方就不不翻译了，用到了在说吧。注意的就是如果不加<code>--permanent</code>参数则会实时生效，但重启或重加载后会失效。加<code>--permanent</code>参数则不会实时生效，需要重新reload。
+再补充一些东西，类似于黑白名单机制，比如我想根据来源ip来分配不同的域规则，则相关命令如下</p>
+<pre><code>firewall-cmd --permanent --zone=public --list-sources
+firewall-cmd --permanent --zone=public --add-source=192.168.100.0/24
+firewall-cmd --permanent --zone=public --add-source=192.168.222.123/32
+firewall-cmd --permanent --zone=public --add-port=1-22/tcp
+firewall-cmd --permanent --zone=public --add-port=1-22/udp
+</code></pre><p>有add-source、port自然就会有remove-source、port了，当你只想让某些指定的ip访问某些服务的话，就可以把这些ip放到相应的域内，加载规则如下:</p>
+<ol>
+<li>如果一个包的来源已经绑定在某个域内，则使用这个域的规则。</li>
+<li>如果一个包的来源没绑定任何一个域，但来源访问的接口绑定了某个域（比如eth0），则使用端口绑定的域规则。</li>
+<li>如果一个包的来源和来源接口都没绑定某个域，则使用默认域规则。
+这里还要注意，一个ip地址只能属于一个域，否则会提示域冲突。</li>
+</ol>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/centos/" rel="tag">centos</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/fedora21%E5%AE%89%E8%A3%85%E6%9C%89%E9%81%93%E8%AF%8D%E5%85%B8linux%E7%89%88/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">fedora21安装有道词典linux版</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E7%90%86%E8%B4%A2%E8%AE%B0%E5%BD%953/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">理财记录3</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

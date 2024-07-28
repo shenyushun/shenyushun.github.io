@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>GO语言学习笔记-Channels - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="GO语言学习笔记-Channels" />
+<meta property="og:description" content="原文，建议先看完goroutine部分再看这篇。
+什么是channels
+channels可以理解成是goroutine之间通信的管道，和水流从管道的一端到另一端类似，数据也可以从管道的一端发送另一端接收。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-channels/" />
+<meta property="article:published_time" content="2018-06-04T14:24:51+00:00" />
+<meta property="article:modified_time" content="2018-06-04T14:24:51+00:00" />
+
+		<meta itemprop="name" content="GO语言学习笔记-Channels">
+<meta itemprop="description" content="原文，建议先看完goroutine部分再看这篇。
+什么是channels
+channels可以理解成是goroutine之间通信的管道，和水流从管道的一端到另一端类似，数据也可以从管道的一端发送另一端接收。">
+<meta itemprop="datePublished" content="2018-06-04T14:24:51&#43;00:00" />
+<meta itemprop="dateModified" content="2018-06-04T14:24:51&#43;00:00" />
+<meta itemprop="wordCount" content="793">
+
+
+
+<meta itemprop="keywords" content="golang," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">GO语言学习笔记-Channels</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-06-04T14:24:51Z">2018-06-04</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p><a href="https://golangbot.com/channels/">原文</a>，建议先看完goroutine部分再看这篇。</p>
+<h2 id="什么是channels">什么是channels</h2>
+<p>channels可以理解成是goroutine之间通信的管道，和水流从管道的一端到另一端类似，数据也可以从管道的一端发送另一端接收。</p>
+<h2 id="声明channels">声明channels</h2>
+<p>每个channel都需指定一个类型，这个类型是表明哪种类型的数据可以通过管道传输，而其他类型的不可以。</p>
+<p><code>chan T</code>指接受类型T的channel。</p>
+<p>channel的默认值是<code>nil</code>，<code>nil channel</code>不能被任何类型使用所以和<code>map</code>或者<code>slices</code>一样，要使用<code>make</code>关键字来进行定义。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">a</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">a</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;channel a is nil, going to define it&#34;</span>)
+        <span style="color:#a6e22e">a</span> = make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Type of a is %T&#34;</span>, <span style="color:#a6e22e">a</span>)
+    }
+}
+</code></pre></div><p>上面声明了变量名为<code>a</code>的channel，并且默认值是<code>nil</code>，因此判断语句成立并且初始化类型为<code>int</code>的channel，程序输出如下：</p>
+<pre><code>channel a is nil, going to define it  
+Type of a is chan int  
+</code></pre><p>通常我们使用一种更简洁的办法：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+</code></pre></div><!-- raw HTML omitted -->
+<h2 id="发送和接收数据">发送和接收数据</h2>
+<p>语法如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">a</span> <span style="color:#75715e">// read from channel a  
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">a</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data</span> <span style="color:#75715e">// write to channel a  
+</span></code></pre></div><p>箭头指向的方向表明了是读取还是接收数据。第一行，箭头向外指出，所以代表从<code>a</code>中读取数据并赋值给<code>data</code>变量。第二行，箭头指向<code>a</code>因此是向<code>a</code>中写入数据。</p>
+<h2 id="读写默认是阻塞行为">读写默认是阻塞行为</h2>
+<p>对channel进行读写操作默认是阻塞的，什么意思呢？当向channel写入数据时，程序被阻塞在写数据的语句处，直到有其他的goroutine从channel中读取。同样的，当从channel中读数据也会阻塞直到其他goroutine向其中写数据。</p>
+<p>这种特性帮助goroutine之间进行高效通信，而不用像其他编程语言中那样使用显示声明锁或者条件变量来实现。</p>
+<h2 id="例子">例子</h2>
+<p>说完理论，我们来编写代码看看goroutine如何使用channel进行通信。我们先复习一下上一篇学习goroutine中的代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (  
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+    <span style="color:#e6db74">&#34;time&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">hello</span>() {  
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Hello world goroutine&#34;</span>)
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">hello</span>()
+    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">1</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;main function&#34;</span>)
+}
+</code></pre></div><p>我们使用<code>Sleep</code>来阻塞了<code>main goroutine</code>等待<code>hello goroutine</code>执行完毕，如果你对这个不理解，请看<a href="http://www.hi-roy.com/2018/06/01/GO%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-Goroutines/">前一篇文章</a>。</p>
+<p>我们使用channel重写一下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (  
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">hello</span>(<span style="color:#a6e22e">done</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>) {  
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Hello world goroutine&#34;</span>)
+    <span style="color:#a6e22e">done</span> <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">true</span>
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#a6e22e">done</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>)
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">hello</span>(<span style="color:#a6e22e">done</span>)
+    <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">done</span>
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;main function&#34;</span>)
+}
+</code></pre></div><p>上面程序中我们创建了名为<code>done</code>的布尔型channel并作为参数传递给了<code>hello</code>这个goroutine，１４行我们从<code>done</code>中读取数据，这行代码将被阻塞直到其他的goroutine向其中写入数据，因此不再需要<code>Sleep</code>来阻止<code>main goroutine</code>继续执行了。</p>
+<p><code>&lt;-done</code>这行代码从channel中读取数据但不使用任何变量存储，这是符合语法的。</p>
+<p>现在<code>main goroutine</code>被阻塞，等待<code>done</code>中的数据，<code>hello</code>接收这个channel作为参数， 输出<code>Hello world goroutine</code>并且向<code>done</code>中写数据。当写入完成后，<code>main goroutine</code>从<code>done</code>中读取数据并且解除阻塞，接下来打印<code>main function</code>。</p>
+<p>程序输出如下：</p>
+<pre><code>Hello world goroutine  
+main function  
+</code></pre><p>再次引入<code>Sleep</code>来更好的理解阻塞的概念：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (  
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+    <span style="color:#e6db74">&#34;time&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">hello</span>(<span style="color:#a6e22e">done</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>) {  
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;hello go routine is going to sleep&#34;</span>)
+    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">4</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;hello go routine awake and going to write to done&#34;</span>)
+    <span style="color:#a6e22e">done</span> <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">true</span>
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#a6e22e">done</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>)
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Main going to call hello go goroutine&#34;</span>)
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">hello</span>(<span style="color:#a6e22e">done</span>)
+    <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">done</span>
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Main received data&#34;</span>)
+}
+</code></pre></div><p>上面代码中我们在<code>hello</code>中sleep４秒钟。</p>
+<p>程序首先会输出<code>Main going to call hello go goroutine</code>并且启动goroutine并输出<code>hello go routine is going to sleep</code>。之后<code>hello goroutine</code>被阻塞4秒钟，与此同时<code>main goroutine</code>也会被阻塞，因为它需要在<code>done</code>中读取数据。４秒钟后将输出<code>ello go routine awake and going to write to done</code>和<code>Main received data</code>。</p>
+<h2 id="其他例子">其他例子</h2>
+<p>让我们来写一个更复杂的例子来理解channel，这个程序要求，输入一个数字，输出其每一位的平方和与立方和，并对这２者求和。比如我们输入123，则</p>
+<p>squares = (1 * 1) + (2 * 2) + (3 * 3)</p>
+<p>cubes = (1 * 1 * 1) + (2 * 2 * 2) + (3 * 3 * 3)</p>
+<p>output = squares + cubes = 50</p>
+<p>我们分别在<code>squares goroutine</code>和<code>cubes goroutine</code>中进行计算，并在<code>main goroutine</code>中进行最后求和。(roy注：可以先自己实现再看下面的答案)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (  
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">calcSquares</span>(<span style="color:#a6e22e">number</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">squareop</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>) {  
+    <span style="color:#a6e22e">sum</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">number</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
+        <span style="color:#a6e22e">digit</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">number</span> <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>
+        <span style="color:#a6e22e">sum</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">digit</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">digit</span>
+        <span style="color:#a6e22e">number</span> <span style="color:#f92672">/=</span> <span style="color:#ae81ff">10</span>
+    }
+    <span style="color:#a6e22e">squareop</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sum</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">calcCubes</span>(<span style="color:#a6e22e">number</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">cubeop</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>) {  
+    <span style="color:#a6e22e">sum</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">number</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
+        <span style="color:#a6e22e">digit</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">number</span> <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>
+        <span style="color:#a6e22e">sum</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">digit</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">digit</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">digit</span>
+        <span style="color:#a6e22e">number</span> <span style="color:#f92672">/=</span> <span style="color:#ae81ff">10</span>
+    }
+    <span style="color:#a6e22e">cubeop</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sum</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#a6e22e">number</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">589</span>
+    <span style="color:#a6e22e">sqrch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+    <span style="color:#a6e22e">cubech</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">calcSquares</span>(<span style="color:#a6e22e">number</span>, <span style="color:#a6e22e">sqrch</span>)
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">calcCubes</span>(<span style="color:#a6e22e">number</span>, <span style="color:#a6e22e">cubech</span>)
+    <span style="color:#a6e22e">squares</span>, <span style="color:#a6e22e">cubes</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">sqrch</span>, <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">cubech</span>
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Final output&#34;</span>, <span style="color:#a6e22e">squares</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">cubes</span>)
+    <span style="color:#75715e">//　fmt.Println(&#34;Final output &#34;, &lt;-sqrch+&lt;-cubech)　roy注　直接读出来也行
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p><code>calcSquares</code>和<code>calcCubes</code>进行并发计算并把结果存储到相应的channel中，<code>main goroutine</code>等待计算结果完成后输出：</p>
+<p><code>Final output 1536</code></p>
+<h2 id="死锁">死锁</h2>
+<p>使用channel中一个非常重要的问题就是死锁，如果一个goroutine向channel中写入了数据，那么应该有其他的goroutine读取数据。如果没有，程序将报错<code>Deadlock</code>。类似的，如果goroutine等待从channel中读取数据，那么应该有其他的goroutine向channel中写入数据，否则程序也将报错。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">5</span>
+}
+</code></pre></div><p>上面的代码创建了channel <code>ch</code>并向其中写入5，但并没有goroutine从<code>ch</code>中读取数据，所以程序报错：</p>
+<pre><code>fatal error: all goroutines are asleep - deadlock!
+
+goroutine 1 [chan send]:  
+main.main()  
+    /tmp/sandbox249677995/main.go:6 +0x80
+</code></pre><h2 id="单向channel">单向channel</h2>
+<p>至今我们讨论的channel都是双向的，既可以写入也可读取数据。创建单向channel也是可以的，单向channel只能写入或者读取数据。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sendData</span>(<span style="color:#a6e22e">sendch</span> <span style="color:#66d9ef">chan</span><span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">int</span>) {  
+    <span style="color:#a6e22e">sendch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">10</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#a6e22e">sendch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span><span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">int</span>)
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">sendData</span>(<span style="color:#a6e22e">sendch</span>)
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">sendch</span>)
+}
+</code></pre></div><p>上面的代码中我们创建了一个只能写入数据的单向channel。<code>chan&lt;- int</code>这个符号表明只能向这个channel写入数据，１２行我们尝试从这个channel中读取数据，程序将会报错：</p>
+<pre><code>main.go:11: invalid operation: &lt;-sendch (receive from send-only type chan&lt;- int)
+</code></pre><p>但是呢，这种只能写入不能读取的channel有毛用啊？</p>
+<p>有一种使用情况就是在channel转换时。我们可以将双向channel转换成单向channel，但反过来则不可以。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sendData</span>(<span style="color:#a6e22e">sendch</span> <span style="color:#66d9ef">chan</span><span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">int</span>) {  
+    <span style="color:#a6e22e">sendch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">10</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#a6e22e">chnl</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">sendData</span>(<span style="color:#a6e22e">chnl</span>)
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">chnl</span>)
+}
+</code></pre></div><p>上面程序中我们创建了一个双向channel <code>chnl</code>，并把他作为参数传递给<code>sendData</code>，第５行函数通过<code>sendch chan&lt;- int</code>将其转换为单向channel，所以在函数内部这个channel只能写入数据，而在<code>main</code>函数里<code>chnl</code>依然是个双向channel。程序将输出<code>10</code>。</p>
+<h2 id="关闭channel和range循环">关闭channel和range循环</h2>
+<p>发送方可以关闭channel来通知接收方没有更多数据传递了，而接收方可以使用额外的变量获取channel是否被关闭。</p>
+<p><code>v, ok := &lt;- ch</code></p>
+<p>上面的代码中，如果<code>ok</code>的值是true则代表成功从channel获取到了值，为false则代表从一个已经关闭了的channel中读取数据，读取到的值为channel类型的默认值。比如从关闭的int类型的channel读取到的值是<code>0</code>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (  
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">producer</span>(<span style="color:#a6e22e">chnl</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>) {  
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">10</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+        <span style="color:#a6e22e">chnl</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">i</span>
+    }
+    close(<span style="color:#a6e22e">chnl</span>)
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">producer</span>(<span style="color:#a6e22e">ch</span>)
+    <span style="color:#66d9ef">for</span> {
+        <span style="color:#a6e22e">v</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">ch</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ok</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">false</span> {
+            <span style="color:#66d9ef">break</span>
+        }
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Received &#34;</span>, <span style="color:#a6e22e">v</span>, <span style="color:#a6e22e">ok</span>)
+    }
+}
+</code></pre></div><p>上面的程序<code>producer</code>向<code>chnl</code>中写入0-9后关闭channel，<code>main</code>中使用<code>for</code>循环来检查channel是否被关闭，如果<code>ok</code>值为false则代表channel被关闭并且跳出循环，否则输出读取的值和<code>ok</code>：</p>
+<pre><code>Received  0 true  
+Received  1 true  
+Received  2 true  
+Received  3 true  
+Received  4 true  
+Received  5 true  
+Received  6 true  
+Received  7 true  
+Received  8 true  
+Received  9 true  
+</code></pre><p>可以使用<code>for range</code>来读取数据直到channel被关闭：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (  
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">producer</span>(<span style="color:#a6e22e">chnl</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>) {  
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">10</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+        <span style="color:#a6e22e">chnl</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">i</span>
+    }
+    close(<span style="color:#a6e22e">chnl</span>)
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">producer</span>(<span style="color:#a6e22e">ch</span>)
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ch</span> {
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Received &#34;</span>,<span style="color:#a6e22e">v</span>)
+    }
+}
+</code></pre></div><p>一旦channel关闭，循环将自动结束。程序输出和上面一样。</p>
+<p>我们可以使用<code>for range</code>重写上面求和的程序来提高可重用性。如果你仔细观察，你将注意到从数字中提取某一位的代码是重复的，我们将这一步提取出来：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (  
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">digits</span>(<span style="color:#a6e22e">number</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">dchnl</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>) {  
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">number</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
+        <span style="color:#a6e22e">digit</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">number</span> <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>
+        <span style="color:#a6e22e">dchnl</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">digit</span>
+        <span style="color:#a6e22e">number</span> <span style="color:#f92672">/=</span> <span style="color:#ae81ff">10</span>
+    }
+    close(<span style="color:#a6e22e">dchnl</span>)
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">calcSquares</span>(<span style="color:#a6e22e">number</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">squareop</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>) {  
+    <span style="color:#a6e22e">sum</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#a6e22e">dch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">digits</span>(<span style="color:#a6e22e">number</span>, <span style="color:#a6e22e">dch</span>)
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">digit</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">dch</span> {
+        <span style="color:#a6e22e">sum</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">digit</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">digit</span>
+    }
+    <span style="color:#a6e22e">squareop</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sum</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">calcCubes</span>(<span style="color:#a6e22e">number</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">cubeop</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>) {  
+    <span style="color:#a6e22e">sum</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#a6e22e">dch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">digits</span>(<span style="color:#a6e22e">number</span>, <span style="color:#a6e22e">dch</span>)
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">digit</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">dch</span> {
+        <span style="color:#a6e22e">sum</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">digit</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">digit</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">digit</span>
+    }
+    <span style="color:#a6e22e">cubeop</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sum</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#a6e22e">number</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">589</span>
+    <span style="color:#a6e22e">sqrch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+    <span style="color:#a6e22e">cubech</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">calcSquares</span>(<span style="color:#a6e22e">number</span>, <span style="color:#a6e22e">sqrch</span>)
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">calcCubes</span>(<span style="color:#a6e22e">number</span>, <span style="color:#a6e22e">cubech</span>)
+    <span style="color:#a6e22e">squares</span>, <span style="color:#a6e22e">cubes</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">sqrch</span>, <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">cubech</span>
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Final output&#34;</span>, <span style="color:#a6e22e">squares</span><span style="color:#f92672">+</span><span style="color:#a6e22e">cubes</span>)
+}
+</code></pre></div><p><code>digits</code>函数包含提取数字逻辑并且被<code>calcSquares</code>和<code>calcCubes</code>函数并发调用，一旦没有更多位数需要提取，channel将被关闭。<code>calcSquares</code>和<code>calcCubes</code>函数各自使用<code>for range</code>循环读取channel中的数据，直到其被关闭。其他部分是一样的，程序将输出：</p>
+<pre><code>Final output 1536
+</code></pre><p>接下来我们还要介绍关于channel更多的概念，比如<code>buffered channels</code>、<code>worker pools</code>、<code>select</code>，欢迎持续关注。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/golang/" rel="tag">golang</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-goroutines/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">GO语言学习笔记-Goroutines</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%BC%93%E5%86%B2%E5%8C%BAchannels%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">GO语言学习笔记-缓冲区Channels和线程池</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

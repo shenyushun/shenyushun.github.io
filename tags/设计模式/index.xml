@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>设计模式 on Hi~Roy!</title>
+    <link>/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
+    <description>Recent content in 设计模式 on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 20 May 2020 16:58:08 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>设计模式-享元模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 20 May 2020 16:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;用共享的方式提供大量细粒度的对象，降低系统创建类实例的性能消耗，不是特别常用的一种模式。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-外观模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 08 Jan 2020 16:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;这个模式即便没听说过，也很可能在很多地方已经使用了，是非常常用的设计模式之一，完美体现了面向对象“封装”的特性。简单说就是通过一个“外观”将系统内部的实现隐藏起来，将外部系统和内部系统进行解耦。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-装饰器模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Thu, 02 Jan 2020 16:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;在python中有一个非常常用的语法糖&lt;code&gt;@&lt;/code&gt;，本质上就是装饰器。这种模式可以不改变原文件的情况下动态的扩展一个对象的功能而不用创建子类，避免了类膨胀，是一种比较常用的模式，有个细节需要注意的就是装饰的顺序。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-组合模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 23 Dec 2019 17:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;组合模式(Composite Pattern):将对象组合成树形结构表示来“部分-整体”的层次结构，使用户对单个对象和组合对象的使用具有一致性。&lt;/p&gt;
+&lt;p&gt;看上去有点抽象，其实就是一种树形结构。比如二叉树，每个非叶子节点都有2个子节点，叶子节点除了没有子节点外和父节点、根节点都是一样的。在通俗来说，比如公司的层级架构，从老板(根节点)到经理(非叶子节点)再到员工(叶子节点)，他们有很多共性的东西，比如都有姓名、工号，老板和经理有添加、移除手下员工的能力，而作为员工则只能干活。&lt;/p&gt;
+&lt;p&gt;从代码实现来说，就是老板、经理、员工使用一个抽象类，而老板和经理实现某些特定的方法，这就是组合模式，十分容易理解。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-桥接模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Thu, 12 Dec 2019 16:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;桥接模式核心原理是将抽象部分和实现部分分析，使二者可以独立的变化。再具体一点，当某个类型由于自身逻辑可以有两个或多个维度的变化，使用桥接模式可以令这些维度变化时不影响其他维度。再举个例子，手机——可以按照品牌来分类，比如苹果华为三星，也可以按照功能分类，比如拍照手机，游戏手机等等。&lt;/p&gt;
+&lt;p&gt;桥接模式有2个设计原则：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;使用聚合而不使用继承。（使用继承一定是在&lt;code&gt;is-a&lt;/code&gt;的关系时再考虑使用）&lt;/li&gt;
+&lt;li&gt;抽象和实现分离。&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-适配器模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Thu, 28 Nov 2019 16:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;适配器模式目的就是不改变原有系统的基础上保留其提供的服务，向调用者提供新的接口服务，使得原本由于接口不兼容而不能一起工作的类可以一起工作。（简单说就是增加兼容性，复用已经存在的功能）&lt;/p&gt;
+&lt;p&gt;笔记本电脑的电源变压器就是这个原理，把交流电转换成直流电。或者把英文翻译成中文，都是适配器模式。&lt;/p&gt;
+&lt;p&gt;又分为2种：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;对象适配器模式&lt;/li&gt;
+&lt;li&gt;类适配器模式&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;适配器虽好，但也不要乱用，如果能在设计阶段就统一就是最好的，适配器模式更像是一种补丁。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-单例模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 28 Oct 2019 16:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;单例模式可以说是最容易理解的一种设计模式了，当需要某个类仅有一个全局唯一对象时可以使用，比如某些配置项。核心思想就是新建某个类实例时先进行一次判断，如果不存在则创建新实例返回，否则返回已经存在的实例。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-原型模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 14 Oct 2019 17:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;原型模式(Prototype Pattern)：使用原型实例创建指定创建对象的种类，并通过拷贝这些原型创建新对象。这个模式很好理解，就是&lt;code&gt;ctrl+c，ctrl+v&lt;/code&gt;后做一些小修改。&lt;/p&gt;
+&lt;p&gt;这里面涉及一个知识点就是深拷贝和浅拷贝的问题，但我相信任何python开发人员都知道&lt;code&gt;copy()&lt;/code&gt;和&lt;code&gt;deepcopy()&lt;/code&gt;的区别，这里就不多说了（有兴趣的可以去看python中这2个函数的实现）。&lt;/p&gt;
+&lt;p&gt;个人理解当需要多个类对象时，如果要进行很多复杂的、消耗时间的初始化操作，而这些对象之间又仅有少量不同时，可以考虑使用原型模式。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-建造者模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 12 Oct 2019 16:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;建造者模式(Builder Pattern)：将复杂对象的创建和表示分离，使同样的构建过程可以创建不同的表示。&lt;/p&gt;
+&lt;p&gt;进一步说，建造者隐藏了产品是如何组装的，使建造代码和表示代码分离。建造对象时 &lt;strong&gt;构件顺序稳定&lt;/strong&gt; 的情况下，不管每一步具体怎么变都可以适用。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/design-pattern/builder.png&#34; alt=&#34;builder.png&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-工厂模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 09 Oct 2019 16:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;工厂模式又可以分为工厂方法模式和抽象工厂模式。&lt;/p&gt;
+&lt;h2 id=&#34;工厂方法模式factory-method-pattern&#34;&gt;工厂方法模式(Factory Method Pattern)&lt;/h2&gt;
+&lt;p&gt;工厂模式是指：定义一个接口用户创建对象，让子类决定实例化哪一个类。&lt;/p&gt;
+&lt;p&gt;工厂模式中存在4个角色：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;抽象工厂&lt;/li&gt;
+&lt;li&gt;具体工厂&lt;/li&gt;
+&lt;li&gt;抽象产品&lt;/li&gt;
+&lt;li&gt;具体产品&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;抽象工厂产生抽象产品，具体工厂生产具体产品。&lt;/strong&gt; 这句话很重要，理解了这句话就理解了工厂方法模式。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-总览</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%80%BB%E8%A7%88/</link>
+      <pubDate>Tue, 08 Oct 2019 16:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%80%BB%E8%A7%88/</guid>
+      <description>&lt;p&gt;很久很久以前，忘记从哪看到一句话——设计模式是对编程语言缺陷的弥补。&lt;/p&gt;
+&lt;p&gt;年轻的我并没意识到这句话背后的真实含义以及所处语境，外加之后主要开发语言是Python这个动态语言，设计模式真的没怎么用到——比如装饰模式不就是Python中的装饰器嘛，一个语法糖能解决的事居然还弄出个模式来？&lt;/p&gt;
+&lt;p&gt;直到我开始学习openstack的源码，发现里面用到了大量的设计模式，才明白自己是多么无知可笑。&lt;/p&gt;
+&lt;p&gt;这里借用一位大佬的话：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果你觉得设计模式在某程度上没用，说明两个问题：&lt;br&gt;
+1.你的系统还不足以复杂到要用设计模式的程度&lt;br&gt;
+2.你的经验还没强到能熟练应用设计模式的程度。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;能找到这篇文章的，应该都知道面向过程、面向对象、封装继承多态、高内聚低耦合（包含程序级别以及架构级别）、开闭原则(对扩展开放、对修改关闭)、依赖倒置原则(尽量使用抽象类型作为对象实例变量类型，用于实现开闭原则)、单一责任原则(一个模块只负责一个功能)等一堆的名词，以及“组合优于继承”(这里略有争议，我个人对此赞同，最近看一些继承过多的代码总是要向上找好几层父类，还要仔细看子类中有没有重写父类方法，术语叫做类膨胀)。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

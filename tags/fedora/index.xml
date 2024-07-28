@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>fedora on Hi~Roy!</title>
+    <link>/tags/fedora/</link>
+    <description>Recent content in fedora on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 02 May 2017 17:54:53 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/fedora/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>fedora25批量转换NEF为JPG</title>
+      <link>/posts/fedora25%E6%89%B9%E9%87%8F%E8%BD%AC%E6%8D%A2nef%E4%B8%BAjpg/</link>
+      <pubDate>Tue, 02 May 2017 17:54:53 +0000</pubDate>
+      
+      <guid>/posts/fedora25%E6%89%B9%E9%87%8F%E8%BD%AC%E6%8D%A2nef%E4%B8%BAjpg/</guid>
+      <description>NEF格式是尼康相机的RAW拍摄照片格式，在Linux上转换NEF为JPG格式需要安装2个软件：
+yum install ufrawyum install ImageMagick安装完成后，可以使用convert DSC_0300.NEF test.jpg命令来进行单张转换，如果需要转换的图片很多的话，建议使用以下命令多进程处理：</description>
+    </item>
+    
+    <item>
+      <title>fedora21无缝升级到23</title>
+      <link>/posts/fedora21%E6%97%A0%E7%BC%9D%E5%8D%87%E7%BA%A7%E5%88%B023/</link>
+      <pubDate>Tue, 24 Nov 2015 17:36:16 +0000</pubDate>
+      
+      <guid>/posts/fedora21%E6%97%A0%E7%BC%9D%E5%8D%87%E7%BA%A7%E5%88%B023/</guid>
+      <description>今天看到消息说在12月1号后，fedora将停止对21及以前版本的yum源中软件的更新、新增，作为一个“尝鲜爱好者”当然必须使用最新版的软件了，于是决定对fedora进行升级，目前版本是21，直接升级到23。注意，本文只适用于21,22进行升级，而20及以前的版本命令是fedup而非dnf。
+首先执行：
+sudo dnf updatesudo dnf system-upgrade download --releasever 23经过漫长的等待后：</description>
+    </item>
+    
+    <item>
+      <title>fedora21架设minecraft服务器</title>
+      <link>/posts/fedora21%E6%9E%B6%E8%AE%BEminecraft%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+      <pubDate>Thu, 17 Sep 2015 23:58:41 +0000</pubDate>
+      
+      <guid>/posts/fedora21%E6%9E%B6%E8%AE%BEminecraft%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+      <description>上周刚刚从dota2的坑中跳出来，这周就又跳入了mincraft的大坑中。作为买不起官网服务的穷人，自己玩单机也未免过于孤单。虽然网上有很多现成的“私服”，不过又不想受别人限制，那就自己搭建一个呗！
+首先安装jdk，fedora执行： sudo yum install java-1.8.0-openjdk.x86_64 ubuntu则是： suso apt-get install openjdk-7-jre-headless 安装完成后可以执行java命令看是否成功，然后下载minecraft的服务端：</description>
+    </item>
+    
+    <item>
+      <title>fedora21使用ipv6访问google</title>
+      <link>/posts/fedora21%E4%BD%BF%E7%94%A8ipv6%E8%AE%BF%E9%97%AEgoogle/</link>
+      <pubDate>Mon, 14 Sep 2015 18:41:37 +0000</pubDate>
+      
+      <guid>/posts/fedora21%E4%BD%BF%E7%94%A8ipv6%E8%AE%BF%E9%97%AEgoogle/</guid>
+      <description>有传言ss、goagent作者被喝茶，不知真假，不过github上的项目确实被删除了，照这趋势大中华局域网指日可待啊。
+项目删除并不代表不能使用，如果你有好的ss、goagent服务端fq依然是没太大问题的。不过我最近用ss自己搭建的服务端经常出现时不时就断线的情况，不知道是不是GFW又升级了？作为一个google重度用户，这实在是难以忍受，而且某些情况下又不能直接使用vpn，之前有研究过使用ipv6访问google，但那时候各种fq方法都还不会受到严重干扰，也就没深入了解。ipv6访问google并不是神码新鲜玩意，几年之前就说有朝一日ipv6将取代ipv4，不过喊了几年也没什么动静。原理和废话不多说，想使用ipv6访问google，fedora21默认已经启用了ipv6支持，ubuntu还需要设置一下，具体操作自行百度。然后需要安装miredo： sudo yum install miredo
+然后 使用root权限 执行：/usr/local/sbin/miredo
+执行后会发现多出一个虚拟网卡：</description>
+    </item>
+    
+    <item>
+      <title>Fedora21使用vpn翻墙同时访问内网</title>
+      <link>/posts/fedora21%E4%BD%BF%E7%94%A8vpn%E7%BF%BB%E5%A2%99%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91/</link>
+      <pubDate>Thu, 16 Jul 2015 12:13:50 +0000</pubDate>
+      
+      <guid>/posts/fedora21%E4%BD%BF%E7%94%A8vpn%E7%BF%BB%E5%A2%99%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91/</guid>
+      <description>本来用浏览器插件+ss翻墙翻的好好的，结果最近不知道哪里抽风，一访问google就给我跳转到&amp;quot;We are sorry&amp;quot;页面，提示说电脑自动向google发送了一些奇怪的东西，不过使用vpn则没有这个问题。
+但使用vpn则无法访问公司内网，关于这点mac上处理的就非常好，当同时使用多个vpn时mac会自动根据访问目标不同而切换不同的vpn线路。既然fedora上没有自动切换功能，但同为的*unix系统肯定是有解决办法的。
+目标：使用vpn翻墙同时能访问公司内网
+达成目标的核心原理就是路由表，未使用vpn时路由表如下：
+Destination Gateway Genmask Flags Metric Ref Use Iface0.</description>
+    </item>
+    
+    <item>
+      <title>fedora21安装有道词典linux版</title>
+      <link>/posts/fedora21%E5%AE%89%E8%A3%85%E6%9C%89%E9%81%93%E8%AF%8D%E5%85%B8linux%E7%89%88/</link>
+      <pubDate>Wed, 22 Apr 2015 16:18:19 +0000</pubDate>
+      
+      <guid>/posts/fedora21%E5%AE%89%E8%A3%85%E6%9C%89%E9%81%93%E8%AF%8D%E5%85%B8linux%E7%89%88/</guid>
+      <description>今天发现有道词典出了linux版，不过万恶的只有deepin和ubuntu的安装包，作为忠实的红帽系用户只能下源码了。首先从 http://cidian.youdao.com/index-linux.html 选择二进制安装包并解压。
+这里注意2个地方，首先fedora21默认为qt4，python2.7，而有道词典需要qt5以及python3，所以先要去官网下载QT5离线安装版（个人建议，我这在线安装qt5慢的不可忍受）。下载完成我们得到qt-opensource-linux-x64-5.4.1.run添加执行权限后执行即可。
+安装完成后进入到解压后的有道词典目录，我这里叫youdao-dict_1.0.2~binary_amd64，给里面的install.sh添加执行权限并执行即可。
+接下来到了最纠结的地方了，我们要手动安装各个依赖，这里我就直接给出经过N次失败后成功的结果把，下面这些都要用yum命令安装：
+yum install python3-qt5yum install python3-requestsyum install python3-xlibyum install python3-lxmlyum install python3-pillowyum install tesseract-langpack-chi_simyum install tesseract-langpack-chi_trayum install qt5-qtquickcontrolsyum install qt5-qtgraphicaleffects都安装完成后就可以用了，支持取词、划词，不过取词识别度还有待提高，划词翻译比较好用。当然了，如果你想更geek一点，可以安装openyoudao也很酷。</description>
+    </item>
+    
+    <item>
+      <title>fedora21安装MITMf框架</title>
+      <link>/posts/fedora21%E5%AE%89%E8%A3%85mitmf%E6%A1%86%E6%9E%B6/</link>
+      <pubDate>Thu, 02 Apr 2015 14:42:02 +0000</pubDate>
+      
+      <guid>/posts/fedora21%E5%AE%89%E8%A3%85mitmf%E6%A1%86%E6%9E%B6/</guid>
+      <description>关于这大名鼎鼎的中间人攻击框架不多介绍了，如果是kali linux用户直接apt-get install mitmf即可;如果是win用户呢，基本就放弃吧;如果是os x用户呢，有几个依赖我始终安装失败，你要安装成功了请联系我。
+网上很多都是讲ubuntu怎么安装这个框架的，这里我记录一下在fedora21上我的安装记录。
+首先安装一些系统依赖，这里我系统原来就安装了很多杂七杂八的东西，不保证下面的就是齐全的：
+sudo yum install libnetfilter_queue-develsudo yum install libffi-develsudo yum install libpcap-devel接下来下载一个不能用pip安装的包</description>
+    </item>
+    
+    <item>
+      <title>fedora21开机执行某命令</title>
+      <link>/posts/fedora21%E5%BC%80%E6%9C%BA%E6%89%A7%E8%A1%8C%E6%9F%90%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Fri, 26 Dec 2014 09:54:17 +0000</pubDate>
+      
+      <guid>/posts/fedora21%E5%BC%80%E6%9C%BA%E6%89%A7%E8%A1%8C%E6%9F%90%E5%91%BD%E4%BB%A4/</guid>
+      <description>作为一名手贱党，昨天又把电脑折腾残废了。那就顺便升级成最新的fedora21吧。从18开始，fedora默认rc.local文件不存在，所以需要以root用户执行
+sudo touch /etc/rc.d/rc.localsudo chmod 755 /etc/rc.d/rc.local然后编辑这个文件，比如：
+#!/bin/shmount /dev/sdb1 /mnt/files/exit 0重启即可。</description>
+    </item>
+    
+    <item>
+      <title>nessus使用记录</title>
+      <link>/posts/nessus%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Sun, 28 Sep 2014 09:34:55 +0000</pubDate>
+      
+      <guid>/posts/nessus%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</guid>
+      <description>至于介绍以及安装部分这里不再赘述，网上很多，可以直接下载rpm包进行安装。
+fedora20安装后需要启动服务：sudo service nessusd start
+浏览器访问 https://localhost:8834 即可看到nessus主界面。第一次使用时候需要注册码，翻墙去官方网站注册一个即可。
+首先我们需要创建一个Policy，点击policies标签页后选择new policy，会弹出一个Policy Wizards 选择，这里我选择web application tests。</description>
+    </item>
+    
+    <item>
+      <title>虚拟环境下安装mysql-python</title>
+      <link>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/</link>
+      <pubDate>Wed, 12 Mar 2014 17:54:50 +0000</pubDate>
+      
+      <guid>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/</guid>
+      <description>使用virtualenv虚拟环境的时候，mysql-python安装时报错：
+_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &amp;quot;my_config.</description>
+    </item>
+    
+    <item>
+      <title>fedora19升级20</title>
+      <link>/posts/fedora19%E5%8D%87%E7%BA%A720/</link>
+      <pubDate>Mon, 27 Jan 2014 13:14:09 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E5%8D%87%E7%BA%A720/</guid>
+      <description>不做死就不会死哈哈。
+首先yum安装fedup，然后先用update命令把已经安装的包升级，然后就是sudo fedup --network 20
+如果出现了 GPG KEY错误，我的做法是把三方源全都删掉，升级后再添加回来。
+不过升级了20后貌似也没什么吸引我的地方，而且中文汉化的不是非常好，干脆直接调整成英文版了。（有强迫症的伤不起啊～）
+如果你是重新安装的20，我之前19的美化记录以及软件安装方法都可以用。</description>
+    </item>
+    
+    <item>
+      <title>fedora19中VIM复制粘贴到系统剪切板</title>
+      <link>/posts/fedora19%E4%B8%ADvim%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4%E5%88%B0%E7%B3%BB%E7%BB%9F%E5%89%AA%E5%88%87%E6%9D%BF/</link>
+      <pubDate>Fri, 10 Jan 2014 14:42:30 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E4%B8%ADvim%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4%E5%88%B0%E7%B3%BB%E7%BB%9F%E5%89%AA%E5%88%87%E6%9D%BF/</guid>
+      <description>如果用的是fedoar，你会发现yum没有vim-gnomevim-gtk这类东西，而且使用:reg也没有+和*这两个寄存器。gvim又感觉太难看，难道fedora中vim复制到系统剪切板是个坑？？
+不过，咱们却有一个神器——vimx!这个就包含了+和*这两个寄存器了！(如果你没有这个vimx就安个gvim)
+使用VIMX打开编辑文件，想复制的时候，先按V进入可视模式，然后选中要复制的东西后 依次按“+y这三个按键就复制到剪贴版了。
+至于vim中寄存器介绍或者其他复制粘贴方式可以自行google，这里就不介绍了。</description>
+    </item>
+    
+    <item>
+      <title>fedora19更换fcitx输入法</title>
+      <link>/posts/fedora19%E6%9B%B4%E6%8D%A2fcitx%E8%BE%93%E5%85%A5%E6%B3%95/</link>
+      <pubDate>Fri, 06 Dec 2013 12:00:47 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E6%9B%B4%E6%8D%A2fcitx%E8%BE%93%E5%85%A5%E6%B3%95/</guid>
+      <description>今天上午实在是忍受不了ibus的折磨更换输入法，首先删除ibus
+sudo yum remove ibusgsettings set org.gnome.settings-daemon.plugins.keyboard active false之后安装fcitx:sudo yum install fcitx*</description>
+    </item>
+    
+    <item>
+      <title>fedora19安装codeblocks</title>
+      <link>/posts/fedora19%E5%AE%89%E8%A3%85codeblocks/</link>
+      <pubDate>Wed, 04 Dec 2013 22:14:10 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E5%AE%89%E8%A3%85codeblocks/</guid>
+      <description>嫌麻烦的可以用yum install codeblocks安装，不过版本是10.05
+爱尝鲜的可以去官网下最新版本12.11，功能多了很多。目前没有fedora19的不过18的也可以用。
+下载codeblocks-12.11-1.el18.x86_64.tar.bz2后解压得到4个文件，全部安装即可。其实只安装codeblocks-12.11-1.el18.x86_64.rpm就可以使用了，全都安装后功能更多一些。
+如果是用yum安装的，运行程序时终端十分丑陋，可以设置
+Settings-&amp;gt;Environment-&amp;gt;&amp;quot;Terminal to launch console programs&amp;quot; 为 &amp;quot;gnome-terminal --geometry 80x20+100+100 --hide-menubar -t $TITLE -x&amp;quot;（不包含引号）。参数可以自己修改。</description>
+    </item>
+    
+    <item>
+      <title>fedora19装XMind</title>
+      <link>/posts/fedora19%E5%AE%89%E8%A3%85xmind/</link>
+      <pubDate>Tue, 03 Dec 2013 11:40:20 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E5%AE%89%E8%A3%85xmind/</guid>
+      <description>本来用bubbl这个在线的思维导图还凑合，不过他这个未付费用户只能存储3张，只好换回本地应用。
+安装freemind很简单，直接yum即可，不过界面和功能上有待加强。
+换成xmind这个强大的跨平台软件，发现只有deb包，那么想在fedora中使用进行下面操作即可：
+首先，下载对应版本的deb包，32bit系统下载32bit软件包，64bit系统下载64bit软件包
+ar -x xmind-xxxxx.deb解包，得到data.tar.gz 和control.tar.gz 两个归档文件
+解压data.tar.gz tar xf data.</description>
+    </item>
+    
+    <item>
+      <title>fedora19安装cairo-dock</title>
+      <link>/posts/fedora19%E5%AE%89%E8%A3%85cairo-dock/</link>
+      <pubDate>Sun, 17 Nov 2013 21:52:48 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E5%AE%89%E8%A3%85cairo-dock/</guid>
+      <description>最近又把电脑折腾残废了，没办法，只好重安装系统。本来想告别fedora回到opensuse的怀抱，不过却发现opensuse下用zypper安装的软件版本都比较低，为了能和我已经编好的程序保持一致性，只好又换回fedora19。
+安装过程还算顺利，添加国内源、三方源后更新系统却发现
+错误：软件包：perl-PathTools-3.2701-1.el5.rf.x86_64 (rpmforge)需要：perl(VMS::Filespec)您可以尝试用 --skip-broken 来解决该问题您可以尝试运行： rpm -Va --nofiles --nodigest即便安装了perl、使用了提示的命令也是不好使。折腾了很久都不知道结果，只好卸载了rpmforge源后问题解决。不过发现卸载了这个源后很多软件都yum找不到了&amp;hellip;&amp;hellip;直到刚才我才发现我居然用的是el5的架构&amp;hellip;&amp;hellip;眼残了阿&amp;hellip;&amp;hellip;而用yum erase rpmforge-release 这个命令居然把我的rpmfusion源也给删除了。不知道什么原理&amp;hellip;&amp;hellip;重新安rpmfusion源，却死活提示以经安装。</description>
+    </item>
+    
+    <item>
+      <title>fedora19安装skype</title>
+      <link>/posts/fedora19%E5%AE%89%E8%A3%85skype/</link>
+      <pubDate>Sat, 16 Nov 2013 19:09:40 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E5%AE%89%E8%A3%85skype/</guid>
+      <description>sudo yum -y install libXv.i686 libXScrnSaver.i686 qt.i686 qt-x11.i686 pulseaudio-libs.i686 pulseaudio-libs-glib2.i686 alsa-plugins-pulseaudio.</description>
+    </item>
+    
+    <item>
+      <title>fedora19美化</title>
+      <link>/posts/fedora19%E7%BE%8E%E5%8C%96/</link>
+      <pubDate>Fri, 01 Nov 2013 17:30:06 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E7%BE%8E%E5%8C%96/</guid>
+      <description>https://extensions.gnome.org
+安装 Gnome Tweak tool 调出最大化和最小化按钮以及更改主题
+yum install gnome-shell-theme* 安装所有主题</description>
+    </item>
+    
+    <item>
+      <title>fedora19源，rpmforge，fastestmirror</title>
+      <link>/posts/fedora19%E6%BA%90rpmforgefastestmirror/</link>
+      <pubDate>Fri, 01 Nov 2013 16:04:37 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E6%BA%90rpmforgefastestmirror/</guid>
+      <description>添加搜狐的源 进入网站http://mirrors.sohu.com/ ，在左边找到fedora目录，点击该行右边的help, 然后 下载fedora-sohu.repo和fedora-updates-sohu.repo, 放入/etc/yum.repos.d/ 运行yum makecache生成缓存
+添加163的源 进入网站 http://mirrors.</description>
+    </item>
+    
+    <item>
+      <title>fedora19安装ar8161网卡驱动</title>
+      <link>/posts/fedora19%E5%AE%89%E8%A3%85ar8161%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8/</link>
+      <pubDate>Fri, 01 Nov 2013 15:58:26 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E5%AE%89%E8%A3%85ar8161%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8/</guid>
+      <description>换fedora19系统后发现网卡驱动没自动安装，解决办法如下：
+内核为
+$Linux 3.9.5-301.fc19.x86_64 SMP Tue Jun 11 19:39:38 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux试验了N多个驱动后发现下面这个可以用:</description>
+    </item>
+    
+  </channel>
+</rss>

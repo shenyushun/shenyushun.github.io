@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>选择漏洞扫描器时需要注意的几点（翻译） - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="选择漏洞扫描器时需要注意的几点（翻译）" />
+<meta property="og:description" content="这是翻译系列的第一篇，如有不足希望大家指出。 原文：http://www.acunetix.com/blog/articles/choosing-a-web-vulnerability-scanner/
+ 评估一个网站漏洞扫描器的好坏并不容易，随着大量的开源或商业的扫描器不断涌出，它们都声称自己提供了最好的扫描功能，所以选择一个好的扫描器是一个重要而又艰难的决定。在这篇文章中，我们提供了几个当您选择扫描器时可以考虑的关键之处。
+易用 漏洞扫描早就不再是一件容易的事情，虽然（希望）很多人都了解如SQL注入、XSS一类的基础知识，但并不是所有操作扫描器的人都是相关专家。理想情况下，你的大部分时间应该用于修复扫描器发现的漏洞而不是学习如何使用扫描器。
+有广泛的安全测试 漏洞扫描器应该能识别出更多的漏洞。尽管现在大多数的扫描器都能识别出一些基本、常见的漏洞，但你选择的扫描器最好也能识别出那些不太常见的漏洞。
+能识别漏洞变种 一个好的扫描器除了能识别出大量的漏洞外，应该也能识别检测出这些漏洞的相关变种。用XSS举例来说，开发者可能修复了基本的XSS漏洞，但却不能防止经过编码后XSS漏洞攻击。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E9%80%89%E6%8B%A9%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F%E5%99%A8%E6%97%B6%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E5%87%A0%E7%82%B9%E7%BF%BB%E8%AF%91/" />
+<meta property="article:published_time" content="2015-01-08T14:18:16+00:00" />
+<meta property="article:modified_time" content="2015-01-08T14:18:16+00:00" />
+
+		<meta itemprop="name" content="选择漏洞扫描器时需要注意的几点（翻译）">
+<meta itemprop="description" content="这是翻译系列的第一篇，如有不足希望大家指出。 原文：http://www.acunetix.com/blog/articles/choosing-a-web-vulnerability-scanner/
+ 评估一个网站漏洞扫描器的好坏并不容易，随着大量的开源或商业的扫描器不断涌出，它们都声称自己提供了最好的扫描功能，所以选择一个好的扫描器是一个重要而又艰难的决定。在这篇文章中，我们提供了几个当您选择扫描器时可以考虑的关键之处。
+易用 漏洞扫描早就不再是一件容易的事情，虽然（希望）很多人都了解如SQL注入、XSS一类的基础知识，但并不是所有操作扫描器的人都是相关专家。理想情况下，你的大部分时间应该用于修复扫描器发现的漏洞而不是学习如何使用扫描器。
+有广泛的安全测试 漏洞扫描器应该能识别出更多的漏洞。尽管现在大多数的扫描器都能识别出一些基本、常见的漏洞，但你选择的扫描器最好也能识别出那些不太常见的漏洞。
+能识别漏洞变种 一个好的扫描器除了能识别出大量的漏洞外，应该也能识别检测出这些漏洞的相关变种。用XSS举例来说，开发者可能修复了基本的XSS漏洞，但却不能防止经过编码后XSS漏洞攻击。">
+<meta itemprop="datePublished" content="2015-01-08T14:18:16&#43;00:00" />
+<meta itemprop="dateModified" content="2015-01-08T14:18:16&#43;00:00" />
+<meta itemprop="wordCount" content="37">
+
+
+
+<meta itemprop="keywords" content="" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">选择漏洞扫描器时需要注意的几点（翻译）</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-01-08T14:18:16Z">2015-01-08</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>这是翻译系列的第一篇，如有不足希望大家指出。 原文：<a href="http://www.acunetix.com/blog/articles/choosing-a-web-vulnerability-scanner/">http://www.acunetix.com/blog/articles/choosing-a-web-vulnerability-scanner/</a></p>
+<hr>
+<p>评估一个网站漏洞扫描器的好坏并不容易，随着大量的开源或商业的扫描器不断涌出，它们都声称自己提供了最好的扫描功能，所以选择一个好的扫描器是一个重要而又艰难的决定。在这篇文章中，我们提供了几个当您选择扫描器时可以考虑的关键之处。</p>
+<h1 id="易用">易用</h1>
+<p>漏洞扫描早就不再是一件容易的事情，虽然（希望）很多人都了解如SQL注入、XSS一类的基础知识，但并不是所有操作扫描器的人都是相关专家。理想情况下，你的大部分时间应该用于修复扫描器发现的漏洞而不是学习如何使用扫描器。</p>
+<h1 id="有广泛的安全测试">有广泛的安全测试</h1>
+<p>漏洞扫描器应该能识别出更多的漏洞。尽管现在大多数的扫描器都能识别出一些基本、常见的漏洞，但你选择的扫描器最好也能识别出那些不太常见的漏洞。</p>
+<h1 id="能识别漏洞变种">能识别漏洞变种</h1>
+<p>一个好的扫描器除了能识别出大量的漏洞外，应该也能识别检测出这些漏洞的相关变种。用XSS举例来说，开发者可能修复了基本的XSS漏洞，但却不能防止经过编码后XSS漏洞攻击。</p>
+<h1 id="覆盖更多的网络技术">覆盖更多的网络技术</h1>
+<p>（PS：应该是指更加新一些的扫描器） 漏洞扫描的第一步是抓取网站页面，爬虫将识别所有组成页面的表单以及元素。但随着网站动态技术的发展，这个目标并不像想象中那么简单了。特别是越来越多的网站使用如：javascrept、HTML5、类似<a href="http://www.acunetix.com/blog/releases/scan-gwt-google-web-toolkit-web-applications-acunetix-wvs/" title="Google web toolkit">Google Web Toolkit</a> 一类的网络框架、单一页面程序或其他前沿的技术。 记住，漏洞扫描器只能识别出在爬虫阶段被确定的页面或元素，所以你应该选择那些能够识别目标网站使用什么技术的漏洞扫描器，并且开发者能够频繁的更新以便于跟上最新的技术。</p>
+<h1 id="智能扫描">智能扫描</h1>
+<p>我们可以把每项扫描看成是一个孤岛，这也就意味着每项扫描结果和其他的扫描是不相关的。在某些理想情况下，一项扫描的结果应该可以当作另一扫描的输入。 举个例子来说，在扫描过程中识别出了一个邮箱地址，在理想过程中这个邮箱地址应该在扫描过程中被使用，就像用于网站中的登录表单中。再举个例子，扫描过程中发现了某些开发工具，比如版本控制工具（GIT或者SVN），网站也会尝试解析这些控制工具的内容，而这些内容中常常包含一些敏感信息。</p>
+<h1 id="覆盖内容管理系统">覆盖内容管理系统</h1>
+<p>很多的组织使用内容管理系统（CMS）去频繁的发布文章等内容，常见的CMS包括<a href="http://www.acunetix.com/blog/articles/list-checks-done-acunetix-wordpress/" title="Wordpress security">WordPress</a>, Joomla, Drupal等。它们每一个都包含相应的漏洞，目标网站也许就使用其中的一个，因此漏洞扫描器应该能够检查它们的配置错误以及漏洞。</p>
+<h1 id="支持移动终端">支持移动终端</h1>
+<p>（PS：检测那些支持移动端的网站而不是这个扫描器有手机版） 现在很多网站对移动终端提供了相应的版本，它们将在智能手机或平板上自动加载，并且提供了和PC版一样的功能。这些移动版本或许存在漏洞，确保你的扫描器也能扫描这些移动版本的网站程序。</p>
+<h1 id="灰盒测试">灰盒测试</h1>
+<p>很多漏洞扫描器提供了黑盒测试以便于在没有源码的情况下进行漏洞扫描，而灰盒测试则在扫描时在扫描器和网站之间安装了一层代理。灰盒测试通过更加完全的覆盖以及准许扫描者自定义更多的漏洞验证、特征码等信息来增加扫描的成功率。比如一段存在漏洞的后端源码或者包含SQL注入的SQL语句。</p>
+<h1 id="手工测试工具">手工测试工具</h1>
+<p>扫描器在完成一个扫描前是不能停止的，在某些情况下你可能需要修改扫描出的某些东西。理想情况下扫描器在产品中集成了某些工具，准许你在手工测试时候简单的重新利用自动测试产生的结果。</p>
+<h1 id="警惕零误报">警惕零误报</h1>
+<p>尽管现在多数的漏洞扫描器都很诚实并且工作的很好，但你仍然需要注意扫描器没扫描出任何漏洞的情况。一种常见的想法是认为扫描器应该达到零误报的情况，然而零误报的扫描器是没有多大用处的，事实是任何漏洞扫描器都达不到100%的准确率。如果一个扫描器声称自己零误报，要么是它们没作出全面的检测，要么是没全部展示。 2015年是<a href="http://www.acunetix.com/vulnerability-scanner/" title="Acunetix Web Vulnerability Scanner">Acunetix Web Vulnerability Scanner</a>10周岁生日，10年来我们不断的对其开发并优化，使其成为了扫描器市场中的领跑者。 （PS:这广告是原文中的&hellip;）</p>
+
+		</div>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/percona-xtradb-cluster-haproxy%E9%85%8D%E7%BD%AE/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Percona XtraDB Cluster&#43;HAProxy配置</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/rmbp%E6%88%91%E7%9A%84%E8%AE%B0%E5%BD%95/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">RMBP我的记录</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

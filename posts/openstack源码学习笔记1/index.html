@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>OpenStack源码学习笔记1 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="OpenStack源码学习笔记1" />
+<meta property="og:description" content="
+预备知识
+
+虚拟化
+WSGI
+Paste Deployment
+
+
+通用套路
+配置加载与路由绑定
+创建虚拟机
+
+Nova-Api
+Nova-Conductor-1
+Nova-Scheduler
+Nova-Conductor-2
+Nova-Compute
+
+
+
+作为已经比较成熟的IAAS开源解决方案，OpenStack已经发布了19个版本，目前稳定版是Stein，并且下一个版本Train也预计在10月发布。可以说，从代码架构角度来说对于初学者来说已经略微复杂，但最核心的组件有以下几个：
+
+Nova：负责虚拟机相关。
+Glance：负责镜像相关。
+Cinder：负责存储相关。
+Neutron：负责网络相关。
+Keystone：负责鉴权以及服务注册。
+
+大体架构如下图：
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" />
+<meta property="article:published_time" content="2019-09-16T17:46:29+00:00" />
+<meta property="article:modified_time" content="2019-09-16T17:46:29+00:00" />
+
+		<meta itemprop="name" content="OpenStack源码学习笔记1">
+<meta itemprop="description" content="
+预备知识
+
+虚拟化
+WSGI
+Paste Deployment
+
+
+通用套路
+配置加载与路由绑定
+创建虚拟机
+
+Nova-Api
+Nova-Conductor-1
+Nova-Scheduler
+Nova-Conductor-2
+Nova-Compute
+
+
+
+作为已经比较成熟的IAAS开源解决方案，OpenStack已经发布了19个版本，目前稳定版是Stein，并且下一个版本Train也预计在10月发布。可以说，从代码架构角度来说对于初学者来说已经略微复杂，但最核心的组件有以下几个：
+
+Nova：负责虚拟机相关。
+Glance：负责镜像相关。
+Cinder：负责存储相关。
+Neutron：负责网络相关。
+Keystone：负责鉴权以及服务注册。
+
+大体架构如下图：
+">
+<meta itemprop="datePublished" content="2019-09-16T17:46:29&#43;00:00" />
+<meta itemprop="dateModified" content="2019-09-16T17:46:29&#43;00:00" />
+<meta itemprop="wordCount" content="1506">
+
+
+
+<meta itemprop="keywords" content="python,openstack," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">OpenStack源码学习笔记1</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-09-16T17:46:29Z">2019-09-16</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/" rel="category">云计算</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<ul>
+<li><a href="#%e9%a2%84%e5%a4%87%e7%9f%a5%e8%af%86">预备知识</a>
+<ul>
+<li><a href="#%e8%99%9a%e6%8b%9f%e5%8c%96">虚拟化</a></li>
+<li><a href="#wsgi">WSGI</a></li>
+<li><a href="#paste-deployment">Paste Deployment</a></li>
+</ul>
+</li>
+<li><a href="#%e9%80%9a%e7%94%a8%e5%a5%97%e8%b7%af">通用套路</a></li>
+<li><a href="#%e9%85%8d%e7%bd%ae%e5%8a%a0%e8%bd%bd%e4%b8%8e%e8%b7%af%e7%94%b1%e7%bb%91%e5%ae%9a">配置加载与路由绑定</a></li>
+<li><a href="#%e5%88%9b%e5%bb%ba%e8%99%9a%e6%8b%9f%e6%9c%ba">创建虚拟机</a>
+<ul>
+<li><a href="#nova-api">Nova-Api</a></li>
+<li><a href="#nova-conductor-1">Nova-Conductor-1</a></li>
+<li><a href="#nova-scheduler">Nova-Scheduler</a></li>
+<li><a href="#nova-conductor-2">Nova-Conductor-2</a></li>
+<li><a href="#nova-compute">Nova-Compute</a></li>
+</ul>
+</li>
+</ul>
+<p>作为已经比较成熟的IAAS开源解决方案，OpenStack已经发布了19个版本，目前稳定版是Stein，并且下一个版本Train也预计在10月发布。可以说，从代码架构角度来说对于初学者来说已经略微复杂，但最核心的组件有以下几个：</p>
+<ol>
+<li>Nova：负责虚拟机相关。</li>
+<li>Glance：负责镜像相关。</li>
+<li>Cinder：负责存储相关。</li>
+<li>Neutron：负责网络相关。</li>
+<li>Keystone：负责鉴权以及服务注册。</li>
+</ol>
+<p>大体架构如下图：</p>
+<p><img src="https://mypic-1252424367.cos.ap-hongkong.myqcloud.com/opstack/openstack-arch-kilo-logical-v1.png" alt="all.png"></p>
+<h2 id="预备知识">预备知识</h2>
+<p>正式开始学习Openstack源码前，需要一些预备知识，不用特别深入但要知道是做什么的。</p>
+<h3 id="虚拟化">虚拟化</h3>
+<p>虚拟化本身就是一门比较复杂的学问，涉及硬件、操作系统、软件等多个层面知识。这里至少要知道4个名词：</p>
+<ol>
+<li>KVM</li>
+<li>Qemu</li>
+<li>Qemu-KVM</li>
+<li>Libvert</li>
+</ol>
+<p>其中KVM在负责对CPU和内存进行虚拟化，Qemu负责对IO进行虚拟化，而Qemu-KVM则是整合了这2者。而Libvert则是提供了一个更加方便的封装，通过Libvertd服务以及virt-*、virsh命令来方便的管理虚拟机。而OpenStack则在此基础上更进一步的封装，通过各种driver插件来管理不同类型的虚拟机。</p>
+<p><img src="https://mypic-1252424367.cos.ap-hongkong.myqcloud.com/opstack/qemu-kvm.png" alt="qemu-kvm-libvert"></p>
+<h3 id="wsgi">WSGI</h3>
+<p>OpenStack的哲学是各个组件通过API以及消息队列建立联系，既然要对外暴露端口，那么其中自然少不了WSGI的存在。
+简单来说，WSGI解耦了Web Server和Web Application，可以让开发人员专注于功能实现而不是网络协议的处理上。</p>
+<h3 id="paste-deployment">Paste Deployment</h3>
+<p><a href="https://pastedeploy.readthedocs.io/en/latest/">pastedeploy</a>，这个我也是开始阅读Openstack才学到的新知识，用来建立Server和Application之间的联系。
+简单来说就是提供服务发现功能，并且隐藏Application的实现细节的，等开始查看Nova代码时候再详细说明。</p>
+<h2 id="通用套路">通用套路</h2>
+<p><a href="https://github.com/openstack">Openstack</a>的Github主页已经将各个组件拆分，但基本全部遵循着一个相似的结构，比较需要重点关注的文件有3个：</p>
+<ol>
+<li><code>api.py</code>提供对外访问的接口，可以从这开始入手跟踪各个功能实现。</li>
+<li><code>rpcapi.py</code>封装RPC请求调用，大多数是异步调用。</li>
+<li><code>manager.py</code>各种RPC调用的实现，基本和<code>rpcapi.py</code>中调用的名称一一对应。</li>
+</ol>
+<p>另外需要关注的就是根目录中的<code>setup.cfg</code>文件，特别是其中的<code>console_scripts</code>，可以说安装完Openstack后提供的各种命令对应的函数都在这里了，可以说是学习Openstack源码的路标。</p>
+<p>此外还有一点，Openstack的目录结构是根据功能划分的，比如Nova中compute目录不一定都是在<code>nova-compute</code>节点上运行，而是所有和虚拟机创建相关的功能都在这里。</p>
+<h2 id="配置加载与路由绑定">配置加载与路由绑定</h2>
+<p>这里以stein版的Nova为例，根据架构图，Nova-api是所有虚拟机相关请求的入口，首先看Nova中<code>setup.cfg</code>文件定义如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cfg" data-lang="cfg"><span style="color:#a6e22e">……省略……</span>
+
+<span style="color:#a6e22e">nova.compute.monitors.cpu</span> <span style="color:#f92672">=</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    virt_driver = nova.compute.monitors.cpu.virt_driver:Monitor</span>
+
+<span style="color:#a6e22e">console_scripts</span> <span style="color:#f92672">=</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    nova-api = nova.cmd.api:main
+</span><span style="color:#e6db74">    nova-api-metadata = nova.cmd.api_metadata:main
+</span><span style="color:#e6db74">    nova-compute = nova.cmd.compute:main
+</span><span style="color:#e6db74">    nova-conductor = nova.cmd.conductor:main
+</span><span style="color:#e6db74">    nova-console = nova.cmd.console:main
+</span><span style="color:#e6db74">    nova-manage = nova.cmd.manage:main
+</span><span style="color:#e6db74">    nova-network = nova.cmd.network:main
+</span><span style="color:#e6db74">    nova-scheduler = nova.cmd.scheduler:main</span>
+
+<span style="color:#a6e22e">nova.scheduler.driver</span> <span style="color:#f92672">=</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    filter_scheduler = nova.scheduler.filter_scheduler:FilterScheduler
+</span><span style="color:#e6db74">    fake_scheduler = nova.tests.unit.scheduler.fakes:FakeScheduler</span>
+<span style="color:#a6e22e">……省略……</span>
+</code></pre></div><p>从配置文件可以明显的看出，nova-api对应的文件是<code>nova/cmd/api.py</code>的<code>main()</code>函数：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    config<span style="color:#f92672">.</span>parse_args(sys<span style="color:#f92672">.</span>argv)
+    logging<span style="color:#f92672">.</span>setup(CONF, <span style="color:#e6db74">&#34;nova&#34;</span>)
+    objects<span style="color:#f92672">.</span>register_all()
+    gmr_opts<span style="color:#f92672">.</span>set_defaults(CONF)
+    <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;osapi_compute&#39;</span> <span style="color:#f92672">in</span> CONF<span style="color:#f92672">.</span>enabled_apis:
+        <span style="color:#75715e"># NOTE(mriedem): This is needed for caching the nova-compute service</span>
+        <span style="color:#75715e"># version.</span>
+        objects<span style="color:#f92672">.</span>Service<span style="color:#f92672">.</span>enable_min_version_cache()
+    log <span style="color:#f92672">=</span> logging<span style="color:#f92672">.</span>getLogger(__name__)
+    gmr<span style="color:#f92672">.</span>TextGuruMeditation<span style="color:#f92672">.</span>setup_autorun(version, conf<span style="color:#f92672">=</span>CONF)
+    launcher <span style="color:#f92672">=</span> service<span style="color:#f92672">.</span>process_launcher()
+    started <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">for</span> api <span style="color:#f92672">in</span> CONF<span style="color:#f92672">.</span>enabled_apis:
+        should_use_ssl <span style="color:#f92672">=</span> api <span style="color:#f92672">in</span> CONF<span style="color:#f92672">.</span>enabled_ssl_apis
+        <span style="color:#66d9ef">try</span>:
+            server <span style="color:#f92672">=</span> service<span style="color:#f92672">.</span>WSGIService(api, use_ssl<span style="color:#f92672">=</span>should_use_ssl)
+            launcher<span style="color:#f92672">.</span>launch_service(server, workers<span style="color:#f92672">=</span>server<span style="color:#f92672">.</span>workers <span style="color:#f92672">or</span> <span style="color:#ae81ff">1</span>)
+            started <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">except</span> exception<span style="color:#f92672">.</span>PasteAppNotFound <span style="color:#66d9ef">as</span> ex:
+            log<span style="color:#f92672">.</span>warning(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">. ``enabled_apis`` includes bad values. &#34;</span>
+                        <span style="color:#e6db74">&#34;Fix to remove this warning.&#34;</span>, ex)
+    <span style="color:#66d9ef">if</span> started <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+        log<span style="color:#f92672">.</span>error(<span style="color:#e6db74">&#39;No APIs were started. &#39;</span>
+                  <span style="color:#e6db74">&#39;Check the enabled_apis config option.&#39;</span>)
+        sys<span style="color:#f92672">.</span>exit(<span style="color:#ae81ff">1</span>)
+    launcher<span style="color:#f92672">.</span>wait()
+</code></pre></div><p><code>main</code>函数其实就做了一件事，启动配置文件中设定的WSGI服务，默认情况下配置文件位于<code>/etc/nova/nova.conf</code>，配置文件中定义了启用哪些服务、Glance、Cinder、Keystone、Libvert、数据库等信息。说到这里简单提一下 <a href="https://github.com/openstack/oslo.config">oslo_config</a>这个项目，是从Openstack独立出来的专门处理配置文件的基础功能库。</p>
+<p>查看<code>WSGIService</code>的定义，位于<code>nova/service.py</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WSGIService</span>(service<span style="color:#f92672">.</span>Service):
+    <span style="color:#e6db74">&#34;&#34;&#34;Provides ability to launch API from a &#39;paste&#39; configuration.&#34;&#34;&#34;</span>
+
+    <span style="color:#66d9ef">def</span> __init__(self, name, loader<span style="color:#f92672">=</span>None, use_ssl<span style="color:#f92672">=</span>False, max_url_len<span style="color:#f92672">=</span>None):
+        <span style="color:#e6db74">&#34;&#34;&#34;Initialize, but do not start the WSGI server.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">        :param name: The name of the WSGI server given to the loader.
+</span><span style="color:#e6db74">        :param loader: Loads the WSGI application using the given name.
+</span><span style="color:#e6db74">        :returns: None
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
+        <span style="color:#75715e"># NOTE(danms): Name can be metadata, osapi_compute, per</span>
+        <span style="color:#75715e"># nova.service&#39;s enabled_apis</span>
+        self<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;nova-</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> name
+
+        LOG<span style="color:#f92672">.</span>warning(<span style="color:#e6db74">&#39;Running </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> using eventlet is deprecated. Deploy with &#39;</span>
+                    <span style="color:#e6db74">&#39;a WSGI server such as uwsgi or mod_wsgi.&#39;</span>, self<span style="color:#f92672">.</span>binary)
+
+        self<span style="color:#f92672">.</span>topic <span style="color:#f92672">=</span> None
+        self<span style="color:#f92672">.</span>manager <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_manager()
+        self<span style="color:#f92672">.</span>loader <span style="color:#f92672">=</span> loader <span style="color:#f92672">or</span> api_wsgi<span style="color:#f92672">.</span>Loader()
+        self<span style="color:#f92672">.</span>app <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>loader<span style="color:#f92672">.</span>load_app(name)
+        <span style="color:#75715e"># inherit all compute_api worker counts from osapi_compute</span>
+        <span style="color:#66d9ef">if</span> name<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#39;openstack_compute_api&#39;</span>):
+            wname <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;osapi_compute&#39;</span>
+        <span style="color:#66d9ef">else</span>:
+            wname <span style="color:#f92672">=</span> name
+        self<span style="color:#f92672">.</span>host <span style="color:#f92672">=</span> getattr(CONF, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">_listen&#39;</span> <span style="color:#f92672">%</span> name, <span style="color:#e6db74">&#34;0.0.0.0&#34;</span>)
+        self<span style="color:#f92672">.</span>port <span style="color:#f92672">=</span> getattr(CONF, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">_listen_port&#39;</span> <span style="color:#f92672">%</span> name, <span style="color:#ae81ff">0</span>)
+        self<span style="color:#f92672">.</span>workers <span style="color:#f92672">=</span> (getattr(CONF, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">_workers&#39;</span> <span style="color:#f92672">%</span> wname, None) <span style="color:#f92672">or</span>
+                        processutils<span style="color:#f92672">.</span>get_worker_count())
+        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>workers <span style="color:#f92672">and</span> self<span style="color:#f92672">.</span>workers <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1</span>:
+            worker_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">_workers&#39;</span> <span style="color:#f92672">%</span> name
+            msg <span style="color:#f92672">=</span> (_(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%(worker_name)s</span><span style="color:#e6db74"> value of </span><span style="color:#e6db74">%(workers)s</span><span style="color:#e6db74"> is invalid, &#34;</span>
+                     <span style="color:#e6db74">&#34;must be greater than 0&#34;</span>) <span style="color:#f92672">%</span>
+                   {<span style="color:#e6db74">&#39;worker_name&#39;</span>: worker_name,
+                    <span style="color:#e6db74">&#39;workers&#39;</span>: str(self<span style="color:#f92672">.</span>workers)})
+            <span style="color:#66d9ef">raise</span> exception<span style="color:#f92672">.</span>InvalidInput(msg)
+        self<span style="color:#f92672">.</span>use_ssl <span style="color:#f92672">=</span> use_ssl
+        self<span style="color:#f92672">.</span>server <span style="color:#f92672">=</span> wsgi<span style="color:#f92672">.</span>Server(name,
+                                  self<span style="color:#f92672">.</span>app,
+                                  host<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>host,
+                                  port<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>port,
+                                  use_ssl<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>use_ssl,
+                                  max_url_len<span style="color:#f92672">=</span>max_url_len)
+        <span style="color:#75715e"># Pull back actual port used</span>
+        self<span style="color:#f92672">.</span>port <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>server<span style="color:#f92672">.</span>port
+        self<span style="color:#f92672">.</span>backdoor_port <span style="color:#f92672">=</span> None
+        setup_profiler(name, self<span style="color:#f92672">.</span>host)
+</code></pre></div><p>其中，<code>self.app = self.loader.load_app(name)</code>就是上面所说的使用Paste Deployment来建立连接的部分，相关代码位于<code>nova/api/wsgi.py</code>中：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Loader</span>(object):
+    <span style="color:#e6db74">&#34;&#34;&#34;Used to load WSGI applications from paste configurations.&#34;&#34;&#34;</span>
+
+    <span style="color:#66d9ef">def</span> __init__(self, config_path<span style="color:#f92672">=</span>None):
+        <span style="color:#e6db74">&#34;&#34;&#34;Initialize the loader, and attempt to find the config.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">        :param config_path: Full or relative path to the paste config.
+</span><span style="color:#e6db74">        :returns: None
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+        self<span style="color:#f92672">.</span>config_path <span style="color:#f92672">=</span> None
+
+        config_path <span style="color:#f92672">=</span> config_path <span style="color:#f92672">or</span> CONF<span style="color:#f92672">.</span>wsgi<span style="color:#f92672">.</span>api_paste_config
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isabs(config_path):
+            self<span style="color:#f92672">.</span>config_path <span style="color:#f92672">=</span> CONF<span style="color:#f92672">.</span>find_file(config_path)
+        <span style="color:#66d9ef">elif</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>exists(config_path):
+            self<span style="color:#f92672">.</span>config_path <span style="color:#f92672">=</span> config_path
+
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> self<span style="color:#f92672">.</span>config_path:
+            <span style="color:#66d9ef">raise</span> exception<span style="color:#f92672">.</span>ConfigNotFound(path<span style="color:#f92672">=</span>config_path)
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">load_app</span>(self, name):
+        <span style="color:#e6db74">&#34;&#34;&#34;Return the paste URLMap wrapped WSGI application.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">        :param name: Name of the application to load.
+</span><span style="color:#e6db74">        :returns: Paste URLMap object wrapping the requested application.
+</span><span style="color:#e6db74">        :raises: `nova.exception.PasteAppNotFound`
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+        <span style="color:#66d9ef">try</span>:
+            LOG<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#34;Loading app </span><span style="color:#e6db74">%(name)s</span><span style="color:#e6db74"> from </span><span style="color:#e6db74">%(path)s</span><span style="color:#e6db74">&#34;</span>,
+                      {<span style="color:#e6db74">&#39;name&#39;</span>: name, <span style="color:#e6db74">&#39;path&#39;</span>: self<span style="color:#f92672">.</span>config_path})
+            <span style="color:#66d9ef">return</span> deploy<span style="color:#f92672">.</span>loadapp(<span style="color:#e6db74">&#34;config:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> self<span style="color:#f92672">.</span>config_path, name<span style="color:#f92672">=</span>name)
+        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">LookupError</span>:
+            LOG<span style="color:#f92672">.</span>exception(_LE(<span style="color:#e6db74">&#34;Couldn&#39;t lookup app: </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span>), name)
+            <span style="color:#66d9ef">raise</span> exception<span style="color:#f92672">.</span>PasteAppNotFound(name<span style="color:#f92672">=</span>name, path<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>config_path)
+</code></pre></div><p>默认情况下，配置文件位于<code>/etc/nova/api-paste.ini</code>，内容如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#75715e">############</span>
+<span style="color:#75715e"># Metadata #</span>
+<span style="color:#75715e">############</span>
+<span style="color:#a6e22e">[composite:metadata]</span>
+<span style="color:#a6e22e">use</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">egg:Paste#urlmap</span>
+<span style="color:#a6e22e">/: meta</span>
+
+<span style="color:#a6e22e">[pipeline:meta]</span>
+<span style="color:#a6e22e">pipeline</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">cors metaapp</span>
+
+<span style="color:#a6e22e">[app:metaapp]</span>
+<span style="color:#a6e22e">paste.app_factory</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">nova.api.metadata.handler:MetadataRequestHandler.factory</span>
+
+<span style="color:#75715e">#############</span>
+<span style="color:#75715e"># OpenStack #</span>
+<span style="color:#75715e">#############</span>
+
+<span style="color:#a6e22e">[composite:osapi_compute]</span>
+<span style="color:#a6e22e">use</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">call:nova.api.openstack.urlmap:urlmap_factory</span>
+<span style="color:#a6e22e">/: oscomputeversions</span>
+<span style="color:#75715e"># v21 is an exactly feature match for v2, except it has more stringent</span>
+<span style="color:#75715e"># input validation on the wsgi surface (prevents fuzzing early on the</span>
+<span style="color:#75715e"># API). It also provides new features via API microversions which are</span>
+<span style="color:#75715e"># opt into for clients. Unaware clients will receive the same frozen</span>
+<span style="color:#75715e"># v2 API feature set, but with some relaxed validation</span>
+<span style="color:#a6e22e">/v2: openstack_compute_api_v21_legacy_v2_compatible</span>
+<span style="color:#a6e22e">/v2.1: openstack_compute_api_v21</span>
+
+<span style="color:#a6e22e">[composite:openstack_compute_api_v21]</span>
+<span style="color:#a6e22e">use</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">call:nova.api.auth:pipeline_factory_v21</span>
+<span style="color:#a6e22e">noauth2</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">cors http_proxy_to_wsgi compute_req_id faultwrap request_log sizelimit osprofiler noauth2 osapi_compute_app_v21</span>
+<span style="color:#a6e22e">keystone</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">cors http_proxy_to_wsgi compute_req_id faultwrap request_log sizelimit osprofiler authtoken keystonecontext osapi_compute_app_v21</span>
+
+<span style="color:#a6e22e">[composite:openstack_compute_api_v21_legacy_v2_compatible]</span>
+<span style="color:#a6e22e">use</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">call:nova.api.auth:pipeline_factory_v21</span>
+<span style="color:#a6e22e">noauth2</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">cors http_proxy_to_wsgi compute_req_id faultwrap request_log sizelimit osprofiler noauth2 legacy_v2_compatible osapi_compute_app_v21</span>
+<span style="color:#a6e22e">keystone</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">cors http_proxy_to_wsgi compute_req_id faultwrap request_log sizelimit osprofiler authtoken keystonecontext legacy_v2_compatible osapi_compute_app_v21</span>
+
+<span style="color:#a6e22e">[filter:request_log]</span>
+<span style="color:#a6e22e">paste.filter_factory</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">nova.api.openstack.requestlog:RequestLog.factory</span>
+
+<span style="color:#a6e22e">[filter:compute_req_id]</span>
+<span style="color:#a6e22e">paste.filter_factory</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">nova.api.compute_req_id:ComputeReqIdMiddleware.factory</span>
+
+<span style="color:#a6e22e">[filter:faultwrap]</span>
+<span style="color:#a6e22e">paste.filter_factory</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">nova.api.openstack:FaultWrapper.factory</span>
+
+<span style="color:#a6e22e">[filter:noauth2]</span>
+<span style="color:#a6e22e">paste.filter_factory</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">nova.api.openstack.auth:NoAuthMiddleware.factory</span>
+
+<span style="color:#a6e22e">[filter:osprofiler]</span>
+<span style="color:#a6e22e">paste.filter_factory</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">nova.profiler:WsgiMiddleware.factory</span>
+
+<span style="color:#a6e22e">[filter:sizelimit]</span>
+<span style="color:#a6e22e">paste.filter_factory</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">oslo_middleware:RequestBodySizeLimiter.factory</span>
+
+<span style="color:#a6e22e">[filter:http_proxy_to_wsgi]</span>
+<span style="color:#a6e22e">paste.filter_factory</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">oslo_middleware.http_proxy_to_wsgi:HTTPProxyToWSGI.factory</span>
+
+<span style="color:#a6e22e">[filter:legacy_v2_compatible]</span>
+<span style="color:#a6e22e">paste.filter_factory</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">nova.api.openstack:LegacyV2CompatibleWrapper.factory</span>
+
+<span style="color:#a6e22e">[app:osapi_compute_app_v21]</span>
+<span style="color:#a6e22e">paste.app_factory</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">nova.api.openstack.compute:APIRouterV21.factory</span>
+
+</code></pre></div><p>PasteDeploy的配置文件可以包括多个段。每个段包含一个名称和多个键值对。名称由type和name组成，使用冒号分隔。每个键值对占一行，键名和值使用等号分隔。比较常用的type有：</p>
+<ul>
+<li>composite:用来分发请求到其它应用去。其下的键值对use = egg:Paste#urlmap表示使用Paste中的urlmap应用。urlmap是使用路径的前缀来将请求映射到不同的应用去。</li>
+<li>app:基本的WSGI应用,通常的用法是paste.app_factory = &lt;模块名&gt;:&lt;类名&gt;.&lt;类方法&gt;。</li>
+<li>filter-app:过滤器，通过next可以指定下一步交给谁处理，next指定的可以是一个普通的WSGI应用，也可以是另一个过滤器。</li>
+<li>filter:过滤器，与filter-app用法上不同，其他应用中使用filter-with来指定使用此filter。</li>
+<li>pipeline:管道，可以将多个filter和最后一个WSGI应用串联起来。</li>
+</ul>
+<p>比如对于<code>metadata</code>，就直接使用了Paste中的路由，而对于<code>osapi_compute</code>，则使用nova自己的<code>urlmap_factory</code>处理。这里以V2版本接口为例，当程序收到请求后转交给了<code>openstack_compute_api_v21_legacy_v2_compatible</code>，然后经过pipeline定义的各种filter处理后由<code>osapi_compute_app_v21</code>接手，而这个程序对应的代码就是<code>nova/api/openstack/compute/routes.py</code>中的<code>APIRouterV21</code>类的<code>factory</code>方法，而这个方法本质上就是创建了一个类实例并建立路由和函数之间的映射关系。</p>
+<p>这些操作完成后通过使用eventlet创建<code>wsgi.Server</code>、绑定监听IP和端口，位于<code>nova/wsgi.py</code>的<code>Server</code>类中，这里就不贴出代码了。</p>
+<h2 id="创建虚拟机">创建虚拟机</h2>
+<h3 id="nova-api">Nova-Api</h3>
+<p>根据<a href="https://docs.openstack.org/api-ref/compute/?expanded=create-server-detail#create-server">文档</a>，创建虚拟机的行为其实就是向<code>/servers</code>发送POST请求而已。而上面已经知道在<code>nova/api/openstack/compute/routes.py</code>中定义了对应的函数是：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">(<span style="color:#e6db74">&#39;/servers&#39;</span>, {
+        <span style="color:#e6db74">&#39;GET&#39;</span>: [server_controller, <span style="color:#e6db74">&#39;index&#39;</span>],
+        <span style="color:#e6db74">&#39;POST&#39;</span>: [server_controller, <span style="color:#e6db74">&#39;create&#39;</span>]
+    })
+</code></pre></div><p>而这个<code>server_controller</code>是位于<code>nova/api/openstack/compute/servers.py</code>的<code>ServersController</code>类，其<code>create</code>方法定义如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create</span>(self, req, body):
+    <span style="color:#e6db74">&#34;&#34;&#34;Creates a new server for a given user.&#34;&#34;&#34;</span>
+    context <span style="color:#f92672">=</span> req<span style="color:#f92672">.</span>environ[<span style="color:#e6db74">&#39;nova.context&#39;</span>]
+    server_dict <span style="color:#f92672">=</span> body[<span style="color:#e6db74">&#39;server&#39;</span>]
+    password <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_server_admin_password(server_dict)
+    name <span style="color:#f92672">=</span> common<span style="color:#f92672">.</span>normalize_name(server_dict[<span style="color:#e6db74">&#39;name&#39;</span>])
+
+    <span style="color:#f92672">......</span>
+
+    availability_zone <span style="color:#f92672">=</span> server_dict<span style="color:#f92672">.</span>pop(<span style="color:#e6db74">&#34;availability_zone&#34;</span>, None)
+    image_uuid <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_image_from_req_data(server_dict, create_kwargs)
+    self<span style="color:#f92672">.</span>_process_networks_for_create(
+        context, target, server_dict, create_kwargs)
+    flavor_id <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_flavor_id_from_req_data(body)
+    <span style="color:#66d9ef">try</span>:
+        inst_type <span style="color:#f92672">=</span> flavors<span style="color:#f92672">.</span>get_flavor_by_flavor_id(
+                flavor_id, ctxt<span style="color:#f92672">=</span>context, read_deleted<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;no&#34;</span>)
+        supports_multiattach <span style="color:#f92672">=</span> common<span style="color:#f92672">.</span>supports_multiattach_volume(req)
+        supports_port_resource_request <span style="color:#f92672">=</span> \
+            common<span style="color:#f92672">.</span>supports_port_resource_request(req)
+        (instances, resv_id) <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>compute_api<span style="color:#f92672">.</span>create(context,
+            inst_type,
+            image_uuid,
+            display_name<span style="color:#f92672">=</span>name,
+            display_description<span style="color:#f92672">=</span>description,
+            availability_zone<span style="color:#f92672">=</span>availability_zone,
+            forced_host<span style="color:#f92672">=</span>host, forced_node<span style="color:#f92672">=</span>node,
+            metadata<span style="color:#f92672">=</span>server_dict<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;metadata&#39;</span>, {}),
+            admin_password<span style="color:#f92672">=</span>password,
+            check_server_group_quota<span style="color:#f92672">=</span>True,
+            supports_multiattach<span style="color:#f92672">=</span>supports_multiattach,
+            supports_port_resource_request<span style="color:#f92672">=</span>supports_port_resource_request,
+            <span style="color:#f92672">**</span>create_kwargs)
+    <span style="color:#66d9ef">except</span> (exception<span style="color:#f92672">.</span>QuotaError,
+            exception<span style="color:#f92672">.</span>PortLimitExceeded) <span style="color:#66d9ef">as</span> error:
+        <span style="color:#66d9ef">raise</span> exc<span style="color:#f92672">.</span>HTTPForbidden(
+            explanation<span style="color:#f92672">=</span>error<span style="color:#f92672">.</span>format_message())
+    
+    <span style="color:#f92672">......</span>
+</code></pre></div><p>经过一些获取、验证操作后，调用了<code>self.compute_api.create()</code>方法，这个<code>compute_api</code>就是<code>nova/compute/api.py</code>中定义的<code>API</code>类，<code>create</code>函数定义如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a6e22e">@hooks.add_hook</span>(<span style="color:#e6db74">&#34;create_instance&#34;</span>)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create</span>(self, context, instance_type,
+            image_href, kernel_id<span style="color:#f92672">=</span>None, ramdisk_id<span style="color:#f92672">=</span>None,
+            min_count<span style="color:#f92672">=</span>None, max_count<span style="color:#f92672">=</span>None,
+            display_name<span style="color:#f92672">=</span>None, display_description<span style="color:#f92672">=</span>None,
+            key_name<span style="color:#f92672">=</span>None, key_data<span style="color:#f92672">=</span>None, security_groups<span style="color:#f92672">=</span>None,
+            availability_zone<span style="color:#f92672">=</span>None, forced_host<span style="color:#f92672">=</span>None, forced_node<span style="color:#f92672">=</span>None,
+            user_data<span style="color:#f92672">=</span>None, metadata<span style="color:#f92672">=</span>None, injected_files<span style="color:#f92672">=</span>None,
+            admin_password<span style="color:#f92672">=</span>None, block_device_mapping<span style="color:#f92672">=</span>None,
+            access_ip_v4<span style="color:#f92672">=</span>None, access_ip_v6<span style="color:#f92672">=</span>None, requested_networks<span style="color:#f92672">=</span>None,
+            config_drive<span style="color:#f92672">=</span>None, auto_disk_config<span style="color:#f92672">=</span>None, scheduler_hints<span style="color:#f92672">=</span>None,
+            legacy_bdm<span style="color:#f92672">=</span>True, shutdown_terminate<span style="color:#f92672">=</span>False,
+            check_server_group_quota<span style="color:#f92672">=</span>False, tags<span style="color:#f92672">=</span>None,
+            supports_multiattach<span style="color:#f92672">=</span>False, trusted_certs<span style="color:#f92672">=</span>None,
+            supports_port_resource_request<span style="color:#f92672">=</span>False,
+            requested_host<span style="color:#f92672">=</span>None, requested_hypervisor_hostname<span style="color:#f92672">=</span>None):
+    <span style="color:#f92672">......</span>
+    <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>_create_instance(
+        context, instance_type,
+        image_href, kernel_id, ramdisk_id,
+        min_count, max_count,
+        display_name, display_description,
+        key_name, key_data, security_groups,
+        availability_zone, user_data, metadata,
+        injected_files, admin_password,
+        access_ip_v4, access_ip_v6,
+        requested_networks, config_drive,
+        block_device_mapping, auto_disk_config,
+        filter_properties<span style="color:#f92672">=</span>filter_properties,
+        legacy_bdm<span style="color:#f92672">=</span>legacy_bdm,
+        shutdown_terminate<span style="color:#f92672">=</span>shutdown_terminate,
+        check_server_group_quota<span style="color:#f92672">=</span>check_server_group_quota,
+        tags<span style="color:#f92672">=</span>tags, supports_multiattach<span style="color:#f92672">=</span>supports_multiattach,
+        trusted_certs<span style="color:#f92672">=</span>trusted_certs,
+        supports_port_resource_request<span style="color:#f92672">=</span>supports_port_resource_request,
+        requested_host<span style="color:#f92672">=</span>requested_host,
+        requested_hypervisor_hostname<span style="color:#f92672">=</span>requested_hypervisor_hostname)
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_create_instance</span>(self, context, instance_type,
+               image_href, kernel_id, ramdisk_id,
+               min_count, max_count,
+               display_name, display_description,
+               key_name, key_data, security_groups,
+               availability_zone, user_data, metadata, injected_files,
+               admin_password, access_ip_v4, access_ip_v6,
+               requested_networks, config_drive,
+               block_device_mapping, auto_disk_config, filter_properties,
+               reservation_id<span style="color:#f92672">=</span>None, legacy_bdm<span style="color:#f92672">=</span>True, shutdown_terminate<span style="color:#f92672">=</span>False,
+               check_server_group_quota<span style="color:#f92672">=</span>False, tags<span style="color:#f92672">=</span>None,
+               supports_multiattach<span style="color:#f92672">=</span>False, trusted_certs<span style="color:#f92672">=</span>None,
+               supports_port_resource_request<span style="color:#f92672">=</span>False,
+               requested_host<span style="color:#f92672">=</span>None, requested_hypervisor_hostname<span style="color:#f92672">=</span>None):
+    <span style="color:#75715e"># Normalize and setup some parameters</span>
+    <span style="color:#f92672">......</span>
+    <span style="color:#66d9ef">if</span> image_href:
+        image_id, boot_meta <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_image(context, image_href)
+    <span style="color:#66d9ef">else</span>:
+        <span style="color:#75715e"># This is similar to the logic in _retrieve_trusted_certs_object.</span>
+        <span style="color:#66d9ef">if</span> (trusted_certs <span style="color:#f92672">or</span>
+            (CONF<span style="color:#f92672">.</span>glance<span style="color:#f92672">.</span>verify_glance_signatures <span style="color:#f92672">and</span>
+                CONF<span style="color:#f92672">.</span>glance<span style="color:#f92672">.</span>enable_certificate_validation <span style="color:#f92672">and</span>
+                CONF<span style="color:#f92672">.</span>glance<span style="color:#f92672">.</span>default_trusted_certificate_ids)):
+            msg <span style="color:#f92672">=</span> _(<span style="color:#e6db74">&#34;Image certificate validation is not supported &#34;</span>
+                    <span style="color:#e6db74">&#34;when booting from volume&#34;</span>)
+            <span style="color:#66d9ef">raise</span> exception<span style="color:#f92672">.</span>CertificateValidationFailed(message<span style="color:#f92672">=</span>msg)
+        image_id <span style="color:#f92672">=</span> None
+        boot_meta <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_bdm_image_metadata(
+            context, block_device_mapping, legacy_bdm)
+
+    self<span style="color:#f92672">.</span>_check_auto_disk_config(image<span style="color:#f92672">=</span>boot_meta,
+                                    auto_disk_config<span style="color:#f92672">=</span>auto_disk_config)
+
+    <span style="color:#f92672">......</span>
+    self<span style="color:#f92672">.</span>compute_task_api<span style="color:#f92672">.</span>schedule_and_build_instances(
+        context,
+        build_requests<span style="color:#f92672">=</span>build_requests,
+        request_spec<span style="color:#f92672">=</span>request_specs,
+        image<span style="color:#f92672">=</span>boot_meta,
+        admin_password<span style="color:#f92672">=</span>admin_password,
+        injected_files<span style="color:#f92672">=</span>injected_files,
+        requested_networks<span style="color:#f92672">=</span>requested_networks,
+        block_device_mapping<span style="color:#f92672">=</span>block_device_mapping,
+        tags<span style="color:#f92672">=</span>tags)
+    <span style="color:#66d9ef">return</span> instances, reservation_id
+</code></pre></div><p>最终，这个函数又调用了<code>self.compute_task_api.schedule_and_build_instances</code>方法，而这个<code>compute_task_api</code>就是<code>nova/conductor/api.py</code>中定义的<code>ComputeTaskAPI</code>类，方法定义如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">schedule_and_build_instances</span>(self, context, build_requests,
+                                request_spec, image,
+                                admin_password, injected_files,
+                                requested_networks, block_device_mapping,
+                                tags<span style="color:#f92672">=</span>None):
+    self<span style="color:#f92672">.</span>conductor_compute_rpcapi<span style="color:#f92672">.</span>schedule_and_build_instances(
+        context, build_requests, request_spec, image,
+        admin_password, injected_files, requested_networks,
+        block_device_mapping, tags)
+</code></pre></div><p>这个函数很简单，就是调用了<code>nova/conductor/rpcapi.py</code>中<code>ComputeTaskAPI</code>类的<code>schedule_and_build_instances</code>方法：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">schedule_and_build_instances</span>(self, context, build_requests,
+                                request_specs,
+                                image, admin_password, injected_files,
+                                requested_networks,
+                                block_device_mapping,
+                                tags<span style="color:#f92672">=</span>None):
+    version <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;1.17&#39;</span>
+    kw <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;build_requests&#39;</span>: build_requests,
+            <span style="color:#e6db74">&#39;request_specs&#39;</span>: request_specs,
+            <span style="color:#e6db74">&#39;image&#39;</span>: jsonutils<span style="color:#f92672">.</span>to_primitive(image),
+            <span style="color:#e6db74">&#39;admin_password&#39;</span>: admin_password,
+            <span style="color:#e6db74">&#39;injected_files&#39;</span>: injected_files,
+            <span style="color:#e6db74">&#39;requested_networks&#39;</span>: requested_networks,
+            <span style="color:#e6db74">&#39;block_device_mapping&#39;</span>: block_device_mapping,
+            <span style="color:#e6db74">&#39;tags&#39;</span>: tags}
+
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> self<span style="color:#f92672">.</span>client<span style="color:#f92672">.</span>can_send_version(version):
+        version <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;1.16&#39;</span>
+        <span style="color:#66d9ef">del</span> kw[<span style="color:#e6db74">&#39;tags&#39;</span>]
+
+    cctxt <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>client<span style="color:#f92672">.</span>prepare(version<span style="color:#f92672">=</span>version)
+    cctxt<span style="color:#f92672">.</span>cast(context, <span style="color:#e6db74">&#39;schedule_and_build_instances&#39;</span>, <span style="color:#f92672">**</span>kw)
+</code></pre></div><p><code>cast</code>代表这个是一个异步调用，<code>schedule_and_build_instances</code>是调用的方法名。虽然目录从api到compute到conductor`，但上面的所有过程都是在nova-api管控下的。一直到发出这个异步请求为止，nova-api阶段结束，返回响应，虚拟机状态为building。</p>
+<h3 id="nova-conductor-1">Nova-Conductor-1</h3>
+<p>上面说过，<code>manager.py</code>是对应rpc调用方法的实现，所以在<code>nova/conductor/manager.py</code>中找到函数定义如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">schedule_and_build_instances</span>(self, context, build_requests,
+                                     request_specs, image,
+                                     admin_password, injected_files,
+                                     requested_networks, block_device_mapping,
+                                     tags<span style="color:#f92672">=</span>None):
+    <span style="color:#75715e"># Add all the UUIDs for the instances</span>
+    instance_uuids <span style="color:#f92672">=</span> [spec<span style="color:#f92672">.</span>instance_uuid <span style="color:#66d9ef">for</span> spec <span style="color:#f92672">in</span> request_specs]
+    <span style="color:#66d9ef">try</span>:
+        host_lists <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_schedule_instances(context, request_specs[<span style="color:#ae81ff">0</span>],
+                instance_uuids, return_alternates<span style="color:#f92672">=</span>True)
+    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> exc:
+        LOG<span style="color:#f92672">.</span>exception(<span style="color:#e6db74">&#39;Failed to schedule instances&#39;</span>)
+        self<span style="color:#f92672">.</span>_bury_in_cell0(context, request_specs[<span style="color:#ae81ff">0</span>], exc,
+                            build_requests<span style="color:#f92672">=</span>build_requests,
+                            block_device_mapping<span style="color:#f92672">=</span>block_device_mapping,
+                            tags<span style="color:#f92672">=</span>tags)
+        <span style="color:#66d9ef">return</span>
+    
+    <span style="color:#f92672">......</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_schedule_instances</span>(self, context, request_spec,
+                        instance_uuids<span style="color:#f92672">=</span>None, return_alternates<span style="color:#f92672">=</span>False):
+    scheduler_utils<span style="color:#f92672">.</span>setup_instance_group(context, request_spec)
+    <span style="color:#66d9ef">with</span> timeutils<span style="color:#f92672">.</span>StopWatch() <span style="color:#66d9ef">as</span> timer:
+        host_lists <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>query_client<span style="color:#f92672">.</span>select_destinations(
+            context, request_spec, instance_uuids, return_objects<span style="color:#f92672">=</span>True,
+            return_alternates<span style="color:#f92672">=</span>return_alternates)
+    LOG<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#39;Took </span><span style="color:#e6db74">%0.2f</span><span style="color:#e6db74"> seconds to select destinations for </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> &#39;</span>
+                <span style="color:#e6db74">&#39;instance(s).&#39;</span>, timer<span style="color:#f92672">.</span>elapsed(), len(instance_uuids))
+    <span style="color:#66d9ef">return</span> host_lists
+
+</code></pre></div><p>首先这函数调用<code>_schedule_instances</code>方法，这个方法中又调用了<code>select_destinations</code>，而<code>self.query_client</code>其实是一个<code>SchedulerQueryClient</code>类实例，位于<code>nova/scheduler/query.py</code>中，代码很耿直:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">select_destinations</span>(self, context, spec_obj, instance_uuids,
+            return_objects<span style="color:#f92672">=</span>False, return_alternates<span style="color:#f92672">=</span>False):
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>scheduler_rpcapi<span style="color:#f92672">.</span>select_destinations(context, spec_obj,
+                instance_uuids, return_objects, return_alternates)
+</code></pre></div><p>一看到rpcapi，果不其然在<code>nova/scheduler/rpcapi.py</code>中找到对应的函数：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">select_destinations</span>(self, ctxt, spec_obj, instance_uuids,
+            return_objects<span style="color:#f92672">=</span>False, return_alternates<span style="color:#f92672">=</span>False):
+    <span style="color:#f92672">......</span>
+    cctxt <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>client<span style="color:#f92672">.</span>prepare(
+        version<span style="color:#f92672">=</span>version, call_monitor_timeout<span style="color:#f92672">=</span>CONF<span style="color:#f92672">.</span>rpc_response_timeout,
+        timeout<span style="color:#f92672">=</span>CONF<span style="color:#f92672">.</span>long_rpc_timeout)
+    <span style="color:#66d9ef">return</span> cctxt<span style="color:#f92672">.</span>call(ctxt, <span style="color:#e6db74">&#39;select_destinations&#39;</span>, <span style="color:#f92672">**</span>msg_args)
+</code></pre></div><p>注意这里使用的<code>call</code>而不是<code>cast</code>，所以是一个同步调用，此时nova-conductor会堵塞等待直到nova-scheduler返回。</p>
+<h3 id="nova-scheduler">Nova-Scheduler</h3>
+<p>根据套路，在<code>nova/scheduler/manager.py</code>中找到函数定义如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a6e22e">@messaging.expected_exceptions</span>(exception<span style="color:#f92672">.</span>NoValidHost)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">select_destinations</span>(self, ctxt, request_spec<span style="color:#f92672">=</span>None,
+        filter_properties<span style="color:#f92672">=</span>None, spec_obj<span style="color:#f92672">=</span>_sentinel, instance_uuids<span style="color:#f92672">=</span>None,
+        return_objects<span style="color:#f92672">=</span>False, return_alternates<span style="color:#f92672">=</span>False):
+    <span style="color:#f92672">......</span>
+    selections <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>select_destinations(ctxt, spec_obj,
+            instance_uuids, alloc_reqs_by_rp_uuid, provider_summaries,
+            allocation_request_version, return_alternates)
+    <span style="color:#75715e"># If `return_objects` is False, we need to convert the selections to</span>
+    <span style="color:#75715e"># the older format, which is a list of host state dicts.</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> return_objects:
+        selection_dicts <span style="color:#f92672">=</span> [sel[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>to_dict() <span style="color:#66d9ef">for</span> sel <span style="color:#f92672">in</span> selections]
+        <span style="color:#66d9ef">return</span> jsonutils<span style="color:#f92672">.</span>to_primitive(selection_dicts)
+    <span style="color:#66d9ef">return</span> selections
+</code></pre></div><p>这个函数本质上又是一层封装，最终调用的是<code>nova-api.conf</code>文件中定义的<code>scheduler.driver</code>，这里以自带的<code>FilterScheduler</code>为例，位于<code>nova/scheduler/filter_scheduler.py</code>，入口函数是<code>_schedule</code>，在这里首先获取全部的host，然后经过<code>_get_sorted_hosts</code>函数的筛选和权重计算，返回满足条件的主机给nova-conductor。</p>
+<h3 id="nova-conductor-2">Nova-Conductor-2</h3>
+<p>回到<code>nova/conductor/manager.py</code>的<code>schedule_and_build_instances</code>方法：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">schedule_and_build_instances</span>(self, context, build_requests,
+                                     request_specs, image,
+                                     admin_password, injected_files,
+                                     requested_networks, block_device_mapping,
+                                     tags<span style="color:#f92672">=</span>None):
+    
+    <span style="color:#f92672">......</span>
+
+    zipped <span style="color:#f92672">=</span> six<span style="color:#f92672">.</span>moves<span style="color:#f92672">.</span>zip(build_requests, request_specs, host_lists,
+                            instances)
+    <span style="color:#66d9ef">for</span> (build_request, request_spec, host_list, instance) <span style="color:#f92672">in</span> zipped:
+        
+        <span style="color:#f92672">......</span>
+
+        <span style="color:#66d9ef">with</span> obj_target_cell(instance, cell) <span style="color:#66d9ef">as</span> cctxt:
+            <span style="color:#75715e"># send a state update notification for the initial create to</span>
+            <span style="color:#75715e"># show it going from non-existent to BUILDING</span>
+            <span style="color:#75715e"># This can lazy-load attributes on instance.</span>
+            notifications<span style="color:#f92672">.</span>send_update_with_states(cctxt, instance, None,
+                    vm_states<span style="color:#f92672">.</span>BUILDING, None, None, service<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;conductor&#34;</span>)
+            objects<span style="color:#f92672">.</span>InstanceAction<span style="color:#f92672">.</span>action_start(
+                cctxt, instance<span style="color:#f92672">.</span>uuid, instance_actions<span style="color:#f92672">.</span>CREATE,
+                want_result<span style="color:#f92672">=</span>False)
+            instance_bdms <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_create_block_device_mapping(
+                cell, instance<span style="color:#f92672">.</span>flavor, instance<span style="color:#f92672">.</span>uuid, block_device_mapping)
+            instance_tags <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_create_tags(cctxt, instance<span style="color:#f92672">.</span>uuid, tags)
+
+        <span style="color:#75715e"># Update mapping for instance. Normally this check is guarded by</span>
+        <span style="color:#75715e"># a try/except but if we&#39;re here we know that a newer nova-api</span>
+        <span style="color:#75715e"># handled the build process and would have created the mapping</span>
+        inst_mapping <span style="color:#f92672">=</span> objects<span style="color:#f92672">.</span>InstanceMapping<span style="color:#f92672">.</span>get_by_instance_uuid(
+            context, instance<span style="color:#f92672">.</span>uuid)
+        inst_mapping<span style="color:#f92672">.</span>cell_mapping <span style="color:#f92672">=</span> cell
+        inst_mapping<span style="color:#f92672">.</span>save()
+        
+        <span style="color:#f92672">......</span>
+        
+        legacy_secgroups <span style="color:#f92672">=</span> [s<span style="color:#f92672">.</span>identifier
+                            <span style="color:#66d9ef">for</span> s <span style="color:#f92672">in</span> request_spec<span style="color:#f92672">.</span>security_groups]
+        <span style="color:#66d9ef">with</span> obj_target_cell(instance, cell) <span style="color:#66d9ef">as</span> cctxt:
+            self<span style="color:#f92672">.</span>compute_rpcapi<span style="color:#f92672">.</span>build_and_run_instance(
+                cctxt, instance<span style="color:#f92672">=</span>instance, image<span style="color:#f92672">=</span>image,
+                request_spec<span style="color:#f92672">=</span>request_spec,
+                filter_properties<span style="color:#f92672">=</span>filter_props,
+                admin_password<span style="color:#f92672">=</span>admin_password,
+                injected_files<span style="color:#f92672">=</span>injected_files,
+                requested_networks<span style="color:#f92672">=</span>requested_networks,
+                security_groups<span style="color:#f92672">=</span>legacy_secgroups,
+                block_device_mapping<span style="color:#f92672">=</span>instance_bdms,
+                host<span style="color:#f92672">=</span>host<span style="color:#f92672">.</span>service_host, node<span style="color:#f92672">=</span>host<span style="color:#f92672">.</span>nodename,
+                limits<span style="color:#f92672">=</span>host<span style="color:#f92672">.</span>limits, host_list<span style="color:#f92672">=</span>host_list)
+</code></pre></div><p>拿到主机列表后，由于可能同时创建多台主机，所以使用for循环，进行了一些数据库操作后，进行rpc调用，位于<code>nova/compute/rpcapi.py</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">build_and_run_instance</span>(self, ctxt, instance, host, image, request_spec,
+        filter_properties, admin_password<span style="color:#f92672">=</span>None, injected_files<span style="color:#f92672">=</span>None,
+        requested_networks<span style="color:#f92672">=</span>None, security_groups<span style="color:#f92672">=</span>None,
+        block_device_mapping<span style="color:#f92672">=</span>None, node<span style="color:#f92672">=</span>None, limits<span style="color:#f92672">=</span>None,
+        host_list<span style="color:#f92672">=</span>None):
+    <span style="color:#f92672">......</span>    
+    cctxt<span style="color:#f92672">.</span>cast(ctxt, <span style="color:#e6db74">&#39;build_and_run_instance&#39;</span>, <span style="color:#f92672">**</span>kwargs)
+</code></pre></div><h3 id="nova-compute">Nova-Compute</h3>
+<p>套路都熟悉了，直接看<code>nova/compute/manager.py</code>吧，其实最核心函数是<code>_build_and_run_instance</code>，这里进行镜像、网络资源的准备以及各种验证、状态修改、发送通知等。最后调用对应driver的spawn方法，这里以libvert为例，对应文件是<code>nova/virt/libvirt/driver.py</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">spawn</span>(self, context, instance, image_meta, injected_files,
+            admin_password, allocations, network_info<span style="color:#f92672">=</span>None,
+            block_device_info<span style="color:#f92672">=</span>None, power_on<span style="color:#f92672">=</span>True):
+    disk_info <span style="color:#f92672">=</span> blockinfo<span style="color:#f92672">.</span>get_disk_info(CONF<span style="color:#f92672">.</span>libvirt<span style="color:#f92672">.</span>virt_type,
+                                        instance,
+                                        image_meta,
+                                        block_device_info)
+    injection_info <span style="color:#f92672">=</span> InjectionInfo(network_info<span style="color:#f92672">=</span>network_info,
+                                    files<span style="color:#f92672">=</span>injected_files,
+                                    admin_pass<span style="color:#f92672">=</span>admin_password)
+    gen_confdrive <span style="color:#f92672">=</span> functools<span style="color:#f92672">.</span>partial(self<span style="color:#f92672">.</span>_create_configdrive,
+                                        context, instance,
+                                        injection_info)
+    self<span style="color:#f92672">.</span>_create_image(context, instance, disk_info[<span style="color:#e6db74">&#39;mapping&#39;</span>],
+                        injection_info<span style="color:#f92672">=</span>injection_info,
+                        block_device_info<span style="color:#f92672">=</span>block_device_info)
+
+    <span style="color:#75715e"># Required by Quobyte CI</span>
+    self<span style="color:#f92672">.</span>_ensure_console_log_for_instance(instance)
+
+    <span style="color:#75715e"># Does the guest need to be assigned some vGPU mediated devices ?</span>
+    mdevs <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_allocate_mdevs(allocations)
+
+    xml <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_guest_xml(context, instance, network_info,
+                                disk_info, image_meta,
+                                block_device_info<span style="color:#f92672">=</span>block_device_info,
+                                mdevs<span style="color:#f92672">=</span>mdevs)
+    self<span style="color:#f92672">.</span>_create_domain_and_network(
+        context, xml, instance, network_info,
+        block_device_info<span style="color:#f92672">=</span>block_device_info,
+        post_xml_callback<span style="color:#f92672">=</span>gen_confdrive,
+        destroy_disks_on_failure<span style="color:#f92672">=</span>True,
+        power_on<span style="color:#f92672">=</span>power_on)
+    LOG<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#34;Guest created on hypervisor&#34;</span>, instance<span style="color:#f92672">=</span>instance)
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_wait_for_boot</span>():
+        <span style="color:#e6db74">&#34;&#34;&#34;Called at an interval until the VM is running.&#34;&#34;&#34;</span>
+        state <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>get_info(instance)<span style="color:#f92672">.</span>state
+
+        <span style="color:#66d9ef">if</span> state <span style="color:#f92672">==</span> power_state<span style="color:#f92672">.</span>RUNNING:
+            LOG<span style="color:#f92672">.</span>info(<span style="color:#e6db74">&#34;Instance spawned successfully.&#34;</span>, instance<span style="color:#f92672">=</span>instance)
+            <span style="color:#66d9ef">raise</span> loopingcall<span style="color:#f92672">.</span>LoopingCallDone()
+
+    <span style="color:#66d9ef">if</span> power_on:
+        timer <span style="color:#f92672">=</span> loopingcall<span style="color:#f92672">.</span>FixedIntervalLoopingCall(_wait_for_boot)
+        timer<span style="color:#f92672">.</span>start(interval<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>)<span style="color:#f92672">.</span>wait()
+    <span style="color:#66d9ef">else</span>:
+        LOG<span style="color:#f92672">.</span>info(<span style="color:#e6db74">&#34;Instance spawned successfully.&#34;</span>, instance<span style="color:#f92672">=</span>instance)
+</code></pre></div><p>在这里拉取镜像创建根目录，生成XML(默认在/etc/libvert/qemu目录)，定义网络和domain并启动，然后虚拟机状态为running。到此为止，创建虚拟机完成。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/openstack/" rel="tag">openstack</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/scrapy-redis%E7%BB%93%E5%90%88post%E8%AF%B7%E6%B1%82%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Scrapy-Redis结合POST请求获取数据</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">OpenStack源码学习笔记2</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

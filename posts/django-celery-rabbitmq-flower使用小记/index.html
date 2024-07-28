@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Django&#43;Celery&#43;Rabbitmq&#43;Flower使用小记 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Django&#43;Celery&#43;Rabbitmq&#43;Flower使用小记" />
+<meta property="og:description" content="之前的博客中简单的介绍了celery的安装配置以及如何在python程序中使用，这里记录一下我使用django结合celery以及rabbitmq提供web服务，同时使用flower进行监控的过程。至于这几样东西是什么、怎么安装这里就不再细说了。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/django-celery-rabbitmq-flower%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/" />
+<meta property="article:published_time" content="2016-02-23T15:30:02+00:00" />
+<meta property="article:modified_time" content="2016-02-23T15:30:02+00:00" />
+
+		<meta itemprop="name" content="Django&#43;Celery&#43;Rabbitmq&#43;Flower使用小记">
+<meta itemprop="description" content="之前的博客中简单的介绍了celery的安装配置以及如何在python程序中使用，这里记录一下我使用django结合celery以及rabbitmq提供web服务，同时使用flower进行监控的过程。至于这几样东西是什么、怎么安装这里就不再细说了。">
+<meta itemprop="datePublished" content="2016-02-23T15:30:02&#43;00:00" />
+<meta itemprop="dateModified" content="2016-02-23T15:30:02&#43;00:00" />
+<meta itemprop="wordCount" content="281">
+
+
+
+<meta itemprop="keywords" content="django,python," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Django&#43;Celery&#43;Rabbitmq&#43;Flower使用小记</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-02-23T15:30:02Z">2016-02-23</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>之前的博客中简单的介绍了celery的安装配置以及如何在python程序中使用，这里记录一下我使用django结合celery以及rabbitmq提供web服务，同时使用flower进行监控的过程。至于这几样东西是什么、怎么安装这里就不再细说了。</p>
+<p>涉及到的关键点如下：</p>
+<ol>
+<li>如何在django中使用celery？</li>
+<li>如何触发定时任务？</li>
+<li>如何为不同的任务绑定不同的消息队列？</li>
+<li>如何重试出错的任务？</li>
+<li>如何发送报错邮件？</li>
+<li>如何使用flower进行监控？</li>
+</ol>
+<p>首先，项目依赖：</p>
+<pre><code>celery==3.1.20
+Django==1.9.2
+flower==0.8.4
+</code></pre><p>注意版本，有可能你看到本文的时候相关配置会有所变化。</p>
+<p>首先创建一个空的django项目，我这里就叫djce好了：</p>
+<pre><code>tree djce
+djce
+├── djce
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+└── manage.py
+</code></pre><p>接下来在settings.py的同级目录中新建celery.py:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> __future__ <span style="color:#f92672">import</span> absolute_import
+<span style="color:#f92672">import</span> os
+<span style="color:#f92672">from</span> celery <span style="color:#f92672">import</span> Celery
+<span style="color:#f92672">from</span> django.conf <span style="color:#f92672">import</span> settings
+os<span style="color:#f92672">.</span>environ<span style="color:#f92672">.</span>setdefault(<span style="color:#e6db74">&#39;DJANGO_SETTINGS_MODULE&#39;</span>, <span style="color:#e6db74">&#39;djce.settings&#39;</span>)
+app <span style="color:#f92672">=</span> Celery(<span style="color:#e6db74">&#39;djce&#39;</span>)
+app<span style="color:#f92672">.</span>config_from_object(<span style="color:#e6db74">&#39;django.conf:settings&#39;</span>)
+app<span style="color:#f92672">.</span>autodiscover_tasks(<span style="color:#66d9ef">lambda</span>: settings<span style="color:#f92672">.</span>INSTALLED_APPS)
+<span style="color:#a6e22e">@app.task</span>(bind<span style="color:#f92672">=</span>True)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">debug_task</span>(self):
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Request: {0!r}&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>request))
+</code></pre></div><p>修改<code>__init__.py</code>添加：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> __future__ <span style="color:#f92672">import</span> absolute_import
+<span style="color:#f92672">from</span> .celery <span style="color:#f92672">import</span> app <span style="color:#66d9ef">as</span> celery_app
+</code></pre></div><p>修改settings.py添加：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 添加celery配置</span>
+BROKER_URL <span style="color:#f92672">=</span><span style="color:#e6db74">&#39;amqp://guest@127.0.0.1//&#39;</span>
+CELERY_RESULT_BACKEND <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;amqp://guest@127.0.0.1//&#39;</span>
+CELERY_ACCEPT_CONTENT <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;application/json&#39;</span>]
+CELERY_TASK_SERIALIZER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;json&#39;</span>
+CELERY_RESULT_SERIALIZER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;json&#39;</span>
+CELERY_TIMEZONE <span style="color:#f92672">=</span> TIME_ZONE
+CELERY_IGNORE_RESULT <span style="color:#f92672">=</span> True
+<span style="color:#75715e"># 启用报错邮件</span>
+CELERY_SEND_TASK_ERROR_EMAILS <span style="color:#f92672">=</span> True
+<span style="color:#75715e"># 分离2个任务队列</span>
+<span style="color:#f92672">from</span> kombu <span style="color:#f92672">import</span> Exchange, Queue
+CELERY_QUEUES <span style="color:#f92672">=</span> (
+    Queue(<span style="color:#e6db74">&#39;default&#39;</span>, Exchange(<span style="color:#e6db74">&#39;default&#39;</span>), routing_key<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;default&#39;</span>),
+    Queue(<span style="color:#e6db74">&#39;for_task_a&#39;</span>, Exchange(<span style="color:#e6db74">&#39;for_task_a&#39;</span>), routing_key<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;for_task_a&#39;</span>),<span style="color:#75715e">#这个是主动任务的队列</span>
+    Queue(<span style="color:#e6db74">&#39;for_task_b&#39;</span>, Exchange(<span style="color:#e6db74">&#39;for_task_b&#39;</span>), routing_key<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;for_task_b&#39;</span>),<span style="color:#75715e">#这个是定时任务的队列</span>
+)
+CELERY_ROUTES <span style="color:#f92672">=</span> {
+    <span style="color:#e6db74">&#39;task_a&#39;</span>: {<span style="color:#e6db74">&#39;queue&#39;</span>: <span style="color:#e6db74">&#39;for_task_a&#39;</span>, <span style="color:#e6db74">&#39;routing_key&#39;</span>: <span style="color:#e6db74">&#39;for_task_a&#39;</span>},
+    <span style="color:#e6db74">&#39;task_b&#39;</span>: {<span style="color:#e6db74">&#39;queue&#39;</span>: <span style="color:#e6db74">&#39;for_task_b&#39;</span>, <span style="color:#e6db74">&#39;routing_key&#39;</span>: <span style="color:#e6db74">&#39;for_task_b&#39;</span>},
+}
+<span style="color:#75715e"># 收件人</span>
+ADMINS <span style="color:#f92672">=</span> (
+    (<span style="color:#e6db74">&#39;xxxx&#39;</span>, <span style="color:#e6db74">&#39;xxxx@xxxx.com&#39;</span>),
+)
+SERVER_EMAIL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;xxx@xxx.com&#39;</span>
+EMAIL_HOST <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;xxxx&#39;</span>
+EMAIL_PORT <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
+EMAIL_HOST_USER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;xxxx@xx.com&#39;</span>
+EMAIL_HOST_PASSWORD <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;asdasd&#39;</span>
+</code></pre></div><p>在上面的设置中，我们启用了报错邮件并设置了2个队列用于接收不同的消息，记得把配置信息修改成你使用的环境相应配置。接下来我们新建一个app，这里就叫mytask好了，并在mytask中新建tasks.py:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> celery.utils.log <span style="color:#f92672">import</span> get_task_logger
+<span style="color:#f92672">from</span> celery.decorators <span style="color:#f92672">import</span> periodic_task
+<span style="color:#f92672">from</span> celery.task.schedules <span style="color:#f92672">import</span> crontab
+<span style="color:#f92672">from</span> celery.decorators <span style="color:#f92672">import</span> task
+logger <span style="color:#f92672">=</span> get_task_logger(__name__)
+<span style="color:#a6e22e">@task</span>(name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;task_a&#34;</span>, default_retry_delay<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>, max_retries<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, bind<span style="color:#f92672">=</span>True)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task_a</span>(self):
+    <span style="color:#66d9ef">try</span>:
+        <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;in task_a&#34;</span>
+    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+        <span style="color:#75715e"># 隔5S重试，最多3次</span>
+        logger<span style="color:#f92672">.</span>info(str(e))
+        <span style="color:#66d9ef">raise</span> self<span style="color:#f92672">.</span>retry(exc<span style="color:#f92672">=</span>e)
+<span style="color:#a6e22e">@periodic_task</span>(
+    run_every<span style="color:#f92672">=</span>(crontab(minute<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;*/1&#39;</span>)),
+    name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;task_b&#34;</span>,
+    ignore_result<span style="color:#f92672">=</span>True, bind<span style="color:#f92672">=</span>True)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task_b</span>(self):
+    <span style="color:#75715e">#每1分钟执行一次</span>
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;in task b&#34;</span>
+</code></pre></div><p>在views.py中写一个最简单的逻辑即可：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.http <span style="color:#f92672">import</span> HttpResponse
+<span style="color:#f92672">from</span> .tasks <span style="color:#f92672">import</span> task_a
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyTask</span>(View):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get</span>(self, request, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+        task_a<span style="color:#f92672">.</span>delay() <span style="color:#75715e">#发送消息，触发后台任务</span>
+        <span style="color:#66d9ef">return</span> HttpResponse(<span style="color:#e6db74">&#34;django and celery!&#34;</span>)
+</code></pre></div><p>编写相应的urls.py并在settings.py中引入我们的mytask后（很简单，这里就不贴出来了），确定rabbitmq服务成功运行后，首先我们打开第一个终端运行django程序：
+<code>python manage.py runserver</code></p>
+<p>然后打开第二个终端，运行worker处理task_a：
+<code>celery -A djce worker -l info -Q for_task_a</code></p>
+<p>再然后打开第三个终端，运行worker处理task_b:
+<code>celery -A djce worker -l info -Q for_task_b</code></p>
+<p>注意使用-Q参数绑定对应的队列。</p>
+<p>再再然后打开第四个终端，用于触发我们的计划任务task_b:
+<code>celery -A djce beat -l info</code></p>
+<p>至此，一个没卵用但是说明了整个逻辑的程序就完成了，只要我们访问相应的url，task_a的终端就会有输出，并且每分钟task_b的终端也会有输出。</p>
+<p>接下来说说监控的flower，想使用这个，首先我们需要在rabbitmq中启用rabbitmq_management并重启服务</p>
+<pre><code>rabbitmq-plugins enable rabbitmq_management
+service rabbitmq-server restart
+</code></pre><p>其次我们需要新增一个管理员用户，怎么添加请看rabbitmq的文档。上述工作没问题的话打开第五个终端：
+<code>flower -A djce --port=5555 --broker_api=http://rbtuser:passwd@192.168.x.x:15672/api/</code></p>
+<p>其中rbtuser,passwd以及服务器ip根据真实情况修改，这里需要注意的是，必须先启用worker后再启用flower，否则点击worker后会提示找不到对应的worker。</p>
+<p>没问题的话，使用浏览器访问5555端口就可以看见flower的界面了。</p>
+<p>其它问题：</p>
+<ol>
+<li>如果修改了task的逻辑，必须重启worker才能生效。</li>
+<li>想清空某个队列的话，可以直接访问rabbitmq服务器的15672端口并登录，选择“Queues”后点击“Purge”，注意：“delete”是删除这个队列的意思！</li>
+<li>默认情况下，机器有多少个cpu则worker可以同时处理多少任务，可以在同一台机器上启动多个worker进程。</li>
+<li>需要的终端有点多？请使用supervisor!</li>
+</ol>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/django/" rel="tag">django</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/python%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0%E4%B9%8B%E4%BD%BF%E7%94%A8%E5%AD%97%E5%85%B8%E5%88%86%E6%B4%BE%E5%87%BD%E6%95%B0/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">python基础复习之使用字典分派函数</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E8%A7%A3%E5%86%B3flower-substantial-drift-from-may-mean-clocks-are-out-of-sync%E9%94%99%E8%AF%AF/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">解决flower Substantial drift from.. may mean clocks are out of sync错误</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

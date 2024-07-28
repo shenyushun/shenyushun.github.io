@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>python基础复习之使用字典分派函数 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="python基础复习之使用字典分派函数" />
+<meta property="og:description" content="程序中很常见的一种场景就是根据某个控制变量的值来调用不同的函数或对象进行处理，某些语言中可以使用case语句进行处理，在python可以使用getattr函数甚至if&hellip;elif&hellip;else来处理，除此之外，也可以使用字典来实现相同的功能，比如下面的例子：
+animals = []
+number_of_felines = 0
+def deal_cat():
+    global number_of_felines
+    print &#34;meow&#34;
+    animals.append(&#39;feline&#39;)
+    number_of_felines &#43;= 1
+def deal_dog():
+    print &#39;bark&#39;
+    animals.append(&#39;canine&#39;)
+def deal_bear():
+    print &#34;hug&#34;
+    animals.append(&#39;ursine&#39;)
+token = {&#39;cat&#39;: deal_cat, &#39;dog&#39;: deal_dog, &#39;bear&#39;: deal_bear}
+#words = [&#39;cat&#39;, &#39;dog&#39;, &#39;bear&#39;]
+words = [&#39;cat&#39;, &#39;dog&#39;, &#39;bear&#39;, &#39;cat&#39;]
+for one in words:
+    token[one]()
+    #return token[one]()
+nf = number_of_felines
+print &#39;we met %d feline%s&#39; % (nf, &#39;s&#39;[nf == 1:])
+print &#39;the animals we net were:&#39;, &#39; &#39;.join(animals)
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/python%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0%E4%B9%8B%E4%BD%BF%E7%94%A8%E5%AD%97%E5%85%B8%E5%88%86%E6%B4%BE%E5%87%BD%E6%95%B0/" />
+<meta property="article:published_time" content="2016-01-26T11:57:39+00:00" />
+<meta property="article:modified_time" content="2016-01-26T11:57:39+00:00" />
+
+		<meta itemprop="name" content="python基础复习之使用字典分派函数">
+<meta itemprop="description" content="程序中很常见的一种场景就是根据某个控制变量的值来调用不同的函数或对象进行处理，某些语言中可以使用case语句进行处理，在python可以使用getattr函数甚至if&hellip;elif&hellip;else来处理，除此之外，也可以使用字典来实现相同的功能，比如下面的例子：
+animals = []
+number_of_felines = 0
+def deal_cat():
+    global number_of_felines
+    print &#34;meow&#34;
+    animals.append(&#39;feline&#39;)
+    number_of_felines &#43;= 1
+def deal_dog():
+    print &#39;bark&#39;
+    animals.append(&#39;canine&#39;)
+def deal_bear():
+    print &#34;hug&#34;
+    animals.append(&#39;ursine&#39;)
+token = {&#39;cat&#39;: deal_cat, &#39;dog&#39;: deal_dog, &#39;bear&#39;: deal_bear}
+#words = [&#39;cat&#39;, &#39;dog&#39;, &#39;bear&#39;]
+words = [&#39;cat&#39;, &#39;dog&#39;, &#39;bear&#39;, &#39;cat&#39;]
+for one in words:
+    token[one]()
+    #return token[one]()
+nf = number_of_felines
+print &#39;we met %d feline%s&#39; % (nf, &#39;s&#39;[nf == 1:])
+print &#39;the animals we net were:&#39;, &#39; &#39;.join(animals)
+">
+<meta itemprop="datePublished" content="2016-01-26T11:57:39&#43;00:00" />
+<meta itemprop="dateModified" content="2016-01-26T11:57:39&#43;00:00" />
+<meta itemprop="wordCount" content="134">
+
+
+
+<meta itemprop="keywords" content="python," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">python基础复习之使用字典分派函数</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-01-26T11:57:39Z">2016-01-26</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>程序中很常见的一种场景就是根据某个控制变量的值来调用不同的函数或对象进行处理，某些语言中可以使用case语句进行处理，在python可以使用getattr函数甚至if&hellip;elif&hellip;else来处理，除此之外，也可以使用字典来实现相同的功能，比如下面的例子：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">animals <span style="color:#f92672">=</span> []
+number_of_felines <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">deal_cat</span>():
+    <span style="color:#66d9ef">global</span> number_of_felines
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;meow&#34;</span>
+    animals<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;feline&#39;</span>)
+    number_of_felines <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">deal_dog</span>():
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;bark&#39;</span>
+    animals<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;canine&#39;</span>)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">deal_bear</span>():
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;hug&#34;</span>
+    animals<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;ursine&#39;</span>)
+token <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;cat&#39;</span>: deal_cat, <span style="color:#e6db74">&#39;dog&#39;</span>: deal_dog, <span style="color:#e6db74">&#39;bear&#39;</span>: deal_bear}
+<span style="color:#75715e">#words = [&#39;cat&#39;, &#39;dog&#39;, &#39;bear&#39;]</span>
+words <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;cat&#39;</span>, <span style="color:#e6db74">&#39;dog&#39;</span>, <span style="color:#e6db74">&#39;bear&#39;</span>, <span style="color:#e6db74">&#39;cat&#39;</span>]
+<span style="color:#66d9ef">for</span> one <span style="color:#f92672">in</span> words:
+    token[one]()
+    <span style="color:#75715e">#return token[one]()</span>
+nf <span style="color:#f92672">=</span> number_of_felines
+<span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;we met </span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> feline</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> (nf, <span style="color:#e6db74">&#39;s&#39;</span>[nf <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:])
+<span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;the animals we net were:&#39;</span>, <span style="color:#e6db74">&#39; &#39;</span><span style="color:#f92672">.</span>join(animals)
+</code></pre></div><p>以上代码来源于《python cookbook》 第二版4.16节，原书中在for循环中使用return会报错，但本质上就是模拟根据不同的key来调用不同函数，所以去掉return即可。运行输出结果如下：</p>
+<pre><code>meow
+bark
+hug
+meow
+we met 2 felines
+the animals we net were: feline canine ursine feline
+</code></pre><p>这里解释一下<code>'s'[nf == 1:]</code>这句话，这句话最终的目的其实就是决定feline的单复数形式罢了。从代码层面来讲，等同于：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">23</span>]: <span style="color:#e6db74">&#34;abc&#34;</span>[False:]
+Out[<span style="color:#ae81ff">23</span>]: <span style="color:#e6db74">&#39;abc&#39;</span>
+In [<span style="color:#ae81ff">24</span>]: <span style="color:#e6db74">&#34;abc&#34;</span>[True:]
+Out[<span style="color:#ae81ff">24</span>]: <span style="color:#e6db74">&#39;bc&#39;</span>
+</code></pre></div><p>再进一步说就是：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">25</span>]: <span style="color:#e6db74">&#34;abc&#34;</span>[<span style="color:#ae81ff">0</span>:]
+Out[<span style="color:#ae81ff">25</span>]: <span style="color:#e6db74">&#39;abc&#39;</span>
+In [<span style="color:#ae81ff">26</span>]: <span style="color:#e6db74">&#34;abc&#34;</span>[<span style="color:#ae81ff">1</span>:]
+Out[<span style="color:#ae81ff">26</span>]: <span style="color:#e6db74">&#39;bc&#39;</span>
+</code></pre></div><p>因为在py2.7中：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">28</span>]: <span style="color:#ae81ff">0</span> <span style="color:#f92672">==</span> False
+Out[<span style="color:#ae81ff">28</span>]: True
+In [<span style="color:#ae81ff">30</span>]: <span style="color:#ae81ff">1</span> <span style="color:#f92672">==</span> True
+Out[<span style="color:#ae81ff">30</span>]: True
+</code></pre></div><p>虽然举例的代码是函数，但把函数换成对象、类都是可以的。这里再向大家推荐一下《python cookbook》这本书，如果你和我一样已经过了入门阶段而想要有进一步提高的话，建议把这本书通读并实践，而不是遇到某个问题才去找解决方案，这本书里有很多让人眼前一亮的小技巧以及让人豁然开朗的技术解答。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/celery%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">celery使用小记</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/django-celery-rabbitmq-flower%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Django&#43;Celery&#43;Rabbitmq&#43;Flower使用小记</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

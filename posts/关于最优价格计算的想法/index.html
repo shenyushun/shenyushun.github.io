@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>关于最优价格计算的想法 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="关于最优价格计算的想法" />
+<meta property="og:description" content="假设现在某型号有2个供货商提供,最简化模型如下：
+A: (P X),(Q Y)
+B: (P M),(Q N)
+根据实际情况,买的多价格越低，故X&gt;Y,M&gt;N
+如果M&gt;X,N&gt;Y,明显的不论数量多少都应该去A买，反之亦然。
+以M&gt;X,N&lt;Y为例,则可推断出M&gt;X&gt;Y&gt;N。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E5%85%B3%E4%BA%8E%E6%9C%80%E4%BC%98%E4%BB%B7%E6%A0%BC%E8%AE%A1%E7%AE%97%E7%9A%84%E6%83%B3%E6%B3%95/" />
+<meta property="article:published_time" content="2014-03-21T15:53:11+00:00" />
+<meta property="article:modified_time" content="2014-03-21T15:53:11+00:00" />
+
+		<meta itemprop="name" content="关于最优价格计算的想法">
+<meta itemprop="description" content="假设现在某型号有2个供货商提供,最简化模型如下：
+A: (P X),(Q Y)
+B: (P M),(Q N)
+根据实际情况,买的多价格越低，故X&gt;Y,M&gt;N
+如果M&gt;X,N&gt;Y,明显的不论数量多少都应该去A买，反之亦然。
+以M&gt;X,N&lt;Y为例,则可推断出M&gt;X&gt;Y&gt;N。">
+<meta itemprop="datePublished" content="2014-03-21T15:53:11&#43;00:00" />
+<meta itemprop="dateModified" content="2014-03-21T15:53:11&#43;00:00" />
+<meta itemprop="wordCount" content="119">
+
+
+
+<meta itemprop="keywords" content="" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">关于最优价格计算的想法</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-03-21T15:53:11Z">2014-03-21</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%9D%82%E8%B0%88/" rel="category">杂谈</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>假设现在某型号有2个供货商提供,最简化模型如下：</p>
+<p>A: (P X),(Q Y)</p>
+<p>B: (P M),(Q N)</p>
+<p>根据实际情况,买的多价格越低，故<code>X&gt;Y,M&gt;N</code></p>
+<p>如果<code>M&gt;X</code>,<code>N&gt;Y</code>,明显的不论数量多少都应该去A买，反之亦然。</p>
+<p>以<code>M&gt;X</code>,<code>N&lt;Y</code>为例,则可推断出<code>M&gt;X&gt;Y&gt;N</code>。</p>
+<p>假设两家的价格阶梯相同，则<code>P&lt;Q</code>。客户需要购买产品数量是W,如果顾客拆分到两家分别购买是最优解的话，则有：</p>
+<pre><code>iQ*N + (W-iQ)*X &lt; W*N 且 0 &lt; W - iQ &lt; Q （其中i为小于W时Q的最大倍数，比如W=21，Q=10，则i=2）
+</code></pre><p>为了方便计算令i为1，如果上述假设成立，则应得出结果是：<code>X &lt; N</code></p>
+<p>与题设矛盾。那么，真的存在这种从B买iQ个从A买（W-iQ）个的最优解吗？</p>
+<p>上面的模型建立应该是有问题的，比如**阶梯数量不同的时候，多个阶梯价格成交替状态，产品库存数量&hellip;都会影响到最优推荐算法。</p>
+<p>怎么办呢？？？？？？</p>
+<p>这个赶脚本质应该是一个第归问题。</p>
+<pre><code>(A,R)(B,S)(C,T)
+
+(A,J)(B,K)(C,L)
+
+R&gt;S&gt;T
+
+J&gt;k&gt;L
+
+R&lt;J,S&gt;K,T&lt;L
+</code></pre><p>那么则 <code>J&gt;R&gt;S&gt;K&gt;L&gt;T</code></p>
+<p>这里还是先不考虑阶梯数量不同的问题。</p>
+<p>首先需要的数量为W，由题设可知iC个数量应该用价格T购买，则问题变成了：对于剩下的（W-iC）个数量，是继续用T的价格买还是分配到小于当前的数量阶梯去买合适？</p>
+<p>想知道这个答案，则需要知道的是： 对于数量是（W-iC）的情况，该如何在(A,R)(B,S)(A,J)(B,K)中购买最便宜？（这里假设<code>W-iC &gt; B</code>，即可以从第2阶梯购买）</p>
+<p>由题设知道K&lt;S，则剩下的大部分应该用K的价格买。那么，问题就变成了：对于剩下的（W-iC-xB）个数量，是继续用K的价格买还是分配到小于当前数量阶梯去买合适？</p>
+<p>想知道这个答案，则需要知道的是： 对于数量是（W-iC-xB）的情况，该如何在(A,J)(B,K)中购买最便宜？</p>
+<p>由题设可知，<code>R&lt;J</code>,则剩下的部分用R的价格买。</p>
+<p>那么，这一步比较的是：<code>W-iC-xB）* K</code> 和<code>（W-iC-xB）* R</code> 的大小。</p>
+<p>假设<code>（W-iC-xB）*R </code>小（这是复杂情况），进而比较的是<code>（W-iC-xB）* R + xB * K</code> 和 <code>（W-iC）* T</code> 的大小。</p>
+<p>否则比较的是<code>（W-iC）* K</code> 和 <code>（W-iC）* T </code>的大小</p>
+<p>不论阶梯价格如何，最终价格有以下几种可能组合</p>
+<ol>
+<li><code>W * T</code> 剩下的(W-iC)用T价格购买，即全部用T购买。</li>
+<li><code>iC * T + (W-iC) * K</code> 剩下的(W-iC)全部用K购买，即<code>（W-iC-xB）* K &lt;（W-iC-xB）* R</code></li>
+<li><code>iC * T + xB * K + （W-iC-xB）* R</code> 剩下的(W-iC)中，xB个用K购买，剩下的用R购买。<code>（W-iC-xB）* K &lt;（W-iC-xB）* R</code></li>
+</ol>
+<p>对于更多数量阶梯原理类似。</p>
+<p><strong>这里需要注意的是，建立在严格的J&gt;R&gt;S&gt;K&gt;L&gt;T前提下，W*T一定是最优解。</strong></p>
+<p>不知道这个算法对不对呢？</p>
+<p>补充：</p>
+<p>最大阶梯应该限制在满足库存的情况下</p>
+<p>(A,R)(B,S) 虽然T&lt;L 不过库存数量小于C，则忽略T的价格阶梯。</p>
+<p>(A,J)(B,K)(C,L)</p>
+<p>再比如：</p>
+<ul>
+<li>(A,R)(B,S)(C,T)</li>
+<li>(B,J)(C,K)(D,L)</li>
+</ul>
+<p>（1，10）（5，5）（10，1） （3，9）（6，4）（9，2）</p>
+<p>假设买12个，虽然10和9不是同数量，但是都是各自阶梯中最接近12的，所以他们放在一起比较。</p>
+<p>这种阶梯应也不影响上面的算法。</p>
+		</div>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/kalilinux%E5%AE%89%E8%A3%85%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">KaliLinux安装失败的解决方法</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/django%E7%9A%84view%E4%B8%AD%E5%B8%B8%E7%94%A8return%E6%96%B9%E6%B3%95/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Django的view中常用return方法</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>OpenStack源码学习笔记2 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="OpenStack源码学习笔记2" />
+<meta property="og:description" content="上次学习了Nova创建虚拟机的过程，这次来看一下Glance是如何上传镜像的。相比于Nova，Glance源码使用了大量的代理模式和装饰器模式，阅读代码时候一个不仔细就会一脸懵X。根据上次说的Openstack套路，我们通过setup.cfg直奔主题——glance/cmd/api.py:
+def main():
+    try:
+        config.parse_args()
+        config.set_config_defaults()
+        wsgi.set_eventlet_hub()
+        logging.setup(CONF, &#39;glance&#39;)
+        notifier.set_defaults()
+        if cfg.CONF.profiler.enabled:
+            _notifier = osprofiler.notifier.create(&#34;Messaging&#34;,
+                                                   oslo_messaging, {},
+                                                   notifier.get_transport(),
+                                                   &#34;glance&#34;, &#34;api&#34;,
+                                                   cfg.CONF.bind_host)
+            osprofiler.notifier.set(_notifier)
+            osprofiler.web.enable(cfg.CONF.profiler.hmac_keys)
+        else:
+            osprofiler.web.disable()
+        server = wsgi.Server(initialize_glance_store=True)
+        server.start(config.load_paste_app(&#39;glance-api&#39;), default_port=9292)
+        server.wait()
+    except KNOWN_EXCEPTIONS as e:
+        print(e)
+        fail(e)
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" />
+<meta property="article:published_time" content="2019-09-18T12:46:29+00:00" />
+<meta property="article:modified_time" content="2019-09-18T12:46:29+00:00" />
+
+		<meta itemprop="name" content="OpenStack源码学习笔记2">
+<meta itemprop="description" content="上次学习了Nova创建虚拟机的过程，这次来看一下Glance是如何上传镜像的。相比于Nova，Glance源码使用了大量的代理模式和装饰器模式，阅读代码时候一个不仔细就会一脸懵X。根据上次说的Openstack套路，我们通过setup.cfg直奔主题——glance/cmd/api.py:
+def main():
+    try:
+        config.parse_args()
+        config.set_config_defaults()
+        wsgi.set_eventlet_hub()
+        logging.setup(CONF, &#39;glance&#39;)
+        notifier.set_defaults()
+        if cfg.CONF.profiler.enabled:
+            _notifier = osprofiler.notifier.create(&#34;Messaging&#34;,
+                                                   oslo_messaging, {},
+                                                   notifier.get_transport(),
+                                                   &#34;glance&#34;, &#34;api&#34;,
+                                                   cfg.CONF.bind_host)
+            osprofiler.notifier.set(_notifier)
+            osprofiler.web.enable(cfg.CONF.profiler.hmac_keys)
+        else:
+            osprofiler.web.disable()
+        server = wsgi.Server(initialize_glance_store=True)
+        server.start(config.load_paste_app(&#39;glance-api&#39;), default_port=9292)
+        server.wait()
+    except KNOWN_EXCEPTIONS as e:
+        print(e)
+        fail(e)
+">
+<meta itemprop="datePublished" content="2019-09-18T12:46:29&#43;00:00" />
+<meta itemprop="dateModified" content="2019-09-18T12:46:29&#43;00:00" />
+<meta itemprop="wordCount" content="811">
+
+
+
+<meta itemprop="keywords" content="python,openstack," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">OpenStack源码学习笔记2</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-09-18T12:46:29Z">2019-09-18</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/" rel="category">云计算</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>上次学习了Nova创建虚拟机的过程，这次来看一下Glance是如何上传镜像的。相比于Nova，Glance源码使用了大量的代理模式和装饰器模式，阅读代码时候一个不仔细就会一脸懵X。根据上次说的Openstack套路，我们通过<code>setup.cfg</code>直奔主题——<code>glance/cmd/api.py</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    <span style="color:#66d9ef">try</span>:
+        config<span style="color:#f92672">.</span>parse_args()
+        config<span style="color:#f92672">.</span>set_config_defaults()
+        wsgi<span style="color:#f92672">.</span>set_eventlet_hub()
+        logging<span style="color:#f92672">.</span>setup(CONF, <span style="color:#e6db74">&#39;glance&#39;</span>)
+        notifier<span style="color:#f92672">.</span>set_defaults()
+        <span style="color:#66d9ef">if</span> cfg<span style="color:#f92672">.</span>CONF<span style="color:#f92672">.</span>profiler<span style="color:#f92672">.</span>enabled:
+            _notifier <span style="color:#f92672">=</span> osprofiler<span style="color:#f92672">.</span>notifier<span style="color:#f92672">.</span>create(<span style="color:#e6db74">&#34;Messaging&#34;</span>,
+                                                   oslo_messaging, {},
+                                                   notifier<span style="color:#f92672">.</span>get_transport(),
+                                                   <span style="color:#e6db74">&#34;glance&#34;</span>, <span style="color:#e6db74">&#34;api&#34;</span>,
+                                                   cfg<span style="color:#f92672">.</span>CONF<span style="color:#f92672">.</span>bind_host)
+            osprofiler<span style="color:#f92672">.</span>notifier<span style="color:#f92672">.</span>set(_notifier)
+            osprofiler<span style="color:#f92672">.</span>web<span style="color:#f92672">.</span>enable(cfg<span style="color:#f92672">.</span>CONF<span style="color:#f92672">.</span>profiler<span style="color:#f92672">.</span>hmac_keys)
+        <span style="color:#66d9ef">else</span>:
+            osprofiler<span style="color:#f92672">.</span>web<span style="color:#f92672">.</span>disable()
+        server <span style="color:#f92672">=</span> wsgi<span style="color:#f92672">.</span>Server(initialize_glance_store<span style="color:#f92672">=</span>True)
+        server<span style="color:#f92672">.</span>start(config<span style="color:#f92672">.</span>load_paste_app(<span style="color:#e6db74">&#39;glance-api&#39;</span>), default_port<span style="color:#f92672">=</span><span style="color:#ae81ff">9292</span>)
+        server<span style="color:#f92672">.</span>wait()
+    <span style="color:#66d9ef">except</span> KNOWN_EXCEPTIONS <span style="color:#66d9ef">as</span> e:
+        <span style="color:#66d9ef">print</span>(e)
+        fail(e)
+</code></pre></div><h2 id="配置加载与路由绑定">配置加载与路由绑定</h2>
+<p>和Nova一样，这个文件主要作用就是加载配置、创建WSGI Server并运行，这里我们注意一下<code>initialize_glance_store=True</code>这里，新版中关于存储的部分已经独立出项目叫做<a href="https://github.com/openstack/glance_store">glance_store</a>，这里还对这部分进行了初始化，我们跟进<code>glance/common/wsgi.py</code>中：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">initialize_glance_store</span>():
+    <span style="color:#e6db74">&#34;&#34;&#34;Initialize glance store.&#34;&#34;&#34;</span>
+    glance_store<span style="color:#f92672">.</span>register_opts(CONF)
+    glance_store<span style="color:#f92672">.</span>create_stores(CONF)
+    glance_store<span style="color:#f92672">.</span>verify_default_store()
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Server</span>(object):
+    <span style="color:#f92672">......</span>
+
+    <span style="color:#66d9ef">def</span> __init__(self, threads<span style="color:#f92672">=</span><span style="color:#ae81ff">1000</span>, initialize_glance_store<span style="color:#f92672">=</span>False):
+        <span style="color:#f92672">......</span>    
+        self<span style="color:#f92672">.</span>initialize_glance_store <span style="color:#f92672">=</span> initialize_glance_store
+        <span style="color:#f92672">......</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start</span>(self, application, default_port):
+        self<span style="color:#f92672">.</span>application <span style="color:#f92672">=</span> application
+        self<span style="color:#f92672">.</span>default_port <span style="color:#f92672">=</span> default_port
+        self<span style="color:#f92672">.</span>configure()
+        self<span style="color:#f92672">.</span>start_wsgi()
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">configure</span>(self, old_conf<span style="color:#f92672">=</span>None, has_changed<span style="color:#f92672">=</span>None):
+        eventlet<span style="color:#f92672">.</span>wsgi<span style="color:#f92672">.</span>MAX_HEADER_LINE <span style="color:#f92672">=</span> CONF<span style="color:#f92672">.</span>max_header_line
+        self<span style="color:#f92672">.</span>client_socket_timeout <span style="color:#f92672">=</span> CONF<span style="color:#f92672">.</span>client_socket_timeout <span style="color:#f92672">or</span> None
+        self<span style="color:#f92672">.</span>configure_socket(old_conf, has_changed)
+        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>initialize_glance_store:
+            initialize_glance_store()
+</code></pre></div><p>这里我们跟进<code>glance_store/backend.py</code>中：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_stores</span>(conf<span style="color:#f92672">=</span>CONF):
+    store_count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+
+    <span style="color:#66d9ef">for</span> (store_entry, store_instance) <span style="color:#f92672">in</span> _load_stores(conf):
+        <span style="color:#66d9ef">try</span>:
+            schemes <span style="color:#f92672">=</span> store_instance<span style="color:#f92672">.</span>get_schemes()
+            store_instance<span style="color:#f92672">.</span>configure(re_raise_bsc<span style="color:#f92672">=</span>False)
+        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">NotImplementedError</span>:
+            <span style="color:#66d9ef">continue</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> schemes:
+            <span style="color:#66d9ef">raise</span> exceptions<span style="color:#f92672">.</span>BackendException(<span style="color:#e6db74">&#39;Unable to register store </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">. &#39;</span>
+                                              <span style="color:#e6db74">&#39;No schemes associated with it.&#39;</span>
+                                              <span style="color:#f92672">%</span> store_entry)
+        <span style="color:#66d9ef">else</span>:
+            LOG<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#34;Registering store </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> with schemes </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span>,
+                      store_entry, schemes)
+            scheme_map <span style="color:#f92672">=</span> {}
+            loc_cls <span style="color:#f92672">=</span> store_instance<span style="color:#f92672">.</span>get_store_location_class()
+            <span style="color:#66d9ef">for</span> scheme <span style="color:#f92672">in</span> schemes:
+                scheme_map[scheme] <span style="color:#f92672">=</span> {
+                    <span style="color:#e6db74">&#39;store&#39;</span>: store_instance,
+                    <span style="color:#e6db74">&#39;location_class&#39;</span>: loc_cls,
+                    <span style="color:#e6db74">&#39;store_entry&#39;</span>: store_entry
+                }
+            location<span style="color:#f92672">.</span>register_scheme_map(scheme_map)
+            store_count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">return</span> store_count
+</code></pre></div><p>在这里会根据<code>/etc/glance/glance_api.conf</code>中的配置信息找到对应的driver(位于<code>glance_store/_drivers</code>目录)并配置，然后调用<code>register_scheme_map()</code>进行绑定：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">SCHEME_TO_CLS_MAP <span style="color:#f92672">=</span> {}
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">register_scheme_map</span>(scheme_map):
+    <span style="color:#66d9ef">for</span> (k, v) <span style="color:#f92672">in</span> scheme_map<span style="color:#f92672">.</span>items():
+        LOG<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#34;Registering scheme </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> with </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span>, k, v)
+        SCHEME_TO_CLS_MAP[k] <span style="color:#f92672">=</span> v
+</code></pre></div><p>这样就完成了所需的准备工作。</p>
+<h2 id="镜像上传">镜像上传</h2>
+<p>glance镜像上传分为2个步骤，首先在数据库中创建一条记录，并返回相关信息，此时使用<code>glance image-list</code>命令可以查看到一个空镜像，状态为<code>queued</code>。然后再上传镜像数据，上传完成后进入<code>active</code>状态，代码均来源于rocky版。</p>
+<h3 id="create">create</h3>
+<p>根据<a href="https://docs.openstack.org/api-ref/image/v2/index.html?expanded=create-image-detail#create-image">文档</a>创建镜像是向<code>/v2/images</code>发送POST请求，然后再结合<code>glance-api-paste.ini</code>中的定义：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#a6e22e">[pipeline:glance-api]</span>
+<span style="color:#a6e22e">pipeline</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">cors healthcheck http_proxy_to_wsgi versionnegotiation osprofiler unauthenticated-context rootapp</span>
+
+<span style="color:#a6e22e">[composite:rootapp]</span>
+<span style="color:#a6e22e">paste.composite_factory</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">glance.api:root_app_factory</span>
+<span style="color:#a6e22e">/: apiversions</span>
+<span style="color:#a6e22e">/v1: apiv1app</span>
+<span style="color:#a6e22e">/v2: apiv2app</span>
+
+<span style="color:#a6e22e">[app:apiversions]</span>
+<span style="color:#a6e22e">paste.app_factory</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">glance.api.versions:create_resource</span>
+
+<span style="color:#a6e22e">[app:apiv1app]</span>
+<span style="color:#a6e22e">paste.app_factory</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">glance.api.v1.router:API.factory</span>
+
+<span style="color:#a6e22e">[app:apiv2app]</span>
+<span style="color:#a6e22e">paste.app_factory</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">glance.api.v2.router:API.factory</span>
+</code></pre></div><p>根据<code>glance/api/v2/router.py</code>中的<code>API()</code>定义，找到实际处理post请求的函数为<code>glance/api/v2/images.py</code>中的<code>ImagesController</code>类的<code>create</code>方法：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create</span>(self, req, image, extra_properties, tags):
+        image_factory <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>gateway<span style="color:#f92672">.</span>get_image_factory(req<span style="color:#f92672">.</span>context)
+        image_repo <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>gateway<span style="color:#f92672">.</span>get_repo(req<span style="color:#f92672">.</span>context)
+        <span style="color:#66d9ef">try</span>:
+            image <span style="color:#f92672">=</span> image_factory<span style="color:#f92672">.</span>new_image(extra_properties<span style="color:#f92672">=</span>extra_properties,
+                                            tags<span style="color:#f92672">=</span>tags, <span style="color:#f92672">**</span>image)
+            image_repo<span style="color:#f92672">.</span>add(image)
+        <span style="color:#66d9ef">except</span> (exception<span style="color:#f92672">.</span>DuplicateLocation,
+                exception<span style="color:#f92672">.</span>Invalid) <span style="color:#66d9ef">as</span> e:
+            <span style="color:#66d9ef">raise</span> webob<span style="color:#f92672">.</span>exc<span style="color:#f92672">.</span>HTTPBadRequest(explanation<span style="color:#f92672">=</span>e<span style="color:#f92672">.</span>msg)
+        <span style="color:#66d9ef">except</span> (exception<span style="color:#f92672">.</span>ReservedProperty,
+                exception<span style="color:#f92672">.</span>ReadonlyProperty) <span style="color:#66d9ef">as</span> e:
+            <span style="color:#66d9ef">raise</span> webob<span style="color:#f92672">.</span>exc<span style="color:#f92672">.</span>HTTPForbidden(explanation<span style="color:#f92672">=</span>e<span style="color:#f92672">.</span>msg)
+        <span style="color:#66d9ef">except</span> exception<span style="color:#f92672">.</span>Forbidden <span style="color:#66d9ef">as</span> e:
+            LOG<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#34;User not permitted to create image&#34;</span>)
+            <span style="color:#66d9ef">raise</span> webob<span style="color:#f92672">.</span>exc<span style="color:#f92672">.</span>HTTPForbidden(explanation<span style="color:#f92672">=</span>e<span style="color:#f92672">.</span>msg)
+        <span style="color:#66d9ef">except</span> exception<span style="color:#f92672">.</span>LimitExceeded <span style="color:#66d9ef">as</span> e:
+            LOG<span style="color:#f92672">.</span>warn(encodeutils<span style="color:#f92672">.</span>exception_to_unicode(e))
+            <span style="color:#66d9ef">raise</span> webob<span style="color:#f92672">.</span>exc<span style="color:#f92672">.</span>HTTPRequestEntityTooLarge(
+                explanation<span style="color:#f92672">=</span>e<span style="color:#f92672">.</span>msg, request<span style="color:#f92672">=</span>req, content_type<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;text/plain&#39;</span>)
+        <span style="color:#66d9ef">except</span> exception<span style="color:#f92672">.</span>Duplicate <span style="color:#66d9ef">as</span> e:
+            <span style="color:#66d9ef">raise</span> webob<span style="color:#f92672">.</span>exc<span style="color:#f92672">.</span>HTTPConflict(explanation<span style="color:#f92672">=</span>e<span style="color:#f92672">.</span>msg)
+        <span style="color:#66d9ef">except</span> exception<span style="color:#f92672">.</span>NotAuthenticated <span style="color:#66d9ef">as</span> e:
+            <span style="color:#66d9ef">raise</span> webob<span style="color:#f92672">.</span>exc<span style="color:#f92672">.</span>HTTPUnauthorized(explanation<span style="color:#f92672">=</span>e<span style="color:#f92672">.</span>msg)
+        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">TypeError</span> <span style="color:#66d9ef">as</span> e:
+            LOG<span style="color:#f92672">.</span>debug(encodeutils<span style="color:#f92672">.</span>exception_to_unicode(e))
+            <span style="color:#66d9ef">raise</span> webob<span style="color:#f92672">.</span>exc<span style="color:#f92672">.</span>HTTPBadRequest(explanation<span style="color:#f92672">=</span>e)
+        <span style="color:#66d9ef">return</span> image
+</code></pre></div><p>这段代码看上简单，实际内含玄机，如果跟进<code>gateway.get_image_factory</code>和<code>gateway.get_repo</code>函数，会发现作者用了大量的装饰器模式和代理模式：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># glance/gateway.py</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_image_factory</span>(self, context):
+    image_factory <span style="color:#f92672">=</span> glance<span style="color:#f92672">.</span>domain<span style="color:#f92672">.</span>ImageFactory()
+    store_image_factory <span style="color:#f92672">=</span> glance<span style="color:#f92672">.</span>location<span style="color:#f92672">.</span>ImageFactoryProxy(
+        image_factory, context, self<span style="color:#f92672">.</span>store_api, self<span style="color:#f92672">.</span>store_utils)
+    quota_image_factory <span style="color:#f92672">=</span> glance<span style="color:#f92672">.</span>quota<span style="color:#f92672">.</span>ImageFactoryProxy(
+        store_image_factory, context, self<span style="color:#f92672">.</span>db_api, self<span style="color:#f92672">.</span>store_utils)
+    policy_image_factory <span style="color:#f92672">=</span> policy<span style="color:#f92672">.</span>ImageFactoryProxy(
+        quota_image_factory, context, self<span style="color:#f92672">.</span>policy)
+    notifier_image_factory <span style="color:#f92672">=</span> glance<span style="color:#f92672">.</span>notifier<span style="color:#f92672">.</span>ImageFactoryProxy(
+        policy_image_factory, context, self<span style="color:#f92672">.</span>notifier)
+    <span style="color:#66d9ef">if</span> property_utils<span style="color:#f92672">.</span>is_property_protection_enabled():
+        property_rules <span style="color:#f92672">=</span> property_utils<span style="color:#f92672">.</span>PropertyRules(self<span style="color:#f92672">.</span>policy)
+        pif <span style="color:#f92672">=</span> property_protections<span style="color:#f92672">.</span>ProtectedImageFactoryProxy(
+            notifier_image_factory, context, property_rules)
+        authorized_image_factory <span style="color:#f92672">=</span> authorization<span style="color:#f92672">.</span>ImageFactoryProxy(
+            pif, context)
+    <span style="color:#66d9ef">else</span>:
+        authorized_image_factory <span style="color:#f92672">=</span> authorization<span style="color:#f92672">.</span>ImageFactoryProxy(
+            notifier_image_factory, context)
+    <span style="color:#66d9ef">return</span> authorized_image_factory
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_repo</span>(self, context):
+    image_repo <span style="color:#f92672">=</span> glance<span style="color:#f92672">.</span>db<span style="color:#f92672">.</span>ImageRepo(context, self<span style="color:#f92672">.</span>db_api)
+    store_image_repo <span style="color:#f92672">=</span> glance<span style="color:#f92672">.</span>location<span style="color:#f92672">.</span>ImageRepoProxy(
+        image_repo, context, self<span style="color:#f92672">.</span>store_api, self<span style="color:#f92672">.</span>store_utils)
+    quota_image_repo <span style="color:#f92672">=</span> glance<span style="color:#f92672">.</span>quota<span style="color:#f92672">.</span>ImageRepoProxy(
+        store_image_repo, context, self<span style="color:#f92672">.</span>db_api, self<span style="color:#f92672">.</span>store_utils)
+    policy_image_repo <span style="color:#f92672">=</span> policy<span style="color:#f92672">.</span>ImageRepoProxy(
+        quota_image_repo, context, self<span style="color:#f92672">.</span>policy)
+    notifier_image_repo <span style="color:#f92672">=</span> glance<span style="color:#f92672">.</span>notifier<span style="color:#f92672">.</span>ImageRepoProxy(
+        policy_image_repo, context, self<span style="color:#f92672">.</span>notifier)
+    <span style="color:#66d9ef">if</span> property_utils<span style="color:#f92672">.</span>is_property_protection_enabled():
+        property_rules <span style="color:#f92672">=</span> property_utils<span style="color:#f92672">.</span>PropertyRules(self<span style="color:#f92672">.</span>policy)
+        pir <span style="color:#f92672">=</span> property_protections<span style="color:#f92672">.</span>ProtectedImageRepoProxy(
+            notifier_image_repo, context, property_rules)
+        authorized_image_repo <span style="color:#f92672">=</span> authorization<span style="color:#f92672">.</span>ImageRepoProxy(
+            pir, context)
+    <span style="color:#66d9ef">else</span>:
+        authorized_image_repo <span style="color:#f92672">=</span> authorization<span style="color:#f92672">.</span>ImageRepoProxy(
+            notifier_image_repo, context)
+
+    <span style="color:#66d9ef">return</span> authorized_image_repo
+</code></pre></div><p>阅读这里的时候一个不仔细逻辑就断了，要像剥洋葱一样，一层一层剥开它的心。这里我就不记录追踪细节了，经过一层层判断后，<code>image_factory.new_image</code>函数最终进入<code>glance/domain/__init__.py</code>中并返回了一个<code>Image</code>类型实例。</p>
+<p>然后将这个实例传递给<code>image_repo.add</code>函数，这个函数再经过一层层判断，进入<code>glance/db/__init__.py</code>中调用<code>ImageRepo</code>的<code>add()</code>方法，在这个方法中最终调用了<code>glance/db/sqlalchemy/api.py</code>中的<code>image_create()</code>函数来在数据库中创建新记录。</p>
+<p>如果没有发生错误，则返回创建的空镜像信息给客户端。</p>
+<h3 id="upload">upload</h3>
+<p><a href="https://docs.openstack.org/api-ref/image/v2/?expanded=upload-binary-image-data-detail#upload-binary-image-data">文档</a>中定义，上传数据行为是向<code>/v2/images/{image_id}/file</code>发送PUT请求，实际处理函数为<code>glance/api/v2/image_data.py</code>中的<code>ImageDataController</code>类的<code>upload</code>方法：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#f92672">......</span>
+    <span style="color:#a6e22e">@utils.mutating</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">upload</span>(self, req, image_id, data, size):
+        backend <span style="color:#f92672">=</span> None
+        image_repo <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>gateway<span style="color:#f92672">.</span>get_repo(req<span style="color:#f92672">.</span>context)
+        image <span style="color:#f92672">=</span> None
+        refresher <span style="color:#f92672">=</span> None
+        cxt <span style="color:#f92672">=</span> req<span style="color:#f92672">.</span>context
+        <span style="color:#66d9ef">try</span>:
+            self<span style="color:#f92672">.</span>policy<span style="color:#f92672">.</span>enforce(cxt, <span style="color:#e6db74">&#39;upload_image&#39;</span>, {})
+            image <span style="color:#f92672">=</span> image_repo<span style="color:#f92672">.</span>get(image_id)
+            image<span style="color:#f92672">.</span>status <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;saving&#39;</span>
+            <span style="color:#66d9ef">try</span>:
+                image_repo<span style="color:#f92672">.</span>save(image, from_state<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;queued&#39;</span>)
+                image<span style="color:#f92672">.</span>set_data(data, size, backend<span style="color:#f92672">=</span>backend)
+                <span style="color:#66d9ef">try</span>:
+                    image_repo<span style="color:#f92672">.</span>save(image, from_state<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;saving&#39;</span>)
+                <span style="color:#66d9ef">except</span> exception<span style="color:#f92672">.</span>NotAuthenticated:
+                    <span style="color:#66d9ef">if</span> refresher <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> None:
+                        <span style="color:#75715e"># request a new token to update an image in database</span>
+                        cxt<span style="color:#f92672">.</span>auth_token <span style="color:#f92672">=</span> refresher<span style="color:#f92672">.</span>refresh_token()
+                        image_repo <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>gateway<span style="color:#f92672">.</span>get_repo(req<span style="color:#f92672">.</span>context)
+                        image_repo<span style="color:#f92672">.</span>save(image, from_state<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;saving&#39;</span>)
+                    <span style="color:#66d9ef">else</span>:
+                        <span style="color:#66d9ef">raise</span>
+        <span style="color:#f92672">......</span>
+</code></pre></div><p>新版本中glance已经可以支持多后端的配置，但还不是稳定版。这里以单后端为例，首先将状态改为saving，然后调用<code>set_data</code>函数。由于某些不可描述的原因，我没法启动程序进行单步调试，只能使用IDE的跳转功能，结果这里兜兜转转饶了很久。这里我就直接给出答案吧，最终调用的是<code>glance/location.py</code>的<code>ImageProxy</code>类中的方法。这里面的关键点在于image其实是由<code>ImageProxy</code>实例代理的，转换发生在初始化对象时候创建的<code>Helper</code>类，这个类有一个<code>proxy</code>方法用来将原始<code>Image</code>类型转换成<code>ImageProxy</code>类型。这里具体就不再详细说明了，回到<code>set_data</code>函数定义：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">set_data</span>(self, data, size<span style="color:#f92672">=</span>None, backend<span style="color:#f92672">=</span>None):
+    <span style="color:#f92672">......</span>
+    hashing_algo <span style="color:#f92672">=</span> CONF[<span style="color:#e6db74">&#39;hashing_algorithm&#39;</span>]
+    <span style="color:#66d9ef">if</span> CONF<span style="color:#f92672">.</span>enabled_backends:
+        (location, size, checksum,
+            multihash, loc_meta) <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>store_api<span style="color:#f92672">.</span>add_with_multihash(
+            CONF,
+            self<span style="color:#f92672">.</span>image<span style="color:#f92672">.</span>image_id,
+            utils<span style="color:#f92672">.</span>LimitingReader(utils<span style="color:#f92672">.</span>CooperativeReader(data),
+                                    CONF<span style="color:#f92672">.</span>image_size_cap),
+            size,
+            backend,
+            hashing_algo,
+            context<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>context,
+            verifier<span style="color:#f92672">=</span>verifier)
+    <span style="color:#66d9ef">else</span>:
+        (location, size, checksum,
+            multihash, loc_meta) <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>store_api<span style="color:#f92672">.</span>add_to_backend_with_multihash(
+            CONF,
+            self<span style="color:#f92672">.</span>image<span style="color:#f92672">.</span>image_id,
+            utils<span style="color:#f92672">.</span>LimitingReader(utils<span style="color:#f92672">.</span>CooperativeReader(data),
+                                    CONF<span style="color:#f92672">.</span>image_size_cap),
+            size,
+            hashing_algo,
+            context<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>context,
+            verifier<span style="color:#f92672">=</span>verifier)
+
+    self<span style="color:#f92672">.</span>image<span style="color:#f92672">.</span>locations <span style="color:#f92672">=</span> [{<span style="color:#e6db74">&#39;url&#39;</span>: location, <span style="color:#e6db74">&#39;metadata&#39;</span>: loc_meta, <span style="color:#e6db74">&#39;status&#39;</span>: <span style="color:#e6db74">&#39;active&#39;</span>}]
+    self<span style="color:#f92672">.</span>image<span style="color:#f92672">.</span>size <span style="color:#f92672">=</span> size
+    self<span style="color:#f92672">.</span>image<span style="color:#f92672">.</span>checksum <span style="color:#f92672">=</span> checksum
+    self<span style="color:#f92672">.</span>image<span style="color:#f92672">.</span>os_hash_value <span style="color:#f92672">=</span> multihash
+    self<span style="color:#f92672">.</span>image<span style="color:#f92672">.</span>os_hash_algo <span style="color:#f92672">=</span> hashing_algo
+    self<span style="color:#f92672">.</span>image<span style="color:#f92672">.</span>status <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;active&#39;</span>
+</code></pre></div><p>这里的<code>store_api</code>默认就是<code>glance_store</code>了，其中<code>add_with_multihash</code>是启用多后端时候调用，<code>add_to_backend_with_multihash</code>启用单后端时候调用。这里以单后端为例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add_to_backend_with_multihash</span>(conf, image_id, data, size, hashing_algo,
+                                  scheme<span style="color:#f92672">=</span>None, context<span style="color:#f92672">=</span>None, verifier<span style="color:#f92672">=</span>None):
+    <span style="color:#66d9ef">if</span> scheme <span style="color:#f92672">is</span> None:
+        scheme <span style="color:#f92672">=</span> conf[<span style="color:#e6db74">&#39;glance_store&#39;</span>][<span style="color:#e6db74">&#39;default_store&#39;</span>]
+    store <span style="color:#f92672">=</span> get_store_from_scheme(scheme)
+    <span style="color:#66d9ef">return</span> store_add_to_backend_with_multihash(
+        image_id, data, size, hashing_algo, store, context, verifier)
+</code></pre></div><p>其中<code>get_store_from_scheme</code>函数作用是获取到文章开头所说的绑定到<code>SCHEME_TO_CLS_MAP</code>中的对应的<code>driver</code>，然后经过<code>store_add_to_backend_with_multihash</code>函数进入相应的<code>driver</code>的<code>add</code>方法，这里以Ceph的块存储RBD(RADOS Block Device)为例，函数位于<code>glance_store/_drivers/rbd.py</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">    <span style="color:#a6e22e">@driver.back_compat_add</span>
+    <span style="color:#a6e22e">@capabilities.check</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add</span>(self, image_id, image_file, image_size, hashing_algo, context<span style="color:#f92672">=</span>None,
+            verifier<span style="color:#f92672">=</span>None):
+        checksum <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>md5()
+        os_hash_value <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>new(str(hashing_algo))
+        image_name <span style="color:#f92672">=</span> str(image_id)
+        <span style="color:#66d9ef">with</span> self<span style="color:#f92672">.</span>get_connection(conffile<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>conf_file,
+                                 rados_id<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>user) <span style="color:#66d9ef">as</span> conn:
+            fsid <span style="color:#f92672">=</span> None
+            <span style="color:#66d9ef">if</span> hasattr(conn, <span style="color:#e6db74">&#39;get_fsid&#39;</span>):
+                fsid <span style="color:#f92672">=</span> encodeutils<span style="color:#f92672">.</span>safe_decode(conn<span style="color:#f92672">.</span>get_fsid())
+            <span style="color:#66d9ef">with</span> conn<span style="color:#f92672">.</span>open_ioctx(self<span style="color:#f92672">.</span>pool) <span style="color:#66d9ef">as</span> ioctx:
+                order <span style="color:#f92672">=</span> int(math<span style="color:#f92672">.</span>log(self<span style="color:#f92672">.</span>WRITE_CHUNKSIZE, <span style="color:#ae81ff">2</span>))
+                LOG<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#39;creating image </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> with order </span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> and size </span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#39;</span>,
+                          image_name, order, image_size)
+                <span style="color:#66d9ef">if</span> image_size <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+                    LOG<span style="color:#f92672">.</span>warning(_(<span style="color:#e6db74">&#34;since image size is zero we will be doing &#34;</span>
+                                  <span style="color:#e6db74">&#34;resize-before-write for each chunk which &#34;</span>
+                                  <span style="color:#e6db74">&#34;will be considerably slower than normal&#34;</span>))
+
+                <span style="color:#66d9ef">try</span>:
+                    loc <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_create_image(fsid, conn, ioctx, image_name,
+                                             image_size, order)
+                <span style="color:#66d9ef">except</span> rbd<span style="color:#f92672">.</span>ImageExists:
+                    msg <span style="color:#f92672">=</span> _(<span style="color:#e6db74">&#39;RBD image </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> already exists&#39;</span>) <span style="color:#f92672">%</span> image_id
+                    <span style="color:#66d9ef">raise</span> exceptions<span style="color:#f92672">.</span>Duplicate(message<span style="color:#f92672">=</span>msg)
+
+                <span style="color:#66d9ef">try</span>:
+                    <span style="color:#66d9ef">with</span> rbd<span style="color:#f92672">.</span>Image(ioctx, image_name) <span style="color:#66d9ef">as</span> image:
+                        bytes_written <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+                        offset <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+                        chunks <span style="color:#f92672">=</span> utils<span style="color:#f92672">.</span>chunkreadable(image_file,
+                                                     self<span style="color:#f92672">.</span>WRITE_CHUNKSIZE)
+                        <span style="color:#66d9ef">for</span> chunk <span style="color:#f92672">in</span> chunks:
+                            <span style="color:#75715e"># If the image size provided is zero we need to do</span>
+                            <span style="color:#75715e"># a resize for the amount we are writing. This will</span>
+                            <span style="color:#75715e"># be slower so setting a higher chunk size may</span>
+                            <span style="color:#75715e"># speed things up a bit.</span>
+                            <span style="color:#66d9ef">if</span> image_size <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+                                chunk_length <span style="color:#f92672">=</span> len(chunk)
+                                length <span style="color:#f92672">=</span> offset <span style="color:#f92672">+</span> chunk_length
+                                bytes_written <span style="color:#f92672">+=</span> chunk_length
+                                LOG<span style="color:#f92672">.</span>debug(_(<span style="color:#e6db74">&#34;resizing image to </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> KiB&#34;</span>) <span style="color:#f92672">%</span>
+                                          (length <span style="color:#f92672">/</span> units<span style="color:#f92672">.</span>Ki))
+                                image<span style="color:#f92672">.</span>resize(length)
+                            LOG<span style="color:#f92672">.</span>debug(_(<span style="color:#e6db74">&#34;writing chunk at offset </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span>) <span style="color:#f92672">%</span>
+                                      (offset))
+                            offset <span style="color:#f92672">+=</span> image<span style="color:#f92672">.</span>write(chunk, offset)
+                            os_hash_value<span style="color:#f92672">.</span>update(chunk)
+                            checksum<span style="color:#f92672">.</span>update(chunk)
+                            <span style="color:#66d9ef">if</span> verifier:
+                                verifier<span style="color:#f92672">.</span>update(chunk)
+                        <span style="color:#66d9ef">if</span> loc<span style="color:#f92672">.</span>snapshot:
+                            image<span style="color:#f92672">.</span>create_snap(loc<span style="color:#f92672">.</span>snapshot)
+                            image<span style="color:#f92672">.</span>protect_snap(loc<span style="color:#f92672">.</span>snapshot)
+        <span style="color:#f92672">......</span>
+        <span style="color:#66d9ef">if</span> image_size <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+            image_size <span style="color:#f92672">=</span> bytes_written
+        metadata <span style="color:#f92672">=</span> {}
+        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>backend_group:
+            metadata[<span style="color:#e6db74">&#39;store&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">u</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> self<span style="color:#f92672">.</span>backend_group
+        <span style="color:#66d9ef">return</span> (loc<span style="color:#f92672">.</span>get_uri(),
+                image_size,
+                checksum<span style="color:#f92672">.</span>hexdigest(),
+                os_hash_value<span style="color:#f92672">.</span>hexdigest(),
+                metadata)
+</code></pre></div><p>这个函数首先计算hash值，然后创建连接，再判断镜像是否存在，不存在则上传，然后将数据返回给调用者。最后glance中修改状态为active，整个镜像上传过程就结束了。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/openstack/" rel="tag">openstack</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">OpenStack源码学习笔记1</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%80%BB%E8%A7%88/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">设计模式-总览</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

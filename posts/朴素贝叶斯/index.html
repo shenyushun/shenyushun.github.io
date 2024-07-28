@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>朴素贝叶斯 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="朴素贝叶斯" />
+<meta property="og:description" content="
+朴素贝叶斯是贝叶斯决策理论的一部分，贝叶斯概率引入先验知识和逻辑推理来处理不确定命题。又可以称为“条件概率”（Conditional probability），与之相对的则是“频数概率”（frequency probability）。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/" />
+<meta property="article:published_time" content="2017-12-21T20:01:41+00:00" />
+<meta property="article:modified_time" content="2017-12-21T20:01:41+00:00" />
+
+		<meta itemprop="name" content="朴素贝叶斯">
+<meta itemprop="description" content="
+朴素贝叶斯是贝叶斯决策理论的一部分，贝叶斯概率引入先验知识和逻辑推理来处理不确定命题。又可以称为“条件概率”（Conditional probability），与之相对的则是“频数概率”（frequency probability）。">
+<meta itemprop="datePublished" content="2017-12-21T20:01:41&#43;00:00" />
+<meta itemprop="dateModified" content="2017-12-21T20:01:41&#43;00:00" />
+<meta itemprop="wordCount" content="328">
+
+
+
+<meta itemprop="keywords" content="python,算法,机器学习," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">朴素贝叶斯</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-12-21T20:01:41Z">2017-12-21</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="category">机器学习</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<!-- raw HTML omitted -->
+<p>朴素贝叶斯是贝叶斯决策理论的一部分，贝叶斯概率引入先验知识和逻辑推理来处理不确定命题。又可以称为“条件概率”（Conditional probability），与之相对的则是“频数概率”（frequency probability）。</p>
+<p>强烈推荐看阮一峰大牛的这篇<a href="http://www.ruanyifeng.com/blog/2011/08/bayesian_inference_part_one.html%5D">文章</a>，看完基本贝叶斯就明白了。</p>
+<p>我们把\(P(A|B)\)称为在B条件下A的概率，若只有A、B两个事件那么\(P(A|B)= {P(AB) \over P(B)} \) 。</p>
+<p><strong>全概率</strong> 公式：
+$$P(B)=P(B|A)P(A) + P(B|\overline A)P(\overline A) $$</p>
+<p><strong>贝叶斯</strong> 公式：</p>
+<p>$$P(A|B)={P(B|A) × P(A) \over P(B)}$$</p>
+<p>对公式进行变形：</p>
+<p>$$P(A|B)={P(A){P(B|A) \over P(B)}}$$</p>
+<blockquote>
+<p>这里称P(A)为先验概率（Prior probability），即在B事件发生之前，我们对A事件概率的一个判断。P(A|B)称为后验概率（Posterior probability），即在B事件发生之后，我们对A事件概率的重新评估。P(B|A) / P(B) 称为可能性函数（Likelyhood），这是一个调整因子，使得预估概率更接近真实概率。</p>
+</blockquote>
+<p>这里以贝叶斯界的&quot;Hello World&quot;为例，判断某种疾病患病概率问题：</p>
+<blockquote>
+<p>已知某种疾病的发病率是0.001，即1000人中会有1个人得病。现有一种试剂可以检验患者是否得病，它的准确率是0.99，即在患者确实得病的情况下，它有99%的可能呈现阳性。它的误报率是5%，即在患者没有得病的情况下，它有5%的可能呈现阳性。现有一个病人的检验结果为阳性，请问他确实得病的可能性有多大？</p>
+</blockquote>
+<p>我们假定阳性概率为P(B),发病的概率为P(A)=0.001，则没得病的概率\(P(\overline A)\)=0.999，确实得病且阳性概率为P(B|A)=0.99，没患病但阳性\(P(B|\overline A)\)=0.05，那么我们要求的问题就是P(A|B)了。</p>
+<p>结合上面提到的全概率公式和贝叶斯公式，可以计算出他确实得病的概率仅为0.019，即“假阳性”。</p>
+<p>如果把问题改成检验结果为阴性，问其患病的可能性。</p>
+<p>我们假定阴性概率为P(B)，发病的概率为P(A)=0.001，没得病的概率\(P(\overline A)\)=0.999，确实得病但阴性概率为P(B|A)=0.01，没患病且阴性\(P(B|\overline A)\)=0.95，那么检查为阴性但患病的概率就是：</p>
+<p>$$P(A|B)={0.001×0.01 \over {0.01×0.001 + 0.95×0.999}} \approx 0.000011 $$</p>
+<p>即便阴性也是有患病几率的，但概率十分低。</p>
+<p>还有一个重要的公式叫做 <strong>联合概率</strong> ，作用就是在已知多个事件发生的情况下，另一个事件发生的概率:</p>
+<p>$$P ={ {P_1P_2&hellip;P_n } \over { {P_1P_2&hellip;P_n}+{(1-P_1)(1-P_2)&hellip;(1-P_n)} } } $$</p>
+<!-- raw HTML omitted -->
+<p>接下来编写一个简陋的朴素贝叶斯分类器，这里还需要引用 <strong>条件独立性假设</strong> ，即若各个条件互相独立，那么：
+$$ P(w_1,w_2,&hellip;w_n|c_i) = P(w_1|c_i)P(w_2|c_i)&hellip;P(w_n|c_i) $$</p>
+<p>现在假设有一句话，要判断这句话是消极的还是积极的，已知数据集如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">load_dataset</span>():
+    posting_list <span style="color:#f92672">=</span> [
+        [<span style="color:#e6db74">&#39;我&#39;</span>,<span style="color:#e6db74">&#39;喜欢&#39;</span>,<span style="color:#e6db74">&#39;你&#39;</span>],
+        [<span style="color:#e6db74">&#39;我&#39;</span>,<span style="color:#e6db74">&#39;喜欢&#39;</span>,<span style="color:#e6db74">&#39;吃&#39;</span>,<span style="color:#e6db74">&#39;包子&#39;</span>],
+        [<span style="color:#e6db74">&#39;我&#39;</span>,<span style="color:#e6db74">&#39;讨厌&#39;</span>,<span style="color:#e6db74">&#39;你&#39;</span>],
+        [<span style="color:#e6db74">&#39;我&#39;</span>,<span style="color:#e6db74">&#39;讨厌&#39;</span>,<span style="color:#e6db74">&#39;吃&#39;</span>,<span style="color:#e6db74">&#39;馒头&#39;</span>],
+        [<span style="color:#e6db74">&#39;我&#39;</span>,<span style="color:#e6db74">&#39;喜欢&#39;</span>,<span style="color:#e6db74">&#39;肉&#39;</span>,<span style="color:#e6db74">&#39;包子&#39;</span>],
+    ]
+    class_vec <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>]
+    <span style="color:#66d9ef">return</span> posting_list, class_vec
+</code></pre></div><p>这里使用1代表积极，0代表消极，为了方便这里不涉及中文分词相关问题。</p>
+<p>接下来创建数据集合，把所有句子中涉及到的词都放进一个列表中：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_vocablist</span>(dataset):
+    vocabset <span style="color:#f92672">=</span> set()
+    <span style="color:#66d9ef">for</span> doc <span style="color:#f92672">in</span> dataset:
+        vocabset <span style="color:#f92672">=</span> vocabset <span style="color:#f92672">|</span> set(doc)
+    <span style="color:#66d9ef">return</span> list(vocabset)
+</code></pre></div><p>要计算概率肯定涉及到文本向量化，这里又分为&quot;词集模型&quot;和&quot;词袋模型&rdquo;:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">words2vec</span>(vocablist, inputset):
+    <span style="color:#e6db74">&#39;&#39;&#39;文本转向量，词集模型，即每个词只能出现一次&#39;&#39;&#39;</span>
+    returnvec <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> len(vocablist)
+    <span style="color:#66d9ef">for</span> word <span style="color:#f92672">in</span> inputset:
+        <span style="color:#66d9ef">if</span> word <span style="color:#f92672">in</span> vocablist:
+            returnvec[vocablist<span style="color:#f92672">.</span>index(word)] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">else</span>:
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> is not found!&#34;</span> <span style="color:#f92672">%</span> word)
+    <span style="color:#66d9ef">return</span> returnvec
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">bag_words2vec</span>(vocablist, inputset):
+    <span style="color:#e6db74">&#39;&#39;&#39;文本转向量，词袋模型，即每个词能出现多次&#39;&#39;&#39;</span>
+    returnvec <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> len(vocablist)
+    <span style="color:#66d9ef">for</span> word <span style="color:#f92672">in</span> inputset:
+        <span style="color:#66d9ef">if</span> word <span style="color:#f92672">in</span> vocablist:
+            returnvec[vocablist<span style="color:#f92672">.</span>index(word)] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">else</span>:
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> is not found!&#34;</span> <span style="color:#f92672">%</span> word)
+    <span style="color:#66d9ef">return</span> returnvec
+</code></pre></div><p>这两者的区别注释中已经给出，再下面将会看到具体结果。接下来创建分类器:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">train_nb</span>(train_matrix, train_category):
+    <span style="color:#e6db74">&#39;&#39;&#39;朴素贝叶斯训练函数，这里仅是二元分类，如果类别数量更多需要进行更改&#39;&#39;&#39;</span>
+    train_docs_num <span style="color:#f92672">=</span> len(train_matrix)
+    word_num <span style="color:#f92672">=</span> len(train_matrix[<span style="color:#ae81ff">0</span>])
+    p_ab <span style="color:#f92672">=</span> sum(train_category) <span style="color:#f92672">/</span> float(train_docs_num)
+    p0_num <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>ones(word_num)  <span style="color:#75715e"># 使用1来初始化分子</span>
+    p1_num <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>ones(word_num)
+    p0_denom <span style="color:#f92672">=</span> <span style="color:#ae81ff">2.0</span>
+    p1_denom <span style="color:#f92672">=</span> <span style="color:#ae81ff">2.0</span>  <span style="color:#75715e"># 使用2来初始化分母，为了减低某个概率为0时乘积后对结果影响。</span>
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(train_docs_num):
+        <span style="color:#66d9ef">if</span> train_category[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+            p1_num <span style="color:#f92672">+=</span> train_matrix[i]
+            p1_denom <span style="color:#f92672">+=</span> sum(train_matrix[i])
+        <span style="color:#66d9ef">else</span>:
+            p0_num <span style="color:#f92672">+=</span> train_matrix[i]
+            p0_denom <span style="color:#f92672">+=</span> sum(train_matrix[i])
+    p1_vect <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>log(p1_num <span style="color:#f92672">/</span> p1_denom)  <span style="color:#75715e"># py中多个很小的数相乘会下溢或得到错误答案，使用log可以解决这点。</span>
+    p0_vect <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>log(p0_num <span style="color:#f92672">/</span> p0_denom)
+    <span style="color:#66d9ef">return</span> p0_vect, p1_vect, p_ab
+
+</code></pre></div><p>其中，p_ab指先验概率，比如我们这里使用的例子里5个句子中有3个积极2个消极，那么P(消极)的先验概率就是0.4。而<code>p1_vect</code>中则记录出现的单词的可能性函数值（参考上面可能性函数的解释）。简单说，假设一个单词在积极的句子中出现了10次，而表示积极的单词共有100个，那么一个积极的句子中出现该单词的概率就是0.1。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">classify_nb</span>(vec, p0_vect, p1_vect, p_class1):
+    <span style="color:#e6db74">&#39;&#39;&#39;计算概率，取概率高的分类&#39;&#39;&#39;</span>
+    p1 <span style="color:#f92672">=</span> sum(vec <span style="color:#f92672">*</span> p1_vect) <span style="color:#f92672">+</span> np<span style="color:#f92672">.</span>log(p_class1)
+    p0 <span style="color:#f92672">=</span> sum(vec <span style="color:#f92672">*</span> p0_vect) <span style="color:#f92672">+</span> np<span style="color:#f92672">.</span>log(<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> p_class1)
+    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;积极&#39;</span> <span style="color:#66d9ef">if</span> p1 <span style="color:#f92672">&gt;</span> p0 <span style="color:#66d9ef">else</span> <span style="color:#e6db74">&#39;消极&#39;</span>
+</code></pre></div><p>一个句子往往由多个单词组成，所以我们需要对其中出现的单词是积极还是消极进行求和，后面注意和该类别的概率对数相加。</p>
+<p>下面来进行测试：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">list_oposts, list_class <span style="color:#f92672">=</span> load_dataset()
+myvocablist <span style="color:#f92672">=</span> create_vocablist(list_oposts)
+train_mat <span style="color:#f92672">=</span> []
+<span style="color:#66d9ef">for</span> post_doc <span style="color:#f92672">in</span> list_oposts:
+    train_mat<span style="color:#f92672">.</span>append(bag_words2vec(myvocablist, post_doc))
+p0v, p1v, pab <span style="color:#f92672">=</span> train_nb(train_mat, list_class)
+test_list <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;我&#39;</span>, <span style="color:#e6db74">&#39;讨厌&#39;</span>, <span style="color:#e6db74">&#39;包子&#39;</span>]
+this_doc <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(bag_words2vec(myvocablist, test_list))
+<span style="color:#66d9ef">print</span>(test_list, <span style="color:#e6db74">&#34;classify result:&#34;</span>, classify_nb(this_doc, p0v, p1v, pab))
+</code></pre></div><p>输出为<code>['我', '讨厌', '包子'] classify result: 消极</code>。</p>
+<p>注意这里使用的是词袋模型，如果把句子改一改:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">[<span style="color:#e6db74">&#39;讨厌&#39;</span>, <span style="color:#e6db74">&#39;包子&#39;</span>] classify result: <span style="color:#960050;background-color:#1e0010">消极</span>
+
+[<span style="color:#e6db74">&#39;讨厌&#39;</span>, <span style="color:#e6db74">&#39;包子&#39;</span>, <span style="color:#e6db74">&#39;包子&#39;</span>] classify result: <span style="color:#960050;background-color:#1e0010">积极</span>
+</code></pre></div><p>第二句中居然变成了积极，因为有2个包子！这种情况下使用词集模型就不会出现这种错误，所以使用哪种模型因该看情况。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E5%9F%BA%E4%BA%8E%E8%99%9A%E6%8B%9F%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9A%84%E7%BD%91%E9%A1%B5%E5%88%86%E5%89%B2/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">基于虚拟可视化的网页分割</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">python验证码识别实战</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

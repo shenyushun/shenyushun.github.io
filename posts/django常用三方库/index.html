@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Django常用三方库 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Django常用三方库" />
+<meta property="og:description" content="更新于2017.01.10
+首先安利本书《two scoops of django1.8》目前还没有中文版，不过是我看过关于django的书中收获最大的一本。本来有机会和作者面基，可惜我大天朝的签证太难办了，只得作罢。
+这里推荐三方库的大部分出自这本书，移除了部分失效或者不维护的库，添加了一些其他库，强烈建议大家阅读原书。
+下面的模块有些是django模块，有些则是python模块，可以脱离django直接使用。
+话说那些复制到别地方然后标注“原创”的，敢加个本文链接不？手工整理很累的好不？" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/django%E5%B8%B8%E7%94%A8%E4%B8%89%E6%96%B9%E5%BA%93/" />
+<meta property="article:published_time" content="2016-06-15T13:55:06+00:00" />
+<meta property="article:modified_time" content="2016-06-15T13:55:06+00:00" />
+
+		<meta itemprop="name" content="Django常用三方库">
+<meta itemprop="description" content="更新于2017.01.10
+首先安利本书《two scoops of django1.8》目前还没有中文版，不过是我看过关于django的书中收获最大的一本。本来有机会和作者面基，可惜我大天朝的签证太难办了，只得作罢。
+这里推荐三方库的大部分出自这本书，移除了部分失效或者不维护的库，添加了一些其他库，强烈建议大家阅读原书。
+下面的模块有些是django模块，有些则是python模块，可以脱离django直接使用。
+话说那些复制到别地方然后标注“原创”的，敢加个本文链接不？手工整理很累的好不？">
+<meta itemprop="datePublished" content="2016-06-15T13:55:06&#43;00:00" />
+<meta itemprop="dateModified" content="2016-06-15T13:55:06&#43;00:00" />
+<meta itemprop="wordCount" content="221">
+
+
+
+<meta itemprop="keywords" content="django,python," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Django常用三方库</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-06-15T13:55:06Z">2016-06-15</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>更新于2017.01.10</p>
+<p>首先安利本书《two scoops of django1.8》目前还没有中文版，不过是我看过关于django的书中收获最大的一本。本来有机会和作者面基，可惜我大天朝的签证太难办了，只得作罢。</p>
+<p>这里推荐三方库的大部分出自这本书，移除了部分失效或者不维护的库，添加了一些其他库，强烈建议大家阅读原书。</p>
+<p>下面的模块有些是django模块，有些则是python模块，可以脱离django直接使用。</p>
+<p>话说那些复制到别地方然后标注“原创”的，敢加个本文链接不？手工整理很累的好不？</p>
+<h1 id="核心">核心</h1>
+<ol>
+<li><a href="https://djangoproject.com">Django</a> 这个应该不用多说了吧？</li>
+<li><a href="https://pypi.python.org/pypi/django-model-utils">Django-model-utils</a> 如果使用类视图的话，这个库提供了很多有用的Field和Mixin，<strong>建议关注</strong>。</li>
+<li><a href="https://pypi.python.org/pypi/ipdb">Ipdb</a> 断点调试程序，可以说是pdb的加强版。类似于ipython和python的关系。</li>
+<li><a href="https://pypi.python.org/pypi/Pillow">Pillow</a> 一款python的图形处理库，替代PIL的。</li>
+<li><a href="http://www.pip-installer.org">pip</a> 这个也不多说。</li>
+<li><a href="http://sphinx-doc.org/">Sphinx</a> 为python程序生成文档的。</li>
+<li><a href="http://www.mkdocs.org/">MkDocs</a> 如果喜欢markdown语法，可以用这个替代Sphinx，<strong>建议关注</strong>。</li>
+<li><a href="http://virtualenv.org">virtualenv</a>以及<a href="http://www.doughellmann.com/projects/virtualenvwrapper/">virtualenvwrapper</a> 这两个不多说。</li>
+</ol>
+<h1 id="异步">异步</h1>
+<ol>
+<li><a href="http://www.celeryproject.org/">celery</a> 异步任务队列，<strong>建议关注</strong>。</li>
+<li><a href="https://pypi.python.org/pypi/flower">flower</a> 配合celery使用，用于监控。</li>
+<li><a href="https://pypi.python.org/pypi/rq">rq</a> 用于处理后台任务的库，基于redis。</li>
+<li><a href="https://pypi.python.org/pypi/django-rq">django-rq</a> 一个简单的app，配合rq在django使用。</li>
+<li><a href="https://pypi.python.org/pypi/django-background-tasks">django-background-tasks</a> 一个基于数据库的异步任务队列</li>
+</ol>
+<h1 id="数据库">数据库</h1>
+<ol>
+<li><a href="https://pypi.python.org/pypi/django-db-tools">django-db-tools</a> 这个本人没用过，看说明是设置数据库为只读模式的？</li>
+<li><a href="https://pypi.python.org/pypi/psycopg2">psycopg2</a> 用于操作postgresql数据库，类似于mysql-python。</li>
+<li><a href="https://niwinz.github.io/django-redis/latest/">django-redis</a> 链接redis数据库的。</li>
+</ol>
+<h1 id="部署">部署</h1>
+<ol>
+<li><a href="https://pypi.python.org/pypi/circus">circus</a> 没用过，作者特意说明这个只有大型程序才有必要使用，命令行程序看进程以及套接字信息的。</li>
+<li><a href="https://pypi.python.org/pypi/dj-database-url">dj-database-url</a> 没用过，看说明是简化settings中databases配置的。</li>
+<li><a href="https://pypi.python.org/pypi/django-heroku-memcacheify">django-heroku-memcacheify</a> 没用过，文档说这个是为了部署在heroku上的程序方便设置memcache的。</li>
+<li><a href="https://pypi.python.org/pypi/Fabric">Fabric</a> <strong>神器</strong>，尤其是部署集群的时候，<strong>建议关注</strong>。</li>
+<li><a href="https://pypi.python.org/pypi/invoke">Invoke</a> 和fabric类似，支持python3。</li>
+<li><a href="http://supervisord.org/">Supervisor</a> <strong>神器</strong>，除了用来部署django程序，可以干很多事情，<strong>建议关注</strong>。</li>
+</ol>
+<h1 id="表单">表单</h1>
+<ol>
+<li><a href="http://django-crispy-forms.readthedocs.org/">django-crispy-forms</a> 让人更简单优雅的控制表单样式。</li>
+<li><a href="http://django-floppyforms.readthedocs.org/">django-foppyforms</a> 和上面的可以搭配使用，完全控制表单样式。</li>
+<li><a href="https://pypi.python.org/pypi/django-forms-bootstrap">django-forms-bootstrap</a> bootstrap样式的表单。</li>
+<li><a href="https://github.com/stephenmcd/django-forms-builder">django-forms-builder</a> 可以控制admin的表单样式。</li>
+<li><a href="https://github.com/bartTC/django-attachments">django-attachments</a> 一款通用的附件上传程序。</li>
+</ol>
+<h1 id="日志">日志</h1>
+<ol>
+<li><a href="https://pypi.python.org/pypi/logutils">logutils</a> 加强了原生的logging。</li>
+<li><a href="http://getsentry.com">Sentry</a> 一个在线记录异常的网站。</li>
+<li><a href="https://appenlight.com/">App Enlight</a> 同上。</li>
+<li><a href="http://newrelic.com">Newrelic</a> 功能同上，还包含了性能分析等，收费。类似的还有opbeat。</li>
+</ol>
+<h1 id="项目模板">项目模板</h1>
+<ol>
+<li><a href="http://cookiecutter-django">cookiecutter-django</a> 很好很强大，修改了原生的django项目结构，这么做的原因请看书中解释，作者的项目，<strong>建议关注</strong>。</li>
+<li><a href="http://cookiecutter.readthedocs.org">Cookiecutter</a> 上面那个基于这个项目，作者妻子的项目。</li>
+<li><a href="https://github.com/imkevinxu/django-kevin">django-kevin</a> 类似第一个项目，不过生成的是herlku的结构。</li>
+<li><a href="https://github.com/etianen/django-herokuapp">django-herokuapp</a> 同上。</li>
+</ol>
+<h1 id="rest-apis">REST APIs</h1>
+<ol>
+<li><a href="http://django-rest-framework.org/">django-rest-framework</a> 不多说了，Django最强大的REST框架。</li>
+<li><a href="https://github.com/jsocol/django-jsonview">django-jsonview</a> 一个简单的装饰器，把python对象(列表和字典，类实例能不能自动转本人没试过)转换为json格式返回。</li>
+<li><a href="http://django-tastypie.readthedocs.org">django-tastypie</a> 另一个rest框架，没用过，看起来比第一个简单。</li>
+<li><a href="https://github.com/ottoyiu/django-cors-headers">django-cors-headers</a> 解决前端跨域调用问题。</li>
+<li><a href="http://getblimp.github.io/django-rest-framework-jwt/">django-rest-framework-jwt</a> 为REST框架提供JWT认证。</li>
+</ol>
+<h1 id="安全">安全</h1>
+<ol>
+<li><a href="https://pypi.python.org/pypi/bleach">bleach</a> 一个简单的白名单。</li>
+<li><a href="https://pypi.python.org/pypi/defusedxml">defusedxml</a> 强制使用xml格式？没用过不多说。</li>
+<li><a href="https://pypi.python.org/pypi/django-autoadmin">django-autoadmin</a> 自动生成admin密码的。</li>
+<li><a href="https://pypi.python.org/pypi/django-admin-honeypot">django-admin-honeypot</a> 一个假的管理后台登录界面，并记录登录操作。</li>
+<li><a href="https://github.com/django-pci/django-axes">django-axes</a> 同上，记录登录失败行为的。</li>
+<li><a href="https://pypi.python.org/pypi/django-ratelimit-backend">django-ratelimit-backend</a> 登录速度限制，防暴力破解的。</li>
+<li><a href="https://pypi.python.org/pypi/django-passwords">django-passwords</a> 检测密码强度的。</li>
+<li><a href="https://pypi.python.org/pypi/django-secure">django-secure</a> 这个比较杂，看文档吧还是。</li>
+</ol>
+<h1 id="测试">测试</h1>
+<ol>
+<li><a href="http://coverage.readthedocs.org/">coverage</a> 这个不多说，<strong>建议关注</strong>。</li>
+<li><a href="https://github.com/nedbat/django_coverage_plugin">django-coverage-plugin</a> coverage的django插件，可以用来覆盖测试django的模板，<strong>建议关注</strong>。</li>
+<li><a href="https://github.com/revsys/django-test-plus">django-test-plus</a> 增强了默认的TestCase，<strong>建议关注</strong>。</li>
+<li><a href="https://pypi.python.org/pypi/factory_boy">factory_boy</a> 生成测试数据的库，<strong>建议关注</strong>。</li>
+<li><a href="https://pypi.python.org/pypi/model_mommy">model_mommy</a> 同上。</li>
+<li><a href="https://pypi.python.org/pypi/mock">mock</a>  这个已经集成在Python3.4了。</li>
+<li><a href="http://pytest.org/">pytest</a> python测试工具，<strong>建议关注</strong>。</li>
+<li><a href="http://pytest-django.readthedocs.org/">pytest-django</a> 这是一个基于pytest的django插件，<strong>建议关注</strong>。</li>
+<li><a href="https://pypi.python.org/pypi/pytest-cov">pytest-cov</a> 把pytest和coverage结合的插件。</li>
+<li><a href="http://pytest.org/latest/xdist.html">pytest-xdist</a> 多进程执行测试。</li>
+<li><a href="http://nose.readthedocs.io/en/latest/">nose</a> 一个单元测试模块。</li>
+<li><a href="https://pypi.python.org/pypi/pytest-sugar">pytest-sugar</a> 增强了pytest的提示等。</li>
+<li><a href="http://tox.readthedocs.org/">tox</a> 提供了一个命令行工具自动打包、测试、发布程序，<strong>建议关注</strong>。</li>
+<li><a href="http://django-debug-toolbar.readthedocs.org/">Django-debug-toolbar</a> 这个有人不知道麼？调式django程序必备，<strong>建议关注</strong>。</li>
+<li><a href="https://github.com/recamshak/django-debug-panel">Django-debug-panel</a> 配合上面的使用，可以用来调试ajax一类的json响应。</li>
+</ol>
+<h1 id="用户注册">用户注册</h1>
+<ol>
+<li><a href="http://django-allauth.readthedocs.org/">django-allauth</a> 提供了常见的注册和认证方式，比如邮件、twitter、facebook、github、google等。社交支持在我大天朝比较鸡肋。</li>
+<li><a href="http://django-social-auth.readthedocs.org/">python-social-auth</a> 同上。</li>
+<li><a href="https://django-authtools.readthedocs.io/en/latest/">django-authtools</a> 自定义用户模型。</li>
+</ol>
+<h1 id="视图">视图</h1>
+<ol>
+<li><a href="http://django-braces.readthedocs.org">django-braces</a> 如果你使用类视图，强烈建议使用这个库，提供了很多有用的mixin类,<strong>建议关注</strong>。</li>
+<li><a href="http://django-extra-views.readthedocs.org/">django-extra-views</a> 提供了很多通用类视图，<strong>建议关注</strong>。</li>
+<li><a href="http://django-vanilla-views.org/">django-vanilla-views</a> 这个替换了django提供的通用类视图，使代码更精简，<strong>建议关注</strong>。</li>
+</ol>
+<h1 id="时间">时间</h1>
+<ol>
+<li><a href="https://pypi.python.org/pypi/python-dateutil">python-dateutil</a> 扩展了python自带的datetime模块。</li>
+<li><a href="https://pypi.python.org/pypi/pytz/">pytz</a> 如果你被时区坑过，建议使用这个库。</li>
+</ol>
+<h1 id="杂项">杂项</h1>
+<ol>
+<li><a href="https://pypi.python.org/pypi/awesome-slugify">awesome-slugify</a> 这个库有点意思，表面看处理字符串的，但实际上是处理url的。</li>
+<li><a href="https://github.com/mozilla/unicode-slugify">unicode-slugify</a> 这个和第一个库类似。</li>
+<li><a href="https://django-autoslug.readthedocs.io/en/latest/">django-autoslug</a> 这个和第一个库类似。</li>
+<li><a href="https://pypi.python.org/pypi/dj-stripe">dj-stripe</a> stripe是一个国外支付平台，天朝内没大用。</li>
+<li><a href="http://django-compressor.readthedocs.org/">django-compressor</a> 用于压缩css和js。</li>
+<li><a href="https://django-extensions-zh.readthedocs.io/zh_CN/latest/">django-extensions</a> 包括management命令扩展,数据库字段扩展,admin后台扩展等，<strong>建议关注</strong>。</li>
+<li><a href="http://django-haystack.readthedocs.org/">django-haystack</a> 提供统一的 API 允许你使用不同的搜索后端，包括 <a href="http://www.oschina.net/p/solr">Solr</a>, <a href="http://www.oschina.net/p/elasticsearch">Elasticsearch</a>, <a href="http://www.oschina.net/p/whoosh">Whoosh</a>, <a href="http://www.oschina.net/p/xapian">Xapian</a> 等等。</li>
+<li><a href="http://django-pipeline.readthedocs.org/">django-pipeline</a> 压缩css和js，使用cssmin和jsmin包。</li>
+<li><a href="https://pypi.python.org/pypi/django-htmlmin">django-htmlmin</a> 压缩html代码的。</li>
+<li><a href="https://pypi.python.org/pypi/django-reversion">django-reversion</a> 类似版本控制，可以记录每次数据变化的情况，以及回滚，<strong>建议关注</strong>。</li>
+<li><a href="https://django-environ.readthedocs.io/en/latest/">django-environ</a> 简化settings配置的，<strong>建议关注</strong>。</li>
+<li><a href="https://github.com/etianen/django-watson">django-watson</a> 跨表全文检索的，<strong>建议关注</strong>。</li>
+<li><a href="https://github.com/jschneier/django-storages">django-storages-redux</a> 用来存储图片、文件到不同后端的，比如亚马逊s3或者微软的azure。</li>
+<li><a href="http://envdir.readthedocs.org/">envdir</a> 和虚拟环境有关，没用过不多说。</li>
+<li><a href="https://pypi.python.org/pypi/flake8">flake8</a> 代码格式化的。</li>
+<li><a href="https://pypi.python.org/pypi/pathlib">pathlib</a> 这个挺有意思，使用面向对象的方法来处理系统路径。</li>
+<li><a href="https://github.com/nvie/pip-tools">pip-tools</a> 一个pip命令的扩展。</li>
+<li><a href="https://pypi.python.org/pypi/PyYAML">pyyaml</a> 处理yaml格式数据。</li>
+<li><a href="http://docs.python-requests.org">requests</a> <strong>神器</strong>，用了这个我再也没用过urllib2库了，<strong>建议关注</strong>。</li>
+<li><a href="https://github.com/mtford90/silk">silk</a> 一个在线django性能检查调优工具，<strong>建议关注</strong>。</li>
+<li><a href="https://pypi.python.org/pypi/Unipath">Unipath</a> 和12类似，面向对象的方式处理路径。</li>
+<li><a href="http://whitenoise.evans.io/en/stable/">whitenoise</a> 管理静态文件的,<strong>建议关注</strong>。</li>
+<li><a href="http://pandoc.org/">pandoc</a> 提供了多种文档格式转换，比如markdown to rst等，<strong>建议关注</strong>。</li>
+</ol>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/django/" rel="tag">django</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/linux%E7%B3%BB%E7%BB%9F%E7%9A%843%E7%A7%8D%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E6%96%B9%E5%BC%8F/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">linux系统的3种端口转发方式</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E8%A7%A3%E5%86%B3django%E4%BD%BF%E7%94%A8logging%E6%97%B6character-mapping-must-return-integer-none-or-unicode%E9%94%99%E8%AF%AF/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">解决django使用logging时“character mapping must return integer, None or unicode”错误</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

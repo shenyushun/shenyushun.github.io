@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>MongoDB集群部署——Replica Set - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="MongoDB集群部署——Replica Set" />
+<meta property="og:description" content="mongodb的集群部署有3种方式，这里记录我在使用Replica Set（副本集）部署时的步骤。
+首先这种方式至少需要3个节点——主、备、仲裁节点。主备节点存储数据，仲裁节点不存储数据，负责决定主节点挂掉之后哪个备节点升级为主节点。客户端同时连接主节点与备节点，不连接仲裁节点。
+安装mongodb，CentOS下安装rpmfusion源后使用yum安装即可:yum install mongodb mongodb-server
+安装完成后，修改/etc/mongodb.conf 这个配置文件。
+bind_ip = 192." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/mongodb%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2replica-set/" />
+<meta property="article:published_time" content="2015-03-03T13:07:28+00:00" />
+<meta property="article:modified_time" content="2015-03-03T13:07:28+00:00" />
+
+		<meta itemprop="name" content="MongoDB集群部署——Replica Set">
+<meta itemprop="description" content="mongodb的集群部署有3种方式，这里记录我在使用Replica Set（副本集）部署时的步骤。
+首先这种方式至少需要3个节点——主、备、仲裁节点。主备节点存储数据，仲裁节点不存储数据，负责决定主节点挂掉之后哪个备节点升级为主节点。客户端同时连接主节点与备节点，不连接仲裁节点。
+安装mongodb，CentOS下安装rpmfusion源后使用yum安装即可:yum install mongodb mongodb-server
+安装完成后，修改/etc/mongodb.conf 这个配置文件。
+bind_ip = 192.">
+<meta itemprop="datePublished" content="2015-03-03T13:07:28&#43;00:00" />
+<meta itemprop="dateModified" content="2015-03-03T13:07:28&#43;00:00" />
+<meta itemprop="wordCount" content="702">
+
+
+
+<meta itemprop="keywords" content="mongodb," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">MongoDB集群部署——Replica Set</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-03-03T13:07:28Z">2015-03-03</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="category">数据库</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>mongodb的集群部署有3种方式，这里记录我在使用Replica Set（副本集）部署时的步骤。</p>
+<p>首先这种方式至少需要3个节点——主、备、仲裁节点。主备节点存储数据，仲裁节点不存储数据，负责决定主节点挂掉之后哪个备节点升级为主节点。客户端同时连接主节点与备节点，不连接仲裁节点。</p>
+<p>安装mongodb，CentOS下安装rpmfusion源后使用yum安装即可:<code>yum install mongodb mongodb-server</code></p>
+<p>安装完成后，修改/etc/mongodb.conf 这个配置文件。</p>
+<pre><code>bind_ip = 192.168.4.50
+port = 27017
+fork = true
+pidfilepath = /var/run/mongodb/mongodb.pid
+logpath = /var/log/mongodb/mongodb.log
+dbpath =/var/lib/mongodb
+journal = true
+directoryperdb=true
+logappend=true
+replSet=testrs
+noprealloc=true
+</code></pre><p>其中注意修改bind_ip为各个节点的IP，下面的4行是我添加的：</p>
+<ol>
+<li>directoryperdb：为每一个数据库按照数据库名建立文件夹存放</li>
+<li>logappend：以追加的方式记录日志</li>
+<li>replSet：replica set的名字</li>
+<li>noprealloc：不预先分配存储</li>
+</ol>
+<p>修改完成后，使用service mongod start即可启动服务。</p>
+<p>随便链接一个节点后，进行配置：</p>
+<pre><code>[root@pxc_bj63 ~]# service mongod start
+Starting mongod:                                           [  OK  ]
+[root@pxc_bj63 ~]# clear
+[root@pxc_bj63 ~]# mongo 192.168.4.63:27017
+MongoDB shell version: 2.4.12
+connecting to: 192.168.4.63:27017/test
+&gt; use admin
+switched to db admin
+&gt; conf = {_id:&quot;testrs&quot;,members:[{_id:0,host:&quot;192.168.4.63:27017&quot;,priority:2},{_id:1,host:&quot;192.168.4.64:27017&quot;,priority:1},{_id:2,host:&quot;192.168.4.50:27017&quot;,arbiterOnly:true}]};
+{
+	&quot;_id&quot; : &quot;testrs&quot;,
+	&quot;members&quot; : [
+		{
+			&quot;_id&quot; : 0,
+			&quot;host&quot; : &quot;192.168.4.63:27017&quot;,
+			&quot;priority&quot; : 2
+		},
+		{
+			&quot;_id&quot; : 1,
+			&quot;host&quot; : &quot;192.168.4.64:27017&quot;,
+			&quot;priority&quot; : 1
+		},
+		{
+			&quot;_id&quot; : 2,
+			&quot;host&quot; : &quot;192.168.4.50:27017&quot;,
+			&quot;arbiterOnly&quot; : true
+		}
+	]
+}
+</code></pre><p>注意最初的_id的值就是我们配置文件中设定的replSet的值，arbiterOnly是大写的O，配置完成后进行初始化：</p>
+<pre><code>&gt; rs.initiate(conf)
+{
+	&quot;info&quot; : &quot;Config now saved locally.  Should come online in about a minute.&quot;,
+	&quot;ok&quot; : 1
+}
+&gt; rs.status()
+{
+	&quot;set&quot; : &quot;testrs&quot;,
+	&quot;date&quot; : ISODate(&quot;2015-03-03T03:17:25Z&quot;),
+	&quot;myState&quot; : 1,
+	&quot;members&quot; : [
+		{
+			&quot;_id&quot; : 0,
+			&quot;name&quot; : &quot;192.168.4.63:27017&quot;,
+			&quot;health&quot; : 1,
+			&quot;state&quot; : 1,
+			&quot;stateStr&quot; : &quot;PRIMARY&quot;,
+			&quot;uptime&quot; : 460,
+			&quot;optime&quot; : Timestamp(1425352584, 1),
+			&quot;optimeDate&quot; : ISODate(&quot;2015-03-03T03:16:24Z&quot;),
+			&quot;self&quot; : true
+		},
+		{
+			&quot;_id&quot; : 1,
+			&quot;name&quot; : &quot;192.168.4.64:27017&quot;,
+			&quot;health&quot; : 1,
+			&quot;state&quot; : 2,
+			&quot;stateStr&quot; : &quot;SECONDARY&quot;,
+			&quot;uptime&quot; : 60,
+			&quot;optime&quot; : Timestamp(1425352584, 1),
+			&quot;optimeDate&quot; : ISODate(&quot;2015-03-03T03:16:24Z&quot;),
+			&quot;lastHeartbeat&quot; : ISODate(&quot;2015-03-03T03:17:25Z&quot;),
+			&quot;lastHeartbeatRecv&quot; : ISODate(&quot;2015-03-03T03:17:25Z&quot;),
+			&quot;pingMs&quot; : 0,
+			&quot;syncingTo&quot; : &quot;192.168.4.63:27017&quot;
+		},
+		{
+			&quot;_id&quot; : 2,
+			&quot;name&quot; : &quot;192.168.4.50:27017&quot;,
+			&quot;health&quot; : 1,
+			&quot;state&quot; : 7,
+			&quot;stateStr&quot; : &quot;ARBITER&quot;,
+			&quot;uptime&quot; : 58,
+			&quot;lastHeartbeat&quot; : ISODate(&quot;2015-03-03T03:17:25Z&quot;),
+			&quot;lastHeartbeatRecv&quot; : ISODate(&quot;2015-03-03T03:17:24Z&quot;),
+			&quot;pingMs&quot; : 1
+		}
+	],
+	&quot;ok&quot; : 1
+}
+testrs:PRIMARY&gt;
+</code></pre><p>插入一条数据试试：</p>
+<pre><code>testrs:PRIMARY&gt; use test
+switched to db test
+testrs:PRIMARY&gt; db.testdb.insert({&quot;test1&quot;:&quot;i'm master&quot;})
+</code></pre><p>目前，备节点是无法查询数据的：</p>
+<pre><code>[root@pxc_bj_64 ~]# mongo 192.168.4.64
+MongoDB shell version: 2.4.12
+connecting to: 192.168.4.64/test
+Welcome to the MongoDB shell.
+For interactive help, type &quot;help&quot;.
+For more comprehensive documentation, see
+	http://docs.mongodb.org/
+Questions? Try the support group
+	http://groups.google.com/group/mongodb-user
+testrs:SECONDARY&gt; use test;
+switched to db test
+testrs:SECONDARY&gt; show tables;
+Tue Mar  3 11:41:00.274 error: { &quot;$err&quot; : &quot;not master and slaveOk=false&quot;, &quot;code&quot; : 13435 } at src/mongo/shell/query.js:128
+</code></pre><p>需要进行配置：</p>
+<pre><code>testrs:SECONDARY&gt; db.getMongo().setSlaveOk();
+testrs:SECONDARY&gt; db.testdb.find();
+{ &quot;_id&quot; : ObjectId(&quot;54f52c9073b3842303717165&quot;), &quot;test1&quot; : &quot;i'm master&quot; }
+</code></pre><p>设定setSlaveOK后便可以进行数据查询了。</p>
+<p>现在，停止主库的服务，再查看整个集群的状态</p>
+<pre><code>testrs:SECONDARY&gt; rs.status();
+{
+	&quot;set&quot; : &quot;testrs&quot;,
+	&quot;date&quot; : ISODate(&quot;2015-03-03T03:48:40Z&quot;),
+	&quot;myState&quot; : 1,
+	&quot;members&quot; : [
+		{
+			&quot;_id&quot; : 0,
+			&quot;name&quot; : &quot;192.168.4.63:27017&quot;,
+			&quot;health&quot; : 0,
+			&quot;state&quot; : 8,
+			&quot;stateStr&quot; : &quot;(not reachable/healthy)&quot;,
+			&quot;uptime&quot; : 0,
+			&quot;optime&quot; : Timestamp(1425353872, 1),
+			&quot;optimeDate&quot; : ISODate(&quot;2015-03-03T03:37:52Z&quot;),
+			&quot;lastHeartbeat&quot; : ISODate(&quot;2015-03-03T03:48:39Z&quot;),
+			&quot;lastHeartbeatRecv&quot; : ISODate(&quot;2015-03-03T03:47:39Z&quot;),
+			&quot;pingMs&quot; : 0
+		},
+		{
+			&quot;_id&quot; : 1,
+			&quot;name&quot; : &quot;192.168.4.64:27017&quot;,
+			&quot;health&quot; : 1,
+			&quot;state&quot; : 1,
+			&quot;stateStr&quot; : &quot;PRIMARY&quot;,
+			&quot;uptime&quot; : 2317,
+			&quot;optime&quot; : Timestamp(1425353872, 1),
+			&quot;optimeDate&quot; : ISODate(&quot;2015-03-03T03:37:52Z&quot;),
+			&quot;self&quot; : true
+		},
+		{
+			&quot;_id&quot; : 2,
+			&quot;name&quot; : &quot;192.168.4.50:27017&quot;,
+			&quot;health&quot; : 1,
+			&quot;state&quot; : 7,
+			&quot;stateStr&quot; : &quot;ARBITER&quot;,
+			&quot;uptime&quot; : 1905,
+			&quot;lastHeartbeat&quot; : ISODate(&quot;2015-03-03T03:48:39Z&quot;),
+			&quot;lastHeartbeatRecv&quot; : ISODate(&quot;2015-03-03T03:48:40Z&quot;),
+			&quot;pingMs&quot; : 1
+		}
+	],
+	&quot;ok&quot; : 1
+}
+</code></pre><p>此时原来的备节点变成了主节点，此时我们新插入一条数据：</p>
+<pre><code>testrs:PRIMARY&gt; db.testdb.insert({&quot;test2&quot;:&quot;i'm new master&quot;})
+testrs:PRIMARY&gt; db.testdb.find();
+{ &quot;_id&quot; : ObjectId(&quot;54f52c9073b3842303717165&quot;), &quot;test1&quot; : &quot;i'm master&quot; }
+{ &quot;_id&quot; : ObjectId(&quot;54f52f70abb951d25573981e&quot;), &quot;test2&quot; : &quot;i'm new master&quot; }
+</code></pre><p>重启原来的主节点并查看状态：</p>
+<pre><code>[root@pxc_bj63 ~]# mongo 192.168.4.63
+MongoDB shell version: 2.4.12
+connecting to: 192.168.4.63/test
+testrs:PRIMARY&gt; rs.status()
+{
+	&quot;set&quot; : &quot;testrs&quot;,
+	&quot;date&quot; : ISODate(&quot;2015-03-03T03:50:57Z&quot;),
+	&quot;myState&quot; : 1,
+	&quot;members&quot; : [
+		{
+			&quot;_id&quot; : 0,
+			&quot;name&quot; : &quot;192.168.4.63:27017&quot;,
+			&quot;health&quot; : 1,
+			&quot;state&quot; : 1,
+			&quot;stateStr&quot; : &quot;PRIMARY&quot;,
+			&quot;uptime&quot; : 59,
+			&quot;optime&quot; : Timestamp(1425354608, 1),
+			&quot;optimeDate&quot; : ISODate(&quot;2015-03-03T03:50:08Z&quot;),
+			&quot;self&quot; : true
+		},
+		{
+			&quot;_id&quot; : 1,
+			&quot;name&quot; : &quot;192.168.4.64:27017&quot;,
+			&quot;health&quot; : 1,
+			&quot;state&quot; : 2,
+			&quot;stateStr&quot; : &quot;SECONDARY&quot;,
+			&quot;uptime&quot; : 59,
+			&quot;optime&quot; : Timestamp(1425354608, 1),
+			&quot;optimeDate&quot; : ISODate(&quot;2015-03-03T03:50:08Z&quot;),
+			&quot;lastHeartbeat&quot; : ISODate(&quot;2015-03-03T03:50:56Z&quot;),
+			&quot;lastHeartbeatRecv&quot; : ISODate(&quot;2015-03-03T03:50:57Z&quot;),
+			&quot;pingMs&quot; : 0,
+			&quot;lastHeartbeatMessage&quot; : &quot;syncing to: 192.168.4.63:27017&quot;,
+			&quot;syncingTo&quot; : &quot;192.168.4.63:27017&quot;
+		},
+		{
+			&quot;_id&quot; : 2,
+			&quot;name&quot; : &quot;192.168.4.50:27017&quot;,
+			&quot;health&quot; : 1,
+			&quot;state&quot; : 7,
+			&quot;stateStr&quot; : &quot;ARBITER&quot;,
+			&quot;uptime&quot; : 57,
+			&quot;lastHeartbeat&quot; : ISODate(&quot;2015-03-03T03:50:56Z&quot;),
+			&quot;lastHeartbeatRecv&quot; : ISODate(&quot;2015-03-03T03:50:56Z&quot;),
+			&quot;pingMs&quot; : 0
+		}
+	],
+	&quot;ok&quot; : 1
+}
+</code></pre><p>查询数据也同步过来了：</p>
+<pre><code>testrs:PRIMARY&gt; db.testdb.find();
+{ &quot;_id&quot; : ObjectId(&quot;54f52c9073b3842303717165&quot;), &quot;test1&quot; : &quot;i'm master&quot; }
+{ &quot;_id&quot; : ObjectId(&quot;54f52f70abb951d25573981e&quot;), &quot;test2&quot; : &quot;i'm new master&quot; }
+
+当主节点恢复后，备节点查询数据时会提示：
+
+testrs:PRIMARY&gt; db.testdb.find();
+Tue Mar  3 11:53:00.354 DBClientCursor::init call() failed
+Error: error doing query: failed
+Tue Mar  3 11:53:00.355 trying reconnect to 192.168.4.64:27017
+Tue Mar  3 11:53:00.356 reconnect 192.168.4.64:27017 ok
+testrs:SECONDARY&gt;
+</code></pre><p>如果要向集群中新增节点，则进行如下操作：</p>
+<pre><code>cfg = rs.conf()
+cfg.members[3] = {_id:3,host:&quot;192.168.4.42:27017&quot;,priority:0.5}
+rs.reconfig(cfg)
+</code></pre><p>新的备份节点配置之前是无法读数据的，记得设定setSlaveOK，不过虽然可读但备份节点还是不可写的。如果想修改配置也同理，首先得到当前配置信息，以修改优先级为例：</p>
+<pre><code>cfg = rs.conf()
+cfg.members[0].priority = 0.5
+cfg.members[1].priority = 2
+cfg.members[2].priority = 2
+rs.reconfig(cfg)
+</code></pre><p>一定记得reconfig后新配置才会生效。</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/mongodb/" rel="tag">mongodb</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/django%E9%87%8D%E5%86%99model%E7%9A%84save%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%90%8C%E6%97%B6%E5%86%992%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">django重写model的save方法实现同时写2个数据库</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/nodejs%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">NodeJS学习记录1</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

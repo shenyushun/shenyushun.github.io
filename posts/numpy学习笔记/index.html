@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>numpy学习笔记 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="numpy学习笔记" />
+<meta property="og:description" content="简介
+Numpy(发音&quot;南派&quot;而不是&quot;努屁&rdquo;)是一款用来进行科学计算的python库，可以方便快速的计算平均值、最大值、最小值、方差、标准差、向量运行等。相关库还有
+Pandas,Scypi等。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/numpy%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" />
+<meta property="article:published_time" content="2017-03-06T11:09:19+00:00" />
+<meta property="article:modified_time" content="2017-03-06T11:09:19+00:00" />
+
+		<meta itemprop="name" content="numpy学习笔记">
+<meta itemprop="description" content="简介
+Numpy(发音&quot;南派&quot;而不是&quot;努屁&rdquo;)是一款用来进行科学计算的python库，可以方便快速的计算平均值、最大值、最小值、方差、标准差、向量运行等。相关库还有
+Pandas,Scypi等。">
+<meta itemprop="datePublished" content="2017-03-06T11:09:19&#43;00:00" />
+<meta itemprop="dateModified" content="2017-03-06T11:09:19&#43;00:00" />
+<meta itemprop="wordCount" content="476">
+
+
+
+<meta itemprop="keywords" content="python," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">numpy学习笔记</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-03-06T11:09:19Z">2017-03-06</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<h1 id="简介">简介</h1>
+<p><a href="https://docs.scipy.org/doc/numpy-dev/user/quickstart.html">Numpy</a>(发音&quot;南派&quot;而不是&quot;努屁&rdquo;)是一款用来进行科学计算的python库，可以方便快速的计算平均值、最大值、最小值、方差、标准差、向量运行等。相关库还有
+<code>Pandas</code>,<code>Scypi</code>等。</p>
+<h1 id="数组">数组</h1>
+<p>Numpy中用数组来表示数据，和Python中的列表相比，除了提供了一些更快、更方便的函数外，最大的区别就在于前者同一数组内的元素类型必须一致，而后者则无此要求。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
+In [<span style="color:#ae81ff">1</span>]: <span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+
+In [<span style="color:#ae81ff">2</span>]: np<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>]) <span style="color:#75715e"># 创建一个numpy数组</span>
+Out[<span style="color:#ae81ff">2</span>]: array([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>])
+
+In [<span style="color:#ae81ff">3</span>]: np<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>])<span style="color:#f92672">.</span>dtype <span style="color:#75715e"># 查看元素类型</span>
+Out[<span style="color:#ae81ff">3</span>]: dtype(<span style="color:#e6db74">&#39;int64&#39;</span>)
+
+In [<span style="color:#ae81ff">4</span>]: np<span style="color:#f92672">.</span>max([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>]) <span style="color:#75715e"># 最大值</span>
+Out[<span style="color:#ae81ff">4</span>]: <span style="color:#ae81ff">5</span>
+
+In [<span style="color:#ae81ff">5</span>]: np<span style="color:#f92672">.</span>min([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>]) <span style="color:#75715e"># 最小值</span>
+Out[<span style="color:#ae81ff">5</span>]: <span style="color:#ae81ff">1</span>
+
+In [<span style="color:#ae81ff">6</span>]: np<span style="color:#f92672">.</span>std([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>]) <span style="color:#75715e"># 标准差</span>
+Out[<span style="color:#ae81ff">6</span>]: <span style="color:#ae81ff">1.4142135623730951</span>
+
+In [<span style="color:#ae81ff">7</span>]: np<span style="color:#f92672">.</span>mean([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>]) <span style="color:#75715e"># 平均值</span>
+Out[<span style="color:#ae81ff">7</span>]: <span style="color:#ae81ff">3.0</span>
+
+In [<span style="color:#ae81ff">8</span>]: np<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1.2</span>,<span style="color:#ae81ff">4</span>,<span style="color:#e6db74">&#39;a&#39;</span>]) <span style="color:#75715e"># 声明时候就不按套路出牌，可以发现最后都变成了字符串</span>
+Out[<span style="color:#ae81ff">8</span>]:
+array([<span style="color:#e6db74">&#39;1&#39;</span>, <span style="color:#e6db74">&#39;2&#39;</span>, <span style="color:#e6db74">&#39;1.2&#39;</span>, <span style="color:#e6db74">&#39;4&#39;</span>, <span style="color:#e6db74">&#39;a&#39;</span>],
+      dtype<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;|S32&#39;</span>)
+
+In [<span style="color:#ae81ff">9</span>]: a <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>],[<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>]]) <span style="color:#75715e"># 定义二维数组</span>
+
+In [<span style="color:#ae81ff">10</span>]: a[:,<span style="color:#ae81ff">1</span>] <span style="color:#75715e"># 取第2列</span>
+Out[<span style="color:#ae81ff">10</span>]: array([<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">4</span>])
+
+In [<span style="color:#ae81ff">11</span>]: a[<span style="color:#ae81ff">1</span>,:] <span style="color:#75715e"># 取第2行</span>
+Out[<span style="color:#ae81ff">11</span>]: array([<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>])
+
+In [<span style="color:#ae81ff">12</span>]: a[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>] <span style="color:#75715e"># 取某个值</span>
+Out[<span style="color:#ae81ff">12</span>]: <span style="color:#ae81ff">4</span>
+
+In [<span style="color:#ae81ff">13</span>]: a[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>:] <span style="color:#75715e"># 使用切片</span>
+Out[<span style="color:#ae81ff">13</span>]: array([<span style="color:#ae81ff">4</span>])
+
+</code></pre></div><h1 id="运算">运算</h1>
+<p><em><strong>Numpy中的运算都是向量运算</strong></em>，支持加、减、乘、除、指数运算以及与、或、非这类逻辑运算，</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">35</span>]: a<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">1</span>])
+
+In [<span style="color:#ae81ff">36</span>]: b<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">6</span>])
+
+In [<span style="color:#ae81ff">37</span>]: a<span style="color:#f92672">+</span>b
+Out[<span style="color:#ae81ff">37</span>]: array([<span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">7</span>])
+
+In [<span style="color:#ae81ff">38</span>]: a<span style="color:#f92672">-</span>b
+Out[<span style="color:#ae81ff">38</span>]: array([ <span style="color:#ae81ff">3</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">5</span>])
+
+In [<span style="color:#ae81ff">39</span>]: a<span style="color:#f92672">*</span>b
+Out[<span style="color:#ae81ff">39</span>]: array([<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">12</span>,  <span style="color:#ae81ff">6</span>])
+
+In [<span style="color:#ae81ff">40</span>]: a<span style="color:#f92672">/</span>b
+Out[<span style="color:#ae81ff">40</span>]: array([<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>])
+
+In [<span style="color:#ae81ff">41</span>]: a<span style="color:#f92672">**</span>b
+Out[<span style="color:#ae81ff">41</span>]: array([<span style="color:#ae81ff">25</span>, <span style="color:#ae81ff">81</span>,  <span style="color:#ae81ff">1</span>])
+
+In [<span style="color:#ae81ff">42</span>]: a<span style="color:#f92672">&amp;</span>b
+Out[<span style="color:#ae81ff">42</span>]: array([<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>])
+
+In [<span style="color:#ae81ff">43</span>]: a<span style="color:#f92672">|</span>b
+Out[<span style="color:#ae81ff">43</span>]: array([<span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">7</span>])
+
+In [<span style="color:#ae81ff">44</span>]: <span style="color:#f92672">~</span>a
+Out[<span style="color:#ae81ff">44</span>]: array([<span style="color:#f92672">-</span><span style="color:#ae81ff">6</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">4</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>])
+</code></pre></div><p>这里注意py2版本的除法默认是取结果整数部分的，另外需要注意Numpy中<code>+</code>和<code>+=</code>有些区别，比如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">67</span>]: a <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>])
+
+In [<span style="color:#ae81ff">68</span>]: b <span style="color:#f92672">=</span> a
+
+In [<span style="color:#ae81ff">69</span>]: a <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+
+In [<span style="color:#ae81ff">70</span>]: b
+Out[<span style="color:#ae81ff">70</span>]: array([<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>])
+
+In [<span style="color:#ae81ff">71</span>]: a
+Out[<span style="color:#ae81ff">71</span>]: array([<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>])
+
+In [<span style="color:#ae81ff">72</span>]: a <span style="color:#f92672">=</span> a <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+
+In [<span style="color:#ae81ff">73</span>]: a
+Out[<span style="color:#ae81ff">73</span>]: array([<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>])
+
+In [<span style="color:#ae81ff">74</span>]: b
+Out[<span style="color:#ae81ff">74</span>]: array([<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>])
+</code></pre></div><p>可以看出，对于<code>+=</code>操作是修改了数组本身的值，而<code>+</code>操作则是创建了一个新的数组赋值给了变量a。
+<code>+=</code>操作的行为叫做原位运算(In-Place)，<code>+</code>操作则是非原位运算(Not In-Place)。对于切片操作，Numpy的行为和Python不同：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">75</span>]: a
+Out[<span style="color:#ae81ff">75</span>]: array([<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>])
+
+In [<span style="color:#ae81ff">76</span>]: e <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>]
+
+In [<span style="color:#ae81ff">77</span>]: f <span style="color:#f92672">=</span> e[:<span style="color:#ae81ff">2</span>]
+
+In [<span style="color:#ae81ff">78</span>]: f
+Out[<span style="color:#ae81ff">78</span>]: [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>]
+
+In [<span style="color:#ae81ff">79</span>]: f[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>
+
+In [<span style="color:#ae81ff">80</span>]: f
+Out[<span style="color:#ae81ff">80</span>]: [<span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">2</span>]
+
+In [<span style="color:#ae81ff">81</span>]: e
+Out[<span style="color:#ae81ff">81</span>]: [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]
+
+In [<span style="color:#ae81ff">82</span>]: a
+Out[<span style="color:#ae81ff">82</span>]: array([<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>])
+
+In [<span style="color:#ae81ff">83</span>]: g <span style="color:#f92672">=</span> a[:<span style="color:#ae81ff">2</span>]
+
+In [<span style="color:#ae81ff">84</span>]: g
+Out[<span style="color:#ae81ff">84</span>]: array([<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>])
+
+In [<span style="color:#ae81ff">85</span>]: g[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>
+
+In [<span style="color:#ae81ff">86</span>]: g
+Out[<span style="color:#ae81ff">86</span>]: array([<span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">5</span>])
+
+In [<span style="color:#ae81ff">87</span>]: a
+Out[<span style="color:#ae81ff">87</span>]: array([<span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>])
+</code></pre></div><p>Python中切片操作创建了一个新的列表出来，改变新的列表值不会影响旧列表。而Numpy中的切片还是指向原来的值，会互相影响。</p>
+<h1 id="索引数组">索引数组</h1>
+<p>假设有2个数组的 <em><strong>长度一样</strong></em>，一个数组类型为整型，另一个数组的类型为布尔型，则</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">45</span>]: a
+Out[<span style="color:#ae81ff">45</span>]: array([<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>])
+
+In [<span style="color:#ae81ff">46</span>]: c <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([True,False,True])
+
+In [<span style="color:#ae81ff">47</span>]: a[c]
+Out[<span style="color:#ae81ff">47</span>]: array([<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">1</span>])
+
+In [<span style="color:#ae81ff">48</span>]: a[a<span style="color:#f92672">!=</span><span style="color:#ae81ff">3</span>]
+Out[<span style="color:#ae81ff">48</span>]: array([<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">1</span>])
+
+In [<span style="color:#ae81ff">49</span>]: a <span style="color:#f92672">!=</span> <span style="color:#ae81ff">3</span>
+Out[<span style="color:#ae81ff">49</span>]: array([ True, False,  True], dtype<span style="color:#f92672">=</span>bool)
+
+</code></pre></div><p>数组c为索引数组(index array)，除此之外可以直接在数组索引中使用逻辑判断达到同样的效果。也就是说，对一个数组进行逻辑判断后
+返回的结果是一个索引数组。</p>
+<h1 id="轴">轴</h1>
+<p>当使用Numpy处理二维数组时候，就会涉及到轴(axis)这个概念，轴用来控制行或者列的平均值、最大最小值、标准差等的计算：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">3</span>]: a <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>],[<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>]])
+
+In [<span style="color:#ae81ff">4</span>]: a
+Out[<span style="color:#ae81ff">4</span>]:
+array([[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>],
+       [<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>]])
+
+In [<span style="color:#ae81ff">5</span>]: a<span style="color:#f92672">.</span>mean()
+Out[<span style="color:#ae81ff">5</span>]: <span style="color:#ae81ff">2.5</span>
+
+In [<span style="color:#ae81ff">6</span>]: a<span style="color:#f92672">.</span>mean(axis<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+Out[<span style="color:#ae81ff">6</span>]: array([ <span style="color:#ae81ff">2.</span>,  <span style="color:#ae81ff">3.</span>])
+
+In [<span style="color:#ae81ff">7</span>]: a<span style="color:#f92672">.</span>mean(axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+Out[<span style="color:#ae81ff">7</span>]: array([ <span style="color:#ae81ff">1.5</span>,  <span style="color:#ae81ff">3.5</span>])
+</code></pre></div><p>这里声明了一个二维数组，当mean函数不添加任何参数时，默认计算了整个数据的平均值。当<code>axis=0</code>时则计算出每一列的平均值，<code>axis=1</code>时则计算每一行的平均值。
+其他计算函数同理。</p>
+<h1 id="标准化">标准化</h1>
+<p>用于将数据进行标准化(standardized)处理，即<code>(单值-平均数)/标准差</code>，为啥要进行标准化处理呢？我觉得是为了减少两组变量之间由于取值区间差异过大而产生的问题。
+比如:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">60</span>]: a
+Out[<span style="color:#ae81ff">60</span>]: array([ <span style="color:#ae81ff">1</span>,  <span style="color:#ae81ff">3</span>,  <span style="color:#ae81ff">5</span>,  <span style="color:#ae81ff">7</span>,  <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">11</span>])
+
+In [<span style="color:#ae81ff">61</span>]: b
+Out[<span style="color:#ae81ff">61</span>]: array([<span style="color:#ae81ff">5000</span>, <span style="color:#ae81ff">4000</span>, <span style="color:#ae81ff">3000</span>, <span style="color:#ae81ff">2000</span>, <span style="color:#ae81ff">1000</span>,   <span style="color:#ae81ff">50</span>])
+
+In [<span style="color:#ae81ff">63</span>]: a_s <span style="color:#f92672">=</span> (a<span style="color:#f92672">-</span>a<span style="color:#f92672">.</span>mean())<span style="color:#f92672">/</span>a<span style="color:#f92672">.</span>std()
+In [<span style="color:#ae81ff">64</span>]: b_s <span style="color:#f92672">=</span> (b<span style="color:#f92672">-</span>b<span style="color:#f92672">.</span>mean())<span style="color:#f92672">/</span>b<span style="color:#f92672">.</span>std()
+
+In [<span style="color:#ae81ff">69</span>]: a_s
+Out[<span style="color:#ae81ff">69</span>]:
+array([<span style="color:#f92672">-</span><span style="color:#ae81ff">1.46385011</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.87831007</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.29277002</span>,  <span style="color:#ae81ff">0.29277002</span>,  <span style="color:#ae81ff">0.87831007</span>,
+        <span style="color:#ae81ff">1.46385011</span>])
+
+In [<span style="color:#ae81ff">70</span>]: b_s
+Out[<span style="color:#ae81ff">70</span>]:
+array([ <span style="color:#ae81ff">1.4694161</span> ,  <span style="color:#ae81ff">0.87968389</span>,  <span style="color:#ae81ff">0.28995167</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.29978054</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.88951276</span>,
+       <span style="color:#f92672">-</span><span style="color:#ae81ff">1.44975836</span>])
+</code></pre></div><p>可以看出，在进行标准化后a和b的取值区间差异变得很小了。</p>
+<h1 id="相关系数">相关系数</h1>
+<p>使用<a href="https://zh.wikipedia.org/wiki/%E7%9A%AE%E5%B0%94%E9%80%8A%E7%A7%AF%E7%9F%A9%E7%9B%B8%E5%85%B3%E7%B3%BB%E6%95%B0">皮尔逊积矩相关系数</a>来计算2个变量的相关度，这里需要注意的是2个变量之间需要有线性关系，变量是连续变量，变量符合正态分布。</p>
+<p>计算皮尔逊相关系数可以分为2步：</p>
+<ol>
+<li>将数据标准化</li>
+<li>标准化的数据进行乘法运算，并取结果的平均值</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">correlation</span>(x, y):
+    tempx <span style="color:#f92672">=</span> (x<span style="color:#f92672">-</span>x<span style="color:#f92672">.</span>mean()) <span style="color:#f92672">/</span> x<span style="color:#f92672">.</span>std()
+    tempy <span style="color:#f92672">=</span> (y<span style="color:#f92672">-</span>y<span style="color:#f92672">.</span>mean()) <span style="color:#f92672">/</span> y<span style="color:#f92672">.</span>std()
+    <span style="color:#66d9ef">return</span> (tempx <span style="color:#f92672">*</span> tempy)<span style="color:#f92672">.</span>mean()
+</code></pre></div><p>另外Numpy中已经提供了函数<code>corrcoef</code>可以直接使用：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">68</span>]: correlation(a_s,b_s)
+Out[<span style="color:#ae81ff">68</span>]: <span style="color:#f92672">-</span><span style="color:#ae81ff">0.99996549701548165</span>
+
+In [<span style="color:#ae81ff">65</span>]: np<span style="color:#f92672">.</span>corrcoef(a_s,b_s)
+Out[<span style="color:#ae81ff">65</span>]:
+array([[ <span style="color:#ae81ff">1.</span>       , <span style="color:#f92672">-</span><span style="color:#ae81ff">0.9999655</span>],
+       [<span style="color:#f92672">-</span><span style="color:#ae81ff">0.9999655</span>,  <span style="color:#ae81ff">1.</span>       ]])
+
+</code></pre></div><p>可以看出和自己编写的函数结果是一样的。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/django-rest-jwt%E8%AE%A4%E8%AF%81/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">django-rest-jwt认证</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E8%A7%A3%E5%86%B3apahce%E9%83%A8%E7%BD%B2python%E7%A8%8B%E5%BA%8F503%E9%94%99%E8%AF%AF/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">解决apahce部署python程序503错误</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

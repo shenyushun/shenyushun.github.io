@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>golang on Hi~Roy!</title>
+    <link>/tags/golang/</link>
+    <description>Recent content in golang on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 19 Jan 2023 11:10:48 +0800</lastBuildDate>
+    
+	<atom:link href="/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>在Golang中如何使用并发</title>
+      <link>/posts/%E5%9C%A8golang%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B9%B6%E5%8F%91/</link>
+      <pubDate>Thu, 19 Jan 2023 11:10:48 +0800</pubDate>
+      
+      <guid>/posts/%E5%9C%A8golang%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B9%B6%E5%8F%91/</guid>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://madflojo.medium.com/keeping-tcp-connections-alive-in-golang-801a78b7cf1&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
+&lt;p&gt;本文的主要目标是展示在哪些场景下使用并发更加合适。因此本文中不会讲述并发相关的基本术语，比如goroutines、wait groups、channels、数据竞争等。
+我打算创建一系列文章，详细解释最常用的并发相关示例。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>在Golang中保持TCP链接</title>
+      <link>/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/</link>
+      <pubDate>Mon, 11 Jul 2022 14:26:27 +0800</pubDate>
+      
+      <guid>/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/</guid>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://madflojo.medium.com/keeping-tcp-connections-alive-in-golang-801a78b7cf1&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
+&lt;p&gt;尽管目前大多数系统都是通过gRPC或HTTP进行通信的，但仍有相当多的应用程序使用自定义协议。而且这些自定义协议中的许多都没有类似&lt;code&gt;net/http&lt;/code&gt;这样方便的包来管理TCP连接。&lt;/p&gt;
+&lt;p&gt;这篇文章是为了那些直接和TCP连接打交道的人准备的。本文将讨论如何长期维护健康的TCP会话，以及如何对操持长链接的系统进行调优。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Golang中的开闭原则</title>
+      <link>/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</link>
+      <pubDate>Tue, 02 Nov 2021 11:05:20 +0800</pubDate>
+      
+      <guid>/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</guid>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://levelup.gitconnected.com/practical-solid-in-golang-open-closed-principle-1dd361565452&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
+&lt;p&gt;Open/Closed Principle（OCP，开闭原则）也不过多介绍了，一句话“对扩展开放，对修改封闭”。策略模式就是这一原则的一种实现。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Golang中的单一职责原则</title>
+      <link>/posts/golang%E4%B8%AD%E7%9A%84%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/</link>
+      <pubDate>Tue, 02 Nov 2021 10:05:20 +0800</pubDate>
+      
+      <guid>/posts/golang%E4%B8%AD%E7%9A%84%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/</guid>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://levelup.gitconnected.com/practical-solid-in-golang-single-responsibility-principle-20afb8643483&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
+&lt;p&gt;The Single Responsibility Principle (SRP，单一职责原则)的文字定义这里我就不再次说明了，直接开始重点。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>使用golang的channel实现订阅-发布模式</title>
+      <link>/posts/%E4%BD%BF%E7%94%A8golang%E7%9A%84channel%E5%AE%9E%E7%8E%B0%E8%AE%A2%E9%98%85-%E5%8F%91%E5%B8%83%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 12 Jul 2021 20:05:20 +0800</pubDate>
+      
+      <guid>/posts/%E4%BD%BF%E7%94%A8golang%E7%9A%84channel%E5%AE%9E%E7%8E%B0%E8%AE%A2%E9%98%85-%E5%8F%91%E5%B8%83%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://eli.thegreenplace.net/2020/pubsub-using-channels-in-go/&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
+&lt;p&gt;先定义一个结构体&lt;code&gt;Pubsub&lt;/code&gt;，客户端可以使用它来订阅、发布主题：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Pubsub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {
+  &lt;span style=&#34;color:#a6e22e&#34;&gt;mu&lt;/span&gt;   &lt;span style=&#34;color:#a6e22e&#34;&gt;sync&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;RWMutex&lt;/span&gt;
+  &lt;span style=&#34;color:#a6e22e&#34;&gt;subs&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;][]&lt;span style=&#34;color:#66d9ef&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>Golang小技巧</title>
+      <link>/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Wed, 16 Dec 2020 21:32:59 +0000</pubDate>
+      
+      <guid>/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/</guid>
+      <description>&lt;h3 id=&#34;下划线的妙用&#34;&gt;下划线的妙用&lt;/h3&gt;
+&lt;p&gt;大多数情况下，下划线&lt;code&gt;_&lt;/code&gt;都用于忽略函数返回值的情况。最近查看&lt;code&gt;authboss&lt;/code&gt;这个开源库的代码时，发现&lt;a href=&#34;https://github.com/volatiletech/authboss-sample/blob/c13bdabe709387b66806bf12dbe12ad71bb17d17/storer.go#L63&#34;&gt;这样&lt;/a&gt;一种用法:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt; {
+    &lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; (
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;assertUser&lt;/span&gt;   = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt;{}
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;assertStorer&lt;/span&gt; = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;MemStorer&lt;/span&gt;{}
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;_&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;authboss&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt;            = &lt;span style=&#34;color:#a6e22e&#34;&gt;assertUser&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;_&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;authboss&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;AuthableUser&lt;/span&gt;    = &lt;span style=&#34;color:#a6e22e&#34;&gt;assertUser&lt;/span&gt;
+)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>新手可能会犯的50个Golang错误</title>
+      <link>/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/</link>
+      <pubDate>Wed, 16 Dec 2020 21:32:59 +0000</pubDate>
+      
+      <guid>/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/index.html&#34;&gt;原文&lt;/a&gt;，向原作者表示感谢。这里省略了一些无关的介绍说明以及过于简单的说明，直接看代码就懂了。&lt;/p&gt;
+&lt;h2 id=&#34;左花括号不能单独一行&#34;&gt;左花括号不能单独一行&lt;/h2&gt;
+&lt;p&gt;在大多数语言中你可以随便放置花括号的位置，但go语言不一样，你可以理解为为go会自动注入分号（automatic semicolon injection）：&lt;/p&gt;
+&lt;p&gt;错误代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;()  
+{ &lt;span style=&#34;color:#75715e&#34;&gt;//error, can&amp;#39;t have the opening brace on a separate line
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hello there!&amp;#34;&lt;/span&gt;)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;编译错误：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;tmp&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sandbox826898458&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;.&lt;span style=&#34;color:#66d9ef&#34;&gt;go&lt;/span&gt;:&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;: &lt;span style=&#34;color:#a6e22e&#34;&gt;syntax&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;error&lt;/span&gt;: &lt;span style=&#34;color:#a6e22e&#34;&gt;unexpected&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;semicolon&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;or&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;newline&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;before&lt;/span&gt; {
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;正确代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {  
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;works!&amp;#34;&lt;/span&gt;)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>集成gin和casbin</title>
+      <link>/posts/%E9%9B%86%E6%88%90gin%E5%92%8Ccasbin/</link>
+      <pubDate>Mon, 28 Sep 2020 21:32:59 +0000</pubDate>
+      
+      <guid>/posts/%E9%9B%86%E6%88%90gin%E5%92%8Ccasbin/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://dev.to/maxwellhertz/tutorial-integrate-gin-with-cabsin-56m0&#34;&gt;原文&lt;/a&gt;，省略了一些无关的内容。&lt;/p&gt;
+&lt;p&gt;如果你搜到这篇文章，那么什么是gin以及casbin应该不用过多解释了。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>如何对Go代码解偶</title>
+      <link>/posts/%E5%A6%82%E4%BD%95%E5%AF%B9go%E4%BB%A3%E7%A0%81%E8%A7%A3%E5%81%B6/</link>
+      <pubDate>Mon, 11 Feb 2019 11:05:03 +0000</pubDate>
+      
+      <guid>/posts/%E5%A6%82%E4%BD%95%E5%AF%B9go%E4%BB%A3%E7%A0%81%E8%A7%A3%E5%81%B6/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.sage42.org/2019/01/30/how-to-fix-tightly-coupled-go-code/&#34;&gt;原文&lt;/a&gt;，文章作者也是《Hands-On Dependency Injection in Go》的作者，向原作者表示感谢。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;你是否曾经由于添加某个新功能却导致另一个功能出问题？修复好这个，另一个又出问题，就好象打地鼠一般。&lt;/p&gt;
+&lt;p&gt;你是否曾经花费大量的时间调试Bug，最后却发现问题潜伏在另一个、甚至毫不相关的模块中？&lt;/p&gt;
+&lt;p&gt;这些问题都是由于高耦合引起的。&lt;/p&gt;
+&lt;p&gt;在这篇文章中，我们来使用解偶的方式来让代码更加易于理解、维护、测试。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>go get命令使用socket代理</title>
+      <link>/posts/go-get%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8socket%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Fri, 12 Oct 2018 13:57:35 +0000</pubDate>
+      
+      <guid>/posts/go-get%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8socket%E4%BB%A3%E7%90%86/</guid>
+      <description>&lt;p&gt;由于某些不可描述的原因，国内使用&lt;code&gt;go get&lt;/code&gt;命令安装某些包的时候会超时导致失败，比如&lt;code&gt;net&lt;/code&gt;包、&lt;code&gt;sys&lt;/code&gt;包、&lt;code&gt;tools&lt;/code&gt;包等。第一种解决办法就是自己从git上下载后添加链接到&lt;code&gt;GOPATH&lt;/code&gt;中，比如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;git clone https://github.com/golang/net.git $GOPATH/src/github.com/golang/net
+
+git clone https://github.com/golang/sys.git $GOPATH/src/github.com/golang/sys
+
+git clone https://github.com/golang/tools.git $GOPATH/src/github.com/golang/tools
+
+ln -s $GOPATH/src/github.com/golang $GOPATH/src/golang.org/
+
+cd $GOPATH/src/golang.org/  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; mv golang x
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>墨卡托坐标转经纬度</title>
+      <link>/posts/%E5%A2%A8%E5%8D%A1%E6%89%98%E5%9D%90%E6%A0%87%E8%BD%AC%E7%BB%8F%E7%BA%AC%E5%BA%A6/</link>
+      <pubDate>Mon, 30 Jul 2018 15:52:40 +0000</pubDate>
+      
+      <guid>/posts/%E5%A2%A8%E5%8D%A1%E6%89%98%E5%9D%90%E6%A0%87%E8%BD%AC%E7%BB%8F%E7%BA%AC%E5%BA%A6/</guid>
+      <description>&lt;p&gt;今天获取百度地图数据时候发现其坐标都是类似&lt;code&gt;12945050.96,4826978.52&lt;/code&gt;这种而非常见的经纬度，之前获取百度外面商家信息时就发现了这个问题但没深入研究，搜索后发现这种表示方法叫做&lt;code&gt;墨卡托坐标&lt;/code&gt;。不得不说，关于坐标的标准还真是挺多的，根据经纬度查询位置可以使用&lt;a href=&#34;http://www.gpsspg.com/maps.htm&#34;&gt;这个网站&lt;/a&gt;。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>200行GO代码实现区块链3</title>
+      <link>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE3/</link>
+      <pubDate>Fri, 22 Jun 2018 17:35:36 +0000</pubDate>
+      
+      <guid>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE3/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://medium.com/@mycoralhealth/code-your-own-blockchain-mining-algorithm-in-go-82c6a71aba1f&#34;&gt;原文&lt;/a&gt;，阅读之前请先看&lt;a href=&#34;http://www.hi-roy.com/2018/05/18/200%E8%A1%8CGO%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE1/&#34;&gt;200行GO代码实现区块链1&lt;/a&gt; 和 &lt;a href=&#34;http://www.hi-roy.com/2018/05/21/200%E8%A1%8CGO%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE2/&#34;&gt;200行GO代码实现区块链2&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;如果看到这了相信你已经知道什么是加密算法等背景了，所以忽略关于这部分的翻译，直接从编码开始。这篇文章在前两篇的文章基础上添加了工作量证明(POW)挖矿算法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-互斥锁</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%92%E6%96%A5%E9%94%81/</link>
+      <pubDate>Thu, 07 Jun 2018 17:42:11 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%92%E6%96%A5%E9%94%81/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/mutex/&#34;&gt;原文&lt;/a&gt;，互斥锁(Mutex)也是go并发系列最后一篇文章。&lt;/p&gt;
+&lt;h2 id=&#34;临界区&#34;&gt;临界区&lt;/h2&gt;
+&lt;p&gt;在说互斥锁前，理解并发编程中的临界区(Critical section)是十分重要的。当一个程序并发执行时，共享资源不应该在同一时刻被多个goroutine修改。这段修改共享资源的代码就叫做临界区。举个例子，我们有一个代码片段用于修改变量x自增１。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;x = x+1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如果上面的代码在唯一的goroutine中执行，不会有任何问题。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-Select</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-select/</link>
+      <pubDate>Thu, 07 Jun 2018 16:54:28 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-select/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/select/&#34;&gt;原文&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;什么是select&#34;&gt;什么是Select&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;select&lt;/code&gt;语法用来从多个读／写的channel中选择一个，如果没有任何channel就绪select语句将被阻塞。如果多个就绪，则随机选择一个。语法和&lt;code&gt;switch&lt;/code&gt;类似，除了case后面跟随的是channel。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-缓冲区Channels和线程池</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%BC%93%E5%86%B2%E5%8C%BAchannels%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0/</link>
+      <pubDate>Mon, 04 Jun 2018 22:11:55 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%BC%93%E5%86%B2%E5%8C%BAchannels%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/buffered-channels-worker-pools/&#34;&gt;原文&lt;/a&gt;，这里为了方便理解我把worker pools翻译成线程池。&lt;/p&gt;
+&lt;h2 id=&#34;什么是缓冲区channel&#34;&gt;什么是缓冲区Channel&lt;/h2&gt;
+&lt;p&gt;之前讨论的所有channel都是不带缓冲区的，因此读取和写入都会被阻塞。创建一个带缓冲区的channel也是可能的，这种channel只有在缓冲区满后再写入或者读取一个空的channel时才会被阻塞。&lt;/p&gt;
+&lt;p&gt;创建一个带缓冲区的channel需要一个额外的参数容量来表明缓冲区大小：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ch&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; make(&lt;span style=&#34;color:#66d9ef&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;capacity&lt;/span&gt;)  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;上面代码中的 &lt;em&gt;capacity&lt;/em&gt;　需要大于０，如果等于０的话则是之前学习的无缓冲区channel。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-Channels</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-channels/</link>
+      <pubDate>Mon, 04 Jun 2018 14:24:51 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-channels/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/channels/&#34;&gt;原文&lt;/a&gt;，建议先看完goroutine部分再看这篇。&lt;/p&gt;
+&lt;h2 id=&#34;什么是channels&#34;&gt;什么是channels&lt;/h2&gt;
+&lt;p&gt;channels可以理解成是goroutine之间通信的管道，和水流从管道的一端到另一端类似，数据也可以从管道的一端发送另一端接收。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-Goroutines</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-goroutines/</link>
+      <pubDate>Fri, 01 Jun 2018 11:51:33 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-goroutines/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/goroutines/&#34;&gt;原文&lt;/a&gt;，建议理解并发(concurrency)、并行(parallelism)区别后再看这方面的内容。&lt;/p&gt;
+&lt;h2 id=&#34;goroutines是啥&#34;&gt;Goroutines是啥？&lt;/h2&gt;
+&lt;p&gt;Goroutines是一个可以和其他函数或方法并发执行的函数或方法。也可以把它理解为轻量级的线程(roy注:这话听起来和大python中的协程很像啊！)，而创建Goroutine的开销却远远小于线程。因此在大多数的Go程序都可以并发执行成千上万的Goroutine。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-接口2</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%8E%A5%E5%8F%A32/</link>
+      <pubDate>Tue, 22 May 2018 22:29:47 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%8E%A5%E5%8F%A32/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/interfaces-part-2/&#34;&gt;原文&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;传指针vs传值&#34;&gt;传指针vs传值&lt;/h2&gt;
+&lt;p&gt;上篇文章中所有接口实现我们都使用的传值，当然也可以使用传指针这种方式来实现接口。但使用传指针这种方式有一点需要注意，我们来看下面这个代码。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Describer&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;interface&lt;/span&gt; {  
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
+}
+&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {  
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;age&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt;) &lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;() { &lt;span style=&#34;color:#75715e&#34;&gt;//implemented using value receiver  
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;%s is %d years old\n&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;age&lt;/span&gt;)
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Address&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {  
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;state&lt;/span&gt;   &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;country&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Address&lt;/span&gt;) &lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;() { &lt;span style=&#34;color:#75715e&#34;&gt;//implemented using pointer receiver  
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;State %s Country %s&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;state&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;country&lt;/span&gt;)
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {  
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Describer&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;p1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Sam&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;25&lt;/span&gt;}
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;p1&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;p2&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;James&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt;}
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt; = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;p2&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;d2&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Describer&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Address&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Washington&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;USA&amp;#34;&lt;/span&gt;}
+
+    &lt;span style=&#34;color:#75715e&#34;&gt;/* compilation error if the following line is
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       uncommented
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       cannot use a (type Address) as type Describer
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       in assignment: Address does not implement
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       Describer (Describe method has pointer
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       receiver)
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    */&lt;/span&gt;
+    &lt;span style=&#34;color:#75715e&#34;&gt;//d2 = a
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;d2&lt;/span&gt; = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;//This works since Describer interface
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;//is implemented by Address pointer in line 22
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;d2&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-接口1</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%8E%A5%E5%8F%A31/</link>
+      <pubDate>Tue, 22 May 2018 18:29:47 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%8E%A5%E5%8F%A31/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/interfaces-part-1/&#34;&gt;原文&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;接口是什么&#34;&gt;接口是什么？&lt;/h2&gt;
+&lt;p&gt;在面向对象的世界中，接口的意思是：“接口定义了对象的行为”。它只表明对象应该能做什么，而具体怎么做则由对象内部实现。&lt;/p&gt;
+&lt;p&gt;Go语言中，接口是方法的集合，若某个类型实现了接口中定义的所有方法，则可以说这个类型实现了这个接口。用OOP的形式来说就是： &lt;strong&gt;接口表明了类型应该有哪些方法，而类型则决定如何实现那些方法&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;比如，&lt;code&gt;WashingMachine&lt;/code&gt;这个接口中可以定义&lt;code&gt;Cleaning()&lt;/code&gt;和&lt;code&gt;Drying()&lt;/code&gt;方法，任何类型实现了这２个方法都可以说是实现了&lt;code&gt;WashingMachine&lt;/code&gt;接口。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>200行GO代码实现区块链2</title>
+      <link>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE2/</link>
+      <pubDate>Mon, 21 May 2018 21:32:59 +0000</pubDate>
+      
+      <guid>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE2/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://medium.com/@mycoralhealth/part-2-networking-code-your-own-blockchain-in-less-than-200-lines-of-go-17fe1dad46e1&#34;&gt;原文&lt;/a&gt;，需要科学上网。省略了一些无关的内容。&lt;/p&gt;
+&lt;p&gt;上篇文章我们学习了如何编写区块链并且对进行Hash运算和验证，但所有都运行在一个节点。我们如何让其他的节点连接到我们的主节点并让这些新节点贡献新区块呢？并且，我们如何通知所有的节点区块链有更新呢？&lt;/p&gt;
+&lt;p&gt;这篇文章将进行就解答。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>200行GO代码实现区块链1</title>
+      <link>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE1/</link>
+      <pubDate>Fri, 18 May 2018 14:42:11 +0000</pubDate>
+      
+      <guid>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE1/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://medium.com/@mycoralhealth/code-your-own-blockchain-in-less-than-200-lines-of-go-e296282bcffc&#34;&gt;原文&lt;/a&gt;，需要科学上网。省略了一些无关的内容。&lt;/p&gt;
+&lt;p&gt;世界上很多开发者听说过区块链却不知道它是怎么工作的，他们或许仅仅听过比特币或者智能合约一类的名词。这篇文章尝试用简明的语言说明区块链并且用不到200行的代码来实现你自己的区块链！文章的最后，你应该可以运行并且添加区块到区块链中并从浏览器中看到结果。&lt;/p&gt;
+&lt;p&gt;有什么学习区块链的方法比你亲自实现一个更好呢？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;文章讲了什么&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如何创建自己的区块链&lt;/li&gt;
+&lt;li&gt;如何使用Hash来维护区块链的完整性&lt;/li&gt;
+&lt;li&gt;如何添加新区块&lt;/li&gt;
+&lt;li&gt;如何解决多个节点同时生成区块导致冲突问题&lt;/li&gt;
+&lt;li&gt;如何在浏览器中查看区块链&lt;/li&gt;
+&lt;li&gt;如何生成新区块&lt;/li&gt;
+&lt;li&gt;了解区块链的基础知识后，你可以决定你的未来发展方向&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;文章没讲什么&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;为了保持简单，我们并没介绍更高级的概念比如pow和pos的对比，我们模拟了网络交互所以你可以看到区块链并且添加区块，但网络广播部分将以后再讲。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Effective-Go中文翻译</title>
+      <link>/posts/effective-go%E4%B8%AD%E6%96%87%E7%BF%BB%E8%AF%91/</link>
+      <pubDate>Mon, 07 May 2018 17:59:59 +0000</pubDate>
+      
+      <guid>/posts/effective-go%E4%B8%AD%E6%96%87%E7%BF%BB%E8%AF%91/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BB%8B%E7%BB%8D&#34;&gt;介绍&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BE%8B%E5%AD%90&#34;&gt;例子&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BB%A3%E7%A0%81%E9%A3%8E%E6%A0%BC&#34;&gt;代码风格&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%B3%A8%E9%87%8A&#34;&gt;注释&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83&#34;&gt;命名规范&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;a href=&#34;https://golang.google.cn/doc/effective_go.html&#34;&gt;原文链接&lt;/a&gt;，省略了一些无关的句子。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://go-zh.org/doc/effective_go.html&#34;&gt;这里&lt;/a&gt;有别人翻译好的，需要翻墙。&lt;/p&gt;
+&lt;h1 id=&#34;介绍&#34;&gt;介绍&lt;/h1&gt;
+&lt;p&gt;Go是一种新的语言，尽管它从其他语言中借鉴了很多特性，但有些不同寻常的特性让Go语言程序和其他程序有所不同。想要直接把C++或者Java代码转换成Go不会得到令人满意的结果，Java程序是用Java写的而不是GO。另一方面，从GO的角度来考虑问题可以写出成功运行但略有不同的程序。换句话说，想要写出好的GO程序，了解其特性是很重要的。同样，了解约定俗成的惯例也很重要，比如命名、格式、项目结构，这样你写的代码才能方便其他GO语言程序员理解。&lt;/p&gt;
+&lt;p&gt;这篇文档给你一些小建议以便写出简洁且符合规范的GO代码。看这篇文档前建议先看&lt;a href=&#34;https://golang.google.cn/ref/spec&#34;&gt;language specification&lt;/a&gt;，&lt;a href=&#34;https://tour.golang.org/&#34;&gt;the Tour of Go&lt;/a&gt;，和 &lt;a href=&#34;https://golang.google.cn/doc/code.html&#34;&gt;How to Write Go Code&lt;/a&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;例子&#34;&gt;例子&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://golang.google.cn/src/&#34;&gt;GO源码&lt;/a&gt;不仅仅是作为核心库来使用，更可以用作写代码的实例参考。此外，你可以直接在&lt;a href=&#34;https://golang.org/&#34;&gt;官网&lt;/a&gt;上运行那些没有额外依赖的程序，比如&lt;a href=&#34;https://golang.org/pkg/strings/#example_Map&#34;&gt;这个&lt;/a&gt;。如果你有关于如何解决或实现某个问题的疑问，标准库中的文档、代码、例子可以提供答案或者思路。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>MySQL数据库修复 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="MySQL数据库修复" />
+<meta property="og:description" content="把博客服务器搬到香港之后，发现这个供应商的服务器经常自动重启，不过mysql、nginx都设定了开机自启动，所以也就没当事。结果今天出了大问题：服务器ip可以ping的通，但博客就是无法访问，登录到服务器一看，我擦——整个数据盘不见了！由于把网站放在了/home目录下，而现在home目录空荡荡的啥也没有。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BF%AE%E5%A4%8D/" />
+<meta property="article:published_time" content="2016-07-18T22:28:36+00:00" />
+<meta property="article:modified_time" content="2016-07-18T22:28:36+00:00" />
+
+		<meta itemprop="name" content="MySQL数据库修复">
+<meta itemprop="description" content="把博客服务器搬到香港之后，发现这个供应商的服务器经常自动重启，不过mysql、nginx都设定了开机自启动，所以也就没当事。结果今天出了大问题：服务器ip可以ping的通，但博客就是无法访问，登录到服务器一看，我擦——整个数据盘不见了！由于把网站放在了/home目录下，而现在home目录空荡荡的啥也没有。">
+<meta itemprop="datePublished" content="2016-07-18T22:28:36&#43;00:00" />
+<meta itemprop="dateModified" content="2016-07-18T22:28:36&#43;00:00" />
+<meta itemprop="wordCount" content="328">
+
+
+
+<meta itemprop="keywords" content="mysql," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">MySQL数据库修复</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-07-18T22:28:36Z">2016-07-18</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="category">数据库</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>把博客服务器搬到香港之后，发现这个供应商的服务器经常自动重启，不过mysql、nginx都设定了开机自启动，所以也就没当事。结果今天出了大问题：服务器ip可以ping的通，但博客就是无法访问，登录到服务器一看，我擦——整个数据盘不见了！由于把网站放在了/home目录下，而现在home目录空荡荡的啥也没有。</p>
+<p>联系了客服，说是因为数据盘没自动挂载。等他们处理好后，虽然网站程序文件都找回来了，可mysql数据库却崩了，无法启动并报错：</p>
+<pre><code>[root@MyServer default]# service mysql start
+Starting MySQL..The server quit without updating PID file (/usr/local/mysql/var/MyServer.pid).                                                       [FAILED]
+</code></pre><p>查看错误日志：</p>
+<pre><code>less MyServer.err
+
+...
+InnoDB: Cannot continue operation.
+InnoDB: You can try to recover the database with the my.cnf
+InnoDB: option:
+InnoDB: innodb_force_recovery=6
+...
+</code></pre><p>完，看到Cannot continue operation我这心就凉了，这是费费了，只能看数据能不能抢救回来了。</p>
+<p>首先编辑/etc/my.cnf，添加：<code>innodb_force_recovery=6</code></p>
+<p>然后启动mysql，注意此时虽然数据库启动了，但是是只读模式，换言之不能进行任何新增、修改、删除操作，否则报错：
+<code>mysql Got error -1 from storage engine</code></p>
+<p>而且需要注意，此时博客能够打开浏览，但却无法进行登录，登录页面会无限循环而且不给任何提示信息。</p>
+<p>接下来就是使用mysqldump命令进行数据库备份了，备份好后，删除mysql数据库目录的内容，并重新初始化：</p>
+<pre><code>rm -rf /usr/local/mysql/var/
+./mysql_install_db
+WARNING: The host 'MyServer' could not be looked up with resolveip.
+This probably means that your libc libraries are not 100 % compatible
+with this binary MySQL version. The MySQL daemon, mysqld, should work
+normally with the exception that host name resolving will not work.
+This means that you should use IP addresses instead of hostnames
+when specifying MySQL privileges !
+Installing MySQL system tables...
+160718 21:29:50 [Note] ./bin/mysqld (mysqld 5.5.48-log) starting as process 22978 ...
+OK
+Filling help tables...
+160718 21:29:50 [Note] ./bin/mysqld (mysqld 5.5.48-log) starting as process 22985 ...
+OK
+
+To start mysqld at boot time you have to copy
+support-files/mysql.server to the right place for your system
+
+PLEASE REMEMBER TO SET A PASSWORD FOR THE MySQL root USER !
+To do so, start the server, then issue the following commands:
+
+./bin/mysqladmin -u root password 'new-password'
+./bin/mysqladmin -u root -h MyServer password 'new-password'
+
+Alternatively you can run:
+./bin/mysql_secure_installation
+
+which will also give you the option of removing the test
+databases and anonymous user created by default.  This is
+strongly recommended for production servers.
+
+See the manual for more instructions.
+
+You can start the MySQL daemon with:
+cd . ; ./bin/mysqld_safe &amp;
+You can test the MySQL daemon with mysql-test-run.pl
+cd ./mysql-test ; perl mysql-test-run.pl
+
+Please report any problems at http://bugs.mysql.com/
+</code></pre><p>此时启动mysql服务会报错：</p>
+<pre><code>160718 21:34:32 mysqld_safe Starting mysqld daemon with databases from /usr/local/mysql/var
+160718 21:34:32 [Note] /usr/local/mysql/bin/mysqld (mysqld 5.5.48-log) starting as process 24777
+...
+/usr/local/mysql/bin/mysqld: File './mysql-bin.index' not found (Errcode: 13)
+160718 21:34:32 [ERROR] Aborting
+160718 21:34:32 [Note] /usr/local/mysql/bin/mysqld: Shutdown complete
+160718 21:34:32 mysqld_safe mysqld from pid file /usr/local/mysql/var/MyServer.pid ended
+</code></pre><p>需要使用chown命令把新初始化的目录赋予给mysql用户，然后注释掉/etc/my.cnf中添加的<code>＃innodb_force_recovery ＝ 6</code></p>
+<p>重启数据库，修改root密码、倒入备份好的数据库即可。</p>
+<hr>
+<p>后记：虽然从记录上来看一切都如行云流水般，但在真正处理时候也是消耗了不少的时间的。真就像阮一峰前辈说的：</p>
+<blockquote>
+<p>第一阶段，刚接触Blog，觉得很新鲜，试着选择一个免费空间来写。</p>
+<p>第二阶段，发现免费空间限制太多，就自己购买域名和空间，搭建独立博客。</p>
+<p>第三阶段，觉得独立博客的管理太麻烦，最好在保留控制权的前提下，让别人来管，自己只负责写文章。
+幸好这次数据得以恢复，否则6月份的文章就真的丢了。所以，我目前想在github上建立静态博客，只是不知道有没有什么方便的工具进行一键迁移呢？</p>
+</blockquote>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/mysql/" rel="tag">mysql</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/django%E8%87%AA%E5%AE%9A%E4%B9%89%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9E%8B/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">django自定义用户模型</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%E8%AE%B0%E5%BD%95/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">博客迁移记录</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

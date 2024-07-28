@@ -1,0 +1,1882 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>编程技术 on Hi~Roy!</title>
+    <link>/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/</link>
+    <description>Recent content in 编程技术 on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 19 Jan 2023 11:10:48 +0800</lastBuildDate>
+    
+	<atom:link href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>在Golang中如何使用并发</title>
+      <link>/posts/%E5%9C%A8golang%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B9%B6%E5%8F%91/</link>
+      <pubDate>Thu, 19 Jan 2023 11:10:48 +0800</pubDate>
+      
+      <guid>/posts/%E5%9C%A8golang%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B9%B6%E5%8F%91/</guid>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://madflojo.medium.com/keeping-tcp-connections-alive-in-golang-801a78b7cf1&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
+&lt;p&gt;本文的主要目标是展示在哪些场景下使用并发更加合适。因此本文中不会讲述并发相关的基本术语，比如goroutines、wait groups、channels、数据竞争等。
+我打算创建一系列文章，详细解释最常用的并发相关示例。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>在Golang中保持TCP链接</title>
+      <link>/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/</link>
+      <pubDate>Mon, 11 Jul 2022 14:26:27 +0800</pubDate>
+      
+      <guid>/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/</guid>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://madflojo.medium.com/keeping-tcp-connections-alive-in-golang-801a78b7cf1&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
+&lt;p&gt;尽管目前大多数系统都是通过gRPC或HTTP进行通信的，但仍有相当多的应用程序使用自定义协议。而且这些自定义协议中的许多都没有类似&lt;code&gt;net/http&lt;/code&gt;这样方便的包来管理TCP连接。&lt;/p&gt;
+&lt;p&gt;这篇文章是为了那些直接和TCP连接打交道的人准备的。本文将讨论如何长期维护健康的TCP会话，以及如何对操持长链接的系统进行调优。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Golang中的开闭原则</title>
+      <link>/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</link>
+      <pubDate>Tue, 02 Nov 2021 11:05:20 +0800</pubDate>
+      
+      <guid>/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</guid>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://levelup.gitconnected.com/practical-solid-in-golang-open-closed-principle-1dd361565452&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
+&lt;p&gt;Open/Closed Principle（OCP，开闭原则）也不过多介绍了，一句话“对扩展开放，对修改封闭”。策略模式就是这一原则的一种实现。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Golang中的单一职责原则</title>
+      <link>/posts/golang%E4%B8%AD%E7%9A%84%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/</link>
+      <pubDate>Tue, 02 Nov 2021 10:05:20 +0800</pubDate>
+      
+      <guid>/posts/golang%E4%B8%AD%E7%9A%84%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/</guid>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://levelup.gitconnected.com/practical-solid-in-golang-single-responsibility-principle-20afb8643483&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
+&lt;p&gt;The Single Responsibility Principle (SRP，单一职责原则)的文字定义这里我就不再次说明了，直接开始重点。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>使用golang的channel实现订阅-发布模式</title>
+      <link>/posts/%E4%BD%BF%E7%94%A8golang%E7%9A%84channel%E5%AE%9E%E7%8E%B0%E8%AE%A2%E9%98%85-%E5%8F%91%E5%B8%83%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 12 Jul 2021 20:05:20 +0800</pubDate>
+      
+      <guid>/posts/%E4%BD%BF%E7%94%A8golang%E7%9A%84channel%E5%AE%9E%E7%8E%B0%E8%AE%A2%E9%98%85-%E5%8F%91%E5%B8%83%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://eli.thegreenplace.net/2020/pubsub-using-channels-in-go/&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
+&lt;p&gt;先定义一个结构体&lt;code&gt;Pubsub&lt;/code&gt;，客户端可以使用它来订阅、发布主题：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Pubsub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {
+  &lt;span style=&#34;color:#a6e22e&#34;&gt;mu&lt;/span&gt;   &lt;span style=&#34;color:#a6e22e&#34;&gt;sync&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;RWMutex&lt;/span&gt;
+  &lt;span style=&#34;color:#a6e22e&#34;&gt;subs&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;][]&lt;span style=&#34;color:#66d9ef&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>Golang小技巧</title>
+      <link>/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Wed, 16 Dec 2020 21:32:59 +0000</pubDate>
+      
+      <guid>/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/</guid>
+      <description>&lt;h3 id=&#34;下划线的妙用&#34;&gt;下划线的妙用&lt;/h3&gt;
+&lt;p&gt;大多数情况下，下划线&lt;code&gt;_&lt;/code&gt;都用于忽略函数返回值的情况。最近查看&lt;code&gt;authboss&lt;/code&gt;这个开源库的代码时，发现&lt;a href=&#34;https://github.com/volatiletech/authboss-sample/blob/c13bdabe709387b66806bf12dbe12ad71bb17d17/storer.go#L63&#34;&gt;这样&lt;/a&gt;一种用法:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt; {
+    &lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; (
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;assertUser&lt;/span&gt;   = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt;{}
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;assertStorer&lt;/span&gt; = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;MemStorer&lt;/span&gt;{}
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;_&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;authboss&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt;            = &lt;span style=&#34;color:#a6e22e&#34;&gt;assertUser&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;_&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;authboss&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;AuthableUser&lt;/span&gt;    = &lt;span style=&#34;color:#a6e22e&#34;&gt;assertUser&lt;/span&gt;
+)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>新手可能会犯的50个Golang错误</title>
+      <link>/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/</link>
+      <pubDate>Wed, 16 Dec 2020 21:32:59 +0000</pubDate>
+      
+      <guid>/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/index.html&#34;&gt;原文&lt;/a&gt;，向原作者表示感谢。这里省略了一些无关的介绍说明以及过于简单的说明，直接看代码就懂了。&lt;/p&gt;
+&lt;h2 id=&#34;左花括号不能单独一行&#34;&gt;左花括号不能单独一行&lt;/h2&gt;
+&lt;p&gt;在大多数语言中你可以随便放置花括号的位置，但go语言不一样，你可以理解为为go会自动注入分号（automatic semicolon injection）：&lt;/p&gt;
+&lt;p&gt;错误代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;()  
+{ &lt;span style=&#34;color:#75715e&#34;&gt;//error, can&amp;#39;t have the opening brace on a separate line
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hello there!&amp;#34;&lt;/span&gt;)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;编译错误：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;tmp&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sandbox826898458&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;.&lt;span style=&#34;color:#66d9ef&#34;&gt;go&lt;/span&gt;:&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;: &lt;span style=&#34;color:#a6e22e&#34;&gt;syntax&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;error&lt;/span&gt;: &lt;span style=&#34;color:#a6e22e&#34;&gt;unexpected&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;semicolon&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;or&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;newline&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;before&lt;/span&gt; {
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;正确代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {  
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;works!&amp;#34;&lt;/span&gt;)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>集成gin和casbin</title>
+      <link>/posts/%E9%9B%86%E6%88%90gin%E5%92%8Ccasbin/</link>
+      <pubDate>Mon, 28 Sep 2020 21:32:59 +0000</pubDate>
+      
+      <guid>/posts/%E9%9B%86%E6%88%90gin%E5%92%8Ccasbin/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://dev.to/maxwellhertz/tutorial-integrate-gin-with-cabsin-56m0&#34;&gt;原文&lt;/a&gt;，省略了一些无关的内容。&lt;/p&gt;
+&lt;p&gt;如果你搜到这篇文章，那么什么是gin以及casbin应该不用过多解释了。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>OpenStack源码学习笔记6</title>
+      <link>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06/</link>
+      <pubDate>Mon, 20 Jul 2020 17:46:29 +0000</pubDate>
+      
+      <guid>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06/</guid>
+      <description>&lt;p&gt;很久之前发现一个现象，在生产环境中配置了保留内存&lt;code&gt;reserved_host_memory_mb&lt;/code&gt;以及 &lt;strong&gt;没配置&lt;/strong&gt; 内存超分比&lt;code&gt;ram_allocation_ratio&lt;/code&gt;的情况下，虚拟机使用的内存居然已经快将物理内存耗尽了。&lt;/p&gt;
+&lt;p&gt;比如物理机内存300G，方便举例忽略掉一些系统占用，当设置了&lt;code&gt;reserved_host_memory_mb&lt;/code&gt;为20G，那么理论上所有虚拟机最大占用内存量为280G，而查看居然已经使用了290G的内存，还是在虚拟机并没有将各自申请的内存全部使用掉的情况下(比如申请一台4G的虚拟机，但物理机操作系统层面并没有分配4G给对应的进程，除非虚拟机内部把内存占满)。&lt;/p&gt;
+&lt;p&gt;单单就nova而言，如果在集群启动时就指定了保留内存大小和超分比为1的话，是不应该出现上述情形的。除非后期对这2个参数进行过修改，但由于年代久远已经没法追溯，这也就成了一桩悬案。&lt;/p&gt;
+&lt;p&gt;不过在追踪这个问题的过程中，顺便也学习了下主机热迁移的过程，这里的代码是 &lt;em&gt;&lt;strong&gt;N版&lt;/strong&gt;&lt;/em&gt; 。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-享元模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 20 May 2020 16:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;用共享的方式提供大量细粒度的对象，降低系统创建类实例的性能消耗，不是特别常用的一种模式。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>OpenStack源码学习笔记5</title>
+      <link>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/</link>
+      <pubDate>Mon, 30 Mar 2020 17:46:29 +0000</pubDate>
+      
+      <guid>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/</guid>
+      <description>&lt;p&gt;今天遇到一个诡异的问题，对某个有问题的计算节点进行疏散，结果有些虚拟机的根磁盘居然消！失！了？首先能够确定的是ceph不会自动删除，那么一定是某个地方触发了删除根磁盘的操作。&lt;/p&gt;
+&lt;p&gt;这如果发生在生产环境可是一个极其严重的问题，正好借此排查的机会梳理一下nova关于主机疏散的流程。&lt;/p&gt;
+&lt;p&gt;以下代码为N版，但大体流程相差应该不大。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-外观模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 08 Jan 2020 16:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;这个模式即便没听说过，也很可能在很多地方已经使用了，是非常常用的设计模式之一，完美体现了面向对象“封装”的特性。简单说就是通过一个“外观”将系统内部的实现隐藏起来，将外部系统和内部系统进行解耦。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-装饰器模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Thu, 02 Jan 2020 16:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;在python中有一个非常常用的语法糖&lt;code&gt;@&lt;/code&gt;，本质上就是装饰器。这种模式可以不改变原文件的情况下动态的扩展一个对象的功能而不用创建子类，避免了类膨胀，是一种比较常用的模式，有个细节需要注意的就是装饰的顺序。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-组合模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 23 Dec 2019 17:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;组合模式(Composite Pattern):将对象组合成树形结构表示来“部分-整体”的层次结构，使用户对单个对象和组合对象的使用具有一致性。&lt;/p&gt;
+&lt;p&gt;看上去有点抽象，其实就是一种树形结构。比如二叉树，每个非叶子节点都有2个子节点，叶子节点除了没有子节点外和父节点、根节点都是一样的。在通俗来说，比如公司的层级架构，从老板(根节点)到经理(非叶子节点)再到员工(叶子节点)，他们有很多共性的东西，比如都有姓名、工号，老板和经理有添加、移除手下员工的能力，而作为员工则只能干活。&lt;/p&gt;
+&lt;p&gt;从代码实现来说，就是老板、经理、员工使用一个抽象类，而老板和经理实现某些特定的方法，这就是组合模式，十分容易理解。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-桥接模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Thu, 12 Dec 2019 16:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;桥接模式核心原理是将抽象部分和实现部分分析，使二者可以独立的变化。再具体一点，当某个类型由于自身逻辑可以有两个或多个维度的变化，使用桥接模式可以令这些维度变化时不影响其他维度。再举个例子，手机——可以按照品牌来分类，比如苹果华为三星，也可以按照功能分类，比如拍照手机，游戏手机等等。&lt;/p&gt;
+&lt;p&gt;桥接模式有2个设计原则：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;使用聚合而不使用继承。（使用继承一定是在&lt;code&gt;is-a&lt;/code&gt;的关系时再考虑使用）&lt;/li&gt;
+&lt;li&gt;抽象和实现分离。&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
+    <item>
+      <title>OpenStack源码学习笔记4</title>
+      <link>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/</link>
+      <pubDate>Mon, 09 Dec 2019 12:46:29 +0000</pubDate>
+      
+      <guid>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/</guid>
+      <description>&lt;p&gt;这篇文章记录nova创建快照时候的过程，根据&lt;a href=&#34;https://docs.openstack.org/api-ref/compute/?expanded=create-image-createimage-action-detail#create-image-createimage-action&#34;&gt;文档&lt;/a&gt;，创建快照其实是向&lt;code&gt;/servers/{server_id}/action&lt;/code&gt;发送了一个POST的请求，内容则是类似:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;{
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;createImage&amp;#34;&lt;/span&gt; : {
+        &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt; : &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;image-name&amp;#34;&lt;/span&gt;,
+        &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;metadata&amp;#34;&lt;/span&gt;: {}
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-适配器模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Thu, 28 Nov 2019 16:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;适配器模式目的就是不改变原有系统的基础上保留其提供的服务，向调用者提供新的接口服务，使得原本由于接口不兼容而不能一起工作的类可以一起工作。（简单说就是增加兼容性，复用已经存在的功能）&lt;/p&gt;
+&lt;p&gt;笔记本电脑的电源变压器就是这个原理，把交流电转换成直流电。或者把英文翻译成中文，都是适配器模式。&lt;/p&gt;
+&lt;p&gt;又分为2种：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;对象适配器模式&lt;/li&gt;
+&lt;li&gt;类适配器模式&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;适配器虽好，但也不要乱用，如果能在设计阶段就统一就是最好的，适配器模式更像是一种补丁。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>OpenStack源码学习笔记3</title>
+      <link>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/</link>
+      <pubDate>Mon, 04 Nov 2019 12:46:29 +0000</pubDate>
+      
+      <guid>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/</guid>
+      <description>&lt;p&gt;最近看了下关于OpenStack如何统计更新CPU、内存、硬盘等硬件资源的部分，由于历史原因下面的代码来自&lt;code&gt;newton&lt;/code&gt;版。&lt;/p&gt;
+&lt;p&gt;简单说，OpenStack先通过定时任务进行资源统计，入口代码位于&lt;code&gt;nova\compute\manager.py&lt;/code&gt;中&lt;code&gt;ComputeManager&lt;/code&gt;类的&lt;code&gt;update_available_resource&lt;/code&gt;函数。默认情况下每分钟更新一次：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-py&#34; data-lang=&#34;py&#34;&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;@periodic_task.periodic_task&lt;/span&gt;(spacing&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;update_resources_interval)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;update_available_resource&lt;/span&gt;(self, context):
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;See driver.get_available_resource()
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    Periodic process that keeps that the compute host&amp;#39;s understanding of
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    resource availability and usage in sync with the underlying hypervisor.
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    :param context: security context
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+
+    compute_nodes_in_db &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_get_compute_nodes_in_db(context,
+                                                        use_slave&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;True)
+    nodenames &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; set(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;driver&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_available_nodes())
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; nodename &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; nodenames:
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;update_available_resource_for_node(context, nodename)
+
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_resource_tracker_dict &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {
+        k: v &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; k, v &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_resource_tracker_dict&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;items()
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; nodenames}
+
+    &lt;span style=&#34;color:#75715e&#34;&gt;# Delete orphan compute node not reported by driver but still in db&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; cn &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; compute_nodes_in_db:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; cn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hypervisor_hostname &lt;span style=&#34;color:#f92672&#34;&gt;not&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; nodenames:
+            LOG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;info(_LI(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Deleting orphan compute node &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;), cn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;id)
+            cn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;destroy()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;首先获取所有节点，然后维护了一个名为&lt;code&gt;_resource_tracker_dict&lt;/code&gt;的字典用来记录host和&lt;code&gt;ResourceTracker&lt;/code&gt;实例的对应关系，所有的资源更新行为都在&lt;code&gt;ResourceTracker&lt;/code&gt;中进行处理。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-单例模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 28 Oct 2019 16:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;单例模式可以说是最容易理解的一种设计模式了，当需要某个类仅有一个全局唯一对象时可以使用，比如某些配置项。核心思想就是新建某个类实例时先进行一次判断，如果不存在则创建新实例返回，否则返回已经存在的实例。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-原型模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 14 Oct 2019 17:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;原型模式(Prototype Pattern)：使用原型实例创建指定创建对象的种类，并通过拷贝这些原型创建新对象。这个模式很好理解，就是&lt;code&gt;ctrl+c，ctrl+v&lt;/code&gt;后做一些小修改。&lt;/p&gt;
+&lt;p&gt;这里面涉及一个知识点就是深拷贝和浅拷贝的问题，但我相信任何python开发人员都知道&lt;code&gt;copy()&lt;/code&gt;和&lt;code&gt;deepcopy()&lt;/code&gt;的区别，这里就不多说了（有兴趣的可以去看python中这2个函数的实现）。&lt;/p&gt;
+&lt;p&gt;个人理解当需要多个类对象时，如果要进行很多复杂的、消耗时间的初始化操作，而这些对象之间又仅有少量不同时，可以考虑使用原型模式。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-建造者模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 12 Oct 2019 16:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;建造者模式(Builder Pattern)：将复杂对象的创建和表示分离，使同样的构建过程可以创建不同的表示。&lt;/p&gt;
+&lt;p&gt;进一步说，建造者隐藏了产品是如何组装的，使建造代码和表示代码分离。建造对象时 &lt;strong&gt;构件顺序稳定&lt;/strong&gt; 的情况下，不管每一步具体怎么变都可以适用。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/design-pattern/builder.png&#34; alt=&#34;builder.png&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-工厂模式</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 09 Oct 2019 16:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;工厂模式又可以分为工厂方法模式和抽象工厂模式。&lt;/p&gt;
+&lt;h2 id=&#34;工厂方法模式factory-method-pattern&#34;&gt;工厂方法模式(Factory Method Pattern)&lt;/h2&gt;
+&lt;p&gt;工厂模式是指：定义一个接口用户创建对象，让子类决定实例化哪一个类。&lt;/p&gt;
+&lt;p&gt;工厂模式中存在4个角色：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;抽象工厂&lt;/li&gt;
+&lt;li&gt;具体工厂&lt;/li&gt;
+&lt;li&gt;抽象产品&lt;/li&gt;
+&lt;li&gt;具体产品&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;抽象工厂产生抽象产品，具体工厂生产具体产品。&lt;/strong&gt; 这句话很重要，理解了这句话就理解了工厂方法模式。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式-总览</title>
+      <link>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%80%BB%E8%A7%88/</link>
+      <pubDate>Tue, 08 Oct 2019 16:58:08 +0000</pubDate>
+      
+      <guid>/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%80%BB%E8%A7%88/</guid>
+      <description>&lt;p&gt;很久很久以前，忘记从哪看到一句话——设计模式是对编程语言缺陷的弥补。&lt;/p&gt;
+&lt;p&gt;年轻的我并没意识到这句话背后的真实含义以及所处语境，外加之后主要开发语言是Python这个动态语言，设计模式真的没怎么用到——比如装饰模式不就是Python中的装饰器嘛，一个语法糖能解决的事居然还弄出个模式来？&lt;/p&gt;
+&lt;p&gt;直到我开始学习openstack的源码，发现里面用到了大量的设计模式，才明白自己是多么无知可笑。&lt;/p&gt;
+&lt;p&gt;这里借用一位大佬的话：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果你觉得设计模式在某程度上没用，说明两个问题：&lt;br&gt;
+1.你的系统还不足以复杂到要用设计模式的程度&lt;br&gt;
+2.你的经验还没强到能熟练应用设计模式的程度。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;能找到这篇文章的，应该都知道面向过程、面向对象、封装继承多态、高内聚低耦合（包含程序级别以及架构级别）、开闭原则(对扩展开放、对修改关闭)、依赖倒置原则(尽量使用抽象类型作为对象实例变量类型，用于实现开闭原则)、单一责任原则(一个模块只负责一个功能)等一堆的名词，以及“组合优于继承”(这里略有争议，我个人对此赞同，最近看一些继承过多的代码总是要向上找好几层父类，还要仔细看子类中有没有重写父类方法，术语叫做类膨胀)。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>OpenStack源码学习笔记2</title>
+      <link>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/</link>
+      <pubDate>Wed, 18 Sep 2019 12:46:29 +0000</pubDate>
+      
+      <guid>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/</guid>
+      <description>&lt;p&gt;上次学习了Nova创建虚拟机的过程，这次来看一下Glance是如何上传镜像的。相比于Nova，Glance源码使用了大量的代理模式和装饰器模式，阅读代码时候一个不仔细就会一脸懵X。根据上次说的Openstack套路，我们通过&lt;code&gt;setup.cfg&lt;/code&gt;直奔主题——&lt;code&gt;glance/cmd/api.py&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;():
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;:
+        config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;parse_args()
+        config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_config_defaults()
+        wsgi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_eventlet_hub()
+        logging&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;setup(CONF, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;glance&amp;#39;&lt;/span&gt;)
+        notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_defaults()
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; cfg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;profiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;enabled:
+            _notifier &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;create(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Messaging&amp;#34;&lt;/span&gt;,
+                                                   oslo_messaging, {},
+                                                   notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_transport(),
+                                                   &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;glance&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;api&amp;#34;&lt;/span&gt;,
+                                                   cfg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;bind_host)
+            osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set(_notifier)
+            osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;web&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;enable(cfg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;profiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hmac_keys)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+            osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;web&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;disable()
+        server &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; wsgi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Server(initialize_glance_store&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;True)
+        server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start(config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;load_paste_app(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;glance-api&amp;#39;&lt;/span&gt;), default_port&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;9292&lt;/span&gt;)
+        server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;wait()
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;except&lt;/span&gt; KNOWN_EXCEPTIONS &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; e:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt;(e)
+        fail(e)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>OpenStack源码学习笔记1</title>
+      <link>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/</link>
+      <pubDate>Mon, 16 Sep 2019 17:46:29 +0000</pubDate>
+      
+      <guid>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/</guid>
+      <description>&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#%e9%a2%84%e5%a4%87%e7%9f%a5%e8%af%86&#34;&gt;预备知识&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#%e8%99%9a%e6%8b%9f%e5%8c%96&#34;&gt;虚拟化&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#wsgi&#34;&gt;WSGI&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#paste-deployment&#34;&gt;Paste Deployment&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%e9%80%9a%e7%94%a8%e5%a5%97%e8%b7%af&#34;&gt;通用套路&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%e9%85%8d%e7%bd%ae%e5%8a%a0%e8%bd%bd%e4%b8%8e%e8%b7%af%e7%94%b1%e7%bb%91%e5%ae%9a&#34;&gt;配置加载与路由绑定&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%e5%88%9b%e5%bb%ba%e8%99%9a%e6%8b%9f%e6%9c%ba&#34;&gt;创建虚拟机&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#nova-api&#34;&gt;Nova-Api&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#nova-conductor-1&#34;&gt;Nova-Conductor-1&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#nova-scheduler&#34;&gt;Nova-Scheduler&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#nova-conductor-2&#34;&gt;Nova-Conductor-2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#nova-compute&#34;&gt;Nova-Compute&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;作为已经比较成熟的IAAS开源解决方案，OpenStack已经发布了19个版本，目前稳定版是Stein，并且下一个版本Train也预计在10月发布。可以说，从代码架构角度来说对于初学者来说已经略微复杂，但最核心的组件有以下几个：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Nova：负责虚拟机相关。&lt;/li&gt;
+&lt;li&gt;Glance：负责镜像相关。&lt;/li&gt;
+&lt;li&gt;Cinder：负责存储相关。&lt;/li&gt;
+&lt;li&gt;Neutron：负责网络相关。&lt;/li&gt;
+&lt;li&gt;Keystone：负责鉴权以及服务注册。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;大体架构如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mypic-1252424367.cos.ap-hongkong.myqcloud.com/opstack/openstack-arch-kilo-logical-v1.png&#34; alt=&#34;all.png&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Scrapy-Redis结合POST请求获取数据</title>
+      <link>/posts/scrapy-redis%E7%BB%93%E5%90%88post%E8%AF%B7%E6%B1%82%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE/</link>
+      <pubDate>Mon, 06 May 2019 16:31:37 +0000</pubDate>
+      
+      <guid>/posts/scrapy-redis%E7%BB%93%E5%90%88post%E8%AF%B7%E6%B1%82%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE/</guid>
+      <description>&lt;p&gt;能看到这篇文章的小伙伴肯定已经知道什么是Scrapy以及Scrapy-Redis了，基础概念这里就不再介绍。默认情况下Scrapy-Redis是发送GET请求获取数据的，对于某些使用POST请求的情况需要重写&lt;code&gt;make_request_from_data&lt;/code&gt;函数即可，但奇怪的是居然没在网上搜到简洁明了的答案，或许是太简单了？&lt;/p&gt;
+&lt;p&gt;这里我以&lt;code&gt;httpbin.org&lt;/code&gt;这个网站为例，首先在&lt;code&gt;settings.py&lt;/code&gt;中添加所需配置，这里需要根据实际情况进行修改：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-py&#34; data-lang=&#34;py&#34;&gt;SCHEDULER &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;scrapy_redis.scheduler.Scheduler&amp;#34;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;#启用Redis调度存储请求队列&lt;/span&gt;
+SCHEDULER_PERSIST &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; True    &lt;span style=&#34;color:#75715e&#34;&gt;#不清除Redis队列、这样可以暂停/恢复 爬取&lt;/span&gt;
+DUPEFILTER_CLASS &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;scrapy_redis.dupefilter.RFPDupeFilter&amp;#34;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;#确保所有的爬虫通过Redis去重&lt;/span&gt;
+SCHEDULER_QUEUE_CLASS &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;scrapy_redis.queue.SpiderPriorityQueue&amp;#39;&lt;/span&gt;
+REDIS_URL &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;redis://127.0.0.1:6379&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>如何对Go代码解偶</title>
+      <link>/posts/%E5%A6%82%E4%BD%95%E5%AF%B9go%E4%BB%A3%E7%A0%81%E8%A7%A3%E5%81%B6/</link>
+      <pubDate>Mon, 11 Feb 2019 11:05:03 +0000</pubDate>
+      
+      <guid>/posts/%E5%A6%82%E4%BD%95%E5%AF%B9go%E4%BB%A3%E7%A0%81%E8%A7%A3%E5%81%B6/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.sage42.org/2019/01/30/how-to-fix-tightly-coupled-go-code/&#34;&gt;原文&lt;/a&gt;，文章作者也是《Hands-On Dependency Injection in Go》的作者，向原作者表示感谢。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;你是否曾经由于添加某个新功能却导致另一个功能出问题？修复好这个，另一个又出问题，就好象打地鼠一般。&lt;/p&gt;
+&lt;p&gt;你是否曾经花费大量的时间调试Bug，最后却发现问题潜伏在另一个、甚至毫不相关的模块中？&lt;/p&gt;
+&lt;p&gt;这些问题都是由于高耦合引起的。&lt;/p&gt;
+&lt;p&gt;在这篇文章中，我们来使用解偶的方式来让代码更加易于理解、维护、测试。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>go get命令使用socket代理</title>
+      <link>/posts/go-get%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8socket%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Fri, 12 Oct 2018 13:57:35 +0000</pubDate>
+      
+      <guid>/posts/go-get%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8socket%E4%BB%A3%E7%90%86/</guid>
+      <description>&lt;p&gt;由于某些不可描述的原因，国内使用&lt;code&gt;go get&lt;/code&gt;命令安装某些包的时候会超时导致失败，比如&lt;code&gt;net&lt;/code&gt;包、&lt;code&gt;sys&lt;/code&gt;包、&lt;code&gt;tools&lt;/code&gt;包等。第一种解决办法就是自己从git上下载后添加链接到&lt;code&gt;GOPATH&lt;/code&gt;中，比如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;git clone https://github.com/golang/net.git $GOPATH/src/github.com/golang/net
+
+git clone https://github.com/golang/sys.git $GOPATH/src/github.com/golang/sys
+
+git clone https://github.com/golang/tools.git $GOPATH/src/github.com/golang/tools
+
+ln -s $GOPATH/src/github.com/golang $GOPATH/src/golang.org/
+
+cd $GOPATH/src/golang.org/  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; mv golang x
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>墨卡托坐标转经纬度</title>
+      <link>/posts/%E5%A2%A8%E5%8D%A1%E6%89%98%E5%9D%90%E6%A0%87%E8%BD%AC%E7%BB%8F%E7%BA%AC%E5%BA%A6/</link>
+      <pubDate>Mon, 30 Jul 2018 15:52:40 +0000</pubDate>
+      
+      <guid>/posts/%E5%A2%A8%E5%8D%A1%E6%89%98%E5%9D%90%E6%A0%87%E8%BD%AC%E7%BB%8F%E7%BA%AC%E5%BA%A6/</guid>
+      <description>&lt;p&gt;今天获取百度地图数据时候发现其坐标都是类似&lt;code&gt;12945050.96,4826978.52&lt;/code&gt;这种而非常见的经纬度，之前获取百度外面商家信息时就发现了这个问题但没深入研究，搜索后发现这种表示方法叫做&lt;code&gt;墨卡托坐标&lt;/code&gt;。不得不说，关于坐标的标准还真是挺多的，根据经纬度查询位置可以使用&lt;a href=&#34;http://www.gpsspg.com/maps.htm&#34;&gt;这个网站&lt;/a&gt;。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Raft算法</title>
+      <link>/posts/raft%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Thu, 07 Jun 2018 22:26:33 +0000</pubDate>
+      
+      <guid>/posts/raft%E7%AE%97%E6%B3%95/</guid>
+      <description>&lt;p&gt;相比与Paxos算法，Raft更容易理解。首先推荐个&lt;a href=&#34;http://thesecretlivesofdata.com/raft/&#34;&gt;动画视频&lt;/a&gt; (注意这个动画真的基于raft算法，所以每次选举出的节点都是不同的，我观看某些章节时候甚至出现过3次选举过程)，然后是&lt;a href=&#34;http://www.infoq.com/cn/articles/raft-paper&#34;&gt;raft论文中文版&lt;/a&gt;和&lt;a href=&#34;https://raft.github.io/&#34;&gt;raft主页&lt;/a&gt;，基本结合这3个网站就能理解raft了。&lt;/p&gt;
+&lt;p&gt;在Raft算法中，有3种角色：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Leader&lt;/li&gt;
+&lt;li&gt;Follower&lt;/li&gt;
+&lt;li&gt;Candidate&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;大体分为2个过程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;选举(Leader Election)&lt;/li&gt;
+&lt;li&gt;日志同步(Log Replication)&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-互斥锁</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%92%E6%96%A5%E9%94%81/</link>
+      <pubDate>Thu, 07 Jun 2018 17:42:11 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%92%E6%96%A5%E9%94%81/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/mutex/&#34;&gt;原文&lt;/a&gt;，互斥锁(Mutex)也是go并发系列最后一篇文章。&lt;/p&gt;
+&lt;h2 id=&#34;临界区&#34;&gt;临界区&lt;/h2&gt;
+&lt;p&gt;在说互斥锁前，理解并发编程中的临界区(Critical section)是十分重要的。当一个程序并发执行时，共享资源不应该在同一时刻被多个goroutine修改。这段修改共享资源的代码就叫做临界区。举个例子，我们有一个代码片段用于修改变量x自增１。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;x = x+1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如果上面的代码在唯一的goroutine中执行，不会有任何问题。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-Select</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-select/</link>
+      <pubDate>Thu, 07 Jun 2018 16:54:28 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-select/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/select/&#34;&gt;原文&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;什么是select&#34;&gt;什么是Select&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;select&lt;/code&gt;语法用来从多个读／写的channel中选择一个，如果没有任何channel就绪select语句将被阻塞。如果多个就绪，则随机选择一个。语法和&lt;code&gt;switch&lt;/code&gt;类似，除了case后面跟随的是channel。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-缓冲区Channels和线程池</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%BC%93%E5%86%B2%E5%8C%BAchannels%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0/</link>
+      <pubDate>Mon, 04 Jun 2018 22:11:55 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%BC%93%E5%86%B2%E5%8C%BAchannels%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/buffered-channels-worker-pools/&#34;&gt;原文&lt;/a&gt;，这里为了方便理解我把worker pools翻译成线程池。&lt;/p&gt;
+&lt;h2 id=&#34;什么是缓冲区channel&#34;&gt;什么是缓冲区Channel&lt;/h2&gt;
+&lt;p&gt;之前讨论的所有channel都是不带缓冲区的，因此读取和写入都会被阻塞。创建一个带缓冲区的channel也是可能的，这种channel只有在缓冲区满后再写入或者读取一个空的channel时才会被阻塞。&lt;/p&gt;
+&lt;p&gt;创建一个带缓冲区的channel需要一个额外的参数容量来表明缓冲区大小：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ch&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; make(&lt;span style=&#34;color:#66d9ef&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;capacity&lt;/span&gt;)  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;上面代码中的 &lt;em&gt;capacity&lt;/em&gt;　需要大于０，如果等于０的话则是之前学习的无缓冲区channel。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-Channels</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-channels/</link>
+      <pubDate>Mon, 04 Jun 2018 14:24:51 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-channels/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/channels/&#34;&gt;原文&lt;/a&gt;，建议先看完goroutine部分再看这篇。&lt;/p&gt;
+&lt;h2 id=&#34;什么是channels&#34;&gt;什么是channels&lt;/h2&gt;
+&lt;p&gt;channels可以理解成是goroutine之间通信的管道，和水流从管道的一端到另一端类似，数据也可以从管道的一端发送另一端接收。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-Goroutines</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-goroutines/</link>
+      <pubDate>Fri, 01 Jun 2018 11:51:33 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-goroutines/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/goroutines/&#34;&gt;原文&lt;/a&gt;，建议理解并发(concurrency)、并行(parallelism)区别后再看这方面的内容。&lt;/p&gt;
+&lt;h2 id=&#34;goroutines是啥&#34;&gt;Goroutines是啥？&lt;/h2&gt;
+&lt;p&gt;Goroutines是一个可以和其他函数或方法并发执行的函数或方法。也可以把它理解为轻量级的线程(roy注:这话听起来和大python中的协程很像啊！)，而创建Goroutine的开销却远远小于线程。因此在大多数的Go程序都可以并发执行成千上万的Goroutine。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>BasicPaxos算法</title>
+      <link>/posts/basicpaxos%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Thu, 31 May 2018 16:08:07 +0000</pubDate>
+      
+      <guid>/posts/basicpaxos%E7%AE%97%E6%B3%95/</guid>
+      <description>&lt;h2 id=&#34;cpa理论&#34;&gt;CPA理论&lt;/h2&gt;
+&lt;p&gt;分布式系统中有个经典的CAP理论，就是说任何分布式系统最多满足一致性(Consistency)，可用性(Availability)，分区容错性(Partition Tolerance)这三者中的两个。&lt;/p&gt;
+&lt;p&gt;既然是分布式，必然将节点部署到不同的网络中，而这则会引起一致性问题。想解决一致性，就需要保证每次操作所有节点都成功执行，而这又会降低可用性。既然分区已经是事实，所以工程上应该尽量在保证一致性的前提下提高可用性。&lt;/p&gt;
+&lt;p&gt;而一致性又可以分为：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;强一致性：上次写什么，下次就一定能读到什么，这需要牺牲可用性。&lt;/li&gt;
+&lt;li&gt;弱一致性：并不保证更新后所有线程都能读到最新值，需要一段时间进行同步。&lt;/li&gt;
+&lt;li&gt;最终一致性：弱一致性的一种特例。&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-接口2</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%8E%A5%E5%8F%A32/</link>
+      <pubDate>Tue, 22 May 2018 22:29:47 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%8E%A5%E5%8F%A32/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/interfaces-part-2/&#34;&gt;原文&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;传指针vs传值&#34;&gt;传指针vs传值&lt;/h2&gt;
+&lt;p&gt;上篇文章中所有接口实现我们都使用的传值，当然也可以使用传指针这种方式来实现接口。但使用传指针这种方式有一点需要注意，我们来看下面这个代码。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Describer&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;interface&lt;/span&gt; {  
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
+}
+&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {  
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;age&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt;) &lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;() { &lt;span style=&#34;color:#75715e&#34;&gt;//implemented using value receiver  
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;%s is %d years old\n&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;age&lt;/span&gt;)
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Address&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {  
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;state&lt;/span&gt;   &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;country&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Address&lt;/span&gt;) &lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;() { &lt;span style=&#34;color:#75715e&#34;&gt;//implemented using pointer receiver  
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;State %s Country %s&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;state&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;country&lt;/span&gt;)
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {  
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Describer&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;p1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Sam&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;25&lt;/span&gt;}
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;p1&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;p2&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;James&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt;}
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt; = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;p2&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;d2&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Describer&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Address&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Washington&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;USA&amp;#34;&lt;/span&gt;}
+
+    &lt;span style=&#34;color:#75715e&#34;&gt;/* compilation error if the following line is
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       uncommented
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       cannot use a (type Address) as type Describer
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       in assignment: Address does not implement
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       Describer (Describe method has pointer
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       receiver)
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    */&lt;/span&gt;
+    &lt;span style=&#34;color:#75715e&#34;&gt;//d2 = a
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;d2&lt;/span&gt; = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;//This works since Describer interface
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;//is implemented by Address pointer in line 22
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;d2&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-接口1</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%8E%A5%E5%8F%A31/</link>
+      <pubDate>Tue, 22 May 2018 18:29:47 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%8E%A5%E5%8F%A31/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/interfaces-part-1/&#34;&gt;原文&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;接口是什么&#34;&gt;接口是什么？&lt;/h2&gt;
+&lt;p&gt;在面向对象的世界中，接口的意思是：“接口定义了对象的行为”。它只表明对象应该能做什么，而具体怎么做则由对象内部实现。&lt;/p&gt;
+&lt;p&gt;Go语言中，接口是方法的集合，若某个类型实现了接口中定义的所有方法，则可以说这个类型实现了这个接口。用OOP的形式来说就是： &lt;strong&gt;接口表明了类型应该有哪些方法，而类型则决定如何实现那些方法&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;比如，&lt;code&gt;WashingMachine&lt;/code&gt;这个接口中可以定义&lt;code&gt;Cleaning()&lt;/code&gt;和&lt;code&gt;Drying()&lt;/code&gt;方法，任何类型实现了这２个方法都可以说是实现了&lt;code&gt;WashingMachine&lt;/code&gt;接口。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Effective-Go中文翻译</title>
+      <link>/posts/effective-go%E4%B8%AD%E6%96%87%E7%BF%BB%E8%AF%91/</link>
+      <pubDate>Mon, 07 May 2018 17:59:59 +0000</pubDate>
+      
+      <guid>/posts/effective-go%E4%B8%AD%E6%96%87%E7%BF%BB%E8%AF%91/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BB%8B%E7%BB%8D&#34;&gt;介绍&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BE%8B%E5%AD%90&#34;&gt;例子&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BB%A3%E7%A0%81%E9%A3%8E%E6%A0%BC&#34;&gt;代码风格&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%B3%A8%E9%87%8A&#34;&gt;注释&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83&#34;&gt;命名规范&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;a href=&#34;https://golang.google.cn/doc/effective_go.html&#34;&gt;原文链接&lt;/a&gt;，省略了一些无关的句子。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://go-zh.org/doc/effective_go.html&#34;&gt;这里&lt;/a&gt;有别人翻译好的，需要翻墙。&lt;/p&gt;
+&lt;h1 id=&#34;介绍&#34;&gt;介绍&lt;/h1&gt;
+&lt;p&gt;Go是一种新的语言，尽管它从其他语言中借鉴了很多特性，但有些不同寻常的特性让Go语言程序和其他程序有所不同。想要直接把C++或者Java代码转换成Go不会得到令人满意的结果，Java程序是用Java写的而不是GO。另一方面，从GO的角度来考虑问题可以写出成功运行但略有不同的程序。换句话说，想要写出好的GO程序，了解其特性是很重要的。同样，了解约定俗成的惯例也很重要，比如命名、格式、项目结构，这样你写的代码才能方便其他GO语言程序员理解。&lt;/p&gt;
+&lt;p&gt;这篇文档给你一些小建议以便写出简洁且符合规范的GO代码。看这篇文档前建议先看&lt;a href=&#34;https://golang.google.cn/ref/spec&#34;&gt;language specification&lt;/a&gt;，&lt;a href=&#34;https://tour.golang.org/&#34;&gt;the Tour of Go&lt;/a&gt;，和 &lt;a href=&#34;https://golang.google.cn/doc/code.html&#34;&gt;How to Write Go Code&lt;/a&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;例子&#34;&gt;例子&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://golang.google.cn/src/&#34;&gt;GO源码&lt;/a&gt;不仅仅是作为核心库来使用，更可以用作写代码的实例参考。此外，你可以直接在&lt;a href=&#34;https://golang.org/&#34;&gt;官网&lt;/a&gt;上运行那些没有额外依赖的程序，比如&lt;a href=&#34;https://golang.org/pkg/strings/#example_Map&#34;&gt;这个&lt;/a&gt;。如果你有关于如何解决或实现某个问题的疑问，标准库中的文档、代码、例子可以提供答案或者思路。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>python验证码识别实战2</title>
+      <link>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%982/</link>
+      <pubDate>Sat, 06 Jan 2018 16:27:04 +0000</pubDate>
+      
+      <guid>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%982/</guid>
+      <description>&lt;p&gt;在&lt;a href=&#34;http://www.hi-roy.com/2017/12/29/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/&#34;&gt;上一篇文章&lt;/a&gt;中，我们使用sklearn对验证码进行了识别，为了提高识别率，今天来进行进一步优化。&lt;/p&gt;
+&lt;p&gt;观察验证码后，发现还可以对其进行旋转处理，这个验证码旋转角度在-30～30之间，那么如何判断旋转角度呢？这里我使用最简单粗暴的判断方式——如果旋转后的字符宽度小于旋转之前，则认为是合理的旋转。但这里还有一个问题需要处理，上一篇文章中我们为了简便直接根据固定的宽度对字符进行了分割，但是分割后字符在小图片中的位置不是固定的，需要手动将其放在中心位置。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>python验证码识别实战</title>
+      <link>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/</link>
+      <pubDate>Fri, 29 Dec 2017 19:07:39 +0000</pubDate>
+      
+      <guid>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E5%AE%9E%E6%88%98/</guid>
+      <description>&lt;p&gt;陆陆续续的学习了验证码的灰度、二值化、分割等方法，还了解了机器学习中最基本的3个分类方式——KNN、决策树、朴素贝叶斯。基于这些，今天结合这些工具来写一个简单的验证码识别程序，本来想使用现有的库来生成验证码，但无意间发现了之前写某个程序时下载的200个验证码，正好可以拿来练手。另外，虽然之前已经实现了上面3种算法，但这里还是会使用&lt;code&gt;sklearn&lt;/code&gt;这个强大的三方库，学习原理是为了知其所以然，有现成工具还是要拿来用的。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>基于虚拟可视化的网页分割</title>
+      <link>/posts/%E5%9F%BA%E4%BA%8E%E8%99%9A%E6%8B%9F%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9A%84%E7%BD%91%E9%A1%B5%E5%88%86%E5%89%B2/</link>
+      <pubDate>Fri, 01 Dec 2017 14:22:53 +0000</pubDate>
+      
+      <guid>/posts/%E5%9F%BA%E4%BA%8E%E8%99%9A%E6%8B%9F%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9A%84%E7%BD%91%E9%A1%B5%E5%88%86%E5%89%B2/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.mapado.com/web-page-segmentation-by-visual-clustering/&#34;&gt;原文地址&lt;/a&gt;，向原作者表示感谢。&lt;/p&gt;
+&lt;p&gt;我们在Mapado的工作就是收集世界上所有“要做的事”。&lt;/p&gt;
+&lt;p&gt;为了得到大量数据，我们抓取整个网络，就像Goole做的那样，搜集所有关于演唱会、演出、访问、景点……当我们发现一个有趣的页面，我们就尝试从这个页面提取“好”的数据。&lt;/p&gt;
+&lt;p&gt;我们面临的一个主要挑战就是如何从垃圾信息中(广告、导航栏、页脚、相关内容……)分离我们感兴趣的内容(标题、简介、图片、日期……)&lt;/p&gt;
+&lt;p&gt;在这个挑战中，一个任务就是重组在视觉上相近的内容。通常，组成页面主要部分的元素相互之间距离是很近的。&lt;/p&gt;
+&lt;p&gt;当我们开始进行任务时，很天真的以为可以操作DOM来实现。在DOM中，元素以层级结构存储，所以在同一个父元素中的元素很大可能是相关的。&lt;/p&gt;
+&lt;p&gt;一个非常有趣的介绍页面分割的论文可以在这里找到 &lt;a href=&#34;http://wims.vestforsk.no/slides/alcic.pdf&#34;&gt;Page Segmentation by Web Content Clustering&lt;/a&gt;。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>10分钟入门Pandas</title>
+      <link>/posts/10%E5%88%86%E9%92%9F%E5%85%A5%E9%97%A8pandas/</link>
+      <pubDate>Mon, 30 Oct 2017 11:38:23 +0000</pubDate>
+      
+      <guid>/posts/10%E5%88%86%E9%92%9F%E5%85%A5%E9%97%A8pandas/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://pandas.pydata.org/pandas-docs/stable/10min.html&#34;&gt;原文地址&lt;/a&gt;，是官网的《10 Minutes to pandas》翻译，代码中添加了个人的一些注释。&lt;/p&gt;
+&lt;p&gt;通常来说，我们像下面这样来引入包:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;In [&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]: &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; pandas &lt;span style=&#34;color:#f92672&#34;&gt;as&lt;/span&gt; pd
+
+In [&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]: &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; numpy &lt;span style=&#34;color:#f92672&#34;&gt;as&lt;/span&gt; np
+
+In [&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;]: &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; matplotlib.pyplot &lt;span style=&#34;color:#f92672&#34;&gt;as&lt;/span&gt; plt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>python验证码识别6:kNN</title>
+      <link>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB6/</link>
+      <pubDate>Sat, 14 Oct 2017 11:30:49 +0000</pubDate>
+      
+      <guid>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB6/</guid>
+      <description>&lt;p&gt;什么是kNN?kNN(k-Nearest Neighbors)是机器学习中处理分类问题的一种简单明了的算法。核心精髓就是老祖宗几百年前留下的言语&amp;quot;物以类聚，人以群居&amp;rdquo;。忘记从哪里看到的一个说法：&amp;ldquo;你身边最好的6个朋友的平均薪资，就是你的薪资水平。&amp;ldquo;这就是kNN算法的一个应用了吧，另外我觉得之前几篇给验证码降噪用的连通域算法，分割用的滴水算法，都有kNN的味道在里面。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>numpy学习笔记2</title>
+      <link>/posts/numpy%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/</link>
+      <pubDate>Fri, 13 Oct 2017 15:55:31 +0000</pubDate>
+      
+      <guid>/posts/numpy%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;之前一直有个疑惑，为什么要使用numpy？更本质的说，为什么要使用矩阵？矩阵是什么？意味着什么？关于关于矩阵的问题，这里推荐一个&lt;a href=&#34;https://www.bilibili.com/video/av6731067/&#34;&gt;系列视频&lt;/a&gt;，讲的非常非常好。至于为什么用numpy，从程序的角度来讲，我认为最大的好处就是减少代码量以及提高效率(恩，写此文的时候觉得这是一句废话，但确实困扰了我一阵&amp;hellip;&amp;hellip;)&lt;/p&gt;
+&lt;p&gt;比如，在学习KNN算法时需要计算欧式距离，公式如下：&lt;/p&gt;
+&lt;p&gt;$$d=\sqrt{ {({A_0}-{B_0})^2}+{({A_1}-{B_1})^2}+{({A_2}-{B_2})^2}+{({A_3}-{B_3})^2}+&amp;hellip; }$$&lt;/p&gt;
+&lt;p&gt;这里用2维为例，公式变成：&lt;/p&gt;
+&lt;p&gt;$$d=\sqrt{ {({A_0}-{B_0})^2}+{({A_1}-{B_1})^2} }$$&lt;/p&gt;
+&lt;p&gt;这货貌似是已知直角三角形直角边求斜边长啊？&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>python验证码识别5:滴水算法补充</title>
+      <link>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB5/</link>
+      <pubDate>Tue, 26 Sep 2017 15:51:23 +0000</pubDate>
+      
+      <guid>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB5/</guid>
+      <description>关于之前说的滴水算法，一直以为看不懂是因为智商不够，直到上周腾出时间看了原版论文才恍然大悟……之前看的都是“残篇”，怪不得很多地方看的都稀里糊涂的！
+所以有英语能力的还是要看一手资料才行啊！否则看二手甚至多手的东西有时候会让人怀疑智商。
+这里原版的论文链接 提供给各位，60280.pdf是最最原版的滴水算法，dropfall.pdf是经过改造的《基于惯性的滴水算法》和《基于惯性的大滴水算法》。另外改造版的算法是国人发表的，看的时候一种自豪感油然而生，虽然我也不知道自豪个什么劲……
+基于惯性的滴水算法为了解决传统滴水算法遇到有“毛边”的情况，在传统水滴算法基础上多考虑了之前一步的方向。比如周围5个点都是黑或者白时，传统算法是应该向下滴落，但如果之前一步的方向是向右，那么综合考虑后滴落方向就变成了右下。另外，在基于惯性的滴水算法中，“左”是受到“歧视”的。
+再进一步，对于类似字母Y这种凹陷情况，把判断范围扩大而不是仅仅考虑某一个像素点，就变成了基于惯性的大滴水算法了。
+另外，关于起始点的选择，原版论文中是从上到下、从左到右依次遍历所有像素，找到第一个 左侧为黑色像素、右侧有黑的像素的白色像素点 开始滴落（确实挺拗口，看论文中的图就明白了）。
+至于代码，先挖坑病好以后有空再和大家一起讨论分享。</description>
+    </item>
+    
+    <item>
+      <title>python验证码识别4:滴水算法分割图片</title>
+      <link>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB4/</link>
+      <pubDate>Fri, 22 Sep 2017 16:50:04 +0000</pubDate>
+      
+      <guid>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB4/</guid>
+      <description>&lt;p&gt;之前提过对于有粘连的字符可以使用滴水算法来解决分割，但智商捉急的我实在是领悟不了这个算法的精髓，幸好有小伙伴已经实现相关&lt;a href=&#34;https://github.com/lan2720/fuck-captcha/blob/master/fuck_sjtu_captcha.py&#34;&gt;代码&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;我对上面的代码进行了一些小修改，同时升级为python3的代码。&lt;/p&gt;
+&lt;p&gt;还是以这张图片为例：&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;在以前的我们已经知道这种简单的粘连可以通过控制阈值来实现分割，这里我们使用滴水算法。&lt;/p&gt;
+&lt;p&gt;首先使用&lt;a href=&#34;http://www.hi-roy.com/2017/09/20/Python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB2/&#34;&gt;之前文章&lt;/a&gt;中介绍的垂直投影或者连通域先进行一次切割处理，得到结果如下：&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;</description>
+    </item>
+    
+    <item>
+      <title>python验证码识别3:滑动验证码</title>
+      <link>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB3/</link>
+      <pubDate>Thu, 21 Sep 2017 20:38:00 +0000</pubDate>
+      
+      <guid>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB3/</guid>
+      <description>&lt;p&gt;上篇文章记录了2种分割验证码的方法，此外还有一种叫做&amp;quot;滴水算法&amp;rdquo;(Drop Fall Algorithm)的方法，但本人智商原因看这个算法看的云里雾里的，所以今天记录滑动验证码的处理吧。网上据说有大神已经破解了滑动验证码的算法，可以不使用selenium来破解，但本人能力不足还是使用笨方法吧。&lt;/p&gt;
+&lt;p&gt;基础原理很简单，首先点击验证码按钮后的图片是滑动后的完整结果，点击一下滑块后会出现拼图，对这2个分别截图后比较像素值来找出滑动距离，并结合selenium来实现拖拽效果。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>python验证码识别2:投影法、连通域法分割图片</title>
+      <link>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB2/</link>
+      <pubDate>Wed, 20 Sep 2017 10:45:10 +0000</pubDate>
+      
+      <guid>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB2/</guid>
+      <description>&lt;p&gt;今天这篇文章主要记录一下如何切分验证码，用到的主要库就是&lt;code&gt;Pillow&lt;/code&gt;和Linux下的图像处理工具GIMP。首先假设一个固定位置和宽度、无粘连、无干扰的例子学习一下如何使用&lt;code&gt;Pillow&lt;/code&gt;来切割图片。&lt;/p&gt;
+&lt;p&gt;使用GIMP打开图片后，按 &lt;em&gt;加号&lt;/em&gt; 放大图片，然后点击&lt;code&gt;View-&amp;gt;Show Grid&lt;/code&gt;来显示网格线：&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;其中，每个正方形边长为10像素，所以数字1切割坐标为左20、上20、右40、下70。以此类推可以知道剩下3个数字的切割位置。代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; PIL &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Image
+p &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Image&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;open(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1.png&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#75715e&#34;&gt;# 注意位置顺序为左、上、右、下&lt;/span&gt;
+cuts &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [(&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;40&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;70&lt;/span&gt;),(&lt;span style=&#34;color:#ae81ff&#34;&gt;60&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;90&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;70&lt;/span&gt;),(&lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;130&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;60&lt;/span&gt;),(&lt;span style=&#34;color:#ae81ff&#34;&gt;140&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;170&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt;)]
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i,n &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; enumerate(cuts,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;):
+    temp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; p&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;crop(n) &lt;span style=&#34;color:#75715e&#34;&gt;# 调用crop函数进行切割&lt;/span&gt;
+    temp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;save(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;cut&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;.png&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; i)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;切割后得到4张图片：&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;那么，如果字符位置不固定怎么办呢？现在假设一种随机位置宽度、无粘连、无干扰线的情况。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>python验证码识别1:灰度处理、二值化、降噪、tesserocr识别</title>
+      <link>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/</link>
+      <pubDate>Tue, 19 Sep 2017 10:21:03 +0000</pubDate>
+      
+      <guid>/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/</guid>
+      <description>&lt;p&gt;写爬虫有一个绕不过去的问题就是验证码，现在验证码分类大概有4种：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;图像类&lt;/li&gt;
+&lt;li&gt;滑动类&lt;/li&gt;
+&lt;li&gt;点击类&lt;/li&gt;
+&lt;li&gt;语音类&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;今天先来看看图像类，这类验证码大多是数字、字母的组合，国内也有使用汉字的。在这个基础上增加噪点、干扰线、变形、重叠、不同字体颜色等方法来增加识别难度。
+相应的，验证码识别大体可以分为下面几个步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;灰度处理&lt;/li&gt;
+&lt;li&gt;增加对比度(可选)&lt;/li&gt;
+&lt;li&gt;二值化&lt;/li&gt;
+&lt;li&gt;降噪&lt;/li&gt;
+&lt;li&gt;倾斜校正分割字符&lt;/li&gt;
+&lt;li&gt;建立训练库&lt;/li&gt;
+&lt;li&gt;识别&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python面试题2</title>
+      <link>/posts/python%E9%9D%A2%E8%AF%95%E9%A2%982/</link>
+      <pubDate>Fri, 18 Aug 2017 15:05:13 +0000</pubDate>
+      
+      <guid>/posts/python%E9%9D%A2%E8%AF%95%E9%A2%982/</guid>
+      <description>&lt;p&gt;最近面试了几家公司，各行各业的都有，涨了很多见识也发现了自己的技术盲点。这里来一个汇总简单纪录。&lt;/p&gt;
+&lt;h1 id=&#34;行列转换&#34;&gt;行列转换&lt;/h1&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;
+&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;已知有一个二维列表&lt;/span&gt;(&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;每一行的元素个数相同&lt;/span&gt;)&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;，写出函数对其行列转换并输出，比如：&lt;/span&gt;
+a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;],
+     [&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]]
+&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;输出：&lt;/span&gt;
+[
+[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;],
+[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;],
+[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;],
+[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]
+]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里建议笔试时候尽量使用简单清晰的写法，让面试官一眼就能看出答案对错：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;convert&lt;/span&gt;(alist):
+    result &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; []
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; x &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; range(len(alist[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;])):
+        tmp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; []
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; y &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; range(len(alist)):
+            tmp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(alist[y][x])
+        result&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(tmp)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt; result
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>django中的Session和Cookie</title>
+      <link>/posts/django%E4%B8%AD%E7%9A%84session%E5%92%8Ccookie/</link>
+      <pubDate>Fri, 28 Jul 2017 11:55:08 +0000</pubDate>
+      
+      <guid>/posts/django%E4%B8%AD%E7%9A%84session%E5%92%8Ccookie/</guid>
+      <description>&lt;p&gt;简单来说，Cookie和Session都是为了记录用户相关信息的方式，最大的区别就是Cookie在客户端记录而Session在服务端记录内容。&lt;/p&gt;
+&lt;p&gt;那么Cookie和Session之间的联系是怎么建立的呢？换言之，当服务器接收到一个请求时候，根据什么来判断读取哪个Session的呢？&lt;/p&gt;
+&lt;p&gt;对于Django默认情况来说，当用户登录后就可以发现Cookie里有一个&lt;code&gt;sessionid&lt;/code&gt;的字段，根据这个key就可以取得在服务器端记录的详细内容。如果将这个字段删除，刷新页面就会发现变成未登录状态了。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Pyflame安装小记</title>
+      <link>/posts/pyflame%E5%AE%89%E8%A3%85%E5%B0%8F%E8%AE%B0/</link>
+      <pubDate>Wed, 26 Jul 2017 13:12:06 +0000</pubDate>
+      
+      <guid>/posts/pyflame%E5%AE%89%E8%A3%85%E5%B0%8F%E8%AE%B0/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.brendangregg.com/flamegraphs.html&#34;&gt;火焰图&lt;/a&gt;是一款性能调优工具，可以清晰的看出程序运行瓶颈在哪里。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://pyflame.readthedocs.io/en/latest/&#34;&gt;pyflame&lt;/a&gt;则是由Uber开源出来的针对python程序生成火焰图的工具。&lt;/p&gt;
+&lt;p&gt;这里记录一下安装过程以及遇到的错误。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>几道python面试题</title>
+      <link>/posts/%E5%87%A0%E9%81%93python%E9%9D%A2%E8%AF%95%E9%A2%98/</link>
+      <pubDate>Fri, 21 Jul 2017 09:41:36 +0000</pubDate>
+      
+      <guid>/posts/%E5%87%A0%E9%81%93python%E9%9D%A2%E8%AF%95%E9%A2%98/</guid>
+      <description>&lt;p&gt;前几天去笔试，这里记录一下遇到的几个编程题，比较基础。&lt;/p&gt;
+&lt;h1 id=&#34;生成斐波那契数列并取前10项&#34;&gt;生成斐波那契数列并取前10项&lt;/h1&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;func&lt;/span&gt;(m):
+  n,a,b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; m:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; a
+    a,b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; b,a&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;b
+    n &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; one &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; func(&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;):
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt; one
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个可以说是一道常见的简单算法题了，关键点就是理解&lt;code&gt;a,b=b,a+b&lt;/code&gt;以及yield的作用。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python常见操作时间复杂度</title>
+      <link>/posts/python%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/</link>
+      <pubDate>Sun, 16 Jul 2017 10:57:46 +0000</pubDate>
+      
+      <guid>/posts/python%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/</guid>
+      <description>&lt;p&gt;电话面试被问到了几个python常见操作的时间复杂度问题，这几年一直关注在业务逻辑的实现上这类基础反而记得不太清楚了，这里有必要重新复习一下，完整版：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://wiki.python.org/moin/TimeComplexity&#34; title=&#34;TimeComplexity&#34;&gt;TimeComplexity&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>解决apahce部署python程序503错误</title>
+      <link>/posts/%E8%A7%A3%E5%86%B3apahce%E9%83%A8%E7%BD%B2python%E7%A8%8B%E5%BA%8F503%E9%94%99%E8%AF%AF/</link>
+      <pubDate>Thu, 13 Apr 2017 11:30:09 +0000</pubDate>
+      
+      <guid>/posts/%E8%A7%A3%E5%86%B3apahce%E9%83%A8%E7%BD%B2python%E7%A8%8B%E5%BA%8F503%E9%94%99%E8%AF%AF/</guid>
+      <description>今天更新服务器后，发现使用apache部署的某个python程序无法访问了，返回503错误，报错日志如下：
+[Thu Apr 13 10:54:40 2017] [error] [client 127.0.0.1] (13)Permission denied: mod_wsgi (pid=1814): Unable to connect to WSGI daemon process &#39;trac&#39; on &#39;/etc/httpd/logs/wsgi.</description>
+    </item>
+    
+    <item>
+      <title>numpy学习笔记</title>
+      <link>/posts/numpy%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Mon, 06 Mar 2017 11:09:19 +0000</pubDate>
+      
+      <guid>/posts/numpy%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>&lt;h1 id=&#34;简介&#34;&gt;简介&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://docs.scipy.org/doc/numpy-dev/user/quickstart.html&#34;&gt;Numpy&lt;/a&gt;(发音&amp;quot;南派&amp;quot;而不是&amp;quot;努屁&amp;rdquo;)是一款用来进行科学计算的python库，可以方便快速的计算平均值、最大值、最小值、方差、标准差、向量运行等。相关库还有
+&lt;code&gt;Pandas&lt;/code&gt;,&lt;code&gt;Scypi&lt;/code&gt;等。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>django-rest-jwt认证</title>
+      <link>/posts/django-rest-jwt%E8%AE%A4%E8%AF%81/</link>
+      <pubDate>Wed, 11 Jan 2017 10:37:34 +0000</pubDate>
+      
+      <guid>/posts/django-rest-jwt%E8%AE%A4%E8%AF%81/</guid>
+      <description>&lt;p&gt;关于JWT(Json Web Token)是一种较新的用户认证方式，官网在&lt;a href=&#34;https://jwt.io/&#34;&gt;这里&lt;/a&gt;，网上有篇中文解释写的很好，&lt;a href=&#34;http://blog.leapoahead.com/2015/09/06/understanding-jwt/&#34;&gt;点此跳转&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;用户认证(Authentication)和用户授权(Authorization)是两个不同的概念，认证解决的是“有没有”的问题，而授权解决的是“能不能”的问题。&lt;/p&gt;
+&lt;p&gt;一般用到JWT认证的情况大多都是配合REST框架使用，比如我大Django的Django-REST-framework框架，就已经有了现成的三方库&lt;a href=&#34;http://getblimp.github.io/django-rest-framework-jwt/&#34;&gt;django-rest-framework-jwt&lt;/a&gt;。不过这个库默认只支持基于&lt;code&gt;Header&lt;/code&gt;传递信息，所以改成基于Cookie方式还需要我们来手动处理一下。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>将Django模板变量传递给外部JS调用的几种方式</title>
+      <link>/posts/%E5%B0%86django%E6%A8%A1%E6%9D%BF%E5%8F%98%E9%87%8F%E4%BC%A0%E9%80%92%E7%BB%99%E5%A4%96%E9%83%A8js%E8%B0%83%E7%94%A8%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/</link>
+      <pubDate>Tue, 20 Dec 2016 11:55:19 +0000</pubDate>
+      
+      <guid>/posts/%E5%B0%86django%E6%A8%A1%E6%9D%BF%E5%8F%98%E9%87%8F%E4%BC%A0%E9%80%92%E7%BB%99%E5%A4%96%E9%83%A8js%E8%B0%83%E7%94%A8%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/</guid>
+      <description>&lt;p&gt;最近一直在思考如何更好的组织Django中的静态资源，比如JS、CSS一类，如何结合前端构建工具写出更好的代码以及结构呢？&lt;/p&gt;
+&lt;p&gt;首先需要解决的一个问题就是某些时候需要把JS代码写在模板里来获取后台传递过来的变量，比如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
+&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;h1&lt;/span&gt;&amp;gt;Test&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;h1&lt;/span&gt;&amp;gt;
+&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;id&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;my-test&amp;#34;&lt;/span&gt; &amp;gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
+&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
+&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;script&lt;/span&gt;&amp;gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;$&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;(){
+  &lt;span style=&#34;color:#a6e22e&#34;&gt;$&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;#my-test&amp;#39;&lt;/span&gt;).&lt;span style=&#34;color:#a6e22e&#34;&gt;html&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;{{ some_var_from_view }}&amp;#34;&lt;/span&gt;)
+});
+&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;script&lt;/span&gt;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这么写代码的话，别扭不说，前端的那些构建工具比如webpack，gulp的使用范围也将大大降低。&lt;/p&gt;
+&lt;p&gt;首先说结论，想完全剥离JS和模板而又需要使用模板渲染的数据，我是没想到什么好办法。如果读者有好办法希望赐教。
+既然不能完全剥离，那么就进最大的努力分离JS所需的数据和代码吧。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>我特么是如何利用Django, Django REST Framework, Angular 1.1.x和Webpack构建一个项目的</title>
+      <link>/posts/%E6%88%91%E7%89%B9%E4%B9%88%E6%98%AF%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8django-django-rest-framework-angular-1-1-x%E5%92%8Cwebpack%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE%E7%9A%84/</link>
+      <pubDate>Tue, 08 Nov 2016 13:50:46 +0000</pubDate>
+      
+      <guid>/posts/%E6%88%91%E7%89%B9%E4%B9%88%E6%98%AF%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8django-django-rest-framework-angular-1-1-x%E5%92%8Cwebpack%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE%E7%9A%84/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://gregblogs.com/how-the-do-i-build-a-django-django-rest-framework-angular-1-1-x-and-webpack-project/#prereq&#34;&gt;原文地址&lt;/a&gt;，向原作者表示感谢。由于本人并没学习过angular，所以翻译有误的地方恳请指正。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;我已经受够了JS社区的那帮二货，我只是想使用Django作为后端结合Angular做一个简单的、可复用的项目，却没有一个简明的指导教我如何做到。如果你也为此挣扎，这里有一份指南教你如何构建一个由Django作为后端、Webpack进行组织的Angular程序。&lt;/p&gt;
+&lt;h2 id=&#34;问题&#34;&gt;问题&lt;/h2&gt;
+&lt;p&gt;我想开发一个Angular1.1.x的项目并使用Django作为后端提供数据，我喜欢使用Django REST Framework(DRF)来构造RESTful API。我也想打包需要的JavaScript资源。目前，我打算使用单一的服务器上运行这个程序。&lt;/p&gt;
+&lt;h2 id=&#34;依赖&#34;&gt;依赖&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Python 2.x&lt;/li&gt;
+&lt;li&gt;a virtual Python environment&lt;/li&gt;
+&lt;li&gt;Django 1.9.x (pip install django)&lt;/li&gt;
+&lt;li&gt;npm 2.15.8+&lt;/li&gt;
+&lt;li&gt;Webpack 1.13.x (sudo npm i -g webpack)&lt;/li&gt;
+&lt;li&gt;ESLint 2.13.1+ (sudo npm i -g eslint)&lt;/li&gt;
+&lt;li&gt;NodeJS 4.4.7+&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>django解析用户上传的excel文件</title>
+      <link>/posts/django%E8%A7%A3%E6%9E%90%E7%94%A8%E6%88%B7%E4%B8%8A%E4%BC%A0%E7%9A%84excel%E6%96%87%E4%BB%B6/</link>
+      <pubDate>Thu, 13 Oct 2016 09:09:46 +0000</pubDate>
+      
+      <guid>/posts/django%E8%A7%A3%E6%9E%90%E7%94%A8%E6%88%B7%E4%B8%8A%E4%BC%A0%E7%9A%84excel%E6%96%87%E4%BB%B6/</guid>
+      <description>有些时候我们会有这种需求：用户上传一个格式固定excel表格到网站上，然后程序负债解析内容并进行处理。 举一个简单的栗子，比如我们有这样一个HTML：
+&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;&amp;lt;meta charset=&amp;#34;utf-8&amp;#34;&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;上传EXCEL表格&amp;lt;/p&amp;gt;&amp;lt;form class=&amp;#34;&amp;#34; action=&amp;#34;&amp;#34; method=&amp;#34;post&amp;#34; enctype=&amp;#34;multipart/form-data&amp;#34; &amp;gt;{% csrf_token %}&amp;lt;input type=&amp;#34;file&amp;#34; name=&amp;#34;excel&amp;#34;&amp;gt;&amp;lt;input type=&amp;#34;submit&amp;#34; value=&amp;#34;上传&amp;#34;&amp;gt;&amp;lt;/form&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;forms.</description>
+    </item>
+    
+    <item>
+      <title>使用python模拟POST请求提交图片</title>
+      <link>/posts/%E4%BD%BF%E7%94%A8python%E6%A8%A1%E6%8B%9Fpost%E8%AF%B7%E6%B1%82%E6%8F%90%E4%BA%A4%E5%9B%BE%E7%89%87/</link>
+      <pubDate>Wed, 14 Sep 2016 09:54:37 +0000</pubDate>
+      
+      <guid>/posts/%E4%BD%BF%E7%94%A8python%E6%A8%A1%E6%8B%9Fpost%E8%AF%B7%E6%B1%82%E6%8F%90%E4%BA%A4%E5%9B%BE%E7%89%87/</guid>
+      <description>&lt;p&gt;使用requests来模拟HTTP请求本来是一件非常轻松的事情，比如上传图片来说，简单的几行代码即可：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; requests
+files &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;attachment_file&amp;#39;&lt;/span&gt;: (&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1.png&amp;#39;&lt;/span&gt;, open(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1.png&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;rb&amp;#39;&lt;/span&gt;), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;image/png&amp;#39;&lt;/span&gt;, {})}
+values &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;next&amp;#39;&lt;/span&gt;:&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://www.xxxx.com/xxxx&amp;#34;&lt;/span&gt;}
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 成功&lt;/span&gt;
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; requests&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://www.xxxx.com/upload&amp;#39;&lt;/span&gt;, files&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;files, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;values) &lt;span style=&#34;color:#75715e&#34;&gt;# 失败&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;不过我今天在调试一个django程序的时候却遇到了大坑————为了偷懒，我直接在&lt;strong&gt;ipython&lt;/strong&gt;中执行了上述代码，第一次提交的时候一切正常，但第二次之后提交就怎么也通过不了django的form验证。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>django-auth-ldap中文文档</title>
+      <link>/posts/django-auth-ldap%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/</link>
+      <pubDate>Fri, 09 Sep 2016 10:08:51 +0000</pubDate>
+      
+      <guid>/posts/django-auth-ldap%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/</guid>
+      <description>最近在学习如何结合Django和LDAP服务进行用户认证，关于在Centos7上LDAP的服务器如何搭建可以参考这里。
+阅读文档的时候发现网上没有关于django-auth-ldap的完整翻译，所以把我阅读文档时的理解记录下来，如有错误还请指正。
+django-auth-ldap中文文档</description>
+    </item>
+    
+    <item>
+      <title>Flask&#43;HTML5实现服务器推送事件</title>
+      <link>/posts/flask-html5%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8E%A8%E9%80%81%E4%BA%8B%E4%BB%B6/</link>
+      <pubDate>Thu, 04 Aug 2016 13:59:38 +0000</pubDate>
+      
+      <guid>/posts/flask-html5%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8E%A8%E9%80%81%E4%BA%8B%E4%BB%B6/</guid>
+      <description>&lt;p&gt;服务器推送事件(server-sent events，SSE)是一种除websocket、ajax简单轮寻外另一种实现服务器数据主动推送数据到浏览器的方式。&lt;/p&gt;
+&lt;p&gt;这里，举一个的例子来说明如何使用基于pyhon的服务端来实现，为了简单我使用flask框架来实现。关键点有2个：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;HTTP响应头中包含&lt;code&gt;content-type:text/event-stream&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;流响应&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
+    <item>
+      <title>django自定义用户模型</title>
+      <link>/posts/django%E8%87%AA%E5%AE%9A%E4%B9%89%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Wed, 29 Jun 2016 10:13:27 +0000</pubDate>
+      
+      <guid>/posts/django%E8%87%AA%E5%AE%9A%E4%B9%89%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9E%8B/</guid>
+      <description>&lt;p&gt;Django最方便的一点可以说就是自带的用户系统了，不过某些情况下自带的用户系统不太符合项目需求，比如你想添加几个字段怎么办？当然可以使用自定Model然后外键关联User类来实现，不过一方面关联查询的效率比直接查询效率要低，另一方面想删除系统自带用户系统的某些字段怎么办呢？&lt;/p&gt;
+&lt;p&gt;所以，自定义用户模型可以说是一种很常见的需求。这里以Django1.9为例，记录一下自定义用户模型的方法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Django-REST-framework中文文档教程</title>
+      <link>/posts/django-rest-framework%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3%E6%95%99%E7%A8%8B/</link>
+      <pubDate>Mon, 27 Jun 2016 13:44:46 +0000</pubDate>
+      
+      <guid>/posts/django-rest-framework%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3%E6%95%99%E7%A8%8B/</guid>
+      <description>目前网上的关于Django-REST-framework中文文档教程大多数都是你抄我我抄你，也找不出到底是出自谁手以及哪个版本的文档翻译了。于是我决定将自己阅读文档的翻译记录下来，供有需要的人阅读。
+但经过排版，发现这种由多章组成的系列教程，在博客上怎么弄都不方便看，所以教程直接放到gitbook上，请移步至:
+https://darkcooking.gitbooks.io/django-rest-framework-cn/content/</description>
+    </item>
+    
+    <item>
+      <title>解决django使用logging时“character mapping must return integer, None or unicode”错误</title>
+      <link>/posts/%E8%A7%A3%E5%86%B3django%E4%BD%BF%E7%94%A8logging%E6%97%B6character-mapping-must-return-integer-none-or-unicode%E9%94%99%E8%AF%AF/</link>
+      <pubDate>Tue, 21 Jun 2016 17:42:27 +0000</pubDate>
+      
+      <guid>/posts/%E8%A7%A3%E5%86%B3django%E4%BD%BF%E7%94%A8logging%E6%97%B6character-mapping-must-return-integer-none-or-unicode%E9%94%99%E8%AF%AF/</guid>
+      <description>&lt;p&gt;今天调试Django项目时候，使用Logging记录异常并发送邮件给网站管理人员，测试时候始终报错：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;Traceback (most recent call last):
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/wsgiref/handlers.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;85&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; run
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;result &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; application(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;environ, self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start_response)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/handlers/wsgi.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;177&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; __call__
+    response &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_response(request)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/handlers/base.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;230&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; get_response
+    response &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;handle_uncaught_exception(request, resolver, sys&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;exc_info())
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/handlers/base.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;284&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; handle_uncaught_exception
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;request&amp;#39;&lt;/span&gt;: request
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1185&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; error
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_log(ERROR, msg, args, &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;kwargs)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1278&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; _log
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;handle(record)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1288&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; handle
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;callHandlers(record)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1328&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; callHandlers
+    hdlr&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;handle(record)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/logging/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;751&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; handle
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;emit(record)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/utils/log.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;117&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; emit
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;send_mail(subject, message, fail_silently&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;True, html_message&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;html_message)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/utils/log.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;120&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; send_mail
+    mail&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;mail_admins(subject, message, &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;args, connection&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connection(), &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;kwargs)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/__init__.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;97&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; mail_admins
+    mail&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;send(fail_silently&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;fail_silently)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/message.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;292&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; send
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_connection(fail_silently)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;send_messages([self])
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/backends/smtp.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; send_messages
+    new_conn_created &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;open()
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/home/xsy/.virtualenvs/dz_pro/lib/python2.7/site-packages/django/core/mail/backends/smtp.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;67&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; open
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connection&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;login(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;username, self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;password)
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/smtplib.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;607&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; login
+    (code, resp) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;docmd(encode_cram_md5(resp, user, password))
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/smtplib.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;571&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; encode_cram_md5
+    response &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; user &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; &amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; hmac&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;HMAC(password, challenge)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hexdigest()
+  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/lib64/python2.7/hmac.py&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;78&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; __init__
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;outer&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;update(key&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;translate(trans_5C))
+&lt;span style=&#34;color:#a6e22e&#34;&gt;TypeError&lt;/span&gt;: character mapping must &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; integer, None &lt;span style=&#34;color:#f92672&#34;&gt;or&lt;/span&gt; unicode
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;根据错误提示，追进了hmac.py中看了源码，发现key其实就是一个字符串，是配置在settings中的EMAIL_HOST_USER以及EMAIL_HOST_PASSWORD，而translate函数则是根据给出的参数表将字符串进行映射加密的，而且是最简单的凯撒加密法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Django常用三方库</title>
+      <link>/posts/django%E5%B8%B8%E7%94%A8%E4%B8%89%E6%96%B9%E5%BA%93/</link>
+      <pubDate>Wed, 15 Jun 2016 13:55:06 +0000</pubDate>
+      
+      <guid>/posts/django%E5%B8%B8%E7%94%A8%E4%B8%89%E6%96%B9%E5%BA%93/</guid>
+      <description>&lt;p&gt;更新于2017.01.10&lt;/p&gt;
+&lt;p&gt;首先安利本书《two scoops of django1.8》目前还没有中文版，不过是我看过关于django的书中收获最大的一本。本来有机会和作者面基，可惜我大天朝的签证太难办了，只得作罢。&lt;/p&gt;
+&lt;p&gt;这里推荐三方库的大部分出自这本书，移除了部分失效或者不维护的库，添加了一些其他库，强烈建议大家阅读原书。&lt;/p&gt;
+&lt;p&gt;下面的模块有些是django模块，有些则是python模块，可以脱离django直接使用。&lt;/p&gt;
+&lt;p&gt;话说那些复制到别地方然后标注“原创”的，敢加个本文链接不？手工整理很累的好不？&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>eventlet，django，requests问题杂记</title>
+      <link>/posts/eventletdjangorequests%E9%97%AE%E9%A2%98%E6%9D%82%E8%AE%B0/</link>
+      <pubDate>Tue, 03 May 2016 13:28:49 +0000</pubDate>
+      
+      <guid>/posts/eventletdjangorequests%E9%97%AE%E9%A2%98%E6%9D%82%E8%AE%B0/</guid>
+      <description>&lt;p&gt;最近使用django+requests+eventlet做了个小程序，eventlet用来替代原生的多线程，最后发现有关manage.py的功能全都不能用了，报错信息类似：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;django&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;db&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;utils&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;DatabaseError: DatabaseWrapper objects created &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; a thread can only be used &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; that same thread&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; The object &lt;span style=&#34;color:#66d9ef&#34;&gt;with&lt;/span&gt; alias &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;default&amp;#39;&lt;/span&gt; was created &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; thread id &lt;span style=&#34;color:#ae81ff&#34;&gt;139911009593152&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;and&lt;/span&gt; this &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; thread id &lt;span style=&#34;color:#ae81ff&#34;&gt;51055504.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;产生这个问题的原因在于我的monky_patch()是在爬虫模块中执行，而希望这个爬虫模块能够保持独立性不希望和django融合的太深，所以解决问题只需根据实际需求在manage.py或settings.py或wsgi.py中先把monkey_patch()执行了即可。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>python中闭包示例</title>
+      <link>/posts/python%E4%B8%AD%E9%97%AD%E5%8C%85%E7%A4%BA%E4%BE%8B/</link>
+      <pubDate>Fri, 18 Mar 2016 11:44:58 +0000</pubDate>
+      
+      <guid>/posts/python%E4%B8%AD%E9%97%AD%E5%8C%85%E7%A4%BA%E4%BE%8B/</guid>
+      <description>&lt;p&gt;概念上的东西这里就不详细解释了，为什么需要闭包（Closures）呢？个人理解就是某些情况下你需要在外部访问函数内部的变量时，闭包就该大显身手了。闭包的一种典型表现就是函数内部定义了新的函数。这里举几个例子以记录使用闭包时的几个注意点，例子来源于&lt;a href=&#34;http://coolshell.cn/articles/6731.html&#34;&gt;这里&lt;/a&gt;，大神用javascript写的示例，这里改成python的，也顺便说说遇到的坑。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>名词王国里的死刑（翻译）</title>
+      <link>/posts/%E5%90%8D%E8%AF%8D%E7%8E%8B%E5%9B%BD%E9%87%8C%E7%9A%84%E6%AD%BB%E5%88%91%E7%BF%BB%E8%AF%91/</link>
+      <pubDate>Wed, 16 Mar 2016 17:02:02 +0000</pubDate>
+      
+      <guid>/posts/%E5%90%8D%E8%AF%8D%E7%8E%8B%E5%9B%BD%E9%87%8C%E7%9A%84%E6%AD%BB%E5%88%91%E7%BF%BB%E8%AF%91/</guid>
+      <description>&lt;p&gt;真是惭愧，直到今日才读到这篇文章，原文在&lt;a href=&#34;http://steve-yegge.blogspot.hk/2006/03/execution-in-kingdom-of-nouns.html&#34;&gt;这里&lt;/a&gt;。我本人大学课程中唯一没选修的语言就是Java，不知什么原因对于Java就是不感冒。虽然由于某些原因做了一阵android的开发，但是这段经历更是让我坚定了“能不写java程序就不写java程序”的想法。这里无意引起“语言之战”，仅是个人喜好问题罢了。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>解决flower Substantial drift from.. may mean clocks are out of sync错误</title>
+      <link>/posts/%E8%A7%A3%E5%86%B3flower-substantial-drift-from-may-mean-clocks-are-out-of-sync%E9%94%99%E8%AF%AF/</link>
+      <pubDate>Wed, 24 Feb 2016 14:27:30 +0000</pubDate>
+      
+      <guid>/posts/%E8%A7%A3%E5%86%B3flower-substantial-drift-from-may-mean-clocks-are-out-of-sync%E9%94%99%E8%AF%AF/</guid>
+      <description>打开flower的监控页面，发现monitor页的succeeded tasks图表始终为空，打印日志发现有下面的警告：
+[2016-02-24 12:00:21,799: WARNING/MainProcess] celery@localhost.localdomain ready.[2016-02-24 12:00:22,297: WARNING/MainProcess] Substantial drift from celery@centos7-181 may mean clocks are out of sync.</description>
+    </item>
+    
+    <item>
+      <title>Django&#43;Celery&#43;Rabbitmq&#43;Flower使用小记</title>
+      <link>/posts/django-celery-rabbitmq-flower%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/</link>
+      <pubDate>Tue, 23 Feb 2016 15:30:02 +0000</pubDate>
+      
+      <guid>/posts/django-celery-rabbitmq-flower%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/</guid>
+      <description>&lt;p&gt;之前的博客中简单的介绍了celery的安装配置以及如何在python程序中使用，这里记录一下我使用django结合celery以及rabbitmq提供web服务，同时使用flower进行监控的过程。至于这几样东西是什么、怎么安装这里就不再细说了。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>python基础复习之使用字典分派函数</title>
+      <link>/posts/python%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0%E4%B9%8B%E4%BD%BF%E7%94%A8%E5%AD%97%E5%85%B8%E5%88%86%E6%B4%BE%E5%87%BD%E6%95%B0/</link>
+      <pubDate>Tue, 26 Jan 2016 11:57:39 +0000</pubDate>
+      
+      <guid>/posts/python%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0%E4%B9%8B%E4%BD%BF%E7%94%A8%E5%AD%97%E5%85%B8%E5%88%86%E6%B4%BE%E5%87%BD%E6%95%B0/</guid>
+      <description>&lt;p&gt;程序中很常见的一种场景就是根据某个控制变量的值来调用不同的函数或对象进行处理，某些语言中可以使用case语句进行处理，在python可以使用getattr函数甚至if&amp;hellip;elif&amp;hellip;else来处理，除此之外，也可以使用字典来实现相同的功能，比如下面的例子：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;animals &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; []
+number_of_felines &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;deal_cat&lt;/span&gt;():
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;global&lt;/span&gt; number_of_felines
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;meow&amp;#34;&lt;/span&gt;
+    animals&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;feline&amp;#39;&lt;/span&gt;)
+    number_of_felines &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;deal_dog&lt;/span&gt;():
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;bark&amp;#39;&lt;/span&gt;
+    animals&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;canine&amp;#39;&lt;/span&gt;)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;deal_bear&lt;/span&gt;():
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hug&amp;#34;&lt;/span&gt;
+    animals&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ursine&amp;#39;&lt;/span&gt;)
+token &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;cat&amp;#39;&lt;/span&gt;: deal_cat, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;dog&amp;#39;&lt;/span&gt;: deal_dog, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;bear&amp;#39;&lt;/span&gt;: deal_bear}
+&lt;span style=&#34;color:#75715e&#34;&gt;#words = [&amp;#39;cat&amp;#39;, &amp;#39;dog&amp;#39;, &amp;#39;bear&amp;#39;]&lt;/span&gt;
+words &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;cat&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;dog&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;bear&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;cat&amp;#39;&lt;/span&gt;]
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; one &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; words:
+    token[one]()
+    &lt;span style=&#34;color:#75715e&#34;&gt;#return token[one]()&lt;/span&gt;
+nf &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; number_of_felines
+&lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;we met &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;%d&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; feline&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; (nf, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;s&amp;#39;&lt;/span&gt;[nf &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;:])
+&lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;the animals we net were:&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;join(animals)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>celery使用小记</title>
+      <link>/posts/celery%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/</link>
+      <pubDate>Thu, 21 Jan 2016 12:32:12 +0000</pubDate>
+      
+      <guid>/posts/celery%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/</guid>
+      <description>&lt;p&gt;之前的博客有关于celery以及相关概念的介绍，不过那篇文章没有具体的使用示例，今天补充一下。&lt;/p&gt;
+&lt;p&gt;目前celery的版本是&lt;a href=&#34;http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html#first-steps&#34;&gt;3.1.19&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;这里我使用rabbitmq作为broker以及banckend。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>关于functools.wraps的作用</title>
+      <link>/posts/%E5%85%B3%E4%BA%8Efunctools-wraps%E7%9A%84%E4%BD%9C%E7%94%A8/</link>
+      <pubDate>Tue, 12 Jan 2016 13:38:44 +0000</pubDate>
+      
+      <guid>/posts/%E5%85%B3%E4%BA%8Efunctools-wraps%E7%9A%84%E4%BD%9C%E7%94%A8/</guid>
+      <description>今天看代码时候有这么一段：
+from functools import wrapsdef http_basic_auth(func):&amp;#39;&amp;#39;&amp;#39;定义httpbasicauth装饰器&amp;#39;&amp;#39;&amp;#39;@wraps(func)def _decorator(request, *args, **kwargs):authorization = request.</description>
+    </item>
+    
+    <item>
+      <title>flask-socketio中文文档</title>
+      <link>/posts/flask-socketio%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/</link>
+      <pubDate>Tue, 29 Dec 2015 16:18:34 +0000</pubDate>
+      
+      <guid>/posts/flask-socketio%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/</guid>
+      <description>&lt;p&gt;官网在&lt;a href=&#34;https://flask-socketio.readthedocs.org/en/latest/&#34;&gt;这里&lt;/a&gt;，英语好的直接去看官网文档吧，我是英语渣只能翻译个大概;另外注意本文翻译时间，可能你看到的时候官网已经更新了。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;flask-socketio赋予了flask程序支持服务端和客户端间双向低延迟通讯的能力，客户端可以使用 &lt;a href=&#34;http://socket.io/&#34;&gt;SocketIO&lt;/a&gt; 库或任何支持与服务端建立长链接的兼容库。&lt;/p&gt;
+&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
+&lt;p&gt;可以直接使用pip安装：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pip install flask-socketio
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;依赖&#34;&gt;依赖&lt;/h2&gt;
+&lt;p&gt;自从1.0版开始，这个扩展完全兼容了python2.7和python3.3+版本。异步服务的支持基于下面3个选择中的一个：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://eventlet.net/&#34;&gt;eventlet&lt;/a&gt; 是3个选项中性能最高的，同时支持长轮循(long-polling)和WebSocket。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.gevent.org/&#34;&gt;gevent&lt;/a&gt; 是在以前版本中使用的框架，支持长轮循，如果想支持WebSocket的话需要同时安装&lt;a href=&#34;https://pypi.python.org/pypi/gevent-websocket/&#34;&gt;gevent-websocket&lt;/a&gt; 库。使用gevent和gevent-websocket结合性能也不错，但略低于eventlet。&lt;/li&gt;
+&lt;li&gt;flask 基于Werkzeug的开发服务也能用，不过性能上不如上面2个选项，所以它应该只用于开发时使用。这个选项只支持长轮循。
+本扩展将自动检测哪些异步框架被安装，默认首选eventlet，其次是gevent，最后是flask自带的开发服务。
+对于客户端来说，可以使用官方的Socket.Io来建立于服务端的链接，也有使用swift和c++写成的客户端。非官方的客户端也能工作，只要它实现了&lt;a href=&#34;https://github.com/socketio/socket.io-protocol&#34;&gt;Socket.IO&lt;/a&gt; 协议。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;目前的局限&#34;&gt;目前的局限&lt;/h2&gt;
+&lt;p&gt;目前flask-socketio只能同时运行在单个进程中（这里应该指的是一个进程中仅能存在一个实例的意思，而非只能开启一个进程吧&amp;hellip;），解决这个限制的工作正在进行中。
+（关于升级变化、以及从老版本迁移到新版的注意事项我就不翻译了，因为没用过老版本）&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>python脚本模拟tail命令</title>
+      <link>/posts/python%E8%84%9A%E6%9C%AC%E6%A8%A1%E6%8B%9Ftail%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Tue, 22 Dec 2015 16:00:29 +0000</pubDate>
+      
+      <guid>/posts/python%E8%84%9A%E6%9C%AC%E6%A8%A1%E6%8B%9Ftail%E5%91%BD%E4%BB%A4/</guid>
+      <description>今天有个需求，需要实时监控nginx日志中某些ip的访问情况。如果ip较少的话，直接使用tail、grep以及管道配合即可。不过需要监控100个左右的ip并进行相应处理的话，除了自己写脚本还真没想到别的办法。
+首先引出Python中自带的2个函数：
+ file.seek(off, whence=0) 从文件中移动off个操作标记（文件指针），正往结束方向移动，负往开始方向移动。如果设定了whence参数，就以whence设定的起始位为准，0代表从头开始，1代表当前位置，2代表文件最末尾位置。 file.tell() 返回文件指针的当前位置。  那么思路就比较清晰了，写一个死循环，循环内记录指针位置并赋值给seek函数：</description>
+    </item>
+    
+    <item>
+      <title>django性能分析</title>
+      <link>/posts/django%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/</link>
+      <pubDate>Fri, 20 Nov 2015 18:13:57 +0000</pubDate>
+      
+      <guid>/posts/django%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/</guid>
+      <description>一般情况我们使用django-debug-toolbar就能够看到每个步骤的耗时等信息，不过如果需要调试某个接口就不那么直观了，这种情况下我们可以使用下面的中间件来解决问题：
+# Orignal version taken from http://www.djangosnippets.org/snippets/186/ # Original author: udfalkso # Modified by: Shwagroo Team and Gun.</description>
+    </item>
+    
+    <item>
+      <title>suds库使用小记</title>
+      <link>/posts/suds%E5%BA%93%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/</link>
+      <pubDate>Wed, 14 Oct 2015 12:11:38 +0000</pubDate>
+      
+      <guid>/posts/suds%E5%BA%93%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/</guid>
+      <description>虽说接触过的大部分接口都是以restfullapi的形式返回json数据,但最近有些接口是soap的,如果只是需要一个python的soap客户端的话,suds库是十分不错的一个选择,文档
+使用pip安装即可,最基础的使用方法如下,示例来源官网:
+from suds.client import Clienturl = &amp;#39;http://localhost:7080/webservices/WebServiceTestBean?wsdl&amp;#39;client = Client(url)print clientSuds - version: 0.</description>
+    </item>
+    
+    <item>
+      <title>python-memcached源码小窥</title>
+      <link>/posts/python-memcached%E6%BA%90%E7%A0%81%E5%B0%8F%E7%AA%A5/</link>
+      <pubDate>Thu, 13 Aug 2015 18:47:40 +0000</pubDate>
+      
+      <guid>/posts/python-memcached%E6%BA%90%E7%A0%81%E5%B0%8F%E7%AA%A5/</guid>
+      <description>以前经常使用python-memcached对内存进行操作，但应用都比较简单，最近需要有一个分布式缓存系统于是看了看关于twemproxy 以及 mcrouter 这两款分别由twitter和facebook开源的软件文档。这2个软件都能容易的扩展缓存节点以及自动删除问题节点，并且提供不同的算法把数据缓存到各个节点中。这时候我想起来使用python-memcached的时候，也可以使用多个节点，并且某个节点挂掉后并不影响整个缓存程序的使用，那么它是怎么将数据分配到不同的节点呢？以及怎么处理的故障节点呢？ python-memcached的源码只有一个文件，不管是get或者set，取得服务节点Ip的函数如下：
+_SERVER_RETRIES = 10 # how many times to try finding a free server.</description>
+    </item>
+    
+    <item>
+      <title>flask常用插件</title>
+      <link>/posts/flask%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/</link>
+      <pubDate>Tue, 28 Jul 2015 19:27:41 +0000</pubDate>
+      
+      <guid>/posts/flask%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/</guid>
+      <description>2015-08-28更新 不可否认django是一个功能齐全的、文档最完善的、最容易入门的python框架，但随着业务发展，发现并没有用到django最强大、最方便的后台管理功能。同时相比web.py、flask也确实“重”了一些，所以经过考虑决定将框架换为flask。如果说django是一个组装好的变形金刚，那么flask则是乐高积木，小巧而灵活，可以根据需要选择不同的功能扩展。下面列出了我使用过的一些插件，持续补充&amp;hellip;
+flask官网 https://dormousehole.readthedocs.org/en/latest/index.html 这个就不多解释了。
+jinja2 http://docs.jinkan.org/docs/jinja2/index.html flask默认模板引擎。
+sqlalchemy http://www.sqlalchemy.org/ 如果喜欢用ORM操作数据的话，这个可以说是不错的选择，用来替代django自身提供的ORM系统。</description>
+    </item>
+    
+    <item>
+      <title>Selenium&#43;phantomjs模拟网页自动化操作</title>
+      <link>/posts/selenium-phantomjs%E6%A8%A1%E6%8B%9F%E7%BD%91%E9%A1%B5%E8%87%AA%E5%8A%A8%E5%8C%96%E6%93%8D%E4%BD%9C/</link>
+      <pubDate>Mon, 15 Jun 2015 15:32:11 +0000</pubDate>
+      
+      <guid>/posts/selenium-phantomjs%E6%A8%A1%E6%8B%9F%E7%BD%91%E9%A1%B5%E8%87%AA%E5%8A%A8%E5%8C%96%E6%93%8D%E4%BD%9C/</guid>
+      <description>N久之前使用这对好伙伴实现支持抓取ajax数据的爬虫，最近有个需求是完全模拟某网站的购物操作，结果这个网站比较奇葩，对于表单中某些文本框、复选框等修改后会触发post操作并更改页面内容，而且这些控件之间还会互相影响，直接使用post方式的话比较困难，于是再次祭出神器： selenium 和phantomjs,此外还可以尝试selenium-ide。
+这里phantomjs2.0版本并没提供编译好的通用Linux版，所以本文依然使用1.9版，但在2.0版上测试通过。
+# coding=utf-8 from selenium import webdriverdef main():dcap = dict(DesiredCapabilities.</description>
+    </item>
+    
+    <item>
+      <title>django-userena使用记录</title>
+      <link>/posts/django-userena%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Thu, 09 Apr 2015 17:31:47 +0000</pubDate>
+      
+      <guid>/posts/django-userena%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</guid>
+      <description>django-userena扩展了django原生的用户系统，提供了注册、登录、修改密码、邮件验证等一系列常用功能。直接使用pip安装即可：pip install django-userena
+会自动安装其所需的依赖包，不过个人建议为了更好的定制模板或相关功能，把这个包放到项目目录下当作一个app更方便一些。安装完成后修改settings.py，首先来创建一个app用于扩展用户系统 python manage.py startapp accounts 然后修改Models.py来扩展原生用户字段，我这里以添加用户等级为例：
+# coding=utf-8 from django.</description>
+    </item>
+    
+    <item>
+      <title>NodeJS学习记录1</title>
+      <link>/posts/nodejs%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/</link>
+      <pubDate>Thu, 19 Mar 2015 17:03:56 +0000</pubDate>
+      
+      <guid>/posts/nodejs%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/</guid>
+      <description>本来学oc学的正爽，结果由于某些原因必须先学习NodeJS，所以oc的学习就先暂停一段时间吧。这几天恶补了相关基础知识，如果oc只是语法上让我不太习惯的话，那nodejs就是从编程思想上将原来所学的知识进行了颠覆。至于nodejs相关介绍、优缺点等这里就不多说了，如果想在学习过程中不“一头雾水”，就要理解几个概念：同步/异步、阻塞/非阻塞、闭包、回调、事件轮循。
+本人以前并没有任何javascript语言的学习经验，这里仅仅记录我这几天学习的理解，如有什么偏颇，还望大家指正。
+首先，nodejs是单线程的，同时只能进行一项任务。这点引起较大的批评就是无法利用多核CPU的能力，但同时在多个CPU运行程序也并不是完美的，因为想要多个CPU有效的拆分任务并执行，它们之间需要频繁的交换信息，比如当前执行状态、各自完成了哪些操作等。
+关于上面的几个概念，网上答案五花八门都有，不过我更倾向于下面的答案，引用于知乎，原文链接：
+ “阻塞”与&amp;quot;非阻塞&amp;quot;与&amp;quot;同步&amp;quot;与“异步&amp;quot;不能简单的从字面理解，提供一个从分布式系统角度的回答。
+  1.同步与异步
+  同步和异步关注的是消息通信机制 (synchronous communication/ asynchronous communication)</description>
+    </item>
+    
+    <item>
+      <title>django重写model的save方法实现同时写2个数据库</title>
+      <link>/posts/django%E9%87%8D%E5%86%99model%E7%9A%84save%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%90%8C%E6%97%B6%E5%86%992%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+      <pubDate>Sat, 28 Feb 2015 11:10:28 +0000</pubDate>
+      
+      <guid>/posts/django%E9%87%8D%E5%86%99model%E7%9A%84save%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%90%8C%E6%97%B6%E5%86%992%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93/</guid>
+      <description>最近有个需求就是当执行save时需要把数据写入2个数据库，查看文档后发现直接重写save方法比较简单。
+首先建立2个测试数据库testa和testb，然后在settings中配置数据库：
+DATABASES = {&amp;#39;default&amp;#39;: {&amp;#39;ENGINE&amp;#39;: &amp;#39;django.db.backends.mysql&amp;#39;,&amp;#39;NAME&amp;#39;: &amp;#39;testa&amp;#39;,&amp;#39;USER&amp;#39;: &amp;#39;root&amp;#39;,&amp;#39;PASSWORD&amp;#39;: &amp;#39;asdasd&amp;#39;,&amp;#39;HOST&amp;#39;: &amp;#39;192.</description>
+    </item>
+    
+    <item>
+      <title>OC学习第2天——CLASS</title>
+      <link>/posts/oc%E5%AD%A6%E4%B9%A0%E7%AC%AC2%E5%A4%A9class/</link>
+      <pubDate>Wed, 11 Feb 2015 22:01:04 +0000</pubDate>
+      
+      <guid>/posts/oc%E5%AD%A6%E4%B9%A0%E7%AC%AC2%E5%A4%A9class/</guid>
+      <description>在新建文件时选择os x列表下的“source”，再从右面的选项中选择“cocoa class”，填写类名以及选择存储位置后会自动生成2个文件：一个.h文件和一个.m文件，格式如下
+student.h:
+#import &amp;lt;Foundation/Foundation.h&amp;gt;@interface Student : NSObject@end&amp;lt;/pre&amp;gt;student.</description>
+    </item>
+    
+    <item>
+      <title>OC学习第1天——hello world</title>
+      <link>/posts/oc%E5%AD%A6%E4%B9%A0%E7%AC%AC1%E5%A4%A9hello-world/</link>
+      <pubDate>Mon, 09 Feb 2015 23:36:27 +0000</pubDate>
+      
+      <guid>/posts/oc%E5%AD%A6%E4%B9%A0%E7%AC%AC1%E5%A4%A9hello-world/</guid>
+      <description>很多人为了学习ios开发而买了mac，而我却正好相反——买了mac后觉得只拿来看看网页、管理服务器什么的太浪费了，就顺便把ios开发也学学吧。由于本人是oc初学者，若有错误的地方还请指正。本文使用os x 10.10.2以及xcode 6.1.1。
+这里首先面临的就是语言的选择——oc和swift。经过“深思熟虑”我还是选择了oc，因为相关的资料比较多，遇到问题google起来效果较好。很多人觉得ios开发很难学是因为oc——别的不敢讲，就我这两天的学习来看，oc虽说是c的超集，不过语法看起来题确实挺奇怪，但对于任何有其他语言开发基础的人来说，语法仅仅是一个需要习惯的过程。ios开发的真正难点在于cocos引擎部分，所以对于英语好的来说swift也是不错的选择（英语硬伤还是啊……）。
+直接从appstore中安装xcode，安装完成后运行选择“create a new Xcode project”，再选择os x列表下的“application”，然后在右边的窗口中选择“command line tool”，点击“next”后输入项目名称等相关信息，语言选择“Objective－c”，再选择保存位置后点击“finish”即可。</description>
+    </item>
+    
+    <item>
+      <title>python中的md5以及base64加密</title>
+      <link>/posts/python%E4%B8%AD%E7%9A%84md5%E4%BB%A5%E5%8F%8Abase64%E5%8A%A0%E5%AF%86/</link>
+      <pubDate>Thu, 05 Feb 2015 13:58:41 +0000</pubDate>
+      
+      <guid>/posts/python%E4%B8%AD%E7%9A%84md5%E4%BB%A5%E5%8F%8Abase64%E5%8A%A0%E5%AF%86/</guid>
+      <description>最近要和某公司进行系统对接，对方使用C#给出了这样一个加密函数：
+public static string MD5ToBase64String(string str){MD5 md5 = new MD5CryptoServiceProvider();byte[] temp = System.</description>
+    </item>
+    
+    <item>
+      <title>python&#43;selenium&#43;phantomjs抓取ajax动态页面</title>
+      <link>/posts/python-selenium-phantomjs%E6%8A%93%E5%8F%96ajax%E5%8A%A8%E6%80%81%E9%A1%B5%E9%9D%A2/</link>
+      <pubDate>Wed, 05 Nov 2014 14:52:09 +0000</pubDate>
+      
+      <guid>/posts/python-selenium-phantomjs%E6%8A%93%E5%8F%96ajax%E5%8A%A8%E6%80%81%E9%A1%B5%E9%9D%A2/</guid>
+      <description>一般情况下，python爬虫遇到ajax动态页面一般都是直接分析后模拟ajax请求获得数据。不过今天遇到个网站，由于某些原因不透露网址了，点击搜索按钮后，它先跳转到a页面，然后从a页面跳转到b页面，再由b页面跳回a页面。当完成这2次跳转后，ajax向a页面提交的请求才会返回结果。
+也怀疑是不是cookie或者refenen的问题，但最终证实不是因为这个。即便伪造了请求头再访问a页面，返回的也不是真实的结果页面而是一段跳转到b页面的js代码。
+既然不知道跳转过程中网站到底干了写什么，那就直接上大杀器吧。
+phantomjs可以简单的理解为js解释器，selenium更不用多介绍了，用pip安装即可。 从 http://phantomjs.org/download.html 下载编译后的包（当然你可以自己下源码），解压后的bin目录中就是我们需要的东西。
+import sysreload(sys)sys.</description>
+    </item>
+    
+    <item>
+      <title>Nginx&#43;Uwsgi部署Django程序</title>
+      <link>/posts/nginx-uwsgi%E9%83%A8%E7%BD%B2django%E7%A8%8B%E5%BA%8F/</link>
+      <pubDate>Sat, 27 Sep 2014 17:44:03 +0000</pubDate>
+      
+      <guid>/posts/nginx-uwsgi%E9%83%A8%E7%BD%B2django%E7%A8%8B%E5%BA%8F/</guid>
+      <description>原来使用apache进行部署，感觉内存占用大以及速度比较慢就换成了nginx+uwsgi的方式，结果完爆apache啊！
+首先安装nginx以及uwsgi：
+yum install nginxpip install uwsgi然后编辑uwsgi的配置文件，这里我使用ini文件格式，示例如下：
+[uwsgi]socket = 127.</description>
+    </item>
+    
+    <item>
+      <title>python中and-or小技巧</title>
+      <link>/posts/python%E4%B8%ADand-or%E5%B0%8F%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Thu, 11 Sep 2014 16:22:43 +0000</pubDate>
+      
+      <guid>/posts/python%E4%B8%ADand-or%E5%B0%8F%E6%8A%80%E5%B7%A7/</guid>
+      <description>首先，python中逻辑运算从左到右进行，and运算返回第一个假值，若都为真则返回最后一个真值。or运算返回第一个真值，若都为假则返回最后一个假值。
+其次，python中0,(),[],{},None,空字符串都是假。
+下面用简单的例子说明一下：
+def f():print &amp;#34;in f&amp;#34;return Falsedef t():print &amp;#34;in t&amp;#34;return Truedef n():print &amp;#34;in n&amp;#34;In [105]: r = t() and f() or n()in tin fin nIn [106]: rIn [107]: r = t() and n() or f()in tin nin fIn [108]: rOut[108]: FalseIn [111]: r = f() and n() or t()in fin tIn [112]: rOut[112]: True上面我们定义了3个函数，没返回值的情况下函数会默认返回None。这里有个地方需要注意，虽然函数可以返回true、false、none，但函数本身都是为真的，比如：</description>
+    </item>
+    
+    <item>
+      <title>64位win7安装mysql-python</title>
+      <link>/posts/64%E4%BD%8Dwin7%E5%AE%89%E8%A3%85mysql-python/</link>
+      <pubDate>Sun, 06 Jul 2014 09:01:14 +0000</pubDate>
+      
+      <guid>/posts/64%E4%BD%8Dwin7%E5%AE%89%E8%A3%85mysql-python/</guid>
+      <description>64位win7使用pip安装mysql-python时提示unable to find vcvarsall.bat， 网上很多说这个解决这个需要安装那个MinGW，不过我安装并设置环境变量后依然没解决这个问题， 错误提示倒是变成了什么gcc错误一类的。 而从网上下载的win安装包都是32位，在我的机器上提示找不到python，找了很久后终于发现一个地方:http://www.lfd.uci.edu/~gohlke/pythonlibs/ 上有64位的， 而且这上面还有很多其他的64位三方包。 方便国内同学下载我把mysql-python转存到了我的网盘：http://pan.baidu.com/s/13vgjs</description>
+    </item>
+    
+    <item>
+      <title>Windows下的django批处理运行脚本</title>
+      <link>/posts/windows%E4%B8%8B%E7%9A%84django%E6%89%B9%E5%A4%84%E7%90%86%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/</link>
+      <pubDate>Thu, 15 May 2014 12:03:58 +0000</pubDate>
+      
+      <guid>/posts/windows%E4%B8%8B%E7%9A%84django%E6%89%B9%E5%A4%84%E7%90%86%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/</guid>
+      <description>回来半个月，终于抽出时间写点东西了。最近这天气真是让人不开心阿～不过昨天居然见到了彩虹，突然想起来在飞机上看见的彩虹是直立在太阳两边而不是桥形的，各有各的美感。
+至于在win下如何安装python、setuptools、pip等网上很多这里不再重复，可是那些大小姐们向我反映说她们不会“运行cmd,输入python manage.py runserver”。正所谓收人钱财替人消灾，干脆写个批处理让她们双击运行算了，内容如下：
+@echo offpython %cd%\manage.py runserverpause真是被微软“惯坏了”的孩子们阿&amp;hellip;.</description>
+    </item>
+    
+    <item>
+      <title>虚拟环境pycurl的import错误</title>
+      <link>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83pycurl%E7%9A%84import%E9%94%99%E8%AF%AF/</link>
+      <pubDate>Mon, 14 Apr 2014 11:56:49 +0000</pubDate>
+      
+      <guid>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83pycurl%E7%9A%84import%E9%94%99%E8%AF%AF/</guid>
+      <description>今天需要在虚拟环境下使用pycurl，使用pip安装时候没问题，不过再代码中import后则报错：
+ImportError: pycurl: libcurl link-time ssl backend (nss) is different from compile-time ssl backend (none/other)解决方法：</description>
+    </item>
+    
+    <item>
+      <title>调试python程序</title>
+      <link>/posts/%E8%B0%83%E8%AF%95python%E7%A8%8B%E5%BA%8F/</link>
+      <pubDate>Thu, 10 Apr 2014 18:06:03 +0000</pubDate>
+      
+      <guid>/posts/%E8%B0%83%E8%AF%95python%E7%A8%8B%E5%BA%8F/</guid>
+      <description>&lt;p&gt;怪不得这几天头疼的厉害，原来是发生了2件大事：官方的XP彻底和我们告别了and爆发了OpenSSL HeartBleed漏洞。这个漏洞可以说是一场大地震，不知道又会有多少网站被“扒光脱裤”，过一阵又得改密码玩了。面对这种网络安全问题，真的是一种待宰羔羊的无力感。&lt;/p&gt;
+&lt;p&gt;调试python程序我知道有3个东东：pdb,ipdb,pudb。&lt;/p&gt;
+&lt;p&gt;第一个是python自带模块，第二个如果安了ipython的话貌似自己就被安装了，最后一个有图形界面，十分复古的——蓝底，真是让人怀念。后2个都可以使用pip安装。
+ipdb支持语法高亮，不过貌似中文支持不太好。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>python列表展开</title>
+      <link>/posts/python%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/</link>
+      <pubDate>Wed, 09 Apr 2014 16:27:16 +0000</pubDate>
+      
+      <guid>/posts/python%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/</guid>
+      <description>某网站今年笔试题，本质就是把某多维数组变成一维数组并去重。本来要求用JS实现，不过用python更简洁一点，就是对列表进行展开操作，递归就KO了。
+首先来个不简洁的：
+arr = [1, [1, 2, [2, 3]], [4], [4]]final=[]def change(x):print &amp;#34;x is:&amp;#34;,xif isinstance(x, list):for l in x:print &amp;#34;l is:&amp;#34;,lchange(l)else:final.</description>
+    </item>
+    
+    <item>
+      <title>django自带的评论模块</title>
+      <link>/posts/django%E8%87%AA%E5%B8%A6%E7%9A%84%E8%AF%84%E8%AE%BA%E6%A8%A1%E5%9D%97/</link>
+      <pubDate>Fri, 04 Apr 2014 11:01:59 +0000</pubDate>
+      
+      <guid>/posts/django%E8%87%AA%E5%B8%A6%E7%9A%84%E8%AF%84%E8%AE%BA%E6%A8%A1%E5%9D%97/</guid>
+      <description>某个设计本来采用了一个比较不错的在线评论模块，不过答辩的时候丫居然不给网！！想偷个懒还是挺难啊&amp;hellip;.
+那就用自带的评论模块吧，django版本是1.5.3。
+首先把&#39;django.contrib.comments&#39;添加到INSTALLED_APPS中，然后添加url:
+urlpatterns = patterns(&amp;#39;&amp;#39;,......url(r&amp;#39;^comments/&amp;#39;, include(&amp;#39;django.contrib.comments.urls&amp;#39;)),......)在需要显示评论的HTML中：</description>
+    </item>
+    
+    <item>
+      <title>django中由类实例引起的小坑</title>
+      <link>/posts/django%E4%B8%AD%E7%94%B1%E7%B1%BB%E5%AE%9E%E4%BE%8B%E5%BC%95%E8%B5%B7%E7%9A%84%E5%B0%8F%E5%9D%91/</link>
+      <pubDate>Tue, 01 Apr 2014 11:38:13 +0000</pubDate>
+      
+      <guid>/posts/django%E4%B8%AD%E7%94%B1%E7%B1%BB%E5%AE%9E%E4%BE%8B%E5%BC%95%E8%B5%B7%E7%9A%84%E5%B0%8F%E5%9D%91/</guid>
+      <description>自己封装了一个logging在django中使用，结果发现输出的时候总是重复输出，比如：
+DEBUG---- 2014/03/31 10:38:13:!!DEBUG---- 2014/03/31 10:38:13:!!DEBUG---- 2014/03/31 10:38:13:!</description>
+    </item>
+    
+    <item>
+      <title>mysql-python:not all arguments converted during string formatting</title>
+      <link>/posts/mysql-python-not-all-arguments-converted-during-string-formatting/</link>
+      <pubDate>Thu, 27 Mar 2014 18:07:49 +0000</pubDate>
+      
+      <guid>/posts/mysql-python-not-all-arguments-converted-during-string-formatting/</guid>
+      <description>今天把django从1.5.5升级到了1.6.2，结果使用mysql-python查询数据库时候就报了这个错误：“not all arguments converted during string formatting”
+貌似这个问题应该和django没什么关系，正好今天就看看mysql-python的源码吧。想看如何解决的请直接跳到最后。
+查询部分简化后如下：
+posistion = &amp;#34;top&amp;#34;order = r&amp;#34;select id,p_name,p_explain,p_href from pictures where p_position = %s and p_show = 1 order by -id&amp;#34;self.</description>
+    </item>
+    
+    <item>
+      <title>Django的view中常用return方法</title>
+      <link>/posts/django%E7%9A%84view%E4%B8%AD%E5%B8%B8%E7%94%A8return%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Tue, 25 Mar 2014 18:28:00 +0000</pubDate>
+      
+      <guid>/posts/django%E7%9A%84view%E4%B8%AD%E5%B8%B8%E7%94%A8return%E6%96%B9%E6%B3%95/</guid>
+      <description>&lt;p&gt;第一种HttpResponse，最基本的返回方式，可以直接返回字符:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; django.http &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; HttpResponse
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;index&lt;/span&gt;(request):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; HttpResponse(&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;“&lt;/span&gt;a test&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;”&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;或者结合contextloder返回网页：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; django.template &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Context, loader  
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; polls.models &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Poll
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;index&lt;/span&gt;(request):  
+    latest_poll_list &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Poll&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;objects&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;order_by(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-pub_date&amp;#39;&lt;/span&gt;)[:&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;]  
+    template &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; loader&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_template(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;polls/index.html&amp;#39;&lt;/span&gt;)
+    context &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Context({ &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;latest_poll_list&amp;#39;&lt;/span&gt;: latest_poll_list, })  
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; HttpResponse(template&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;render(context))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>虚拟环境下安装mysql-python</title>
+      <link>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/</link>
+      <pubDate>Wed, 12 Mar 2014 17:54:50 +0000</pubDate>
+      
+      <guid>/posts/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85mysql-python/</guid>
+      <description>使用virtualenv虚拟环境的时候，mysql-python安装时报错：
+_mysql.c:44:23: fatal error: my_config.h: No such file or directory#include &amp;quot;my_config.</description>
+    </item>
+    
+    <item>
+      <title>pip下载经常超时的解决办法</title>
+      <link>/posts/pip%E4%B8%8B%E8%BD%BD%E7%BB%8F%E5%B8%B8%E8%B6%85%E6%97%B6%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</link>
+      <pubDate>Wed, 12 Mar 2014 17:51:08 +0000</pubDate>
+      
+      <guid>/posts/pip%E4%B8%8B%E8%BD%BD%E7%BB%8F%E5%B8%B8%E8%B6%85%E6%97%B6%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</guid>
+      <description>最近使用pip安装python模块的时候经常遇到超时而导致失败，解决办法有2个：
+ 使用-i参数指定url，例如：pip install flask -i http://pypi.v2ex.com/simple 修改pip的配置文件：  [global] timeout = 6000index-url = http://pypi.</description>
+    </item>
+    
+    <item>
+      <title>python的sh库使用案例</title>
+      <link>/posts/python%E7%9A%84sh%E5%BA%93%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B/</link>
+      <pubDate>Mon, 17 Feb 2014 09:23:09 +0000</pubDate>
+      
+      <guid>/posts/python%E7%9A%84sh%E5%BA%93%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B/</guid>
+      <description>sh 可让你调用任意程序，就好象是一个函数一般 http://amoffat.github.io/sh/
+这里我用unzip以及mv为例：
+#coding=utf-8 &amp;#39;&amp;#39;&amp;#39;@CreateDate： Fri Feb 14 15:48:13 CST 2014@FileName：unzip.</description>
+    </item>
+    
+    <item>
+      <title>django数据库分库</title>
+      <link>/posts/django%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E5%BA%93/</link>
+      <pubDate>Tue, 11 Feb 2014 09:34:25 +0000</pubDate>
+      
+      <guid>/posts/django%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E5%BA%93/</guid>
+      <description>有些时候我们需要项目中的app访问不同的数据库，这时就要进行分库操作。
+首先建立一个db_router.py，内容示例：
+#coding=utf-8 DATABASES = {&amp;#39;default&amp;#39;: {&amp;#39;ENGINE&amp;#39;: &amp;#39;django.</description>
+    </item>
+    
+    <item>
+      <title>django文件上传功能</title>
+      <link>/posts/django%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%8A%9F%E8%83%BD/</link>
+      <pubDate>Wed, 04 Dec 2013 17:13:50 +0000</pubDate>
+      
+      <guid>/posts/django%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%8A%9F%E8%83%BD/</guid>
+      <description>今天需要一个文件上传功能，所以代码如下
+def ci_test(request):try:if request.POST.has_key(&amp;#34;send&amp;#34;):xml_string=&amp;#34;&amp;#34;final_xml = &amp;#34;&amp;#34;file_obj = request.</description>
+    </item>
+    
+    <item>
+      <title>python分离中、英文</title>
+      <link>/posts/python%E5%88%86%E7%A6%BB%E4%B8%AD%E8%8B%B1%E6%96%87/</link>
+      <pubDate>Wed, 04 Dec 2013 08:42:39 +0000</pubDate>
+      
+      <guid>/posts/python%E5%88%86%E7%A6%BB%E4%B8%AD%E8%8B%B1%E6%96%87/</guid>
+      <description>本来打算使用正则表达式，但是发现实际情况不能简单的用正则表达式处理，于是参考 http://blog.sina.com.cn/s/blog_933dc4350100x6mu.html 代码如下：
+# coding=utf-8 &amp;#39;&amp;#39;&amp;#39;@CreateDate： 2013年 12月 03日 星期二 11:11:39 CST@FileName：extract.</description>
+    </item>
+    
+    <item>
+      <title>python线程小学习</title>
+      <link>/posts/python%E7%BA%BF%E7%A8%8B%E5%B0%8F%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Mon, 02 Dec 2013 18:07:11 +0000</pubDate>
+      
+      <guid>/posts/python%E7%BA%BF%E7%A8%8B%E5%B0%8F%E5%AD%A6%E4%B9%A0/</guid>
+      <description>以前我写多线程程序时候，经常把一个线程类单独封装，然后使用全局锁来控制竞争资源的处理。今天看了这样一段代码
+class Fetcher:def __init__(self,threads):self.opener = urllib2.build_opener(urllib2.HTTPHandler)self.lock = Lock() #线程锁 self.</description>
+    </item>
+    
+    <item>
+      <title>Python 深入理解yield</title>
+      <link>/posts/python-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3yield/</link>
+      <pubDate>Sun, 01 Dec 2013 23:38:27 +0000</pubDate>
+      
+      <guid>/posts/python-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3yield/</guid>
+      <description>不知道原文出处，向原作者表示感谢。
+yield的英文单词意思是生产，刚接触Python的时候感到非常困惑，一直没弄明白yield的用法。只是粗略的知道yield可以用来为一个函数返回值塞数据，比如下面的例子：
+def addlist(alist):for i in alist:yield i + 1取出alist的每一项，然后把i + 1塞进去。然后通过调用取出每一项：</description>
+    </item>
+    
+    <item>
+      <title>Python关键字yield详解</title>
+      <link>/posts/python%E5%85%B3%E9%94%AE%E5%AD%97yield%E8%AF%A6%E8%A7%A3/</link>
+      <pubDate>Sun, 01 Dec 2013 23:04:54 +0000</pubDate>
+      
+      <guid>/posts/python%E5%85%B3%E9%94%AE%E5%AD%97yield%E8%AF%A6%E8%A7%A3/</guid>
+      <description>伯乐在线 –刘志军编译自stackoverflow Python标签中投票率最高的一个问题《The Python yield keyword explained》，e-satis 详细回答了关于yield 以及 generator、iterable、iterator、iteration之间的关系。</description>
+    </item>
+    
+    <item>
+      <title>django中静态文件的使用</title>
+      <link>/posts/django%E4%B8%AD%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Tue, 19 Nov 2013 18:04:21 +0000</pubDate>
+      
+      <guid>/posts/django%E4%B8%AD%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+      <description>记得我刚刚开始接触django的时候，对于静态文件的引用始终一头雾水，按照网上说明的添加代码就是不好使。 今天再回头看看，突然发现以前自己还真是笨阿！补一篇记录算是弥补以前的缺憾了～ django版本1.5.3 目录结构：
+projectname----projectname--------templates------------base.html------------appname----------------a.html--------media------------mp3------------flv--------static------------img----------------s.</description>
+    </item>
+    
+    <item>
+      <title>伪造header突破ip限制抓取网站内容</title>
+      <link>/posts/%E4%BC%AA%E9%80%A0header%E7%AA%81%E7%A0%B4ip%E9%99%90%E5%88%B6%E6%8A%93%E5%8F%96%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9/</link>
+      <pubDate>Fri, 15 Nov 2013 15:28:15 +0000</pubDate>
+      
+      <guid>/posts/%E4%BC%AA%E9%80%A0header%E7%AA%81%E7%A0%B4ip%E9%99%90%E5%88%B6%E6%8A%93%E5%8F%96%E7%BD%91%E7%AB%99%E5%86%85%E5%AE%B9/</guid>
+      <description>有些网站为了防止爬虫抓取而设定了某些条件，比如如果一个ip某时间段内访问量很大，则禁止这个ip访问。如果这个网站启用了cdn加速服务的话，可以修改header中的host，并在url中直接用ip进行网站的访问。
+#coding=utf-8 import urllib2import randomimport os,sysDIRNAME = os.</description>
+    </item>
+    
+    <item>
+      <title>python 获取网站cookie</title>
+      <link>/posts/python-%E8%8E%B7%E5%8F%96%E7%BD%91%E7%AB%99cookie/</link>
+      <pubDate>Fri, 15 Nov 2013 15:20:14 +0000</pubDate>
+      
+      <guid>/posts/python-%E8%8E%B7%E5%8F%96%E7%BD%91%E7%AB%99cookie/</guid>
+      <description>对于一般的网站来说，通过以下代码便可以获取到cookie：
+import urllib2import urllibimport cookieliblogurl = &amp;#34;https://www.digikey.com/classic/RegisteredUser/Login.aspx?&amp;#34;cj = cookielib.</description>
+    </item>
+    
+    <item>
+      <title>python traceback模块</title>
+      <link>/posts/python-traceback%E6%A8%A1%E5%9D%97/</link>
+      <pubDate>Thu, 14 Nov 2013 09:52:51 +0000</pubDate>
+      
+      <guid>/posts/python-traceback%E6%A8%A1%E5%9D%97/</guid>
+      <description>如果我们再程序中写出一个会引发异常的代码，比如1/0，就会引发一个异常，程序中止。
+输出：
+Traceback (most recent call last):File &amp;quot;trackbacks.py&amp;quot;, line 1, in &amp;lt;module&amp;gt;1/0ZeroDivisionError: integer division or modulo by zeroShell 已返回1为了程序的健壮性，我们常常加入异常处理。</description>
+    </item>
+    
+    <item>
+      <title>python lxml模块</title>
+      <link>/posts/python-lxml%E6%A8%A1%E5%9D%97/</link>
+      <pubDate>Wed, 13 Nov 2013 18:11:17 +0000</pubDate>
+      
+      <guid>/posts/python-lxml%E6%A8%A1%E5%9D%97/</guid>
+      <description>继续分析那个爬虫程序，今天从中学习了lxml模块的基本使用。这个模块用来解析XML、HTML内容，据说速度上秒杀了&amp;quot;美丽的汤&amp;rdquo;。
+官网： http://lxml.de/api/index.html
+#coding=utf-8 &amp;#39;&amp;#39;&amp;#39;Created on 2013年11月13日学习使用lxml@author: dear_shen&amp;#39;&amp;#39;&amp;#39;from lxml import etreeif __name__ == &amp;#39;__main__&amp;#39;:broken_str = &amp;#39;&amp;#39;&amp;#39;&amp;lt;!</description>
+    </item>
+    
+    <item>
+      <title>生产者消费者问题python版</title>
+      <link>/posts/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98python%E7%89%88/</link>
+      <pubDate>Wed, 13 Nov 2013 15:17:54 +0000</pubDate>
+      
+      <guid>/posts/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98python%E7%89%88/</guid>
+      <description>记得学操作系统这门课的时候就打算自己写一个，居然一眨眼过了一年才写，真是对不起老师阿！
+#coding=utf-8 &amp;#39;&amp;#39;&amp;#39;Created on 2013年11月13日生产者与消费者python版@author: dear_shen&amp;#39;&amp;#39;&amp;#39;import threadingimport Queueimport timecondition = threading.</description>
+    </item>
+    
+    <item>
+      <title>Python：使用threading模块实现多线程编程</title>
+      <link>/posts/python%E4%BD%BF%E7%94%A8threading%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/</link>
+      <pubDate>Wed, 13 Nov 2013 11:44:22 +0000</pubDate>
+      
+      <guid>/posts/python%E4%BD%BF%E7%94%A8threading%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/</guid>
+      <description>原文链接找不到了，故整理格式后记录于此。
+常用函数 &amp;#39;&amp;#39;&amp;#39;&amp;#39;&amp;#39; Created on 2012-9-7 @author: walfred@module: thread.ThreadTest3 @description:&amp;#39;&amp;#39;&amp;#39; import threading class MyThread(threading.</description>
+    </item>
+    
+    <item>
+      <title>python threading模块</title>
+      <link>/posts/python-threading%E6%A8%A1%E5%9D%97/</link>
+      <pubDate>Wed, 13 Nov 2013 11:16:09 +0000</pubDate>
+      
+      <guid>/posts/python-threading%E6%A8%A1%E5%9D%97/</guid>
+      <description>threading模块  Thread 线程类，这是我们用的最多的一个类，你可以指定线程函数执行或者继承自它都可以实现子线程功能； Timer与Thread类似，但要等待一段时间后才开始运行； Lock 锁原语，这个我们可以对全局变量互斥时使用； RLock 可重入锁，使单线程可以再次获得已经获得的锁； Condition 条件变量，能让一个线程停下来，等待其他线程满足某个“条件”； Event 通用的条件变量。多个线程可以等待某个事件发生，在事件发生后，所有的线程都被激活； Semaphore为等待锁的线程提供一个类似“等候室”的结构； BoundedSemaphore 与semaphore类似，但不允许超过初始值；  Thread类  是你主要的线程类，可以创建进程实例。该类提供的函数包括： getName(self) 返回线程的名字 isAlive(self) 布尔标志，表示这个线程是否还在运行中 isDaemon(self) 返回线程的daemon标志 join(self, timeout=None) 程序挂起，直到线程结束，如果给出timeout，则最多阻塞timeout秒 run(self) 定义线程的功能函数 setDaemon(self, daemonic) 把线程的daemon标志设为daemonic setName(self, name) 设置线程的名字 start(self) 开始线程执行  关于join()和setDaemon join：如在一个线程B中调用threada.</description>
+    </item>
+    
+    <item>
+      <title>python queue模块</title>
+      <link>/posts/python-queue%E6%A8%A1%E5%9D%97/</link>
+      <pubDate>Wed, 13 Nov 2013 11:11:38 +0000</pubDate>
+      
+      <guid>/posts/python-queue%E6%A8%A1%E5%9D%97/</guid>
+      <description>创建一个“队列”对象 import Queuemyqueue = Queue.Queue(maxsize = 10)Queue.Queue类即是一个队列的同步实现。队列长度可为无限或者有限。可通过Queue的构造函数的可选参数maxsize来设定队列长度。如果maxsize小于1就表示队列长度无限。
+将一个值放入队列中 myqueue.</description>
+    </item>
+    
+    <item>
+      <title>django-I18n-国际化语言</title>
+      <link>/posts/django-i18n-%E5%9B%BD%E9%99%85%E5%8C%96%E8%AF%AD%E8%A8%80/</link>
+      <pubDate>Tue, 12 Nov 2013 14:58:47 +0000</pubDate>
+      
+      <guid>/posts/django-i18n-%E5%9B%BD%E9%99%85%E5%8C%96%E8%AF%AD%E8%A8%80/</guid>
+      <description>上一篇文章提到了django 的语言问题，查阅资料后发现刚才的解释不是十分准确，看到一篇介绍相关内容的博客感觉不错，节选部分全文
+先来看两个概念：
+ 国际化：是指为了该软件在任何地区的潜在使用而进行程序设计的过程。 它包括了为将来翻译而标记的文本（比如用户界面要素和错误信息等）、日期和时间的抽象显示以便保证不同地区的标准得到遵循、为不同时区提供支持，并且一般 确保代码中不会存在关于使用者所在地区的假设。 您会经常看到国际化被缩写为“I18N” (18表示Internationlization这个单词首字母I和结尾字母N之间的字母有18个)。 本地化： 是指使一个国际化的程序为了在某个特定地区使用而进行实际翻译的过程。 有时，本地化缩写为L10N 。  使用Django 国际化  第一步：在你的Python代码和模板中嵌入待翻译的字符串。 第二步：把那些字符串翻译成你要支持的语言。 第三步：在你的Django settings文件中激活本地中间件。  如何嵌入待翻译的字符串 使用函数django.</description>
+    </item>
+    
+    <item>
+      <title>关于lambda s:s</title>
+      <link>/posts/%E5%85%B3%E4%BA%8Elambda-s-s/</link>
+      <pubDate>Tue, 12 Nov 2013 14:31:02 +0000</pubDate>
+      
+      <guid>/posts/%E5%85%B3%E4%BA%8Elambda-s-s/</guid>
+      <description>在某前辈的代码中发现这么一句：
+_=lambda s:s当时不太理解这么写的目的，google之后明白了（顺便吐槽百度，搜“lambda s:s”出来的结果没几个有用的），记录如下：
+一般情况下出现这种写法应该是用在&amp;quot;and_or&amp;quot;技巧中，也可以叫做“逻辑短路”。相信学过C语言的一定很熟悉“and一假为假、or一真为真”这句话。
+python中lambda的bool值永远为真（这里指lambda本身而不是它的返回值），《dive into python》原文翻译：
+ lambda函数在布尔环境中总是为真。(这并不意味这lambda函数不能返回假值。这个函数对象的布尔值为真；它的返回值可以是任何东西。)</description>
+    </item>
+    
+    <item>
+      <title>python动态添加类属性、实例属性</title>
+      <link>/posts/python%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E7%B1%BB%E5%B1%9E%E6%80%A7%E5%AE%9E%E4%BE%8B%E5%B1%9E%E6%80%A7/</link>
+      <pubDate>Tue, 12 Nov 2013 11:58:07 +0000</pubDate>
+      
+      <guid>/posts/python%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E7%B1%BB%E5%B1%9E%E6%80%A7%E5%AE%9E%E4%BE%8B%E5%B1%9E%E6%80%A7/</guid>
+      <description>看高手写出来的东西果然能学到很多阿！！昨天学到了如何用OptionParser生成命令行帮助信息，本来今天是要从中学习doctest使用的，不过却发现了这样一段代码：
+&amp;gt;&amp;gt;&amp;gt; import datetime&amp;gt;&amp;gt;&amp;gt; logger = configLogger(&amp;#39;test.log&amp;#39;)&amp;gt;&amp;gt;&amp;gt; time = datetime.</description>
+    </item>
+    
+    <item>
+      <title>Python optionParser模块</title>
+      <link>/posts/python-optionparser%E6%A8%A1%E5%9D%97/</link>
+      <pubDate>Mon, 11 Nov 2013 18:08:48 +0000</pubDate>
+      
+      <guid>/posts/python-optionparser%E6%A8%A1%E5%9D%97/</guid>
+      <description>用于生成模块说明。
+#coding=utf-8 from optparse import OptionParserdef opt():parser = OptionParser(description=&amp;#34;整个文件功能一类的帮助信息&amp;#34;)parser.</description>
+    </item>
+    
+    <item>
+      <title>python多线程爬虫</title>
+      <link>/posts/python%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%88%AC%E8%99%AB/</link>
+      <pubDate>Fri, 08 Nov 2013 11:52:43 +0000</pubDate>
+      
+      <guid>/posts/python%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%88%AC%E8%99%AB/</guid>
+      <description>&lt;p&gt;原文链接：http://www.dongwm.com/archives/pa-chong-lian-xi/&lt;/p&gt;
+&lt;p&gt;正好最近学习多线程、爬虫相关的东西，这篇文章写的十分不错！&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>你真的会python吗?</title>
+      <link>/posts/%E4%BD%A0%E7%9C%9F%E7%9A%84%E4%BC%9Apython%E5%90%97/</link>
+      <pubDate>Thu, 07 Nov 2013 17:28:12 +0000</pubDate>
+      
+      <guid>/posts/%E4%BD%A0%E7%9C%9F%E7%9A%84%E4%BC%9Apython%E5%90%97/</guid>
+      <description>声明：这篇文章转自http://www.dongwm.com/archives/ni-zhen-de-hui-pythonma/，我看后颇有当头棒喝之感，故收于此顺便修改几处错字，十分感谢原作者！
+前言 我这个博客一直都是一些技术分享,show code的地方，我从来没有写过个人生活或者情感杂谈,当然我也从来没有谈论过我对什么东西的喜恶. 很多人喜欢喷XX语言，喜欢谈论XX和YY的优缺,甚至凑了一本不知所云的书…好吧,我觉得没有使用一门语言超过10年，没有对一个技术研究个5,6年， 不好意思说自己懂(天才除外).我也觉得我没有资格讨论什么，也许我有我的观点看法，但是我怀着怀疑的心态看自己，生怕自己理解错了. 下文纯属个人吐槽,也许没有指定路怎么走，只是希望提个醒… 使用python2年，可喜的是python被越来越多的人接受，甚至前端工程师…但是却有点烂大街的感觉:感觉出门不聊几句python都不好意思和人打招呼.但是你真的懂python嘛?
+你会python真的不重要 python实在太好学习了,假如你会其它的语言，可能搞本书翻一翻，一周后就能写很高端的python程序，由于web框架的普及，你甚至可以让一个网站应用跑起来. 你会我也会，你有什么竞争力?</description>
+    </item>
+    
+    <item>
+      <title>Gevent学习记录1</title>
+      <link>/posts/gevent%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/</link>
+      <pubDate>Thu, 07 Nov 2013 15:55:48 +0000</pubDate>
+      
+      <guid>/posts/gevent%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/</guid>
+      <description>关于Gevent出现URLError: &amp;lt;urlopen error [Errno 66] unknown&amp;gt;错误：
+学习的过程中，有些网址始终出现上面提示的那个错误，但用浏览器访问确实是正常的。
+有网友提示说把gevent.monkey.patch_all(dns=false)，经我实验后发现，这么改过后有些网址确实变得正常了，但有些网址却出现了其它比如time out、Network is unreachable等错误。</description>
+    </item>
+    
+    <item>
+      <title>python异步任务队列、消息队列</title>
+      <link>/posts/python%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</link>
+      <pubDate>Thu, 07 Nov 2013 14:50:01 +0000</pubDate>
+      
+      <guid>/posts/python%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</guid>
+      <description>&lt;p&gt;提起gevent,就不得不提起greenlet。按照官方解释greenlet是轻量级的并行编程，而gevent呢，就是利用greenlet实现的基于协程的python的网络library。&lt;/p&gt;
+&lt;p&gt;官方文档：http://www.gevent.org/contents.html&lt;/p&gt;
+&lt;p&gt;说说协程，进程和线程大家平时了解的都比较多，而协程算是一种轻量级进程，但又不能叫进程，因为操作系统并不知道它的存在。什么意思呢，就是说，协程像是一种在程序级别来模拟系统级别的进程，由于是单进程，并且少了上下文切换，于是相对来说系统消耗很少，而且网上的各种测试也表明，协程确实拥有惊人的速度。并且在实现过程中，协程可以用以前同步思路的写法，而运行起来确是异步的，也确实很有意思。话说有一种说法就是说进化历程是多进程-&amp;gt;多线程-&amp;gt;异步-&amp;gt;协程，暂且不论说的对不对，单从诸多赞誉来看，协程还是有必要理解一下的。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>GIL，线程，协程</title>
+      <link>/posts/gil%E7%BA%BF%E7%A8%8B%E5%8D%8F%E7%A8%8B/</link>
+      <pubDate>Wed, 06 Nov 2013 16:04:55 +0000</pubDate>
+      
+      <guid>/posts/gil%E7%BA%BF%E7%A8%8B%E5%8D%8F%E7%A8%8B/</guid>
+      <description>并行与并发 并发：一个CUP运行多个程序，就好像一个人吃三个馒头。
+并行：一个程序同一时刻运行在多个CUP上，就好像三个人吃一个馒头。
+再从网上借用个例子：
+“并行”是指无论从微观还是宏观，二者都是一起执行的，就好像两个人各拿一把铁锨在挖坑，一小时后，每人一个大坑。而“并发”在微观上不是同时执行的，只是把时间分成若干段，使多个进程快速交替的执行，从宏观外来看，好像是这些进程都在执行，这就好像两个人用同一把铁锨，轮流挖坑，一小时后，两个人各挖一个小一点的坑，要想挖两个大一点得坑，一定会用两个小时。
+从以上本质不难看出，“并发”执行，在多个进程存在资源冲突时，并没有从根本提高执行效率。明白了这个区别后再往下看。
+GIL 由于新的项目可能需要进行py线程级别的操作，便开始学习了python线程的相关知识。但是学习的过程中发现，由于py中GIL(解释器全局锁)的存在，线程对于py来说似乎是一个比较鸡肋的东西。
+关于GIL这篇文章解释的很好：http://www.oschina.net/translate/pythons-hardest-problem?p=2#comments
+既然如此，为什么py中不取消GIL呢？这篇文章给予了一定程度的解答：http://www.cnblogs.com/mindsbook/archive/2009/10/15/thread-safety-and-GIL.html</description>
+    </item>
+    
+    <item>
+      <title>装饰器</title>
+      <link>/posts/%E8%A3%85%E9%A5%B0%E5%99%A8/</link>
+      <pubDate>Fri, 01 Nov 2013 17:38:24 +0000</pubDate>
+      
+      <guid>/posts/%E8%A3%85%E9%A5%B0%E5%99%A8/</guid>
+      <description>装饰器的基础是 python 中函数也是对象，可以进行传递，可以在函数内部定义新的函数（函数内部的函数无法被单独调用）。 http://www.codecho.com/understanding-python-decorators/
+# 装饰器makebold用于转换为粗体 def makebold(fn):# 结果返回该函数 def wrapper():# 插入一些执行前后的代码 return &amp;#34;&amp;lt;b&amp;gt;&amp;#34; + fn() + &amp;#34;&amp;lt;/b&amp;gt;&amp;#34;return wrapper# 装饰器makeitalic用于转换为斜体 def makeitalic(fn):# 结果返回该函数 def wrapper():# 插入一些执行前后的代码 return &amp;#34;&amp;lt;i&amp;gt;&amp;#34; + fn() + &amp;#34;&amp;lt;/i&amp;gt;&amp;#34;return wrapper@makebold@makeitalic #注意顺序很重要！！！！！ def say():return &amp;#34;hello&amp;#34;print say()#输出: &amp;lt;b&amp;gt;&amp;lt;i&amp;gt;hello&amp;lt;/i&amp;gt;&amp;lt;/b&amp;gt; # 等同于 def say():return &amp;#34;hello&amp;#34;say = makebold(makeitalic(say))print say()#输出: &amp;lt;b&amp;gt;&amp;lt;i&amp;gt;hello&amp;lt;/i&amp;gt;&amp;lt;/b&amp;gt; </description>
+    </item>
+    
+    <item>
+      <title>django-groundwork个人1.5.3修改版</title>
+      <link>/posts/django-groundwork%E4%B8%AA%E4%BA%BA1-5-3%E4%BF%AE%E6%94%B9%E7%89%88/</link>
+      <pubDate>Fri, 01 Nov 2013 17:05:17 +0000</pubDate>
+      
+      <guid>/posts/django-groundwork%E4%B8%AA%E4%BA%BA1-5-3%E4%BF%AE%E6%94%B9%E7%89%88/</guid>
+      <description>django-groundwork,它不实现具体的功能，而是扩展了manage.py 的命令，使得通过命令行可以生成一些代码/文件。根据你的模型自动生成模板、view、url等。 将下载好的groundwork放到与APP同级的目录，在setting.py 中添加&#39;django-groundwork&#39;。
+网上流传的都不太适合我使用的1.5.3版本，所以个人对其进行了小修改。
+groundwork.py:
+from django.core.management.base import BaseCommand, CommandErrorfrom django.</description>
+    </item>
+    
+    <item>
+      <title>django版本更换</title>
+      <link>/posts/django%E7%89%88%E6%9C%AC%E6%9B%B4%E6%8D%A2/</link>
+      <pubDate>Fri, 01 Nov 2013 16:36:35 +0000</pubDate>
+      
+      <guid>/posts/django%E7%89%88%E6%9C%AC%E6%9B%B4%E6%8D%A2/</guid>
+      <description>如果你打算从过去的一个版本升级Django, 你需要先删除老版本的Django之后, 再安装新的版本.
+如果你是通过执行命令 setup.py install 来安装 Django, 卸载的方法很简单,
+只要在site-packages 目录下删除 django 目录就可以了.</description>
+    </item>
+    
+    <item>
+      <title>python中如何自定义解析域名</title>
+      <link>/posts/python%E4%B8%AD%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%A3%E6%9E%90%E5%9F%9F%E5%90%8D/</link>
+      <pubDate>Fri, 01 Nov 2013 16:29:10 +0000</pubDate>
+      
+      <guid>/posts/python%E4%B8%AD%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%A3%E6%9E%90%E5%9F%9F%E5%90%8D/</guid>
+      <description>最近要进行某网站的信息抓取工作，不过这个网站作出了一些限制：如果某IP过于频繁的访问则会把这个IP列入黑名单。
+不过这个网站使用了CDN技术进行全球加速，那么访问时候只要在请求头中指定HOST，url中指定加速IP即可一定程度上缓解被封问题。
+在网上找到一篇有关文章节选如下（原文链接http://www.hack0nair.me/?p=615）：
+第一种解决方案是利用http数据包头部中的“Host”属性。
+在发送HTTP请求的时候，数据包的头部总是会带上各种各样的属性，比如Data、Referer、Cookie等。（Quick reference to HTTP headers）
+其中的Host属性是指，当前访问资源对应的主机名和端口号。</description>
+    </item>
+    
+    <item>
+      <title>Python常用第三方库(转载)</title>
+      <link>/posts/python%E5%B8%B8%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93-%E8%BD%AC%E8%BD%BD/</link>
+      <pubDate>Thu, 31 Oct 2013 09:05:39 +0000</pubDate>
+      
+      <guid>/posts/python%E5%B8%B8%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93-%E8%BD%AC%E8%BD%BD/</guid>
+      <description>wxPython 如果你之前是 windows 程序员，用 MFC 或者 WIN32API 开发界面程序，那进入 Python 国度最好的 GUI 选择应该是 wxPython。它是 wxWidgets 的 Python Bind，与 wxWidgets 的开发完美同步，最为重要的一点是它的消息机制与 MFC 颇为相似，以前在 MFC 的经验完全可以稍作变化就套用在 wxPython 上面。在 WIN32 开发中，最讨厌的一环肯定有 WM_SIZE 消息的处，在主窗口大小变化的时候，保持控件布局在 WIN32 是一件麻烦事。这件事情 wx 解决得非常完美，它的sizer 概念可以让我轻松地在不同窗口尺寸的情况下保持完美的控件布局。另外如果你已经讨厌了 MFC 的 doc-view 模型，wx 也可以给你一个新的选择；如果你非常喜欢 doc-view 模型，放心，在 wx 中仍然可以轻松实现，以前的思想依然可以在这里发挥余热。 wxPython 有两个封装，一个 PythonCard，另一个是 dabo。前者是 wxPython 的有限封装，不支持wxPython 的全部特性，它的目标是让 wxPython 更加 Pythonic。后者比 PythonCard 要庞大不少，确切来说，它应该是一个三层架构的 C/S 模式的开发框架。如果你想开发基于数据库的应用（如 MIS、ERP 等）用 dabo 是一个不错的选择；另外，如果你之前习惯了 VB、VFP、Delphi 等 RAD 开发环境，dabo 并不比这些昂贵的工具差多少哦！</description>
+    </item>
+    
+  </channel>
+</rss>

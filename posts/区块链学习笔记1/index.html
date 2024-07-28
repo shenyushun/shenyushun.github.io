@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>区块链学习笔记1 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="区块链学习笔记1" />
+<meta property="og:description" content="区块链不等于ＸＸ币!
+区块链不等于ＸＸ币!
+区块链不等于ＸＸ币!
+区块链本质是一种 去中心化的不可修改的分布式数据库，核心要解决的是信任问题。 根据场景可以分为3类：
+
+公开链
+私有链
+联盟链
+
+著名的BTC以及各种XX币大多都是基于公开链的第一代应用，而以太坊(Ethereum)则更进一步，可以说是第二代的区块链应用。基于以太坊，更是诞生了智能合约(Smart contracts)应用，大大简化了编写区块链应用的难度。
+而联盟链，现在最火的就是Linux基金会旗下的超级账本(hyperledger)了，相对而言，我个人更看好这个。另外还有个叫做闪电网络的(个人觉得这货有点类似于资金池，略有违背去中心化的初衷)，也值得关注。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" />
+<meta property="article:published_time" content="2018-05-14T16:39:02+00:00" />
+<meta property="article:modified_time" content="2018-05-14T16:39:02+00:00" />
+
+		<meta itemprop="name" content="区块链学习笔记1">
+<meta itemprop="description" content="区块链不等于ＸＸ币!
+区块链不等于ＸＸ币!
+区块链不等于ＸＸ币!
+区块链本质是一种 去中心化的不可修改的分布式数据库，核心要解决的是信任问题。 根据场景可以分为3类：
+
+公开链
+私有链
+联盟链
+
+著名的BTC以及各种XX币大多都是基于公开链的第一代应用，而以太坊(Ethereum)则更进一步，可以说是第二代的区块链应用。基于以太坊，更是诞生了智能合约(Smart contracts)应用，大大简化了编写区块链应用的难度。
+而联盟链，现在最火的就是Linux基金会旗下的超级账本(hyperledger)了，相对而言，我个人更看好这个。另外还有个叫做闪电网络的(个人觉得这货有点类似于资金池，略有违背去中心化的初衷)，也值得关注。">
+<meta itemprop="datePublished" content="2018-05-14T16:39:02&#43;00:00" />
+<meta itemprop="dateModified" content="2018-05-14T16:39:02&#43;00:00" />
+<meta itemprop="wordCount" content="52">
+
+
+
+<meta itemprop="keywords" content="" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">区块链学习笔记1</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-05-14T16:39:02Z">2018-05-14</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="category">区块链</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p><em><strong>区块链不等于ＸＸ币!</strong></em></p>
+<p><em><strong>区块链不等于ＸＸ币!</strong></em></p>
+<p><em><strong>区块链不等于ＸＸ币!</strong></em></p>
+<p>区块链本质是一种 <strong>去中心化的不可修改的分布式数据库</strong>，<strong>核心要解决的是信任问题</strong>。 根据场景可以分为3类：</p>
+<ol>
+<li>公开链</li>
+<li>私有链</li>
+<li>联盟链</li>
+</ol>
+<p>著名的BTC以及各种XX币大多都是基于公开链的第一代应用，而以太坊(Ethereum)则更进一步，可以说是第二代的区块链应用。基于以太坊，更是诞生了智能合约(Smart contracts)应用，大大简化了编写区块链应用的难度。</p>
+<p>而联盟链，现在最火的就是Linux基金会旗下的超级账本(hyperledger)了，相对而言，我个人更看好这个。另外还有个叫做闪电网络的(个人觉得这货有点类似于资金池，略有违背去中心化的初衷)，也值得关注。</p>
+<p>一条消息，或者说一条记录，最重要的有２个性质：</p>
+<ol>
+<li>完整性</li>
+<li>真实性</li>
+</ol>
+<p>学过网络课程的小伙伴都知道，信息在网络底层都是以字节流传递的，而网络并不是百分百可靠的。比如<code>10010011</code>在传递过程中就可能丢失一位变成了<code>1001001</code>，那么我们怎么验证消息在传递过程中没有由于某种原因被改变呢？</p>
+<p>这里就用到一个叫做<code>数字摘要(数字指纹)</code>的技术了。通过某些Hash函数计算后，不论原文是什么样子都会得到一个统一长度的摘要值(指纹)。常见的算法有MD5、SHA256等。</p>
+<p>比如<code>roy</code>使用SHA256计算后就变成了<code>a59b1da0739609cfd823420304bebb268693eade4ff3e1269fce24548c301240</code>，而只要有一点变化，比如<code>rox</code>的摘要就变成了<code>69aa9465c104e9193951b14c4abd541990c3a0b17a2711d60a8f974be2a013f7</code>。所以，在传递消息时候，只要把原文和指纹同时传递，接收方就可以根据公开的算法进行完整性验证了，只要有一点变化，指纹就会不同。</p>
+<p>那么，这样就行了吗？答案是否定的。</p>
+<p>对网络安全有了解的都知道一种攻击方式叫做中间人攻击。如果有坏人截获了原文和指纹，并且替换成伪造的，那么接收方不就被骗了吗？换言之，消息的真实性如何保证呢？</p>
+<p>这里就引出了另一个技术：<code>非对称加密</code>。</p>
+<p>这里具体的数学细节不说了，简单来说，使用私钥加密后的密文可以使用公钥解密得到原文，但永远反推不回来私钥是什么。我们使用私钥将指纹加密，并公布公钥。这样，即便中间有人截获了消息，但是由于没有私钥，没法伪造加密后的指纹，接收者使用公钥解密后即可发现指纹不同。这样就解决了真实性问题。</p>
+<p>数字摘要和非对称加密都不是什么新鲜的玩意，那么和区块链到底有什么联系呢？</p>
+<p>上面说到区块链是分布式的，说道分布式那么一个避免不了的问题就是共识。</p>
+<p>而共识问题有可以分2类：</p>
+<ol>
+<li><a href="https://zh.wikipedia.org/wiki/%E6%8B%9C%E5%8D%A0%E5%BA%AD%E5%B0%86%E5%86%9B%E9%97%AE%E9%A2%98">拜占庭将军问题</a>，主要指包含恶意响应的情况。</li>
+<li>非拜占庭将军问题：主要指响应可信但有可能不响应的情况。</li>
+</ol>
+<p>对于第二种情况，可以使用<code>paxos</code>或者<code>raft</code>算法，而第一种情况，目前则有<code>POW</code>,<code>POS</code>(比特币、以太坊用这两个),<code>DPOS</code>,<code>PBFT</code>(超级账本采用这个)。</p>
+<p>比特币中是使用了POW(Proof of Work，工作证明)来解决共识问题，这里简单记录下。简单说，一个区块中包含下面４个内容：</p>
+<ol>
+<li>前一个区块的指纹</li>
+<li>一些固定信息</li>
+<li>交易记录</li>
+<li><strong>一个随机数</strong></li>
+</ol>
+<p>BTC规定，一个新的区块指纹前72位必须为0。而前３个内容都是固定的，想要  <strong>蒙</strong>　出正确的Hash值，只能通过不停的变换随机数来重新计算。这也就是所谓的&quot;挖矿&rdquo;。找到这个数的矿工则有了记账权，同时获得一定数量的比特币作为奖励。所以谁的算力强，就能更快的蒙出这个Hash值。虽然只是很小很小的概率，会出现2个矿工同时计算出Hash值的情况，这就是所谓的&quot;分叉&rdquo;。如果真的出现了分叉，那么正常情况下就会同时存在２个链，看哪个更快的计算出下一个区块的Hash形成更长的链，之后所有的矿工都会以这个最长的链为基础进行下一步操作。</p>
+<p>至于原因，可以参考<a href="http://www.8btc.com/wiki/bitcoin-a-peer-to-peer-electronic-cash-system">比特币白皮书</a>。</p>
+<p>那么为什么又会有POS(Proof of Stack，权益证明)呢？根据POW，算力越强的人越有挖矿的动力，而如果全网51%的算力都掌握在一个人手中时，基本他就可以伪造任何交易了。而POS有点类似银行，引入了一个概念叫做“币龄”，币龄根据持币数量和时间来进行计算，币龄高的获得记账权。简单说，一个有100币的人和一个只有1个币的人，同样的持币时间下前一个人获得记账权的概率是后一个人的100倍。</p>
+<p>POS解决了POW浪费大量资源的缺点，以及提高了51%攻击的代价。(想要进行51%攻击的话，就得拥有51%的货币。也就是说，这东西越值钱，攻击的成本就越高)</p>
+<p>但是，POS也有一个缺点——富者越富，币龄低的很难获得记账权，于是便引出了另一个算法——DPOS。</p>
+<p>DPOS(Delegated Proof of Stake，委托权益证明)在POS的基础上，让每一个节点参与投票，选出一个代表自己利益的人参与到获取记账权的争夺战中(议会制？)，每一个参与者都能够选举任意数量的节点生成下一个区块，得票最多的前 M 个节点会被选择成为区块的候选创建者，下一个区块的创建者就会从这样一组当选者中随机选取，除此之外，M的数量也是由整个网络投票决定的，所以可以尽可能地保证网络的去中心化，而且最重要的还是随机选出的，也就是说数量M不确定，M中选取哪一个也不确定，再加上足够多的总量，可以确定几乎是不可操控的。</p>
+<p>关于DPOS更详细的可以参考<a href="https://blog.csdn.net/lsttoy/article/details/80041033">这里</a>。</p>
+<p>至于paxos、raft、PBFT，不是一句话能描述清楚的，单独记录。</p>
+		</div>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/effective-go%E4%B8%AD%E6%96%87%E7%BF%BB%E8%AF%91/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Effective-Go中文翻译</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE1/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">200行GO代码实现区块链1</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

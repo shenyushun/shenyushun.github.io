@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Python常用第三方库(转载) - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Python常用第三方库(转载)" />
+<meta property="og:description" content="wxPython 如果你之前是 windows 程序员，用 MFC 或者 WIN32API 开发界面程序，那进入 Python 国度最好的 GUI 选择应该是 wxPython。它是 wxWidgets 的 Python Bind，与 wxWidgets 的开发完美同步，最为重要的一点是它的消息机制与 MFC 颇为相似，以前在 MFC 的经验完全可以稍作变化就套用在 wxPython 上面。在 WIN32 开发中，最讨厌的一环肯定有 WM_SIZE 消息的处，在主窗口大小变化的时候，保持控件布局在 WIN32 是一件麻烦事。这件事情 wx 解决得非常完美，它的sizer 概念可以让我轻松地在不同窗口尺寸的情况下保持完美的控件布局。另外如果你已经讨厌了 MFC 的 doc-view 模型，wx 也可以给你一个新的选择；如果你非常喜欢 doc-view 模型，放心，在 wx 中仍然可以轻松实现，以前的思想依然可以在这里发挥余热。 wxPython 有两个封装，一个 PythonCard，另一个是 dabo。前者是 wxPython 的有限封装，不支持wxPython 的全部特性，它的目标是让 wxPython 更加 Pythonic。后者比 PythonCard 要庞大不少，确切来说，它应该是一个三层架构的 C/S 模式的开发框架。如果你想开发基于数据库的应用（如 MIS、ERP 等）用 dabo 是一个不错的选择；另外，如果你之前习惯了 VB、VFP、Delphi 等 RAD 开发环境，dabo 并不比这些昂贵的工具差多少哦！" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/python%E5%B8%B8%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93-%E8%BD%AC%E8%BD%BD/" />
+<meta property="article:published_time" content="2013-10-31T09:05:39+00:00" />
+<meta property="article:modified_time" content="2013-10-31T09:05:39+00:00" />
+
+		<meta itemprop="name" content="Python常用第三方库(转载)">
+<meta itemprop="description" content="wxPython 如果你之前是 windows 程序员，用 MFC 或者 WIN32API 开发界面程序，那进入 Python 国度最好的 GUI 选择应该是 wxPython。它是 wxWidgets 的 Python Bind，与 wxWidgets 的开发完美同步，最为重要的一点是它的消息机制与 MFC 颇为相似，以前在 MFC 的经验完全可以稍作变化就套用在 wxPython 上面。在 WIN32 开发中，最讨厌的一环肯定有 WM_SIZE 消息的处，在主窗口大小变化的时候，保持控件布局在 WIN32 是一件麻烦事。这件事情 wx 解决得非常完美，它的sizer 概念可以让我轻松地在不同窗口尺寸的情况下保持完美的控件布局。另外如果你已经讨厌了 MFC 的 doc-view 模型，wx 也可以给你一个新的选择；如果你非常喜欢 doc-view 模型，放心，在 wx 中仍然可以轻松实现，以前的思想依然可以在这里发挥余热。 wxPython 有两个封装，一个 PythonCard，另一个是 dabo。前者是 wxPython 的有限封装，不支持wxPython 的全部特性，它的目标是让 wxPython 更加 Pythonic。后者比 PythonCard 要庞大不少，确切来说，它应该是一个三层架构的 C/S 模式的开发框架。如果你想开发基于数据库的应用（如 MIS、ERP 等）用 dabo 是一个不错的选择；另外，如果你之前习惯了 VB、VFP、Delphi 等 RAD 开发环境，dabo 并不比这些昂贵的工具差多少哦！">
+<meta itemprop="datePublished" content="2013-10-31T09:05:39&#43;00:00" />
+<meta itemprop="dateModified" content="2013-10-31T09:05:39&#43;00:00" />
+<meta itemprop="wordCount" content="293">
+
+
+
+<meta itemprop="keywords" content="python," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Python常用第三方库(转载)</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-10-31T09:05:39Z">2013-10-31</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<hr>
+<h2 id="wxpython">wxPython</h2>
+<p>如果你之前是 windows 程序员，用 MFC 或者 WIN32API 开发界面程序，那进入 Python 国度最好的 GUI 选择应该是 wxPython。它是 wxWidgets 的 Python Bind，与 wxWidgets 的开发完美同步，最为重要的一点是它的消息机制与 MFC 颇为相似，以前在 MFC 的经验完全可以稍作变化就套用在 wxPython 上面。在 WIN32 开发中，最讨厌的一环肯定有 WM_SIZE 消息的处，在主窗口大小变化的时候，保持控件布局在 WIN32 是一件麻烦事。这件事情 wx 解决得非常完美，它的sizer 概念可以让我轻松地在不同窗口尺寸的情况下保持完美的控件布局。另外如果你已经讨厌了 MFC 的 doc-view 模型，wx 也可以给你一个新的选择；如果你非常喜欢 doc-view 模型，放心，在 wx 中仍然可以轻松实现，以前的思想依然可以在这里发挥余热。
+wxPython 有两个封装，一个 PythonCard，另一个是 dabo。前者是 wxPython 的有限封装，不支持wxPython 的全部特性，它的目标是让 wxPython 更加 Pythonic。后者比 PythonCard 要庞大不少，确切来说，它应该是一个三层架构的 C/S 模式的开发框架。如果你想开发基于数据库的应用（如 MIS、ERP 等）用 dabo 是一个不错的选择；另外，如果你之前习惯了 VB、VFP、Delphi 等 RAD 开发环境，dabo 并不比这些昂贵的工具差多少哦！</p>
+<h2 id="py2exe">py2exe</h2>
+<p>按 照邪恶的 windows 思维，编写的应用如果不编译出一个 .exe 文件恐怕是算不得“软件”的，py2exe 作用正是把你的 .py 脚本变成 .exe 文件，通常它会把脚本打包到一个 .zip 文件中去，但也你可以通过修改 setup.py脚本把所有的脚本、依赖的 dll 等全部打包到一个 exe 中去，看起来跟 VC、VB 编译出来的程序没有什么两样！
+如果你的客户需要在 windows 下使用你的应用程序，py2exe 是你不可或缺的工具。我就是用它打包由 wxPython 写的小工具给公司里的游戏策划用的。</p>
+<h2 id="psyco">psyco</h2>
+<p>脚本的执行效率多少有点差强人意，虽然优化起来并不是难事，但如果有简单的方法，近乎不用修改源代码，那当然值得去关注一下。psyco 的神奇在于它只需要在代码的入口处调用短短两行代码，性能就能提升 40%或更多，真可谓是立竿见影！
+如果你的客户觉得你的程序有点慢，敬请不要急着去优化代码，psyco 或许能让他立即改变看法。psyco 堪称 Python 的 jit，有许多潜力可以挖掘，如果剩下来给你优化性能的时间已经不多，请马上去阅读它的手册，有许多招儿轻松优化性能。</p>
+<h2 id="pil">PIL</h2>
+<p>PIL 是 Python 的图像处理库，我的看法是强到没得说，简单到没得说。它可以打开数十种图像格式，常见的jpg/png/bmp 等当然不在话下；此外还提供许多图像处理函数，如图像增强、滤波算法等。</p>
+<h2 id="mysqldb">MySQLdb</h2>
+<p>这 是 Python 对开源数据库 Mysql 的支持，官网在http://sourceforge.net/projects/mysql-python。支持 Mysql 3.23-5.1 全系列版本，Python 版本的要求是 2.3-2.5。MySQLdb 是 Python DB API-2.0 的实现，现在已经很成熟了。最新的版本是 1.2.2 。
+如果从事服务器开发，那少不得跟数据库连接池打交道，这时你可以使用 DBUtils 或 jonpy 两个开源程序库。其中 DBUtils 是一套数据库连接池库，而 jonpy 则包括了 CGI 以及数据库连接池等多个功能，请在阅读手册后选择合适的自己库。</p>
+<h2 id="pyprocessing">pyprocessing</h2>
+<p>Python 解释器里的 GIL（全局解释器锁）使得 Python 在多核时代有点尴尬——这个支持原生线程的脚本语言竟然不能通过多线程利用多个 CPU 内核同时并发计算。pyprocessing 没有尝试去除 GIL，而是剑走偏锋，尝试从多进程的方式来帮助 Python 走出困境。结果就是使用 pyprocessing 创建进程和进程间通信不仅像使用内置的 threading 模块那么简单，甚至还更加简单。pyprocessing 不仅可以通过本机 socket 和管道进行通信，而且封装得极为完美，它的 Queue 实现用起来跟内置的 Queue 没啥两样，但它是一个进程间共享的队列哦！
+pyprocessing 在 py2.6 和 py3.0 中已经作为内置模块了，也算是开发社区对 pyprocessing 项目的肯定吧。如果你用 Python 开发服务器应用，特别是网络游戏这样的应用，pyprocessing 怎么可以不去关注一下！</p>
+<h2 id="pyquery-with-lxml">PyQuery (with lxml)</h2>
+<p>安装方法 pip install pyquery
+Python 解析 HTML 时最经常被推荐的是 Beautiful Soup ，而且它的确也表现很好。提供良好的 Python 风格的 API，而且很容易在网上找到相关的资料文档，但是当你需要在短时间内解析大量文档时便会碰到性能的问题，简单，但是真的非常慢。</p>
+<h2 id="dateutil">dateutil</h2>
+<p>安装方法：pip install dateutil
+处理日期很痛苦，多亏有了 dateutil</p>
+<h2 id="fuzzywuzzy">fuzzywuzzy</h2>
+<p>安装方法：pip install fuzzywuzzy
+fuzzywuzzy 可以让你对两个字符串进行模糊比较，当你需要处理一些人类产生的数据时，这非常有用。下面代码使用Levenshtein 距离比较方法来匹配用户输入数组和可能的选择。</p>
+<h2 id="watchdog">watchdog</h2>
+<p>安装方法：pip install watchdog
+watchdog 是一个用来监控文件系统事件的 Python API和shell实用工具。</p>
+<h2 id="sh">sh</h2>
+<p>安装方法：pip install sh
+sh 可让你调用任意程序，就好象是一个函数一般</p>
+<h2 id="pattern">pattern</h2>
+<p>安装方法：pip install pattern
+Pattern 是 Python 的一个 Web 数据挖掘模块。可用于数据挖掘、自然语言处理、机器学习和网络分析。</p>
+<h2 id="pathpy">path.py</h2>
+<p>安装方法：pip install path.py
+当我开始学习 Python 时，os.path 是我最不喜欢的 stdlib 的一部分。尽管在一个目录下创建一组文件很简单。</p>
+<h2 id="xlrdxlwtopenpyxl">xlrd,xlwt,openpyxl</h2>
+<p>用于解析excel模块,前两个适用于2003以前，后面的支持2007.</p>
+<h2 id="line_profiler-and-kernprof">line_profiler and kernprof</h2>
+<p><a href="pythonhosted.org/line_profiler/#installation">pythonhosted.org/line_profiler/#installation</a>
+Robert Kern有一个称作line_profiler的不错的项目，我经常使用它查看我的脚步中每行代码多快多频繁的被执行。
+想要使用它，你需要通过pip安装该python包：pip install line_profiler
+一旦安装完成，你将会使用一个称做“line_profiler”的新模组和一个“kernprof.py”可执行脚本。</p>
+<h2 id="memory_profiler">memory_profiler</h2>
+<p><a href="https://github.com/fabianp/memory_profiler">https://github.com/fabianp/memory_profiler</a>
+现在我们对计时有了较好的理解，那么让我们继续弄清楚程序使用了多少内存。我们很幸运，Fabian Pedregosa模仿Robert Kern的line_profiler实现了一个不错的内存分析器。
+首先使用pip安装:
+1 $ pip install -U memory_profiler
+2 $ pip install psutil
+（这里建议安装psutil包，因为它可以大大改善memory_profiler的性能）。</p>
+<h2 id="chardet">chardet</h2>
+<p>如果遇到网页编码问题试试这个</p>
+<h2 id="docopt">Docopt</h2>
+<p>抛弃optparse和argparse吧，使用docstrings来构建优雅的，可读性强的，并且复杂（如果你需要的话）的命令行界面。IMO2013年创建的最好的库。</p>
+<h2 id="requests">Requests</h2>
+<p>称为人类使用的HTTP，是一个处理HTTP请求更为pythonic 的方法，比urllib2更更更好用。口碑可见，他在PyPI上下载已经超过5,000,000次  <a href="http://cn.python-requests.org/en/latest/user/quickstart.html#id2">http://cn.python-requests.org/en/latest/user/quickstart.html#id2</a></p>
+<h2 id="bottle">Bottle</h2>
+<p>是一个快速，简单，轻量级的WSGI微型web框架。几秒内就能构建小型站点和APIs。所有的框架只有一个py文件，你甚至可以放进任意目录。</p>
+<h2 id="structlog">Structlog</h2>
+<p>一个先进的日志记录处理器。他集成了多个现存的日志记录工具，包含了Python标准库。你可以创建普通记录器，按你所想增加内容，使你的日志拥有持久性和可读性。</p>
+<h2 id="watchdog-1">Watchdog</h2>
+<p>一个跨平台的Python库和shell工具，可以监视文件系统事件。超级好用，并且容易上手。</p>
+<h2 id="delorean">Delorean</h2>
+<p>可以是你用非常方便的方法来处理数据和时间。设置时区，截取到秒，分，小时，或者甚至使用特殊方法从一个数据迭代到另一个。浏览下文档，里面有很多示例。</p>
+<h2 id="lxml">lxml</h2>
+<p>是libxml2和libxslt的合体。如果你要处理XML或HTML，lxml是最好的选择。</p>
+<h2 id="生成图形库">生成图形库</h2>
+<ul>
+<li><a href="http://www.oschina.net/project/tag/133/report,chart?lang=25&amp;sort=time">http://www.oschina.net/project/tag/133/report,chart?lang=25&amp;sort=time</a></li>
+</ul>
+<h3 id="pychart">pychart</h3>
+<ul>
+<li><a href="http://home.gna.org/pychart/">http://home.gna.org/pychart/</a> 生成图表的。</li>
+<li><a href="http://blog.csdn.net/carolzhang8406/article/details/6900504">http://blog.csdn.net/carolzhang8406/article/details/6900504</a></li>
+</ul>
+<h3 id="chartdir">chartdir</h3>
+<p><a href="http://blog.csdn.net/zhaoweikid/article/details/181848">http://blog.csdn.net/zhaoweikid/article/details/181848</a></p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/ubuntu%E4%B8%8Bgogant%E7%9A%84%E7%AE%80%E6%98%93%E7%A0%B4%E5%A2%99%E6%9C%AF/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Ubuntu下Gogant的简易破墙术</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/fedora19%E5%AE%89%E8%A3%85ar8161%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">fedora19安装ar8161网卡驱动</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

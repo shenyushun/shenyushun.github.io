@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>openstack on Hi~Roy!</title>
+    <link>/tags/openstack/</link>
+    <description>Recent content in openstack on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 20 Jul 2020 17:46:29 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/openstack/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>OpenStack源码学习笔记6</title>
+      <link>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06/</link>
+      <pubDate>Mon, 20 Jul 2020 17:46:29 +0000</pubDate>
+      
+      <guid>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06/</guid>
+      <description>&lt;p&gt;很久之前发现一个现象，在生产环境中配置了保留内存&lt;code&gt;reserved_host_memory_mb&lt;/code&gt;以及 &lt;strong&gt;没配置&lt;/strong&gt; 内存超分比&lt;code&gt;ram_allocation_ratio&lt;/code&gt;的情况下，虚拟机使用的内存居然已经快将物理内存耗尽了。&lt;/p&gt;
+&lt;p&gt;比如物理机内存300G，方便举例忽略掉一些系统占用，当设置了&lt;code&gt;reserved_host_memory_mb&lt;/code&gt;为20G，那么理论上所有虚拟机最大占用内存量为280G，而查看居然已经使用了290G的内存，还是在虚拟机并没有将各自申请的内存全部使用掉的情况下(比如申请一台4G的虚拟机，但物理机操作系统层面并没有分配4G给对应的进程，除非虚拟机内部把内存占满)。&lt;/p&gt;
+&lt;p&gt;单单就nova而言，如果在集群启动时就指定了保留内存大小和超分比为1的话，是不应该出现上述情形的。除非后期对这2个参数进行过修改，但由于年代久远已经没法追溯，这也就成了一桩悬案。&lt;/p&gt;
+&lt;p&gt;不过在追踪这个问题的过程中，顺便也学习了下主机热迁移的过程，这里的代码是 &lt;em&gt;&lt;strong&gt;N版&lt;/strong&gt;&lt;/em&gt; 。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>OpenStack源码学习笔记5</title>
+      <link>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/</link>
+      <pubDate>Mon, 30 Mar 2020 17:46:29 +0000</pubDate>
+      
+      <guid>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/</guid>
+      <description>&lt;p&gt;今天遇到一个诡异的问题，对某个有问题的计算节点进行疏散，结果有些虚拟机的根磁盘居然消！失！了？首先能够确定的是ceph不会自动删除，那么一定是某个地方触发了删除根磁盘的操作。&lt;/p&gt;
+&lt;p&gt;这如果发生在生产环境可是一个极其严重的问题，正好借此排查的机会梳理一下nova关于主机疏散的流程。&lt;/p&gt;
+&lt;p&gt;以下代码为N版，但大体流程相差应该不大。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>OpenStack源码学习笔记4</title>
+      <link>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/</link>
+      <pubDate>Mon, 09 Dec 2019 12:46:29 +0000</pubDate>
+      
+      <guid>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/</guid>
+      <description>&lt;p&gt;这篇文章记录nova创建快照时候的过程，根据&lt;a href=&#34;https://docs.openstack.org/api-ref/compute/?expanded=create-image-createimage-action-detail#create-image-createimage-action&#34;&gt;文档&lt;/a&gt;，创建快照其实是向&lt;code&gt;/servers/{server_id}/action&lt;/code&gt;发送了一个POST的请求，内容则是类似:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;{
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;createImage&amp;#34;&lt;/span&gt; : {
+        &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt; : &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;image-name&amp;#34;&lt;/span&gt;,
+        &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;metadata&amp;#34;&lt;/span&gt;: {}
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>OpenStack源码学习笔记3</title>
+      <link>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/</link>
+      <pubDate>Mon, 04 Nov 2019 12:46:29 +0000</pubDate>
+      
+      <guid>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/</guid>
+      <description>&lt;p&gt;最近看了下关于OpenStack如何统计更新CPU、内存、硬盘等硬件资源的部分，由于历史原因下面的代码来自&lt;code&gt;newton&lt;/code&gt;版。&lt;/p&gt;
+&lt;p&gt;简单说，OpenStack先通过定时任务进行资源统计，入口代码位于&lt;code&gt;nova\compute\manager.py&lt;/code&gt;中&lt;code&gt;ComputeManager&lt;/code&gt;类的&lt;code&gt;update_available_resource&lt;/code&gt;函数。默认情况下每分钟更新一次：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-py&#34; data-lang=&#34;py&#34;&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;@periodic_task.periodic_task&lt;/span&gt;(spacing&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;update_resources_interval)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;update_available_resource&lt;/span&gt;(self, context):
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;See driver.get_available_resource()
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    Periodic process that keeps that the compute host&amp;#39;s understanding of
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    resource availability and usage in sync with the underlying hypervisor.
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    :param context: security context
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+
+    compute_nodes_in_db &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_get_compute_nodes_in_db(context,
+                                                        use_slave&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;True)
+    nodenames &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; set(self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;driver&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_available_nodes())
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; nodename &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; nodenames:
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;update_available_resource_for_node(context, nodename)
+
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_resource_tracker_dict &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {
+        k: v &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; k, v &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_resource_tracker_dict&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;items()
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; nodenames}
+
+    &lt;span style=&#34;color:#75715e&#34;&gt;# Delete orphan compute node not reported by driver but still in db&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; cn &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; compute_nodes_in_db:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; cn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hypervisor_hostname &lt;span style=&#34;color:#f92672&#34;&gt;not&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; nodenames:
+            LOG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;info(_LI(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Deleting orphan compute node &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;), cn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;id)
+            cn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;destroy()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;首先获取所有节点，然后维护了一个名为&lt;code&gt;_resource_tracker_dict&lt;/code&gt;的字典用来记录host和&lt;code&gt;ResourceTracker&lt;/code&gt;实例的对应关系，所有的资源更新行为都在&lt;code&gt;ResourceTracker&lt;/code&gt;中进行处理。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>OpenStack源码学习笔记2</title>
+      <link>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/</link>
+      <pubDate>Wed, 18 Sep 2019 12:46:29 +0000</pubDate>
+      
+      <guid>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/</guid>
+      <description>&lt;p&gt;上次学习了Nova创建虚拟机的过程，这次来看一下Glance是如何上传镜像的。相比于Nova，Glance源码使用了大量的代理模式和装饰器模式，阅读代码时候一个不仔细就会一脸懵X。根据上次说的Openstack套路，我们通过&lt;code&gt;setup.cfg&lt;/code&gt;直奔主题——&lt;code&gt;glance/cmd/api.py&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;():
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;:
+        config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;parse_args()
+        config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_config_defaults()
+        wsgi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_eventlet_hub()
+        logging&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;setup(CONF, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;glance&amp;#39;&lt;/span&gt;)
+        notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_defaults()
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; cfg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;profiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;enabled:
+            _notifier &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;create(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Messaging&amp;#34;&lt;/span&gt;,
+                                                   oslo_messaging, {},
+                                                   notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_transport(),
+                                                   &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;glance&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;api&amp;#34;&lt;/span&gt;,
+                                                   cfg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;bind_host)
+            osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;notifier&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set(_notifier)
+            osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;web&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;enable(cfg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CONF&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;profiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hmac_keys)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+            osprofiler&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;web&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;disable()
+        server &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; wsgi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Server(initialize_glance_store&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;True)
+        server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start(config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;load_paste_app(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;glance-api&amp;#39;&lt;/span&gt;), default_port&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;9292&lt;/span&gt;)
+        server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;wait()
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;except&lt;/span&gt; KNOWN_EXCEPTIONS &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; e:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt;(e)
+        fail(e)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>OpenStack源码学习笔记1</title>
+      <link>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/</link>
+      <pubDate>Mon, 16 Sep 2019 17:46:29 +0000</pubDate>
+      
+      <guid>/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/</guid>
+      <description>&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#%e9%a2%84%e5%a4%87%e7%9f%a5%e8%af%86&#34;&gt;预备知识&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#%e8%99%9a%e6%8b%9f%e5%8c%96&#34;&gt;虚拟化&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#wsgi&#34;&gt;WSGI&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#paste-deployment&#34;&gt;Paste Deployment&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%e9%80%9a%e7%94%a8%e5%a5%97%e8%b7%af&#34;&gt;通用套路&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%e9%85%8d%e7%bd%ae%e5%8a%a0%e8%bd%bd%e4%b8%8e%e8%b7%af%e7%94%b1%e7%bb%91%e5%ae%9a&#34;&gt;配置加载与路由绑定&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%e5%88%9b%e5%bb%ba%e8%99%9a%e6%8b%9f%e6%9c%ba&#34;&gt;创建虚拟机&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#nova-api&#34;&gt;Nova-Api&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#nova-conductor-1&#34;&gt;Nova-Conductor-1&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#nova-scheduler&#34;&gt;Nova-Scheduler&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#nova-conductor-2&#34;&gt;Nova-Conductor-2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#nova-compute&#34;&gt;Nova-Compute&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;作为已经比较成熟的IAAS开源解决方案，OpenStack已经发布了19个版本，目前稳定版是Stein，并且下一个版本Train也预计在10月发布。可以说，从代码架构角度来说对于初学者来说已经略微复杂，但最核心的组件有以下几个：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Nova：负责虚拟机相关。&lt;/li&gt;
+&lt;li&gt;Glance：负责镜像相关。&lt;/li&gt;
+&lt;li&gt;Cinder：负责存储相关。&lt;/li&gt;
+&lt;li&gt;Neutron：负责网络相关。&lt;/li&gt;
+&lt;li&gt;Keystone：负责鉴权以及服务注册。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;大体架构如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mypic-1252424367.cos.ap-hongkong.myqcloud.com/opstack/openstack-arch-kilo-logical-v1.png&#34; alt=&#34;all.png&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

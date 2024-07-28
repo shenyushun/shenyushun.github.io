@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>菜鸟翻译屋 on Hi~Roy!</title>
+    <link>/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/</link>
+    <description>Recent content in 菜鸟翻译屋 on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 19 Jan 2023 11:10:48 +0800</lastBuildDate>
+    
+	<atom:link href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>在Golang中如何使用并发</title>
+      <link>/posts/%E5%9C%A8golang%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B9%B6%E5%8F%91/</link>
+      <pubDate>Thu, 19 Jan 2023 11:10:48 +0800</pubDate>
+      
+      <guid>/posts/%E5%9C%A8golang%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B9%B6%E5%8F%91/</guid>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://madflojo.medium.com/keeping-tcp-connections-alive-in-golang-801a78b7cf1&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
+&lt;p&gt;本文的主要目标是展示在哪些场景下使用并发更加合适。因此本文中不会讲述并发相关的基本术语，比如goroutines、wait groups、channels、数据竞争等。
+我打算创建一系列文章，详细解释最常用的并发相关示例。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>在Golang中保持TCP链接</title>
+      <link>/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/</link>
+      <pubDate>Mon, 11 Jul 2022 14:26:27 +0800</pubDate>
+      
+      <guid>/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/</guid>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://madflojo.medium.com/keeping-tcp-connections-alive-in-golang-801a78b7cf1&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
+&lt;p&gt;尽管目前大多数系统都是通过gRPC或HTTP进行通信的，但仍有相当多的应用程序使用自定义协议。而且这些自定义协议中的许多都没有类似&lt;code&gt;net/http&lt;/code&gt;这样方便的包来管理TCP连接。&lt;/p&gt;
+&lt;p&gt;这篇文章是为了那些直接和TCP连接打交道的人准备的。本文将讨论如何长期维护健康的TCP会话，以及如何对操持长链接的系统进行调优。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>1分钟Linux性能分析</title>
+      <link>/posts/1%E5%88%86%E9%92%9Flinux%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/</link>
+      <pubDate>Fri, 28 Jan 2022 15:15:03 +0800</pubDate>
+      
+      <guid>/posts/1%E5%88%86%E9%92%9Flinux%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/</guid>
+      <description>&lt;p&gt;最近看ebpf相关技术，找到一篇2015年的老文，现在看依然不过时——&lt;a href=&#34;https://netflixtechblog.com/linux-performance-analysis-in-60-000-milliseconds-accc10403c55&#34;&gt;原文&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;当你为了性能问题而登录到Linux系统时，首先要检查哪些东西呢？&lt;/p&gt;
+&lt;p&gt;在奈飞有大量的Linux机器，并且有众多的工具去监控和分析性能。既包括负责整个云范围的监控工具Atlas，也包括单个实例分析的Vector。尽管这些工具帮助我们解决了很多问题，但是有些时候我们还是需要登录到实例上去执行一些标准Linux指令。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Golang中的开闭原则</title>
+      <link>/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</link>
+      <pubDate>Tue, 02 Nov 2021 11:05:20 +0800</pubDate>
+      
+      <guid>/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</guid>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://levelup.gitconnected.com/practical-solid-in-golang-open-closed-principle-1dd361565452&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
+&lt;p&gt;Open/Closed Principle（OCP，开闭原则）也不过多介绍了，一句话“对扩展开放，对修改封闭”。策略模式就是这一原则的一种实现。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Golang中的单一职责原则</title>
+      <link>/posts/golang%E4%B8%AD%E7%9A%84%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/</link>
+      <pubDate>Tue, 02 Nov 2021 10:05:20 +0800</pubDate>
+      
+      <guid>/posts/golang%E4%B8%AD%E7%9A%84%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/</guid>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://levelup.gitconnected.com/practical-solid-in-golang-single-responsibility-principle-20afb8643483&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
+&lt;p&gt;The Single Responsibility Principle (SRP，单一职责原则)的文字定义这里我就不再次说明了，直接开始重点。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>使用golang的channel实现订阅-发布模式</title>
+      <link>/posts/%E4%BD%BF%E7%94%A8golang%E7%9A%84channel%E5%AE%9E%E7%8E%B0%E8%AE%A2%E9%98%85-%E5%8F%91%E5%B8%83%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 12 Jul 2021 20:05:20 +0800</pubDate>
+      
+      <guid>/posts/%E4%BD%BF%E7%94%A8golang%E7%9A%84channel%E5%AE%9E%E7%8E%B0%E8%AE%A2%E9%98%85-%E5%8F%91%E5%B8%83%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;原文地址：&lt;a href=&#34;https://eli.thegreenplace.net/2020/pubsub-using-channels-in-go/&#34;&gt;这里&lt;/a&gt;，省略了一些非重点片段。&lt;/p&gt;
+&lt;p&gt;先定义一个结构体&lt;code&gt;Pubsub&lt;/code&gt;，客户端可以使用它来订阅、发布主题：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Pubsub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {
+  &lt;span style=&#34;color:#a6e22e&#34;&gt;mu&lt;/span&gt;   &lt;span style=&#34;color:#a6e22e&#34;&gt;sync&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;RWMutex&lt;/span&gt;
+  &lt;span style=&#34;color:#a6e22e&#34;&gt;subs&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;][]&lt;span style=&#34;color:#66d9ef&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>Golang小技巧</title>
+      <link>/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Wed, 16 Dec 2020 21:32:59 +0000</pubDate>
+      
+      <guid>/posts/golang%E5%B0%8F%E6%8A%80%E5%B7%A7/</guid>
+      <description>&lt;h3 id=&#34;下划线的妙用&#34;&gt;下划线的妙用&lt;/h3&gt;
+&lt;p&gt;大多数情况下，下划线&lt;code&gt;_&lt;/code&gt;都用于忽略函数返回值的情况。最近查看&lt;code&gt;authboss&lt;/code&gt;这个开源库的代码时，发现&lt;a href=&#34;https://github.com/volatiletech/authboss-sample/blob/c13bdabe709387b66806bf12dbe12ad71bb17d17/storer.go#L63&#34;&gt;这样&lt;/a&gt;一种用法:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt; {
+    &lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; (
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;assertUser&lt;/span&gt;   = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt;{}
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;assertStorer&lt;/span&gt; = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;MemStorer&lt;/span&gt;{}
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;_&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;authboss&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;User&lt;/span&gt;            = &lt;span style=&#34;color:#a6e22e&#34;&gt;assertUser&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;_&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;authboss&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;AuthableUser&lt;/span&gt;    = &lt;span style=&#34;color:#a6e22e&#34;&gt;assertUser&lt;/span&gt;
+)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>新手可能会犯的50个Golang错误</title>
+      <link>/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/</link>
+      <pubDate>Wed, 16 Dec 2020 21:32:59 +0000</pubDate>
+      
+      <guid>/posts/%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%8A%AF%E7%9A%8450%E4%B8%AAgolang%E9%94%99%E8%AF%AF/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/index.html&#34;&gt;原文&lt;/a&gt;，向原作者表示感谢。这里省略了一些无关的介绍说明以及过于简单的说明，直接看代码就懂了。&lt;/p&gt;
+&lt;h2 id=&#34;左花括号不能单独一行&#34;&gt;左花括号不能单独一行&lt;/h2&gt;
+&lt;p&gt;在大多数语言中你可以随便放置花括号的位置，但go语言不一样，你可以理解为为go会自动注入分号（automatic semicolon injection）：&lt;/p&gt;
+&lt;p&gt;错误代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;()  
+{ &lt;span style=&#34;color:#75715e&#34;&gt;//error, can&amp;#39;t have the opening brace on a separate line
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hello there!&amp;#34;&lt;/span&gt;)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;编译错误：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;tmp&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sandbox826898458&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;.&lt;span style=&#34;color:#66d9ef&#34;&gt;go&lt;/span&gt;:&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;: &lt;span style=&#34;color:#a6e22e&#34;&gt;syntax&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;error&lt;/span&gt;: &lt;span style=&#34;color:#a6e22e&#34;&gt;unexpected&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;semicolon&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;or&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;newline&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;before&lt;/span&gt; {
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;正确代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {  
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;works!&amp;#34;&lt;/span&gt;)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>集成gin和casbin</title>
+      <link>/posts/%E9%9B%86%E6%88%90gin%E5%92%8Ccasbin/</link>
+      <pubDate>Mon, 28 Sep 2020 21:32:59 +0000</pubDate>
+      
+      <guid>/posts/%E9%9B%86%E6%88%90gin%E5%92%8Ccasbin/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://dev.to/maxwellhertz/tutorial-integrate-gin-with-cabsin-56m0&#34;&gt;原文&lt;/a&gt;，省略了一些无关的内容。&lt;/p&gt;
+&lt;p&gt;如果你搜到这篇文章，那么什么是gin以及casbin应该不用过多解释了。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>如何更好的Code Review</title>
+      <link>/posts/%E5%A6%82%E4%BD%95%E6%9B%B4%E5%A5%BD%E7%9A%84code-review/</link>
+      <pubDate>Tue, 03 Dec 2019 11:05:03 +0000</pubDate>
+      
+      <guid>/posts/%E5%A6%82%E4%BD%95%E6%9B%B4%E5%A5%BD%E7%9A%84code-review/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://levelup.gitconnected.com/how-to-do-good-code-reviews-ee481f73b11b&#34;&gt;原文&lt;/a&gt;，向原作者表示感谢。不过不知道作者是不是在国内学过作文，让我想起了小学时老师教的作文要多引用名人名言哈哈。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;几年前当我还是个菜鸟的时候，我过得十分潇洒。&lt;/p&gt;
+&lt;p&gt;写代码——交给别人review——改代码，绳命是多磨美好！工作内容就是仔细阅读我收到的评论、建议，学着成为一个更优秀的开发者。如今我成长为了一名高级开发人员，给别人做code review成为了我的职责之一，这时我意识到我的经验还不足以完成这种职责转变。&lt;/p&gt;
+&lt;p&gt;每次给别人做code review时我都感觉到害怕，感觉自己像是一个骗子，很多问题都困扰着我：&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;我该给这行代码提建议吗？&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;应该有更好的办法写这段代码，我应该告诉他吗？&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;他会怎么想？他的经验比我丰富。&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;改了这一行代码会不会使程序崩溃？&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;这时我的导师给了我建议。&lt;/p&gt;
+&lt;p&gt;好的code review聚焦于获得额外的产出，而非仅仅是找到bug。别把review当做是审讯，而当做是一种提高代码质量、发现其他方案、增加学习能力以及加强友谊的办法。&lt;/p&gt;
+&lt;p&gt;作为reviewer，你对代码的反馈是将渴望贡献的开发者组建成社区的一种主要方法。通过培养一个活跃的社区，你将提升产品、团队、和人生的质量。&lt;/p&gt;
+&lt;p&gt;这里有一些做好code review的建议。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>如何对Go代码解偶</title>
+      <link>/posts/%E5%A6%82%E4%BD%95%E5%AF%B9go%E4%BB%A3%E7%A0%81%E8%A7%A3%E5%81%B6/</link>
+      <pubDate>Mon, 11 Feb 2019 11:05:03 +0000</pubDate>
+      
+      <guid>/posts/%E5%A6%82%E4%BD%95%E5%AF%B9go%E4%BB%A3%E7%A0%81%E8%A7%A3%E5%81%B6/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.sage42.org/2019/01/30/how-to-fix-tightly-coupled-go-code/&#34;&gt;原文&lt;/a&gt;，文章作者也是《Hands-On Dependency Injection in Go》的作者，向原作者表示感谢。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;你是否曾经由于添加某个新功能却导致另一个功能出问题？修复好这个，另一个又出问题，就好象打地鼠一般。&lt;/p&gt;
+&lt;p&gt;你是否曾经花费大量的时间调试Bug，最后却发现问题潜伏在另一个、甚至毫不相关的模块中？&lt;/p&gt;
+&lt;p&gt;这些问题都是由于高耦合引起的。&lt;/p&gt;
+&lt;p&gt;在这篇文章中，我们来使用解偶的方式来让代码更加易于理解、维护、测试。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>200行GO代码实现区块链3</title>
+      <link>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE3/</link>
+      <pubDate>Fri, 22 Jun 2018 17:35:36 +0000</pubDate>
+      
+      <guid>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE3/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://medium.com/@mycoralhealth/code-your-own-blockchain-mining-algorithm-in-go-82c6a71aba1f&#34;&gt;原文&lt;/a&gt;，阅读之前请先看&lt;a href=&#34;http://www.hi-roy.com/2018/05/18/200%E8%A1%8CGO%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE1/&#34;&gt;200行GO代码实现区块链1&lt;/a&gt; 和 &lt;a href=&#34;http://www.hi-roy.com/2018/05/21/200%E8%A1%8CGO%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE2/&#34;&gt;200行GO代码实现区块链2&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;如果看到这了相信你已经知道什么是加密算法等背景了，所以忽略关于这部分的翻译，直接从编码开始。这篇文章在前两篇的文章基础上添加了工作量证明(POW)挖矿算法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-互斥锁</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%92%E6%96%A5%E9%94%81/</link>
+      <pubDate>Thu, 07 Jun 2018 17:42:11 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%92%E6%96%A5%E9%94%81/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/mutex/&#34;&gt;原文&lt;/a&gt;，互斥锁(Mutex)也是go并发系列最后一篇文章。&lt;/p&gt;
+&lt;h2 id=&#34;临界区&#34;&gt;临界区&lt;/h2&gt;
+&lt;p&gt;在说互斥锁前，理解并发编程中的临界区(Critical section)是十分重要的。当一个程序并发执行时，共享资源不应该在同一时刻被多个goroutine修改。这段修改共享资源的代码就叫做临界区。举个例子，我们有一个代码片段用于修改变量x自增１。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;x = x+1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如果上面的代码在唯一的goroutine中执行，不会有任何问题。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-Select</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-select/</link>
+      <pubDate>Thu, 07 Jun 2018 16:54:28 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-select/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/select/&#34;&gt;原文&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;什么是select&#34;&gt;什么是Select&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;select&lt;/code&gt;语法用来从多个读／写的channel中选择一个，如果没有任何channel就绪select语句将被阻塞。如果多个就绪，则随机选择一个。语法和&lt;code&gt;switch&lt;/code&gt;类似，除了case后面跟随的是channel。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-缓冲区Channels和线程池</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%BC%93%E5%86%B2%E5%8C%BAchannels%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0/</link>
+      <pubDate>Mon, 04 Jun 2018 22:11:55 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%BC%93%E5%86%B2%E5%8C%BAchannels%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/buffered-channels-worker-pools/&#34;&gt;原文&lt;/a&gt;，这里为了方便理解我把worker pools翻译成线程池。&lt;/p&gt;
+&lt;h2 id=&#34;什么是缓冲区channel&#34;&gt;什么是缓冲区Channel&lt;/h2&gt;
+&lt;p&gt;之前讨论的所有channel都是不带缓冲区的，因此读取和写入都会被阻塞。创建一个带缓冲区的channel也是可能的，这种channel只有在缓冲区满后再写入或者读取一个空的channel时才会被阻塞。&lt;/p&gt;
+&lt;p&gt;创建一个带缓冲区的channel需要一个额外的参数容量来表明缓冲区大小：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ch&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; make(&lt;span style=&#34;color:#66d9ef&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;capacity&lt;/span&gt;)  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;上面代码中的 &lt;em&gt;capacity&lt;/em&gt;　需要大于０，如果等于０的话则是之前学习的无缓冲区channel。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-Channels</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-channels/</link>
+      <pubDate>Mon, 04 Jun 2018 14:24:51 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-channels/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/channels/&#34;&gt;原文&lt;/a&gt;，建议先看完goroutine部分再看这篇。&lt;/p&gt;
+&lt;h2 id=&#34;什么是channels&#34;&gt;什么是channels&lt;/h2&gt;
+&lt;p&gt;channels可以理解成是goroutine之间通信的管道，和水流从管道的一端到另一端类似，数据也可以从管道的一端发送另一端接收。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-Goroutines</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-goroutines/</link>
+      <pubDate>Fri, 01 Jun 2018 11:51:33 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-goroutines/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/goroutines/&#34;&gt;原文&lt;/a&gt;，建议理解并发(concurrency)、并行(parallelism)区别后再看这方面的内容。&lt;/p&gt;
+&lt;h2 id=&#34;goroutines是啥&#34;&gt;Goroutines是啥？&lt;/h2&gt;
+&lt;p&gt;Goroutines是一个可以和其他函数或方法并发执行的函数或方法。也可以把它理解为轻量级的线程(roy注:这话听起来和大python中的协程很像啊！)，而创建Goroutine的开销却远远小于线程。因此在大多数的Go程序都可以并发执行成千上万的Goroutine。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-接口2</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%8E%A5%E5%8F%A32/</link>
+      <pubDate>Tue, 22 May 2018 22:29:47 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%8E%A5%E5%8F%A32/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/interfaces-part-2/&#34;&gt;原文&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;传指针vs传值&#34;&gt;传指针vs传值&lt;/h2&gt;
+&lt;p&gt;上篇文章中所有接口实现我们都使用的传值，当然也可以使用传指针这种方式来实现接口。但使用传指针这种方式有一点需要注意，我们来看下面这个代码。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Describer&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;interface&lt;/span&gt; {  
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
+}
+&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {  
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;age&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt;) &lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;() { &lt;span style=&#34;color:#75715e&#34;&gt;//implemented using value receiver  
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;%s is %d years old\n&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;age&lt;/span&gt;)
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Address&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {  
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;state&lt;/span&gt;   &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;country&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Address&lt;/span&gt;) &lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;() { &lt;span style=&#34;color:#75715e&#34;&gt;//implemented using pointer receiver  
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;State %s Country %s&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;state&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;country&lt;/span&gt;)
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {  
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Describer&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;p1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Sam&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;25&lt;/span&gt;}
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;p1&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;p2&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;James&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt;}
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt; = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;p2&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;d1&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;d2&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Describer&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Address&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Washington&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;USA&amp;#34;&lt;/span&gt;}
+
+    &lt;span style=&#34;color:#75715e&#34;&gt;/* compilation error if the following line is
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       uncommented
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       cannot use a (type Address) as type Describer
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       in assignment: Address does not implement
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       Describer (Describe method has pointer
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;       receiver)
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    */&lt;/span&gt;
+    &lt;span style=&#34;color:#75715e&#34;&gt;//d2 = a
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;d2&lt;/span&gt; = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;//This works since Describer interface
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;//is implemented by Address pointer in line 22
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;d2&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Describe&lt;/span&gt;()
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>GO语言学习笔记-接口1</title>
+      <link>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%8E%A5%E5%8F%A31/</link>
+      <pubDate>Tue, 22 May 2018 18:29:47 +0000</pubDate>
+      
+      <guid>/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%8E%A5%E5%8F%A31/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://golangbot.com/interfaces-part-1/&#34;&gt;原文&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;接口是什么&#34;&gt;接口是什么？&lt;/h2&gt;
+&lt;p&gt;在面向对象的世界中，接口的意思是：“接口定义了对象的行为”。它只表明对象应该能做什么，而具体怎么做则由对象内部实现。&lt;/p&gt;
+&lt;p&gt;Go语言中，接口是方法的集合，若某个类型实现了接口中定义的所有方法，则可以说这个类型实现了这个接口。用OOP的形式来说就是： &lt;strong&gt;接口表明了类型应该有哪些方法，而类型则决定如何实现那些方法&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;比如，&lt;code&gt;WashingMachine&lt;/code&gt;这个接口中可以定义&lt;code&gt;Cleaning()&lt;/code&gt;和&lt;code&gt;Drying()&lt;/code&gt;方法，任何类型实现了这２个方法都可以说是实现了&lt;code&gt;WashingMachine&lt;/code&gt;接口。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>200行GO代码实现区块链2</title>
+      <link>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE2/</link>
+      <pubDate>Mon, 21 May 2018 21:32:59 +0000</pubDate>
+      
+      <guid>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE2/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://medium.com/@mycoralhealth/part-2-networking-code-your-own-blockchain-in-less-than-200-lines-of-go-17fe1dad46e1&#34;&gt;原文&lt;/a&gt;，需要科学上网。省略了一些无关的内容。&lt;/p&gt;
+&lt;p&gt;上篇文章我们学习了如何编写区块链并且对进行Hash运算和验证，但所有都运行在一个节点。我们如何让其他的节点连接到我们的主节点并让这些新节点贡献新区块呢？并且，我们如何通知所有的节点区块链有更新呢？&lt;/p&gt;
+&lt;p&gt;这篇文章将进行就解答。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>200行GO代码实现区块链1</title>
+      <link>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE1/</link>
+      <pubDate>Fri, 18 May 2018 14:42:11 +0000</pubDate>
+      
+      <guid>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE1/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://medium.com/@mycoralhealth/code-your-own-blockchain-in-less-than-200-lines-of-go-e296282bcffc&#34;&gt;原文&lt;/a&gt;，需要科学上网。省略了一些无关的内容。&lt;/p&gt;
+&lt;p&gt;世界上很多开发者听说过区块链却不知道它是怎么工作的，他们或许仅仅听过比特币或者智能合约一类的名词。这篇文章尝试用简明的语言说明区块链并且用不到200行的代码来实现你自己的区块链！文章的最后，你应该可以运行并且添加区块到区块链中并从浏览器中看到结果。&lt;/p&gt;
+&lt;p&gt;有什么学习区块链的方法比你亲自实现一个更好呢？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;文章讲了什么&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如何创建自己的区块链&lt;/li&gt;
+&lt;li&gt;如何使用Hash来维护区块链的完整性&lt;/li&gt;
+&lt;li&gt;如何添加新区块&lt;/li&gt;
+&lt;li&gt;如何解决多个节点同时生成区块导致冲突问题&lt;/li&gt;
+&lt;li&gt;如何在浏览器中查看区块链&lt;/li&gt;
+&lt;li&gt;如何生成新区块&lt;/li&gt;
+&lt;li&gt;了解区块链的基础知识后，你可以决定你的未来发展方向&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;文章没讲什么&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;为了保持简单，我们并没介绍更高级的概念比如pow和pos的对比，我们模拟了网络交互所以你可以看到区块链并且添加区块，但网络广播部分将以后再讲。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Effective-Go中文翻译</title>
+      <link>/posts/effective-go%E4%B8%AD%E6%96%87%E7%BF%BB%E8%AF%91/</link>
+      <pubDate>Mon, 07 May 2018 17:59:59 +0000</pubDate>
+      
+      <guid>/posts/effective-go%E4%B8%AD%E6%96%87%E7%BF%BB%E8%AF%91/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BB%8B%E7%BB%8D&#34;&gt;介绍&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BE%8B%E5%AD%90&#34;&gt;例子&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BB%A3%E7%A0%81%E9%A3%8E%E6%A0%BC&#34;&gt;代码风格&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%B3%A8%E9%87%8A&#34;&gt;注释&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83&#34;&gt;命名规范&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;a href=&#34;https://golang.google.cn/doc/effective_go.html&#34;&gt;原文链接&lt;/a&gt;，省略了一些无关的句子。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://go-zh.org/doc/effective_go.html&#34;&gt;这里&lt;/a&gt;有别人翻译好的，需要翻墙。&lt;/p&gt;
+&lt;h1 id=&#34;介绍&#34;&gt;介绍&lt;/h1&gt;
+&lt;p&gt;Go是一种新的语言，尽管它从其他语言中借鉴了很多特性，但有些不同寻常的特性让Go语言程序和其他程序有所不同。想要直接把C++或者Java代码转换成Go不会得到令人满意的结果，Java程序是用Java写的而不是GO。另一方面，从GO的角度来考虑问题可以写出成功运行但略有不同的程序。换句话说，想要写出好的GO程序，了解其特性是很重要的。同样，了解约定俗成的惯例也很重要，比如命名、格式、项目结构，这样你写的代码才能方便其他GO语言程序员理解。&lt;/p&gt;
+&lt;p&gt;这篇文档给你一些小建议以便写出简洁且符合规范的GO代码。看这篇文档前建议先看&lt;a href=&#34;https://golang.google.cn/ref/spec&#34;&gt;language specification&lt;/a&gt;，&lt;a href=&#34;https://tour.golang.org/&#34;&gt;the Tour of Go&lt;/a&gt;，和 &lt;a href=&#34;https://golang.google.cn/doc/code.html&#34;&gt;How to Write Go Code&lt;/a&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;例子&#34;&gt;例子&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://golang.google.cn/src/&#34;&gt;GO源码&lt;/a&gt;不仅仅是作为核心库来使用，更可以用作写代码的实例参考。此外，你可以直接在&lt;a href=&#34;https://golang.org/&#34;&gt;官网&lt;/a&gt;上运行那些没有额外依赖的程序，比如&lt;a href=&#34;https://golang.org/pkg/strings/#example_Map&#34;&gt;这个&lt;/a&gt;。如果你有关于如何解决或实现某个问题的疑问，标准库中的文档、代码、例子可以提供答案或者思路。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>基于虚拟可视化的网页分割</title>
+      <link>/posts/%E5%9F%BA%E4%BA%8E%E8%99%9A%E6%8B%9F%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9A%84%E7%BD%91%E9%A1%B5%E5%88%86%E5%89%B2/</link>
+      <pubDate>Fri, 01 Dec 2017 14:22:53 +0000</pubDate>
+      
+      <guid>/posts/%E5%9F%BA%E4%BA%8E%E8%99%9A%E6%8B%9F%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9A%84%E7%BD%91%E9%A1%B5%E5%88%86%E5%89%B2/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.mapado.com/web-page-segmentation-by-visual-clustering/&#34;&gt;原文地址&lt;/a&gt;，向原作者表示感谢。&lt;/p&gt;
+&lt;p&gt;我们在Mapado的工作就是收集世界上所有“要做的事”。&lt;/p&gt;
+&lt;p&gt;为了得到大量数据，我们抓取整个网络，就像Goole做的那样，搜集所有关于演唱会、演出、访问、景点……当我们发现一个有趣的页面，我们就尝试从这个页面提取“好”的数据。&lt;/p&gt;
+&lt;p&gt;我们面临的一个主要挑战就是如何从垃圾信息中(广告、导航栏、页脚、相关内容……)分离我们感兴趣的内容(标题、简介、图片、日期……)&lt;/p&gt;
+&lt;p&gt;在这个挑战中，一个任务就是重组在视觉上相近的内容。通常，组成页面主要部分的元素相互之间距离是很近的。&lt;/p&gt;
+&lt;p&gt;当我们开始进行任务时，很天真的以为可以操作DOM来实现。在DOM中，元素以层级结构存储，所以在同一个父元素中的元素很大可能是相关的。&lt;/p&gt;
+&lt;p&gt;一个非常有趣的介绍页面分割的论文可以在这里找到 &lt;a href=&#34;http://wims.vestforsk.no/slides/alcic.pdf&#34;&gt;Page Segmentation by Web Content Clustering&lt;/a&gt;。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>10分钟入门Pandas</title>
+      <link>/posts/10%E5%88%86%E9%92%9F%E5%85%A5%E9%97%A8pandas/</link>
+      <pubDate>Mon, 30 Oct 2017 11:38:23 +0000</pubDate>
+      
+      <guid>/posts/10%E5%88%86%E9%92%9F%E5%85%A5%E9%97%A8pandas/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://pandas.pydata.org/pandas-docs/stable/10min.html&#34;&gt;原文地址&lt;/a&gt;，是官网的《10 Minutes to pandas》翻译，代码中添加了个人的一些注释。&lt;/p&gt;
+&lt;p&gt;通常来说，我们像下面这样来引入包:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;In [&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]: &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; pandas &lt;span style=&#34;color:#f92672&#34;&gt;as&lt;/span&gt; pd
+
+In [&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]: &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; numpy &lt;span style=&#34;color:#f92672&#34;&gt;as&lt;/span&gt; np
+
+In [&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;]: &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; matplotlib.pyplot &lt;span style=&#34;color:#f92672&#34;&gt;as&lt;/span&gt; plt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>什么时候不使用箭头函数</title>
+      <link>/posts/%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%B8%8D%E4%BD%BF%E7%94%A8%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0/</link>
+      <pubDate>Thu, 22 Dec 2016 17:07:08 +0000</pubDate>
+      
+      <guid>/posts/%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%B8%8D%E4%BD%BF%E7%94%A8%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0/</guid>
+      <description>&lt;p&gt;作为一个前端渣渣，最近在写js代码的时候，开始使用一些ES6的新特性，结果到箭头函数部分“掉坑”了。网上大部分都说箭头函数怎么用，而很少说箭头什么时候 &lt;em&gt;不要用&lt;/em&gt;，所以这里翻译一篇文章来说说什么时候不要用的问题。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://rainsoft.io/when-not-to-use-arrow-functions-in-javascript/&#34;&gt;原文地址&lt;/a&gt;，向原作者表示感谢。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>我特么是如何利用Django, Django REST Framework, Angular 1.1.x和Webpack构建一个项目的</title>
+      <link>/posts/%E6%88%91%E7%89%B9%E4%B9%88%E6%98%AF%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8django-django-rest-framework-angular-1-1-x%E5%92%8Cwebpack%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE%E7%9A%84/</link>
+      <pubDate>Tue, 08 Nov 2016 13:50:46 +0000</pubDate>
+      
+      <guid>/posts/%E6%88%91%E7%89%B9%E4%B9%88%E6%98%AF%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8django-django-rest-framework-angular-1-1-x%E5%92%8Cwebpack%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE%E7%9A%84/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://gregblogs.com/how-the-do-i-build-a-django-django-rest-framework-angular-1-1-x-and-webpack-project/#prereq&#34;&gt;原文地址&lt;/a&gt;，向原作者表示感谢。由于本人并没学习过angular，所以翻译有误的地方恳请指正。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;我已经受够了JS社区的那帮二货，我只是想使用Django作为后端结合Angular做一个简单的、可复用的项目，却没有一个简明的指导教我如何做到。如果你也为此挣扎，这里有一份指南教你如何构建一个由Django作为后端、Webpack进行组织的Angular程序。&lt;/p&gt;
+&lt;h2 id=&#34;问题&#34;&gt;问题&lt;/h2&gt;
+&lt;p&gt;我想开发一个Angular1.1.x的项目并使用Django作为后端提供数据，我喜欢使用Django REST Framework(DRF)来构造RESTful API。我也想打包需要的JavaScript资源。目前，我打算使用单一的服务器上运行这个程序。&lt;/p&gt;
+&lt;h2 id=&#34;依赖&#34;&gt;依赖&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Python 2.x&lt;/li&gt;
+&lt;li&gt;a virtual Python environment&lt;/li&gt;
+&lt;li&gt;Django 1.9.x (pip install django)&lt;/li&gt;
+&lt;li&gt;npm 2.15.8+&lt;/li&gt;
+&lt;li&gt;Webpack 1.13.x (sudo npm i -g webpack)&lt;/li&gt;
+&lt;li&gt;ESLint 2.13.1+ (sudo npm i -g eslint)&lt;/li&gt;
+&lt;li&gt;NodeJS 4.4.7+&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>在MySQL中存储树状结构</title>
+      <link>/posts/%E5%9C%A8mysql%E4%B8%AD%E5%AD%98%E5%82%A8%E6%A0%91%E7%BB%93%E6%9E%84/</link>
+      <pubDate>Mon, 15 Aug 2016 17:46:18 +0000</pubDate>
+      
+      <guid>/posts/%E5%9C%A8mysql%E4%B8%AD%E5%AD%98%E5%82%A8%E6%A0%91%E7%BB%93%E6%9E%84/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://mikehillyer.com/articles/managing-hierarchical-data-in-mysql/&#34;&gt;原文地址&lt;/a&gt;，原文中&lt;code&gt;Hierarchical Data&lt;/code&gt;直译为 &lt;em&gt;分层结构&lt;/em&gt;，这里我翻译成 &lt;em&gt;树状结构&lt;/em&gt;。&lt;/p&gt;
+&lt;p&gt;补充资源：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://django-mptt.github.io/django-mptt/&#34;&gt;https://django-mptt.github.io/django-mptt/&lt;/a&gt; ，如果你也使用python和django，这个是现成的APP。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;另外，个人觉得这种方法对于搜索的效率提升最大，而相应的新增、删除等操作则会变慢，个人猜测未经测试。&lt;/p&gt;
+&lt;p&gt;个人总结的核心：如果一个节点A是节点B的子节点，那么A的左值一定大于B的左值，A的右值一定小于B的右值。或者说，A的左值一定在B的左值和右值之间。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>名词王国里的死刑（翻译）</title>
+      <link>/posts/%E5%90%8D%E8%AF%8D%E7%8E%8B%E5%9B%BD%E9%87%8C%E7%9A%84%E6%AD%BB%E5%88%91%E7%BF%BB%E8%AF%91/</link>
+      <pubDate>Wed, 16 Mar 2016 17:02:02 +0000</pubDate>
+      
+      <guid>/posts/%E5%90%8D%E8%AF%8D%E7%8E%8B%E5%9B%BD%E9%87%8C%E7%9A%84%E6%AD%BB%E5%88%91%E7%BF%BB%E8%AF%91/</guid>
+      <description>&lt;p&gt;真是惭愧，直到今日才读到这篇文章，原文在&lt;a href=&#34;http://steve-yegge.blogspot.hk/2006/03/execution-in-kingdom-of-nouns.html&#34;&gt;这里&lt;/a&gt;。我本人大学课程中唯一没选修的语言就是Java，不知什么原因对于Java就是不感冒。虽然由于某些原因做了一阵android的开发，但是这段经历更是让我坚定了“能不写java程序就不写java程序”的想法。这里无意引起“语言之战”，仅是个人喜好问题罢了。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>flask-socketio中文文档</title>
+      <link>/posts/flask-socketio%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/</link>
+      <pubDate>Tue, 29 Dec 2015 16:18:34 +0000</pubDate>
+      
+      <guid>/posts/flask-socketio%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/</guid>
+      <description>&lt;p&gt;官网在&lt;a href=&#34;https://flask-socketio.readthedocs.org/en/latest/&#34;&gt;这里&lt;/a&gt;，英语好的直接去看官网文档吧，我是英语渣只能翻译个大概;另外注意本文翻译时间，可能你看到的时候官网已经更新了。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;flask-socketio赋予了flask程序支持服务端和客户端间双向低延迟通讯的能力，客户端可以使用 &lt;a href=&#34;http://socket.io/&#34;&gt;SocketIO&lt;/a&gt; 库或任何支持与服务端建立长链接的兼容库。&lt;/p&gt;
+&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
+&lt;p&gt;可以直接使用pip安装：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pip install flask-socketio
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;依赖&#34;&gt;依赖&lt;/h2&gt;
+&lt;p&gt;自从1.0版开始，这个扩展完全兼容了python2.7和python3.3+版本。异步服务的支持基于下面3个选择中的一个：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://eventlet.net/&#34;&gt;eventlet&lt;/a&gt; 是3个选项中性能最高的，同时支持长轮循(long-polling)和WebSocket。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.gevent.org/&#34;&gt;gevent&lt;/a&gt; 是在以前版本中使用的框架，支持长轮循，如果想支持WebSocket的话需要同时安装&lt;a href=&#34;https://pypi.python.org/pypi/gevent-websocket/&#34;&gt;gevent-websocket&lt;/a&gt; 库。使用gevent和gevent-websocket结合性能也不错，但略低于eventlet。&lt;/li&gt;
+&lt;li&gt;flask 基于Werkzeug的开发服务也能用，不过性能上不如上面2个选项，所以它应该只用于开发时使用。这个选项只支持长轮循。
+本扩展将自动检测哪些异步框架被安装，默认首选eventlet，其次是gevent，最后是flask自带的开发服务。
+对于客户端来说，可以使用官方的Socket.Io来建立于服务端的链接，也有使用swift和c++写成的客户端。非官方的客户端也能工作，只要它实现了&lt;a href=&#34;https://github.com/socketio/socket.io-protocol&#34;&gt;Socket.IO&lt;/a&gt; 协议。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;目前的局限&#34;&gt;目前的局限&lt;/h2&gt;
+&lt;p&gt;目前flask-socketio只能同时运行在单个进程中（这里应该指的是一个进程中仅能存在一个实例的意思，而非只能开启一个进程吧&amp;hellip;），解决这个限制的工作正在进行中。
+（关于升级变化、以及从老版本迁移到新版的注意事项我就不翻译了，因为没用过老版本）&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>使用firewalld-cmd配置防火墙</title>
+      <link>/posts/%E4%BD%BF%E7%94%A8firewalld-cmd%E9%85%8D%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99/</link>
+      <pubDate>Thu, 23 Apr 2015 17:44:52 +0000</pubDate>
+      
+      <guid>/posts/%E4%BD%BF%E7%94%A8firewalld-cmd%E9%85%8D%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99/</guid>
+      <description>CentOS7和fedora中的默认防火墙都变成了firewalld，当然你也可以选择禁用这个并自己安装iptables，下面内容原文：这里，而且只翻译我用到的部分文章。原文中还展示了如何使用图形界面进行配置，不过作为键盘爱好者，能不用鼠标的就尽量不用鼠标了，直接上命令行操作。
+ 4.5.4 理解域概念 firewalld可以根据不同的信任级别，将处于不同域内的设备进行分离。NetworkManager用于管理firewalld将接口分配到哪个域中，可以通过NetworkManager界面或filrewall-config工具来进行设置。
+默认的配置文件位于/etc/firewalld/可以快速的应用在网络接口上，这里有一份关于域的简短的说明：
+dorp:任何入站请求都被忽略，无任何回复，只有发起的网络链接请求被放行。
+block:任何入站请求都被拒绝，ipv4协议回复&amp;quot;icmp-host-prohibited&amp;quot;消息，ipv6协议回复&amp;quot;icmp6-adm-prohibited&amp;rdquo;，只有从系统内部发出的链接请求才被放行。
+（个人感觉上面两个区别就是在于有无回复，对内的话用block、对外用dorp好一些，让外部扫描费点劲才知道被防火墙过滤了）
+public:为在公共场所准备，你不相信网络中的其他电脑不会对你的电脑造成伤害，只有被选定的入站链接被接受。</description>
+    </item>
+    
+    <item>
+      <title>安装MYSQL后的10种调优方法（翻译）</title>
+      <link>/posts/%E5%AE%89%E8%A3%85mysql%E5%90%8E%E7%9A%8410%E7%A7%8D%E8%B0%83%E4%BC%98%E6%96%B9%E6%B3%95%E7%BF%BB%E8%AF%91/</link>
+      <pubDate>Thu, 22 Jan 2015 18:22:24 +0000</pubDate>
+      
+      <guid>/posts/%E5%AE%89%E8%A3%85mysql%E5%90%8E%E7%9A%8410%E7%A7%8D%E8%B0%83%E4%BC%98%E6%96%B9%E6%B3%95%E7%BF%BB%E8%AF%91/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.percona.com/blog/2014/01/28/10-mysql-settings-to-tune-after-installation/&#34;&gt;原文&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;当我们被聘请去做MYSQL性能审计时，我们被期望审查MYSQL配置文件并提出改进建议。在大多数情况下很多人都感到惊奇，因为我们仅仅在成百上千的变量中改变了很少的一部分。这篇文章的目的就是告诉你一些至关重要的设置项。
+我们在几年前曾经在博客中给出过一些建议，但从那之后MYSQL的世界发生了很多改变！&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>选择漏洞扫描器时需要注意的几点（翻译）</title>
+      <link>/posts/%E9%80%89%E6%8B%A9%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F%E5%99%A8%E6%97%B6%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E5%87%A0%E7%82%B9%E7%BF%BB%E8%AF%91/</link>
+      <pubDate>Thu, 08 Jan 2015 14:18:16 +0000</pubDate>
+      
+      <guid>/posts/%E9%80%89%E6%8B%A9%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F%E5%99%A8%E6%97%B6%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E5%87%A0%E7%82%B9%E7%BF%BB%E8%AF%91/</guid>
+      <description>这是翻译系列的第一篇，如有不足希望大家指出。 原文：http://www.acunetix.com/blog/articles/choosing-a-web-vulnerability-scanner/
+ 评估一个网站漏洞扫描器的好坏并不容易，随着大量的开源或商业的扫描器不断涌出，它们都声称自己提供了最好的扫描功能，所以选择一个好的扫描器是一个重要而又艰难的决定。在这篇文章中，我们提供了几个当您选择扫描器时可以考虑的关键之处。
+易用 漏洞扫描早就不再是一件容易的事情，虽然（希望）很多人都了解如SQL注入、XSS一类的基础知识，但并不是所有操作扫描器的人都是相关专家。理想情况下，你的大部分时间应该用于修复扫描器发现的漏洞而不是学习如何使用扫描器。
+有广泛的安全测试 漏洞扫描器应该能识别出更多的漏洞。尽管现在大多数的扫描器都能识别出一些基本、常见的漏洞，但你选择的扫描器最好也能识别出那些不太常见的漏洞。
+能识别漏洞变种 一个好的扫描器除了能识别出大量的漏洞外，应该也能识别检测出这些漏洞的相关变种。用XSS举例来说，开发者可能修复了基本的XSS漏洞，但却不能防止经过编码后XSS漏洞攻击。</description>
+    </item>
+    
+  </channel>
+</rss>

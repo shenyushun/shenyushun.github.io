@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>IPFS初窥3 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="IPFS初窥3" />
+<meta property="og:description" content="在上一篇文章中记录到了IPFS的BitSwap协议，今天接着往下看关于Object的部分。
+Merkle DAG
+Merkle DAG是IPFS核心概念之一，在Git的数据结构上进行了改造。理解Merkle DAG之前先来了解下Merkle Tree。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/ipfs%E5%88%9D%E7%AA%A53/" />
+<meta property="article:published_time" content="2018-10-10T15:26:16+00:00" />
+<meta property="article:modified_time" content="2018-10-10T15:26:16+00:00" />
+
+		<meta itemprop="name" content="IPFS初窥3">
+<meta itemprop="description" content="在上一篇文章中记录到了IPFS的BitSwap协议，今天接着往下看关于Object的部分。
+Merkle DAG
+Merkle DAG是IPFS核心概念之一，在Git的数据结构上进行了改造。理解Merkle DAG之前先来了解下Merkle Tree。">
+<meta itemprop="datePublished" content="2018-10-10T15:26:16&#43;00:00" />
+<meta itemprop="dateModified" content="2018-10-10T15:26:16&#43;00:00" />
+<meta itemprop="wordCount" content="246">
+
+
+
+<meta itemprop="keywords" content="ipfs," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">IPFS初窥3</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-10-10T15:26:16Z">2018-10-10</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="category">区块链</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>在<a href="http://www.hi-roy.com/2018/09/19/IPFS%E5%88%9D%E7%AA%A52/">上一篇文章</a>中记录到了IPFS的<code>BitSwap</code>协议，今天接着往下看关于<code>Object</code>的部分。</p>
+<h2 id="merkle-dag">Merkle DAG</h2>
+<p>Merkle DAG是IPFS核心概念之一，在Git的数据结构上进行了改造。理解Merkle DAG之前先来了解下<a href="https://en.wikipedia.org/wiki/Merkle_tree">Merkle Tree</a>。</p>
+<p>简单说，Merkle Tree是一种特殊的树结构，其叶子节点的值为包含记录的哈希值，而非叶子节点的值为子节点哈希值合并后的哈希结果，一图胜千言：</p>
+<p><img src="https://mypic-1252424367.cos.ap-hongkong.myqcloud.com/ipfs3-1.png" alt="ipfs3-1"></p>
+<p>Merkle Tree最常见的一个应用就是数据验证领域了，这种数据结构可以大量减少验证所需传输的数据量，在<code>Top Hash</code>已知的情况下想验证L3中的数据是否被篡改过，只需要向一个可信任的中心请求获取<code>Hash0</code>和<code>Hash1-1</code>即可。</p>
+<p>正由于比特币中将Merkle Tree的根哈希值包含在了区块头中，所以各种轻钱包(SPV)才得以出现。</p>
+<p><img src="https://mypic-1252424367.cos.ap-hongkong.myqcloud.com/ipfs3-2.png" alt="ipfs3-2"></p>
+<p>而Merkle DAG则是一种　<strong>有向无环图</strong>　结构，而且和Merkle Tree有个很重要的区别就是Merkle DAG中准许非叶节点存储数据。IPFS中数据结构定义如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">IPFSLink</span> <span style="color:#66d9ef">struct</span> {
+  <span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span>
+  <span style="color:#a6e22e">Hash</span> <span style="color:#a6e22e">Multihash</span>
+  <span style="color:#a6e22e">Size</span> <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">IPFSObject</span> <span style="color:#66d9ef">struct</span>{
+  <span style="color:#a6e22e">links</span> []<span style="color:#a6e22e">IPFSLink</span>
+  <span style="color:#a6e22e">data</span> []<span style="color:#66d9ef">byte</span>
+}
+</code></pre></div><p>首先我们有这样一个目录结构：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ipfs
+├── imgs
+│   └── 1.jpg
+├── test.txt
+└── video
+    └── paxos和分布式系统.mp4
+
+</code></pre></div><p>然后执行<code>add</code>命令添加:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ipfs add -r ipfs
+added QmTBGNDfodpscKje46wyTmzsPsJ6REWebionWK9dVc2Cms ipfs/imgs/1.jpg
+added QmRmfJ8RYrULTZkjt9H11kkPBswrzVQXf36QAF3XoBG6XZ ipfs/test.txt
+added Qme5oV4uKLA2BDVjFtqiCfFqv74LZXTqG1oiuu5gshqvk7 ipfs/video/paxos和分布式系统.mp4
+added QmQEwN1jbjPPAnfjnbXjCi92yKu7gZbZnmK2niotz4d8oK ipfs/imgs
+added QmVYaDuyoS4otNXnQ7WRbBP4ZZuLi7PLhyz2LV9vLWVwWb ipfs/video
+added QmPkbxXPM2hY97NR8Tf25KZxysWn4FZrsuPwD8ztYM32j4 ipfs
+ 53.15 MiB / 53.16 MiB <span style="color:#f92672">[=============================================================================================================================================================]</span>  99.98%
+</code></pre></div><p>这里插一句，在浏览器中访问</p>
+<pre><code>http://localhost:8080/ipfs/QmTBGNDfodpscKje46wyTmzsPsJ6REWebionWK9dVc2Cms
+
+http://localhost:8080/ipfs/QmQEwN1jbjPPAnfjnbXjCi92yKu7gZbZnmK2niotz4d8oK/1.jpg
+
+http://localhost:8080/ipfs/QmPkbxXPM2hY97NR8Tf25KZxysWn4FZrsuPwD8ztYM32j4/imgs/1.jpg
+</code></pre><p>这3种访问路径都可以最终得到<code>1.jpg</code>这个图片。</p>
+<p>可以使用<code>ls</code>命令查看文件切分情况：</p>
+<pre><code>ipfs ls -v Qme5oV4uKLA2BDVjFtqiCfFqv74LZXTqG1oiuu5gshqvk7
+Hash                                           Size     Name
+QmexC2a5eSkVuoErKhAjxpMt6DJoQeS57T3yU1cxCpb3Tu 45623854
+QmR2GQi1DhvGzZ1Ra1fgpwKBTd9ubt9aPUSCvqMZPHB3cp 10103195
+</code></pre><p>可以看出，mp4文件被切分成了2部分。</p>
+<p>再使用<code>object get</code>命令查看<code>ipfs</code>这个文件夹的DAG:</p>
+<pre><code>ipfs object get QmPkbxXPM2hY97NR8Tf25KZxysWn4FZrsuPwD8ztYM32j4
+
+{
+  &quot;Links&quot;: [
+    {
+      &quot;Name&quot;: &quot;imgs&quot;,
+      &quot;Hash&quot;: &quot;QmQEwN1jbjPPAnfjnbXjCi92yKu7gZbZnmK2niotz4d8oK&quot;,
+      &quot;Size&quot;: 18418
+    },
+    {
+      &quot;Name&quot;: &quot;test.txt&quot;,
+      &quot;Hash&quot;: &quot;QmRmfJ8RYrULTZkjt9H11kkPBswrzVQXf36QAF3XoBG6XZ&quot;,
+      &quot;Size&quot;: 18
+    },
+    {
+      &quot;Name&quot;: &quot;video&quot;,
+      &quot;Hash&quot;: &quot;QmVYaDuyoS4otNXnQ7WRbBP4ZZuLi7PLhyz2LV9vLWVwWb&quot;,
+      &quot;Size&quot;: 55727234
+    }
+  ],
+  &quot;Data&quot;: &quot;\u0008\u0001&quot;
+}
+</code></pre><p>也和上面给的数据结构定义一致。</p>
+<p>还有更重要的一点，IPFS准许使用者使用<code>block</code>相关命令直接操作Merkle DAG中的数据，比如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;hi roy&#34;</span> | ipfs block put
+QmUHW9uK8aKYHNSSJwS1AnnBt1dV6wbKmDWDr8tmRk9pXo
+
+ipfs block get QmUHW9uK8aKYHNSSJwS1AnnBt1dV6wbKmDWDr8tmRk9pXo
+
+hi roy
+</code></pre></div><p>有这个功能可玩性就很高了，白皮书中给出了几种结构：</p>
+<ul>
+<li>键值对存储（key-value stores）</li>
+<li>关系型数据库（traditional relatioinal databases）</li>
+<li>三元组存储（Linked Data triple stores）</li>
+<li>文档发布系统（Linked document publishing systems）</li>
+<li>通信平台（Linked communications platforms）</li>
+<li>加密货币区块链（cryptocurrency blockchains）</li>
+</ul>
+<p>再插一句，很多小伙伴不知道如何向已经存在的文件夹中添加新文件，比如想向<code>ipfs</code>目录添加文件<code>test2.txt</code>:</p>
+<pre><code>ipfs add test2.txt
+added QmUARAWmSHC3aiWhYFcGfQGEyfAKdUPWqFHxemY3iDJDRM test2.txt
+ 11 B / 11 B [=======================================================================================================================================================================] 100.00%
+
+ ipfs ls -v QmPkbxXPM2hY97NR8Tf25KZxysWn4FZrsuPwD8ztYM32j4
+Hash                                           Size     Name
+QmQEwN1jbjPPAnfjnbXjCi92yKu7gZbZnmK2niotz4d8oK 18418    imgs/
+QmRmfJ8RYrULTZkjt9H11kkPBswrzVQXf36QAF3XoBG6XZ 18       test.txt
+QmVYaDuyoS4otNXnQ7WRbBP4ZZuLi7PLhyz2LV9vLWVwWb 55727234 video/
+</code></pre><p>可以发现文件并没有添加进文件夹中，而仅仅是获得了一个自己的哈希值。可以使用下面的命令：</p>
+<pre><code>ipfs object patch add-link QmPkbxXPM2hY97NR8Tf25KZxysWn4FZrsuPwD8ztYM32j4 test21.txt QmUARAWmSHC3aiWhYFcGfQGEyfAKdUPWqFHxemY3iDJDRM
+
+QmZzY6fgW2ndjoAXpa2gMSaJ3c8h6hzq1TFusdF33u2jvy
+</code></pre><p>这里会返回一个新的哈希值，查看这个发现文件已经被添加进去了：</p>
+<pre><code>ipfs ls -v QmZzY6fgW2ndjoAXpa2gMSaJ3c8h6hzq1TFusdF33u2jvy
+Hash                                           Size     Name
+QmQEwN1jbjPPAnfjnbXjCi92yKu7gZbZnmK2niotz4d8oK 18418    imgs/
+QmRmfJ8RYrULTZkjt9H11kkPBswrzVQXf36QAF3XoBG6XZ 18       test.txt
+QmUARAWmSHC3aiWhYFcGfQGEyfAKdUPWqFHxemY3iDJDRM 19       test21.txt
+QmVYaDuyoS4otNXnQ7WRbBP4ZZuLi7PLhyz2LV9vLWVwWb 55727234 video/
+</code></pre><p>注意存储后的文件名是<code>ipfs object patch add-link</code>中指定的值，而不是原文件名。再多说一句，这个命令需要的参数仅仅是哈希值，换言之如果你知道其他人的link地址也可以加到自己的文件下。</p>
+<p>另外，最新的文件系统已经变成IPLD了，是Merkle DAG的一个变种。</p>
+<h2 id="ipns">IPNS</h2>
+<p>由上面的例子也可以看出来，在IPFS中每次新增、修改某个文件都会导致哈希值的变化，这对于实际应用中是十分不便的。为了处理这个问题，IPFS中引入了一个可变命名空间的概念——IPNS(InterPlanetary Name Space)，结合之前说的 <strong>路由系统</strong> 实现了&quot;不可变的内容&quot;和&quot;可变的引用&quot;的组合(可以结合编程语言中指针的概念)：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">routing</span>.<span style="color:#a6e22e">setValue</span>(<span style="color:#a6e22e">NodeId</span>,&lt;<span style="color:#a6e22e">ns</span><span style="color:#f92672">-</span><span style="color:#a6e22e">object</span><span style="color:#f92672">-</span><span style="color:#a6e22e">hash</span>&gt;)
+</code></pre></div><p>之前说过每个节点的NodeID来源与其公钥的哈希值，那么给每个节点分配一个可变命名空间<code>/ipns/&lt;NodeID&gt;</code>，用户将私钥签名过的数据发布到这个路径上，别的用户下载这个数据时可以检查签名是否和公钥、NodeID匹配来验证真实性。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/ipfs/" rel="tag">ipfs</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/ipfs%E5%88%9D%E7%AA%A52/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">IPFS初窥2</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/go-get%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8socket%E4%BB%A3%E7%90%86/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">go get命令使用socket代理</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

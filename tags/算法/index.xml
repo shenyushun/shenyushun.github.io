@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>算法 on Hi~Roy!</title>
+    <link>/tags/%E7%AE%97%E6%B3%95/</link>
+    <description>Recent content in 算法 on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 07 Jun 2018 22:26:33 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Raft算法</title>
+      <link>/posts/raft%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Thu, 07 Jun 2018 22:26:33 +0000</pubDate>
+      
+      <guid>/posts/raft%E7%AE%97%E6%B3%95/</guid>
+      <description>&lt;p&gt;相比与Paxos算法，Raft更容易理解。首先推荐个&lt;a href=&#34;http://thesecretlivesofdata.com/raft/&#34;&gt;动画视频&lt;/a&gt; (注意这个动画真的基于raft算法，所以每次选举出的节点都是不同的，我观看某些章节时候甚至出现过3次选举过程)，然后是&lt;a href=&#34;http://www.infoq.com/cn/articles/raft-paper&#34;&gt;raft论文中文版&lt;/a&gt;和&lt;a href=&#34;https://raft.github.io/&#34;&gt;raft主页&lt;/a&gt;，基本结合这3个网站就能理解raft了。&lt;/p&gt;
+&lt;p&gt;在Raft算法中，有3种角色：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Leader&lt;/li&gt;
+&lt;li&gt;Follower&lt;/li&gt;
+&lt;li&gt;Candidate&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;大体分为2个过程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;选举(Leader Election)&lt;/li&gt;
+&lt;li&gt;日志同步(Log Replication)&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
+    <item>
+      <title>BasicPaxos算法</title>
+      <link>/posts/basicpaxos%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Thu, 31 May 2018 16:08:07 +0000</pubDate>
+      
+      <guid>/posts/basicpaxos%E7%AE%97%E6%B3%95/</guid>
+      <description>&lt;h2 id=&#34;cpa理论&#34;&gt;CPA理论&lt;/h2&gt;
+&lt;p&gt;分布式系统中有个经典的CAP理论，就是说任何分布式系统最多满足一致性(Consistency)，可用性(Availability)，分区容错性(Partition Tolerance)这三者中的两个。&lt;/p&gt;
+&lt;p&gt;既然是分布式，必然将节点部署到不同的网络中，而这则会引起一致性问题。想解决一致性，就需要保证每次操作所有节点都成功执行，而这又会降低可用性。既然分区已经是事实，所以工程上应该尽量在保证一致性的前提下提高可用性。&lt;/p&gt;
+&lt;p&gt;而一致性又可以分为：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;强一致性：上次写什么，下次就一定能读到什么，这需要牺牲可用性。&lt;/li&gt;
+&lt;li&gt;弱一致性：并不保证更新后所有线程都能读到最新值，需要一段时间进行同步。&lt;/li&gt;
+&lt;li&gt;最终一致性：弱一致性的一种特例。&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>朴素贝叶斯</title>
+      <link>/posts/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/</link>
+      <pubDate>Thu, 21 Dec 2017 20:01:41 +0000</pubDate>
+      
+      <guid>/posts/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;朴素贝叶斯是贝叶斯决策理论的一部分，贝叶斯概率引入先验知识和逻辑推理来处理不确定命题。又可以称为“条件概率”（Conditional probability），与之相对的则是“频数概率”（frequency probability）。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>决策树</title>
+      <link>/posts/%E5%86%B3%E7%AD%96%E6%A0%91/</link>
+      <pubDate>Tue, 17 Oct 2017 20:55:02 +0000</pubDate>
+      
+      <guid>/posts/%E5%86%B3%E7%AD%96%E6%A0%91/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;决策树是机器学习中一种简单明了的分类算法，用程序语言描述就是&lt;code&gt;if...elif...else...&lt;/code&gt;，关键问题则是如何选择合适的特征对数据集进行切割，常见算法有： ID3、C4.5、CART等。&lt;/p&gt;
+&lt;p&gt;今天主要记录一下ID3这个算法，想使用这个算法首先要了解信息增益，想了解信息增益则要先明白什么是&amp;quot;熵&amp;rdquo;。熵描述了一个系统的混乱复杂程度，有一个理论叫做&amp;quot;熵增加&amp;rdquo;，含义就是一个没有外力干涉的系统混乱程度总是增加的，比如一个房间如果没人打扫的话只会越来越混乱，而不会自己变得整洁。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

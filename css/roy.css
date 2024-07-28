@@ -1,0 +1,21 @@
+/* Pagination */
+.pagination {
+	margin-top: 20px;
+	text-align: center;
+}
+
+.logo__text {
+	text-transform: none;
+}
+
+.authorbox__avatar {
+	float: left;
+	padding: 3px;
+	margin: 0 25px 0 0;
+	border: 3px solid #2a2a2a;
+	border-radius: 250px;
+}
+
+.authorbox__avatar img {
+	border-radius: 250px;
+}

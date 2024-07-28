@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>TG游戏自动化的一种思路 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="TG游戏自动化的一种思路" />
+<meta property="og:description" content="随着NotCoin带来的财富效应，Ton生态上一大坨的项目如雨后春笋般冒了出来——签到类、筋膜枪点击类的游戏更是让人玩的要吐。
+对于撸毛党而言，初期的手机群控或模拟器&#43;自动点击的方式在账号较少的情况下可以应付一阵，但最终纯后台、自动化才是王道。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/tg%E6%B8%B8%E6%88%8F%E8%87%AA%E5%8A%A8%E5%8C%96%E7%9A%84%E4%B8%80%E7%A7%8D%E6%80%9D%E8%B7%AF/" />
+<meta property="article:published_time" content="2024-07-28T15:15:03+08:00" />
+<meta property="article:modified_time" content="2024-07-28T15:15:03+08:00" />
+
+		<meta itemprop="name" content="TG游戏自动化的一种思路">
+<meta itemprop="description" content="随着NotCoin带来的财富效应，Ton生态上一大坨的项目如雨后春笋般冒了出来——签到类、筋膜枪点击类的游戏更是让人玩的要吐。
+对于撸毛党而言，初期的手机群控或模拟器&#43;自动点击的方式在账号较少的情况下可以应付一阵，但最终纯后台、自动化才是王道。">
+<meta itemprop="datePublished" content="2024-07-28T15:15:03&#43;08:00" />
+<meta itemprop="dateModified" content="2024-07-28T15:15:03&#43;08:00" />
+<meta itemprop="wordCount" content="115">
+
+
+
+<meta itemprop="keywords" content="web3,telegram," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">TG游戏自动化的一种思路</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2024-07-28T15:15:03&#43;08:00">2024-07-28</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/web3/" rel="category">Web3</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>随着NotCoin带来的财富效应，Ton生态上一大坨的项目如雨后春笋般冒了出来——签到类、筋膜枪点击类的游戏更是让人玩的要吐。</p>
+<p>对于撸毛党而言，初期的手机群控或模拟器+自动点击的方式在账号较少的情况下可以应付一阵，但最终纯后台、自动化才是王道。</p>
+<p>核心原理很简单，不管什么类型的游戏，最终一定会发送网络请求到服务端进行交互，那么关键问题只有2个：
+如何解决用户认证相关问题。
+如何对游戏数据逆向解密后模拟。</p>
+<p>由于各个游戏项目加密方式各不相同(目前TG上的游戏大多数都还相对简单，并没有特别复杂的混淆一类的)，本文主要说说如何利用TG的MTProto去解决用户认证问题。</p>
+<p>首先登录<a href="https://my.telegram.org/">https://my.telegram.org/</a>，然后点击<code>API development tools</code>填写相关信息后记住app_id和api_hash并且保存好，<strong>千万不要泄露</strong>！(拿到这个就可以操纵TG账号近乎所有的功能了)</p>
+<p>然后用到pyrogram这个库：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">pip3 install -U pyrogram
+</code></pre></div><p>执行下面的代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#f92672">from</span> pyrogram <span style="color:#f92672">import</span> Client
+
+api_id <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">上面的</span>app_id
+api_hash <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">上面的</span>app_hash
+
+<span style="color:#75715e"># one随便改，但后续使用要保持一致</span>
+app <span style="color:#f92672">=</span> Client(<span style="color:#e6db74">&#34;one&#34;</span>, api_id<span style="color:#f92672">=</span>api_id, api_hash<span style="color:#f92672">=</span>api_hash)
+
+app<span style="color:#f92672">.</span>run()
+</code></pre></div><p>运行后再程序，根据提示输入验证码进行登录：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">Enter phone number: 电话号
+Is <span style="color:#e6db74">&#34;xxxx&#34;</span> correct? <span style="color:#f92672">(</span>y/n<span style="color:#f92672">)</span>: y
+Enter phone code: xxxx
+Logged in successfully
+</code></pre></div><p>成功登录后同级目录会生成一个名为one.session的二进制文件，保存好这个文件后面使用。</p>
+<p>这里就以前一阵登录就送积分的Dogs为例，他们最新出了个每日签到任务，通过抓包可知，这个项目目前主要有join、tasks、frens、leaderboard、rewards这几个接口，而和用户信息相关的则主要是向这个join接口发送了一个POST请求进行认证，那么POST的数据是怎么来的呢?</p>
+<p>这里不纠结TG是怎么对用户进行加密校验的，我们直接使用框架提供的RequestWebView来模拟：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#f92672">from</span> pyrogram <span style="color:#f92672">import</span> Client
+<span style="color:#f92672">from</span> pyrogram.raw.functions.messages <span style="color:#f92672">import</span> RequestWebView
+<span style="color:#f92672">from</span> urllib.parse <span style="color:#f92672">import</span> unquote
+<span style="color:#f92672">import</span> requests
+
+<span style="color:#75715e"># 注意这里同目录下要有上面生成的one.session文件</span>
+app <span style="color:#f92672">=</span> Client(<span style="color:#e6db74">&#34;one&#34;</span>) 
+
+async <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    async <span style="color:#66d9ef">with</span> app:
+        peer <span style="color:#f92672">=</span> await app<span style="color:#f92672">.</span>resolve_peer(<span style="color:#e6db74">&#39;dogshouse_bot&#39;</span>)
+        req <span style="color:#f92672">=</span> RequestWebView(
+            peer<span style="color:#f92672">=</span>peer,
+            bot<span style="color:#f92672">=</span>peer,
+            platform<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;android&#39;</span>, 
+            from_bot_menu<span style="color:#f92672">=</span>False,
+            url<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;https://onetime.dog/&#39;</span>
+        )
+        auth <span style="color:#f92672">=</span> await app<span style="color:#f92672">.</span>invoke(req)
+        <span style="color:#75715e"># 这里提取用户相关认证信息</span>
+        data <span style="color:#f92672">=</span> unquote(string<span style="color:#f92672">=</span>unquote(string<span style="color:#f92672">=</span>auth<span style="color:#f92672">.</span>url<span style="color:#f92672">.</span>split(
+            <span style="color:#e6db74">&#39;tgWebAppData=&#39;</span>)[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;&amp;tgWebAppVersion&#39;</span>)[<span style="color:#ae81ff">0</span>]))
+
+        resp <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#34;https://api.onetime.dog/join&#34;</span>,
+                             data<span style="color:#f92672">=</span>data)
+        <span style="color:#66d9ef">print</span>(resp<span style="color:#f92672">.</span>json())
+        
+app<span style="color:#f92672">.</span>run(main())
+</code></pre></div><p>具体每个参数的含义这里就不赘述了，可以去看<a href="https://docs.pyrogram.org/">官方文档</a>。resolve_peer函数的参数就是对应机器人的username，点开机器人信息就可以看到。</p>
+<p>这里只是关于用户登录认证的核心部分，至于针对不同项目后续如何完成任务、以及程序如何工程化的部分，就留给大家自由发挥了。</p>
+<p>另外如果有想玩下面几个项目的，可以用我的邀请码，90%的任务已经可以自动化操作了:</p>
+<ul>
+<li><a href="https://t.me/BlumCryptoBot/app?startapp=ref_e8RTz2gWpv">Blum</a></li>
+<li><a href="https://t.me/hamster_kombaT_bot/start?startapp=kentId520565092">Hamster</a></li>
+<li><a href="https://t.me/pixelversexyzbot?start=520565092">Pixel</a></li>
+<li><a href="https://t.me/theYescoin_bot/Yescoin?startapp=ZQOwc9">Yescoin</a></li>
+<li><a href="https://t.me/dogshouse_bot/join?startapp=YZeRvDRzSyWcT9631ZeWJA">Dogs</a></li>
+</ul>
+
+
+<p align="center">
+  <img src="/images/wechat.jpg" alt='wechat'/>
+</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/web3/" rel="tag">web3</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/telegram/" rel="tag">telegram</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/web3%E6%BC%AB%E6%B8%B8%E8%AE%B0mev%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%AE%9E%E8%B7%B51/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Web3漫游记——MEV机器人实践1</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>eBPF on Hi~Roy!</title>
+    <link>/categories/ebpf/</link>
+    <description>Recent content in eBPF on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 15 Feb 2022 19:49:25 +0800</lastBuildDate>
+    
+	<atom:link href="/categories/ebpf/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>eBPF学习笔记5</title>
+      <link>/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/</link>
+      <pubDate>Tue, 15 Feb 2022 19:49:25 +0800</pubDate>
+      
+      <guid>/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/</guid>
+      <description>未完待续……
+参考链接  libbpf HOWTO: BCC to libbpf conversion  </description>
+    </item>
+    
+    <item>
+      <title>eBPF学习笔记4</title>
+      <link>/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/</link>
+      <pubDate>Mon, 14 Feb 2022 19:49:25 +0800</pubDate>
+      
+      <guid>/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/</guid>
+      <description>&lt;p&gt;上一篇文章记录了如何使用bpftrace来编写bpf程序，这篇就来说说如何使用BCC(BPF Compiler Collection)。正如前一篇笔记说的，bpftrace简单是简单，但是对于某些复杂场景功能还略有不足。比如，很多的Linux工具都支持各种各样的参数，这时bpftrace就不能满足需求了。&lt;/p&gt;
+&lt;p&gt;如图所示，&lt;a href=&#34;https://github.com/iovisor/bcc/blob/master/docs/tutorial.md&#34;&gt;BCC&lt;/a&gt;已经提供了大量的二进制工具可以直接使用，这篇笔记主要侧重于如何使用BCC编写eBPF程序。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.brendangregg.com/Perf/bcc_tracing_tools.png&#34; alt=&#34;bcc&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>eBPF学习笔记3</title>
+      <link>/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/</link>
+      <pubDate>Wed, 09 Feb 2022 15:35:03 +0800</pubDate>
+      
+      <guid>/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/</guid>
+      <description>&lt;p&gt;这篇文章主要来说说bpftrace，这个语法十分的简单而且功能还在不停的完善中，后续变化一定以&lt;a href=&#34;https://github.com/iovisor/bpftrace/blob/master/docs&#34;&gt;官网文档&lt;/a&gt;为准。&lt;/p&gt;
+&lt;h2 id=&#34;基本语法&#34;&gt;基本语法&lt;/h2&gt;
+&lt;p&gt;bpftrace程序由3个部分组成：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;探针probes /过滤器filters/ {动作actions}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;既可以把程序保存为&lt;code&gt;.bt&lt;/code&gt;文件后（建议而不强制）使用&lt;code&gt;btftrace xxx.bt&lt;/code&gt;来执行，也可以通过单行指令&lt;code&gt;bpftrace -e  &#39;probes /filters/ { actions }&#39;&lt;/code&gt;来执行。&lt;/p&gt;
+&lt;p&gt;其中，过滤器部分可以省略掉，不省略的话只有符合过滤器条件时才会执行动作。&lt;/p&gt;
+&lt;p&gt;支持&lt;code&gt;?::&lt;/code&gt;三元操作符、&lt;code&gt;if{...}else{...}&lt;/code&gt;语句、&lt;code&gt;unroll (count) {statements}&lt;/code&gt;这种有界的循环、&lt;code&gt;while (condition) {...}&lt;/code&gt;(5.3+内核版本添加的实验性支持)、&lt;code&gt;[]&lt;/code&gt;数组、&lt;code&gt;(,)&lt;/code&gt;元组、以及C语言中的常见运算符。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>eBPF学习笔记2</title>
+      <link>/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/</link>
+      <pubDate>Tue, 08 Feb 2022 15:15:03 +0800</pubDate>
+      
+      <guid>/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/</guid>
+      <description>&lt;p&gt;上一篇笔记里说编写运行BPF程序推荐2种方法：bpftrace和BCC，按照惯例来个hello world。&lt;/p&gt;
+&lt;p&gt;之前说过很多功能都是新版内核才支持，想使用CO-RE内核需要开启&lt;code&gt;CONFIG_DEBUG_INFO_BTF=y&lt;/code&gt;和&lt;code&gt;CONFIG_DEBUG_INFO=y&lt;/code&gt; 这两个编译选项，所以建议使用最新的发行版，比如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Ubuntu 20.10+&lt;/li&gt;
+&lt;li&gt;Fedora 31+&lt;/li&gt;
+&lt;li&gt;RHEL 8.2+&lt;/li&gt;
+&lt;li&gt;Debian 11+&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>eBPF学习笔记1</title>
+      <link>/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/</link>
+      <pubDate>Wed, 02 Feb 2022 15:15:03 +0800</pubDate>
+      
+      <guid>/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/</guid>
+      <description>&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BB%80%E4%B9%88%E6%98%AFebpf&#34;&gt;什么是eBPF？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81ebpf&#34;&gt;为什么需要eBPF？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ebpf&#34;&gt;如何使用eBPF？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BD%BF%E7%94%A8ebpf%E6%97%B6%E5%BA%94%E8%AF%A5%E6%B3%A8%E6%84%8F&#34;&gt;使用eBPF时应该注意？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#ebpf%E7%9A%84%E5%BA%94%E7%94%A8%E9%A2%86%E5%9F%9F&#34;&gt;eBPF的应用领域？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#ebpf%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9&#34;&gt;eBPF的优缺点？&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BC%98%E7%82%B9&#34;&gt;优点&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E7%BC%BA%E7%82%B9&#34;&gt;缺点&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB&#34;&gt;推荐阅读&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;按照惯例，第一篇先来个概览，做一些基础知识的铺垫。&lt;/p&gt;
+&lt;p&gt;目前这个技术领域还相对较“新”，本人也刚刚开始摸索学习，有错误的地方还请大佬们多多指正。&lt;/p&gt;
+&lt;h2 id=&#34;什么是ebpf&#34;&gt;什么是eBPF？&lt;/h2&gt;
+&lt;p&gt;eBPF由BPF(Berkeley Packet Filter)扩展而来，提供了一种在内核事件和用户程序事件发生时安全注入代码的机制，使得非内核开发人员也可以对内核进行控制，无需修改内核源码和重新编译内核就可以扩展内核的功能。（简单类比的话，就类似未成年人可以在有限的范围内安全的做一些成年人才能做的事了）&lt;/p&gt;
+&lt;p&gt;之前想对内核做点什么，需要编写内核模块后编译进去，一个不小心就把内核搞崩了。而eBPF则通过即时编译器(JIT)，保证只有经过验证的、安全的eBFP指令才会被内核执行。&lt;/p&gt;
+&lt;h2 id=&#34;为什么需要ebpf&#34;&gt;为什么需要eBPF？&lt;/h2&gt;
+&lt;p&gt;从业界的角度看，最主要的因素还是对性能的追求。比如，小规模的k8s使用iptables就可以搞定容器网络通信，但随着规模的增大iptables性能问题越发明显，然后就有了IPVS模式。虽然IPVS和iptables都是基于Netfilter，但由于IPVS使用哈希表而iptables使用规则链表，导致前者的性能高于后者。然后随着集群规模的再次扩大，对性能有了更高的要求，于是乎eBPF就成了目前进一步提高性能的技术方案：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The aforementioned KubeCon Talk performed specific measurements on iptables as a bottleneck for Kubernetes service forwarding and noted that throughput degraded by ~30% with 5,000 services deployed, and by 80% with 10,000 services (a 6X performance difference). Likewise, rule updates at 5,000 services took 11 minutes, ages in a world of continuous delivery.&lt;/p&gt;
+&lt;p&gt;Thanks to the flexibility of BPF, Cilium performs this same operation with O(1) average runtime behavior using a simple BPF map based hash table, meaning the lookup latency at 10,000 or even 20,000 services is constant. Likewise, updates to these BPF maps from userspace are highly-efficient, meaning that even with 20,000+ services, the time to update a forwarding rule is microseconds, not hours.&lt;/p&gt;
+&lt;p&gt;For these reasons, Facebook has recently presented their use of BPF and XDP for load-balancing in a public talk to replace IPVS after measuring an almost 10x performance increase.&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>1分钟Linux性能分析 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="1分钟Linux性能分析" />
+<meta property="og:description" content="最近看ebpf相关技术，找到一篇2015年的老文，现在看依然不过时——原文。
+当你为了性能问题而登录到Linux系统时，首先要检查哪些东西呢？
+在奈飞有大量的Linux机器，并且有众多的工具去监控和分析性能。既包括负责整个云范围的监控工具Atlas，也包括单个实例分析的Vector。尽管这些工具帮助我们解决了很多问题，但是有些时候我们还是需要登录到实例上去执行一些标准Linux指令。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/1%E5%88%86%E9%92%9Flinux%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/" />
+<meta property="article:published_time" content="2022-01-28T15:15:03+08:00" />
+<meta property="article:modified_time" content="2022-01-28T15:15:03+08:00" />
+
+		<meta itemprop="name" content="1分钟Linux性能分析">
+<meta itemprop="description" content="最近看ebpf相关技术，找到一篇2015年的老文，现在看依然不过时——原文。
+当你为了性能问题而登录到Linux系统时，首先要检查哪些东西呢？
+在奈飞有大量的Linux机器，并且有众多的工具去监控和分析性能。既包括负责整个云范围的监控工具Atlas，也包括单个实例分析的Vector。尽管这些工具帮助我们解决了很多问题，但是有些时候我们还是需要登录到实例上去执行一些标准Linux指令。">
+<meta itemprop="datePublished" content="2022-01-28T15:15:03&#43;08:00" />
+<meta itemprop="dateModified" content="2022-01-28T15:15:03&#43;08:00" />
+<meta itemprop="wordCount" content="1052">
+
+
+
+<meta itemprop="keywords" content="Linux," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">1分钟Linux性能分析</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2022-01-28T15:15:03&#43;08:00">2022-01-28</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>, <a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>最近看ebpf相关技术，找到一篇2015年的老文，现在看依然不过时——<a href="https://netflixtechblog.com/linux-performance-analysis-in-60-000-milliseconds-accc10403c55">原文</a>。</p>
+<p>当你为了性能问题而登录到Linux系统时，首先要检查哪些东西呢？</p>
+<p>在奈飞有大量的Linux机器，并且有众多的工具去监控和分析性能。既包括负责整个云范围的监控工具Atlas，也包括单个实例分析的Vector。尽管这些工具帮助我们解决了很多问题，但是有些时候我们还是需要登录到实例上去执行一些标准Linux指令。</p>
+<h2 id="1分钟总览">1分钟：总览</h2>
+<p>在本文，奈飞性能工程团队将展示1分钟内使用标准Linux命令行工具进行性能优化分析相关操作。通过运行以下10个命令，您可以在1分钟内对系统资源使用和运行的进程有一个大致的了解。关注错误、饱和度指标、资源利用率，因为他们都很直观。饱和度是指资源的负载超过了它的处理能力，并且可以通过为请求队列的长度或等待的时间来反映：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">uptime
+dmesg | tail
+vmstat <span style="color:#ae81ff">1</span>
+mpstat -P ALL <span style="color:#ae81ff">1</span>
+pidstat <span style="color:#ae81ff">1</span>
+iostat -xz <span style="color:#ae81ff">1</span>
+free -m
+sar -n DEV <span style="color:#ae81ff">1</span>
+sar -n TCP,ETCP <span style="color:#ae81ff">1</span>
+top
+</code></pre></div><p>其中的一些指令需要安装sysstat包，这些命令获取的值将帮助您完成一些 <a href="%5Bhttps://link%5D(https://www.brendangregg.com/usemethod.html)">USE Method</a>:一种定位性能瓶颈的方法。这包括检查所有资源(cpu、内存、磁盘等)的利用率、饱和度和错误度量。也要注意你什么时候检查和排除了一个资源，因为通过排除的过程，这缩小了研究的目标，并指导任何后续的调查。</p>
+<p>下面几节总结了这些命令，并提供了来自生产系统的示例。有关这些工具的更多信息，请使用man命令。</p>
+<h2 id="uptime">uptime</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ uptime 
+23:51:26 up 21:31, <span style="color:#ae81ff">1</span> user, load average: 30.02, 26.43, 19.02
+</code></pre></div><p>这个命令可以方便的查看系统平均负载，平均负载表明来需要运行的任务(进程)的数量。在Linux中，这些数字包含了想在CPU上运行的进程，也包含了哪些阻塞在不可中断I/O的进程（通常是磁盘I/O）。这提供了资源负载(或需求)的整体状况，但如果没有其他工具，就无法正确理解细节，简单看一下就行了。</p>
+<p>后面的3个数字分别是指1分钟、5分钟、15分钟的移动平均值。这3个数字告诉我们负载是如何随着时间变化的。如果你去检查一个服务器问题，1分钟的🈯值远远低于15分钟的值，那么你很有可能登录的太晚而错过了问题。</p>
+<p>上面的例子中，1分钟的值是30而15分钟的值是19，前者数值较大很可能是CPU比较繁忙，使用vmstat或者mpstat可以用来证实这个猜想，我们将在后面的章节讲解。</p>
+<h2 id="dmesg--tail">dmesg | tail</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ dmesg | tail
+<span style="color:#f92672">[</span>1880957.563150<span style="color:#f92672">]</span> perl invoked oom-killer: gfp_mask<span style="color:#f92672">=</span>0x280da, order<span style="color:#f92672">=</span>0, oom_score_adj<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+<span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
+<span style="color:#f92672">[</span>1880957.563400<span style="color:#f92672">]</span> Out of memory: Kill process <span style="color:#ae81ff">18694</span> <span style="color:#f92672">(</span>perl<span style="color:#f92672">)</span> score <span style="color:#ae81ff">246</span> or sacrifice child
+<span style="color:#f92672">[</span>1880957.563408<span style="color:#f92672">]</span> Killed process <span style="color:#ae81ff">18694</span> <span style="color:#f92672">(</span>perl<span style="color:#f92672">)</span> total-vm:1972392kB, anon-rss:1953348kB, file-rss:0kB
+<span style="color:#f92672">[</span>2320864.954447<span style="color:#f92672">]</span> TCP: Possible SYN flooding on port 7001. Dropping request.  Check SNMP counters.
+</code></pre></div><p>这个命令用来看最后10条系统消息，用来查找由于错误导致的性能问题。上面的例子中显示了oom-killer，以及tcp丢弃了一个请求。</p>
+<p>不要遗漏这一步，这步非常有价值！</p>
+<h2 id="vmstat-1">vmstat 1</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ vmstat <span style="color:#ae81ff">1</span>
+procs ---------memory---------- ---swap-- -----io---- -system-- ------cpu-----
+ r  b swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
+<span style="color:#ae81ff">34</span>  <span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">200889792</span>  <span style="color:#ae81ff">73708</span> <span style="color:#ae81ff">591828</span>    <span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">5</span>    <span style="color:#ae81ff">6</span>   <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">96</span>  <span style="color:#ae81ff">1</span>  <span style="color:#ae81ff">3</span>  <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">0</span>
+<span style="color:#ae81ff">32</span>  <span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">200889920</span>  <span style="color:#ae81ff">73708</span> <span style="color:#ae81ff">591860</span>    <span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">592</span> <span style="color:#ae81ff">13284</span> <span style="color:#ae81ff">4282</span> <span style="color:#ae81ff">98</span>  <span style="color:#ae81ff">1</span>  <span style="color:#ae81ff">1</span>  <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">0</span>
+<span style="color:#ae81ff">32</span>  <span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">200890112</span>  <span style="color:#ae81ff">73708</span> <span style="color:#ae81ff">591860</span>    <span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">9501</span> <span style="color:#ae81ff">2154</span> <span style="color:#ae81ff">99</span>  <span style="color:#ae81ff">1</span>  <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">0</span>
+<span style="color:#ae81ff">32</span>  <span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">200889568</span>  <span style="color:#ae81ff">73712</span> <span style="color:#ae81ff">591856</span>    <span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">11900</span> <span style="color:#ae81ff">2459</span> <span style="color:#ae81ff">99</span>  <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">0</span>
+<span style="color:#ae81ff">32</span>  <span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">200890208</span>  <span style="color:#ae81ff">73712</span> <span style="color:#ae81ff">591860</span>    <span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">15898</span> <span style="color:#ae81ff">4840</span> <span style="color:#ae81ff">98</span>  <span style="color:#ae81ff">1</span>  <span style="color:#ae81ff">1</span>  <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">0</span>
+^C
+</code></pre></div><p>vmstat是 &ldquo;virtual memory stat&rdquo; 的缩写，一个很常用的工具（由BSD十几年前开发），它在每一行打印了一些服务器关键统计指标。</p>
+<p>后面的参数1是指每1秒钟打印一次，这个版本里的第一行可以忽略掉没，触发你想学习并背下哪一列是什么。</p>
+<p><strong>重点检查</strong>:</p>
+<ol>
+<li><strong>r</strong>:CPU上运行并等待轮询的进程数。这为确定CPU饱和提供了比平均负载更好的指标，因为它不包含I/O。解释:&ldquo;r&quot;的值大于CPU数量就是过载。</li>
+<li><strong>free</strong>:空闲内存，单位KB。这个数字越大，说明可用内存越充足。下面讲的<code>free -m</code>命令对内存有更详细的解释。</li>
+<li><strong>si,so</strong>:swap-ins和swap-out，如果这个不为0，表明内存不够用了。</li>
+<li><strong>us,sy,id,wa,st</strong>:是所有CPU的时间占用平均指标，分别是用户占用时间(user time)、系统/内核占用时间(system time)、空间时间(idle)、等待I/O的时间(wait I/O)、被盗用的时间(stolen，被其他虚拟机、或者xen中虚拟机有独立的驱动域)。</li>
+</ol>
+<p>通过us+sy可以来确定CPU是否繁忙，wa则可以用来磁盘是否有性能瓶颈，wa高时通常CPU比较空间，因为任务都被阻塞在等待磁盘I/O上。你可以把这个当作另一种CPU空闲指标，这给出了CPU空闲的一个原因。</p>
+<p>sy对于I/O也是必要的，如果sy值特别高，超过20%，可以更进一步的去排查：可能内核处理I/O效率低下。</p>
+<p>上面的例子中，CPU时间几乎都在用户态，表明大部分是被应用程序使用了。CPU平均使用率也超过了90%，这不一定是个问题，需要结合&quot;r&quot;列来一起看。</p>
+<h2 id="mpstat--p-all-1">mpstat -P ALL 1</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ mpstat -P ALL <span style="color:#ae81ff">1</span>
+Linux 3.13.0-49-generic <span style="color:#f92672">(</span>titanclusters-xxxxx<span style="color:#f92672">)</span>  07/14/2015  _x86_64_ <span style="color:#f92672">(</span><span style="color:#ae81ff">32</span> CPU<span style="color:#f92672">)</span>
+
+07:38:49 PM  CPU   %usr  %nice   %sys %iowait   %irq  %soft  %steal  %guest  %gnice  %idle
+07:38:50 PM  all  98.47   0.00   0.75    0.00   0.00   0.00    0.00    0.00    0.00   0.78
+07:38:50 PM    <span style="color:#ae81ff">0</span>  96.04   0.00   2.97    0.00   0.00   0.00    0.00    0.00    0.00   0.99
+07:38:50 PM    <span style="color:#ae81ff">1</span>  97.00   0.00   1.00    0.00   0.00   0.00    0.00    0.00    0.00   2.00
+07:38:50 PM    <span style="color:#ae81ff">2</span>  98.00   0.00   1.00    0.00   0.00   0.00    0.00    0.00    0.00   1.00
+07:38:50 PM    <span style="color:#ae81ff">3</span>  96.97   0.00   0.00    0.00   0.00   0.00    0.00    0.00    0.00   3.03
+<span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
+</code></pre></div><p>这个命令可以来输出具体某个CPU的时间占有情况，可以用来检查CPU使用是否平衡，如果某个CPU使用率过高，可以作为是某个单线程应用程序的证据。</p>
+<h2 id="pidstat-1">pidstat 1</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ pidstat <span style="color:#ae81ff">1</span>
+Linux 3.13.0-49-generic <span style="color:#f92672">(</span>titanclusters-xxxxx<span style="color:#f92672">)</span>  07/14/2015    _x86_64_    <span style="color:#f92672">(</span><span style="color:#ae81ff">32</span> CPU<span style="color:#f92672">)</span>
+
+07:41:02 PM   UID       PID    %usr %system  %guest    %CPU   CPU  Command
+07:41:03 PM     <span style="color:#ae81ff">0</span>         <span style="color:#ae81ff">9</span>    0.00    0.94    0.00    0.94     <span style="color:#ae81ff">1</span>  rcuos/0
+07:41:03 PM     <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">4214</span>    5.66    5.66    0.00   11.32    <span style="color:#ae81ff">15</span>  mesos-slave
+07:41:03 PM     <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">4354</span>    0.94    0.94    0.00    1.89     <span style="color:#ae81ff">8</span>  java
+07:41:03 PM     <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">6521</span> 1596.23    1.89    0.00 1598.11    <span style="color:#ae81ff">27</span>  java
+07:41:03 PM     <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">6564</span> 1571.70    7.55    0.00 1579.25    <span style="color:#ae81ff">28</span>  java
+07:41:03 PM <span style="color:#ae81ff">60004</span>     <span style="color:#ae81ff">60154</span>    0.94    4.72    0.00    5.66     <span style="color:#ae81ff">9</span>  pidstat
+
+07:41:03 PM   UID       PID    %usr %system  %guest    %CPU   CPU  Command
+07:41:04 PM     <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">4214</span>    6.00    2.00    0.00    8.00    <span style="color:#ae81ff">15</span>  mesos-slave
+07:41:04 PM     <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">6521</span> 1590.00    1.00    0.00 1591.00    <span style="color:#ae81ff">27</span>  java
+07:41:04 PM     <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">6564</span> 1573.00   10.00    0.00 1583.00    <span style="color:#ae81ff">28</span>  java
+07:41:04 PM   <span style="color:#ae81ff">108</span>      <span style="color:#ae81ff">6718</span>    1.00    0.00    0.00    1.00     <span style="color:#ae81ff">0</span>  snmp-pass
+07:41:04 PM <span style="color:#ae81ff">60004</span>     <span style="color:#ae81ff">60154</span>    1.00    4.00    0.00    5.00     <span style="color:#ae81ff">9</span>  pidstat
+^C
+</code></pre></div><p>pidstat可以看作是top命令的每个进程的概览，只不过是通过循环打印而不是清理屏幕再输出的方式。这对于长期观察很有用，可以将所看到的(复制粘贴)记录到调查记录中。</p>
+<p>上面的例子显示有2个java应用占用了大量的CPU，%CPU列是全部CPU的使用，1591%表明这个java进程几乎使用了16个CPU。</p>
+<h2 id="iostat--xz-1">iostat -xz 1</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ iostat -xz <span style="color:#ae81ff">1</span>
+Linux 3.13.0-49-generic <span style="color:#f92672">(</span>titanclusters-xxxxx<span style="color:#f92672">)</span>  07/14/2015  _x86_64_ <span style="color:#f92672">(</span><span style="color:#ae81ff">32</span> CPU<span style="color:#f92672">)</span>
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+          73.96    0.00    3.73    0.03    0.06   22.21
+
+Device:   rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
+xvda        0.00     0.23    0.21    0.18     4.52     2.08    34.37     0.00    9.98   13.80    5.42   2.44   0.09
+xvdb        0.01     0.00    1.02    8.94   127.97   598.53   145.79     0.00    0.43    1.78    0.28   0.25   0.25
+xvdc        0.01     0.00    1.02    8.86   127.79   595.94   146.50     0.00    0.45    1.82    0.30   0.27   0.26
+dm-0        0.00     0.00    0.69    2.32    10.47    31.69    28.01     0.01    3.23    0.71    3.98   0.13   0.04
+dm-1        0.00     0.00    0.00    0.94     0.01     3.78     8.00     0.33  345.84    0.04  346.81   0.01   0.00
+dm-2        0.00     0.00    0.09    0.07     1.35     0.36    22.50     0.00    2.55    0.23    5.62   1.78   0.03
+<span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
+^C
+</code></pre></div><p>这是理解块设备(磁盘)、应用的工作负载和最终的性能的一个很好的工具。</p>
+<ul>
+<li><strong>r/s, w/s, rkB/s, wkB/s</strong>:这个指磁盘每秒读写的数据量，用来描述工作负载，性能问题可能是由于很简单的负载过高导致。</li>
+<li><strong>await</strong>:I/O的平均时间，以毫秒为单位。这是应用程序受到影响的时间，因为它既包括排队的时间，也包括正在服务的时间。超过预期的平均时间可能表明设备负载过高或设备有问题。</li>
+<li><strong>avgqu-sz</strong>:向设备发出的请求的平均数量。大于1可能表明负载过高(尽管设备通常可以并行操作请求，特别是前端有多个后端磁盘的虚拟设备)。</li>
+<li><strong>%util</strong>:设备利用率。用来描述设备是否繁忙，显示设备每秒工作的时间。值大于60%通常会导致较差的性能(应该在await中看到)，尽管这取决于设备。接近100%的值通常表示过载。</li>
+</ul>
+<p>如果存储设备是一个有许多后端磁盘的逻辑磁盘设备，那么100%的利用率可能仅仅意味着某些I/O的处理时间是100%，然而后端磁盘可能远未饱和，可能能够处理更多的工作。</p>
+<p>记住，性能较差的磁盘I/O不一定是应用程序的问题。许多技术通常使用异步I/O，这样应用程序就不会阻塞或被I/O延迟影响(例如预读或写缓存)。</p>
+<h2 id="free--m">free -m</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ free -m
+             total       used       free     shared    buffers     cached
+Mem:        <span style="color:#ae81ff">245998</span>      <span style="color:#ae81ff">24545</span>     <span style="color:#ae81ff">221453</span>         <span style="color:#ae81ff">83</span>         <span style="color:#ae81ff">59</span>        <span style="color:#ae81ff">541</span>
+-/+ buffers/cache:      <span style="color:#ae81ff">23944</span>     <span style="color:#ae81ff">222053</span>
+Swap:            <span style="color:#ae81ff">0</span>          <span style="color:#ae81ff">0</span>          <span style="color:#ae81ff">0</span>
+</code></pre></div><p>关注2列：</p>
+<ul>
+<li><strong>buffers</strong>:缓冲区buffer cache，和块设备I/O相关。</li>
+<li><strong>cached</strong>:页缓存page cache，和文件系统相关。</li>
+</ul>
+<p>我们只是想检查它们的大小是否接近于零，接近零会导致更高的磁盘I/O(使用iostat进行确认)和更差的性能。上面的例子看起来很好，每个都有很多mb。</p>
+<p><code>-/+ buffers/cache</code>看起来让人很困惑，Linux使用空闲内存作为缓存，当应用程序需要时可以快速回收。因此，在某种程度上，缓存的内存应该包含在空闲内存列中，这一行就是这么做的。</p>
+<p>如果在Linux上使用了ZFS(就像我们在某些服务中所做的那样)，还会造成另外的困惑，因为ZFS有自己的文件系统缓存，而这个缓存没有被空闲的-m列正确地反映出来。可能会出现系统空闲内存不足的情况，而实际上该内存可以根据需要从ZFS缓存中使用。</p>
+<p>(Roy友情提示，free -m 命令在新版中输出已经变了，buffer和cached被合并且多了个available。)</p>
+<h2 id="sar--n-dev-1">sar -n DEV 1</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sar -n DEV <span style="color:#ae81ff">1</span>
+Linux 3.13.0-49-generic <span style="color:#f92672">(</span>titanclusters-xxxxx<span style="color:#f92672">)</span>  07/14/2015     _x86_64_    <span style="color:#f92672">(</span><span style="color:#ae81ff">32</span> CPU<span style="color:#f92672">)</span>
+
+12:16:48 AM     IFACE   rxpck/s   txpck/s    rxkB/s    txkB/s   rxcmp/s   txcmp/s  rxmcst/s   %ifutil
+12:16:49 AM      eth0  18763.00   5032.00  20686.42    478.30      0.00      0.00      0.00      0.00
+12:16:49 AM        lo     14.00     14.00      1.36      1.36      0.00      0.00      0.00      0.00
+12:16:49 AM   docker0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+
+12:16:49 AM     IFACE   rxpck/s   txpck/s    rxkB/s    txkB/s   rxcmp/s   txcmp/s  rxmcst/s   %ifutil
+12:16:50 AM      eth0  19763.00   5101.00  21999.10    482.56      0.00      0.00      0.00      0.00
+12:16:50 AM        lo     20.00     20.00      3.25      3.25      0.00      0.00      0.00      0.00
+12:16:50 AM   docker0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+^C
+</code></pre></div><p>用这个工具的rxkB/s和txkB/s来检查网络接口的吞吐，用来判断是否达到限制。上面的例子里，eth0达到了22MBytes/s的接收，换算为176Mbits/s，远低于1Gbit/s的限制。（Roy友情提示，看网络指标时候一定注意单位）</p>
+<p>这个版本还有%ifutil用于设备利用率(全双工的最大两个方向)，我们也使用Brendan的nicstat工具来测量这个值。</p>
+<p>和nicstat一样，很难得到正确的结果，在本例中似乎不起作用(0.00)。</p>
+<p>(Roy友情提示，新版已经没有%ifutil这个了。)</p>
+<h2 id="sar--n-tcpetcp-1">sar -n TCP,ETCP 1</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sar -n TCP,ETCP <span style="color:#ae81ff">1</span>
+Linux 3.13.0-49-generic <span style="color:#f92672">(</span>titanclusters-xxxxx<span style="color:#f92672">)</span>  07/14/2015    _x86_64_    <span style="color:#f92672">(</span><span style="color:#ae81ff">32</span> CPU<span style="color:#f92672">)</span>
+
+12:17:19 AM  active/s passive/s    iseg/s    oseg/s
+12:17:20 AM      1.00      0.00  10233.00  18846.00
+
+12:17:19 AM  atmptf/s  estres/s retrans/s isegerr/s   orsts/s
+12:17:20 AM      0.00      0.00      0.00      0.00      0.00
+
+12:17:20 AM  active/s passive/s    iseg/s    oseg/s
+12:17:21 AM      1.00      0.00   8359.00   6039.00
+
+12:17:20 AM  atmptf/s  estres/s retrans/s isegerr/s   orsts/s
+12:17:21 AM      0.00      0.00      0.00      0.00      0.00
+^C
+</code></pre></div><p>这个命令会展示一些TCP关键指标的概览，包括：</p>
+<ul>
+<li><strong>active/s</strong>: 每秒本地发起的TCP连接数(比如connect()函数)。</li>
+<li><strong>passive/s</strong>: 每秒远端发起的TCP连接数(比如accept()函数)。</li>
+<li><strong>retrans/s</strong>: 每秒TCP重传次数.</li>
+</ul>
+<p>active和passive通常用来粗略衡量服务负载：被动建立的连接数(passive)和主动发起的连接数(active)。把active视为出站流量把passive视为入站流量，但并不完全精确。（比如localhost向localhost的连接）</p>
+<p>重传数量是网络或者服务有问题的标志，也许是访问里一个不可达网络（比如公网），也许由于服务负载过大导致丢包。上面的例子中显示每秒有一个新的TCP连接简建立。</p>
+<h2 id="top">top</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ top
+top - 00:15:40 up 21:56,  <span style="color:#ae81ff">1</span> user,  load average: 31.09, 29.87, 29.92
+Tasks: <span style="color:#ae81ff">871</span> total,   <span style="color:#ae81ff">1</span> running, <span style="color:#ae81ff">868</span> sleeping,   <span style="color:#ae81ff">0</span> stopped,   <span style="color:#ae81ff">2</span> zombie
+%Cpu<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>: 96.8 us,  0.4 sy,  0.0 ni,  2.7 id,  0.1 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem:  25190241+total, <span style="color:#ae81ff">24921688</span> used, 22698073+free,    <span style="color:#ae81ff">60448</span> buffers
+KiB Swap:        <span style="color:#ae81ff">0</span> total,        <span style="color:#ae81ff">0</span> used,        <span style="color:#ae81ff">0</span> free.   <span style="color:#ae81ff">554208</span> cached Mem
+
+   PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+ <span style="color:#ae81ff">20248</span> root      <span style="color:#ae81ff">20</span>   <span style="color:#ae81ff">0</span>  0.227t 0.012t  <span style="color:#ae81ff">18748</span> S  <span style="color:#ae81ff">3090</span>  5.2  29812:58 java
+  <span style="color:#ae81ff">4213</span> root      <span style="color:#ae81ff">20</span>   <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">2722544</span>  <span style="color:#ae81ff">64640</span>  <span style="color:#ae81ff">44232</span> S  23.5  0.0 233:35.37 mesos-slave
+ <span style="color:#ae81ff">66128</span> titancl+  <span style="color:#ae81ff">20</span>   <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">24344</span>   <span style="color:#ae81ff">2332</span>   <span style="color:#ae81ff">1172</span> R   1.0  0.0   0:00.07 top
+  <span style="color:#ae81ff">5235</span> root      <span style="color:#ae81ff">20</span>   <span style="color:#ae81ff">0</span> 38.227g <span style="color:#ae81ff">547004</span>  <span style="color:#ae81ff">49996</span> S   0.7  0.2   2:02.74 java
+  <span style="color:#ae81ff">4299</span> root      <span style="color:#ae81ff">20</span>   <span style="color:#ae81ff">0</span> 20.015g 2.682g  <span style="color:#ae81ff">16836</span> S   0.3  1.1  33:14.42 java
+     <span style="color:#ae81ff">1</span> root      <span style="color:#ae81ff">20</span>   <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">33620</span>   <span style="color:#ae81ff">2920</span>   <span style="color:#ae81ff">1496</span> S   0.0  0.0   0:03.82 init
+     <span style="color:#ae81ff">2</span> root      <span style="color:#ae81ff">20</span>   <span style="color:#ae81ff">0</span>       <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> S   0.0  0.0   0:00.02 kthreadd
+     <span style="color:#ae81ff">3</span> root      <span style="color:#ae81ff">20</span>   <span style="color:#ae81ff">0</span>       <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> S   0.0  0.0   0:05.35 ksoftirqd/0
+     <span style="color:#ae81ff">5</span> root       <span style="color:#ae81ff">0</span> -20       <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> S   0.0  0.0   0:00.00 kworker/0:0H
+     <span style="color:#ae81ff">6</span> root      <span style="color:#ae81ff">20</span>   <span style="color:#ae81ff">0</span>       <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> S   0.0  0.0   0:06.94 kworker/u256:0
+     <span style="color:#ae81ff">8</span> root      <span style="color:#ae81ff">20</span>   <span style="color:#ae81ff">0</span>       <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> S   0.0  0.0   2:38.05 rcu_sched
+</code></pre></div><p>top命令包含了我们上面介绍的很多指标，很明显这个命令的输出和上面的命令不同，top命令输出的指标是变化的。</p>
+<p>top命令的缺点就是随着时间变化，不能像前面的vmstat或者pidstat命令一样记录之前显示的值。如果不及时暂停输出(按Ctrl-S暂停，按Ctrl-Q继续) ，屏幕就会被刷新，那么间歇性问题的证据也会丢失。</p>
+<h2 id="后续分析">后续分析</h2>
+<p>还有很多的命令和方法论可以深入挖掘，去看看Brendan讲的 <a href="https://medium.com/@Netflix_Techblog/netflix-at-velocity-2015-linux-performance-tools-51964ddb81cf">Linux Performance Tools tutorial</a>，里面讲述了40多款命令，包括可观察性、基准测试、调优、静态性能调优、分析和跟踪。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/linux/" rel="tag">Linux</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Golang中的开闭原则</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">eBPF学习笔记1</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

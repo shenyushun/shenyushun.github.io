@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>OC学习第1天——hello world - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="OC学习第1天——hello world" />
+<meta property="og:description" content="很多人为了学习ios开发而买了mac，而我却正好相反——买了mac后觉得只拿来看看网页、管理服务器什么的太浪费了，就顺便把ios开发也学学吧。由于本人是oc初学者，若有错误的地方还请指正。本文使用os x 10.10.2以及xcode 6.1.1。
+这里首先面临的就是语言的选择——oc和swift。经过“深思熟虑”我还是选择了oc，因为相关的资料比较多，遇到问题google起来效果较好。很多人觉得ios开发很难学是因为oc——别的不敢讲，就我这两天的学习来看，oc虽说是c的超集，不过语法看起来题确实挺奇怪，但对于任何有其他语言开发基础的人来说，语法仅仅是一个需要习惯的过程。ios开发的真正难点在于cocos引擎部分，所以对于英语好的来说swift也是不错的选择（英语硬伤还是啊……）。
+直接从appstore中安装xcode，安装完成后运行选择“create a new Xcode project”，再选择os x列表下的“application”，然后在右边的窗口中选择“command line tool”，点击“next”后输入项目名称等相关信息，语言选择“Objective－c”，再选择保存位置后点击“finish”即可。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/oc%E5%AD%A6%E4%B9%A0%E7%AC%AC1%E5%A4%A9hello-world/" />
+<meta property="article:published_time" content="2015-02-09T23:36:27+00:00" />
+<meta property="article:modified_time" content="2015-02-09T23:36:27+00:00" />
+
+		<meta itemprop="name" content="OC学习第1天——hello world">
+<meta itemprop="description" content="很多人为了学习ios开发而买了mac，而我却正好相反——买了mac后觉得只拿来看看网页、管理服务器什么的太浪费了，就顺便把ios开发也学学吧。由于本人是oc初学者，若有错误的地方还请指正。本文使用os x 10.10.2以及xcode 6.1.1。
+这里首先面临的就是语言的选择——oc和swift。经过“深思熟虑”我还是选择了oc，因为相关的资料比较多，遇到问题google起来效果较好。很多人觉得ios开发很难学是因为oc——别的不敢讲，就我这两天的学习来看，oc虽说是c的超集，不过语法看起来题确实挺奇怪，但对于任何有其他语言开发基础的人来说，语法仅仅是一个需要习惯的过程。ios开发的真正难点在于cocos引擎部分，所以对于英语好的来说swift也是不错的选择（英语硬伤还是啊……）。
+直接从appstore中安装xcode，安装完成后运行选择“create a new Xcode project”，再选择os x列表下的“application”，然后在右边的窗口中选择“command line tool”，点击“next”后输入项目名称等相关信息，语言选择“Objective－c”，再选择保存位置后点击“finish”即可。">
+<meta itemprop="datePublished" content="2015-02-09T23:36:27&#43;00:00" />
+<meta itemprop="dateModified" content="2015-02-09T23:36:27&#43;00:00" />
+<meta itemprop="wordCount" content="63">
+
+
+
+<meta itemprop="keywords" content="" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">OC学习第1天——hello world</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-02-09T23:36:27Z">2015-02-09</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>很多人为了学习ios开发而买了mac，而我却正好相反——买了mac后觉得只拿来看看网页、管理服务器什么的太浪费了，就顺便把ios开发也学学吧。由于本人是oc初学者，若有错误的地方还请指正。本文使用os x 10.10.2以及xcode 6.1.1。</p>
+<p>这里首先面临的就是语言的选择——oc和swift。经过“深思熟虑”我还是选择了oc，因为相关的资料比较多，遇到问题google起来效果较好。很多人觉得ios开发很难学是因为oc——别的不敢讲，就我这两天的学习来看，oc虽说是c的超集，不过语法看起来题确实挺奇怪，但对于任何有其他语言开发基础的人来说，语法仅仅是一个需要习惯的过程。ios开发的真正难点在于cocos引擎部分，所以对于英语好的来说swift也是不错的选择（英语硬伤还是啊……）。</p>
+<p>直接从appstore中安装xcode，安装完成后运行选择“create a new Xcode project”，再选择os x列表下的“application”，然后在右边的窗口中选择“command line tool”，点击“next”后输入项目名称等相关信息，语言选择“Objective－c”，再选择保存位置后点击“finish”即可。</p>
+<p>点击左边列表的main.m文件就是程序自动生成的模版文件了，代码如下</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#75715e">#import &lt;Foundation/Foundation.h&gt;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> argv[]) {
+    <span style="color:#66d9ef">@autoreleasepool</span> {
+        <span style="color:#75715e">// insert code here...
+</span><span style="color:#75715e"></span>        NSLog(<span style="color:#e6db74">@&#34;Hello, World!&#34;</span>);
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><p>这个像c语言又不是c语言的家伙就是oc了，又感觉有些python影子，比如引入头文件的语法变成了import，释放内存池的语法@autoreleasepool和python的装饰器语法、功能相似等。虽然oc也是用.h做头文件后缀，不过却用.m做代码文件后缀。</p>
+<p>第一行的Foundation/Foundation.h作用类似stdio.h或iostream，定义了很多核心函数在里面，比如NSLog，这个函数功能就是输出，和printf一样，不过里面那个@又是神马东东呢？</p>
+<p>这里就要引出oc中的一个新类型——NSString，字符串。动态构建NSString有2种方法：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc">        NSString <span style="color:#f92672">*</span>str <span style="color:#f92672">=</span> <span style="color:#e6db74">@&#34;is a number&#34;</span>;
+        NSLog(<span style="color:#e6db74">@&#34;%d  %@&#34;</span>,<span style="color:#ae81ff">1</span>,str);
+        NSString <span style="color:#f92672">*</span>str1 <span style="color:#f92672">=</span> [[NSString alloc] initWithFormat:<span style="color:#e6db74">@&#34;%d + %d = %s&#34;</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#e6db74">&#34;3&#34;</span>];
+        NSLog(<span style="color:#e6db74">@&#34;%@&#34;</span>,str1);
+        <span style="color:#75715e">//[str1 release];
+</span></code></pre></div><p>由于oc中内存都是在堆上分配的，所以返回的都是指针（至于原因这里先留个坑，我也没太深究），注意占位符和%d、%s类似，不过变成了“%@”代表这是个NSString类型（换言之@是否就是代表这个类型呢？）。第三行的alloc作用和c中的malloc一样，分配内存的。大小为NSString类型大小，并且用后面的参数进行格式化。</p>
+<p>这里可能还有个疑问，那个［］又是神马意思呢？难道是python的列表？据目前所学知识，［］是oc中调用函数的方式，这个在后面的学习应该还会遇到。</p>
+<p>最后一行又是神马意思呢？为什么又注释呢？从字面意思来看，明显和内存释放有关。不过由于最新版的xcode默认开启了arc，所以在这种情况下写这句代码会报错。不过在之前的某些版本中，如果关闭了arc则申请了内存后一定记得释放。</p>
+
+		</div>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/python%E4%B8%AD%E7%9A%84md5%E4%BB%A5%E5%8F%8Abase64%E5%8A%A0%E5%AF%86/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">python中的md5以及base64加密</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/oc%E5%AD%A6%E4%B9%A0%E7%AC%AC2%E5%A4%A9class/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">OC学习第2天——CLASS</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

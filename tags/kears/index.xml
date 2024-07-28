@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kears on Hi~Roy!</title>
+    <link>/tags/kears/</link>
+    <description>Recent content in kears on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 14 Mar 2019 17:27:14 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/kears/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>提升keras准确率和速度的小tips</title>
+      <link>/posts/%E6%8F%90%E5%8D%87keras%E5%87%86%E7%A1%AE%E7%8E%87%E5%92%8C%E9%80%9F%E5%BA%A6%E7%9A%84tips/</link>
+      <pubDate>Thu, 14 Mar 2019 17:27:14 +0000</pubDate>
+      
+      <guid>/posts/%E6%8F%90%E5%8D%87keras%E5%87%86%E7%A1%AE%E7%8E%87%E5%92%8C%E9%80%9F%E5%BA%A6%E7%9A%84tips/</guid>
+      <description>&lt;p&gt;这里记录一下对于新手(对,说的就是本人)学习kears框架时用来提升准确率的一些tip,但这里都是&amp;quot;术&amp;quot;的层面,而对于&amp;quot;道&amp;rdquo;,还是要看数学.全文以深度学习界的&amp;quot;hello world&amp;rdquo;-&lt;a href=&#34;http://yann.lecun.com/exdb/mnist/&#34;&gt;手写数字识别&lt;/a&gt;为例.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

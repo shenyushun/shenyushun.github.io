@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Golang中的单一职责原则 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Golang中的单一职责原则" />
+<meta property="og:description" content="原文地址：这里，省略了一些非重点片段。
+The Single Responsibility Principle (SRP，单一职责原则)的文字定义这里我就不再次说明了，直接开始重点。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/golang%E4%B8%AD%E7%9A%84%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/" />
+<meta property="article:published_time" content="2021-11-02T10:05:20+08:00" />
+<meta property="article:modified_time" content="2021-11-02T10:05:20+08:00" />
+
+		<meta itemprop="name" content="Golang中的单一职责原则">
+<meta itemprop="description" content="原文地址：这里，省略了一些非重点片段。
+The Single Responsibility Principle (SRP，单一职责原则)的文字定义这里我就不再次说明了，直接开始重点。">
+<meta itemprop="datePublished" content="2021-11-02T10:05:20&#43;08:00" />
+<meta itemprop="dateModified" content="2021-11-02T10:05:20&#43;08:00" />
+<meta itemprop="wordCount" content="590">
+
+
+
+<meta itemprop="keywords" content="golang," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Golang中的单一职责原则</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2021-11-02T10:05:20&#43;08:00">2021-11-02</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>原文地址：<a href="https://levelup.gitconnected.com/practical-solid-in-golang-single-responsibility-principle-20afb8643483">这里</a>，省略了一些非重点片段。</p>
+<p>The Single Responsibility Principle (SRP，单一职责原则)的文字定义这里我就不再次说明了，直接开始重点。</p>
+<h2 id="不符合单一职责的代码">不符合单一职责的代码</h2>
+<p>如今，单一职责的范围十分广泛，比如类、函数、模块……在GO中，我们可以在结构体中使用：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">EmailService</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">db</span>           <span style="color:#f92672">*</span><span style="color:#a6e22e">gorm</span>.<span style="color:#a6e22e">DB</span>
+	<span style="color:#a6e22e">smtpHost</span>     <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">smtpPassword</span> <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">smtpPort</span>     <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewEmailService</span>(<span style="color:#a6e22e">db</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gorm</span>.<span style="color:#a6e22e">DB</span>, <span style="color:#a6e22e">smtpHost</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">smtpPassword</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">smtpPort</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">EmailService</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">EmailService</span>{
+		<span style="color:#a6e22e">db</span>:           <span style="color:#a6e22e">db</span>,
+		<span style="color:#a6e22e">smtpHost</span>:     <span style="color:#a6e22e">smtpHost</span>,
+		<span style="color:#a6e22e">smtpPassword</span>: <span style="color:#a6e22e">smtpPassword</span>,
+		<span style="color:#a6e22e">smtpPort</span>:     <span style="color:#a6e22e">smtpPort</span>,
+	}
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">EmailService</span>) <span style="color:#a6e22e">Send</span>(<span style="color:#a6e22e">from</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">to</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">subject</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">message</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">error</span> {
+	<span style="color:#a6e22e">email</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">EmailGorm</span>{
+		<span style="color:#a6e22e">From</span>:    <span style="color:#a6e22e">from</span>,
+		<span style="color:#a6e22e">To</span>:      <span style="color:#a6e22e">to</span>,
+		<span style="color:#a6e22e">Subject</span>: <span style="color:#a6e22e">subject</span>,
+		<span style="color:#a6e22e">Message</span>: <span style="color:#a6e22e">message</span>,
+	}
+
+	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Create</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">email</span>).<span style="color:#a6e22e">Error</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>)
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+	}
+	
+	<span style="color:#a6e22e">auth</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">smtp</span>.<span style="color:#a6e22e">PlainAuth</span>(<span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#a6e22e">from</span>, <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">smtpPassword</span>, <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">smtpHost</span>)
+	
+	<span style="color:#a6e22e">server</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;%s:%d&#34;</span>, <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">smtpHost</span>, <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">smtpPort</span>)
+	
+	<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">smtp</span>.<span style="color:#a6e22e">SendMail</span>(<span style="color:#a6e22e">server</span>, <span style="color:#a6e22e">auth</span>, <span style="color:#a6e22e">from</span>, []<span style="color:#66d9ef">string</span>{<span style="color:#a6e22e">to</span>}, []byte(<span style="color:#a6e22e">message</span>))
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>)
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+</code></pre></div><p>上面的代码中我们定义了一个结构体<code>EmailService</code>，并且有一个方法<code>Send</code>，我们使用这个服务来发送邮件。一切看起来都还不错，但这违反了单一职责原则——<code>EmailService</code>不仅仅负责发送邮件，还需要把邮件内容存储到数据库中。</p>
+<blockquote>
+<p>一旦使用了“还需”、“同时”、“并且”、“和”等词语来描述一个代码片段时，往往就违反了单一职责原则。</p>
+</blockquote>
+<p>首先，上述代码在函数级别违反了单一职责原则，<code>Send</code>函数通过SMTP协议发送邮件的同时还需要将内容写到数据库。</p>
+<p>其次，在结构体定义的级别也违反了单一职责原则，原因同上。</p>
+<p>这么写代码造成了哪些苦果呢？</p>
+<ol>
+<li>当我们想修改数据库中的表结构，却需要修改发送邮件相关的代码。</li>
+<li>当我们想修改发送邮件等方式，却需要修改数据库相关的代码。</li>
+<li>当我们想集成更多的发送邮件等方式，每种方式里都需要定义数据库相关的逻辑。</li>
+<li>当我们想要对团队职责进行划分，一个团队负责发送邮件相关，一个团队负责写入数据库相关，那么这部分代码必然在2个团队中重复出现。</li>
+<li>这个代码实际上是不可测试的</li>
+<li>……</li>
+</ol>
+<p>所以让我们来重构这段代码。</p>
+<h2 id="符合单一职责的代码">符合单一职责的代码</h2>
+<p>在这种情况下划分职责，使代码块只有一个存在的理由，我们应该为每个代码块定义一个结构体。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">EmailGorm</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">gorm</span>.<span style="color:#a6e22e">Model</span>
+	<span style="color:#a6e22e">From</span>    <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">To</span>      <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">Subject</span> <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">Message</span> <span style="color:#66d9ef">string</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">EmailRepository</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">Save</span>(<span style="color:#a6e22e">from</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">to</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">subject</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">message</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">error</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">EmailDBRepository</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">db</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gorm</span>.<span style="color:#a6e22e">DB</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewEmailRepository</span>(<span style="color:#a6e22e">db</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gorm</span>.<span style="color:#a6e22e">DB</span>) <span style="color:#a6e22e">EmailRepository</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">EmailDBRepository</span>{
+		<span style="color:#a6e22e">db</span>: <span style="color:#a6e22e">db</span>,
+	}
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">EmailDBRepository</span>) <span style="color:#a6e22e">Save</span>(<span style="color:#a6e22e">from</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">to</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">subject</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">message</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">error</span> {
+	<span style="color:#a6e22e">email</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">EmailGorm</span>{
+		<span style="color:#a6e22e">From</span>:    <span style="color:#a6e22e">from</span>,
+		<span style="color:#a6e22e">To</span>:      <span style="color:#a6e22e">to</span>,
+		<span style="color:#a6e22e">Subject</span>: <span style="color:#a6e22e">subject</span>,
+		<span style="color:#a6e22e">Message</span>: <span style="color:#a6e22e">message</span>,
+	}
+
+	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Create</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">email</span>).<span style="color:#a6e22e">Error</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>)
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">EmailSender</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">Send</span>(<span style="color:#a6e22e">from</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">to</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">subject</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">message</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">error</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">EmailSMTPSender</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">smtpHost</span>     <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">smtpPassword</span> <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">smtpPort</span>     <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewEmailSender</span>(<span style="color:#a6e22e">smtpHost</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">smtpPassword</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">smtpPort</span> <span style="color:#66d9ef">int</span>) <span style="color:#a6e22e">EmailSender</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">EmailSMTPSender</span>{
+		<span style="color:#a6e22e">smtpHost</span>:     <span style="color:#a6e22e">smtpHost</span>,
+		<span style="color:#a6e22e">smtpPassword</span>: <span style="color:#a6e22e">smtpPassword</span>,
+		<span style="color:#a6e22e">smtpPort</span>:     <span style="color:#a6e22e">smtpPort</span>,
+	}
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">EmailSMTPSender</span>) <span style="color:#a6e22e">Send</span>(<span style="color:#a6e22e">from</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">to</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">subject</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">message</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">error</span> {
+	<span style="color:#a6e22e">auth</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">smtp</span>.<span style="color:#a6e22e">PlainAuth</span>(<span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#a6e22e">from</span>, <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">smtpPassword</span>, <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">smtpHost</span>)
+
+	<span style="color:#a6e22e">server</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;%s:%d&#34;</span>, <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">smtpHost</span>, <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">smtpPort</span>)
+
+	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">smtp</span>.<span style="color:#a6e22e">SendMail</span>(<span style="color:#a6e22e">server</span>, <span style="color:#a6e22e">auth</span>, <span style="color:#a6e22e">from</span>, []<span style="color:#66d9ef">string</span>{<span style="color:#a6e22e">to</span>}, []byte(<span style="color:#a6e22e">message</span>))
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>)
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">EmailService</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">repository</span> <span style="color:#a6e22e">EmailRepository</span>
+	<span style="color:#a6e22e">sender</span>     <span style="color:#a6e22e">EmailSender</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewEmailService</span>(<span style="color:#a6e22e">repository</span> <span style="color:#a6e22e">EmailRepository</span>, <span style="color:#a6e22e">sender</span> <span style="color:#a6e22e">EmailSender</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">EmailService</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">EmailService</span>{
+		<span style="color:#a6e22e">repository</span>: <span style="color:#a6e22e">repository</span>,
+		<span style="color:#a6e22e">sender</span>:     <span style="color:#a6e22e">sender</span>,
+	}
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">EmailService</span>) <span style="color:#a6e22e">Send</span>(<span style="color:#a6e22e">from</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">to</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">subject</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">message</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">error</span> {
+	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">repository</span>.<span style="color:#a6e22e">Save</span>(<span style="color:#a6e22e">from</span>, <span style="color:#a6e22e">to</span>, <span style="color:#a6e22e">subject</span>, <span style="color:#a6e22e">message</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">sender</span>.<span style="color:#a6e22e">Send</span>(<span style="color:#a6e22e">from</span>, <span style="color:#a6e22e">to</span>, <span style="color:#a6e22e">subject</span>, <span style="color:#a6e22e">message</span>)
+}
+</code></pre></div><p>这里我们提供了2个新的结构体，<code>EmailDBRepository</code>实现了<code>EmailRepository</code>接口，负责和数据打交道。<code>EmailSMTPSender</code>实现了<code>EmailSender</code>，负责使用SMTP协议来发送邮件。</p>
+<p>最后使用<code>EmailService</code>来整合上面两者。</p>
+<p>这里你可能会质疑：<code>EmailService</code>不依然是承担了2种职责吗？这里我们貌似只是做了抽象而已？</p>
+<p>并非如此。<code>EmailService</code>并没有承担操作数据库和发送邮件的职责，它的职责是将处理电子邮件的请求委托给底层服务。</p>
+<blockquote>
+<p>承担责任和授权责任是有区别的。如果对某一特定代码的调整可以移除整个功能，我们就会讨论承担（holding）。如果在删除特定代码后，这种功能仍然存在，那么我们就是在说委托（delegation）。</p>
+</blockquote>
+<p>如果我们删除<code>EmailService</code>，操作数据库和发送邮件的功能仍然存在，这也就是说它并没有承担2种功能。</p>
+<h2 id="更多例子">更多例子</h2>
+<p>正如我们上面说的，单一职责原则并不单单用于结构体中，而是可以用于各种代码中。看看下面的例子：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;github.com/dgrijalva/jwt-go&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">extractUsername</span>(<span style="color:#a6e22e">header</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Header</span>) <span style="color:#66d9ef">string</span> {
+	<span style="color:#a6e22e">raw</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">header</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#e6db74">&#34;Authorization&#34;</span>)
+	<span style="color:#a6e22e">parser</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">Parser</span>{}
+	<span style="color:#a6e22e">token</span>, <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">parser</span>.<span style="color:#a6e22e">ParseUnverified</span>(<span style="color:#a6e22e">raw</span>, <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">MapClaims</span>{})
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&#34;</span>
+	}
+
+	<span style="color:#a6e22e">claims</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">token</span>.<span style="color:#a6e22e">Claims</span>.(<span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">MapClaims</span>)
+	<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ok</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&#34;</span>
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">claims</span>[<span style="color:#e6db74">&#34;username&#34;</span>].(<span style="color:#66d9ef">string</span>)
+}
+</code></pre></div><p>函数<code>extractUsername</code>行数不多，功能就是从http头中解析jwt信息，并且返回用户名。</p>
+<p>注意，上面的形容中用到了“并且”，这个函数违反了单一职责原则。有一种建议的改法如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">extractUsername</span>(<span style="color:#a6e22e">header</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Header</span>) <span style="color:#66d9ef">string</span> {
+	<span style="color:#a6e22e">raw</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">extractRawToken</span>(<span style="color:#a6e22e">header</span>)
+	<span style="color:#a6e22e">claims</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">extractClaims</span>(<span style="color:#a6e22e">raw</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">claims</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&#34;</span>
+	}
+	
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">claims</span>[<span style="color:#e6db74">&#34;username&#34;</span>].(<span style="color:#66d9ef">string</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">extractRawToken</span>(<span style="color:#a6e22e">header</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Header</span>) <span style="color:#66d9ef">string</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">header</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#e6db74">&#34;Authorization&#34;</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">extractClaims</span>(<span style="color:#a6e22e">raw</span> <span style="color:#66d9ef">string</span>) <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">MapClaims</span> {
+	<span style="color:#a6e22e">parser</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">Parser</span>{}
+	<span style="color:#a6e22e">token</span>, <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">parser</span>.<span style="color:#a6e22e">ParseUnverified</span>(<span style="color:#a6e22e">raw</span>, <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">MapClaims</span>{})
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+	}
+
+	<span style="color:#a6e22e">claims</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">token</span>.<span style="color:#a6e22e">Claims</span>.(<span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">MapClaims</span>)
+	<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ok</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+	}
+	
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">claims</span>
+}
+</code></pre></div><p>现在我们有了2个新函数<code>extractRawToken</code>负责从header里提取jwt原始数据，如果header中的key变了，我们只需要改这个函数就可以了。<code>extractClaims</code>负责从原始jwt数据中提取claims， 原来的<code>extractUsername</code>函数负责从前两者从返回的claims中获取指定的值。</p>
+<p>此外日常中还有更多的例子，有时候我们这么使用因为某些框架提供了错误的指导或者我们懒得提供更合适的实现：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">User</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">db</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gorm</span>.<span style="color:#a6e22e">DB</span>
+	<span style="color:#a6e22e">Username</span> <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">Firstname</span> <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">Lastname</span> <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">Birthday</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span>
+	<span style="color:#75715e">//
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// some more fields
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">u</span> <span style="color:#a6e22e">User</span>) <span style="color:#a6e22e">IsAdult</span>() <span style="color:#66d9ef">bool</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">Birthday</span>.<span style="color:#a6e22e">AddDate</span>(<span style="color:#ae81ff">18</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>).<span style="color:#a6e22e">Before</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>())
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">u</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">User</span>) <span style="color:#a6e22e">Save</span>() <span style="color:#66d9ef">error</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Exec</span>(<span style="color:#e6db74">&#34;INSERT INTO users ...&#34;</span>, <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">Username</span>, <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">Firstname</span>, <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">Lastname</span>, <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">Birthday</span>).<span style="color:#a6e22e">Error</span>
+}
+</code></pre></div><p>上面的代码是一种典型的Active record模式的实现，在这个例子中，我们不仅需要将数据存储到数据库，还添加了一些业务逻辑到<code>User</code>结构体中。</p>
+<p>这里我们混合了Active Record和DDD中的实体模式，为了写出优雅的代码，我们需要对struc进行分割：一个用于存储数据到数据库，另一个则扮演实体角色。相同的错误也在下面的代码中出现：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Wallet</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">gorm</span>.<span style="color:#a6e22e">Model</span>
+	<span style="color:#a6e22e">Amount</span>     <span style="color:#66d9ef">int</span> <span style="color:#e6db74">`gorm:&#34;column:amount&#34;`</span>
+	<span style="color:#a6e22e">CurrencyID</span> <span style="color:#66d9ef">int</span> <span style="color:#e6db74">`gorm:&#34;column:currency_id&#34;`</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">w</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Wallet</span>) <span style="color:#a6e22e">Withdraw</span>(<span style="color:#a6e22e">amount</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">error</span> {
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">amount</span> &gt; <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Amount</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;there is no enough money in wallet&#34;</span>)
+	}
+	
+	<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Amount</span> <span style="color:#f92672">-=</span> <span style="color:#a6e22e">amount</span>
+
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+</code></pre></div><p>这里的<code>Wallet</code>结构体也承担了2种职责，第二个职责是通过golang的tag语法由gorm包隐式提供的数据库表映射。如果我们想修改数据表结构，我们需要修改这个结构体；如果我们想修改业务逻辑，还是需要修改这个结构体：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Transaction</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">gorm</span>.<span style="color:#a6e22e">Model</span>
+	<span style="color:#a6e22e">Amount</span>     <span style="color:#66d9ef">int</span>       <span style="color:#e6db74">`gorm:&#34;column:amount&#34; json:&#34;amount&#34; validate:&#34;required&#34;`</span>
+	<span style="color:#a6e22e">CurrencyID</span> <span style="color:#66d9ef">int</span>       <span style="color:#e6db74">`gorm:&#34;column:currency_id&#34; json:&#34;currency_id&#34; validate:&#34;required&#34;`</span>
+	<span style="color:#a6e22e">Time</span>       <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span> <span style="color:#e6db74">`gorm:&#34;column:time&#34; json:&#34;time&#34; validate:&#34;required&#34;`</span>
+}
+</code></pre></div><p>上面的代码片段同样违反了单一职责原则，在我看来甚至是最糟糕的一类！我们都没法切分出更小的结构体去承担职责。<code>Transaction</code>这个结构体，不仅需要维持到数据库表的映射，还承担了返回JSON响应给RESTAPI的职责，此外还有验证请求的JSON数据的功能，一个结构体承担了上面所有的职责。</p>
+<p>所有这些例子迟早都需要修改。如果我们把它们保存在我们的代码中，它们就是无声的问题，很快就会开始打破我们的逻辑。</p>
+<h2 id="总结">总结</h2>
+<p>单一职责原则是SOLID中的第一个S，它要求一段代码只为一个目的存在。一个结构体可以负责一个职责或者委派给其他结构体，无论何时一段代码承担了多个职责，我们都应该重构它。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/golang/" rel="tag">golang</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E4%BD%BF%E7%94%A8golang%E7%9A%84channel%E5%AE%9E%E7%8E%B0%E8%AE%A2%E9%98%85-%E5%8F%91%E5%B8%83%E6%A8%A1%E5%BC%8F/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">使用golang的channel实现订阅-发布模式</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Golang中的开闭原则</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

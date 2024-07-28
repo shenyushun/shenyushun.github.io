@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>telegram on Hi~Roy!</title>
+    <link>/tags/telegram/</link>
+    <description>Recent content in telegram on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 28 Jul 2024 15:15:03 +0800</lastBuildDate>
+    
+	<atom:link href="/tags/telegram/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>TG游戏自动化的一种思路</title>
+      <link>/posts/tg%E6%B8%B8%E6%88%8F%E8%87%AA%E5%8A%A8%E5%8C%96%E7%9A%84%E4%B8%80%E7%A7%8D%E6%80%9D%E8%B7%AF/</link>
+      <pubDate>Sun, 28 Jul 2024 15:15:03 +0800</pubDate>
+      
+      <guid>/posts/tg%E6%B8%B8%E6%88%8F%E8%87%AA%E5%8A%A8%E5%8C%96%E7%9A%84%E4%B8%80%E7%A7%8D%E6%80%9D%E8%B7%AF/</guid>
+      <description>&lt;p&gt;随着NotCoin带来的财富效应，Ton生态上一大坨的项目如雨后春笋般冒了出来——签到类、筋膜枪点击类的游戏更是让人玩的要吐。&lt;/p&gt;
+&lt;p&gt;对于撸毛党而言，初期的手机群控或模拟器+自动点击的方式在账号较少的情况下可以应付一阵，但最终纯后台、自动化才是王道。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

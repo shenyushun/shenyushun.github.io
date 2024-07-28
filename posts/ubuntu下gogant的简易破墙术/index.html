@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Ubuntu下Gogant的简易破墙术 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Ubuntu下Gogant的简易破墙术" />
+<meta property="og:description" content="本来是研究CentOS下的穿墙术的，可惜不知道为什么我的CentOS里面Python版本始终升不到2.7，只好转到Ubuntu（如果你有CentOS下Python升级经验欢迎和我交流）。
+Ubuntu我用的是12.10版本，安装完成后关于Python的版本问题是不用考虑了。
+工具：1gogant ，我用的是2.1-0.32版本。 如果需要的可以留个邮箱什么的 话说最近这个玩意版本更新挺快的
+2浏览器，自带的火狐就好。
+过程：
+ 下载gogant后解压，现在这个版本里面已经不用自己申请什么ID了，直接使用即可。 终端里进入你解压后的gogant目录中，执行命令 # python proxy." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/ubuntu%E4%B8%8Bgogant%E7%9A%84%E7%AE%80%E6%98%93%E7%A0%B4%E5%A2%99%E6%9C%AF/" />
+<meta property="article:published_time" content="2013-02-12T16:25:10+00:00" />
+<meta property="article:modified_time" content="2013-02-12T16:25:10+00:00" />
+
+		<meta itemprop="name" content="Ubuntu下Gogant的简易破墙术">
+<meta itemprop="description" content="本来是研究CentOS下的穿墙术的，可惜不知道为什么我的CentOS里面Python版本始终升不到2.7，只好转到Ubuntu（如果你有CentOS下Python升级经验欢迎和我交流）。
+Ubuntu我用的是12.10版本，安装完成后关于Python的版本问题是不用考虑了。
+工具：1gogant ，我用的是2.1-0.32版本。 如果需要的可以留个邮箱什么的 话说最近这个玩意版本更新挺快的
+2浏览器，自带的火狐就好。
+过程：
+ 下载gogant后解压，现在这个版本里面已经不用自己申请什么ID了，直接使用即可。 终端里进入你解压后的gogant目录中，执行命令 # python proxy.">
+<meta itemprop="datePublished" content="2013-02-12T16:25:10&#43;00:00" />
+<meta itemprop="dateModified" content="2013-02-12T16:25:10&#43;00:00" />
+<meta itemprop="wordCount" content="18">
+
+
+
+<meta itemprop="keywords" content="" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Ubuntu下Gogant的简易破墙术</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-02-12T16:25:10Z">2013-02-12</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>本来是研究CentOS下的穿墙术的，可惜不知道为什么我的CentOS里面Python版本始终升不到2.7，只好转到Ubuntu（如果你有CentOS下Python升级经验欢迎和我交流）。</p>
+<p>Ubuntu我用的是12.10版本，安装完成后关于Python的版本问题是不用考虑了。</p>
+<p>工具：1gogant ，我用的是2.1-0.32版本。 如果需要的可以留个邮箱什么的  话说最近这个玩意版本更新挺快的</p>
+<p>2浏览器，自带的火狐就好。</p>
+<p>过程：</p>
+<ol>
+<li>下载gogant后解压，现在这个版本里面已经不用自己申请什么ID了，直接使用即可。</li>
+<li>终端里进入你解压后的gogant目录中，执行命令  # python   proxy.py即可。</li>
+<li>为了方便，可以给火狐安装个AUTOproxy一类的插件。
+享受自由之路吧～～</li>
+</ol>
+<p>Ps：过程中会提示你有个什么Python 相关的东西未找到（Gevent），在软件中心搜索安装即可。昨天半夜弄的就不截图了。</p>
+<p>有很多用谷歌浏览器的没有类似autoproxy的插件，其实在gogant包中已经有了相关的规则，就是proxy.pac这个文件。至于这个文件怎么用不是本文重点大家就自行百度吧！</p>
+
+		</div>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/python%E5%B8%B8%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93-%E8%BD%AC%E8%BD%BD/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Python常用第三方库(转载)</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

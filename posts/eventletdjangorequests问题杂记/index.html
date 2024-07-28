@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>eventlet，django，requests问题杂记 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="eventlet，django，requests问题杂记" />
+<meta property="og:description" content="最近使用django&#43;requests&#43;eventlet做了个小程序，eventlet用来替代原生的多线程，最后发现有关manage.py的功能全都不能用了，报错信息类似：
+django.db.utils.DatabaseError: DatabaseWrapper objects created in a thread can only be used in that same thread. The object with alias &#39;default&#39; was created in thread id 139911009593152 and this is thread id 51055504.
+产生这个问题的原因在于我的monky_patch()是在爬虫模块中执行，而希望这个爬虫模块能够保持独立性不希望和django融合的太深，所以解决问题只需根据实际需求在manage.py或settings.py或wsgi.py中先把monkey_patch()执行了即可。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/eventletdjangorequests%E9%97%AE%E9%A2%98%E6%9D%82%E8%AE%B0/" />
+<meta property="article:published_time" content="2016-05-03T13:28:49+00:00" />
+<meta property="article:modified_time" content="2016-05-03T13:28:49+00:00" />
+
+		<meta itemprop="name" content="eventlet，django，requests问题杂记">
+<meta itemprop="description" content="最近使用django&#43;requests&#43;eventlet做了个小程序，eventlet用来替代原生的多线程，最后发现有关manage.py的功能全都不能用了，报错信息类似：
+django.db.utils.DatabaseError: DatabaseWrapper objects created in a thread can only be used in that same thread. The object with alias &#39;default&#39; was created in thread id 139911009593152 and this is thread id 51055504.
+产生这个问题的原因在于我的monky_patch()是在爬虫模块中执行，而希望这个爬虫模块能够保持独立性不希望和django融合的太深，所以解决问题只需根据实际需求在manage.py或settings.py或wsgi.py中先把monkey_patch()执行了即可。">
+<meta itemprop="datePublished" content="2016-05-03T13:28:49&#43;00:00" />
+<meta itemprop="dateModified" content="2016-05-03T13:28:49&#43;00:00" />
+<meta itemprop="wordCount" content="190">
+
+
+
+<meta itemprop="keywords" content="django,python," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">eventlet，django，requests问题杂记</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-05-03T13:28:49Z">2016-05-03</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>最近使用django+requests+eventlet做了个小程序，eventlet用来替代原生的多线程，最后发现有关manage.py的功能全都不能用了，报错信息类似：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">django<span style="color:#f92672">.</span>db<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>DatabaseError: DatabaseWrapper objects created <span style="color:#f92672">in</span> a thread can only be used <span style="color:#f92672">in</span> that same thread<span style="color:#f92672">.</span> The object <span style="color:#66d9ef">with</span> alias <span style="color:#e6db74">&#39;default&#39;</span> was created <span style="color:#f92672">in</span> thread id <span style="color:#ae81ff">139911009593152</span> <span style="color:#f92672">and</span> this <span style="color:#f92672">is</span> thread id <span style="color:#ae81ff">51055504.</span>
+</code></pre></div><p>产生这个问题的原因在于我的monky_patch()是在爬虫模块中执行，而希望这个爬虫模块能够保持独立性不希望和django融合的太深，所以解决问题只需根据实际需求在manage.py或settings.py或wsgi.py中先把monkey_patch()执行了即可。</p>
+<p>这个问题解决后，我打开了eventlet的源码目录，发现monkey_patch()函数本质上仅仅对一些系统库进行了修改，比如我们可以输出already_patched来看哪些模块被修改了：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> eventlet
+<span style="color:#f92672">from</span> eventlet.patcher <span style="color:#f92672">import</span> already_patched
+<span style="color:#66d9ef">print</span> already_patched,<span style="color:#ae81ff">1</span>
+eventlet<span style="color:#f92672">.</span>monkey_patch()
+<span style="color:#66d9ef">print</span> already_patched,<span style="color:#ae81ff">2</span>
+</code></pre></div><p>结果如下：</p>
+<pre><code>1
+{'thread': True, 'os': True, 'socket': True, 'select': True, 'time': True} 2
+</code></pre><p>可以看出，monkey_patch对上面模块进行了修改。</p>
+<p>根据文档，如果仅想给一个模块打补丁，则可以使用import_patched()函数，所以写出下面的代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> eventlet
+<span style="color:#f92672">from</span> eventlet.patcher <span style="color:#f92672">import</span> is_monkey_patched
+<span style="color:#f92672">from</span> eventlet.patcher <span style="color:#f92672">import</span> already_patched
+requests <span style="color:#f92672">=</span> eventlet<span style="color:#f92672">.</span>import_patched(<span style="color:#e6db74">&#39;requests&#39;</span>)
+<span style="color:#66d9ef">print</span> is_monkey_patched(<span style="color:#e6db74">&#39;requests&#39;</span>)
+<span style="color:#66d9ef">print</span> already_patched
+</code></pre></div><p>可是结果并不是想像中的样子：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">False
+{}
+</code></pre></div><p>什么鬼！？是我打开的方式不对？换成系统库，把requests换成os结果居然也是一样的，换言之——用import_patched()函数并没生效！？其实并不是这样的，我们可以看is_monkey_patched函数代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">is_monkey_patched</span>(module):
+    <span style="color:#e6db74">&#34;&#34;&#34;Returns True if the given module is monkeypatched currently, False if
+</span><span style="color:#e6db74">    not.  *module* can be either the module itself or its name.
+</span><span style="color:#e6db74">    Based entirely off the name of the module, so if you import a
+</span><span style="color:#e6db74">    module some other way than with the import keyword (including
+</span><span style="color:#e6db74">    import_patched), this might not be correct about that particular
+</span><span style="color:#e6db74">    module.&#34;&#34;&#34;</span>
+    <span style="color:#66d9ef">return</span> module <span style="color:#f92672">in</span> already_patched <span style="color:#f92672">or</span> \
+        getattr(module, <span style="color:#e6db74">&#39;__name__&#39;</span>, None) <span style="color:#f92672">in</span> already_patched
+</code></pre></div><p>注释解释的很清楚，如果我们使用其他的方式import模块（包括inmport_pached）这个函数并不一定返回正确的值。关键就在于already_patched这个字典的值什么时候被改变了，通过源码发现这个字典只有在monkey_patch()函数中才会被修改，这也就解释了上面的疑问。那么怎么确定import_patched函数确实生效了呢？对于requests这个模块我们可以这样：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> requests
+r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;xxxx&#34;</span>)
+<span style="color:#66d9ef">print</span> r<span style="color:#f92672">.</span>content
+</code></pre></div><p>上面的3行代码可以毫无警告的正常执行，而：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> eventlet
+requests <span style="color:#f92672">=</span> eventlet<span style="color:#f92672">.</span>patcher<span style="color:#f92672">.</span>import_patched(<span style="color:#e6db74">&#39;requests&#39;</span>)
+r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;xxx&#39;</span>)
+<span style="color:#66d9ef">print</span> r<span style="color:#f92672">.</span>content
+</code></pre></div><p>虽然也会正常执行，但是会产生一个警告：</p>
+<pre><code>RuntimeWarning: Parent module 'requests' not found while handling absolute import from netrc import netrc, NetrcParseError
+</code></pre><p>如果和我一样有强迫症的话，可以改成
+<code>requests = eventlet.patcher.import_patched('requests.__init__')</code>
+就不会有警告了。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/django/" rel="tag">django</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/virtualbox%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%92%E9%80%9A%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">VirtualBOX虚拟机网络互通同时访问外网</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/linux%E7%B3%BB%E7%BB%9F%E7%9A%843%E7%A7%8D%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E6%96%B9%E5%BC%8F/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">linux系统的3种端口转发方式</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

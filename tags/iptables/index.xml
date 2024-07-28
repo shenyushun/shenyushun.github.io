@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>iptables on Hi~Roy!</title>
+    <link>/tags/iptables/</link>
+    <description>Recent content in iptables on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 14 Apr 2022 11:28:55 +0800</lastBuildDate>
+    
+	<atom:link href="/tags/iptables/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Iptables笔记</title>
+      <link>/posts/iptables%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Thu, 14 Apr 2022 11:28:55 +0800</pubDate>
+      
+      <guid>/posts/iptables%E7%AC%94%E8%AE%B0/</guid>
+      <description>&lt;p&gt;话不多说，先上图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/iptables-Flowchart.jpg&#34; alt=&#34;iptables&#34;&gt;&lt;/p&gt;
+&lt;p&gt;上图中的渐变色分别代表了iptables中的4个表：raw、nat、mangle、filter。按照功能来看：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;filter:负责过滤，防火墙。&lt;/li&gt;
+&lt;li&gt;nat:网络地址转换功能，也就是network address translate。&lt;/li&gt;
+&lt;li&gt;mangle:拆解报文，做出修改，并重新封装。&lt;/li&gt;
+&lt;li&gt;raw:关闭nat表上启用的连接追踪机制。&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

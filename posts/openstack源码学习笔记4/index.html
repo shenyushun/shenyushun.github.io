@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>OpenStack源码学习笔记4 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="OpenStack源码学习笔记4" />
+<meta property="og:description" content="这篇文章记录nova创建快照时候的过程，根据文档，创建快照其实是向/servers/{server_id}/action发送了一个POST的请求，内容则是类似:
+{
+    &#34;createImage&#34; : {
+        &#34;name&#34; : &#34;image-name&#34;,
+        &#34;metadata&#34;: {}
+    }
+}
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/" />
+<meta property="article:published_time" content="2019-12-09T12:46:29+00:00" />
+<meta property="article:modified_time" content="2019-12-09T12:46:29+00:00" />
+
+		<meta itemprop="name" content="OpenStack源码学习笔记4">
+<meta itemprop="description" content="这篇文章记录nova创建快照时候的过程，根据文档，创建快照其实是向/servers/{server_id}/action发送了一个POST的请求，内容则是类似:
+{
+    &#34;createImage&#34; : {
+        &#34;name&#34; : &#34;image-name&#34;,
+        &#34;metadata&#34;: {}
+    }
+}
+">
+<meta itemprop="datePublished" content="2019-12-09T12:46:29&#43;00:00" />
+<meta itemprop="dateModified" content="2019-12-09T12:46:29&#43;00:00" />
+<meta itemprop="wordCount" content="530">
+
+
+
+<meta itemprop="keywords" content="python,openstack," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">OpenStack源码学习笔记4</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-12-09T12:46:29Z">2019-12-09</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/" rel="category">云计算</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>这篇文章记录nova创建快照时候的过程，根据<a href="https://docs.openstack.org/api-ref/compute/?expanded=create-image-createimage-action-detail#create-image-createimage-action">文档</a>，创建快照其实是向<code>/servers/{server_id}/action</code>发送了一个POST的请求，内容则是类似:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;createImage&#34;</span> : {
+        <span style="color:#f92672">&#34;name&#34;</span> : <span style="color:#e6db74">&#34;image-name&#34;</span>,
+        <span style="color:#f92672">&#34;metadata&#34;</span>: {}
+    }
+}
+</code></pre></div><p>根据openstack的套路，首先找到处理这个请求的代码，在第一篇文章中我们分析了在Stein版中虚拟机的创建过程，但由于某些不可描述的原因，<em><strong>下面的代码是N版的</strong></em>，一定要注意版本问题。N版中是没有<code>nova/api/openstack/compute/routes.py</code>这个文件的，所有处理请求的代码都在<code>nova/api/openstack/compute/</code>目录中，所以我们直接看<code>servers.py</code>即可，相关代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#a6e22e">@wsgi.response</span>(<span style="color:#ae81ff">202</span>)
+<span style="color:#a6e22e">@extensions.expected_errors</span>((<span style="color:#ae81ff">400</span>, <span style="color:#ae81ff">403</span>, <span style="color:#ae81ff">404</span>, <span style="color:#ae81ff">409</span>))
+<span style="color:#a6e22e">@wsgi.action</span>(<span style="color:#e6db74">&#39;createImage&#39;</span>)
+<span style="color:#a6e22e">@common.check_snapshots_enabled</span>
+<span style="color:#a6e22e">@validation.schema</span>(schema_servers<span style="color:#f92672">.</span>create_image, <span style="color:#e6db74">&#39;2.0&#39;</span>, <span style="color:#e6db74">&#39;2.0&#39;</span>)
+<span style="color:#a6e22e">@validation.schema</span>(schema_servers<span style="color:#f92672">.</span>create_image, <span style="color:#e6db74">&#39;2.1&#39;</span>)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_action_create_image</span>(self, req, id, body):
+    <span style="color:#e6db74">&#34;&#34;&#34;Snapshot a server instance.&#34;&#34;&#34;</span>
+    <span style="color:#f92672">....</span>
+    <span style="color:#66d9ef">try</span>:
+        <span style="color:#66d9ef">if</span> compute_utils<span style="color:#f92672">.</span>is_volume_backed_instance(context, instance,
+                                                        bdms):
+            context<span style="color:#f92672">.</span>can(server_policies<span style="color:#f92672">.</span>SERVERS <span style="color:#f92672">%</span>
+                <span style="color:#e6db74">&#39;create_image:allow_volume_backed&#39;</span>)
+            image <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>compute_api<span style="color:#f92672">.</span>snapshot_volume_backed(
+                                                    context,
+                                                    instance,
+                                                    image_name,
+                                                    extra_properties<span style="color:#f92672">=</span>
+                                                    metadata)
+        <span style="color:#66d9ef">else</span>:
+            image <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>compute_api<span style="color:#f92672">.</span>snapshot(context,
+                                                instance,
+                                                image_name,
+                                                extra_properties<span style="color:#f92672">=</span>metadata)
+    <span style="color:#f92672">...</span>
+    <span style="color:#75715e"># build location of newly-created image entity</span>
+    image_id <span style="color:#f92672">=</span> str(image[<span style="color:#e6db74">&#39;id&#39;</span>])
+    image_ref <span style="color:#f92672">=</span> glance<span style="color:#f92672">.</span>generate_image_url(image_id)
+
+    resp <span style="color:#f92672">=</span> webob<span style="color:#f92672">.</span>Response(status_int<span style="color:#f92672">=</span><span style="color:#ae81ff">202</span>)
+    resp<span style="color:#f92672">.</span>headers[<span style="color:#e6db74">&#39;Location&#39;</span>] <span style="color:#f92672">=</span> image_ref
+    <span style="color:#66d9ef">return</span> resp
+</code></pre></div><p>由于我的配置文件中没启用<code>cell</code>功能，所以代码中的<code>self.compute_api</code>就是<code>nova/compute/api.py</code>中的<code>API()</code>类，<code>snapshot</code>方法如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#a6e22e">@check_instance_cell</span>
+<span style="color:#a6e22e">@check_instance_state</span>(vm_state<span style="color:#f92672">=</span>[vm_states<span style="color:#f92672">.</span>ACTIVE, vm_states<span style="color:#f92672">.</span>STOPPED,
+                                vm_states<span style="color:#f92672">.</span>PAUSED, vm_states<span style="color:#f92672">.</span>SUSPENDED])
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">snapshot</span>(self, context, instance, name, extra_properties<span style="color:#f92672">=</span>None):
+    <span style="color:#e6db74">&#34;&#34;&#34;Snapshot the given instance.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    :param instance: nova.objects.instance.Instance object
+</span><span style="color:#e6db74">    :param name: name of the snapshot
+</span><span style="color:#e6db74">    :param extra_properties: dict of extra image properties to include
+</span><span style="color:#e6db74">                                when creating the image.
+</span><span style="color:#e6db74">    :returns: A dict containing image metadata
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    image_meta <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_create_image(context, instance, name,
+                                    <span style="color:#e6db74">&#39;snapshot&#39;</span>,
+                                    extra_properties<span style="color:#f92672">=</span>extra_properties)
+
+    <span style="color:#75715e"># NOTE(comstud): Any changes to this method should also be made</span>
+    <span style="color:#75715e"># to the snapshot_instance() method in nova/cells/messaging.py</span>
+    instance<span style="color:#f92672">.</span>task_state <span style="color:#f92672">=</span> task_states<span style="color:#f92672">.</span>IMAGE_SNAPSHOT_PENDING
+    instance<span style="color:#f92672">.</span>save(expected_task_state<span style="color:#f92672">=</span>[None])
+
+    self<span style="color:#f92672">.</span>compute_rpcapi<span style="color:#f92672">.</span>snapshot_instance(context, instance,
+                                            image_meta[<span style="color:#e6db74">&#39;id&#39;</span>])
+
+    <span style="color:#66d9ef">return</span> image_meta
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_create_image</span>(self, context, instance, name, image_type,
+                    extra_properties<span style="color:#f92672">=</span>None):
+    <span style="color:#e6db74">&#34;&#34;&#34;Create new image entry in the image service.  This new image
+</span><span style="color:#e6db74">    will be reserved for the compute manager to upload a snapshot
+</span><span style="color:#e6db74">    or backup.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    :param context: security context
+</span><span style="color:#e6db74">    :param instance: nova.objects.instance.Instance object
+</span><span style="color:#e6db74">    :param name: string for name of the snapshot
+</span><span style="color:#e6db74">    :param image_type: snapshot | backup
+</span><span style="color:#e6db74">    :param extra_properties: dict of extra image properties to include
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    properties <span style="color:#f92672">=</span> {
+        <span style="color:#e6db74">&#39;instance_uuid&#39;</span>: instance<span style="color:#f92672">.</span>uuid,
+        <span style="color:#e6db74">&#39;user_id&#39;</span>: str(context<span style="color:#f92672">.</span>user_id),
+        <span style="color:#e6db74">&#39;image_type&#39;</span>: image_type,
+    }
+    properties<span style="color:#f92672">.</span>update(extra_properties <span style="color:#f92672">or</span> {})
+
+    image_meta <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_initialize_instance_snapshot_metadata(
+        instance, name, properties)
+    <span style="color:#75715e"># if we&#39;re making a snapshot, omit the disk and container formats,</span>
+    <span style="color:#75715e"># since the image may have been converted to another format, and the</span>
+    <span style="color:#75715e"># original values won&#39;t be accurate.  The driver will populate these</span>
+    <span style="color:#75715e"># with the correct values later, on image upload.</span>
+    <span style="color:#66d9ef">if</span> image_type <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;snapshot&#39;</span>:
+        image_meta<span style="color:#f92672">.</span>pop(<span style="color:#e6db74">&#39;disk_format&#39;</span>, None)
+        image_meta<span style="color:#f92672">.</span>pop(<span style="color:#e6db74">&#39;container_format&#39;</span>, None)
+    <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>image_api<span style="color:#f92672">.</span>create(context, image_meta)
+</code></pre></div><p>代码中的<code>self.image_api</code>就是调用glanceclient创建镜像，之前已经写过镜像上传这里就不贴代码了，有兴趣的可以去看<code>nova/image/glance.py</code>，看到rpc就知道这里发送一个异步请求，看<code>nova/compute/rpcapi.py</code>代码不出所料:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">snapshot_instance</span>(self, ctxt, instance, image_id):
+    version <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;4.0&#39;</span>
+    cctxt <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>router<span style="color:#f92672">.</span>by_instance(ctxt, instance)<span style="color:#f92672">.</span>prepare(
+            server<span style="color:#f92672">=</span>_compute_host(None, instance), version<span style="color:#f92672">=</span>version)
+    cctxt<span style="color:#f92672">.</span>cast(ctxt, <span style="color:#e6db74">&#39;snapshot_instance&#39;</span>,
+                instance<span style="color:#f92672">=</span>instance,
+                image_id<span style="color:#f92672">=</span>image_id)
+</code></pre></div><p>根据套路，这里应该是到<code>nova/compute/manager.py</code>了：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#a6e22e">@wrap_exception</span>()
+<span style="color:#a6e22e">@reverts_task_state</span>
+<span style="color:#a6e22e">@wrap_instance_fault</span>
+<span style="color:#a6e22e">@delete_image_on_error</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">snapshot_instance</span>(self, context, image_id, instance):
+    <span style="color:#f92672">...</span>
+    <span style="color:#66d9ef">try</span>:
+        instance<span style="color:#f92672">.</span>task_state <span style="color:#f92672">=</span> task_states<span style="color:#f92672">.</span>IMAGE_SNAPSHOT
+        instance<span style="color:#f92672">.</span>save(
+                    expected_task_state<span style="color:#f92672">=</span>task_states<span style="color:#f92672">.</span>IMAGE_SNAPSHOT_PENDING)
+    <span style="color:#66d9ef">except</span> exception<span style="color:#f92672">.</span>InstanceNotFound:
+        <span style="color:#75715e"># possibility instance no longer exists, no point in continuing</span>
+        LOG<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#34;Instance not found, could not set state </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> &#34;</span>
+                    <span style="color:#e6db74">&#34;for instance.&#34;</span>,
+                    task_states<span style="color:#f92672">.</span>IMAGE_SNAPSHOT, instance<span style="color:#f92672">=</span>instance)
+        <span style="color:#66d9ef">return</span>
+    <span style="color:#66d9ef">except</span> exception<span style="color:#f92672">.</span>UnexpectedDeletingTaskStateError:
+        LOG<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#34;Instance being deleted, snapshot cannot continue&#34;</span>,
+                    instance<span style="color:#f92672">=</span>instance)
+        <span style="color:#66d9ef">return</span>
+    self<span style="color:#f92672">.</span>_snapshot_instance(context, image_id, instance,
+                            task_states<span style="color:#f92672">.</span>IMAGE_SNAPSHOT)
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_snapshot_instance</span>(self, context, image_id, instance,
+                        expected_task_state):
+    context <span style="color:#f92672">=</span> context<span style="color:#f92672">.</span>elevated()
+    instance<span style="color:#f92672">.</span>power_state <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_power_state(context, instance)
+    <span style="color:#66d9ef">try</span>:
+        <span style="color:#f92672">...</span>
+        self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>snapshot(context, instance, image_id,
+                                update_task_state)
+        instance<span style="color:#f92672">.</span>task_state <span style="color:#f92672">=</span> None
+        instance<span style="color:#f92672">.</span>save(expected_task_state<span style="color:#f92672">=</span>task_states<span style="color:#f92672">.</span>IMAGE_UPLOADING)
+        self<span style="color:#f92672">.</span>_notify_about_instance_usage(context, instance,
+                                            <span style="color:#e6db74">&#34;snapshot.end&#34;</span>)
+       <span style="color:#f92672">...</span>
+</code></pre></div><p>然后进入<code>driver</code>中，这里我以使用<code>libvirt</code>为例，位于<code>nova/virt/libvirt/driver.py</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">snapshot</span>(self, context, instance, image_id, update_task_state):
+        <span style="color:#e6db74">&#34;&#34;&#34;Create snapshot from a running VM instance.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">        This command only works with qemu 0.14+
+</span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+        <span style="color:#f92672">...</span>        
+        snapshot <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_image_api<span style="color:#f92672">.</span>get(context, image_id)
+        <span style="color:#f92672">...</span>
+        <span style="color:#75715e"># NOTE(bfilippov): save lvm and rbd as raw</span>
+        <span style="color:#66d9ef">if</span> image_format <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;lvm&#39;</span> <span style="color:#f92672">or</span> image_format <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;rbd&#39;</span>:
+            image_format <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;raw&#39;</span>
+
+        metadata <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_create_snapshot_metadata(instance<span style="color:#f92672">.</span>image_meta,
+                                                  instance,
+                                                  image_format,
+                                                  snapshot[<span style="color:#e6db74">&#39;name&#39;</span>])
+        <span style="color:#f92672">....</span>
+        snapshot_backend <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>image_backend<span style="color:#f92672">.</span>snapshot(instance,
+                disk_path,
+                image_type<span style="color:#f92672">=</span>source_type)
+        <span style="color:#66d9ef">try</span>:
+            update_task_state(task_state<span style="color:#f92672">=</span>task_states<span style="color:#f92672">.</span>IMAGE_UPLOADING,
+                              expected_state<span style="color:#f92672">=</span>task_states<span style="color:#f92672">.</span>IMAGE_PENDING_UPLOAD)
+            metadata[<span style="color:#e6db74">&#39;location&#39;</span>] <span style="color:#f92672">=</span> snapshot_backend<span style="color:#f92672">.</span>direct_snapshot(
+                context, snapshot_name, image_format, image_id,
+                instance<span style="color:#f92672">.</span>image_ref)
+            <span style="color:#f92672">...</span>
+            self<span style="color:#f92672">.</span>_image_api<span style="color:#f92672">.</span>update(context, image_id, metadata,
+                                   purge_props<span style="color:#f92672">=</span>False)
+        <span style="color:#f92672">...</span>
+</code></pre></div><p>这里代码太长了我做了删减，所以缩进看起来有点奇怪。经过一系列的判断、准备后，首先获取对应的存储后端，这里我以rbd为例，其他类型的可以看<code>nova/virt/libvirt/imagebackend.py</code>中<code>Backend</code>类的相关定义。然后调用<code>Rbd</code>类下的<code>direct_snapshot</code>方法:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">direct_snapshot</span>(self, context, snapshot_name, image_format,
+                        image_id, base_image_id):
+    <span style="color:#e6db74">&#34;&#34;&#34;Creates an RBD snapshot directly.
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    fsid <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>get_fsid()
+    parent_pool <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_parent_pool(context, base_image_id, fsid)
+    self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>create_snap(self<span style="color:#f92672">.</span>rbd_name, snapshot_name, protect<span style="color:#f92672">=</span>True)
+    location <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;url&#39;</span>: <span style="color:#e6db74">&#39;rbd://</span><span style="color:#e6db74">%(fsid)s</span><span style="color:#e6db74">/</span><span style="color:#e6db74">%(pool)s</span><span style="color:#e6db74">/</span><span style="color:#e6db74">%(image)s</span><span style="color:#e6db74">/</span><span style="color:#e6db74">%(snap)s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span>
+                        dict(fsid<span style="color:#f92672">=</span>fsid,
+                            pool<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>pool,
+                            image<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>rbd_name,
+                            snap<span style="color:#f92672">=</span>snapshot_name)}
+    <span style="color:#66d9ef">try</span>:
+        self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>clone(location, image_id, dest_pool<span style="color:#f92672">=</span>parent_pool)
+        self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>flatten(image_id, pool<span style="color:#f92672">=</span>parent_pool)
+    <span style="color:#66d9ef">finally</span>:
+        self<span style="color:#f92672">.</span>cleanup_direct_snapshot(location)
+    self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>create_snap(image_id, <span style="color:#e6db74">&#39;snap&#39;</span>, pool<span style="color:#f92672">=</span>parent_pool,
+                            protect<span style="color:#f92672">=</span>True)
+    <span style="color:#66d9ef">return</span> (<span style="color:#e6db74">&#39;rbd://</span><span style="color:#e6db74">%(fsid)s</span><span style="color:#e6db74">/</span><span style="color:#e6db74">%(pool)s</span><span style="color:#e6db74">/</span><span style="color:#e6db74">%(image)s</span><span style="color:#e6db74">/snap&#39;</span> <span style="color:#f92672">%</span>
+            dict(fsid<span style="color:#f92672">=</span>fsid, pool<span style="color:#f92672">=</span>parent_pool, image<span style="color:#f92672">=</span>image_id))
+</code></pre></div><p>这个函数本质上还是一层封装，最终调用<code>rbd</code>驱动提供的<code>clone</code>、<code>create_snap</code>、<code>flatten</code>方法返回一个location给glance。</p>
+<p>总结一下，nova创建快照功能是交给底层对应的驱动来处理的，然后调用glance接口创建一条数据最后更新location字段即可。这里多说一句，如果镜像文件特别大的时候使用glance进行同步特别慢，可以参考这里的思路进行优化，使用ceph提供的功能复制后新增glance中的数据即可。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/openstack/" rel="tag">openstack</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E5%A6%82%E4%BD%95%E6%9B%B4%E5%A5%BD%E7%9A%84code-review/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">如何更好的Code Review</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">设计模式-桥接模式</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

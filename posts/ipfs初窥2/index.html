@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>IPFS初窥2 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="IPFS初窥2" />
+<meta property="og:description" content="
+在上一篇文章中初步介绍了IPFS的基本概念和使用方法，今天更深入一些了解IPFS的设计理念。
+根据 第三版 白皮书，IPFS体系可以分为7层：
+
+身份：负责节点的身份生成和认证。
+网络：负责节点间的网络连接，可以配置使用各种网络协议。
+路由：维护路由信息来找出特定的节点和对象。默认使用DHT，可以替换。
+交换：一个新型的块交换协议(BitSwap)来高效管理块分发。有点类似超市，对数据复制有激励。交易策略可以替换。
+对象：带有链接的、内容寻址的不可变对象组成的Merkle DAG，可以代表任意数据结构。比如文件层级和通信系统。
+文件：受到Git启发的版本控制文件层级系统。
+命名：自验证的可变命名系统。
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/ipfs%E5%88%9D%E7%AA%A52/" />
+<meta property="article:published_time" content="2018-09-19T10:52:06+00:00" />
+<meta property="article:modified_time" content="2018-09-19T10:52:06+00:00" />
+
+		<meta itemprop="name" content="IPFS初窥2">
+<meta itemprop="description" content="
+在上一篇文章中初步介绍了IPFS的基本概念和使用方法，今天更深入一些了解IPFS的设计理念。
+根据 第三版 白皮书，IPFS体系可以分为7层：
+
+身份：负责节点的身份生成和认证。
+网络：负责节点间的网络连接，可以配置使用各种网络协议。
+路由：维护路由信息来找出特定的节点和对象。默认使用DHT，可以替换。
+交换：一个新型的块交换协议(BitSwap)来高效管理块分发。有点类似超市，对数据复制有激励。交易策略可以替换。
+对象：带有链接的、内容寻址的不可变对象组成的Merkle DAG，可以代表任意数据结构。比如文件层级和通信系统。
+文件：受到Git启发的版本控制文件层级系统。
+命名：自验证的可变命名系统。
+">
+<meta itemprop="datePublished" content="2018-09-19T10:52:06&#43;00:00" />
+<meta itemprop="dateModified" content="2018-09-19T10:52:06&#43;00:00" />
+<meta itemprop="wordCount" content="536">
+
+
+
+<meta itemprop="keywords" content="ipfs," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">IPFS初窥2</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-09-19T10:52:06Z">2018-09-19</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="category">区块链</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<!-- raw HTML omitted -->
+<p>在<a href="http://www.hi-roy.com/2018/09/04/IPFS%E5%88%9D%E7%AA%A5/">上一篇文章</a>中初步介绍了IPFS的基本概念和使用方法，今天更深入一些了解IPFS的设计理念。</p>
+<p>根据 <strong>第三版</strong> 白皮书，IPFS体系可以分为7层：</p>
+<ol>
+<li>身份：负责节点的身份生成和认证。</li>
+<li>网络：负责节点间的网络连接，可以配置使用各种网络协议。</li>
+<li>路由：维护路由信息来找出特定的节点和对象。默认使用DHT，可以替换。</li>
+<li>交换：一个新型的块交换协议(BitSwap)来高效管理块分发。有点类似超市，对数据复制有激励。交易策略可以替换。</li>
+<li>对象：带有链接的、内容寻址的不可变对象组成的Merkle DAG，可以代表任意数据结构。比如文件层级和通信系统。</li>
+<li>文件：受到Git启发的版本控制文件层级系统。</li>
+<li>命名：自验证的可变命名系统。</li>
+</ol>
+<h2 id="身份">身份</h2>
+<p>节点间通过<code>NodeID</code>来识别彼此之间的身份，而<code>NodeID</code>是根据公钥和<code>S/Kademlia</code>静态加密算法生成的，一个节点可以生成多个<code>NodeID</code>，但这种行为将失去某些“好处”，至于什么好处在BitSwap时候细说。</p>
+<p>文中还给了生成<code>NodeID</code>的伪代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">difficulty</span> = &lt;<span style="color:#a6e22e">integet</span> <span style="color:#a6e22e">parameter</span>&gt;
+<span style="color:#a6e22e">n</span> = <span style="color:#a6e22e">Node</span>{}
+
+<span style="color:#a6e22e">do</span>{
+  <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">PubKey</span>,<span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">PrivKey</span> = <span style="color:#a6e22e">PKI</span>.<span style="color:#a6e22e">genKeyPair</span>()
+  <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">NodeID</span> = <span style="color:#a6e22e">hash</span>(<span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">PubKey</span>)
+  <span style="color:#a6e22e">p</span> = <span style="color:#a6e22e">count_preceding_zero_bits</span>((<span style="color:#a6e22e">hash</span>(<span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">NodeId</span>)))
+}<span style="color:#a6e22e">while</span> (<span style="color:#a6e22e">p</span> &lt; <span style="color:#a6e22e">difficulty</span>)
+</code></pre></div><p>代码比较好理解这里就不多解释，当节点间第一次建立链接时候会交换公钥，并且计算哈希值，如果不匹配则终止链接。另外IPFS更倾向于使用能自解释的哈希格式，比如使用了哪个哈希函数、摘要长度：</p>
+<pre><code>&lt;function code&gt;&lt;digest length&gt;&lt;digest bytes&gt;
+</code></pre><p>这样做的好处有2个：</p>
+<ol>
+<li>可以根据实际情况选择合适的函数(安全性Vs高性能)</li>
+<li>可以根据选择函数的不同而演变。自描述的值准许使用兼容的、不同的参数。</li>
+</ol>
+<h2 id="网络和路由">网络和路由</h2>
+<p>这两个相对好理解就放一起记录了。</p>
+<p>IPFS可以使用任何传输协议，但最适合的是<code>WebRTC DataChannels</code>和<code>uTP</code>，同时基于<code>uTP</code>提供了可靠传输。并且支持<code>ICE NAT</code>穿透技术，还可以选择检查哈希值来保证消息完整性，并通过使用HAMC以及发送方的公钥来保证真实性。</p>
+<p>正是因为可以使用各种传输协议，所以IPFS也可使用<code>覆盖网络(overlay networks)</code>。因此IPFS使用多层地址的格式来存储地址信息。比如：</p>
+<pre><code># sctp/ipv4链接
+
+/ip4/10.20.30.40/sctp/1234/
+
+# 通过tcp/ipv4代理的sctp/ipv4链接
+/ipo/5.6.7.8/tcp/5678/ip4/1.3.4.5/sctp/1234/
+</code></pre><p>IPFS通过使用路由来寻找其他节点的网络地址和谁可以提供特定的对象。基于DSHT、Coral和S/Kademila。IPFS DHT根据大小来使用不同的存储方式，比如小文件(小于1KB)直接存在DHT中，而大文件则存储那些可以提供数据的节点的引用。</p>
+<p>另外不同的场景可以使用不同的路由系统，比如DHT用于广域网，静态HT用于本地网络。所以根据不同场景路由系统是可以改变的，只要实现了相应的接口。</p>
+<h2 id="块交换bitswap协议">块交换——BitSwap协议</h2>
+<p>BitSwap协议灵感来源于Bittorrent，使用<code>want_list</code>来记录自己想要什么，<code>have_list</code>来记录自己有什么。和Bittorrent不同的是BitSwap不关注数据块来源于哪个文件。为了解决“吸血节点”问题，IPFS引入了信用机制：</p>
+<ol>
+<li>节点通过账本记录和其他节点之间的收(负债)发(信用)字节长度。</li>
+<li>根据不同的负债率，是否发送数据的概率不同。</li>
+</ol>
+<p>如果一个节点决定不发送数据给请求方，随后则会根据<code>ignore_cooldown</code>时间来忽略接下来这个节点的请求，以便防止DDos攻击。</p>
+<p>负债率的计算公式为：</p>
+<p>$$r=\frac{bytes sent}{bytes recv+1}$$</p>
+<p>分母加1防止出现除以0的异常。已知r后，发送数据的概率P为：</p>
+<p>$$P(send|r)=1-\frac{1}{1+\exp(6-3r)}$$</p>
+<p>这里有个点要注意，节点A的负债(debt)就是节点B的信用(credit)，以<code>go-bitswap</code>中关于账本的代码为例，来源于<code>decision\ledger.go</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ledger</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#75715e">// Partner is the remote Peer.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Partner</span> <span style="color:#a6e22e">peer</span>.<span style="color:#a6e22e">ID</span>
+
+	<span style="color:#75715e">// Accounting tracks bytes sent and received.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Accounting</span> <span style="color:#a6e22e">debtRatio</span>
+
+	<span style="color:#75715e">// lastExchange is the time of the last data exchange.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">lastExchange</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span>
+
+	<span style="color:#75715e">// exchangeCount is the number of exchanges with this peer
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">exchangeCount</span> <span style="color:#66d9ef">uint64</span>
+
+	<span style="color:#75715e">// wantList is a (bounded, small) set of keys that Partner desires.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">wantList</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">wl</span>.<span style="color:#a6e22e">Wantlist</span>
+
+	<span style="color:#75715e">// sentToPeer is a set of keys to ensure we dont send duplicate blocks
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// to a given peer
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">sentToPeer</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span>
+
+	<span style="color:#75715e">// ref is the reference count for this ledger, its used to ensure we
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// don&#39;t drop the reference to this ledger in multi-connection scenarios
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ref</span> <span style="color:#66d9ef">int</span>
+
+	<span style="color:#a6e22e">lk</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Mutex</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">debtRatio</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">BytesSent</span> <span style="color:#66d9ef">uint64</span>
+	<span style="color:#a6e22e">BytesRecv</span> <span style="color:#66d9ef">uint64</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">dr</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">debtRatio</span>) <span style="color:#a6e22e">Value</span>() <span style="color:#66d9ef">float64</span> {
+	<span style="color:#66d9ef">return</span> float64(<span style="color:#a6e22e">dr</span>.<span style="color:#a6e22e">BytesSent</span>) <span style="color:#f92672">/</span> float64(<span style="color:#a6e22e">dr</span>.<span style="color:#a6e22e">BytesRecv</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">l</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ledger</span>) <span style="color:#a6e22e">SentBytes</span>(<span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>) {
+	<span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">exchangeCount</span><span style="color:#f92672">++</span>
+	<span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">lastExchange</span> = <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>()
+	<span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">Accounting</span>.<span style="color:#a6e22e">BytesSent</span> <span style="color:#f92672">+=</span> uint64(<span style="color:#a6e22e">n</span>)
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">l</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ledger</span>) <span style="color:#a6e22e">ReceivedBytes</span>(<span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>) {
+	<span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">exchangeCount</span><span style="color:#f92672">++</span>
+	<span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">lastExchange</span> = <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>()
+	<span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">Accounting</span>.<span style="color:#a6e22e">BytesRecv</span> <span style="color:#f92672">+=</span> uint64(<span style="color:#a6e22e">n</span>)
+}
+</code></pre></div><p>举个例子方便理解：假设有A、B两个节点，目前A向B发送了60个字节的数据，从B接收了100字节数据，那么对于B来说则是向A发送100字节数据、接收60字节数据。当A再次向B请求下载数据时，B就会根据自己的账本计算负债率，并决定是否接受这次请求。</p>
+<p>块交换生命周期大体分成4种：</p>
+<ol>
+<li>open：发送账本直到对方同意。</li>
+<li>sending：交换want_list和数据块。</li>
+<li>close：关闭链接。</li>
+<li>ignore：这个只有在策略是避免发送时候才会出现。</li>
+</ol>
+<p>白皮书中说，在open阶段节点A会创建一个新账本或者使用旧账本发送给节点B，而B则在ignore_cooldown超时时间内概率性的决定忽略还是接受这次请求。(原文是:This should be done probabilistically with an ignore_cooldown timeout)。此外，如果决定了接受这次请求，则使用本地账本新建一个peer对象并修改账本的<code>last_seen</code>时间戳，然后比较接收到的账本和对方发来的账本是否一致，一致则建立链接，否则初始化一个空账本并发送。</p>
+<blockquote>
+<p>这里Roy我有个疑惑，在<code>go-ipfs</code>源码中找了很多地方都没找到这个&quot;概率性忽略或接受请求&quot;以及对比账本是否一致部分的代码，甚至上面计算概率的公式都没找到，希望知道这部分代码实现位置的大佬能够指点一下小弟，先谢谢了。</p>
+</blockquote>
+<p>建立链接后就可以开始交换数据了。在<code>go-ipfs</code>中，want_list是一个字典，定义如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Wantlist</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">set</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#f92672">*</span><span style="color:#a6e22e">Entry</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Entry</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">Cid</span>      <span style="color:#a6e22e">cid</span>.<span style="color:#a6e22e">Cid</span>
+	<span style="color:#a6e22e">Priority</span> <span style="color:#66d9ef">int</span>
+
+	<span style="color:#a6e22e">SesTrk</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">uint64</span>]<span style="color:#66d9ef">struct</span>{}
+}
+</code></pre></div><p>block则更简洁:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">BasicBlock</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">cid</span>  <span style="color:#a6e22e">cid</span>.<span style="color:#a6e22e">Cid</span>
+	<span style="color:#a6e22e">data</span> []<span style="color:#66d9ef">byte</span>
+}
+</code></pre></div><p>在IPFS中，文件被分为若干Blocks，Block使用一个叫做<code>CID</code>标识符来索引，这是一个自描述的索引结构体，用来唯一标识一个Block。所以要想从节点下载一个Block，只需在知道<code>CID</code>即可，定义如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Cid represents a self-describing content adressed
+</span><span style="color:#75715e">// identifier. It is formed by a Version, a Codec (which indicates
+</span><span style="color:#75715e">// a multicodec-packed content type) and a Multihash.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Cid</span> <span style="color:#66d9ef">struct</span>{ <span style="color:#a6e22e">str</span> <span style="color:#66d9ef">string</span> }
+
+<span style="color:#75715e">// NewCidV0 returns a Cid-wrapped multihash.
+</span><span style="color:#75715e">// They exist to allow IPFS to work with Cids while keeping
+</span><span style="color:#75715e">// compatibility with the plain-multihash format used used in IPFS.
+</span><span style="color:#75715e">// NewCidV1 should be used preferentially.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewCidV0</span>(<span style="color:#a6e22e">mhash</span> <span style="color:#a6e22e">mh</span>.<span style="color:#a6e22e">Multihash</span>) <span style="color:#a6e22e">Cid</span> {
+	<span style="color:#75715e">// Need to make sure hash is valid for CidV0 otherwise we will
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// incorrectly detect it as CidV1 in the Version() method
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">dec</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mh</span>.<span style="color:#a6e22e">Decode</span>(<span style="color:#a6e22e">mhash</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		panic(<span style="color:#a6e22e">err</span>)
+	}
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">dec</span>.<span style="color:#a6e22e">Code</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">mh</span>.<span style="color:#a6e22e">SHA2_256</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">dec</span>.<span style="color:#a6e22e">Length</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">32</span> {
+		panic(<span style="color:#e6db74">&#34;invalid hash for cidv0&#34;</span>)
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Cid</span>{string(<span style="color:#a6e22e">mhash</span>)}
+}
+
+<span style="color:#75715e">// NewCidV1 returns a new Cid using the given multicodec-packed
+</span><span style="color:#75715e">// content type.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewCidV1</span>(<span style="color:#a6e22e">codecType</span> <span style="color:#66d9ef">uint64</span>, <span style="color:#a6e22e">mhash</span> <span style="color:#a6e22e">mh</span>.<span style="color:#a6e22e">Multihash</span>) <span style="color:#a6e22e">Cid</span> {
+	<span style="color:#a6e22e">hashlen</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">mhash</span>)
+	<span style="color:#75715e">// two 8 bytes (max) numbers plus hash
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">buf</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span><span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">MaxVarintLen64</span><span style="color:#f92672">+</span><span style="color:#a6e22e">hashlen</span>)
+	<span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">PutUvarint</span>(<span style="color:#a6e22e">buf</span>, <span style="color:#ae81ff">1</span>)
+	<span style="color:#a6e22e">n</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">PutUvarint</span>(<span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">n</span>:], <span style="color:#a6e22e">codecType</span>)
+	<span style="color:#a6e22e">cn</span> <span style="color:#f92672">:=</span> copy(<span style="color:#a6e22e">buf</span>[<span style="color:#a6e22e">n</span>:], <span style="color:#a6e22e">mhash</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cn</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">hashlen</span> {
+		panic(<span style="color:#e6db74">&#34;copy hash length is inconsistent&#34;</span>)
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Cid</span>{string(<span style="color:#a6e22e">buf</span>[:<span style="color:#a6e22e">n</span><span style="color:#f92672">+</span><span style="color:#a6e22e">hashlen</span>])}
+}
+</code></pre></div><p>当执行<code>ipfs daemon</code>后，可以使用<code>ipfs bitswap stat</code>来查看整体的情况：</p>
+<pre><code>-&gt; % ipfs bitswap stat
+bitswap status
+	provides buffer: 0 / 256
+	blocks received: 760
+	blocks sent: 11
+	data received: 195407444
+	data sent: 2883738
+	dup blocks received: 75
+	dup data received: 18 MB
+	wantlist [6 keys]
+		QmeUUfUS4DMsKzMkTda3iunruYMvJEwDfGnF7KBAt2smwJ
+		QmcQQyNtMy3Z1fekutzjwkZCPHXwVvs4ZqgiboMBbc2H3A
+		Qmc4XdqSLbyjYGsaZihb1nGhNAWbU8hKmmUNeUjExsLQyi
+		QmYxE2fXENrJvuzES3Tyive4o1zp9VoNJD5bft4soyv1H2
+		QmPmLZxuK4hAk9kx6mipvXvUjbtMxTXXnbbahP2VicYLeu
+		QmRtJugMr7yPPS7Kw5azRQaj3VB774ARSLJfw7gsKM1fzt
+	partners [936]
+		QmNMTsUaKTDdunSUN44TZuMPDpGTCLG8R2ooEo1ZmxJadq
+		QmNPNDYybTYcZK2KBrrn24M4Lc7VcPnGDNX8ueur9TRCmK
+		QmNQC6nB2LACt1h6nkJdFz1vaFRP5iTHeB1p9nsfpk4nnM
+		QmNRPRpbgM1WTEUo4T4sadsASmBudPKqYupdtZcSoFkvSL
+		QmNRSBnfjE6PMZ5AfnLccWpMjX2LtRFYedxQ2UqQxvozfV
+		QmNRV7kyUxYaQ4KQxFXPYm8EfuzJbtGn1wSFenjXL6LD8y
+		QmNUCfyL67rqBesyCLon9kRUpXtPEfVUzf7aGp1VXqGqW4
+		QmNV721hfbzxuLdBvLaBpzmKtnPP4duf59SZ3AU1fV5CrK
+</code></pre><p>也可以使用<code>ipfs bitswap ledger NodeID</code>来具体查看和某个节点之间的债务关系。</p>
+<p>本文最后来个彩蛋吧：</p>
+<pre><code>%ipfs get Qmdsrpg2oXZTWGjat98VgpFQb5u1Vdw5Gun2rgQ2Xhxa2t                                                                                                                 
+Saving file(s) to Qmdsrpg2oXZTWGjat98VgpFQb5u1Vdw5Gun2rgQ2Xhxa2t
+322.39 MiB / 322.39 MiB[====================================================================================================================================================] 100.00% 17m47s
+</code></pre><p>然后把下载好的文件后缀改成<code>mp4</code>，慢慢欣赏。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/ipfs/" rel="tag">ipfs</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/ipfs%E5%88%9D%E7%AA%A5/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">IPFS初窥</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/ipfs%E5%88%9D%E7%AA%A53/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">IPFS初窥3</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>200行GO代码实现区块链3 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="200行GO代码实现区块链3" />
+<meta property="og:description" content="原文，阅读之前请先看200行GO代码实现区块链1 和 200行GO代码实现区块链2。
+如果看到这了相信你已经知道什么是加密算法等背景了，所以忽略关于这部分的翻译，直接从编码开始。这篇文章在前两篇的文章基础上添加了工作量证明(POW)挖矿算法。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE3/" />
+<meta property="article:published_time" content="2018-06-22T17:35:36+00:00" />
+<meta property="article:modified_time" content="2018-06-22T17:35:36+00:00" />
+
+		<meta itemprop="name" content="200行GO代码实现区块链3">
+<meta itemprop="description" content="原文，阅读之前请先看200行GO代码实现区块链1 和 200行GO代码实现区块链2。
+如果看到这了相信你已经知道什么是加密算法等背景了，所以忽略关于这部分的翻译，直接从编码开始。这篇文章在前两篇的文章基础上添加了工作量证明(POW)挖矿算法。">
+<meta itemprop="datePublished" content="2018-06-22T17:35:36&#43;00:00" />
+<meta itemprop="dateModified" content="2018-06-22T17:35:36&#43;00:00" />
+<meta itemprop="wordCount" content="473">
+
+
+
+<meta itemprop="keywords" content="golang," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">200行GO代码实现区块链3</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-06-22T17:35:36Z">2018-06-22</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="category">区块链</a>, <a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p><a href="https://medium.com/@mycoralhealth/code-your-own-blockchain-mining-algorithm-in-go-82c6a71aba1f">原文</a>，阅读之前请先看<a href="http://www.hi-roy.com/2018/05/18/200%E8%A1%8CGO%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE1/">200行GO代码实现区块链1</a> 和 <a href="http://www.hi-roy.com/2018/05/21/200%E8%A1%8CGO%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE2/">200行GO代码实现区块链2</a>。</p>
+<p>如果看到这了相信你已经知道什么是加密算法等背景了，所以忽略关于这部分的翻译，直接从编码开始。这篇文章在前两篇的文章基础上添加了工作量证明(POW)挖矿算法。</p>
+<p>首先创建<code>.env</code>文件来定义环境变量，里面只有一行<code>ADDR=8080</code>，然后创建<code>main.go</code>并引入相关依赖：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+        <span style="color:#e6db74">&#34;crypto/sha256&#34;</span>
+        <span style="color:#e6db74">&#34;encoding/hex&#34;</span>
+        <span style="color:#e6db74">&#34;encoding/json&#34;</span>
+        <span style="color:#e6db74">&#34;fmt&#34;</span>
+        <span style="color:#e6db74">&#34;io&#34;</span>
+        <span style="color:#e6db74">&#34;log&#34;</span>
+        <span style="color:#e6db74">&#34;net/http&#34;</span>
+        <span style="color:#e6db74">&#34;os&#34;</span>
+        <span style="color:#e6db74">&#34;strconv&#34;</span>
+        <span style="color:#e6db74">&#34;strings&#34;</span>
+        <span style="color:#e6db74">&#34;sync&#34;</span>
+        <span style="color:#e6db74">&#34;time&#34;</span>
+
+        <span style="color:#e6db74">&#34;github.com/davecgh/go-spew/spew&#34;</span>
+        <span style="color:#e6db74">&#34;github.com/gorilla/mux&#34;</span>
+        <span style="color:#e6db74">&#34;github.com/joho/godotenv&#34;</span>
+)
+</code></pre></div><p>如果你阅读过之前的文章，你应该知道区块链中的区块通过比较本区块记录的<code>PrevHash</code>和前一个区块的<code>Hash</code>来进行验证，这也是保证区块链完整性和坏人无法改变区块链历史的原因。</p>
+<p><code>BMP</code>代表心跳速率，我们使用这个作为存储在区块中的数据，接下来定义数据模型和需要的变量：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">difficulty</span> = <span style="color:#ae81ff">1</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Block</span> <span style="color:#66d9ef">struct</span> {
+        <span style="color:#a6e22e">Index</span>      <span style="color:#66d9ef">int</span>
+        <span style="color:#a6e22e">Timestamp</span>  <span style="color:#66d9ef">string</span>
+        <span style="color:#a6e22e">BPM</span>        <span style="color:#66d9ef">int</span>
+        <span style="color:#a6e22e">Hash</span>       <span style="color:#66d9ef">string</span>
+        <span style="color:#a6e22e">PrevHash</span>   <span style="color:#66d9ef">string</span>
+        <span style="color:#a6e22e">Difficulty</span> <span style="color:#66d9ef">int</span>
+        <span style="color:#a6e22e">Nonce</span>      <span style="color:#66d9ef">string</span>
+}
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">Blockchain</span> []<span style="color:#a6e22e">Block</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Message</span> <span style="color:#66d9ef">struct</span> {
+        <span style="color:#a6e22e">BPM</span> <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">mutex</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Mutex</span>{}
+</code></pre></div><p><code>difficulty</code>定义了难度，即hash值开头0的数量。0数量越多，则难度越大，这里我们要求开头有1个0。</p>
+<p><code>Block</code>是区块的数据结构，别忘了<code>Nonce</code>，我们晚一些解释这个。</p>
+<p><code>Blockchain</code>是<code>Block</code>组成的列表(Roy注：准确的说是slice，不过翻译成切片有点拗口)，用来存储区块链。</p>
+<p><code>Message</code>用来接收我们向REST API使用<code>POST</code>方式生成新区块的数据。</p>
+<p>我们声明了<code>mutex</code>来数据冲突并且确保区块不会同一时刻生成多个。</p>
+<p>接下来创建web服务，首先创建<code>run()</code>函数晚些将在<code>main</code>函数中调用，同时生成了<code>makeMuxRouter()</code>来管理路由。记住，我们使用<code>GET</code>来检索区块<code>POST</code>来添加新区块，由于区块链是不可变的所以我们不需要删除或编辑功能。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">run</span>() <span style="color:#66d9ef">error</span> {
+        <span style="color:#a6e22e">mux</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">makeMuxRouter</span>()
+        <span style="color:#a6e22e">httpAddr</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Getenv</span>(<span style="color:#e6db74">&#34;ADDR&#34;</span>)
+        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Listening on &#34;</span>, <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Getenv</span>(<span style="color:#e6db74">&#34;ADDR&#34;</span>))
+        <span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Server</span>{
+                <span style="color:#a6e22e">Addr</span>:           <span style="color:#e6db74">&#34;:&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">httpAddr</span>,
+                <span style="color:#a6e22e">Handler</span>:        <span style="color:#a6e22e">mux</span>,
+                <span style="color:#a6e22e">ReadTimeout</span>:    <span style="color:#ae81ff">10</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>,
+                <span style="color:#a6e22e">WriteTimeout</span>:   <span style="color:#ae81ff">10</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>,
+                <span style="color:#a6e22e">MaxHeaderBytes</span>: <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">20</span>,
+        }
+
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">ListenAndServe</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+        }
+
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">makeMuxRouter</span>() <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Handler</span> {
+        <span style="color:#a6e22e">muxRouter</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mux</span>.<span style="color:#a6e22e">NewRouter</span>()
+        <span style="color:#a6e22e">muxRouter</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/&#34;</span>, <span style="color:#a6e22e">handleGetBlockchain</span>).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;GET&#34;</span>)
+        <span style="color:#a6e22e">muxRouter</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/&#34;</span>, <span style="color:#a6e22e">handleWriteBlock</span>).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;POST&#34;</span>)
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">muxRouter</span>
+}
+</code></pre></div><p><code>httpAddr := os.Getenv(&quot;ADDR&quot;)</code>这行代码从<code>.env</code>文件中读取我们定义的<code>:8080</code>，这样就可以通过浏览器访问<code>http://localhost:8080</code>来查看应用了。(Roy注:注意这里的<code>1 &lt;&lt; 20</code>这个位移操作，正好是1KB。)</p>
+<p>现在编写处理<code>GET</code>请求的函数来在浏览器展示我们的区块链，同时添加<code>respondwithJSON</code>函数来打印错误信息：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">handleGetBlockchain</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+        <span style="color:#a6e22e">bytes</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">MarshalIndent</span>(<span style="color:#a6e22e">Blockchain</span>, <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#e6db74">&#34;  &#34;</span>)
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">w</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>(), <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusInternalServerError</span>)
+                <span style="color:#66d9ef">return</span>
+        }
+        <span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">w</span>, string(<span style="color:#a6e22e">bytes</span>))
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">respondWithJSON</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>, <span style="color:#a6e22e">code</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">payload</span> <span style="color:#66d9ef">interface</span>{}) {
+        <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Header</span>().<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;Content-Type&#34;</span>, <span style="color:#e6db74">&#34;application/json&#34;</span>)
+        <span style="color:#a6e22e">response</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">MarshalIndent</span>(<span style="color:#a6e22e">payload</span>, <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#e6db74">&#34;  &#34;</span>)
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">WriteHeader</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusInternalServerError</span>)
+                <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>([]byte(<span style="color:#e6db74">&#34;HTTP 500: Internal Server Error&#34;</span>))
+                <span style="color:#66d9ef">return</span>
+        }
+        <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">WriteHeader</span>(<span style="color:#a6e22e">code</span>)
+        <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">response</span>)
+}
+</code></pre></div><p><em>如果你觉得一头雾水，请先看之前的文章。</em></p>
+<p>接下来编写处理生成区块的<code>POST</code>请求函数，我们通过发送JSON类型的数据比如<code>{&quot;BMP&quot;:60}</code>到<code>http://localhost:8080</code>来生成新区块：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">handleWriteBlock</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+        <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Header</span>().<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;Content-Type&#34;</span>, <span style="color:#e6db74">&#34;application/json&#34;</span>)
+        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">m</span> <span style="color:#a6e22e">Message</span>
+
+        <span style="color:#a6e22e">decoder</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">NewDecoder</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Body</span>)
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">decoder</span>.<span style="color:#a6e22e">Decode</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">m</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#a6e22e">respondWithJSON</span>(<span style="color:#a6e22e">w</span>, <span style="color:#a6e22e">r</span>, <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusBadRequest</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Body</span>)
+                <span style="color:#66d9ef">return</span>
+        }   
+        <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Close</span>()
+
+        <span style="color:#75715e">//ensure atomicity when creating new block
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">mutex</span>.<span style="color:#a6e22e">Lock</span>()
+        <span style="color:#a6e22e">newBlock</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">generateBlock</span>(<span style="color:#a6e22e">Blockchain</span>[len(<span style="color:#a6e22e">Blockchain</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], <span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">BPM</span>)
+        <span style="color:#a6e22e">mutex</span>.<span style="color:#a6e22e">Unlock</span>()
+
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">isBlockValid</span>(<span style="color:#a6e22e">newBlock</span>, <span style="color:#a6e22e">Blockchain</span>[len(<span style="color:#a6e22e">Blockchain</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]) {
+                <span style="color:#a6e22e">Blockchain</span> = append(<span style="color:#a6e22e">Blockchain</span>, <span style="color:#a6e22e">newBlock</span>)
+                <span style="color:#a6e22e">spew</span>.<span style="color:#a6e22e">Dump</span>(<span style="color:#a6e22e">Blockchain</span>)
+        }   
+
+        <span style="color:#a6e22e">respondWithJSON</span>(<span style="color:#a6e22e">w</span>, <span style="color:#a6e22e">r</span>, <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusCreated</span>, <span style="color:#a6e22e">newBlock</span>)
+
+}
+</code></pre></div><p>注意<code>mutex</code>加锁和解锁的地方，我们在写新区块之前加锁，否则将可能造成数据冲突。有些读者可能注意到了<code>generateBlock</code>函数，这是实现工作量证明的关键函数，我们一会再说。</p>
+<p>首先添加<code>isBlockValid</code>函数来确保区块链的索引递增并且每个区块的<code>PrevHash</code>和前一个区块的<code>Hash</code>相匹配。</p>
+<p>然后添加<code>calculateHash</code>函数来计算创建Hash值，这里我们使用SHA256来链接Index、Timestamp，BMP，PrevHash和Nonce（我们晚一点解释这个）。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">isBlockValid</span>(<span style="color:#a6e22e">newBlock</span>, <span style="color:#a6e22e">oldBlock</span> <span style="color:#a6e22e">Block</span>) <span style="color:#66d9ef">bool</span> {
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">oldBlock</span>.<span style="color:#a6e22e">Index</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">newBlock</span>.<span style="color:#a6e22e">Index</span> {
+                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+        }
+
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">oldBlock</span>.<span style="color:#a6e22e">Hash</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">newBlock</span>.<span style="color:#a6e22e">PrevHash</span> {
+                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+        }
+
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">calculateHash</span>(<span style="color:#a6e22e">newBlock</span>) <span style="color:#f92672">!=</span> <span style="color:#a6e22e">newBlock</span>.<span style="color:#a6e22e">Hash</span> {
+                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+        }
+
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">calculateHash</span>(<span style="color:#a6e22e">block</span> <span style="color:#a6e22e">Block</span>) <span style="color:#66d9ef">string</span> {
+        <span style="color:#a6e22e">record</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Itoa</span>(<span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">Index</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">Timestamp</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Itoa</span>(<span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">BPM</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">PrevHash</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">Nonce</span>
+        <span style="color:#a6e22e">h</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sha256</span>.<span style="color:#a6e22e">New</span>()
+        <span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">Write</span>([]byte(<span style="color:#a6e22e">record</span>))
+        <span style="color:#a6e22e">hashed</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">Sum</span>(<span style="color:#66d9ef">nil</span>)
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">hex</span>.<span style="color:#a6e22e">EncodeToString</span>(<span style="color:#a6e22e">hashed</span>)
+}
+</code></pre></div><p>接下来编写挖矿算法——工作量证明(POW)，我们要确保在新区块添加到区块链之前工作量证明已经完成，让我们先写一个简单的函数来检查生成的散列是否满足条件：</p>
+<ul>
+<li>生成的散列是否以0开头</li>
+<li>开头0的数量是否和我们常量<code>difficulty</code>中定义的一致(本例中为1)</li>
+<li>我们可以通过增大难度来使挖矿变难</li>
+</ul>
+<p>函数<code>isHashValid</code>如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">isHashValid</span>(<span style="color:#a6e22e">hash</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">difficulty</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">bool</span> {
+        <span style="color:#a6e22e">prefix</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">Repeat</span>(<span style="color:#e6db74">&#34;0&#34;</span>, <span style="color:#a6e22e">difficulty</span>)
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">HasPrefix</span>(<span style="color:#a6e22e">hash</span>, <span style="color:#a6e22e">prefix</span>)
+}
+</code></pre></div><p>GO在<code>strings</code>包中提供了<code>Repeat</code>和<code>HasPrefix</code>函数，变量<code>prefix</code>是重复了<code>difficulty</code>次的0组成的字符串，接下来我们判断散列是否以这个字符串开头，如果是返回<code>True</code>否则返回<code>False</code>。</p>
+<p>接下来构建<code>generateBlock</code>函数：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">generateBlock</span>(<span style="color:#a6e22e">oldBlock</span> <span style="color:#a6e22e">Block</span>, <span style="color:#a6e22e">BPM</span> <span style="color:#66d9ef">int</span>) <span style="color:#a6e22e">Block</span> {
+        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">newBlock</span> <span style="color:#a6e22e">Block</span>
+
+        <span style="color:#a6e22e">t</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>()
+
+        <span style="color:#a6e22e">newBlock</span>.<span style="color:#a6e22e">Index</span> = <span style="color:#a6e22e">oldBlock</span>.<span style="color:#a6e22e">Index</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#a6e22e">newBlock</span>.<span style="color:#a6e22e">Timestamp</span> = <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">String</span>()
+        <span style="color:#a6e22e">newBlock</span>.<span style="color:#a6e22e">BPM</span> = <span style="color:#a6e22e">BPM</span>
+        <span style="color:#a6e22e">newBlock</span>.<span style="color:#a6e22e">PrevHash</span> = <span style="color:#a6e22e">oldBlock</span>.<span style="color:#a6e22e">Hash</span>
+        <span style="color:#a6e22e">newBlock</span>.<span style="color:#a6e22e">Difficulty</span> = <span style="color:#a6e22e">difficulty</span>
+
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; ; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+                <span style="color:#a6e22e">hex</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;%x&#34;</span>, <span style="color:#a6e22e">i</span>)
+                <span style="color:#a6e22e">newBlock</span>.<span style="color:#a6e22e">Nonce</span> = <span style="color:#a6e22e">hex</span>
+                <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">isHashValid</span>(<span style="color:#a6e22e">calculateHash</span>(<span style="color:#a6e22e">newBlock</span>), <span style="color:#a6e22e">newBlock</span>.<span style="color:#a6e22e">Difficulty</span>) {
+                        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">calculateHash</span>(<span style="color:#a6e22e">newBlock</span>), <span style="color:#e6db74">&#34; do more work!&#34;</span>)
+                        <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
+                        <span style="color:#66d9ef">continue</span>
+                } <span style="color:#66d9ef">else</span> {
+                        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">calculateHash</span>(<span style="color:#a6e22e">newBlock</span>), <span style="color:#e6db74">&#34; work done!&#34;</span>)
+                        <span style="color:#a6e22e">newBlock</span>.<span style="color:#a6e22e">Hash</span> = <span style="color:#a6e22e">calculateHash</span>(<span style="color:#a6e22e">newBlock</span>)
+                        <span style="color:#66d9ef">break</span>
+                }
+
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">newBlock</span>
+}
+</code></pre></div><p>这里创建新区块并将前一个区块的Hash存储到本区块的PrevHash中来确保连续性，其他字段也很明显：</p>
+<ul>
+<li><code>Index</code>自增</li>
+<li><code>Timestamp</code>记录当前时间</li>
+<li><code>BMP</code>记录心跳数据</li>
+<li><code>Difficulty</code>简单的记录了程序最上面定义的常量。本文中不会使用，但未来如果我们需要确保难度和当前散列结果一致（比如散列前面有Ｎ位0，这个值应该和Difficulty相等）时将要用到。</li>
+</ul>
+<p><code>for</code>循环在这里是很关键的一步，我们来看看这里都做了些什么：</p>
+<ul>
+<li>首先我们将16进制的<code>i</code>值赋值给了<code>Nonce</code>，我们的<code>calculateHash</code>函数需要这个变量来进行Hash计算，如果计算结果0的个数不满足要求，我们则尝试一个新值。</li>
+<li>我们从0开始循环，并判断其结果0开头的个数是否和<code>difficulty</code>规定的一样，如果不同则进行下一次循环。</li>
+<li>我们添加了<code>sleep</code>1秒钟来模拟工作量证明算法中某些耗时操作。</li>
+<li>进行循环直到获得一个开头0的个数满足我们需求的数值，也就意味着工作量证明算法成功执行。此时才准许新区块通过<code>handleWriteBlock</code>添加到区块链中。</li>
+</ul>
+<p>所有需要的函数都完成了，现在编写<code>main</code>函数：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+        <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">godotenv</span>.<span style="color:#a6e22e">Load</span>()
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+                <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#a6e22e">err</span>)
+        }   
+
+        <span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+                <span style="color:#a6e22e">t</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>()
+                <span style="color:#a6e22e">genesisBlock</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Block</span>{}
+                <span style="color:#a6e22e">genesisBlock</span> = <span style="color:#a6e22e">Block</span>{<span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">String</span>(), <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">calculateHash</span>(<span style="color:#a6e22e">genesisBlock</span>), <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#a6e22e">difficulty</span>, <span style="color:#e6db74">&#34;&#34;</span>}
+                <span style="color:#a6e22e">spew</span>.<span style="color:#a6e22e">Dump</span>(<span style="color:#a6e22e">genesisBlock</span>)
+
+                <span style="color:#a6e22e">mutex</span>.<span style="color:#a6e22e">Lock</span>()
+                <span style="color:#a6e22e">Blockchain</span> = append(<span style="color:#a6e22e">Blockchain</span>, <span style="color:#a6e22e">genesisBlock</span>)
+                <span style="color:#a6e22e">mutex</span>.<span style="color:#a6e22e">Unlock</span>()
+        }()
+        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#a6e22e">run</span>())
+
+}
+</code></pre></div><p>通过调用<code>godotenv.Load()</code>来载入环境变量，这里是<code>:8080</code>端口。然后创建一个go routine 创建了创世块作为整个区块链的起始，最后调用<code>run()</code>函数来运行web服务。</p>
+<p>完整代码在<a href="https://github.com/mycoralhealth/blockchain-tutorial/blob/master/proof-work/main.go">这里</a>。</p>
+<hr>
+<p>核心部分就翻译到这，原文还有一些如何使用<code>postman</code>进行测试以及测试输出的部分就不翻译了。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/golang/" rel="tag">golang</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/hyperledger-fabric%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E7%AC%94%E8%AE%B0/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Hyperledger-Fabric环境搭建笔记</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E5%A2%A8%E5%8D%A1%E6%89%98%E5%9D%90%E6%A0%87%E8%BD%AC%E7%BB%8F%E7%BA%AC%E5%BA%A6/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">墨卡托坐标转经纬度</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

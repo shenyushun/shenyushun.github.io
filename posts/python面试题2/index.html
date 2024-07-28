@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Python面试题2 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Python面试题2" />
+<meta property="og:description" content="最近面试了几家公司，各行各业的都有，涨了很多见识也发现了自己的技术盲点。这里来一个汇总简单纪录。
+行列转换
+
+已知有一个二维列表(每一行的元素个数相同)，写出函数对其行列转换并输出，比如：
+a = [[1,1,1,1],
+     [2,2,2,2]]
+输出：
+[
+[1,2],
+[1,2],
+[1,2],
+[1,2]
+]
+这里建议笔试时候尽量使用简单清晰的写法，让面试官一眼就能看出答案对错：
+def convert(alist):
+    result = []
+    for x in range(len(alist[0])):
+        tmp = []
+        for y in range(len(alist)):
+            tmp.append(alist[y][x])
+        result.append(tmp)
+    print result
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/python%E9%9D%A2%E8%AF%95%E9%A2%982/" />
+<meta property="article:published_time" content="2017-08-18T15:05:13+00:00" />
+<meta property="article:modified_time" content="2017-08-18T15:05:13+00:00" />
+
+		<meta itemprop="name" content="Python面试题2">
+<meta itemprop="description" content="最近面试了几家公司，各行各业的都有，涨了很多见识也发现了自己的技术盲点。这里来一个汇总简单纪录。
+行列转换
+
+已知有一个二维列表(每一行的元素个数相同)，写出函数对其行列转换并输出，比如：
+a = [[1,1,1,1],
+     [2,2,2,2]]
+输出：
+[
+[1,2],
+[1,2],
+[1,2],
+[1,2]
+]
+这里建议笔试时候尽量使用简单清晰的写法，让面试官一眼就能看出答案对错：
+def convert(alist):
+    result = []
+    for x in range(len(alist[0])):
+        tmp = []
+        for y in range(len(alist)):
+            tmp.append(alist[y][x])
+        result.append(tmp)
+    print result
+">
+<meta itemprop="datePublished" content="2017-08-18T15:05:13&#43;00:00" />
+<meta itemprop="dateModified" content="2017-08-18T15:05:13&#43;00:00" />
+<meta itemprop="wordCount" content="694">
+
+
+
+<meta itemprop="keywords" content="python," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Python面试题2</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-08-18T15:05:13Z">2017-08-18</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>最近面试了几家公司，各行各业的都有，涨了很多见识也发现了自己的技术盲点。这里来一个汇总简单纪录。</p>
+<h1 id="行列转换">行列转换</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
+<span style="color:#960050;background-color:#1e0010">已知有一个二维列表</span>(<span style="color:#960050;background-color:#1e0010">每一行的元素个数相同</span>)<span style="color:#960050;background-color:#1e0010">，写出函数对其行列转换并输出，比如：</span>
+a <span style="color:#f92672">=</span> [[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>],
+     [<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>]]
+<span style="color:#960050;background-color:#1e0010">输出：</span>
+[
+[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>],
+[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>],
+[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>],
+[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>]
+]
+</code></pre></div><p>这里建议笔试时候尽量使用简单清晰的写法，让面试官一眼就能看出答案对错：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">convert</span>(alist):
+    result <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(len(alist[<span style="color:#ae81ff">0</span>])):
+        tmp <span style="color:#f92672">=</span> []
+        <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(len(alist)):
+            tmp<span style="color:#f92672">.</span>append(alist[y][x])
+        result<span style="color:#f92672">.</span>append(tmp)
+    <span style="color:#66d9ef">print</span> result
+</code></pre></div><h1 id="写一个支持参数的装饰器">写一个支持参数的装饰器</h1>
+<p>这个比较基础了，带参数的就是在不带参数的基础上多写一层函数：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 下面这个是不带参数的</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">mywrapper</span>(func):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">tmp</span>(<span style="color:#f92672">*</span>args,<span style="color:#f92672">**</span>kwargs):
+        <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;in wrapper&#34;</span>
+        <span style="color:#66d9ef">return</span> func(<span style="color:#f92672">*</span>args,<span style="color:#f92672">**</span>kwargs)
+    <span style="color:#66d9ef">return</span> tmp
+
+<span style="color:#75715e"># 下面这个带参数</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">mywrapper2</span>(wrapper_arg):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">mywrapper</span>(func):
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">tmp</span>(<span style="color:#f92672">*</span>args,<span style="color:#f92672">**</span>kwargs):
+            <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;in wrapper&#34;</span>
+            <span style="color:#66d9ef">return</span> func(<span style="color:#f92672">*</span>args,<span style="color:#f92672">**</span>kwargs)
+        <span style="color:#66d9ef">return</span> tmp
+    <span style="color:#66d9ef">return</span> mywrapper
+</code></pre></div><h1 id="编码实现range函数">编码实现range函数</h1>
+<p>这个问题第一眼看起来不难，但有几个细节：比如<code>range()</code>函数有1个必填参数以及2个默认参数，当只传入一个参数时，这个值为结束值；传入2个参数时候，第一个为起始值而第二个为结束值。再比如，如果传递的不是数值类型如何处理(包括字符串或者浮点型)？再比如当起始值大于结束值时怎么处理？这种情况下如果步长为负数时又如何等等……</p>
+<p>很惭愧，之前有用过这个函数时候从来没这么深入思考这些细节问题，这也是自己技术遇到瓶颈的一个重要因素吧！以下都是python2代码。</p>
+<p>先看看关于参数类型原<code>range()</code>函数是怎么处理的：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">2</span>]: range(<span style="color:#e6db74">&#39;5&#39;</span>)
+<span style="color:#f92672">---------------------------------------------------------------------------</span>
+<span style="color:#a6e22e">TypeError</span>                                 Traceback (most recent call last)
+<span style="color:#f92672">&lt;</span>ipython<span style="color:#f92672">-</span>input<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="color:#f92672">-</span>b471aa280369<span style="color:#f92672">&gt;</span> <span style="color:#f92672">in</span> <span style="color:#f92672">&lt;</span>module<span style="color:#f92672">&gt;</span>()
+<span style="color:#f92672">----&gt;</span> <span style="color:#ae81ff">1</span> range(<span style="color:#e6db74">&#39;5&#39;</span>)
+
+<span style="color:#a6e22e">TypeError</span>: range() integer end argument expected, got str<span style="color:#f92672">.</span>
+
+In [<span style="color:#ae81ff">3</span>]: range(<span style="color:#ae81ff">9.4</span>)
+<span style="color:#f92672">---------------------------------------------------------------------------</span>
+<span style="color:#a6e22e">TypeError</span>                                 Traceback (most recent call last)
+<span style="color:#f92672">&lt;</span>ipython<span style="color:#f92672">-</span>input<span style="color:#f92672">-</span><span style="color:#ae81ff">3</span><span style="color:#f92672">-</span><span style="color:#ae81ff">693e2</span>fab7965<span style="color:#f92672">&gt;</span> <span style="color:#f92672">in</span> <span style="color:#f92672">&lt;</span>module<span style="color:#f92672">&gt;</span>()
+<span style="color:#f92672">----&gt;</span> <span style="color:#ae81ff">1</span> range(<span style="color:#ae81ff">9.4</span>)
+
+<span style="color:#a6e22e">TypeError</span>: range() integer end argument expected, got float<span style="color:#f92672">.</span>
+
+In [<span style="color:#ae81ff">4</span>]: range(<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">9</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">0.1</span>)
+<span style="color:#f92672">---------------------------------------------------------------------------</span>
+<span style="color:#a6e22e">TypeError</span>                                 Traceback (most recent call last)
+<span style="color:#f92672">&lt;</span>ipython<span style="color:#f92672">-</span>input<span style="color:#f92672">-</span><span style="color:#ae81ff">5</span><span style="color:#f92672">-</span><span style="color:#ae81ff">9022</span>f4774d41<span style="color:#f92672">&gt;</span> <span style="color:#f92672">in</span> <span style="color:#f92672">&lt;</span>module<span style="color:#f92672">&gt;</span>()
+<span style="color:#f92672">----&gt;</span> <span style="color:#ae81ff">1</span> range(<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">9</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">0.1</span>)
+
+<span style="color:#a6e22e">TypeError</span>: range() integer step argument expected, got float<span style="color:#f92672">.</span>
+</code></pre></div><p>可以看出原生函数仅仅支持整数。</p>
+<p>再看看关于参数为整数时候边界问题：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">7</span>]: range(<span style="color:#ae81ff">0</span>)
+Out[<span style="color:#ae81ff">7</span>]: []
+
+In [<span style="color:#ae81ff">8</span>]: range(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+Out[<span style="color:#ae81ff">8</span>]: []
+
+In [<span style="color:#ae81ff">9</span>]: range(<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">1</span>)
+Out[<span style="color:#ae81ff">9</span>]: []
+
+In [<span style="color:#ae81ff">10</span>]: range(<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">1</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+Out[<span style="color:#ae81ff">10</span>]: [<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>]
+
+In [<span style="color:#ae81ff">11</span>]: range(<span style="color:#f92672">-</span><span style="color:#ae81ff">3</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+Out[<span style="color:#ae81ff">11</span>]: []
+
+In [<span style="color:#ae81ff">12</span>]: range(<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>)
+<span style="color:#f92672">---------------------------------------------------------------------------</span>
+<span style="color:#a6e22e">ValueError</span>                                Traceback (most recent call last)
+<span style="color:#f92672">&lt;</span>ipython<span style="color:#f92672">-</span>input<span style="color:#f92672">-</span><span style="color:#ae81ff">11</span><span style="color:#f92672">-</span><span style="color:#ae81ff">5</span>aa6e25c62fc<span style="color:#f92672">&gt;</span> <span style="color:#f92672">in</span> <span style="color:#f92672">&lt;</span>module<span style="color:#f92672">&gt;</span>()
+<span style="color:#f92672">----&gt;</span> <span style="color:#ae81ff">1</span> range(<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>)
+
+<span style="color:#a6e22e">ValueError</span>: range() step argument must <span style="color:#f92672">not</span> be zero
+</code></pre></div><p>当只传递一个参数时候，这个参数必须大于0，否则返回空；当起始值大于结束值时，如果步长大于0则返回空；步长不能为0.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">myrange</span>(s, e<span style="color:#f92672">=</span>None, l<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>):
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> isinstance(s, int):
+        <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">TypeError</span>(<span style="color:#e6db74">&#34;integer end argument expected, got </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> type(s))
+    <span style="color:#66d9ef">if</span> e <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> None <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> isinstance(e, int):
+        <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">TypeError</span>(<span style="color:#e6db74">&#34;integer end argument expected, got </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> type(e))
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> isinstance(l, int):
+        <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">TypeError</span>(<span style="color:#e6db74">&#34;integer step argument expected, got </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> type(l))
+    <span style="color:#66d9ef">if</span> l <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+        <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">ValueError</span>(<span style="color:#e6db74">&#34;step argument must not be zero&#34;</span>)
+
+    result <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">if</span> e <span style="color:#f92672">is</span> None:
+        flag <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">while</span> flag <span style="color:#f92672">&lt;</span> s:
+            result<span style="color:#f92672">.</span>append(flag)
+            flag <span style="color:#f92672">+=</span> l
+        <span style="color:#66d9ef">return</span> result
+    <span style="color:#66d9ef">else</span>:
+        flag <span style="color:#f92672">=</span> s
+        <span style="color:#66d9ef">if</span> (s <span style="color:#f92672">&gt;</span> e <span style="color:#f92672">and</span> l <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">or</span> (s <span style="color:#f92672">&lt;</span> e <span style="color:#f92672">and</span> l <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>):
+            <span style="color:#66d9ef">return</span> result
+        <span style="color:#66d9ef">elif</span> s <span style="color:#f92672">&gt;</span> e <span style="color:#f92672">and</span> l <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>:
+            <span style="color:#66d9ef">while</span> flag <span style="color:#f92672">&gt;</span> e:
+                result<span style="color:#f92672">.</span>append(flag)
+                flag <span style="color:#f92672">+=</span> l
+        <span style="color:#66d9ef">elif</span> s <span style="color:#f92672">&lt;</span> e <span style="color:#f92672">and</span> l <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+            <span style="color:#66d9ef">while</span> flag <span style="color:#f92672">&lt;</span> e:
+                result<span style="color:#f92672">.</span>append(flag)
+                flag <span style="color:#f92672">+=</span> l
+        <span style="color:#66d9ef">return</span> result
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+    <span style="color:#66d9ef">print</span> myrange(<span style="color:#ae81ff">5</span>)
+    <span style="color:#66d9ef">print</span> myrange(<span style="color:#ae81ff">0</span>)
+    <span style="color:#66d9ef">print</span> myrange(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+    <span style="color:#66d9ef">print</span> myrange(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">9</span>)
+    <span style="color:#66d9ef">print</span> myrange(<span style="color:#f92672">-</span><span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">4</span>)
+    <span style="color:#66d9ef">print</span> myrange(<span style="color:#f92672">-</span><span style="color:#ae81ff">9</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>)
+    <span style="color:#66d9ef">print</span> myrange(<span style="color:#f92672">-</span><span style="color:#ae81ff">9</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+    <span style="color:#66d9ef">print</span> myrange(<span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+    <span style="color:#66d9ef">print</span> myrange(<span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>)
+</code></pre></div><p>如果想更进一步，可以实现参数为浮点型甚至字符串(我的思路是把字符转换为ascii码)，有兴趣的可以试试。</p>
+<h1 id="约瑟夫圆环">约瑟夫圆环</h1>
+<p>现在有13个人围成一个环，从1开始报数，数到3的人离开，写出程序计算最后剩下的是谁。</p>
+<p>看到这个题的时候依稀记得应该有一个名词对应这种情况的，后来回家后才想起来是约瑟夫环问题，真是对不起大学老师啊！第一反应就是使用循环链表这个数据结构，但Python中并没有提供这个数据结构，当然可以使用类自己构造循环链表，但使用列表也可以实现循环队列功能。<em><strong>这里不考虑时空复杂度的问题</strong></em>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func</span>(alist, k):
+    <span style="color:#66d9ef">if</span> len(alist) <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>:
+        <span style="color:#66d9ef">return</span> alist[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+    <span style="color:#66d9ef">else</span>:
+        temp <span style="color:#f92672">=</span> alist[k:] <span style="color:#f92672">+</span> alist[:k <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]
+        <span style="color:#66d9ef">return</span> func3(temp, k)
+
+t <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#e6db74">&#39;c&#39;</span>, <span style="color:#e6db74">&#39;d&#39;</span>, <span style="color:#e6db74">&#39;e&#39;</span>, <span style="color:#e6db74">&#39;f&#39;</span>, <span style="color:#e6db74">&#39;g&#39;</span>, <span style="color:#e6db74">&#39;h&#39;</span>]
+<span style="color:#66d9ef">print</span> func(t, <span style="color:#ae81ff">3</span>)
+x <span style="color:#f92672">=</span> [x <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>)]
+<span style="color:#66d9ef">print</span> func3(t, <span style="color:#ae81ff">3</span>)
+</code></pre></div><p>这个函数由于使用了递归，有一个隐患就是当传入的列表过大时，会造成<code>RuntimeError: maximum recursion depth exceeded</code>错误。</p>
+<p>为了解决上面的隐患，我们不使用递归：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func2</span>(alist,k):
+    i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">while</span> <span style="color:#ae81ff">1</span>:
+        <span style="color:#66d9ef">if</span> i <span style="color:#f92672">!=</span> k:
+            alist<span style="color:#f92672">.</span>append(alist<span style="color:#f92672">.</span>pop(<span style="color:#ae81ff">0</span>))
+            i <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">else</span>:
+            alist<span style="color:#f92672">.</span>pop(<span style="color:#ae81ff">0</span>)
+            i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">if</span> len(alist) <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+            <span style="color:#66d9ef">break</span>
+    <span style="color:#66d9ef">return</span> alist[<span style="color:#ae81ff">0</span>]
+</code></pre></div><p>这里摒弃了递归，每次步长不为k时候都把当前元素弹出并放到队列尾部，从而模拟循环链表结构。进一步优化，由于列表弹出第一个元素的复杂度较高，可以使用双端队列来进行优化：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> collections <span style="color:#f92672">import</span> deque
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func3</span>(adq,k):
+    i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">while</span> <span style="color:#ae81ff">1</span>:
+        <span style="color:#66d9ef">if</span> i <span style="color:#f92672">!=</span> k:
+            adq<span style="color:#f92672">.</span>append(adq<span style="color:#f92672">.</span>popleft())
+            i <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">else</span>:
+            adq<span style="color:#f92672">.</span>popleft()
+            i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">if</span> len(adq) <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+            <span style="color:#66d9ef">break</span>
+    <span style="color:#66d9ef">return</span> adq[<span style="color:#ae81ff">0</span>]
+
+
+t <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#e6db74">&#39;c&#39;</span>, <span style="color:#e6db74">&#39;d&#39;</span>, <span style="color:#e6db74">&#39;e&#39;</span>,<span style="color:#e6db74">&#39;f&#39;</span>,<span style="color:#e6db74">&#39;g&#39;</span>,<span style="color:#e6db74">&#39;h&#39;</span>]
+x <span style="color:#f92672">=</span>
+
+adq <span style="color:#f92672">=</span> deque(t)
+<span style="color:#66d9ef">print</span> func3(adq,<span style="color:#ae81ff">3</span>)
+adq <span style="color:#f92672">=</span> deque([x <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">50000</span>)])
+<span style="color:#66d9ef">print</span> func3(adq,<span style="color:#ae81ff">3</span>)
+</code></pre></div><h1 id="python中的垃圾回收机制">python中的垃圾回收机制</h1>
+<p>这个问题是在面试中经常被问到的，在<a href="http://www.hi-roy.com/2017/07/21/%E5%87%A0%E9%81%93python%E9%9D%A2%E8%AF%95%E9%A2%98/">之前的文章</a>中提了这么一句，大多数公司回答上“引用计数、标记-清除、分代-收集”并说出引用计数这种方式的优缺点（简单，但无法解决循环引用问题）就可以了，但有一家继续深入问了“标记-清除”的原理，当时我回答的并不好。</p>
+<p>有一个<a href="http://www.jianshu.com/p/1e375fb40506">文章</a>整理的很好，简而言之“标记-清除”的原理就是python维护了一个叫做<code>Root Object</code>根对象的数据结构，上面存储了全局变量或者栈、寄存器上的变量，对象之间通过引用（指针）链接，从根对象出发，如果沿着引用能到达某个对象，则把它标记为可到达（reachable）的，否则则是不可达（unreachable）。以上过程就是“标记”，而清除则是根据算法把所有不可达的对象内存释放。</p>
+<p>这种方法作为辅助手段来解决循环引用问题，缺点是：清除不可达的对象前它必须顺序扫描整个堆内存，哪怕只剩下小部分活动对象也要扫描所有对象。</p>
+<p>另外多说一句，导致引用计数+1的情况：</p>
+<ol>
+<li>对象被创建，例如a=23</li>
+<li>对象被引用，例如b=a</li>
+<li>对象被作为参数，传入到一个函数中，例如func(a)</li>
+<li>对象作为一个元素，存储在容器中，例如list1=[a,a]</li>
+</ol>
+<p>导致引用计数-1的情况：</p>
+<ol>
+<li>对象的别名被显式销毁，例如del a</li>
+<li>对象的别名被赋予新的对象，例如a=24</li>
+<li>一个对象离开它的作用域，例如f函数执行完毕时，func函数中的局部变量（全局变量不会）</li>
+<li>对象所在的容器被销毁，或从容器中删除对象</li>
+</ol>
+<p>最后注意一点，代码中尽量别使用循环引用，而且定义类的时候如果要重写<code>__del__</code>方法时候一定要小心，否则可能造成内存泄露！</p>
+<h1 id="类方法和静态方法的区别">类方法和静态方法的区别</h1>
+<p>以下面代码为例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># coding=utf-8</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyClass</span>(object):
+
+    data <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;This is class data&#34;</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">instance_method</span>(self):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;实例方法，只能被实例对象调用，可以访问实例属性</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> self<span style="color:#f92672">.</span>data)
+
+    <span style="color:#a6e22e">@staticmethod</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">static_method</span>():
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;是静态方法,不能访问类属性或者实例属性&#34;</span>)
+
+    <span style="color:#a6e22e">@classmethod</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">class_method</span>(cls):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;是类方法，可以访问类属性</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> cls<span style="color:#f92672">.</span>data)
+
+m <span style="color:#f92672">=</span> MyClass()
+m<span style="color:#f92672">.</span>data <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;this is m&#34;</span>
+m<span style="color:#f92672">.</span>instance_method()
+m<span style="color:#f92672">.</span>static_method()
+m<span style="color:#f92672">.</span>class_method()
+<span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;------&#34;</span>
+
+MyClass<span style="color:#f92672">.</span>static_method()
+<span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;------&#34;</span>
+
+MyClass<span style="color:#f92672">.</span>class_method()
+<span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;------&#34;</span>
+
+MyClass<span style="color:#f92672">.</span>instance_method()
+</code></pre></div><p>最明显的，类方法需要一个cls参数，并且可以访问类属性，但静态方法不可以。换言之，静态方法用于那些和类有关但又不使用类或实例相关属性的情况，所以置于类的外面不写成静态方法也是可以的。</p>
+<h1 id="写出实现单例模式的2种方法">写出实现单例模式的2种方法</h1>
+<p>最简单的，python中的模块是天然的单例模式。</p>
+<p>然后可以使用<code>__new__</code>重载来实现：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyClass</span>(object):
+  <span style="color:#e6db74">&#34;&#34;&#34;重载__new__方法实现单例&#34;&#34;&#34;</span>
+    _ins <span style="color:#f92672">=</span> None  
+    <span style="color:#66d9ef">def</span> __new__(cls,<span style="color:#f92672">*</span>args,<span style="color:#f92672">**</span>kwargs):
+      <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> cls<span style="color:#f92672">.</span>_ins:
+        cls<span style="color:#f92672">.</span>_ins <span style="color:#f92672">=</span> super(MyClass,cls)<span style="color:#f92672">.</span>__new__(cls,<span style="color:#f92672">*</span>args,<span style="color:#f92672">**</span>kwargs)
+      <span style="color:#66d9ef">return</span> cls<span style="color:#f92672">.</span>_ins    
+</code></pre></div><p>其次还可以使用装饰器：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> functools <span style="color:#f92672">import</span> wraps
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">singleton</span>(cls):
+    instances <span style="color:#f92672">=</span> {}
+    <span style="color:#a6e22e">@wraps</span>(cls)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getinstance</span>(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+        <span style="color:#66d9ef">if</span> cls <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> instances:
+            instances[cls] <span style="color:#f92672">=</span> cls(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
+        <span style="color:#66d9ef">return</span> instances[cls]
+    <span style="color:#66d9ef">return</span> getinstance
+
+<span style="color:#a6e22e">@singleton</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyClass</span>(object):
+    a <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</code></pre></div><h1 id="flask框架中的热加载是如何实现的">Flask框架中的热加载是如何实现的？</h1>
+<p>面试时没回答上这个问题，但后来猜测这一类问题核心应该都是有个守护进程／线程在不停的遍历文件，判断最后修改时间。如果修改时间和上次记录的不同则重启程序。</p>
+<p>后来看Flask代码，追踪到werkzeug代码，又追踪到watchdog代码，结果还是愚钝的没理解最后到底怎么实现的。</p>
+<p>但是，Django也有热加载功能啊！代码文件在<a href="https://github.com/django/django/blob/1.11.4/django/utils/autoreload.py">这里</a>，判断核心和我猜的差不多：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#960050;background-color:#1e0010">……</span>
+FILE_MODIFIED <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+I18N_MODIFIED <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+<span style="color:#960050;background-color:#1e0010">……</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">code_changed</span>():
+    <span style="color:#66d9ef">global</span> _mtimes, _win
+    <span style="color:#66d9ef">for</span> filename <span style="color:#f92672">in</span> gen_filenames():
+        stat <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>stat(filename)
+        mtime <span style="color:#f92672">=</span> stat<span style="color:#f92672">.</span>st_mtime
+        <span style="color:#66d9ef">if</span> _win:
+            mtime <span style="color:#f92672">-=</span> stat<span style="color:#f92672">.</span>st_ctime
+        <span style="color:#66d9ef">if</span> filename <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> _mtimes:
+            _mtimes[filename] <span style="color:#f92672">=</span> mtime
+            <span style="color:#66d9ef">continue</span>
+        <span style="color:#66d9ef">if</span> mtime <span style="color:#f92672">!=</span> _mtimes[filename]:
+            _mtimes <span style="color:#f92672">=</span> {}
+            <span style="color:#66d9ef">try</span>:
+                <span style="color:#66d9ef">del</span> _error_files[_error_files<span style="color:#f92672">.</span>index(filename)]
+            <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">ValueError</span>:
+                <span style="color:#66d9ef">pass</span>
+            <span style="color:#66d9ef">return</span> I18N_MODIFIED <span style="color:#66d9ef">if</span> filename<span style="color:#f92672">.</span>endswith(<span style="color:#e6db74">&#39;.mo&#39;</span>) <span style="color:#66d9ef">else</span> FILE_MODIFIED
+    <span style="color:#66d9ef">return</span> False
+
+</code></pre></div><p>程序将每个文件修改时间以文件名作为key，修改时间为value存储在了一个全局字典中，判读最后修改时间不同则返回True。虽然不是watchdog的代码，但估计原理都是一样的。</p>
+<p>另外关于热加载这篇<a href="https://ivan-site.com/2013/04/autoreload-code-in-python/">文章</a>说的不错。</p>
+<h1 id="flask框架中request是如何保证线程隔离的">Flask框架中request是如何保证线程隔离的？</h1>
+<p>这篇<a href="http://www.jb51.net/article/85736.htm">文章</a>解释的很好。</p>
+<p>简单来说，通过代理模式将每一个线程／协程的ID存储在<code>werkzeug</code>框架中的<code>Local()</code>对象中，每一个线程／协程都有自己的栈空间保证了隔离性。</p>
+<h1 id="如何禁止js读取cookie">如何禁止JS读取Cookie</h1>
+<p>设置httponly=true</p>
+<h1 id="其他">其他</h1>
+<p>以下几个问题被问到时候我就一脸懵B了，之后觉得每一个问题都可以单独写一篇，这篇文章就不进行扩展了，各位小伙伴可以试试：</p>
+<ol>
+<li>Innodb中的行级锁机制（如何实现的）</li>
+<li>简述什么是悲观锁和乐观锁，以及实现方式</li>
+<li>Nginx服务器实现多个域名绑定同一ip情况下的转发机制</li>
+<li>如何在Docker实例中启动别的Docker实例</li>
+<li>HTTP协议中关于缓存部分的处理</li>
+<li>编码实现Python中的有序字典</li>
+</ol>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/django%E4%B8%AD%E7%9A%84session%E5%92%8Ccookie/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">django中的Session和Cookie</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">python验证码识别1:灰度处理、二值化、降噪、tesserocr识别</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

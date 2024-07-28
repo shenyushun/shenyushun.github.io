@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>eBPF学习笔记2 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="eBPF学习笔记2" />
+<meta property="og:description" content="上一篇笔记里说编写运行BPF程序推荐2种方法：bpftrace和BCC，按照惯例来个hello world。
+之前说过很多功能都是新版内核才支持，想使用CO-RE内核需要开启CONFIG_DEBUG_INFO_BTF=y和CONFIG_DEBUG_INFO=y 这两个编译选项，所以建议使用最新的发行版，比如：
+
+Ubuntu 20.10&#43;
+Fedora 31&#43;
+RHEL 8.2&#43;
+Debian 11&#43;
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" />
+<meta property="article:published_time" content="2022-02-08T15:15:03+08:00" />
+<meta property="article:modified_time" content="2022-02-08T15:15:03+08:00" />
+
+		<meta itemprop="name" content="eBPF学习笔记2">
+<meta itemprop="description" content="上一篇笔记里说编写运行BPF程序推荐2种方法：bpftrace和BCC，按照惯例来个hello world。
+之前说过很多功能都是新版内核才支持，想使用CO-RE内核需要开启CONFIG_DEBUG_INFO_BTF=y和CONFIG_DEBUG_INFO=y 这两个编译选项，所以建议使用最新的发行版，比如：
+
+Ubuntu 20.10&#43;
+Fedora 31&#43;
+RHEL 8.2&#43;
+Debian 11&#43;
+">
+<meta itemprop="datePublished" content="2022-02-08T15:15:03&#43;08:00" />
+<meta itemprop="dateModified" content="2022-02-08T15:15:03&#43;08:00" />
+<meta itemprop="wordCount" content="886">
+
+
+
+<meta itemprop="keywords" content="eBPF," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">eBPF学习笔记2</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2022-02-08T15:15:03&#43;08:00">2022-02-08</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/ebpf/" rel="category">eBPF</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>上一篇笔记里说编写运行BPF程序推荐2种方法：bpftrace和BCC，按照惯例来个hello world。</p>
+<p>之前说过很多功能都是新版内核才支持，想使用CO-RE内核需要开启<code>CONFIG_DEBUG_INFO_BTF=y</code>和<code>CONFIG_DEBUG_INFO=y</code> 这两个编译选项，所以建议使用最新的发行版，比如：</p>
+<ul>
+<li>Ubuntu 20.10+</li>
+<li>Fedora 31+</li>
+<li>RHEL 8.2+</li>
+<li>Debian 11+</li>
+</ul>
+<h2 id="bpftrace">bpftrace</h2>
+<h3 id="安装">安装</h3>
+<p>根据<a href="https://github.com/iovisor/bpftrace/blob/master/INSTALL.md">安装说明</a>结合自己环境的实际情况安装即可，比如我这里用的ubuntu直接使用:<code>sudo apt-get install -y bpftrace</code>安装，然后可以查看安装的版本：</p>
+<pre><code>root@iZj6c18dsejt417tcv4rv2Z:~# bpftrace -V
+bpftrace v0.9.4
+</code></pre><h3 id="hello-bpf-world">hello BPF world!</h3>
+<p>安装完成后在<code>/usr/sbin</code>目录下会多出一些<code>*.bt</code>的文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">root@iZj6c18dsejt417tcv4rv2Z:/usr/sbin# ll *.bt
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">698</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> bashreadline.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">603</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> biolatency.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">888</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> biosnoop.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">884</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> biostacks.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">569</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> bitesize.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1839</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> capable.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">497</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> cpuwalk.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1204</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> dcsnoop.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">780</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> execsnoop.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1388</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> gethostlatency.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">867</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> killsnoop.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1127</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> loads.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">661</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> mdflush.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1002</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> naptime.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1165</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> oomkill.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">953</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> opensnoop.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">628</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> pidpersec.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">793</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> runqlat.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1052</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> runqlen.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1806</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> setuids.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1298</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> statsnoop.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">600</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> swapin.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">838</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> syncsnoop.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">874</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> syscount.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1722</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> tcpaccept.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1617</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> tcpconnect.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">2214</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> tcpdrop.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">2753</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> tcplife.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">2120</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> tcpretrans.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">929</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> tcpsynbl.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">705</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> threadsnoop.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">515</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> vfscount.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">721</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> vfsstat.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1704</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> writeback.bt*
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">972</span> Feb  <span style="color:#ae81ff">5</span>  <span style="color:#ae81ff">2020</span> xfsdist.bt*
+</code></pre></div><p>这里以<code>execsnoop.bt</code>为例，这个脚本会&quot;嗅探&quot;所有使用<code>exec()</code>的系统调用：</p>
+<pre><code>root@iZj6c18dsejt417tcv4rv2Z:/usr/sbin# cat execsnoop.bt
+#!/usr/bin/env bpftrace
+/*
+ * execsnoop.bt   Trace new processes via exec() syscalls.
+ *                For Linux, uses bpftrace and eBPF.
+ *
+ * This traces when processes call exec(). It is handy for identifying new
+ * processes created via the usual fork()-&gt;exec() sequence. Note that the
+ * return value is not currently traced, so the exec() may have failed.
+ *
+ * TODO: switch to tracepoints args. Support more args. Include retval.
+ *
+ * This is a bpftrace version of the bcc tool of the same name.
+ *
+ * 15-Nov-2017  Brendan Gregg   Created this.
+ * 11-Sep-2018     &quot;     &quot;      Switched to use join().
+ */
+
+BEGIN
+{
+        printf(&quot;%-10s %-5s %s\n&quot;, &quot;TIME(ms)&quot;, &quot;PID&quot;, &quot;ARGS&quot;);
+}
+
+tracepoint:syscalls:sys_enter_execve
+{
+        printf(&quot;%-10u %-5d &quot;, elapsed / 1000000, pid);
+        join(args-&gt;argv);
+}
+</code></pre><p>这里作者还在《BPF之巅》这本书里吐槽了一下自己名字没取好，应该叫做<code>trace</code>而不是<code>snoop</code>更合适一些，看样子取名才是编程里面最难的哈哈。</p>
+<p>先运行这个脚本：</p>
+<pre><code>root@iZj6c18dsejt417tcv4rv2Z:/usr/sbin# bpftrace execsnoop.bt
+Attaching 2 probes...
+TIME(ms)   PID   ARGS
+</code></pre><p>这里先来个思考题，python中会使用<code>os.system()</code>函数来执行一些简单的系统命令，这个函数背后到底是怎么运行的呢？</p>
+<p>打开另一个终端页面，执行python3进入一个shell，然后输入：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> os
+<span style="color:#f92672">&gt;&gt;&gt;</span> os<span style="color:#f92672">.</span>system(<span style="color:#e6db74">&#34;date&#34;</span>)
+</code></pre></div><p>这时，我们就可以看到运行<code>execsnoop.bt</code>的窗口有了新的输出：</p>
+<pre><code>root@iZj6c18dsejt417tcv4rv2Z:/usr/sbin# bpftrace execsnoop.bt
+Attaching 2 probes...
+TIME(ms)   PID   ARGS
+6096       121028 python3
+16880      121029 sh -c date
+16881      121030 date
+</code></pre><p>也就是说<code>os.system()</code>函数本质上就是<code>sh -c</code>命令。这里补充个Linux基础知识，&ldquo;sh -c&quot;可以让bash将一个字串作为完整的命令来执行，也就是将<code>sudo</code>影响范围扩展到整条命令，特别是在没有root权限而命令又需要结合管道、重定向一类的语句时使用，可以解决权限导致问题。</p>
+<p>除了把脚本写成bt文件外，btfgrace也支持直接使用命令行+语句的方式执行，类似直接使用<code>python -c xxx</code>或者<code>sh -c xxx</code>，比如上面的脚本就可以使用一行命令：</p>
+<p><code>bpftrace -e 'tracepoint:syscalls:sys_enter_execve{ printf(&quot;%-10u %-5d &quot;, elapsed / 1000000, pid);join(args-&gt;argv); }'</code></p>
+<p><strong>BPF程序只有在对应的事件被触发时才会被调用</strong>，所以<code>hello,world!</code>可以这么干：</p>
+<p><code>bpftrace -e 'tracepoint:raw_syscalls:sys_enter{ printf(&quot;Hello BPF World!\n&quot;)}'</code></p>
+<p>这行脚本会监听所有的系统调用，也就是会不停的打印直到<code>Ctrl+C</code>停止程序。</p>
+<p>或者直接<code>bpftrace -e 'BEGIN {printf(Hello BPF world!);}'</code>，<code>Ctrl+C</code>停止程序时会输出。</p>
+<h2 id="bcc">BCC</h2>
+<h3 id="安装-1">安装</h3>
+<p>根据<a href="https://github.com/iovisor/bcc/blob/master/INSTALL.md">安装说明</a>结合自己环境的实际情况安装即可，我这里用的ubuntu直接使用:<code>sudo apt-get install bpfcc-tools linux-headers-$(uname -r)</code>安装，安装成功后可以看到<code>/usr/sbin</code>目录下多了很多<code>*-bpfcc</code>的二进制文件(注意这里不同发行版可能不带bpfcc尾缀)。</p>
+<p>比如运行<code>execsnoop-bpfcc</code>，功能和上面执行的<code>execsnoop.bt</code>是一样的，只不过功能更强大了：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">root@iZj6c18dsejt417tcv4rv2Z:/usr/sbin# ./execsnoop-bpfcc -h
+usage: execsnoop-bpfcc <span style="color:#f92672">[</span>-h<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-T<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-t<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-x<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-q<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-n NAME<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>-l LINE<span style="color:#f92672">]</span>
+                       <span style="color:#f92672">[</span>--max-args MAX_ARGS<span style="color:#f92672">]</span>
+
+Trace exec<span style="color:#f92672">()</span> syscalls
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -T, --time            include time column on output <span style="color:#f92672">(</span>HH:MM:SS<span style="color:#f92672">)</span>
+  -t, --timestamp       include timestamp on output
+  -x, --fails           include failed exec<span style="color:#f92672">()</span>s
+  -q, --quote           Add quotemarks <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;) around arguments.
+</span><span style="color:#e6db74">  -n NAME, --name NAME  only print commands matching this name (regex), any arg
+</span><span style="color:#e6db74">  -l LINE, --line LINE  only print commands where arg contains this line (regex)
+</span><span style="color:#e6db74">  --max-args MAX_ARGS   maximum number of arguments parsed and displayed, defaults to
+</span><span style="color:#e6db74">                        20
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">examples:
+</span><span style="color:#e6db74">    ./execsnoop           # trace all exec() syscalls
+</span><span style="color:#e6db74">    ./execsnoop -x        # include failed exec()s
+</span><span style="color:#e6db74">    ./execsnoop -T        # include time (HH:MM:SS)
+</span><span style="color:#e6db74">    ./execsnoop -t        # include timestamps
+</span><span style="color:#e6db74">    ./execsnoop -q        # add &#34;</span>quotemarks<span style="color:#e6db74">&#34; around arguments
+</span><span style="color:#e6db74">    ./execsnoop -n main   # only print command lines containing &#34;</span>main<span style="color:#e6db74">&#34;
+</span><span style="color:#e6db74">    ./execsnoop -l tpkg   # only print command where arguments contains &#34;</span>tpkg<span style="color:#e6db74">&#34;
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">root@iZj6c18dsejt417tcv4rv2Z:/usr/sbin# ./execsnoop-bpfcc
+</span><span style="color:#e6db74">PCOMM            PID    PPID   RET ARGS
+</span><span style="color:#e6db74">ls               121180 120876   0 /usr/bin/ls --color=auto
+</span><span style="color:#e6db74">uname            121181 120876   0 /usr/bin/uname
+</span></code></pre></div><p>使用BCC开发BPF程序，至少需要有C、Python的基本语法知识，倪朋飞大佬总结BPF程序的开发和执行需要5个步骤：</p>
+<ul>
+<li>第一步，使用 C 语言开发一个 eBPF 程序；</li>
+<li>第二步，借助 LLVM 把 eBPF 程序编译成 BPF 字节码；</li>
+<li>第三步，通过 bpf 系统调用，把 BPF 字节码提交给内核；</li>
+<li>第四步，内核验证并运行 BPF 字节码，并把相应的状态保存到 BPF 映射中；</li>
+<li>第五步，用户程序通过 BPF 映射查询 BPF 字节码的运行状态。</li>
+</ul>
+<p><img src="https://www.brendangregg.com/eBPF/linux_ebpf_internals.png" alt="image"></p>
+<p>BCC除了提供了现成的工具外，还是一个BPF编译器集合，包含了用于构建BPF 程序的编程框架和库。使用BCC的好处是，它把上述的 eBPF 执行过程通过内置框架抽象了起来，并提供了 Python等编程语言接口。这样，可以直接通过 Python 语言去跟 eBPF 的各种事件和数据进行交互。</p>
+<h3 id="hello-bpf-world-1">hello BPF world!</h3>
+<p>这里我们看一下官网提供的 <a href="https://github.com/iovisor/bcc/blob/master/examples/hello_world.py">例子</a>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/python</span>
+<span style="color:#75715e"># Copyright (c) PLUMgrid, Inc.</span>
+<span style="color:#75715e"># Licensed under the Apache License, Version 2.0 (the &#34;License&#34;)</span>
+
+<span style="color:#75715e"># run in project examples directory with:</span>
+<span style="color:#75715e"># sudo ./hello_world.py&#34;</span>
+<span style="color:#75715e"># see trace_fields.py for a longer example</span>
+
+<span style="color:#f92672">from</span> bcc <span style="color:#f92672">import</span> BPF
+
+<span style="color:#75715e"># This may not work for 4.17 on x64, you need replace kprobe__sys_clone with kprobe____x64_sys_clone</span>
+BPF(text<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;int kprobe__sys_clone(void *ctx) { bpf_trace_printk(&#34;Hello, World!</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#34;); return 0; }&#39;</span>)<span style="color:#f92672">.</span>trace_print()
+</code></pre></div><p>很简单，2行代码就搞定了一个BPF程序，首先import对应的BCC库，然后创建一个<code>BPF</code>对象，并传递一个C语言的程序代码给<code>text</code>参数，最后调用<code>trace_print()</code>输出。</p>
+<p>其中，C语言的代码就是定义了一个函数，监听所有 <a href="https://man7.org/linux/man-pages/man2/clone.2.html">sys_clone</a> 内核函数的调用，这个函数被触发了就调用BCC提供的辅助函数 <a href="https://github.com/iovisor/bcc/blob/master/docs/reference_guide.md#1-bpf_trace_printk">bpf_trace_printk()</a> 输出。</p>
+<p>运行程序后，在另一个终端里随便输入点命令，运行结果如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">root@iZj6c18dsejt417tcv4rv2Z:~/# python3 hello.py
+b<span style="color:#e6db74">&#39;            bash-120596  [004] .... 1059077.215170: 0: Hello, World!&#39;</span>
+b<span style="color:#e6db74">&#39;            bash-120596  [004] .... 1059079.961080: 0: Hello, World!&#39;</span>
+b<span style="color:#e6db74">&#39;            bash-121232  [007] .... 1059079.961478: 0: Hello, World!&#39;</span>
+b<span style="color:#e6db74">&#39;            bash-120596  [004] .... 1059081.117114: 0: Hello, World!&#39;</span>
+b<span style="color:#e6db74">&#39;            bash-121234  [007] .... 1059081.117505: 0: Hello, World!&#39;</span>
+</code></pre></div><p>其中：</p>
+<ul>
+<li>bash-xxxx 表示进程的名字和 PID；</li>
+<li>[00x] 表示 CPU 编号；</li>
+<li>… 表示一系列的选项；</li>
+<li>1059081.117114 表示时间戳；</li>
+<li>0 表示函数返回值；</li>
+<li>最后的 “Hello, World!” 就是调用 <code>bpf_trace_printk()</code> 传入的字符串。</li>
+</ul>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/ebpf/" rel="tag">eBPF</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">eBPF学习笔记1</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/ebpf%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">eBPF学习笔记3</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

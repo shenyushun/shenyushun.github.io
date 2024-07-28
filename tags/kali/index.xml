@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kali on Hi~Roy!</title>
+    <link>/tags/kali/</link>
+    <description>Recent content in kali on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 29 Apr 2016 13:54:35 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/kali/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>VirtualBOX虚拟机网络互通同时访问外网</title>
+      <link>/posts/virtualbox%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%92%E9%80%9A%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91/</link>
+      <pubDate>Fri, 29 Apr 2016 13:54:35 +0000</pubDate>
+      
+      <guid>/posts/virtualbox%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%92%E9%80%9A%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91/</guid>
+      <description>&lt;p&gt;对于爱好网络安全而又不想非法入侵的小伙伴来说，VirtualBOX可是神器级别的工具，这里记录一下我是怎么配置网络使虚拟机之间可以互通同时可以通过物理机访问外网的。&lt;/p&gt;
+&lt;p&gt;第一台虚拟机是kali linux，启动之前需要在设置中启用2块网卡，&lt;strong&gt;第一块网卡设置为“Internal Network”，第二块设置为&amp;quot;Bridged Adapter&amp;rdquo;&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;第二台是OWASP提供的漏洞测试虚拟机镜像，基于ubuntu的系统，&lt;strong&gt;第一块网卡设置为“Internal Network”即可&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>tightvnc远程访问kali桌面系统</title>
+      <link>/posts/tightvnc%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AEkali%E6%A1%8C%E9%9D%A2%E7%B3%BB%E7%BB%9F/</link>
+      <pubDate>Fri, 26 Sep 2014 18:23:36 +0000</pubDate>
+      
+      <guid>/posts/tightvnc%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AEkali%E6%A1%8C%E9%9D%A2%E7%B3%BB%E7%BB%9F/</guid>
+      <description>安装完kali系统后应该已经默认安装了这个程序，如果没有的话使用apt-get install tightvncserver
+安装完成后执行
+tightvncserver -depth 24 -geometry 1440x900 :1-depth 24 使用24位颜色，这里一般用16或者24</description>
+    </item>
+    
+    <item>
+      <title>64位kali安装skype</title>
+      <link>/posts/64%E4%BD%8Dkali%E5%AE%89%E8%A3%85skype/</link>
+      <pubDate>Sun, 01 Jun 2014 08:36:23 +0000</pubDate>
+      
+      <guid>/posts/64%E4%BD%8Dkali%E5%AE%89%E8%A3%85skype/</guid>
+      <description>参考了debian7的安装方式,首先运行:
+# dpkg --add-architecture i386# apt-get update最初的时候64位系统是无法安装32位程序的。
+然后安装相关依赖:</description>
+    </item>
+    
+    <item>
+      <title>KaliLinux安装失败的解决方法</title>
+      <link>/posts/kalilinux%E5%AE%89%E8%A3%85%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Tue, 18 Mar 2014 12:38:47 +0000</pubDate>
+      
+      <guid>/posts/kalilinux%E5%AE%89%E8%A3%85%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid>
+      <description>不知道什么原因，安装kalilinux的时候总是安装失败，失败步骤：安装操作系统。偶尔这步通过了，又出现了grub无法安装的情况。
+下载了各个版本都是这样之后，对比了一下sha的值，发现和官网上给出的并不一样&amp;hellip;.什么情况？！然后根据http://cdimage.kali.org/kali-latest/amd64/这发现，正确的值应该是
+d859cc2798a24c48ddd37c6aafd88c5dc5e6e123 kali-linux-1.0.6-amd64-mini.iso281ddb3d14619a973e254b8f484b7fe27defa822 kali-linux-1.0.6-amd64.iso3cf383be7778d1676c015cb5430422e672ec59fa kali-linux-1.0.6-amd64-mini.torrentcfa0ad0dce1d4a170adf1cd342c622db23e785ef kali-linux-1.0.6-amd64.torrent又下载了sha值一样的镜像后，还是无法安装操作系统。</description>
+    </item>
+    
+  </channel>
+</rss>

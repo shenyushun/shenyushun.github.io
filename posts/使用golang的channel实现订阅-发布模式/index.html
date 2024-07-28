@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>使用golang的channel实现订阅-发布模式 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="使用golang的channel实现订阅-发布模式" />
+<meta property="og:description" content="原文地址：这里，省略了一些非重点片段。
+先定义一个结构体Pubsub，客户端可以使用它来订阅、发布主题：
+type Pubsub struct {
+  mu   sync.RWMutex
+  subs map[string][]chan string
+}
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E4%BD%BF%E7%94%A8golang%E7%9A%84channel%E5%AE%9E%E7%8E%B0%E8%AE%A2%E9%98%85-%E5%8F%91%E5%B8%83%E6%A8%A1%E5%BC%8F/" />
+<meta property="article:published_time" content="2021-07-12T20:05:20+08:00" />
+<meta property="article:modified_time" content="2021-07-12T20:05:20+08:00" />
+
+		<meta itemprop="name" content="使用golang的channel实现订阅-发布模式">
+<meta itemprop="description" content="原文地址：这里，省略了一些非重点片段。
+先定义一个结构体Pubsub，客户端可以使用它来订阅、发布主题：
+type Pubsub struct {
+  mu   sync.RWMutex
+  subs map[string][]chan string
+}
+">
+<meta itemprop="datePublished" content="2021-07-12T20:05:20&#43;08:00" />
+<meta itemprop="dateModified" content="2021-07-12T20:05:20&#43;08:00" />
+<meta itemprop="wordCount" content="442">
+
+
+
+<meta itemprop="keywords" content="golang," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">使用golang的channel实现订阅-发布模式</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2021-07-12T20:05:20&#43;08:00">2021-07-12</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>原文地址：<a href="https://eli.thegreenplace.net/2020/pubsub-using-channels-in-go/">这里</a>，省略了一些非重点片段。</p>
+<p>先定义一个结构体<code>Pubsub</code>，客户端可以使用它来订阅、发布主题：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Pubsub</span> <span style="color:#66d9ef">struct</span> {
+  <span style="color:#a6e22e">mu</span>   <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">RWMutex</span>
+  <span style="color:#a6e22e">subs</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>][]<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">string</span>
+}
+</code></pre></div><p>最核心的是<code>subs</code>变量，这个map的value是由string类型的channel组成的slice，每个channel都是对topic的订阅（Roy注：map的key代表了topic）。</p>
+<p>这个结构体并不会直接被外部直接使用，客户端通过某些方法和这个结构体交互，先从构造函数开始：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewPubsub</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">Pubsub</span> {
+  <span style="color:#a6e22e">ps</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Pubsub</span>{}
+  <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">subs</span> = make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>][]<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">string</span>)
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ps</span>
+}
+</code></pre></div><p>客户端可以通过<code>Subscribe</code>方法来订阅新的topic，只需要提供topic的名称和一个channel即可：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ps</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Pubsub</span>) <span style="color:#a6e22e">Subscribe</span>(<span style="color:#a6e22e">topic</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">ch</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">string</span>) {
+  <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">Lock</span>()
+  <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">Unlock</span>()
+
+  <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">subs</span>[<span style="color:#a6e22e">topic</span>] = append(<span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">subs</span>[<span style="color:#a6e22e">topic</span>], <span style="color:#a6e22e">ch</span>)
+}
+</code></pre></div><p>感谢golang的语法特性我们可以把代码写的如此简洁，如果传入的topic不存在将返回一个空slice，或者将新传入的channel加入已经存在的slice中，不管哪种情形我们都可以获得期望的结果。（Roy注:因为golang中获取的key在map中不存在时，会返回value类型的默认值，这里就是空slice）</p>
+<p><code>Publish</code>方法用于向topic中写入数据：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ps</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Pubsub</span>) <span style="color:#a6e22e">Publish</span>(<span style="color:#a6e22e">topic</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">msg</span> <span style="color:#66d9ef">string</span>) {
+  <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">RLock</span>()
+  <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">RUnlock</span>()
+
+  <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">subs</span>[<span style="color:#a6e22e">topic</span>] {
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">msg</span>
+  }
+}
+</code></pre></div><p>这里又一次利用了go的语法特性，如果topic不存在则循环不会执行。</p>
+<p>有一个值得注意的地方就是锁，go中最著名的一句话就是&quot;share memory by communicating&rdquo;。但go也是一门实用至上的语言，当我们跨goroutine共享数据时，如果代码足够清晰使用锁也是可以接受的。在上述代码里使用lock + defer unlock足够简单清晰。</p>
+<p>这里我们没实现取消订阅功能，这个留给读者自己练习。</p>
+<p>上面的代码还有些小问题，比如channel并没有关闭。这样的代码不够优雅，没法通知订阅者没有新的数据会被发送了。 <strong>go语言中发送完数据关闭channel是十分重要的事情，因为这代表job完成并且资源可以被清理掉。</strong></p>
+<p>修改一下代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Pubsub</span> <span style="color:#66d9ef">struct</span> {
+  <span style="color:#a6e22e">mu</span>     <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">RWMutex</span>
+  <span style="color:#a6e22e">subs</span>   <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>][]<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">string</span>
+  <span style="color:#a6e22e">closed</span> <span style="color:#66d9ef">bool</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ps</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Pubsub</span>) <span style="color:#a6e22e">Publish</span>(<span style="color:#a6e22e">topic</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">msg</span> <span style="color:#66d9ef">string</span>) {
+  <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">RLock</span>()
+  <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">RUnlock</span>()
+
+  <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">closed</span> {
+    <span style="color:#66d9ef">return</span>
+  }
+
+  <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">subs</span>[<span style="color:#a6e22e">topic</span>] {
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">msg</span>
+  }
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ps</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Pubsub</span>) <span style="color:#a6e22e">Close</span>() {
+  <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">Lock</span>()
+  <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">Unlock</span>()
+
+  <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">closed</span> {
+    <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">closed</span> = <span style="color:#66d9ef">true</span>
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">subs</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">subs</span> {
+      <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">subs</span> {
+        close(<span style="color:#a6e22e">ch</span>)
+      }
+    }
+  }
+}
+</code></pre></div><p>我们在结构体里新增了<code>close</code>属性并且增加了<code>Close</code>方法，这里有个细节就是订阅者的channel并不是由<code>Pubsub</code>结构体定义的，而是调用<code>Subscribe</code>方法传递进去的，在这里关闭channel合适吗？这是一个好问题， <strong>通常来说，发送端关闭channel是一个惯例，这样才能够通知到接收端没有更多数据了。此外，向一个关闭的channel发送数据将会导致panic，在接收端关闭channel是一个比较危险的事情，因为发送端无法得知channel什么时候被关闭了</strong>。</p>
+<p>这也引起了一个更重要的问题：这些订阅者channel应该在哪里创建？在<code>Pubsub</code>外部建立后传递，还是通过<code>Pubsub</code>来建立？</p>
+<p>代码还有一个问题：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">subs</span>[<span style="color:#a6e22e">topic</span>] {
+  <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">msg</span>
+}
+</code></pre></div><p>这里使用了无缓冲的channel，如果消息没及时被消费掉，<code>ch &lt;- msg</code>将阻塞消息向其他的channel投递，这并不是我们期望的。使用有缓冲的channel会让程序更加健壮，并且快速的通知所有的订阅者。（除非订阅者有严重的问题，前面的消息也没处理。）</p>
+<p>如果订阅者channel在<code>Pubsub</code>外面建立，那么缓冲大小则是由订阅者决定，<code>Pubsub</code>无需去考虑缓冲区大小设定为什么比较合适。但缺点也很明显，就是<code>Pubsub</code>的正确性依赖于订阅者，如果某个订阅者channel没有设定缓冲区则会堵塞其他订阅者。</p>
+<p>这里我们修改一下<code>Subcribe</code>方法，在这里创建channel：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ps</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Pubsub</span>) <span style="color:#a6e22e">Subscribe</span>(<span style="color:#a6e22e">topic</span> <span style="color:#66d9ef">string</span>) <span style="color:#f92672">&lt;-</span><span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">string</span> {
+  <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">Lock</span>()
+  <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">Unlock</span>()
+
+  <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">1</span>)
+  <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">subs</span>[<span style="color:#a6e22e">topic</span>] = append(<span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">subs</span>[<span style="color:#a6e22e">topic</span>], <span style="color:#a6e22e">ch</span>)
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ch</span>
+}
+</code></pre></div><p>这里硬编码缓冲区为1，尽管这是一个不错的默认值，但也可以让客户端通过参数来定义缓冲区大小，或者在创建<code>Pubsub</code>实例时。</p>
+<p>目前版本的<code>Pubsub</code>可以创建、关闭通道，责任清晰，订阅者获取到一个channel监听直到这个channel被关闭即可。</p>
+<p>这个版本有一个小小的不便之处就是没法像上个版本那样，通过传递一个channel参数实现订阅多个topic。换句话说，使用同一个channel订阅多个topic是会带来问题的，比如会尝试关闭同一个channel而导致panic，这样的话不得不在<code>Close</code>方法中添加一些特殊的处理来避免这种情形出现。（比如维护一个已经关闭的channel集合）</p>
+<p>通常来说，我建议避免这种情形出现，保持一个channel订阅一个topic，在客户端想要通过一个<code>range</code>来处理多个主题的情况，可以使用扇入(fan-in)来替代。</p>
+<p>当我们讨论危险的<code>ch &lt;- msg</code>可能会导致所有客户端阻塞时，你也许会好奇为什么不使用goroutine来解决问题，比如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ps</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Pubsub</span>) <span style="color:#a6e22e">Publish</span>(<span style="color:#a6e22e">topic</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">msg</span> <span style="color:#66d9ef">string</span>) {
+  <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">RLock</span>()
+  <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">RUnlock</span>()
+
+  <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">closed</span> {
+    <span style="color:#66d9ef">return</span>
+  }
+
+  <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">subs</span>[<span style="color:#a6e22e">topic</span>] {
+    <span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ch</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">string</span>) {
+      <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">msg</span>
+    }(<span style="color:#a6e22e">ch</span>)
+  }
+}
+</code></pre></div><p>这样的话，无论传入的channel缓冲区设定为多少，也不会阻塞其他客户端了。但这可能会引起性能问题，即便goroutine的创建和销毁很快，你真的想每条消息都创建一个goroutine吗？这个问题要取决于具体的应用场景，如果你对这个拿不准，盘他。(benchmark it)</p>
+<p>而且性能问题并不是上面代码的最大潜在问题，最大的问题在于这种方案将数据发送到channel的地方和channel被关闭的地方分开了(Roy注:指新开的goroutine不受<code>Pubsub</code>管控)，这总是让我感到不安。考虑这种场景：一个特别慢的客户端正在阻塞中，而此时<code>Pubsub</code>被关闭并且尝试关闭对应的channel——尝试关闭一个正在进行操作的channel是十分糟糕的，这引起了资源竞争(race condition)，最容易产生bug。而在原始版本里我们通过<code>Publish</code>的锁来避免来这种情况。</p>
+<p>这篇文章主要目的是为了展示在一些简单而又功能齐全的场景下如何做选择，go语言的channel强大但并不是魔法，一些关于职责和顺序的问题依然会出现，从多个角度考虑问题是十分有意义的。我个人倾向<code>Subscribe</code>来创建channel并返回，恕我直言，这个方式在概念上最清晰，因为channel所属最集中。<code>Pubsub</code>创建他们、向他们发送消息，关闭他们。对于客户端来说，订阅的channel生命周期很清晰：获得一个由<code>Subscribe</code>创建的channel并且从其中获得数据，直到channel关闭。调用<code>Pubsub.Close</code>来关闭所有channel来清理环境，如果需要可配置的缓冲channel，也非常容易添加。</p>
+<p><a href="https://github.com/eliben/code-for-blog/blob/master/2020/go-pubsub/pubsub-noclose.go">完整代码</a>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// PubSub implementation taking a channel as argument in Subscibe, w/o Close.
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">// Eli Bendersky [https://eli.thegreenplace.net]
+</span><span style="color:#75715e">// This code is in the public domain.
+</span><span style="color:#75715e"></span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+  <span style="color:#e6db74">&#34;fmt&#34;</span>
+ <span style="color:#e6db74">&#34;sync&#34;</span>
+ <span style="color:#e6db74">&#34;time&#34;</span>
+)
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Pubsub</span> <span style="color:#66d9ef">struct</span> {
+ <span style="color:#a6e22e">mu</span>   <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">RWMutex</span>
+ <span style="color:#a6e22e">subs</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>][]<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">string</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewPubsub</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">Pubsub</span> {
+ <span style="color:#a6e22e">ps</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Pubsub</span>{}
+ <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">subs</span> = make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>][]<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">string</span>)
+ <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ps</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ps</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Pubsub</span>) <span style="color:#a6e22e">Subscribe</span>(<span style="color:#a6e22e">topic</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">ch</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">string</span>) {
+ <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">Lock</span>()
+ <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">Unlock</span>()
+
+ <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">subs</span>[<span style="color:#a6e22e">topic</span>] = append(<span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">subs</span>[<span style="color:#a6e22e">topic</span>], <span style="color:#a6e22e">ch</span>)
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ps</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Pubsub</span>) <span style="color:#a6e22e">Publish</span>(<span style="color:#a6e22e">topic</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">msg</span> <span style="color:#66d9ef">string</span>) {
+ <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">RLock</span>()
+ <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">RUnlock</span>()
+
+ <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">subs</span>[<span style="color:#a6e22e">topic</span>] {
+  <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">msg</span>
+ }
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+ <span style="color:#a6e22e">ps</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">NewPubsub</span>()
+ <span style="color:#a6e22e">makesub</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">topic</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">string</span> {
+  <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">1</span>)
+  <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">Subscribe</span>(<span style="color:#a6e22e">topic</span>, <span style="color:#a6e22e">ch</span>)
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ch</span>
+ }
+ <span style="color:#a6e22e">ch1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">makesub</span>(<span style="color:#e6db74">&#34;tech&#34;</span>)
+ <span style="color:#a6e22e">ch2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">makesub</span>(<span style="color:#e6db74">&#34;travel&#34;</span>)
+ <span style="color:#a6e22e">ch3</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">makesub</span>(<span style="color:#e6db74">&#34;travel&#34;</span>)
+
+ <span style="color:#a6e22e">listener</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">ch</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">string</span>) {
+  <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ch</span> {
+   <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;[%s] got %s\n&#34;</span>, <span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">i</span>)
+  }
+ }
+
+ <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">listener</span>(<span style="color:#e6db74">&#34;1&#34;</span>, <span style="color:#a6e22e">ch1</span>)
+ <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">listener</span>(<span style="color:#e6db74">&#34;2&#34;</span>, <span style="color:#a6e22e">ch2</span>)
+ <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">listener</span>(<span style="color:#e6db74">&#34;3&#34;</span>, <span style="color:#a6e22e">ch3</span>)
+
+ <span style="color:#a6e22e">pub</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">topic</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">msg</span> <span style="color:#66d9ef">string</span>) {
+  <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Publishing @%s: %s\n&#34;</span>, <span style="color:#a6e22e">topic</span>, <span style="color:#a6e22e">msg</span>)
+  <span style="color:#a6e22e">ps</span>.<span style="color:#a6e22e">Publish</span>(<span style="color:#a6e22e">topic</span>, <span style="color:#a6e22e">msg</span>)
+  <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">1</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Millisecond</span>)
+ }
+
+ <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">50</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Millisecond</span>)
+ <span style="color:#a6e22e">pub</span>(<span style="color:#e6db74">&#34;tech&#34;</span>, <span style="color:#e6db74">&#34;tablets&#34;</span>)
+ <span style="color:#a6e22e">pub</span>(<span style="color:#e6db74">&#34;health&#34;</span>, <span style="color:#e6db74">&#34;vitamins&#34;</span>)
+ <span style="color:#a6e22e">pub</span>(<span style="color:#e6db74">&#34;tech&#34;</span>, <span style="color:#e6db74">&#34;robots&#34;</span>)
+ <span style="color:#a6e22e">pub</span>(<span style="color:#e6db74">&#34;travel&#34;</span>, <span style="color:#e6db74">&#34;beaches&#34;</span>)
+ <span style="color:#a6e22e">pub</span>(<span style="color:#e6db74">&#34;travel&#34;</span>, <span style="color:#e6db74">&#34;hiking&#34;</span>)
+ <span style="color:#a6e22e">pub</span>(<span style="color:#e6db74">&#34;tech&#34;</span>, <span style="color:#e6db74">&#34;drones&#34;</span>)
+
+ <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">50</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Millisecond</span>)
+}
+</code></pre></div>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/golang/" rel="tag">golang</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">博客迁移</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/golang%E4%B8%AD%E7%9A%84%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Golang中的单一职责原则</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>centos7安装systemtap - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="centos7安装systemtap" />
+<meta property="og:description" content="这两天突然对火焰图起了兴趣，至于什么是systemtap、什么是火焰图这里我不多说了，网上有很多介绍，这里说记录一下我的安装过程以及
+碰到的坑。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/centos7%E5%AE%89%E8%A3%85systemtap/" />
+<meta property="article:published_time" content="2016-07-27T10:46:53+00:00" />
+<meta property="article:modified_time" content="2016-07-27T10:46:53+00:00" />
+
+		<meta itemprop="name" content="centos7安装systemtap">
+<meta itemprop="description" content="这两天突然对火焰图起了兴趣，至于什么是systemtap、什么是火焰图这里我不多说了，网上有很多介绍，这里说记录一下我的安装过程以及
+碰到的坑。">
+<meta itemprop="datePublished" content="2016-07-27T10:46:53&#43;00:00" />
+<meta itemprop="dateModified" content="2016-07-27T10:46:53&#43;00:00" />
+<meta itemprop="wordCount" content="421">
+
+
+
+<meta itemprop="keywords" content="centos,火焰图," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">centos7安装systemtap</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-07-27T10:46:53Z">2016-07-27</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>这两天突然对火焰图起了兴趣，至于什么是systemtap、什么是火焰图这里我不多说了，网上有很多介绍，这里说记录一下我的安装过程以及
+碰到的坑。</p>
+<p><strong>首先，最最重要的，确认内核版本！！！</strong> 一般文章都是说使用<code>uname -r</code>就可以了，但我就被这个问题坑了很久，比如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@localhost<span style="color:#f92672">]</span><span style="color:#75715e"># uname -r</span>
+3.10.0-229.20.1.el7.x86_64
+
+<span style="color:#f92672">[</span>root@localhost<span style="color:#f92672">]</span><span style="color:#75715e"># rpm -qa|grep kernel</span>
+kernel-headers-3.10.0-327.22.2.el7.x86_64
+kernel-debuginfo-common-x86_64-3.10.0-229.20.1.el7.x86_64
+kernel-debuginfo-3.10.0-229.20.1.el7.x86_64
+kernel-3.10.0-229.20.1.el7.x86_64
+kernel-3.10.0-229.el7.x86_64
+kernel-devel-3.10.0-229.20.1.el7.x86_64
+kernel-3.10.0-327.22.2.el7.x86_64
+kernel-tools-libs-3.10.0-327.22.2.el7.x86_64
+kernel-tools-3.10.0-327.22.2.el7.x86_64
+</code></pre></div><p>这里可以看出，使用<code>uname -r</code>显示我的内核版本是<code>3.10.0-229.20.1.el7.x86_64</code>，可实际上内核版本应该是<code>3.10.0-327.22.2.el7.x86_64 </code>！</p>
+<p>所以我安装了错误的devel，debuginfo后执行测试代码，报错：</p>
+<pre><code>[root@localhost ~]# stap -v -e 'probe vfs.read {printf(&quot;read performed\n&quot;); exit()}'
+Pass 1: parsed user script and 110 library script(s) using 220064virt/37636res/3136shr/34876data kb, in 280usr/20sys/305real ms.
+semantic error: while resolving probe point: identifier 'kernel' at /usr/share/systemtap/tapset/linux/vfs.stp:882:18
+        source: probe vfs.read = kernel.function(&quot;vfs_read&quot;)
+                                 ^
+semantic error: missing x86_64 kernel/module debuginfo [man warning::debuginfo] under '/lib/modules/3.10.0-327.22.2.el7.x86_64/build'
+
+semantic error: while resolving probe point: identifier 'vfs' at &lt;input&gt;:1:7
+        source: probe vfs.read {printf(&quot;read performed\n&quot;); exit()}
+                      ^
+semantic error: no match
+
+Pass 2: analyzed script: 0 probe(s), 0 function(s), 0 embed(s), 0 global(s) using 230224virt/47628res/5088shr/42876data kb, in 110usr/70sys/174real ms.
+Pass 2: analysis failed.  [man error::pass2]
+</code></pre><p>错误很明显，内核版本和我安装的程序版本不一致所造成的。所以，如果个人建议如果执行过<code>yum update</code>升级过内核，一定要重启机器。</p>
+<p>问题找到后，使用rpm命令卸载掉版本错误的kernel-devel、kernel-debuginfo、kernel-debuginfo-common包重新安装：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum --enablerepo<span style="color:#f92672">=</span>*-debuginfo --showduplicates list kernel kernel-devel kernel-debuginfo
+
+可安装的软件包
+kernel.x86_64                                                        3.10.0-327.el7                                                     base           
+kernel.x86_64                                                        3.10.0-327.3.1.el7                                                 updates        
+kernel.x86_64                                                        3.10.0-327.4.4.el7                                                 updates        
+kernel.x86_64                                                        3.10.0-327.4.5.el7                                                 updates        
+kernel.x86_64                                                        3.10.0-327.10.1.el7                                                updates        
+kernel.x86_64                                                        3.10.0-327.13.1.el7                                                updates        
+kernel.x86_64                                                        3.10.0-327.18.2.el7                                                updates        
+kernel.x86_64                                                        3.10.0-327.22.2.el7                                                updates        
+kernel-debuginfo.x86_64                                              3.10.0-123.el7                                                     base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-123.1.2.el7                                                 base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-123.4.2.el7                                                 base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-123.4.4.el7                                                 base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-123.6.3.el7                                                 base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-123.8.1.el7                                                 base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-123.9.2.el7                                                 base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-123.9.3.el7                                                 base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-123.13.1.el7                                                base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-123.13.2.el7                                                base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-123.20.1.el7                                                base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-229.el7                                                     base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-229.1.2.el7                                                 base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-229.4.2.el7                                                 base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-229.7.2.el7                                                 base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-229.11.1.el7                                                base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-229.14.1.el7                                                base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-229.20.1.el7                                                base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-327.el7                                                     base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-327.3.1.el7                                                 base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-327.4.4.el7                                                 base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-327.4.5.el7                                                 base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-327.10.1.el7                                                base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-327.13.1.el7                                                base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-327.18.2.el7                                                base-debuginfo
+kernel-debuginfo.x86_64                                              3.10.0-327.22.2.el7                                                base-debuginfo
+kernel-debuginfo.x86_64                                              4.4.12-301.el7                                                     base-debuginfo
+kernel-debuginfo.x86_64                                              4.4.13-303.el7.centos                                              base-debuginfo
+kernel-debuginfo.x86_64                                              4.4.14-201.el7.centos                                              base-debuginfo
+kernel-devel.x86_64                                                  3.10.0-327.el7                                                     base           
+kernel-devel.x86_64                                                  3.10.0-327.3.1.el7                                                 updates        
+kernel-devel.x86_64                                                  3.10.0-327.4.4.el7                                                 updates        
+kernel-devel.x86_64                                                  3.10.0-327.4.5.el7                                                 updates        
+kernel-devel.x86_64                                                  3.10.0-327.10.1.el7                                                updates        
+kernel-devel.x86_64                                                  3.10.0-327.13.1.el7                                                updates        
+kernel-devel.x86_64                                                  3.10.0-327.18.2.el7                                                updates        
+kernel-devel.x86_64                                                  3.10.0-327.22.2.el7                                                updates   
+</code></pre></div><p>这里一定要选择 <strong>同样的版本</strong>，然后进行安装：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum --enablerepo<span style="color:#f92672">=</span>*-debuginfo install kernel-debuginfo-3.10.0-327.22.2.el7 kernel-devel-3.10.0-327.22.2.el7 systemtap
+</code></pre></div><p>网上说要自己去网站下载，其实不用。默认情况下yum源中把debuginfo给禁用了，启用后就可以直接使用yum安装了。</p>
+<p>安装完成后，再次执行测试代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@localhost<span style="color:#f92672">]</span><span style="color:#75715e"># stap -v -e &#39;probe vfs.read {printf(&#34;read performed\n&#34;); exit()}&#39;</span>
+Pass 1: parsed user script and <span style="color:#ae81ff">110</span> library script<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> using 220064virt/37636res/3136shr/34876data kb, in 320usr/40sys/350real ms.
+Pass 2: analyzed script: <span style="color:#ae81ff">1</span> probe<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>, <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">function</span><span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>, <span style="color:#ae81ff">4</span> embed<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>, <span style="color:#ae81ff">0</span> global<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> using 346424virt/165124res/4184shr/161236data kb, in 2470usr/380sys/2897real ms.
+Pass 3: translated to C into <span style="color:#e6db74">&#34;/tmp/stapNLmHP1/stap_44be74d5ef233d456ccbd3bd3e171034_1659_src.c&#34;</span> using 346424virt/165444res/4504shr/161236data kb, in 30usr/80sys/99real ms.
+Pass 4: compiled C into <span style="color:#e6db74">&#34;stap_44be74d5ef233d456ccbd3bd3e171034_1659.ko&#34;</span> in 2570usr/520sys/3266real ms.
+Pass 5: starting run.
+read performed
+Pass 5: run completed in 10usr/50sys/339real ms.
+</code></pre></div><p>成功。</p>
+<p>再简单记录一下安装成功后如何生成火焰图，首先下载<a href="https://github.com/openresty/nginx-systemtap-toolkit.git">nginx-systemtap-toolkit</a> 和 <a href="https://github.com/brendangregg/FlameGraph.git">FlameGraph</a>，这里为了简单我就
+直接使用sample-bt来抓取数据：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@localhost nginx-systemtap-toolkit<span style="color:#f92672">]</span><span style="color:#75715e"># ./sample-bt -p 1643 -t 20 -u &gt; a.bt</span>
+WARNING: Tracing <span style="color:#ae81ff">1643</span> <span style="color:#f92672">(</span>/usr/sbin/nginx<span style="color:#f92672">)</span> in user-space only...
+WARNING: no or bad debug frame hdr
+WARNING: No binary search table <span style="color:#66d9ef">for</span> eh frame, doing slow linear search <span style="color:#66d9ef">for</span> stap_e5e3efd7e0aa9b92e61d7eed4a6c46b6_11190
+WARNING: Time<span style="color:#960050;background-color:#1e0010">&#39;</span>s up. Quitting now...<span style="color:#f92672">(</span>it may take a <span style="color:#66d9ef">while</span><span style="color:#f92672">)</span>
+</code></pre></div><p>这个脚本的作用在文档里说的很清楚不再赘述，-p 指定了要调试的进程号，-t 表示监控20秒，-u 表示用户空间。可以使用-k抓取内核空间或同时使用俩者。</p>
+<p>生成a.bt文件后，生成火焰图步骤如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./stackcollapse-stap.pl a.bt &gt; a.cbt
+./flamegraph.pl a.cbt &gt; a.svg
+</code></pre></div><p>最终，a.svg就是我们的火焰图了。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/centos/" rel="tag">centos</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E7%81%AB%E7%84%B0%E5%9B%BE/" rel="tag">火焰图</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%E8%AE%B0%E5%BD%95/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">博客迁移记录</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/flask-html5%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8E%A8%E9%80%81%E4%BA%8B%E4%BB%B6/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Flask&#43;HTML5实现服务器推送事件</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

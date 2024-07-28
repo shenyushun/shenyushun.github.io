@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>java on Hi~Roy!</title>
+    <link>/tags/java/</link>
+    <description>Recent content in java on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 16 Mar 2016 17:02:02 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>名词王国里的死刑（翻译）</title>
+      <link>/posts/%E5%90%8D%E8%AF%8D%E7%8E%8B%E5%9B%BD%E9%87%8C%E7%9A%84%E6%AD%BB%E5%88%91%E7%BF%BB%E8%AF%91/</link>
+      <pubDate>Wed, 16 Mar 2016 17:02:02 +0000</pubDate>
+      
+      <guid>/posts/%E5%90%8D%E8%AF%8D%E7%8E%8B%E5%9B%BD%E9%87%8C%E7%9A%84%E6%AD%BB%E5%88%91%E7%BF%BB%E8%AF%91/</guid>
+      <description>&lt;p&gt;真是惭愧，直到今日才读到这篇文章，原文在&lt;a href=&#34;http://steve-yegge.blogspot.hk/2006/03/execution-in-kingdom-of-nouns.html&#34;&gt;这里&lt;/a&gt;。我本人大学课程中唯一没选修的语言就是Java，不知什么原因对于Java就是不感冒。虽然由于某些原因做了一阵android的开发，但是这段经历更是让我坚定了“能不写java程序就不写java程序”的想法。这里无意引起“语言之战”，仅是个人喜好问题罢了。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

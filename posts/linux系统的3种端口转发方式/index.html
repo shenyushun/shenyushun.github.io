@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>linux系统的3种端口转发方式 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="linux系统的3种端口转发方式" />
+<meta property="og:description" content="很多情况下我们都需要进行端口转发，这里以centos为例记录一下linux系统上端口转发的3种方式。
+iptables
+想利用iptables进行端口转发，首先要打开内核转发功能：
+echo &quot;net.ipv4.ip_forward = 1&quot; &gt;&gt; /etc/sysctl.conf
+sysctl -p
+然后编辑转发的服务器的/etc/sysconfig/iptables文件，添加
+*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+-A PREROUTING -d 转发服务器的ip -p tcp --dport 转发服务器的端口 -j DNAT --to-destination 目标ip：端口
+-A POSTROUTING -d 目标ip -p tcp --dport 目标端口 -j SNAT --to 转发服务器的Ip
+COMMIT
+重启Iptables后即可生效，在我们本机链接转发服务器的ip和端口实际上就是链接目标机器的ip和端口了。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/linux%E7%B3%BB%E7%BB%9F%E7%9A%843%E7%A7%8D%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E6%96%B9%E5%BC%8F/" />
+<meta property="article:published_time" content="2016-05-20T11:47:08+00:00" />
+<meta property="article:modified_time" content="2016-05-20T11:47:08+00:00" />
+
+		<meta itemprop="name" content="linux系统的3种端口转发方式">
+<meta itemprop="description" content="很多情况下我们都需要进行端口转发，这里以centos为例记录一下linux系统上端口转发的3种方式。
+iptables
+想利用iptables进行端口转发，首先要打开内核转发功能：
+echo &quot;net.ipv4.ip_forward = 1&quot; &gt;&gt; /etc/sysctl.conf
+sysctl -p
+然后编辑转发的服务器的/etc/sysconfig/iptables文件，添加
+*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+-A PREROUTING -d 转发服务器的ip -p tcp --dport 转发服务器的端口 -j DNAT --to-destination 目标ip：端口
+-A POSTROUTING -d 目标ip -p tcp --dport 目标端口 -j SNAT --to 转发服务器的Ip
+COMMIT
+重启Iptables后即可生效，在我们本机链接转发服务器的ip和端口实际上就是链接目标机器的ip和端口了。">
+<meta itemprop="datePublished" content="2016-05-20T11:47:08&#43;00:00" />
+<meta itemprop="dateModified" content="2016-05-20T11:47:08&#43;00:00" />
+<meta itemprop="wordCount" content="129">
+
+
+
+<meta itemprop="keywords" content="" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">linux系统的3种端口转发方式</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-05-20T11:47:08Z">2016-05-20</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>很多情况下我们都需要进行端口转发，这里以centos为例记录一下linux系统上端口转发的3种方式。</p>
+<h2 id="iptables">iptables</h2>
+<p>想利用iptables进行端口转发，首先要打开内核转发功能：</p>
+<pre><code>echo &quot;net.ipv4.ip_forward = 1&quot; &gt;&gt; /etc/sysctl.conf
+sysctl -p
+</code></pre><p>然后编辑转发的服务器的/etc/sysconfig/iptables文件，添加</p>
+<pre><code>*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+-A PREROUTING -d 转发服务器的ip -p tcp --dport 转发服务器的端口 -j DNAT --to-destination 目标ip：端口
+-A POSTROUTING -d 目标ip -p tcp --dport 目标端口 -j SNAT --to 转发服务器的Ip
+COMMIT
+</code></pre><p>重启Iptables后即可生效，在我们本机链接转发服务器的ip和端口实际上就是链接目标机器的ip和端口了。</p>
+<h2 id="ssh">SSH</h2>
+<p>先说几个常用参数</p>
+<ol>
+<li>-q 静默运行，就算出错也啥都不提示</li>
+<li>-f 后台运行</li>
+<li>-C 压缩，带宽很差的时候压缩会快一些，否则会更慢</li>
+<li>-l 指定用户名，其实就是@前面写的那个</li>
+<li>-N 不执行任何命令，适合仅转发的情况
+然后确保本机和转发服务器的ssh服务都开启了准许转发的参数：</li>
+</ol>
+<pre><code>GatewayPorts yes
+AllowTcpForwarding yes
+</code></pre><p>正向代理，在本机执行：</p>
+<pre><code>ssh -l username -N -L 本机IP:本机端口:目标机IP:目标机端口 转发服务器IP
+</code></pre><p>然后再打开一个终端，使用ssh链接本机IP：本机端口即可访问目标机。当然，首先本机需要能访问转发服务器，其次转发服务器能访问目标机器。
+反向代理，在本机执行：</p>
+<pre><code>ssh -N -R 转发服务器IP:转发服务器端口:本机IP:本机端口 username@转发服务器IP -p转发服务器SSH端口
+</code></pre><p>这样，其他原本访问不了本机服务的机器就可以通过链接转发服务器IP：转发服务器端口来访问本机提供的服务了。</p>
+<p>socket代理，配合chrome,firefox浏览器插件翻墙的利器，不多说，给个脚本：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/usr/bin/expect -f
+</span><span style="color:#75715e"></span>set port 7070
+set user xxxx
+set host xxx.xxx.xxx.xxx
+set password xxxx
+set timeout -1  
+spawn autossh -p <span style="color:#ae81ff">22</span> -M <span style="color:#ae81ff">9998</span> -NC -D $port $user@$host
+expect <span style="color:#e6db74">&#34;*assword:*&#34;</span>  
+send <span style="color:#e6db74">&#34;</span>$password<span style="color:#e6db74">\r&#34;</span>  
+expect eof
+</code></pre></div><p>autossh、spawn、expect命令需要安装，当然也可以使用ssh-copy-id进行免密码登录设置。然后浏览器代理插件端口设置成7070即可。</p>
+<h2 id="rinetd">rinetd</h2>
+<p>这个软件看说明很强大，没真正使用过。官网：<a href="https://boutell.com/rinetd/">https://boutell.com/rinetd/</a>
+安装后配置vi /etc/rinetd.conf即可，编写的格式是</p>
+<pre><code>绑定的地址  绑定的端口  连接的地址  连接的端口
+</code></pre><p>保存后启动即可，没用过我就不多说这个了。</p>
+		</div>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/eventletdjangorequests%E9%97%AE%E9%A2%98%E6%9D%82%E8%AE%B0/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">eventlet，django，requests问题杂记</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/django%E5%B8%B8%E7%94%A8%E4%B8%89%E6%96%B9%E5%BA%93/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Django常用三方库</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

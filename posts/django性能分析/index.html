@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>django性能分析 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="django性能分析" />
+<meta property="og:description" content="一般情况我们使用django-debug-toolbar就能够看到每个步骤的耗时等信息，不过如果需要调试某个接口就不那么直观了，这种情况下我们可以使用下面的中间件来解决问题：
+# Orignal version taken from http://www.djangosnippets.org/snippets/186/ # Original author: udfalkso # Modified by: Shwagroo Team and Gun." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/django%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/" />
+<meta property="article:published_time" content="2015-11-20T18:13:57+00:00" />
+<meta property="article:modified_time" content="2015-11-20T18:13:57+00:00" />
+
+		<meta itemprop="name" content="django性能分析">
+<meta itemprop="description" content="一般情况我们使用django-debug-toolbar就能够看到每个步骤的耗时等信息，不过如果需要调试某个接口就不那么直观了，这种情况下我们可以使用下面的中间件来解决问题：
+# Orignal version taken from http://www.djangosnippets.org/snippets/186/ # Original author: udfalkso # Modified by: Shwagroo Team and Gun.">
+<meta itemprop="datePublished" content="2015-11-20T18:13:57&#43;00:00" />
+<meta itemprop="dateModified" content="2015-11-20T18:13:57&#43;00:00" />
+<meta itemprop="wordCount" content="565">
+
+
+
+<meta itemprop="keywords" content="django,python," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">django性能分析</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-11-20T18:13:57Z">2015-11-20</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>一般情况我们使用django-debug-toolbar就能够看到每个步骤的耗时等信息，不过如果需要调试某个接口就不那么直观了，这种情况下我们可以使用下面的中间件来解决问题：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Orignal version taken from http://www.djangosnippets.org/snippets/186/</span>
+<span style="color:#75715e"># Original author: udfalkso</span>
+<span style="color:#75715e"># Modified by: Shwagroo Team and Gun.io</span>
+<span style="color:#f92672">import</span> sys
+<span style="color:#f92672">import</span> os
+<span style="color:#f92672">import</span> re
+<span style="color:#f92672">import</span> hotshot<span style="color:#f92672">,</span> hotshot.stats
+<span style="color:#f92672">import</span> tempfile
+<span style="color:#f92672">import</span> StringIO
+<span style="color:#f92672">from</span> django.conf <span style="color:#f92672">import</span> settings
+words_re <span style="color:#f92672">=</span> re<span style="color:#f92672">.</span>compile( <span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;\s+&#39;</span> )
+group_prefix_re <span style="color:#f92672">=</span> [
+    re<span style="color:#f92672">.</span>compile( <span style="color:#e6db74">&#34;^.*/django/[^/]+&#34;</span> ),
+    re<span style="color:#f92672">.</span>compile( <span style="color:#e6db74">&#34;^(.*)/[^/]+$&#34;</span> ), <span style="color:#75715e"># extract module path</span>
+    re<span style="color:#f92672">.</span>compile( <span style="color:#e6db74">&#34;.*&#34;</span> ),           <span style="color:#75715e"># catch strange entries</span>
+]
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProfileMiddleware</span>(object):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    Displays hotshot profiling for any view.
+</span><span style="color:#e6db74">    http://yoursite.com/yourview/?prof
+</span><span style="color:#e6db74">    Add the &#34;prof&#34; key to query string by appending ?prof (or &amp;prof=)
+</span><span style="color:#e6db74">    and you&#39;ll see the profiling results in your browser.
+</span><span style="color:#e6db74">    It&#39;s set up to only be available in django&#39;s debug mode, is available for superuser otherwise,
+</span><span style="color:#e6db74">    but you really shouldn&#39;t add this middleware to any production configuration.
+</span><span style="color:#e6db74">    WARNING: It uses hotshot profiler which is not thread safe.
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">process_request</span>(self, request):
+        <span style="color:#66d9ef">if</span> (settings<span style="color:#f92672">.</span>DEBUG <span style="color:#f92672">or</span> request<span style="color:#f92672">.</span>user<span style="color:#f92672">.</span>is_superuser) <span style="color:#f92672">and</span> <span style="color:#e6db74">&#39;prof&#39;</span> <span style="color:#f92672">in</span> request<span style="color:#f92672">.</span>GET:
+            self<span style="color:#f92672">.</span>tmpfile <span style="color:#f92672">=</span> tempfile<span style="color:#f92672">.</span>mktemp()
+            self<span style="color:#f92672">.</span>prof <span style="color:#f92672">=</span> hotshot<span style="color:#f92672">.</span>Profile(self<span style="color:#f92672">.</span>tmpfile)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">process_view</span>(self, request, callback, callback_args, callback_kwargs):
+        <span style="color:#66d9ef">if</span> (settings<span style="color:#f92672">.</span>DEBUG <span style="color:#f92672">or</span> request<span style="color:#f92672">.</span>user<span style="color:#f92672">.</span>is_superuser) <span style="color:#f92672">and</span> <span style="color:#e6db74">&#39;prof&#39;</span> <span style="color:#f92672">in</span> request<span style="color:#f92672">.</span>GET:
+            <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>prof<span style="color:#f92672">.</span>runcall(callback, request, <span style="color:#f92672">*</span>callback_args, <span style="color:#f92672">**</span>callback_kwargs)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_group</span>(self, file):
+        <span style="color:#66d9ef">for</span> g <span style="color:#f92672">in</span> group_prefix_re:
+            name <span style="color:#f92672">=</span> g<span style="color:#f92672">.</span>findall( file )
+            <span style="color:#66d9ef">if</span> name:
+                <span style="color:#66d9ef">return</span> name[<span style="color:#ae81ff">0</span>]
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_summary</span>(self, results_dict, sum):
+        list <span style="color:#f92672">=</span> [ (item[<span style="color:#ae81ff">1</span>], item[<span style="color:#ae81ff">0</span>]) <span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> results_dict<span style="color:#f92672">.</span>items() ]
+        list<span style="color:#f92672">.</span>sort( reverse <span style="color:#f92672">=</span> True )
+        list <span style="color:#f92672">=</span> list[:<span style="color:#ae81ff">40</span>]
+        res <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;      tottime</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> list:
+            res <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%4.1f%%</span><span style="color:#e6db74"> </span><span style="color:#e6db74">%7.3f</span><span style="color:#e6db74"> </span><span style="color:#e6db74">%s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> ( <span style="color:#ae81ff">100</span><span style="color:#f92672">*</span>item[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">/</span>sum <span style="color:#66d9ef">if</span> sum <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>, item[<span style="color:#ae81ff">0</span>], item[<span style="color:#ae81ff">1</span>] )
+        <span style="color:#66d9ef">return</span> res
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">summary_for_files</span>(self, stats_str):
+        stats_str <span style="color:#f92672">=</span> stats_str<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)[<span style="color:#ae81ff">5</span>:]
+        mystats <span style="color:#f92672">=</span> {}
+        mygroups <span style="color:#f92672">=</span> {}
+        sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">for</span> s <span style="color:#f92672">in</span> stats_str:
+            fields <span style="color:#f92672">=</span> words_re<span style="color:#f92672">.</span>split(s);
+            <span style="color:#66d9ef">if</span> len(fields) <span style="color:#f92672">==</span> <span style="color:#ae81ff">7</span>:
+                time <span style="color:#f92672">=</span> float(fields[<span style="color:#ae81ff">2</span>])
+                sum <span style="color:#f92672">+=</span> time
+                file <span style="color:#f92672">=</span> fields[<span style="color:#ae81ff">6</span>]<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;:&#34;</span>)[<span style="color:#ae81ff">0</span>]
+                <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> file <span style="color:#f92672">in</span> mystats:
+                    mystats[file] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+                mystats[file] <span style="color:#f92672">+=</span> time
+                group <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>get_group(file)
+                <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> group <span style="color:#f92672">in</span> mygroups:
+                    mygroups[ group ] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+                mygroups[ group ] <span style="color:#f92672">+=</span> time
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&lt;pre&gt;&#34;</span> <span style="color:#f92672">+</span> \
+               <span style="color:#e6db74">&#34; ---- By file ----</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>get_summary(mystats,sum) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">+</span> \
+               <span style="color:#e6db74">&#34; ---- By group ---</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>get_summary(mygroups,sum) <span style="color:#f92672">+</span> \
+               <span style="color:#e6db74">&#34;&lt;/pre&gt;&#34;</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">process_response</span>(self, request, response):
+        <span style="color:#66d9ef">if</span> (settings<span style="color:#f92672">.</span>DEBUG <span style="color:#f92672">or</span> request<span style="color:#f92672">.</span>user<span style="color:#f92672">.</span>is_superuser) <span style="color:#f92672">and</span> <span style="color:#e6db74">&#39;prof&#39;</span> <span style="color:#f92672">in</span> request<span style="color:#f92672">.</span>GET:
+            self<span style="color:#f92672">.</span>prof<span style="color:#f92672">.</span>close()
+            out <span style="color:#f92672">=</span> StringIO<span style="color:#f92672">.</span>StringIO()
+            old_stdout <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>stdout
+            sys<span style="color:#f92672">.</span>stdout <span style="color:#f92672">=</span> out
+            stats <span style="color:#f92672">=</span> hotshot<span style="color:#f92672">.</span>stats<span style="color:#f92672">.</span>load(self<span style="color:#f92672">.</span>tmpfile)
+            stats<span style="color:#f92672">.</span>sort_stats(<span style="color:#e6db74">&#39;time&#39;</span>, <span style="color:#e6db74">&#39;calls&#39;</span>)
+            stats<span style="color:#f92672">.</span>print_stats()
+            sys<span style="color:#f92672">.</span>stdout <span style="color:#f92672">=</span> old_stdout
+            stats_str <span style="color:#f92672">=</span> out<span style="color:#f92672">.</span>getvalue()
+            <span style="color:#66d9ef">if</span> response <span style="color:#f92672">and</span> response<span style="color:#f92672">.</span>content <span style="color:#f92672">and</span> stats_str:
+                response<span style="color:#f92672">.</span>content <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;pre&gt;&#34;</span> <span style="color:#f92672">+</span> stats_str <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&lt;/pre&gt;&#34;</span>
+            response<span style="color:#f92672">.</span>content <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>join(response<span style="color:#f92672">.</span>content<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)[:<span style="color:#ae81ff">40</span>])
+            response<span style="color:#f92672">.</span>content <span style="color:#f92672">+=</span> self<span style="color:#f92672">.</span>summary_for_files(stats_str)
+            os<span style="color:#f92672">.</span>unlink(self<span style="color:#f92672">.</span>tmpfile)
+        <span style="color:#66d9ef">return</span> response
+</code></pre></div><p>把这个文件保存为middleware.py，然后在settings.py中的MIDDLEWARE_CLASSES添加刚才写好的中间件
+<code>'yourproject.yourapp.middleware.ProfileMiddleware'</code>,
+添加完成后，在原本要访问的url后添加&rsquo;?prof'就可以看到性能分析结果了：</p>
+<pre><code>&lt;pre&gt;         202188 function calls (182154 primitive calls) in 2.948 seconds
+   Ordered by: internal time, call count
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      302    2.444    0.008    2.454    0.008 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/MySQLdb/cursors.py:277(_do_query)
+        2    0.086    0.043    0.104    0.052 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/MySQLdb/connections.py:62(__init__)
+        2    0.017    0.009    0.017    0.009 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/MySQLdb/connections.py:287(set_character_set)
+        2    0.016    0.008    0.016    0.008 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/django/db/backends/mysql/base.py:299(_set_autocommit)
+      302    0.008    0.000    2.488    0.008 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/django/db/backends/utils.py:76(execute)
+    19410    0.008    0.000    0.008    0.000 /usr/lib64/python2.7/copy.py:267(_keep_alive)
+    10237    0.008    0.000    0.008    0.000 /usr/lib64/python2.7/json/encoder.py:33(encode_basestring)
+      600    0.008    0.000    0.012    0.000 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/django/db/models/sql/query.py:246(clone)
+        6    0.007    0.001    0.007    0.001 /usr/lib64/python2.7/urlparse.py:336(unquote)
+      500    0.007    0.000    2.712    0.005 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/django/db/models/query.py:229(iterator)
+     1152    0.005    0.000    0.029    0.000 /usr/lib64/python2.7/copy.py:253(_deepcopy_dict)
+        1    0.005    0.005    0.014    0.014 /usr/lib64/python2.7/json/encoder.py:212(iterencode)
+      302    0.005    0.000    0.010    0.000 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/MySQLdb/cursors.py:117(_do_get_result)
+      300    0.005    0.000    0.121    0.000 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/django/db/models/sql/compiler.py:351(as_sql)
+      300    0.004    0.000    0.033    0.000 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/django/db/models/sql/query.py:1114(build_filter)
+      302    0.004    0.000    0.004    0.000 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/MySQLdb/cursors.py:313(_get_result)
+        1    0.003    0.003    0.017    0.017 /usr/lib64/python2.7/json/encoder.py:186(encode)
+     1300    0.003    0.000    0.004    0.000 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/django/db/backends/mysql/operations.py:176(get_db_converters)
+      600    0.003    0.000    0.006    0.000 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/django/db/models/sql/query.py:1334(names_to_path)
+      300    0.003    0.000    0.004    0.000 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/django/db/models/sql/query.py:110(__init__)
+      302    0.003    0.000    0.003    0.000 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/MySQLdb/cursors.py:82(_warning_check)
+      200    0.003    0.000    0.004    0.000 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/django/db/models/base.py:388(__init__)
+      302    0.003    0.000    2.469    0.008 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/MySQLdb/cursors.py:139(execute)
+      300    0.003    0.000    0.022    0.000 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/django/db/models/sql/compiler.py:155(get_select)
+      300    0.003    0.000    0.007    0.000 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/django/db/models/sql/compiler.py:472(get_default_columns)
+      908    0.003    0.000    0.003    0.000 /home/xsy/.virtualenvs/calc/lib64/python2.7/encodings/utf_8.py:15(decode)
+     3500    0.003    0.000    0.005    0.000 /home/xsy/.virtualenvs/calc/lib/python2.7/site-packages/django/db/models/sql/compiler.py:325(quote_name_unless_alias)
+&lt;pre&gt; ---- By file ----
+</code></pre><p>简单解释下主要的信息，ncalls是函数调用的次数，percall指调用一次所需时间，cumtime是运行时占用的总时间。比如percall时间很短而cumtime时间很长，则代表循环次数过多了，试着从算法角度进行优化;如果从输出中看到大量时间消耗和“sql”有关的，则试着从数据库相关代码优化;如果看见大量时间消耗和&quot;template&quot;有关，则尝试从模板渲染处着手优化。</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/django/" rel="tag">django</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/macos%E8%AF%BB%E5%86%99ntfs%E6%A0%BC%E5%BC%8F%E7%A1%AC%E7%9B%98/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">MacOS读写ntfs格式硬盘</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/fedora21%E6%97%A0%E7%BC%9D%E5%8D%87%E7%BA%A7%E5%88%B023/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">fedora21无缝升级到23</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

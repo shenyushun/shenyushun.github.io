@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Effective-Go中文翻译 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Effective-Go中文翻译" />
+<meta property="og:description" content="
+
+介绍
+
+例子
+
+
+代码风格
+注释
+命名规范
+
+
+原文链接，省略了一些无关的句子。
+这里有别人翻译好的，需要翻墙。
+介绍
+Go是一种新的语言，尽管它从其他语言中借鉴了很多特性，但有些不同寻常的特性让Go语言程序和其他程序有所不同。想要直接把C&#43;&#43;或者Java代码转换成Go不会得到令人满意的结果，Java程序是用Java写的而不是GO。另一方面，从GO的角度来考虑问题可以写出成功运行但略有不同的程序。换句话说，想要写出好的GO程序，了解其特性是很重要的。同样，了解约定俗成的惯例也很重要，比如命名、格式、项目结构，这样你写的代码才能方便其他GO语言程序员理解。
+这篇文档给你一些小建议以便写出简洁且符合规范的GO代码。看这篇文档前建议先看language specification，the Tour of Go，和 How to Write Go Code。
+例子
+GO源码不仅仅是作为核心库来使用，更可以用作写代码的实例参考。此外，你可以直接在官网上运行那些没有额外依赖的程序，比如这个。如果你有关于如何解决或实现某个问题的疑问，标准库中的文档、代码、例子可以提供答案或者思路。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/effective-go%E4%B8%AD%E6%96%87%E7%BF%BB%E8%AF%91/" />
+<meta property="article:published_time" content="2018-05-07T17:59:59+00:00" />
+<meta property="article:modified_time" content="2018-05-07T17:59:59+00:00" />
+
+		<meta itemprop="name" content="Effective-Go中文翻译">
+<meta itemprop="description" content="
+
+介绍
+
+例子
+
+
+代码风格
+注释
+命名规范
+
+
+原文链接，省略了一些无关的句子。
+这里有别人翻译好的，需要翻墙。
+介绍
+Go是一种新的语言，尽管它从其他语言中借鉴了很多特性，但有些不同寻常的特性让Go语言程序和其他程序有所不同。想要直接把C&#43;&#43;或者Java代码转换成Go不会得到令人满意的结果，Java程序是用Java写的而不是GO。另一方面，从GO的角度来考虑问题可以写出成功运行但略有不同的程序。换句话说，想要写出好的GO程序，了解其特性是很重要的。同样，了解约定俗成的惯例也很重要，比如命名、格式、项目结构，这样你写的代码才能方便其他GO语言程序员理解。
+这篇文档给你一些小建议以便写出简洁且符合规范的GO代码。看这篇文档前建议先看language specification，the Tour of Go，和 How to Write Go Code。
+例子
+GO源码不仅仅是作为核心库来使用，更可以用作写代码的实例参考。此外，你可以直接在官网上运行那些没有额外依赖的程序，比如这个。如果你有关于如何解决或实现某个问题的疑问，标准库中的文档、代码、例子可以提供答案或者思路。">
+<meta itemprop="datePublished" content="2018-05-07T17:59:59&#43;00:00" />
+<meta itemprop="dateModified" content="2018-05-07T17:59:59&#43;00:00" />
+<meta itemprop="wordCount" content="319">
+
+
+
+<meta itemprop="keywords" content="golang," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Effective-Go中文翻译</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-05-07T17:59:59Z">2018-05-07</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<!-- raw HTML omitted -->
+<ul>
+<li><a href="#%E4%BB%8B%E7%BB%8D">介绍</a>
+<ul>
+<li><a href="#%E4%BE%8B%E5%AD%90">例子</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E9%A3%8E%E6%A0%BC">代码风格</a></li>
+<li><a href="#%E6%B3%A8%E9%87%8A">注释</a></li>
+<li><a href="#%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83">命名规范</a></li>
+</ul>
+<!-- raw HTML omitted -->
+<p><a href="https://golang.google.cn/doc/effective_go.html">原文链接</a>，省略了一些无关的句子。</p>
+<p><a href="https://go-zh.org/doc/effective_go.html">这里</a>有别人翻译好的，需要翻墙。</p>
+<h1 id="介绍">介绍</h1>
+<p>Go是一种新的语言，尽管它从其他语言中借鉴了很多特性，但有些不同寻常的特性让Go语言程序和其他程序有所不同。想要直接把C++或者Java代码转换成Go不会得到令人满意的结果，Java程序是用Java写的而不是GO。另一方面，从GO的角度来考虑问题可以写出成功运行但略有不同的程序。换句话说，想要写出好的GO程序，了解其特性是很重要的。同样，了解约定俗成的惯例也很重要，比如命名、格式、项目结构，这样你写的代码才能方便其他GO语言程序员理解。</p>
+<p>这篇文档给你一些小建议以便写出简洁且符合规范的GO代码。看这篇文档前建议先看<a href="https://golang.google.cn/ref/spec">language specification</a>，<a href="https://tour.golang.org/">the Tour of Go</a>，和 <a href="https://golang.google.cn/doc/code.html">How to Write Go Code</a>。</p>
+<h2 id="例子">例子</h2>
+<p><a href="https://golang.google.cn/src/">GO源码</a>不仅仅是作为核心库来使用，更可以用作写代码的实例参考。此外，你可以直接在<a href="https://golang.org/">官网</a>上运行那些没有额外依赖的程序，比如<a href="https://golang.org/pkg/strings/#example_Map">这个</a>。如果你有关于如何解决或实现某个问题的疑问，标准库中的文档、代码、例子可以提供答案或者思路。</p>
+<h1 id="代码风格">代码风格</h1>
+<p>代码风格是一个重要而且很有争议的问题，人们虽然可以适应多种代码风格，但这最好避免这样。如果大家的风格一致就可以把时间投入到更重要的地方。问题是如何统一所有人的风格而不需要冗长的风格说明文档。</p>
+<p>在GO中我们提供了一种不常见的方法并且让机器去处理常见的代码格式化问题。<code>gofmt</code>命令(也可以使用<code>go fmt</code>，这个命令作用于包而不是源文件)用于读取源文件并且将其使用标准代码风格缩进，如果有需要的话也会格式化注释。</p>
+<p>如下面这个例子，不需要花时间去格式化结构体中存在的注释，<code>gofmt</code>会帮你完成：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T</span> <span style="color:#66d9ef">struct</span> {
+    <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span> <span style="color:#75715e">// name of the object
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">value</span> <span style="color:#66d9ef">int</span> <span style="color:#75715e">// its value
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>执行<code>gomft</code>后:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">T</span> <span style="color:#66d9ef">struct</span> {
+    <span style="color:#a6e22e">name</span>    <span style="color:#66d9ef">string</span> <span style="color:#75715e">// name of the object
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">value</span>   <span style="color:#66d9ef">int</span>    <span style="color:#75715e">// its value
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>标准库中的所有代码都是经过gofmt处理过的。</p>
+<p>一些格式化的细节如下，很简短：</p>
+<ol>
+<li>缩进：gofmt默认使用tabs缩进，如果必须的话才使用空格。</li>
+<li>行长度：GO没有代码行长度限制。如果一个行过长，可以另起一行并添加额外的tab。</li>
+<li>括号：GO比C和Java需要的括号少很多，控制结构中(if for switch)不需要有括号，操作符号优先级更短更清晰，比如：</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">x</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">8</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">y</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">16</span>
+</code></pre></div><p>间隔就意味着操作顺序。</p>
+<h1 id="注释">注释</h1>
+<p>GO提供了<code>/**/</code>这样的块注释和<code>//</code>这样的行注释。行注释是最常用的，块注释通常应用在包说明注释、有用的表达式和禁用大块代码时。</p>
+<p><code>godoc</code>命令将从源码中提取关于这个包的文档。最先出现的评论将被作为文件的说明文档被提取出来，这部分评论的风格和质量决定了<code>godoc</code>命令产生文档质量的好坏。</p>
+<p>每一个包都应该有个说明，这个说明使用块评论并且在包声明语句之前。对于有多个源文件的包，包说明仅需要出现在一个文件中。包说明应该包含简介以及相关的全部信息。这些信息将出现在godoc的首页并且有详细说明的链接。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">/*
+</span><span style="color:#75715e">Package regexp implements a simple library for regular expressions.
+</span><span style="color:#75715e">
+</span><span style="color:#75715e">The syntax of the regular expressions accepted is:
+</span><span style="color:#75715e">
+</span><span style="color:#75715e">    regexp:
+</span><span style="color:#75715e">        concatenation { &#39;|&#39; concatenation }
+</span><span style="color:#75715e">    concatenation:
+</span><span style="color:#75715e">        { closure }
+</span><span style="color:#75715e">    closure:
+</span><span style="color:#75715e">        term [ &#39;*&#39; | &#39;+&#39; | &#39;?&#39; ]
+</span><span style="color:#75715e">    term:
+</span><span style="color:#75715e">        &#39;^&#39;
+</span><span style="color:#75715e">        &#39;$&#39;
+</span><span style="color:#75715e">        &#39;.&#39;
+</span><span style="color:#75715e">        character
+</span><span style="color:#75715e">        &#39;[&#39; [ &#39;^&#39; ] character-ranges &#39;]&#39;
+</span><span style="color:#75715e">        &#39;(&#39; regexp &#39;)&#39;
+</span><span style="color:#75715e">*/</span>
+<span style="color:#f92672">package</span> <span style="color:#a6e22e">regexp</span>
+</code></pre></div><p>如果包很简单，则可以使用简短的注释说明。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Package path implements utility routines for
+</span><span style="color:#75715e">// manipulating slash-separated filename paths.
+</span></code></pre></div><p>注释不需要额外的格式，生成的输出可能都不是固定宽度，所以不要依赖间距这种对齐方式，godoc和gofmt会自动处理。注释是纯文本的格式，所以HTML或者其他格式类似<code>_this_</code>这样的不应该使用。godoc一个作用就是调整程序代码缩进为固定宽度。<a href="https://golang.google.cn/pkg/fmt/">fmt package</a>这个包的说明就是这样处理的，效果很好。</p>
+<p>根据不同情况，godoc可能不会重新格式化注释，所以确保他们看起来好看：使用正确的拼写、标点、句子结构，正确的折行等等。</p>
+<p>在包内部，任何出现在紧贴函数声明上面的评论都会作为函数的说明文档。每个对外暴露的函数(大写字母开头)都应该有说明文档。</p>
+<p>文档说明应该使用完整的句子，第一句应该是一个完整的摘要，并且以函数名开头。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Compile parses a regular expression and returns, if successful,
+</span><span style="color:#75715e">// a Regexp that can be used to match against text.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Compile</span>(<span style="color:#a6e22e">str</span> <span style="color:#66d9ef">string</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">Regexp</span>, <span style="color:#66d9ef">error</span>) {}
+</code></pre></div><p>如果每个函数说明都是以函数描述为开头，godoc的输出就可以使用<code>grep</code>命令进行过滤。你可能不记得“Compile”但要为正则表达式寻找解析函数，则可以使用下面的命令：</p>
+<pre><code>godoc regexp | grep -i parse
+</code></pre><p>如果所有的文档都在包开头的地方，&ldquo;This function&hellip;&quot;，<code>grep</code>不能帮你机器函数名，但由于每个包名都在包起始说明的地方，你可能看到如下输出，有助于回忆起寻找的东西：</p>
+<pre><code>$ godoc regexp | grep parse
+    Compile parses a regular expression and returns, if successful, a Regexp
+    parsed. It simplifies safe initialization of global variables holding
+    cannot be parsed. It simplifies safe initialization of global variables
+</code></pre><p>GO语法准许以组为单位进行声明，一个单一的文档说明可以介绍这个组的常量或者变量。正因如此，说明可以简短一些：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Error codes returned by failures to parse an expression.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> (
+    <span style="color:#a6e22e">ErrInternal</span>      = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;regexp: internal error&#34;</span>)
+    <span style="color:#a6e22e">ErrUnmatchedLpar</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;regexp: unmatched &#39;(&#39;&#34;</span>)
+    <span style="color:#a6e22e">ErrUnmatchedRpar</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;regexp: unmatched &#39;)&#39;&#34;</span>)
+    <span style="color:#f92672">...</span>
+)
+</code></pre></div><p>分组声明也可以表明组成员之间的关系，比如下面这个例子，变量由一个互斥锁保护:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> (
+    <span style="color:#a6e22e">countLock</span>   <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Mutex</span>
+    <span style="color:#a6e22e">inputCount</span>  <span style="color:#66d9ef">uint32</span>
+    <span style="color:#a6e22e">outputCount</span> <span style="color:#66d9ef">uint32</span>
+    <span style="color:#a6e22e">errorCount</span>  <span style="color:#66d9ef">uint32</span>
+)
+</code></pre></div><h1 id="命名规范">命名规范</h1>
+<p>命名在GO中十分重要，甚至还有语义上的效果：名字开头字母是不是大写还决定了一个变量是否能被外部引用。所以花费一些时间讨论命名规范是十分值得的。</p>
+<h2 id="包名">包名</h2>
+<p>当包被引入后，可以通过包名访问其内容。在</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;bytes&#34;</span>
+</code></pre></div><p>后，就可以调用<code>bytes.Buffer</code>了，所有人都通过相同的方式引用其内容是十分有益的，也就是说包名应该尽可能的简洁明了。按照惯例，包名应该小写且使用单个单词，不包含下划线或驼峰命名法。<code>Err</code>包就十分简洁，任何使用它的人都会输入这个名字。不用担心包引入顺序的问题，包名就是引入时候的默认名。包名不需要在所有源码中都保持唯一，少数冲突的情况下可以在局部使用别名引用。不论如何，冲突都是很少见的，因为文件名就决定了哪一个包被使用。</p>
+<p>另一个约定就是包名应为其源码目录的基本名称。在 <code>src/pkg/encoding/base64</code> 中的包应作为 <code>encoding/base64</code> 导入，其包名应为 <code>base64</code>， 而非 <code>encoding_base64</code> 或 <code>encodingBase64</code>。</p>
+<p>包的导入者可通过包名来引用其内容，因此包中的可导出名称以此来避免冲突。（请勿使用 <code>import .</code> 记法，它可以简化必须在被测试包外运行的测试， 除此之外应尽量避免使用。）例如，<code>bufio</code>包中的缓存读取器类型叫做<code>Reader</code>而非<code>BufReader</code>，因为用户将它看做<code>bufio.Reader</code>，这是个清楚而简洁的名称。 此外，由于被导入的项总是通过它们的包名来确定，因此<code>bufio.Reader</code>不会与<code>io.Reader</code>发生冲突。同样，用于创建<code>ring.Ring</code>的新实例的函数（这就是Go中的构造函数）一般会称之为<code>NewRing</code>，但由于<code>Ring</code>是该包所导出的唯一类型，且该包也叫<code>ring</code>，因此它可以只叫做<code>New</code>，它跟在包的后面，就像<code>ring.New</code>。</p>
+<p>另一个简短的例子是<code>once.Do，once.Do(setup)</code>表述足够清晰， 使用<code>once.DoOrWaitUntilDone(setup)</code>完全多余。 长命名并不会使其更具可读性，一份有用的说明文档通常比额外的长名更有价值。</p>
+<h2 id="getters">Getters</h2>
+<p>GO中不直接提供Getters和Setters，如果需要可以自己实现。把Get这3个字母放入Getters命名中不合习惯也没必要。如果你有一个叫做owner(小写，不能被外部引用)的变量,getter方法最好叫做Owner(大写，可以被外部引用)，而不是GetOwner。大写字母即为可导出的这种规定为区分方法和字段提供了便利。若要提供Setter函数，SetOwner 是个不错的选择。两个命名看起来都很合理：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">owner</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">Owner</span>()
+<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">owner</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">user</span> {
+    <span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">SetOwner</span>(<span style="color:#a6e22e">user</span>)
+}
+</code></pre></div><h2 id="接口名">接口名</h2>
+<p>按惯例，只包含一个方法的接口应当以该方法的名称加上-er后缀来命名，如Reader、Writer、Formatter、CloseNotifier等。</p>
+<p>诸如此类的命名有很多，遵循它们及其代表的函数名会让事情变得简单。 Read、Write、Close、Flush、 String 等都具有典型的签名和意义。为避免冲突，请不要用这些名称为你的方法命名， 除非你明确知道它们的签名和意义相同。反之，若你的类型实现了的方法， 与一个众所周知的类型的方法拥有相同的含义，那就使用相同的命名。 请将字符串转换方法命名为 String 而非 ToString。</p>
+<h2 id="驼峰命名法">驼峰命名法</h2>
+<p>最后，Go中约定使用驼峰记法 <code>MixedCaps</code> 或 <code>mixedCaps</code>，而不是下划线。</p>
+<p>未完待续……</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/golang/" rel="tag">golang</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6-%E5%88%87%E6%8D%A2%E9%85%8D%E7%BD%AE/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">redis主从复制-切换配置</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">区块链学习笔记1</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

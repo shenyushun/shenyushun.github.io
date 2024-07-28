@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>OpenStack源码学习笔记6 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="OpenStack源码学习笔记6" />
+<meta property="og:description" content="很久之前发现一个现象，在生产环境中配置了保留内存reserved_host_memory_mb以及 没配置 内存超分比ram_allocation_ratio的情况下，虚拟机使用的内存居然已经快将物理内存耗尽了。
+比如物理机内存300G，方便举例忽略掉一些系统占用，当设置了reserved_host_memory_mb为20G，那么理论上所有虚拟机最大占用内存量为280G，而查看居然已经使用了290G的内存，还是在虚拟机并没有将各自申请的内存全部使用掉的情况下(比如申请一台4G的虚拟机，但物理机操作系统层面并没有分配4G给对应的进程，除非虚拟机内部把内存占满)。
+单单就nova而言，如果在集群启动时就指定了保留内存大小和超分比为1的话，是不应该出现上述情形的。除非后期对这2个参数进行过修改，但由于年代久远已经没法追溯，这也就成了一桩悬案。
+不过在追踪这个问题的过程中，顺便也学习了下主机热迁移的过程，这里的代码是 N版 。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/openstack%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06/" />
+<meta property="article:published_time" content="2020-07-20T17:46:29+00:00" />
+<meta property="article:modified_time" content="2020-07-20T17:46:29+00:00" />
+
+		<meta itemprop="name" content="OpenStack源码学习笔记6">
+<meta itemprop="description" content="很久之前发现一个现象，在生产环境中配置了保留内存reserved_host_memory_mb以及 没配置 内存超分比ram_allocation_ratio的情况下，虚拟机使用的内存居然已经快将物理内存耗尽了。
+比如物理机内存300G，方便举例忽略掉一些系统占用，当设置了reserved_host_memory_mb为20G，那么理论上所有虚拟机最大占用内存量为280G，而查看居然已经使用了290G的内存，还是在虚拟机并没有将各自申请的内存全部使用掉的情况下(比如申请一台4G的虚拟机，但物理机操作系统层面并没有分配4G给对应的进程，除非虚拟机内部把内存占满)。
+单单就nova而言，如果在集群启动时就指定了保留内存大小和超分比为1的话，是不应该出现上述情形的。除非后期对这2个参数进行过修改，但由于年代久远已经没法追溯，这也就成了一桩悬案。
+不过在追踪这个问题的过程中，顺便也学习了下主机热迁移的过程，这里的代码是 N版 。">
+<meta itemprop="datePublished" content="2020-07-20T17:46:29&#43;00:00" />
+<meta itemprop="dateModified" content="2020-07-20T17:46:29&#43;00:00" />
+<meta itemprop="wordCount" content="710">
+
+
+
+<meta itemprop="keywords" content="python,openstack," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">OpenStack源码学习笔记6</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-07-20T17:46:29Z">2020-07-20</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/" rel="category">云计算</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>很久之前发现一个现象，在生产环境中配置了保留内存<code>reserved_host_memory_mb</code>以及 <strong>没配置</strong> 内存超分比<code>ram_allocation_ratio</code>的情况下，虚拟机使用的内存居然已经快将物理内存耗尽了。</p>
+<p>比如物理机内存300G，方便举例忽略掉一些系统占用，当设置了<code>reserved_host_memory_mb</code>为20G，那么理论上所有虚拟机最大占用内存量为280G，而查看居然已经使用了290G的内存，还是在虚拟机并没有将各自申请的内存全部使用掉的情况下(比如申请一台4G的虚拟机，但物理机操作系统层面并没有分配4G给对应的进程，除非虚拟机内部把内存占满)。</p>
+<p>单单就nova而言，如果在集群启动时就指定了保留内存大小和超分比为1的话，是不应该出现上述情形的。除非后期对这2个参数进行过修改，但由于年代久远已经没法追溯，这也就成了一桩悬案。</p>
+<p>不过在追踪这个问题的过程中，顺便也学习了下主机热迁移的过程，这里的代码是 <em><strong>N版</strong></em> 。</p>
+<p>根据之前文章写过的套路，这里直接定位到<code>api/openstack/compute/migrate_server.py</code>的<code>_migrate_live</code>函数，这个函数很简单就不贴代码了，就是解析请求中的虚拟机ID、目标主机等参数，然后调用<code>compute/api.py</code>中<code>API</code>类的<code>live_migrate</code>函数：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#a6e22e">@check_instance_lock</span>
+<span style="color:#a6e22e">@check_instance_cell</span>
+<span style="color:#a6e22e">@check_instance_state</span>(vm_state<span style="color:#f92672">=</span>[vm_states<span style="color:#f92672">.</span>ACTIVE, vm_states<span style="color:#f92672">.</span>PAUSED])
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">live_migrate</span>(self, context, instance, block_migration,
+                    disk_over_commit, host_name, force<span style="color:#f92672">=</span>None, async<span style="color:#f92672">=</span>False):
+    <span style="color:#e6db74">&#34;&#34;&#34;Migrate a server lively to a new host.&#34;&#34;&#34;</span>
+
+    instance<span style="color:#f92672">.</span>task_state <span style="color:#f92672">=</span> task_states<span style="color:#f92672">.</span>MIGRATING
+    instance<span style="color:#f92672">.</span>save(expected_task_state<span style="color:#f92672">=</span>[None])
+
+    self<span style="color:#f92672">.</span>_record_action_start(context, instance,
+                                instance_actions<span style="color:#f92672">.</span>LIVE_MIGRATION)
+    <span style="color:#66d9ef">try</span>:
+        request_spec <span style="color:#f92672">=</span> objects<span style="color:#f92672">.</span>RequestSpec<span style="color:#f92672">.</span>get_by_instance_uuid(
+            context, instance<span style="color:#f92672">.</span>uuid)
+    <span style="color:#66d9ef">except</span> exception<span style="color:#f92672">.</span>RequestSpecNotFound:
+        request_spec <span style="color:#f92672">=</span> None
+    <span style="color:#f92672">....</span>
+    <span style="color:#66d9ef">try</span>:
+        self<span style="color:#f92672">.</span>compute_task_api<span style="color:#f92672">.</span>live_migrate_instance(context, instance,
+            host_name, block_migration<span style="color:#f92672">=</span>block_migration,
+            disk_over_commit<span style="color:#f92672">=</span>disk_over_commit,
+            request_spec<span style="color:#f92672">=</span>request_spec, async<span style="color:#f92672">=</span>async)
+    <span style="color:#66d9ef">except</span> oslo_exceptions<span style="color:#f92672">.</span>MessagingTimeout <span style="color:#66d9ef">as</span> messaging_timeout:
+        <span style="color:#66d9ef">with</span> excutils<span style="color:#f92672">.</span>save_and_reraise_exception():
+            compute_utils<span style="color:#f92672">.</span>add_instance_fault_from_exc(context,
+                                                        instance,
+                                                        messaging_timeout)
+</code></pre></div><p>这个函数修改了主机状态为migrating，获取虚拟机参数(这里有个细节，request_spec这个东西记录在nova-api库里而非nova库)，创建操作记录，由于我们调用的api版本还不支持force参数这部分代码就不贴了，具体可参考<a href="https://docs.openstack.org/api-ref/compute/?expanded=create-server-detail,migrate-server-migrate-action-detail,live-migrate-server-os-migratelive-action-detail#create-server">这里</a></p>
+<p>然后调用<code>live_migrate_instance</code>函数位于<code>conductor/api.py</code>中:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">live_migrate_instance</span>(self, context, instance, host_name,
+                          block_migration, disk_over_commit,
+                          request_spec<span style="color:#f92672">=</span>None, async<span style="color:#f92672">=</span>False):
+    scheduler_hint <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;host&#39;</span>: host_name}
+    <span style="color:#66d9ef">if</span> async:
+        self<span style="color:#f92672">.</span>conductor_compute_rpcapi<span style="color:#f92672">.</span>live_migrate_instance(
+            context, instance, scheduler_hint, block_migration,
+            disk_over_commit, request_spec)
+    <span style="color:#66d9ef">else</span>:
+        self<span style="color:#f92672">.</span>conductor_compute_rpcapi<span style="color:#f92672">.</span>migrate_server(
+            context, instance, scheduler_hint, True, False, None,
+            block_migration, disk_over_commit, None,
+            request_spec<span style="color:#f92672">=</span>request_spec)
+</code></pre></div><p>注意这里可能由于代码版本原因，这里就是直接固定为传入的主机名称的。然后进入rpc调用，位于<code>conductor/rpcapi.py</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">migrate_server</span>(self, context, instance, scheduler_hint, live, rebuild,
+                  flavor, block_migration, disk_over_commit,
+                  reservations<span style="color:#f92672">=</span>None, clean_shutdown<span style="color:#f92672">=</span>True, request_spec<span style="color:#f92672">=</span>None):
+    kw <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;instance&#39;</span>: instance, <span style="color:#e6db74">&#39;scheduler_hint&#39;</span>: scheduler_hint,
+            <span style="color:#e6db74">&#39;live&#39;</span>: live, <span style="color:#e6db74">&#39;rebuild&#39;</span>: rebuild, <span style="color:#e6db74">&#39;flavor&#39;</span>: flavor,
+            <span style="color:#e6db74">&#39;block_migration&#39;</span>: block_migration,
+            <span style="color:#e6db74">&#39;disk_over_commit&#39;</span>: disk_over_commit,
+            <span style="color:#e6db74">&#39;reservations&#39;</span>: reservations,
+            <span style="color:#e6db74">&#39;clean_shutdown&#39;</span>: clean_shutdown,
+            <span style="color:#e6db74">&#39;request_spec&#39;</span>: request_spec,
+            }
+    <span style="color:#f92672">......</span>
+    cctxt <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>client<span style="color:#f92672">.</span>prepare(version<span style="color:#f92672">=</span>version)
+    <span style="color:#66d9ef">return</span> cctxt<span style="color:#f92672">.</span>call(context, <span style="color:#e6db74">&#39;migrate_server&#39;</span>, <span style="color:#f92672">**</span>kw)
+</code></pre></div><p>这个函数进行了一堆版本兼容性判断，然后进入<code>conductor/manager.py</code>的<code>migrate_server</code>函数:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">migrate_server</span>(self, context, instance, scheduler_hint, live, rebuild,
+            flavor, block_migration, disk_over_commit, reservations<span style="color:#f92672">=</span>None,
+            clean_shutdown<span style="color:#f92672">=</span>True, request_spec<span style="color:#f92672">=</span>None):
+    <span style="color:#f92672">......</span>
+    <span style="color:#66d9ef">if</span> live <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> rebuild <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> flavor:
+        self<span style="color:#f92672">.</span>_live_migrate(context, instance, scheduler_hint,
+                            block_migration, disk_over_commit, request_spec)
+    <span style="color:#f92672">......</span>
+</code></pre></div><p>由于这里我们仅关注热迁移就直接跟进<code>_live_migrate</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_live_migrate</span>(self, context, instance, scheduler_hint,
+                      block_migration, disk_over_commit, request_spec):
+    destination <span style="color:#f92672">=</span> scheduler_hint<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;host&#34;</span>)
+    migration <span style="color:#f92672">=</span> objects<span style="color:#f92672">.</span>Migration(context<span style="color:#f92672">=</span>context<span style="color:#f92672">.</span>elevated())
+    <span style="color:#f92672">......</span>
+    migration<span style="color:#f92672">.</span>create()
+    task <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_build_live_migrate_task(context, instance, destination,
+                                        block_migration, disk_over_commit,
+                                        migration, request_spec)
+    <span style="color:#66d9ef">try</span>:
+        task<span style="color:#f92672">.</span>execute()
+    <span style="color:#66d9ef">except</span>:
+        <span style="color:#f92672">......</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_build_live_migrate_task</span>(self, context, instance, destination,
+                            block_migration, disk_over_commit, migration,
+                            request_spec<span style="color:#f92672">=</span>None):
+    <span style="color:#66d9ef">return</span> live_migrate<span style="color:#f92672">.</span>LiveMigrationTask(context, instance,
+                                            destination, block_migration,
+                                            disk_over_commit, migration,
+                                            self<span style="color:#f92672">.</span>compute_rpcapi,
+                                            self<span style="color:#f92672">.</span>servicegroup_api,
+                                            self<span style="color:#f92672">.</span>scheduler_client,
+                                            request_spec)
+</code></pre></div><p>这个函数就是创建了一条数据库迁移记录，然后继续跟进到<code>conductor/tasks/live_migrate.py</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LiveMigrationTask</span>(base<span style="color:#f92672">.</span>TaskBase):
+    <span style="color:#66d9ef">def</span> __init__(self, context, instance, destination,
+                 block_migration, disk_over_commit, migration, compute_rpcapi,
+                 servicegroup_api, scheduler_client, request_spec<span style="color:#f92672">=</span>None):
+        super(LiveMigrationTask, self)<span style="color:#f92672">.</span>__init__(context, instance)
+        self<span style="color:#f92672">.</span>destination <span style="color:#f92672">=</span> destination
+        self<span style="color:#f92672">.</span>block_migration <span style="color:#f92672">=</span> block_migration
+        self<span style="color:#f92672">.</span>disk_over_commit <span style="color:#f92672">=</span> disk_over_commit
+        self<span style="color:#f92672">.</span>migration <span style="color:#f92672">=</span> migration
+        self<span style="color:#f92672">.</span>source <span style="color:#f92672">=</span> instance<span style="color:#f92672">.</span>host
+        self<span style="color:#f92672">.</span>migrate_data <span style="color:#f92672">=</span> None
+
+        self<span style="color:#f92672">.</span>compute_rpcapi <span style="color:#f92672">=</span> compute_rpcapi
+        self<span style="color:#f92672">.</span>servicegroup_api <span style="color:#f92672">=</span> servicegroup_api
+        self<span style="color:#f92672">.</span>scheduler_client <span style="color:#f92672">=</span> scheduler_client
+        self<span style="color:#f92672">.</span>request_spec <span style="color:#f92672">=</span> request_spec
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_execute</span>(self):
+        self<span style="color:#f92672">.</span>_check_instance_is_active()
+        self<span style="color:#f92672">.</span>_check_host_is_up(self<span style="color:#f92672">.</span>source)
+
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> self<span style="color:#f92672">.</span>destination:
+            self<span style="color:#f92672">.</span>destination <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_find_destination()
+            self<span style="color:#f92672">.</span>migration<span style="color:#f92672">.</span>dest_compute <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>destination
+            self<span style="color:#f92672">.</span>migration<span style="color:#f92672">.</span>save()
+        <span style="color:#66d9ef">else</span>:
+            self<span style="color:#f92672">.</span>_check_requested_destination()
+
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>compute_rpcapi<span style="color:#f92672">.</span>live_migration(self<span style="color:#f92672">.</span>context,
+                host<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>source,
+                instance<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>instance,
+                dest<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>destination,
+                block_migration<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>block_migration,
+                migration<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>migration,
+                migrate_data<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>migrate_data)
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_check_requested_destination</span>(self):
+        self<span style="color:#f92672">.</span>_check_destination_is_not_source()
+        self<span style="color:#f92672">.</span>_check_host_is_up(self<span style="color:#f92672">.</span>destination)
+        self<span style="color:#f92672">.</span>_check_destination_has_enough_memory()
+        self<span style="color:#f92672">.</span>_check_compatible_with_source_hypervisor(self<span style="color:#f92672">.</span>destination)
+        self<span style="color:#f92672">.</span>_call_livem_checks_on_host(self<span style="color:#f92672">.</span>destination)
+    
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_check_destination_has_enough_memory</span>(self):
+        compute <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_compute_info(self<span style="color:#f92672">.</span>destination)
+        free_ram_mb <span style="color:#f92672">=</span> compute<span style="color:#f92672">.</span>free_ram_mb
+        total_ram_mb <span style="color:#f92672">=</span> compute<span style="color:#f92672">.</span>memory_mb
+        mem_inst <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>instance<span style="color:#f92672">.</span>memory_mb
+        <span style="color:#75715e"># NOTE(sbauza): Now the ComputeNode object reports an allocation ratio</span>
+        <span style="color:#75715e"># that can be provided by the compute_node if new or by the controller</span>
+        ram_ratio <span style="color:#f92672">=</span> compute<span style="color:#f92672">.</span>ram_allocation_ratio
+
+        <span style="color:#75715e"># NOTE(sbauza): Mimic the RAMFilter logic in order to have the same</span>
+        <span style="color:#75715e"># ram validation</span>
+        avail <span style="color:#f92672">=</span> total_ram_mb <span style="color:#f92672">*</span> ram_ratio <span style="color:#f92672">-</span> (total_ram_mb <span style="color:#f92672">-</span> free_ram_mb)
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> mem_inst <span style="color:#f92672">or</span> avail <span style="color:#f92672">&lt;=</span> mem_inst:
+            instance_uuid <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>instance<span style="color:#f92672">.</span>uuid
+            dest <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>destination
+            reason <span style="color:#f92672">=</span> _(<span style="color:#e6db74">&#34;Unable to migrate </span><span style="color:#e6db74">%(instance_uuid)s</span><span style="color:#e6db74"> to </span><span style="color:#e6db74">%(dest)s</span><span style="color:#e6db74">: &#34;</span>
+                       <span style="color:#e6db74">&#34;Lack of memory(host:</span><span style="color:#e6db74">%(avail)s</span><span style="color:#e6db74"> &lt;= &#34;</span>
+                       <span style="color:#e6db74">&#34;instance:</span><span style="color:#e6db74">%(mem_inst)s</span><span style="color:#e6db74">)&#34;</span>)
+            <span style="color:#66d9ef">raise</span> exception<span style="color:#f92672">.</span>MigrationPreCheckError(reason<span style="color:#f92672">=</span>reason <span style="color:#f92672">%</span> dict(
+                    instance_uuid<span style="color:#f92672">=</span>instance_uuid, dest<span style="color:#f92672">=</span>dest, avail<span style="color:#f92672">=</span>avail,
+                    mem_inst<span style="color:#f92672">=</span>mem_inst))
+</code></pre></div><p>重点是<code>_execute</code>这个函数，首先进行状态检查，然后判断是否传入了目标计算节点，如果传入了在依次检查源节点和目标节点是否是同一台机器、目标节点是否运行、目标节点内存是否充足、虚拟化类型是否一致、是否准许热迁移；如果没传入则调用<code>scheduler</code>的<code>select_destinations</code>函数来筛选目标节点。</p>
+<p>然后再调用<code>compute/rpcapi.py</code>中<code>ComputeAPI</code>类的<code>live_migrate</code>函数，这个函数又调用了<code>compute/manager.py</code>中<code>ComputeManager</code>类的<code>live_migrate</code>函数，这里设置状态为<code>queued</code>，然后开新线程处理请求：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">live_migration</span>(self, context, dest, instance, block_migration,
+                       migration, migrate_data):
+    <span style="color:#e6db74">&#34;&#34;&#34;Executing live migration.
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    self<span style="color:#f92672">.</span>_set_migration_status(migration, <span style="color:#e6db74">&#39;queued&#39;</span>)
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dispatch_live_migration</span>(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+        <span style="color:#66d9ef">with</span> self<span style="color:#f92672">.</span>_live_migration_semaphore:
+            self<span style="color:#f92672">.</span>_do_live_migration(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
+
+    <span style="color:#75715e"># NOTE(danms): We spawn here to return the RPC worker thread back to</span>
+    <span style="color:#75715e"># the pool. Since what follows could take a really long time, we don&#39;t</span>
+    <span style="color:#75715e"># want to tie up RPC workers.</span>
+    utils<span style="color:#f92672">.</span>spawn_n(dispatch_live_migration,
+                    context, dest, instance,
+                    block_migration, migration,
+                    migrate_data)
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_do_live_migration</span>(self, context, dest, instance, block_migration,
+                        migration, migrate_data):
+    <span style="color:#75715e"># NOTE(danms): We should enhance the RT to account for migrations</span>
+    <span style="color:#75715e"># and use the status field to denote when the accounting has been</span>
+    <span style="color:#75715e"># done on source/destination. For now, this is just here for status</span>
+    <span style="color:#75715e"># reporting</span>
+    self<span style="color:#f92672">.</span>_set_migration_status(migration, <span style="color:#e6db74">&#39;preparing&#39;</span>)
+
+    got_migrate_data_object <span style="color:#f92672">=</span> isinstance(migrate_data,
+                                         migrate_data_obj<span style="color:#f92672">.</span>LiveMigrateData)
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> got_migrate_data_object:
+        migrate_data <span style="color:#f92672">=</span> \
+            migrate_data_obj<span style="color:#f92672">.</span>LiveMigrateData<span style="color:#f92672">.</span>detect_implementation(
+                migrate_data)
+
+    <span style="color:#66d9ef">try</span>:
+        <span style="color:#f92672">......</span>
+        migrate_data <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>compute_rpcapi<span style="color:#f92672">.</span>pre_live_migration(context, instance,
+                                                              block_migration, disk, dest, migrate_data)
+
+    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span>:
+        <span style="color:#66d9ef">with</span> excutils<span style="color:#f92672">.</span>save_and_reraise_exception():
+            LOG<span style="color:#f92672">.</span>exception(_LE(<span style="color:#e6db74">&#39;Pre live migration failed at </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span>),
+                            dest, instance<span style="color:#f92672">=</span>instance)
+            self<span style="color:#f92672">.</span>_set_migration_status(migration, <span style="color:#e6db74">&#39;error&#39;</span>)
+            self<span style="color:#f92672">.</span>_rollback_live_migration(context, instance, dest,
+                                            block_migration, migrate_data)
+
+    self<span style="color:#f92672">.</span>_set_migration_status(migration, <span style="color:#e6db74">&#39;running&#39;</span>)
+
+    <span style="color:#66d9ef">if</span> migrate_data:
+        migrate_data<span style="color:#f92672">.</span>migration <span style="color:#f92672">=</span> migration
+    <span style="color:#66d9ef">try</span>:
+        self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>live_migration(context, instance, dest,
+                                    self<span style="color:#f92672">.</span>_post_live_migration,
+                                    self<span style="color:#f92672">.</span>_rollback_live_migration,
+                                    block_migration, migrate_data)
+    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span>:
+    <span style="color:#f92672">......</span>
+</code></pre></div><p>最终的<code>pre_live_migration</code>函数位于<code>compute/manager.py</code>，代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pre_live_migration</span>(self, context, instance, block_migration, disk,
+                           migrate_data):
+    <span style="color:#e6db74">&#34;&#34;&#34;Preparations for live migration at dest host.
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    LOG<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#39;pre_live_migration data is </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span>, migrate_data)
+    <span style="color:#75715e"># TODO(tdurakov): remove dict to object conversion once RPC API version</span>
+    <span style="color:#75715e"># is bumped to 5.x</span>
+    got_migrate_data_object <span style="color:#f92672">=</span> isinstance(migrate_data,
+                                            migrate_data_obj<span style="color:#f92672">.</span>LiveMigrateData)
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> got_migrate_data_object:
+        migrate_data <span style="color:#f92672">=</span> \
+            migrate_data_obj<span style="color:#f92672">.</span>LiveMigrateData<span style="color:#f92672">.</span>detect_implementation(
+                migrate_data)
+
+    block_device_info <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_instance_block_device_info(
+                        context, instance, refresh_conn_info<span style="color:#f92672">=</span>True)
+
+    network_info <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>network_api<span style="color:#f92672">.</span>get_instance_nw_info(context, instance)
+    self<span style="color:#f92672">.</span>_notify_about_instance_usage(
+                    context, instance, <span style="color:#e6db74">&#34;live_migration.pre.start&#34;</span>,
+                    network_info<span style="color:#f92672">=</span>network_info)
+
+    migrate_data <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>pre_live_migration(context,
+                                    instance,
+                                    block_device_info,
+                                    network_info,
+                                    disk,
+                                    migrate_data)
+    LOG<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#39;driver pre_live_migration data is </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> migrate_data)
+
+    <span style="color:#75715e"># NOTE(tr3buchet): setup networks on destination host</span>
+    self<span style="color:#f92672">.</span>network_api<span style="color:#f92672">.</span>setup_networks_on_host(context, instance, self<span style="color:#f92672">.</span>host)
+
+    self<span style="color:#f92672">.</span>driver<span style="color:#f92672">.</span>ensure_filtering_rules_for_instance(instance, network_info)
+
+    self<span style="color:#f92672">.</span>_notify_about_instance_usage(
+                    context, instance, <span style="color:#e6db74">&#34;live_migration.pre.end&#34;</span>,
+                    network_info<span style="color:#f92672">=</span>network_info)
+    <span style="color:#75715e"># TODO(tdurakov): remove dict to object conversion once RPC API version</span>
+    <span style="color:#75715e"># is bumped to 5.x</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> got_migrate_data_object <span style="color:#f92672">and</span> migrate_data:
+        migrate_data <span style="color:#f92672">=</span> migrate_data<span style="color:#f92672">.</span>to_legacy_dict(
+            pre_migration_result<span style="color:#f92672">=</span>True)
+        migrate_data <span style="color:#f92672">=</span> migrate_data[<span style="color:#e6db74">&#39;pre_live_migration_result&#39;</span>]
+    LOG<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#39;pre_live_migration result data is </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span>, migrate_data)
+    <span style="color:#66d9ef">return</span> migrate_data
+</code></pre></div><p>具体的位于<code>virt/libvirt/driver.py</code>的同名函数我这里就不贴了，就是进行磁盘、网络相关操作。最后依次调用<code>virt/libvirt/driver.py</code>的<code>_live_migration</code>、<code>_live_migration_operation</code>，进入<code>virt/libvirt/guest.py</code>中<code>Guest</code>类的<code>migrate</code>函数，最终交给了libvirt处理。</p>
+<p>至此，nova的使命大部分完成，剩下的就是等待迁移状态回写数据库了。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/openstack/" rel="tag">openstack</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">设计模式-享元模式</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E9%9B%86%E6%88%90gin%E5%92%8Ccasbin/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">集成gin和casbin</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

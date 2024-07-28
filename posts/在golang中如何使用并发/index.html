@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>在Golang中如何使用并发 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="在Golang中如何使用并发" />
+<meta property="og:description" content="原文地址：这里，省略了一些非重点片段。
+本文的主要目标是展示在哪些场景下使用并发更加合适。因此本文中不会讲述并发相关的基本术语，比如goroutines、wait groups、channels、数据竞争等。
+我打算创建一系列文章，详细解释最常用的并发相关示例。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E5%9C%A8golang%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B9%B6%E5%8F%91/" />
+<meta property="article:published_time" content="2023-01-19T11:10:48+08:00" />
+<meta property="article:modified_time" content="2023-01-19T11:10:48+08:00" />
+
+		<meta itemprop="name" content="在Golang中如何使用并发">
+<meta itemprop="description" content="原文地址：这里，省略了一些非重点片段。
+本文的主要目标是展示在哪些场景下使用并发更加合适。因此本文中不会讲述并发相关的基本术语，比如goroutines、wait groups、channels、数据竞争等。
+我打算创建一系列文章，详细解释最常用的并发相关示例。">
+<meta itemprop="datePublished" content="2023-01-19T11:10:48&#43;08:00" />
+<meta itemprop="dateModified" content="2023-01-19T11:10:48&#43;08:00" />
+<meta itemprop="wordCount" content="602">
+
+
+
+<meta itemprop="keywords" content="golang," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">在Golang中如何使用并发</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2023-01-19T11:10:48&#43;08:00">2023-01-19</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>原文地址：<a href="https://madflojo.medium.com/keeping-tcp-connections-alive-in-golang-801a78b7cf1">这里</a>，省略了一些非重点片段。</p>
+<p>本文的主要目标是展示在哪些场景下使用并发更加合适。因此本文中不会讲述并发相关的基本术语，比如goroutines、wait groups、channels、数据竞争等。
+我打算创建一系列文章，详细解释最常用的并发相关示例。</p>
+<h2 id="如何处理问题">如何处理问题</h2>
+<p>早些年，我最常犯的一个错误就是一开始的时候就使用并发去解决问题。这不仅仅让后面做优化变的更难，而且不正确的使用并发反而会引起其他风险。</p>
+<p>以我的经验来说，我建议你先使用非并发的方式去解决问题，然后进行迭代，必要的情况下再去实现使用并发的解决方案。</p>
+<p>再尝试并发之前，先使用非并发的方式去解决问题。</p>
+<h2 id="并发和并行">并发和并行</h2>
+<p>本文中不再解释并发和并行的区别了，网上有很多相关的文章，这里引用Go大神的2个定义：</p>
+<blockquote>
+<p>“Concurrency is about dealing with lots of things at once. Parallelism is about doing lots of things at once.” — Rob Pike</p>
+<p>“Concurrency is about structure and parallelism is about execution. In other words, concurrency is a way to structure a thing so that you can (maybe) use parallelism to do a better job.” — Rob Pike</p>
+</blockquote>
+<h2 id="应用类型">应用类型</h2>
+<p>一种特别有用的办法区分并发是否适合你程序的办法就是看程序是哪种类型，这里主要分2种：</p>
+<h3 id="cpu密集型">CPU密集型</h3>
+<p>这种程序的执行高度依赖于CPU的情况，与CPU的速度直接相关。</p>
+<p>当有多个核心可用时，这种类型的应用是使用并发来实现并行优化的完美场景（但下面的性能测试可以看到这并不是永远成立的）。当我们在单核机器上使用多个goroutine执行这类应用时，不仅不会看到有性能提升，反而go的运行时会浪费宝贵的时间在调度和上下文切换中。</p>
+<h3 id="io密集型">IO密集型</h3>
+<p>这种程序的执行高度依赖IO而非CPU，一旦程序进入IO等待，go调度器将会执行其他的任务。因此，在单核机器上我们可以通过多个goroutine来提升程序性能，而并行则不会提升这种程序的性能。</p>
+<p>我们需要小心不要生成相对CPU过多的goroutine，这样反而会降低性能。</p>
+<h2 id="上代码">上代码</h2>
+<p>我将编写一些简单的函数，使用这些函数我们可以使用基准测试来检查利用并发和并行哪个性能更好。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#75715e">// CPU Workload functions //
+</span><span style="color:#75715e">///////////////////////////
+</span><span style="color:#75715e">// Add your number here. From 1 million should be enough to see concluding 
+</span><span style="color:#75715e">// results.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">N</span> =
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">computeHighNumberSequentially</span>() <span style="color:#66d9ef">int</span> {
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">res</span> <span style="color:#66d9ef">int</span>
+  <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+    <span style="color:#a6e22e">res</span> <span style="color:#f92672">*=</span> <span style="color:#a6e22e">res</span>
+  }
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">computeHighNumberConcurrently</span>(<span style="color:#a6e22e">goroutines</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int64</span> {
+  <span style="color:#a6e22e">numbersToProcess</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">N</span> <span style="color:#f92672">/</span> <span style="color:#a6e22e">goroutines</span>
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> <span style="color:#66d9ef">int64</span>
+
+  <span style="color:#a6e22e">wg</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>{}
+  <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#a6e22e">goroutines</span>)
+
+  <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">goroutines</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+    <span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+      <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
+      <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">res</span> <span style="color:#66d9ef">int</span>
+      <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">j</span> &lt; <span style="color:#a6e22e">numbersToProcess</span>; <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span> {
+        <span style="color:#a6e22e">res</span> <span style="color:#f92672">*=</span> <span style="color:#a6e22e">res</span>
+      }
+      <span style="color:#a6e22e">atomic</span>.<span style="color:#a6e22e">AddInt64</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">result</span>, int64(<span style="color:#a6e22e">res</span>))
+    }()
+  }
+
+  <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>
+}
+
+<span style="color:#75715e">// Merge sort algorithm
+</span><span style="color:#75715e">///////////////////////
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">mergeSortSequentially</span>(<span style="color:#a6e22e">items</span> []<span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">int</span> {
+	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">items</span>) &lt; <span style="color:#ae81ff">2</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">items</span>
+	}
+	<span style="color:#a6e22e">first</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mergeSortSequentially</span>(<span style="color:#a6e22e">items</span>[:len(<span style="color:#a6e22e">items</span>)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>])
+	<span style="color:#a6e22e">second</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mergeSortSequentially</span>(<span style="color:#a6e22e">items</span>[len(<span style="color:#a6e22e">items</span>)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>:])
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">merge</span>(<span style="color:#a6e22e">first</span>, <span style="color:#a6e22e">second</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">mergeSortConcurrently</span>(<span style="color:#a6e22e">items</span> []<span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">int</span> {
+	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">items</span>) &lt; <span style="color:#ae81ff">2</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">items</span>
+	}
+	
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">first</span>, <span style="color:#a6e22e">second</span> []<span style="color:#66d9ef">int</span>
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wg</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
+	<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">2</span>)
+
+	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
+		<span style="color:#a6e22e">first</span> = <span style="color:#a6e22e">mergeSortConcurrently</span>(<span style="color:#a6e22e">items</span>[:len(<span style="color:#a6e22e">items</span>)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>])
+	}()
+
+	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
+		<span style="color:#a6e22e">second</span> = <span style="color:#a6e22e">mergeSortConcurrently</span>(<span style="color:#a6e22e">items</span>[len(<span style="color:#a6e22e">items</span>)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>:])
+	}()
+
+	<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">merge</span>(<span style="color:#a6e22e">first</span>, <span style="color:#a6e22e">second</span>)
+}
+
+<span style="color:#75715e">// Skipped for the sake of example length. Internet is full of `merge` implementations.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">merge</span>(<span style="color:#a6e22e">a</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">b</span> []<span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">int</span> { <span style="color:#f92672">...</span> }
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// IO Workload functions //
+</span><span style="color:#75715e">///////////////////////////
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">urls</span> = []<span style="color:#66d9ef">string</span>{} <span style="color:#75715e">// add your urls here
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">computeURLSequentially</span>() {
+  <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">url</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">urls</span> {
+    <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">url</span>)
+  }
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">computeURLConcurrently</span>() {
+  <span style="color:#a6e22e">wg</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>{}
+  <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#a6e22e">goroutines</span>)
+
+  <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">string</span>, len(<span style="color:#a6e22e">urls</span>))
+  <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">u</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">urls</span> {
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">u</span>
+  }
+  close(<span style="color:#a6e22e">ch</span>)
+
+  <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">goroutines</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+    <span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+      <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">u</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ch</span> {
+        <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">u</span>)
+      }
+      <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
+    }()
+  }
+  <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
+}
+</code></pre></div><p>测试代码如下:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkComputeHighNumberSequentially</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">computeHighNumberSequentially</span>()
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkComputeHighNumberConcurrently</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">computeHighNumberConcurrently</span>(<span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">NumCPU</span>())
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkComputeURLSequentially</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">computeURLSequentially</span>()
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkComputeURLConcurrently</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">computeURLConcurrently</span>(<span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">NumCPU</span>())
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkMergeSortSequentially</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">mergeSortSequentially</span>(<span style="color:#a6e22e">list</span>)
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkMergeSortConcurrently</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">mergeSortConcurrently</span>(<span style="color:#a6e22e">list</span>)
+	}
+}
+</code></pre></div><p>机器对性能测试的影响较大，你应该尽可能的多运行几次测试。</p>
+<p>使用<code>-count</code>参数来控制执行次数，不过我这里为了演示就忽略了这个参数。</p>
+<p>我的机器有10个核心，所以并发版本的程序goroutine数量应该等于<code>runtime.NumCPU()</code>也是10。</p>
+<h2 id="性能测试-cpu密集型">性能测试-CPU密集型</h2>
+<p>下面结果是一个没有并行、运行在一个线程的版本：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">go</span> <span style="color:#a6e22e">test</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">cpu</span>=<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">run</span>=<span style="color:#a6e22e">XXX</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">bench</span>=. <span style="color:#f92672">-</span><span style="color:#a6e22e">benchtime</span>=<span style="color:#ae81ff">5</span><span style="color:#a6e22e">s</span>
+<span style="color:#a6e22e">goos</span>: <span style="color:#a6e22e">darwin</span>
+<span style="color:#a6e22e">goarch</span>: <span style="color:#a6e22e">arm64</span>
+<span style="color:#a6e22e">pkg</span>: <span style="color:#a6e22e">concurrency</span><span style="color:#f92672">-</span><span style="color:#a6e22e">workloads</span>
+<span style="color:#a6e22e">BenchmarkComputeHighNumberSequentially</span>      <span style="color:#ae81ff">1869</span>           <span style="color:#ae81ff">3147006</span> <span style="color:#a6e22e">ns</span><span style="color:#f92672">/</span><span style="color:#a6e22e">op</span>
+<span style="color:#a6e22e">BenchmarkComputeHighNumberConcurrently</span>       <span style="color:#ae81ff">632</span>           <span style="color:#ae81ff">9490364</span> <span style="color:#a6e22e">ns</span><span style="color:#f92672">/</span><span style="color:#a6e22e">op</span>
+</code></pre></div><p>从上面的结果可以看出，非并发版比并发版快了3倍！这是符合预期的因为goroutine会消耗大量时间在上下文切换。</p>
+<p>(Roy补充个基础知识点，性能测试结果格式为&quot;测试名称-cpu    执行次数    每次耗时&rdquo;)。</p>
+<p>下面的结果是启用并行并且运行在10个线程上：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">go</span> <span style="color:#a6e22e">test</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">cpu</span>=<span style="color:#ae81ff">10</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">run</span>=<span style="color:#a6e22e">XXX</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">bench</span>=. <span style="color:#f92672">-</span><span style="color:#a6e22e">benchtime</span>=<span style="color:#ae81ff">5</span><span style="color:#a6e22e">s</span>
+<span style="color:#a6e22e">goos</span>: <span style="color:#a6e22e">darwin</span>
+<span style="color:#a6e22e">goarch</span>: <span style="color:#a6e22e">arm64</span>
+<span style="color:#a6e22e">pkg</span>: <span style="color:#a6e22e">concurrency</span><span style="color:#f92672">-</span><span style="color:#a6e22e">workloads</span>
+<span style="color:#a6e22e">BenchmarkComputeHighNumberSequentially</span><span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>           <span style="color:#ae81ff">1794</span>           <span style="color:#ae81ff">3145169</span> <span style="color:#a6e22e">ns</span><span style="color:#f92672">/</span><span style="color:#a6e22e">op</span>
+<span style="color:#a6e22e">BenchmarkComputeHighNumberConcurrently</span><span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>           <span style="color:#ae81ff">3162</span>           <span style="color:#ae81ff">1699410</span> <span style="color:#a6e22e">ns</span><span style="color:#f92672">/</span><span style="color:#a6e22e">op</span>
+</code></pre></div><p>通过把goroutine分布在10个线程上，现在我们可以看到并发版比非并发版快了2倍。</p>
+<p>尽管有上面的例子，但并不是所有的CPU密集型应用都适用于并发进行优化，比如下面的归并排序算法示例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">go</span> <span style="color:#a6e22e">test</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">cpu</span>=<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">run</span>=<span style="color:#a6e22e">XXX</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">bench</span>=. <span style="color:#f92672">-</span><span style="color:#a6e22e">benchtime</span>=<span style="color:#ae81ff">5</span><span style="color:#a6e22e">s</span>
+<span style="color:#a6e22e">goos</span>: <span style="color:#a6e22e">darwin</span>
+<span style="color:#a6e22e">goarch</span>: <span style="color:#a6e22e">arm64</span>
+<span style="color:#a6e22e">pkg</span>: <span style="color:#a6e22e">concurrency</span><span style="color:#f92672">-</span><span style="color:#a6e22e">workloads</span>
+<span style="color:#a6e22e">BenchmarkMergeSortSequentially</span>   <span style="color:#ae81ff">3908991</span>              <span style="color:#ae81ff">1530</span> <span style="color:#a6e22e">ns</span><span style="color:#f92672">/</span><span style="color:#a6e22e">op</span>
+<span style="color:#a6e22e">BenchmarkMergeSortConcurrently</span>    <span style="color:#ae81ff">452580</span>             <span style="color:#ae81ff">12307</span> <span style="color:#a6e22e">ns</span><span style="color:#f92672">/</span><span style="color:#a6e22e">op</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">go</span> <span style="color:#a6e22e">test</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">cpu</span>=<span style="color:#ae81ff">10</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">run</span>=<span style="color:#a6e22e">XXX</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">bench</span>=. <span style="color:#f92672">-</span><span style="color:#a6e22e">benchtime</span>=<span style="color:#ae81ff">5</span><span style="color:#a6e22e">s</span>
+<span style="color:#a6e22e">goos</span>: <span style="color:#a6e22e">darwin</span>
+<span style="color:#a6e22e">goarch</span>: <span style="color:#a6e22e">arm64</span>
+<span style="color:#a6e22e">pkg</span>: <span style="color:#a6e22e">concurrency</span><span style="color:#f92672">-</span><span style="color:#a6e22e">workloads</span>
+<span style="color:#a6e22e">BenchmarkMergeSortSequentially</span><span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>        <span style="color:#ae81ff">4068475</span>              <span style="color:#ae81ff">1496</span> <span style="color:#a6e22e">ns</span><span style="color:#f92672">/</span><span style="color:#a6e22e">op</span>
+<span style="color:#a6e22e">BenchmarkMergeSortConcurrently</span><span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>         <span style="color:#ae81ff">533010</span>             <span style="color:#ae81ff">12462</span> <span style="color:#a6e22e">ns</span><span style="color:#f92672">/</span><span style="color:#a6e22e">op</span>
+</code></pre></div><p>非并发版居然比并发版效率高多了，我们分析一下原因。</p>
+<p>每次循环中我们都建立了2个goroutine分别计算first list和second list。而这个算法是递归的，最终我们造成了启动goroutine只计算单一元素的场景，而这是非常低效的。(Roy注：就是说启动的goroutine只干了很微小的一件事后，这个goroutine就会被销毁)这样就造成了创建和调度goroutine的成本远远超过在一个goroutine进行计算的成本。</p>
+<p>所以，当我们的程序逻辑过于简单还不如创建调度goroutine耗时的场景，使用并发和并行就没什么必要了。</p>
+<p>当分解工作或组合结果的代价非常高昂时，并发可能不是一个好的选择。</p>
+<h2 id="性能测试-io密集型">性能测试-IO密集型</h2>
+<p>下面是单线程运行非并行程序的结果：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">go</span> <span style="color:#a6e22e">test</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">cpu</span>=<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">run</span>=<span style="color:#a6e22e">XXX</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">bench</span>=. <span style="color:#f92672">-</span><span style="color:#a6e22e">benchtime</span>=<span style="color:#ae81ff">5</span><span style="color:#a6e22e">s</span>
+<span style="color:#a6e22e">goos</span>: <span style="color:#a6e22e">darwin</span>
+<span style="color:#a6e22e">goarch</span>: <span style="color:#a6e22e">arm64</span>
+<span style="color:#a6e22e">pkg</span>: <span style="color:#a6e22e">concurrency</span><span style="color:#f92672">-</span><span style="color:#a6e22e">workloads</span>
+<span style="color:#a6e22e">BenchmarkComputeURLSequentially</span>                <span style="color:#ae81ff">2</span>        <span style="color:#ae81ff">2814863021</span> <span style="color:#a6e22e">ns</span><span style="color:#f92672">/</span><span style="color:#a6e22e">op</span>
+<span style="color:#a6e22e">BenchmarkComputeURLConcurrently</span>                <span style="color:#ae81ff">7</span>         <span style="color:#ae81ff">838693786</span> <span style="color:#a6e22e">ns</span><span style="color:#f92672">/</span><span style="color:#a6e22e">op</span>
+</code></pre></div><p>并发版本快了将近4倍，这是符合预期的，因为在某个goroutine等待IO时，另外的goroutine会被调度到线程上执行。</p>
+<p>下面的的是使用10个线程的并行版：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">go</span> <span style="color:#a6e22e">test</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">cpu</span>=<span style="color:#ae81ff">10</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">run</span>=<span style="color:#a6e22e">XXX</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">bench</span>=. <span style="color:#f92672">-</span><span style="color:#a6e22e">benchtime</span>=<span style="color:#ae81ff">5</span><span style="color:#a6e22e">s</span>
+<span style="color:#a6e22e">goos</span>: <span style="color:#a6e22e">darwin</span>
+<span style="color:#a6e22e">goarch</span>: <span style="color:#a6e22e">arm64</span>
+<span style="color:#a6e22e">pkg</span>: <span style="color:#a6e22e">concurrency</span><span style="color:#f92672">-</span><span style="color:#a6e22e">workloads</span>
+<span style="color:#a6e22e">BenchmarkComputeURLSequentially</span><span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>             <span style="color:#ae81ff">2</span>        <span style="color:#ae81ff">2548004562</span> <span style="color:#a6e22e">ns</span><span style="color:#f92672">/</span><span style="color:#a6e22e">op</span>
+<span style="color:#a6e22e">BenchmarkComputeURLConcurrently</span><span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>             <span style="color:#ae81ff">7</span>        <span style="color:#ae81ff">1001367625</span> <span style="color:#a6e22e">ns</span><span style="color:#f92672">/</span><span style="color:#a6e22e">op</span>
+</code></pre></div><p>当我们把goroutine分布在10个独立的线程上时，性能并没有显著的提升，正如前面说的，这是因为我们可以在单个线程内有效的控制上下文切换，所以并行并不会大幅提升性能。</p>
+<h2 id="结论">结论</h2>
+<p>通常来说，我们可以认为对于CPU密集型应用，可以通过并发的手段实现并行来提升效率，而对于IO密集型应用，并行并不会有明显的提升。</p>
+<p>然而，每种程序都需要小心的分析，正如我们上面说的CPU密集型的归并排序算法，他的自身性质导致其并不适用于使用并发并行来提效。</p>
+<p>最后，我想说的是，使用并发总是带来着额外的复杂性，所以只有能带来显著性能提升时再明智地使用它。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/golang/" rel="tag">golang</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/docker%E9%95%9C%E5%83%8F%E5%A4%9A%E6%9E%B6%E6%9E%84%E6%9E%84%E5%BB%BA/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Docker镜像多架构构建</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/web3%E6%BC%AB%E6%B8%B8%E8%AE%B0mev%E4%BB%A5%E5%8F%8A%E8%B5%9A%E9%92%B1%E5%A7%BF%E5%8A%BF/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Web3漫游记——MEV以及赚钱姿势</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

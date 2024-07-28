@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>安装MYSQL后的10种调优方法（翻译） - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="安装MYSQL后的10种调优方法（翻译）" />
+<meta property="og:description" content="原文。
+当我们被聘请去做MYSQL性能审计时，我们被期望审查MYSQL配置文件并提出改进建议。在大多数情况下很多人都感到惊奇，因为我们仅仅在成百上千的变量中改变了很少的一部分。这篇文章的目的就是告诉你一些至关重要的设置项。
+我们在几年前曾经在博客中给出过一些建议，但从那之后MYSQL的世界发生了很多改变！" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E5%AE%89%E8%A3%85mysql%E5%90%8E%E7%9A%8410%E7%A7%8D%E8%B0%83%E4%BC%98%E6%96%B9%E6%B3%95%E7%BF%BB%E8%AF%91/" />
+<meta property="article:published_time" content="2015-01-22T18:22:24+00:00" />
+<meta property="article:modified_time" content="2015-01-22T18:22:24+00:00" />
+
+		<meta itemprop="name" content="安装MYSQL后的10种调优方法（翻译）">
+<meta itemprop="description" content="原文。
+当我们被聘请去做MYSQL性能审计时，我们被期望审查MYSQL配置文件并提出改进建议。在大多数情况下很多人都感到惊奇，因为我们仅仅在成百上千的变量中改变了很少的一部分。这篇文章的目的就是告诉你一些至关重要的设置项。
+我们在几年前曾经在博客中给出过一些建议，但从那之后MYSQL的世界发生了很多改变！">
+<meta itemprop="datePublished" content="2015-01-22T18:22:24&#43;00:00" />
+<meta itemprop="dateModified" content="2015-01-22T18:22:24&#43;00:00" />
+<meta itemprop="wordCount" content="54">
+
+
+
+<meta itemprop="keywords" content="mysql," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">安装MYSQL后的10种调优方法（翻译）</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-01-22T18:22:24Z">2015-01-22</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p><a href="http://www.percona.com/blog/2014/01/28/10-mysql-settings-to-tune-after-installation/">原文</a>。</p>
+<p>当我们被聘请去做MYSQL性能审计时，我们被期望审查MYSQL配置文件并提出改进建议。在大多数情况下很多人都感到惊奇，因为我们仅仅在成百上千的变量中改变了很少的一部分。这篇文章的目的就是告诉你一些至关重要的设置项。
+我们在几年前曾经在博客中给出过一些建议，但从那之后MYSQL的世界发生了很多改变！</p>
+<h2 id="开始之前">开始之前&hellip;</h2>
+<p>即使经验丰富的人在大量麻烦中也会犯错，在我们盲目的采用文章的建议之前，请牢记下面几点：</p>
+<ul>
+<li>一次只改变一个选项，这是唯一一种能评估改变设置效用的方法。</li>
+<li>大多数的设置都能在运行时使用SET GLOBAL进行修改，这是一种非常方便的方法并且能在产生问题的时候快速恢复。但是如果想让设置永久生效还是需要修改配置文件。</li>
+<li>一个写在配置文件中的设定即使在MYSQL重启后依然无效？你是否修改的是正确的配置文件（PS:这个是指启动MYSQL时如果指定的是其他路径而修改的是默认配置文件如/etc/my.cnf）？你是否把这些配置放在了正确的段中？（这篇文章中的设定都属于[mysqld]段）。</li>
+<li>服务在改变配置后无法重启：你使用正确的单位了吗？比如innodb_buffer_pool_size应该用字节做单位而max_connection没单位。</li>
+<li>不要在配置文件中出现重复，如果向追踪变化，请使用版本控制。</li>
+<li>不要做简单的数学运算，比如“我的内存增加了2倍，我仅需把之前的配置扩大2倍”。</li>
+</ul>
+<h2 id="基本设置">基本设置</h2>
+<p>这里有3点需要经常关注的设置，如果你不这么做，也许很快就会陷入麻烦中。</p>
+<p>innodb_buffer_pool_size:如果使用INNODB，首先要关注这个参数。这个参数决定了数据和索引的缓存位置：确定它有足够的空间以便于当执行大量的读操作时使用内存而非硬盘。典型的设置是5-6GB (8GB RAM), 20-25GB (32GB RAM), 100-120GB (128GB RAM)。</p>
+<p>innodb_log_file_size:这是恢复日志的大小。恢复日志被用于确保写操作的快速和持久，也用于故障恢复。在MYSQL5.1版本中，你很难在“大日志，好性能”和“小日志，快速的故障恢复”中作出调整。幸运的是，在MYSQL5.5版本中故障恢复的性能有了大幅度的提高，所以你可以同时拥有好的性能和快速的故障恢复。在5.5版本中，恢复日志的大小被限定为4GB（默认2个日志文件），但在5.6版本中这个限制被取消了。
+默认innodb_log_file_size = 512M(实际给了恢复日志1GB)应该给写操作足够的空间，如果你确定你的应用是写密集型并且使用5.6版本，你可以设置innodb_log_file_size = 4G。</p>
+<p>max_connections:如果你经常发现‘Too many connections’这种错误，就是因为这个参数设置的太低了。如果应用程序没有正确关闭和数据库的链接，就会导致程序和数据库之间频繁建立链接。你需要修改这个设置大于默认的151，但如过这个值设定过大（比如大于1000或更多），在程序需要建立大于1000个活动处理链接将会导致数据库无响应。在应用层使用连接池或在数据库层使用线程池有助于减少这种情况。</p>
+<h2 id="innodb设置">InnoDB设置</h2>
+<p>在5.5以后的版本中InnoDB成为了默认引擎，而且它也更频繁的在其他数据库中使用，这就是为什么要小心设置的原因。</p>
+<p>innodb_file_per_table:这个参数告诉innodb应该把数据和索引存储在共享表空间（innodb_file_per_table = OFF）还是每个表的数据和索引都存在单独的.ibd文件中(innodb_file_per_table= ON)。使用单独文件存储的好处就是当你删除或重建一个表的时候可以回收空间，它也被一些高级特性比如压缩所需要。然而它并不提供任何性能上的好处，当你有大量的表时（10K+）一定不会想使用单独文件存储这种方式。
+在5.6版本中这个值默认为ON，所以你不用做任何其他操作。在之前的版本中，你应该在创建新表之前把这个值设为ON并使其生效。</p>
+<p>innodb_flush_log_at_trx_commit:这个参数默认值为1代表着与ACDI完全兼容，当你只有一台主库并且很看中安全的情况下这是很好的选择。然而这有一个显著的磁盘开销因为需要记录每一个改变到恢复日志中。设置为2有些不可靠是因为只有每次处理被提交时才会去刷新恢复日志，对于主库来说在某些情况下也是可以接受的，对于从库来说绝对是一个好的选择。甚至可以设置为0来取得更快的速度，这样做或许当数据库崩溃时会丢失某些数据:这个值仅仅对于从库来说是个好选择。</p>
+<p>innodb_flush_method:这个选项控制了数据和日志如何写入磁盘。如果你有一个支持电源保护、回写缓存的RAID磁盘，O_DIRECT将会是一个不错的选择。fdatasync（默认值）则适合大多数的其他情景。sysbench是一个不错的工具来帮助你在这两者中作出选择。
+innodb_log_buffer_size:这是处理还没被提交时缓冲区的大小，通常情况下默认值（1MB）可以工作的很好，但只要处理中包含大的字段blob/text，缓冲区将被很快的填满并出发额外的IO负载。关注Innodb_log_waits这个变量的值如果不是0，那么就增大innodb_log_buffer_size的值。</p>
+<h2 id="其他设置">其他设置</h2>
+<p>query_cache_size:query_cache是一个众所周知的瓶颈，甚至并发查询量并不大的时候都有可能出现。最好的选项是从第一天就通过query_cache_size = 0（5.6版本中默认值）来禁用并使用其他方法来加速查询请求：建立索引、添加从库来分担读压力或者使用其他缓存方式（比如memcache或redis）。如果你已经使用了query_cache并且没出现任何问题，query_cache对你来说也许是有益的，所以当你关闭它的时候一定要小心。</p>
+<p>log_bin:如果要使用数据库的主从模式，二进制日志是必须启用的，同时不要忘记了server_id需要是唯一值。当你只有一个数据库服务器而且需要基于时间点的恢复时也需要启用。一旦被创建，二进制文件将永远存在。所以如果你不想磁盘空间被耗尽，你要么使用PURGE BINARY LOGS要么设置expire_logs_days来指定多久自动清除日志。
+二进制文件并不是毫无代价的，所以如果你不需要主从模式，推荐禁用二进制日志。</p>
+<p>skip_name_resolve:当客户端进行链接的时候，服务端将尝试去解析主机名。当DNS服务很慢时，建立链接也会很慢。因此推荐使用 skip_name_resolve来禁用DNS查询。唯一的缺陷就是GRANT语句必须使用IP地址，所以在改变一个已经存在的系统时务必小心。</p>
+<h2 id="结论">结论</h2>
+<p>根据你的工作负载或硬件还有很多其他的选项可以设定：低内存、高速硬盘、高并发、写密集型等这些都需要进行特殊的调整。这篇文章的目的就是让你快速的有一个理智配置而不是花大量时间在设置非必要选项或去读文档才能知道哪些配置对你来说更重要。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/mysql/" rel="tag">mysql</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/haproxy-keepalive%E6%9E%84%E5%BB%BA%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">HAPROXY&#43;KEEPALIVE构建高可用集群</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/python%E4%B8%AD%E7%9A%84md5%E4%BB%A5%E5%8F%8Abase64%E5%8A%A0%E5%AF%86/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">python中的md5以及base64加密</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

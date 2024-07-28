@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>MacOS读写ntfs格式硬盘 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="MacOS读写ntfs格式硬盘" />
+<meta property="og:description" content="系统OS X 10.11，之前就有发现ntfs格式的移动硬盘在mac上只能读不能写，通俗点说就是不能保存文件。
+总体而言解决方法不外乎4种：
+ 硬盘在Mac上格式化成ExFAT这种通用格式 安装第三方插件，比如Paragon NTFS for MAC（收费） 安装osxfuse&#43;ntfs-3g（命令行） 修改配置文件打开原生支持方法  首先硬盘里有东西就把第一种方式排除了，缺钱也不想用破解版的第二种也排除，虽说mac也是类unix系统不过看网上改的文件内容也不是特别明白原理排除，所以使用第三种方式吧。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/macos%E8%AF%BB%E5%86%99ntfs%E6%A0%BC%E5%BC%8F%E7%A1%AC%E7%9B%98/" />
+<meta property="article:published_time" content="2015-10-17T12:04:27+00:00" />
+<meta property="article:modified_time" content="2015-10-17T12:04:27+00:00" />
+
+		<meta itemprop="name" content="MacOS读写ntfs格式硬盘">
+<meta itemprop="description" content="系统OS X 10.11，之前就有发现ntfs格式的移动硬盘在mac上只能读不能写，通俗点说就是不能保存文件。
+总体而言解决方法不外乎4种：
+ 硬盘在Mac上格式化成ExFAT这种通用格式 安装第三方插件，比如Paragon NTFS for MAC（收费） 安装osxfuse&#43;ntfs-3g（命令行） 修改配置文件打开原生支持方法  首先硬盘里有东西就把第一种方式排除了，缺钱也不想用破解版的第二种也排除，虽说mac也是类unix系统不过看网上改的文件内容也不是特别明白原理排除，所以使用第三种方式吧。">
+<meta itemprop="datePublished" content="2015-10-17T12:04:27&#43;00:00" />
+<meta itemprop="dateModified" content="2015-10-17T12:04:27&#43;00:00" />
+<meta itemprop="wordCount" content="356">
+
+
+
+<meta itemprop="keywords" content="mac," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">MacOS读写ntfs格式硬盘</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-10-17T12:04:27Z">2015-10-17</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>系统OS X 10.11，之前就有发现ntfs格式的移动硬盘在mac上只能读不能写，通俗点说就是不能保存文件。</p>
+<p>总体而言解决方法不外乎4种：</p>
+<ol>
+<li>硬盘在Mac上格式化成ExFAT这种通用格式</li>
+<li>安装第三方插件，比如Paragon NTFS for MAC（收费）</li>
+<li>安装osxfuse+ntfs-3g（命令行）</li>
+<li>修改配置文件打开原生支持方法</li>
+</ol>
+<p>首先硬盘里有东西就把第一种方式排除了，缺钱也不想用破解版的第二种也排除，虽说mac也是类unix系统不过看网上改的文件内容也不是特别明白原理排除，所以使用第三种方式吧。</p>
+<p>首先安装这2个东西：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>x@bogon ~ <span style="color:#f92672">]</span>$ brew install Caskroom/cask/osxfuse
+<span style="color:#f92672">==</span>&gt; Installing brew-cask from caskroom/homebrew-cask
+<span style="color:#f92672">==</span>&gt; Cloning https://github.com/caskroom/homebrew-cask.git
+Cloning into <span style="color:#e6db74">&#39;/Library/Caches/Homebrew/brew-cask--git&#39;</span>...
+remote: Counting objects: 3193, <span style="color:#66d9ef">done</span>.
+remote: Compressing objects: 100% <span style="color:#f92672">(</span>3117/3117<span style="color:#f92672">)</span>, <span style="color:#66d9ef">done</span>.
+remote: Total <span style="color:#ae81ff">3193</span> <span style="color:#f92672">(</span>delta 84<span style="color:#f92672">)</span>, reused <span style="color:#ae81ff">712</span> <span style="color:#f92672">(</span>delta 59<span style="color:#f92672">)</span>, pack-reused 0
+Receiving objects: 100% <span style="color:#f92672">(</span>3193/3193<span style="color:#f92672">)</span>, 5.81 MiB | 18.00 KiB/s, <span style="color:#66d9ef">done</span>.
+Resolving deltas: 100% <span style="color:#f92672">(</span>84/84<span style="color:#f92672">)</span>, <span style="color:#66d9ef">done</span>.
+Checking connectivity... <span style="color:#66d9ef">done</span>.
+Note: checking out <span style="color:#e6db74">&#39;c216698c730540185ba88f14722fe8b74174eb0d&#39;</span>.
+You are in <span style="color:#e6db74">&#39;detached HEAD&#39;</span> state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+If you want to create a new branch to retain commits you create, you may
+<span style="color:#66d9ef">do</span> so <span style="color:#f92672">(</span>now or later<span style="color:#f92672">)</span> by using -b with the checkout command again. Example:
+  git checkout -b new_branch_name
+<span style="color:#f92672">==</span>&gt; Checking out tag v0.57.0
+?  /usr/local/Cellar/brew-cask/0.57.0: <span style="color:#ae81ff">2921</span> files, 12M, built in 4.9 minutes
+<span style="color:#f92672">==</span>&gt; brew cask install Caskroom/cask/osxfuse
+<span style="color:#f92672">==</span>&gt; We need to make Caskroom <span style="color:#66d9ef">for</span> the first time at /opt/homebrew-cask/Caskroom
+<span style="color:#f92672">==</span>&gt; We<span style="color:#e6db74">&#39;ll set permissions properly so we won&#39;</span>t need sudo in the future
+Password:
+<span style="color:#f92672">==</span>&gt; Caveats
+You must reboot <span style="color:#66d9ef">for</span> the installation of osxfuse to take effect.
+<span style="color:#f92672">==</span>&gt; Downloading http://downloads.sourceforge.net/project/osxfuse/osxfuse-2.8.1/osxfuse-2.8.1.dmg
+<span style="color:#75715e">######################################################################## 100.0%</span>
+<span style="color:#f92672">==</span>&gt; Running installer <span style="color:#66d9ef">for</span> osxfuse; your password may be necessary.
+<span style="color:#f92672">==</span>&gt; Package installers may write to any location; options such as --appdir are ignored.
+<span style="color:#f92672">==</span>&gt; installer: Package name is FUSE <span style="color:#66d9ef">for</span> OS X <span style="color:#f92672">(</span>OSXFUSE<span style="color:#f92672">)</span>
+<span style="color:#f92672">==</span>&gt; installer: Installing at base path /
+<span style="color:#f92672">==</span>&gt; installer: The install was successful.
+?  osxfuse staged at <span style="color:#e6db74">&#39;/opt/homebrew-cask/Caskroom/osxfuse/2.8.1&#39;</span> <span style="color:#f92672">(</span><span style="color:#ae81ff">6</span> files, 8.5M<span style="color:#f92672">)</span>
+<span style="color:#f92672">[</span>x@bogon ~ <span style="color:#f92672">]</span>$ brew install homebrew/fuse/ntfs-3g
+<span style="color:#f92672">==</span>&gt; Tapping homebrew/fuse
+Cloning into <span style="color:#e6db74">&#39;/usr/local/Library/Taps/homebrew/homebrew-fuse&#39;</span>...
+remote: Counting objects: 31, <span style="color:#66d9ef">done</span>.
+remote: Compressing objects: 100% <span style="color:#f92672">(</span>31/31<span style="color:#f92672">)</span>, <span style="color:#66d9ef">done</span>.
+remote: Total <span style="color:#ae81ff">31</span> <span style="color:#f92672">(</span>delta 0<span style="color:#f92672">)</span>, reused <span style="color:#ae81ff">23</span> <span style="color:#f92672">(</span>delta 0<span style="color:#f92672">)</span>, pack-reused 0
+Unpacking objects: 100% <span style="color:#f92672">(</span>31/31<span style="color:#f92672">)</span>, <span style="color:#66d9ef">done</span>.
+Checking connectivity... <span style="color:#66d9ef">done</span>.
+Tapped <span style="color:#ae81ff">26</span> formulae <span style="color:#f92672">(</span><span style="color:#ae81ff">80</span> files, 324K<span style="color:#f92672">)</span>
+<span style="color:#f92672">==</span>&gt; Installing ntfs-3g from homebrew/homebrew-fuse
+<span style="color:#f92672">==</span>&gt; Downloading https://tuxera.com/opensource/ntfs-3g_ntfsprogs-2015.3.14.tgz
+<span style="color:#75715e">######################################################################## 100.0%</span>
+<span style="color:#f92672">==</span>&gt; ./configure --prefix<span style="color:#f92672">=</span>/usr/local/Cellar/ntfs-3g/2015.3.14 --exec-prefix<span style="color:#f92672">=</span>/usr/local/Cellar/ntfs-3g/2015.3.14 --m
+<span style="color:#f92672">==</span>&gt; make
+<span style="color:#f92672">==</span>&gt; make install
+?  /usr/local/Cellar/ntfs-3g/2015.3.14: <span style="color:#ae81ff">87</span> files, 2.0M, built in <span style="color:#ae81ff">78</span> seconds
+</code></pre></div><p>安装完成后使用cmd+r重启进入恢复模式，这里就不截图了，在恢复模式下打开终端输入
+<code>csrutil disable</code></p>
+<p>然后正常重启，再打开终端</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo mv /sbin/mount_ntfs /sbin/mount_ntfs.bak
+sudo ln -s /usr/local/sbin/mount_ntfs /sbin/mount_ntfs     
+</code></pre></div><p>有点unix基础的应该都明白，不详细说了。修改完成后再进入恢复模式，打开终端输入
+<code>csrutil enable</code>
+再正常重启即可。</p>
+<p>修改后将移动硬盘连接在finder中是不显示图标的了，不过默认就挂载在/Volumes目录下，或者打开磁盘工具，右键点击选择“在finder中打开”也可以。</p>
+<p>如果想恢复，依然是按照上面的步骤，把mount_ntfs.bak改回原名即可。</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/mac/" rel="tag">mac</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/suds%E5%BA%93%E4%BD%BF%E7%94%A8%E5%B0%8F%E8%AE%B0/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">suds库使用小记</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/django%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">django性能分析</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

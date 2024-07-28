@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>python-memcached源码小窥 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="python-memcached源码小窥" />
+<meta property="og:description" content="以前经常使用python-memcached对内存进行操作，但应用都比较简单，最近需要有一个分布式缓存系统于是看了看关于twemproxy 以及 mcrouter 这两款分别由twitter和facebook开源的软件文档。这2个软件都能容易的扩展缓存节点以及自动删除问题节点，并且提供不同的算法把数据缓存到各个节点中。这时候我想起来使用python-memcached的时候，也可以使用多个节点，并且某个节点挂掉后并不影响整个缓存程序的使用，那么它是怎么将数据分配到不同的节点呢？以及怎么处理的故障节点呢？ python-memcached的源码只有一个文件，不管是get或者set，取得服务节点Ip的函数如下：
+_SERVER_RETRIES = 10 # how many times to try finding a free server." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/python-memcached%E6%BA%90%E7%A0%81%E5%B0%8F%E7%AA%A5/" />
+<meta property="article:published_time" content="2015-08-13T18:47:40+00:00" />
+<meta property="article:modified_time" content="2015-08-13T18:47:40+00:00" />
+
+		<meta itemprop="name" content="python-memcached源码小窥">
+<meta itemprop="description" content="以前经常使用python-memcached对内存进行操作，但应用都比较简单，最近需要有一个分布式缓存系统于是看了看关于twemproxy 以及 mcrouter 这两款分别由twitter和facebook开源的软件文档。这2个软件都能容易的扩展缓存节点以及自动删除问题节点，并且提供不同的算法把数据缓存到各个节点中。这时候我想起来使用python-memcached的时候，也可以使用多个节点，并且某个节点挂掉后并不影响整个缓存程序的使用，那么它是怎么将数据分配到不同的节点呢？以及怎么处理的故障节点呢？ python-memcached的源码只有一个文件，不管是get或者set，取得服务节点Ip的函数如下：
+_SERVER_RETRIES = 10 # how many times to try finding a free server.">
+<meta itemprop="datePublished" content="2015-08-13T18:47:40&#43;00:00" />
+<meta itemprop="dateModified" content="2015-08-13T18:47:40&#43;00:00" />
+<meta itemprop="wordCount" content="393">
+
+
+
+<meta itemprop="keywords" content="python," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">python-memcached源码小窥</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-08-13T18:47:40Z">2015-08-13</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>以前经常使用python-memcached对内存进行操作，但应用都比较简单，最近需要有一个分布式缓存系统于是看了看关于<a href="https://github.com/twitter/twemproxy">twemproxy</a> 以及 <a href="https://github.com/facebook/mcrouter">mcrouter</a> 这两款分别由twitter和facebook开源的软件文档。这2个软件都能容易的扩展缓存节点以及自动删除问题节点，并且提供不同的算法把数据缓存到各个节点中。这时候我想起来使用python-memcached的时候，也可以使用多个节点，并且某个节点挂掉后并不影响整个缓存程序的使用，那么它是怎么将数据分配到不同的节点呢？以及怎么处理的故障节点呢？
+python-memcached的源码只有一个文件，不管是get或者set，取得服务节点Ip的函数如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">_SERVER_RETRIES <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>  <span style="color:#75715e"># how many times to try finding a free server.</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_get_server</span>(self, key):
+    <span style="color:#66d9ef">print</span>(key)
+    <span style="color:#66d9ef">if</span> isinstance(key, tuple):
+        serverhash, key <span style="color:#f92672">=</span> key
+    <span style="color:#66d9ef">else</span>:
+        serverhash <span style="color:#f92672">=</span> serverHashFunction(key)
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> self<span style="color:#f92672">.</span>buckets:
+        <span style="color:#66d9ef">return</span> None, None
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(Client<span style="color:#f92672">.</span>_SERVER_RETRIES):
+        <span style="color:#66d9ef">print</span>(self<span style="color:#f92672">.</span>buckets)
+        <span style="color:#66d9ef">print</span> (serverhash)
+        <span style="color:#66d9ef">print</span>(serverhash <span style="color:#f92672">%</span> len(self<span style="color:#f92672">.</span>buckets))
+        server <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>buckets[serverhash <span style="color:#f92672">%</span> len(self<span style="color:#f92672">.</span>buckets)]
+        <span style="color:#66d9ef">if</span> server<span style="color:#f92672">.</span>connect():
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;(using server </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">)&#34;</span> <span style="color:#f92672">%</span> server,)
+            <span style="color:#66d9ef">return</span> server, key
+        serverhash <span style="color:#f92672">=</span> str(serverhash) <span style="color:#f92672">+</span> str(i)
+        <span style="color:#66d9ef">if</span> isinstance(serverhash, six<span style="color:#f92672">.</span>text_type):
+            serverhash <span style="color:#f92672">=</span> serverhash<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#39;ascii&#39;</span>)
+        serverhash <span style="color:#f92672">=</span> serverHashFunction(serverhash)
+    <span style="color:#66d9ef">return</span> None, None
+</code></pre></div><p>其中print语句是我添加的，为了更清晰的看出原因。首先我们创建一个对象并且设置一个值：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">4</span>]: mc <span style="color:#f92672">=</span> meme<span style="color:#f92672">.</span>Client([<span style="color:#e6db74">&#39;127.0.0.1:11211&#39;</span>,<span style="color:#e6db74">&#39;192.168.0.202:11211&#39;</span>,<span style="color:#e6db74">&#39;192.168.0.203:11211&#39;</span>])
+In [<span style="color:#ae81ff">5</span>]: mc<span style="color:#f92672">.</span>set(<span style="color:#e6db74">&#34;asdf&#34;</span>,<span style="color:#e6db74">&#34;asdf&#34;</span>)
+asdf
+[<span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c390</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c3d0</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c410</span><span style="color:#f92672">&gt;</span>]
+<span style="color:#ae81ff">20777</span>
+<span style="color:#ae81ff">2</span>
+(using server inet:<span style="color:#ae81ff">192.168</span><span style="color:#f92672">.</span><span style="color:#ae81ff">0.203</span>:<span style="color:#ae81ff">11211</span>)
+Out[<span style="color:#ae81ff">5</span>]: True
+</code></pre></div><p>可以看到，这个&quot;asdf&quot;被放到了节点3中。再来多几个数据：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">23</span>]: mc<span style="color:#f92672">.</span>set(<span style="color:#e6db74">&#34;a&#34;</span>,<span style="color:#e6db74">&#34;test&#34;</span>)
+a
+[<span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c390</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c3d0</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c410</span><span style="color:#f92672">&gt;</span>]
+<span style="color:#ae81ff">26807</span>
+<span style="color:#ae81ff">2</span>
+(using server inet:<span style="color:#ae81ff">192.168</span><span style="color:#f92672">.</span><span style="color:#ae81ff">0.203</span>:<span style="color:#ae81ff">11211</span>)
+Out[<span style="color:#ae81ff">23</span>]: True
+In [<span style="color:#ae81ff">24</span>]: mc<span style="color:#f92672">.</span>set(<span style="color:#e6db74">&#34;b&#34;</span>,<span style="color:#e6db74">&#34;test&#34;</span>)
+b
+[<span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c390</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c3d0</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c410</span><span style="color:#f92672">&gt;</span>]
+<span style="color:#ae81ff">29118</span>
+<span style="color:#ae81ff">0</span>
+(using server inet:<span style="color:#ae81ff">127.0</span><span style="color:#f92672">.</span><span style="color:#ae81ff">0.1</span>:<span style="color:#ae81ff">11211</span>)
+Out[<span style="color:#ae81ff">24</span>]: True
+In [<span style="color:#ae81ff">25</span>]: mc<span style="color:#f92672">.</span>set(<span style="color:#e6db74">&#34;c&#34;</span>,<span style="color:#e6db74">&#34;test&#34;</span>)
+c
+[<span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c390</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c3d0</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c410</span><span style="color:#f92672">&gt;</span>]
+<span style="color:#ae81ff">1721</span>
+<span style="color:#ae81ff">2</span>
+(using server inet:<span style="color:#ae81ff">192.168</span><span style="color:#f92672">.</span><span style="color:#ae81ff">0.203</span>:<span style="color:#ae81ff">11211</span>)
+Out[<span style="color:#ae81ff">25</span>]: True
+In [<span style="color:#ae81ff">26</span>]: mc<span style="color:#f92672">.</span>set(<span style="color:#e6db74">&#34;d&#34;</span>,<span style="color:#e6db74">&#34;test&#34;</span>)
+d
+[<span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c390</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c3d0</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c410</span><span style="color:#f92672">&gt;</span>]
+<span style="color:#ae81ff">6365</span>
+<span style="color:#ae81ff">2</span>
+(using server inet:<span style="color:#ae81ff">192.168</span><span style="color:#f92672">.</span><span style="color:#ae81ff">0.203</span>:<span style="color:#ae81ff">11211</span>)
+Out[<span style="color:#ae81ff">26</span>]: True
+In [<span style="color:#ae81ff">27</span>]: mc<span style="color:#f92672">.</span>set(<span style="color:#e6db74">&#34;e&#34;</span>,<span style="color:#e6db74">&#34;test&#34;</span>)
+e
+[<span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c390</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c3d0</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c410</span><span style="color:#f92672">&gt;</span>]
+<span style="color:#ae81ff">28634</span>
+<span style="color:#ae81ff">2</span>
+(using server inet:<span style="color:#ae81ff">192.168</span><span style="color:#f92672">.</span><span style="color:#ae81ff">0.203</span>:<span style="color:#ae81ff">11211</span>)
+Out[<span style="color:#ae81ff">27</span>]: True
+In [<span style="color:#ae81ff">28</span>]: mc<span style="color:#f92672">.</span>set(<span style="color:#e6db74">&#34;f&#34;</span>,<span style="color:#e6db74">&#34;test&#34;</span>)
+f
+[<span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c390</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c3d0</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c410</span><span style="color:#f92672">&gt;</span>]
+<span style="color:#ae81ff">30419</span>
+<span style="color:#ae81ff">2</span>
+(using server inet:<span style="color:#ae81ff">192.168</span><span style="color:#f92672">.</span><span style="color:#ae81ff">0.203</span>:<span style="color:#ae81ff">11211</span>)
+Out[<span style="color:#ae81ff">28</span>]: True
+In [<span style="color:#ae81ff">29</span>]: mc<span style="color:#f92672">.</span>set(<span style="color:#e6db74">&#34;g&#34;</span>,<span style="color:#e6db74">&#34;test&#34;</span>)
+g
+[<span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c390</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c3d0</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c410</span><span style="color:#f92672">&gt;</span>]
+<span style="color:#ae81ff">468</span>
+<span style="color:#ae81ff">0</span>
+(using server inet:<span style="color:#ae81ff">127.0</span><span style="color:#f92672">.</span><span style="color:#ae81ff">0.1</span>:<span style="color:#ae81ff">11211</span>)
+Out[<span style="color:#ae81ff">29</span>]: True
+In [<span style="color:#ae81ff">30</span>]: mc<span style="color:#f92672">.</span>set(<span style="color:#e6db74">&#34;h&#34;</span>,<span style="color:#e6db74">&#34;test&#34;</span>)
+h
+[<span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c390</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c3d0</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c410</span><span style="color:#f92672">&gt;</span>]
+<span style="color:#ae81ff">4459</span>
+<span style="color:#ae81ff">1</span>
+(using server inet:<span style="color:#ae81ff">192.168</span><span style="color:#f92672">.</span><span style="color:#ae81ff">0.202</span>:<span style="color:#ae81ff">11211</span>)
+Out[<span style="color:#ae81ff">30</span>]: True
+</code></pre></div><p>好像并没有什么规律，但有心的读者肯定发现了，程序的流程就是根据key算出一个hash值，再根据这个hash值对总节点数进行取余数。换言之，数据被存储在哪个节点完全是由key来决定的！在某些极端情况下，可能出现所有的数据都存储在同一个节点的情况。</p>
+<p>用于hash的函数如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">cmemcache_hash</span>(key):
+    <span style="color:#66d9ef">return</span> (
+        (((binascii<span style="color:#f92672">.</span>crc32(key) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xffffffff</span>) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">16</span>) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0x7fff</span>) <span style="color:#f92672">or</span> <span style="color:#ae81ff">1</span>)
+serverHashFunction <span style="color:#f92672">=</span> cmemcache_hash
+</code></pre></div><p>首先对key进行crc32操作，这里注意python2.x版本中crc计算后得到的是有符号整数（- 2^31&mdash;-2^31-1），所以需要使用位操作&amp; 0xffffffff将其转成无符号整数，然后在向右位移16位截取高16位，再与0x7fff进行位操作将值变成正数。（比较疑惑，不知道这么做后key转换出来的值真的不会重复吗？算法渣渣啊&hellip;.）</p>
+<p>那么，如果一台节点挂了，似乎并没有影响整个缓存的使用啊？比如上面key=h的数据应该存放在第二个节点上，现在关闭第二个节点(192.168.0.202)，再取值：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">35</span>]: mc<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;h&#39;</span>)
+h
+[<span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c390</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c3d0</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c410</span><span style="color:#f92672">&gt;</span>]
+<span style="color:#ae81ff">4459</span>
+<span style="color:#ae81ff">1</span>
+[<span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c390</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c3d0</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c410</span><span style="color:#f92672">&gt;</span>]
+<span style="color:#ae81ff">26423</span>
+<span style="color:#ae81ff">2</span>
+(using server inet:<span style="color:#ae81ff">192.168</span><span style="color:#f92672">.</span><span style="color:#ae81ff">0.203</span>:<span style="color:#ae81ff">11211</span>)
+</code></pre></div><p>可以看出，就算某个节点挂了，对于mc来说，backets还是有3个节点的，它并不会把失效节点从“池子”中移除。不过节点2链接不上，于是程序把上次得到的hash值于循环次数进行拼接后再hash，看其能否得到一个可以链接的节点。这次结果是得到了节点3并且可以链接，于是程序去节点3寻找key=h的值，但第三个节点并没有，所以返回none。换言之，即使节点1有key=h的值，程序也不会理会的。
+那么，我再设置一个key=h的数据试试：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">36</span>]: mc<span style="color:#f92672">.</span>set(<span style="color:#e6db74">&#34;h&#34;</span>,<span style="color:#e6db74">&#34;test&#34;</span>)
+h
+[<span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c390</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c3d0</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c410</span><span style="color:#f92672">&gt;</span>]
+<span style="color:#ae81ff">4459</span>
+<span style="color:#ae81ff">1</span>
+[<span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c390</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c3d0</span><span style="color:#f92672">&gt;</span>, <span style="color:#f92672">&lt;</span>meme<span style="color:#f92672">.</span>_Host object at <span style="color:#ae81ff">0x7f2df825c410</span><span style="color:#f92672">&gt;</span>]
+<span style="color:#ae81ff">26423</span>
+<span style="color:#ae81ff">2</span>
+(using server inet:<span style="color:#ae81ff">192.168</span><span style="color:#f92672">.</span><span style="color:#ae81ff">0.203</span>:<span style="color:#ae81ff">11211</span>)
+</code></pre></div><p>结果不出所料，程序还是先去找节点2，发现链接不上就继续hash，直到找到一个能链接的节点为止。极端情况下就循环10次都没碰到可用节点的话，程序就认为所有节点都挂了。</p>
+<p>这种逻辑下，假设程序经过2次hash后决定把数据存在节点3后，节点2恢复正常，再进行get操作会发现数据还是取不到的。</p>
+<p>结论：</p>
+<p>python-memcached无法动态进行节点的扩展或者删除，简单的应用或者只有一个缓存节点时，python-memcached还是很给力的，但如果需要的是一个分布式缓存集群的话，还是使用上面提到的那2个程序更高效、灵活。</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/flask%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">flask常用插件</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/fedora21%E4%BD%BF%E7%94%A8ipv6%E8%AE%BF%E9%97%AEgoogle/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">fedora21使用ipv6访问google</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>GO语言学习笔记-接口2 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="GO语言学习笔记-接口2" />
+<meta property="og:description" content="原文
+传指针vs传值
+上篇文章中所有接口实现我们都使用的传值，当然也可以使用传指针这种方式来实现接口。但使用传指针这种方式有一点需要注意，我们来看下面这个代码。
+package main
+
+import &#34;fmt&#34;
+
+type Describer interface {  
+    Describe()
+}
+type Person struct {  
+    name string
+    age  int
+}
+
+func (p Person) Describe() { //implemented using value receiver  
+    fmt.Printf(&#34;%s is %d years old\n&#34;, p.name, p.age)
+}
+
+type Address struct {  
+    state   string
+    country string
+}
+
+func (a *Address) Describe() { //implemented using pointer receiver  
+    fmt.Printf(&#34;State %s Country %s&#34;, a.state, a.country)
+}
+
+func main() {  
+    var d1 Describer
+    p1 := Person{&#34;Sam&#34;, 25}
+    d1 = p1
+    d1.Describe()
+    p2 := Person{&#34;James&#34;, 32}
+    d1 = &amp;p2
+    d1.Describe()
+
+    var d2 Describer
+    a := Address{&#34;Washington&#34;, &#34;USA&#34;}
+
+    /* compilation error if the following line is
+       uncommented
+       cannot use a (type Address) as type Describer
+       in assignment: Address does not implement
+       Describer (Describe method has pointer
+       receiver)
+    */
+    //d2 = a
+
+    d2 = &amp;a //This works since Describer interface
+    //is implemented by Address pointer in line 22
+    d2.Describe()
+
+}
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%8E%A5%E5%8F%A32/" />
+<meta property="article:published_time" content="2018-05-22T22:29:47+00:00" />
+<meta property="article:modified_time" content="2018-05-22T22:29:47+00:00" />
+
+		<meta itemprop="name" content="GO语言学习笔记-接口2">
+<meta itemprop="description" content="原文
+传指针vs传值
+上篇文章中所有接口实现我们都使用的传值，当然也可以使用传指针这种方式来实现接口。但使用传指针这种方式有一点需要注意，我们来看下面这个代码。
+package main
+
+import &#34;fmt&#34;
+
+type Describer interface {  
+    Describe()
+}
+type Person struct {  
+    name string
+    age  int
+}
+
+func (p Person) Describe() { //implemented using value receiver  
+    fmt.Printf(&#34;%s is %d years old\n&#34;, p.name, p.age)
+}
+
+type Address struct {  
+    state   string
+    country string
+}
+
+func (a *Address) Describe() { //implemented using pointer receiver  
+    fmt.Printf(&#34;State %s Country %s&#34;, a.state, a.country)
+}
+
+func main() {  
+    var d1 Describer
+    p1 := Person{&#34;Sam&#34;, 25}
+    d1 = p1
+    d1.Describe()
+    p2 := Person{&#34;James&#34;, 32}
+    d1 = &amp;p2
+    d1.Describe()
+
+    var d2 Describer
+    a := Address{&#34;Washington&#34;, &#34;USA&#34;}
+
+    /* compilation error if the following line is
+       uncommented
+       cannot use a (type Address) as type Describer
+       in assignment: Address does not implement
+       Describer (Describe method has pointer
+       receiver)
+    */
+    //d2 = a
+
+    d2 = &amp;a //This works since Describer interface
+    //is implemented by Address pointer in line 22
+    d2.Describe()
+
+}
+">
+<meta itemprop="datePublished" content="2018-05-22T22:29:47&#43;00:00" />
+<meta itemprop="dateModified" content="2018-05-22T22:29:47&#43;00:00" />
+<meta itemprop="wordCount" content="501">
+
+
+
+<meta itemprop="keywords" content="golang," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">GO语言学习笔记-接口2</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-05-22T22:29:47Z">2018-05-22</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p><a href="https://golangbot.com/interfaces-part-2/">原文</a></p>
+<h2 id="传指针vs传值">传指针vs传值</h2>
+<p>上篇文章中所有接口实现我们都使用的传值，当然也可以使用传指针这种方式来实现接口。但使用传指针这种方式有一点需要注意，我们来看下面这个代码。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Describer</span> <span style="color:#66d9ef">interface</span> {  
+    <span style="color:#a6e22e">Describe</span>()
+}
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {  
+    <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+    <span style="color:#a6e22e">age</span>  <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Describe</span>() { <span style="color:#75715e">//implemented using value receiver  
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s is %d years old\n&#34;</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">age</span>)
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Address</span> <span style="color:#66d9ef">struct</span> {  
+    <span style="color:#a6e22e">state</span>   <span style="color:#66d9ef">string</span>
+    <span style="color:#a6e22e">country</span> <span style="color:#66d9ef">string</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">a</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Address</span>) <span style="color:#a6e22e">Describe</span>() { <span style="color:#75715e">//implemented using pointer receiver  
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;State %s Country %s&#34;</span>, <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">country</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">d1</span> <span style="color:#a6e22e">Describer</span>
+    <span style="color:#a6e22e">p1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Person</span>{<span style="color:#e6db74">&#34;Sam&#34;</span>, <span style="color:#ae81ff">25</span>}
+    <span style="color:#a6e22e">d1</span> = <span style="color:#a6e22e">p1</span>
+    <span style="color:#a6e22e">d1</span>.<span style="color:#a6e22e">Describe</span>()
+    <span style="color:#a6e22e">p2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Person</span>{<span style="color:#e6db74">&#34;James&#34;</span>, <span style="color:#ae81ff">32</span>}
+    <span style="color:#a6e22e">d1</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">p2</span>
+    <span style="color:#a6e22e">d1</span>.<span style="color:#a6e22e">Describe</span>()
+
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">d2</span> <span style="color:#a6e22e">Describer</span>
+    <span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Address</span>{<span style="color:#e6db74">&#34;Washington&#34;</span>, <span style="color:#e6db74">&#34;USA&#34;</span>}
+
+    <span style="color:#75715e">/* compilation error if the following line is
+</span><span style="color:#75715e">       uncommented
+</span><span style="color:#75715e">       cannot use a (type Address) as type Describer
+</span><span style="color:#75715e">       in assignment: Address does not implement
+</span><span style="color:#75715e">       Describer (Describe method has pointer
+</span><span style="color:#75715e">       receiver)
+</span><span style="color:#75715e">    */</span>
+    <span style="color:#75715e">//d2 = a
+</span><span style="color:#75715e"></span>
+    <span style="color:#a6e22e">d2</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">a</span> <span style="color:#75715e">//This works since Describer interface
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//is implemented by Address pointer in line 22
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">d2</span>.<span style="color:#a6e22e">Describe</span>()
+
+}
+</code></pre></div><p>上面的代码中，结构体<code>Person</code>使用传值的方式实现了接口<code>Describer</code>。</p>
+<p>在之前的<a href="https://golangbot.com/methods/#valuereceiversinmethodsvsvalueargumentsinfunctions">文章</a>中我们介绍过，一个接受值传递的方法同时也接受指针。<em>所以使用传值或者传指针的方法调用这种方法都是合法的</em>。</p>
+<p>在２９行将<code>Person</code>类型的变量<code>p1</code>赋值给了<code>d1</code>。因为<code>Person</code>实现了d1代表的接口所以会输出<code>Sam is 25 years old</code>。</p>
+<p>同样，接下来将<code>&amp;p2</code>也赋值给了<code>d1</code>，所以接下来输出<code>James is 32 years old</code>。</p>
+<p>而<code>Address</code>采用传指针的方式实现接口<code>Describer</code>。如果取消４５行的注释程序将会报错 <strong>main.go:42: cannot use a (type Address) as type Describer in assignment: Address does not implement Describer (Describe method has pointer receiver)</strong>。这是因为<code>Describer</code>是被<code>Address</code>类型的指针传递实现，而<code>a</code>是一个值类型并没有实现<code>Describer</code>接口。你一定很吃惊，因为<a href="https://golangbot.com/methods/#pointerreceiversinmethodsvspointerargumentsinfunctions">之前</a>我们曾经讲过，接受指针的方法也可使用值类型调用，那么为什么会报错呢？</p>
+<p><strong>这是因为，调用一个指针－值方法在任何指针或者可寻址的值上都是合法的，而接口中存储的具体值是不可寻址的，因此编译器不能自动的找到内存地址所以４５行会报错。</strong></p>
+<p>４７行可以执行是因为我们把<code>a</code>的地址<code>&amp;a</code>传递给了<code>d2</code>。代码输出如下：</p>
+<pre><code>Sam is 25 years old  
+James is 32 years old  
+State Washington Country USA
+</code></pre><h2 id="实现多个接口">实现多个接口</h2>
+<p>一个类型可以实现多个接口，代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (  
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">SalaryCalculator</span> <span style="color:#66d9ef">interface</span> {  
+    <span style="color:#a6e22e">DisplaySalary</span>()
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">LeaveCalculator</span> <span style="color:#66d9ef">interface</span> {  
+    <span style="color:#a6e22e">CalculateLeavesLeft</span>() <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Employee</span> <span style="color:#66d9ef">struct</span> {  
+    <span style="color:#a6e22e">firstName</span> <span style="color:#66d9ef">string</span>
+    <span style="color:#a6e22e">lastName</span> <span style="color:#66d9ef">string</span>
+    <span style="color:#a6e22e">basicPay</span> <span style="color:#66d9ef">int</span>
+    <span style="color:#a6e22e">pf</span> <span style="color:#66d9ef">int</span>
+    <span style="color:#a6e22e">totalLeaves</span> <span style="color:#66d9ef">int</span>
+    <span style="color:#a6e22e">leavesTaken</span> <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">Employee</span>) <span style="color:#a6e22e">DisplaySalary</span>() {  
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s %s has salary $%d&#34;</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">firstName</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">lastName</span>, (<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">basicPay</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">pf</span>))
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">Employee</span>) <span style="color:#a6e22e">CalculateLeavesLeft</span>() <span style="color:#66d9ef">int</span> {  
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">totalLeaves</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">leavesTaken</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#a6e22e">e</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Employee</span> {
+        <span style="color:#a6e22e">firstName</span>: <span style="color:#e6db74">&#34;Naveen&#34;</span>,
+        <span style="color:#a6e22e">lastName</span>: <span style="color:#e6db74">&#34;Ramanathan&#34;</span>,
+        <span style="color:#a6e22e">basicPay</span>: <span style="color:#ae81ff">5000</span>,
+        <span style="color:#a6e22e">pf</span>: <span style="color:#ae81ff">200</span>,
+        <span style="color:#a6e22e">totalLeaves</span>: <span style="color:#ae81ff">30</span>,
+        <span style="color:#a6e22e">leavesTaken</span>: <span style="color:#ae81ff">5</span>,
+    }
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> <span style="color:#a6e22e">SalaryCalculator</span> = <span style="color:#a6e22e">e</span>
+    <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">DisplaySalary</span>()
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">l</span> <span style="color:#a6e22e">LeaveCalculator</span> = <span style="color:#a6e22e">e</span>
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;\nLeaves left =&#34;</span>, <span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">CalculateLeavesLeft</span>())
+}
+</code></pre></div><p>上面的代码<code>Employee</code>实现了２个接口<code>SalaryCalculator</code>和<code>LeaveCalculator</code>，并把<code>Employee</code>类型的变量<code>e</code>分别转换成２种接口类型，代码输出如下：</p>
+<pre><code>Naveen Ramanathan has salary $5200  
+Leaves left = 25
+</code></pre><h2 id="接口嵌套">接口嵌套</h2>
+<p>尽管GO中不支持继承，但可以通过嵌套来定义新接口：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (  
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">SalaryCalculator</span> <span style="color:#66d9ef">interface</span> {  
+    <span style="color:#a6e22e">DisplaySalary</span>()
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">LeaveCalculator</span> <span style="color:#66d9ef">interface</span> {  
+    <span style="color:#a6e22e">CalculateLeavesLeft</span>() <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">EmployeeOperations</span> <span style="color:#66d9ef">interface</span> {  
+    <span style="color:#a6e22e">SalaryCalculator</span>
+    <span style="color:#a6e22e">LeaveCalculator</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Employee</span> <span style="color:#66d9ef">struct</span> {  
+    <span style="color:#a6e22e">firstName</span> <span style="color:#66d9ef">string</span>
+    <span style="color:#a6e22e">lastName</span> <span style="color:#66d9ef">string</span>
+    <span style="color:#a6e22e">basicPay</span> <span style="color:#66d9ef">int</span>
+    <span style="color:#a6e22e">pf</span> <span style="color:#66d9ef">int</span>
+    <span style="color:#a6e22e">totalLeaves</span> <span style="color:#66d9ef">int</span>
+    <span style="color:#a6e22e">leavesTaken</span> <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">Employee</span>) <span style="color:#a6e22e">DisplaySalary</span>() {  
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s %s has salary $%d&#34;</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">firstName</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">lastName</span>, (<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">basicPay</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">pf</span>))
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">Employee</span>) <span style="color:#a6e22e">CalculateLeavesLeft</span>() <span style="color:#66d9ef">int</span> {  
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">totalLeaves</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">leavesTaken</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#a6e22e">e</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Employee</span> {
+        <span style="color:#a6e22e">firstName</span>: <span style="color:#e6db74">&#34;Naveen&#34;</span>,
+        <span style="color:#a6e22e">lastName</span>: <span style="color:#e6db74">&#34;Ramanathan&#34;</span>,
+        <span style="color:#a6e22e">basicPay</span>: <span style="color:#ae81ff">5000</span>,
+        <span style="color:#a6e22e">pf</span>: <span style="color:#ae81ff">200</span>,
+        <span style="color:#a6e22e">totalLeaves</span>: <span style="color:#ae81ff">30</span>,
+        <span style="color:#a6e22e">leavesTaken</span>: <span style="color:#ae81ff">5</span>,
+    }
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">empOp</span> <span style="color:#a6e22e">EmployeeOperations</span> = <span style="color:#a6e22e">e</span>
+    <span style="color:#a6e22e">empOp</span>.<span style="color:#a6e22e">DisplaySalary</span>()
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;\nLeaves left =&#34;</span>, <span style="color:#a6e22e">empOp</span>.<span style="color:#a6e22e">CalculateLeavesLeft</span>())
+}
+</code></pre></div><p>通过嵌套<code>SalaryCalculator</code>和<code>LeaveCalculator</code>这２个接口，我们创建了新接口<code>EmployeeOperations</code>。如果某个类型同时实现了定义在<code>SalaryCalculator</code>和<code>LeaveCalculator</code>中的函数，则可以说它实现了接口<code>EmployeeOperations</code>。</p>
+<p>４６行将<code>Employee</code>类型的变量e转换为了<code>EmployeeOperations</code>类型，并且分别调用了<code>DisplaySalary()</code>和<code>CalculateLeavesLeft()</code>方法。输出如下：</p>
+<pre><code>Naveen Ramanathan has salary $5200  
+Leaves left = 25  
+</code></pre><p>(roy补充：把e转换成<code>SalaryCalculator</code>或<code>LeaveCalculator</code>也可以。)</p>
+<h2 id="接口零值空接口">接口零值/空接口</h2>
+<p>接口的零值是<code>nil</code>，nil接口的隐含值和实际类型都是<code>nil</code>。(roy注：零值指没被实现的接口)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Describer</span> <span style="color:#66d9ef">interface</span> {  
+    <span style="color:#a6e22e">Describe</span>()
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">d1</span> <span style="color:#a6e22e">Describer</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">d1</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;d1 is nil and has type %T value %v\n&#34;</span>, <span style="color:#a6e22e">d1</span>, <span style="color:#a6e22e">d1</span>)
+    }
+}
+</code></pre></div><p>程序输出为</p>
+<pre><code>d1 is nil and has type &lt;nil&gt; value &lt;nil&gt;
+</code></pre><p>如果我们尝试在nil接口上调用方法，则会引发错误，因为nil接口没有隐含值也没有实际类型。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Describer</span> <span style="color:#66d9ef">interface</span> {  
+    <span style="color:#a6e22e">Describe</span>()
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">d1</span> <span style="color:#a6e22e">Describer</span>
+    <span style="color:#a6e22e">d1</span>.<span style="color:#a6e22e">Describe</span>()
+}
+</code></pre></div><p><code>d1</code>是一个nil，所以将会报错：</p>
+<pre><code>panic: runtime error: invalid memory address or nil pointer dereference
+[signal SIGSEGV: segmentation violation code=0xffffffff addr=0x0 pc=0xc8527]
+</code></pre>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/golang/" rel="tag">golang</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%8E%A5%E5%8F%A31/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">GO语言学习笔记-接口1</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E5%9F%BA%E4%BA%8Edocker%E7%9A%84%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">基于Docker的以太坊开发环境搭建</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

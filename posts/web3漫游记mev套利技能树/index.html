@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Web3漫游记——MEV套利技能树 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Web3漫游记——MEV套利技能树" />
+<meta property="og:description" content="在上一篇文章Web3漫游记——MEV以及赚钱姿势中简单介绍了关于MEV的相关基础概念原理，没看过的同学建议先去补充一下前置知识方便理解。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/web3%E6%BC%AB%E6%B8%B8%E8%AE%B0mev%E5%A5%97%E5%88%A9%E6%8A%80%E8%83%BD%E6%A0%91/" />
+<meta property="article:published_time" content="2023-08-29T15:15:03+08:00" />
+<meta property="article:modified_time" content="2023-08-29T15:15:03+08:00" />
+
+		<meta itemprop="name" content="Web3漫游记——MEV套利技能树">
+<meta itemprop="description" content="在上一篇文章Web3漫游记——MEV以及赚钱姿势中简单介绍了关于MEV的相关基础概念原理，没看过的同学建议先去补充一下前置知识方便理解。">
+<meta itemprop="datePublished" content="2023-08-29T15:15:03&#43;08:00" />
+<meta itemprop="dateModified" content="2023-08-29T15:15:03&#43;08:00" />
+<meta itemprop="wordCount" content="59">
+
+
+
+<meta itemprop="keywords" content="web3,mev," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Web3漫游记——MEV套利技能树</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2023-08-29T15:15:03&#43;08:00">2023-08-29</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/web3/" rel="category">Web3</a>, <a class="meta__link" href="/categories/mev/" rel="category">MEV</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>在上一篇文章<a href="https://www.hi-roy.com/posts/web3%E6%BC%AB%E6%B8%B8%E8%AE%B0mev%E4%BB%A5%E5%8F%8A%E8%B5%9A%E9%92%B1%E5%A7%BF%E5%8A%BF/">Web3漫游记——MEV以及赚钱姿势</a>中简单介绍了关于MEV的相关基础概念原理，没看过的同学建议先去补充一下前置知识方便理解。</p>
+<h2 id="mev套利是否能够赚钱">MEV套利是否能够赚钱？</h2>
+<p>再看看上一篇文章的贴图：
+<img src="https://ata2-img.oss-cn-zhangjiakou.aliyuncs.com/neweditor/f5b1b056-e5d5-4517-953d-2d56e223fb43.jpg" alt="image"></p>
+<p>MEV套利的“钱途”还是有的，不过——</p>
+<p><strong>别人能赚到钱不代表自己也能。</strong></p>
+<p><strong>别人能赚到钱不代表自己也能。</strong></p>
+<p><strong>别人能赚到钱不代表自己也能。</strong></p>
+<p>重要的事情说三遍。</p>
+<p>正如上一篇文章说的，MEV套利目前已经脱离了蛮荒进入科技时代，不如把这个问题换一种问法：</p>
+<blockquote>
+<p>作为一个新入门的个人交易者，是否还有机会和那些经验丰富的团队或个人交易者竞争并且获胜？</p>
+</blockquote>
+<p>说实话，有难度。</p>
+<p>不过呢，有难度也不是彻底没希望。推荐有兴趣的同学看看<a href="https://frontier.tech/a-tale-of-two-arbitrages">这篇文章</a>，ETH链卷不过，去其他链行不行？DEX-DEX卷不过，去CEX-DEX行不行？FT卷不过，去NFT行不行？</p>
+<p>红海中必有细分蓝海，Alpha收益不会消失。以Just for fun的心态去学习研究，说不定会有意外惊喜。</p>
+<h2 id="mev套利需要哪些知识点">MEV套利需要哪些知识点？</h2>
+<p>上一篇文章已经说过，套利目前基本上都是程序自动化操作的。一个完整的MEV套利机器人，由搜索部分+合约部分组成，大体流程如下：</p>
+<ol>
+<li>不停的监听内存池，寻找有利可图的交易。</li>
+<li>进行模拟，计算能获得多少利润。</li>
+<li>如果有利可图，就构造相关的bundle发送给builder。</li>
+<li>builder构建区块，发送给Validator。</li>
+<li>Validator进行广播上链。</li>
+</ol>
+<h3 id="编程语言">编程语言</h3>
+<p>目前来看，<strong>Solidity是必须要会甚至精通的</strong>，目前基于EVM的合约大多由Solidity写成。对于有其他语言经验的小伙伴来说，1天时间熟悉语法就可以编写简单的合约了。</p>
+<p>而后面进行合约优化、或者去分析别人未开源合约时候，可能需要直接读写OPCODE等等，所以学到精通级别有利无害。</p>
+<p>至于搜索部分，首推Rust。目前很多相关工具和三方库都是Rust技术栈，安全高效。除了入门曲线高点没别的毛病。如果精力不准许的话，Js、Python、Golang也都可以。</p>
+<h3 id="区块链">区块链</h3>
+<p>太坊为主，至少过一遍<a href="https://ethereum.org/zh/developers/docs/">文档</a>，弄懂什么是钱包、什么是合约、什么是gas、各种单位换算以及如何利用三方库进行简单交互等基础。如果后续想运行自己的全节点，还需要了解一些运维知识。</p>
+<h3 id="dapp">Dapp</h3>
+<p>MEV套利主要就是和各种Dapp打交道，再具体说就是在我们的合约中调用这些Dapp提供的合约接口。那么下面几个Dapp尽量熟悉一下，包括作用、提供了哪些接口、LP计算规则等等。熟悉了解的越多，套利的可选择机会就越多。</p>
+<p><a href="https://blog.uniswap.org/uniswap-v2">UniswapV2</a>，虽然已经有了新版的，但这个依然在市场活跃且有很多DEX都是基于这个fork的。</p>
+<p><a href="https://blog.uniswap.org/uniswap-v3">UniswapV3</a>，DEX交易平台。</p>
+<p><a href="https://dev.sushi.com/">SushiSwap</a>，DEX交易平台。</p>
+<p><a href="https://classic.curve.fi/devdocs">Curve</a>，DEX交易平台。</p>
+<p><a href="https://docs.aave.com/hub/">Aave</a>，借贷平台。</p>
+<p><a href="https://github.com/makerdao/developerguides">Maker</a>，借贷平台。</p>
+<p><a href="https://docs.compound.finance/#compound-iii">Compound</a>，借贷平台。</p>
+<p>如果精力有限优先去看Uniswapv2、v3以及Aave。</p>
+<h3 id="工具和框架">工具和框架</h3>
+<p><a href="https://remix.ethereum.org/">remix</a>，功能强大的在线IDE，初期学习编写简单的合约用这个足够了。</p>
+<p><a href="https://learnblockchain.cn/docs/foundry/i18n/zh/index.html">foundry</a>，我写合约做测试基本上都是用这个强大工具集。</p>
+<p><a href="https://hardhat.org/hardhat-runner/plugins/nomiclabs-hardhat-web3">hardhate</a>，也是写合约的js技术栈框架，我没用过就不多说了。</p>
+<p><a href="https://github.com/web3/web3.js">web3.js</a>，js以太坊客户端。</p>
+<p><a href="https://github.com/ethereum/web3.py">web3.py</a>，python以太坊客户端。</p>
+<p><a href="https://github.com/tomusdrw/rust-web3">rust-web3</a>，rust以太坊客户端。</p>
+<p><a href="https://github.com/ethereum/go-ethereum">go-ethereum</a>，golang以太坊客户端。</p>
+<p><a href="https://docs.flashbots.net/">flashbots</a>，<strong>如果做MEV套利不会用这个，那只能成为猎物了。</strong></p>
+<h3 id="金融市场理论数学">金融市场理论，数学</h3>
+<p>再怎么Defi也是fi，成熟的金融市场理论在Web3领域依然有效。对冲、波动、衍生品、套保……建议技术小伙伴找个金融搭子一起玩耍，实在内向的话各种GPT也不是不行😏</p>
+<p>数学也是，计算是否有利可图可能简单的加减乘除就可以出来，但如果想计算如何使利润最大化，可能就得计算导数求极值等……</p>
+<h2 id="mev套利需要付出哪些成本">MEV套利需要付出哪些成本？</h2>
+<h3 id="可计算成本">可计算成本</h3>
+<p>初期，学习测试使用免费的节点服务就够用了，成本0；</p>
+<p>中期，可以使用付费的节点服务，每家服务商收费不同，比如<a href="https://www.alchemy.com/pricing">Alchemy</a>目前就是49刀/月;</p>
+<p>后期，大部分人会选择建立自己的节点服务器，目前需要质押32个ETH，以及根据<a href="https://geth.ethereum.org/docs/getting-started/hardware-requirements">Geth文档</a>，运行客户端最低需要4核16G内存以及4T的SSD硬盘，网络相关费用另算，而且节点可能不会只部署一个，有兴趣的小伙伴可以自己去各个云厂商算算价格。</p>
+<h3 id="不可计算成本">不可计算成本</h3>
+<p>时间、精力、情绪等沉没成本，就好像鹿鼎记里陈总舵主说的：</p>
+<p><img src="https://ata2-img.oss-cn-zhangjiakou.aliyuncs.com/neweditor/79fefc9a-0199-479b-8e27-2efce65d3d5e.png" alt=""></p>
+<p>虽然学习MEV套利不需要看3年练30年，但短期没有任何收益是大概率事件，做好心理准备。</p>
+<p>如果看到这还是希望参加这场竞技游戏的话——欢迎成为同路人。</p>
+
+
+<p align="center">
+  <img src="/images/wechat.jpg" alt='wechat'/>
+</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/web3/" rel="tag">web3</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/mev/" rel="tag">mev</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/web3%E6%BC%AB%E6%B8%B8%E8%AE%B0mev%E4%BB%A5%E5%8F%8A%E8%B5%9A%E9%92%B1%E5%A7%BF%E5%8A%BF/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Web3漫游记——MEV以及赚钱姿势</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/web3%E6%BC%AB%E6%B8%B8%E8%AE%B0mev%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%AE%9E%E8%B7%B51/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Web3漫游记——MEV机器人实践1</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

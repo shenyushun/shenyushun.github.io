@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Web3漫游记——MEV以及赚钱姿势 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Web3漫游记——MEV以及赚钱姿势" />
+<meta property="og:description" content="
+对MEV没兴趣可以直接拉到文章末尾。
+
+这篇文章假定你已经有了一些Web3相关最基础概念，比如什么是区块链、什么是Defi、什么是挖矿、什么是POW和POS、什么是CEX和DEX等等，这篇主要来聊聊什么是MEV以及MEV相关套利原理，至于技术同学最感兴趣的&quot;Show Me The Code&rdquo;，后面再说。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/web3%E6%BC%AB%E6%B8%B8%E8%AE%B0mev%E4%BB%A5%E5%8F%8A%E8%B5%9A%E9%92%B1%E5%A7%BF%E5%8A%BF/" />
+<meta property="article:published_time" content="2023-08-16T15:15:03+08:00" />
+<meta property="article:modified_time" content="2023-08-16T15:15:03+08:00" />
+
+		<meta itemprop="name" content="Web3漫游记——MEV以及赚钱姿势">
+<meta itemprop="description" content="
+对MEV没兴趣可以直接拉到文章末尾。
+
+这篇文章假定你已经有了一些Web3相关最基础概念，比如什么是区块链、什么是Defi、什么是挖矿、什么是POW和POS、什么是CEX和DEX等等，这篇主要来聊聊什么是MEV以及MEV相关套利原理，至于技术同学最感兴趣的&quot;Show Me The Code&rdquo;，后面再说。">
+<meta itemprop="datePublished" content="2023-08-16T15:15:03&#43;08:00" />
+<meta itemprop="dateModified" content="2023-08-16T15:15:03&#43;08:00" />
+<meta itemprop="wordCount" content="79">
+
+
+
+<meta itemprop="keywords" content="web3,mev," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Web3漫游记——MEV以及赚钱姿势</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2023-08-16T15:15:03&#43;08:00">2023-08-16</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/web3/" rel="category">Web3</a>, <a class="meta__link" href="/categories/mev/" rel="category">MEV</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<blockquote>
+<p>对MEV没兴趣可以直接拉到文章末尾。</p>
+</blockquote>
+<p>这篇文章假定你已经有了一些Web3相关最基础概念，比如什么是区块链、什么是Defi、什么是挖矿、什么是POW和POS、什么是CEX和DEX等等，这篇主要来聊聊什么是MEV以及MEV相关套利原理，至于技术同学最感兴趣的&quot;Show Me The Code&rdquo;，后面再说。</p>
+<h2 id="什么是mev">什么是MEV？</h2>
+<p>在POW语境下，MEV是指&quot;Miner Extractable Value&quot;矿工可提取价值，在POS语境下则是&quot;Maximal Extractable Value&quot;最大可提取价值。缩写都是MEV也算是一种殊途同归了，原理简单说就是矿工(验证者，后面统一用矿工)通过对 <strong>区块内交易进行添加、删除、调整顺序</strong> ，从而使获得的利润最大化。</p>
+<p>注意前面加粗的部分，这种机制是Defi套利的基石。目前最常见、<strong>竞争最激烈</strong>的三个游戏就是：Arbitrage、Liquidations和Sandwich Trading。</p>
+<p><img src="https://ata2-img.oss-cn-zhangjiakou.aliyuncs.com/neweditor/f5b1b056-e5d5-4517-953d-2d56e223fb43.jpg" alt=""></p>
+<p>在一个快鱼吃慢鱼的世界，机会往往转瞬即逝，这场竞争中谁的交易最先被打包上链，谁就是赢家，谁就能获取利润。</p>
+<p>那么，怎么让自己的交易最先被打包呢？</p>
+<p>最朴素的办法就是给足gas费来贿赂矿工，结果导致网络拥堵、整个链的gas飞涨。(当时作为NFT玩家的我，恨死这帮人了……)</p>
+<p>但是贿赂矿工总得有个尽头，把所有的利润都给矿工的话，那叫做送福利而不是套利。</p>
+<p>于是套利玩家们开始进行合约优化(gas golfing)、网络优化、自建节点、geth客户端代码优化等等等等——欢迎参加科学家之战。(圈内把懂技术的人成为科学家)</p>
+<h2 id="arbitrage">Arbitrage</h2>
+<p>套利，这个很好理解，当不同市场(交易所)对同种物品(token)的价格不同时，套利机会就出现了。比如CEX-DEX套利、DEX-DEX套利。这里有一个DEX-DEX套利的<a href="https://etherscan.io/tx/0x5e1657ef0e9be9bc72efefe59a2528d0d730d478cfc9e6cdd09af9f997bb3ef4">例子</a>，有兴趣的同学可以点进去看看，关于链上数据分析这里就不展开了。</p>
+<p>三角套利比较有意思，简单说1个苹果可以换3个香蕉，3个香蕉可以换5个橙子，而5个橙子可以换1.2个苹果。就这么转了一圈，多出来0.2个苹果的利润。如果策略制定的够精妙，甚至可以实现N角套利。</p>
+<p>那么问题来了，为什么会产生这些套利模式呢？</p>
+<p>这个就得提起DEX的基石——AMM(Automated Market Maker，自动做市商)。</p>
+<p>和传统金融股票市场以及CEX不同，前者主要使用的是用订单簿模式来撮合买卖双方成交，而目前主流DEX都是基于AMM提供LP(Liquidity Pool，流动性)。说到这又可以引出恒定乘积做市商(CPMM)、恒定和做市商(CSMM)、恒定平均值做市商(CMMM)以及2种赚钱方式流动性质押和流动性挖矿，说到这又可以引出无偿损失、滑点、多代币敞口……后面再说。</p>
+<p>这里我们以CPMM为例，这个是目前最主流的方式。其核心原理是一个乘法公式：<code>K=A*B</code>。</p>
+<p>假设有一个善人，他拿出自家的10个苹果和10个香蕉组成了一个池子(提供流动性LP)，小明想要买5个苹果，请问小明需要付出多少个香蕉？</p>
+<p>最初场景<code>K=10*10=100</code>，小明买走5个苹果，那么池子里需要有多少香蕉才能继续保证K=100呢？经过计算<code>K=100=5*20</code>，也就是说小明需要付出10个香蕉——到这里相信大家已经明白恒定积的意思了。那么如果小红接下来想买3个苹果，则需要付出30个香蕉才行——也就是说，前一笔交易会影响后一笔交易的结果，快者为王。</p>
+<p>远古时代，所有的交易都是要进入内存池等待矿工打包，有些聪明人就直接扫描内存池来寻找套利机会，如果发现了则换成自己的地址并且给出更高的gas费来争取优先被打包上链进行抢跑(frontrunners)。为了对抗这种行为，大名鼎鼎的Flashbots出现了，通过扩展客户端准许套利玩家不直接向内存池披露交易，而是直接向矿工提交特定顺序的交易集合(bundle)，然后矿工模拟独立执行所有bundle并且记录bundle_price，最后按照这个的高低排序，将包含失败交易的bundle移除，剩下的成功bundle按照顺序打包上链。这种方式除了大概率不会进入内存池(这里涉及到了<code>uncle bandit</code>攻击，不展开)，而且失败的交易不上链，同时也减少了套利玩家gas费损失。</p>
+<p>上面的例子是最理想化的情况，真实交易中不可能一点磨损都没有的。扣除各种费用后，利润可能就会变的非常少，那么有没有什么办法能放大利润绝对值呢？</p>
+<p>这里就要引出Defi特有一个东西——闪电贷(Flash Loan)，这个玩意可以让套利玩家无抵押获取近乎无上限的贷款，只要在同一个区块交易中偿还本息即可。或许有小伙伴想：&ldquo;既然如此，借出来钱转到自己账户然后跑路岂不是一夜暴富？&ldquo;哦嚯，借用长者的话来说就是&quot;图样图森破&rdquo;。</p>
+
+
+<p align="center">
+  <img src="https://ata2-img.oss-cn-zhangjiakou.aliyuncs.com/neweditor/69374996-cfd3-4671-9387-0011db5283b3.jpg" alt='wechat'/>
+</p>
+
+
+<p>借贷协议合约以及EVM共同保证了如果不偿还贷款整个交易都会失败回退，也就是原子性(对，就是技术面试八股文常见问题之数据库事务)。</p>
+<h2 id="sandwich-trading">Sandwich Trading</h2>
+<p>三明治攻击又名夹子，如果说上面介绍的还是套利玩家之间的游戏，那么三明治攻击可以说是纯粹的作恶了，真真正正的给普通用户造成损失。</p>
+<p>我们知道针对于同一池子的前一笔交易会对后一笔交易产生影响。为了能够提高交易成功率，一般用户在DEX进行交易时会设定一个滑点(slippage)，滑点就是交易预期价格与交易有效执行价格之间的差异。</p>
+<p><img src="https://ata2-img.oss-cn-zhangjiakou.aliyuncs.com/neweditor/a4b91c4c-49e9-4da9-b586-974de012ea10.jpg" alt=""></p>
+<p>普通用户交易一般都会进入内存池中，如果滑点设定的不合理就会被夹子机器人盯上，首先用一个同向交易将目标价格推高，然后将用户真正的交易排在中间，最后用一个反向交易出售获利——就像三明治一样把用户真实交易夹住，不知不觉中用户的钱就损失了，比如下图：</p>
+<p><img src="https://ata2-img.oss-cn-zhangjiakou.aliyuncs.com/neweditor/fc1e088e-dc52-4e3c-a554-ce435c0cba65.jpg" alt=""></p>
+<p>不过有句名言叫做&quot;当你凝视深渊的时候，深渊也在凝视着你&rdquo;。既然有人用夹子作恶，那么自然也会有人盯上夹子，通过建立有毒代币、有毒池子来对夹子进行一场屠杀，也就是<code>沙门氏菌</code>(Salmonella)，将黑暗森林规则展示的淋漓尽致。对这部分感兴趣的同学可以去看青十五大佬写的《黑暗森林》系列，读起来很爽。</p>
+<p><img src="https://ata2-img.oss-cn-zhangjiakou.aliyuncs.com/neweditor/9b1be40a-c084-4980-9e2e-56c11aab26e4.jpg" alt=""></p>
+<h2 id="liquidations">Liquidations</h2>
+<p>现实生活中，当资不抵债时候就会触发清算，Defi中也是如此。不过Defi中的清算会多出一个叫做&quot;清算人&rdquo;(liquidator)的角色，他们通过扫描区块链上的数据来寻找那些可以被清算的借款人来赚取收益。</p>
+<p>举个栗子，已知当前1个苹果可以换2000个香蕉，小明质押了1个苹果，但DEX为了控制风险，不可能给小明2000个香蕉的额度，而是按照一定比例，比如0.75来发放香蕉，也就是说小明最多能拿到<code>2000*0.75=1500</code>个香蕉。其中0.75就叫做清算阈值，每个DEX的可以自由决定大小。</p>
+<p>小明也怕自己被清算，于是他决定只用1250个香蕉。</p>
+<p>那么小明当前的健康因子就是 <code>1500/1250 = 1.2 &gt; 1</code>。</p>
+<p>过了一段时间1个苹果只能换1600个香蕉了，那么小明能够借香蕉的最大额度就变成了<code>1600*0.75=1200</code>，此时小明的健康因子变成了<code>1200/1250=0.96 &lt; 1</code>，如果小明没及时补充苹果进去让自己的健康因子大于1，那么他将面临被清算的情况。</p>
+<p>小红发现了小明可以被清算，立刻触发了清算协议。这里我们假定清算人可以获得10%的清算激励(liquidationincentive)，并且关闭因子(closefactor)为0.5，那么小红可以帮小明偿还<code>1250*0.5=625</code>个香蕉，从而获得<code>625*1.1/1600=0.43</code>个苹果(为了简单就不计算交易费了)。</p>
+<p>而此时小明则只剩下了625个香蕉和0.57个苹果，健康因子变成了<code>0.57*1600*0.75/625=1.094 &gt; 1</code>。如果香蕉继续贬值，小明很可能面临再次清算……</p>
+<p>清算方式(固定清算|拍卖清算)、清算激励和关闭因子每家DEX略有不同，计算公式也可能有细微差别，但大体思路都差不多。</p>
+<p>如果小红没有香蕉来清算怎么办？结合一下上面闪电贷，是不是觉得发现了空手套白狼的稳赚不赔买卖？冷静冷静——看看文章第一张图片的左下角，会有新的体感。</p>
+<h2 id="关于个体在web3领域赚钱的几种姿势">关于个体在Web3领域赚钱的几种姿势</h2>
+<p>目前我接触的大概有以下几类：</p>
+<ul>
+<li>一级市场交易：挖矿、撸空投、IEO|ICO|IDO、流动性质押、各种白名单、Gitcoin等获得一手token的方式都归到这里，新人建议从撸空投入手，最友好。</li>
+<li>二级市场交易：最简单也最难。简单有个账户就能操作，难在各种技术指标运用、市场情绪观察、交易策略制定、基建竞赛……上面说的MEV就是此类，做过量化交易的同学应该懂。</li>
+<li>知识付费：如果在某个领域比较擅长，运营付费社群也是一个不错的方向。目前我和朋友运营的社群已经到了第三期，内容也在不断更新迭代中。</li>
+<li>做项目：如果有人有资金，做个项目方甚至开个交易所都可以。参加黑客松、拉投资，做好了名利双收。(坏的方向就是资金盘、ZP……遵纪守法人人有责)</li>
+<li>白(黑)帽子：技术大佬专属。</li>
+<li>卖铲子：比如给工作室、工会联盟提供批量操作工具、数据分析工具、反女巫、KYC……</li>
+<li>KOL|MOD：如果运营能力不错，在TW、油管成为大V，然后等项目方来合作，或者做项目的社区MOD也可以拿到收益。</li>
+<li>打工：大多数Web3公司都在国外，比如做链、做基建、做钱包、做安全、做DApp……</li>
+</ul>
+<p>砖已抛出，有不足和错误的地方欢迎指正探讨。</p>
+<h2 id="交个朋友">交个朋友</h2>
+<p>感谢耐心看到这里的同学，为了方便没接触过Defi的同学理解，这里进行了大量的简化并且没有使用代币名称。金融+技术造成了N倍的复杂性，相对完备的金融模型如果技术出现漏洞依然会引发市场恐慌进而造成剧烈波动，从而产生套利机会。(Curve没错说的就是你)</p>
+
+
+<p align="center">
+  <img src="/images/wechat.jpg" alt='wechat'/>
+</p>
+
+
+<h2 id="参考资料">参考资料</h2>
+<p><a href="https://ethereum.org/en/developers/docs/mev/">ETH官网</a></p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/web3/" rel="tag">web3</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/mev/" rel="tag">mev</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E5%9C%A8golang%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%B9%B6%E5%8F%91/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">在Golang中如何使用并发</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/web3%E6%BC%AB%E6%B8%B8%E8%AE%B0mev%E5%A5%97%E5%88%A9%E6%8A%80%E8%83%BD%E6%A0%91/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Web3漫游记——MEV套利技能树</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

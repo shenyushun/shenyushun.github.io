@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>BasicPaxos算法 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="BasicPaxos算法" />
+<meta property="og:description" content="CPA理论
+分布式系统中有个经典的CAP理论，就是说任何分布式系统最多满足一致性(Consistency)，可用性(Availability)，分区容错性(Partition Tolerance)这三者中的两个。
+既然是分布式，必然将节点部署到不同的网络中，而这则会引起一致性问题。想解决一致性，就需要保证每次操作所有节点都成功执行，而这又会降低可用性。既然分区已经是事实，所以工程上应该尽量在保证一致性的前提下提高可用性。
+而一致性又可以分为：
+
+强一致性：上次写什么，下次就一定能读到什么，这需要牺牲可用性。
+弱一致性：并不保证更新后所有线程都能读到最新值，需要一段时间进行同步。
+最终一致性：弱一致性的一种特例。
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/basicpaxos%E7%AE%97%E6%B3%95/" />
+<meta property="article:published_time" content="2018-05-31T16:08:07+00:00" />
+<meta property="article:modified_time" content="2018-05-31T16:08:07+00:00" />
+
+		<meta itemprop="name" content="BasicPaxos算法">
+<meta itemprop="description" content="CPA理论
+分布式系统中有个经典的CAP理论，就是说任何分布式系统最多满足一致性(Consistency)，可用性(Availability)，分区容错性(Partition Tolerance)这三者中的两个。
+既然是分布式，必然将节点部署到不同的网络中，而这则会引起一致性问题。想解决一致性，就需要保证每次操作所有节点都成功执行，而这又会降低可用性。既然分区已经是事实，所以工程上应该尽量在保证一致性的前提下提高可用性。
+而一致性又可以分为：
+
+强一致性：上次写什么，下次就一定能读到什么，这需要牺牲可用性。
+弱一致性：并不保证更新后所有线程都能读到最新值，需要一段时间进行同步。
+最终一致性：弱一致性的一种特例。
+">
+<meta itemprop="datePublished" content="2018-05-31T16:08:07&#43;00:00" />
+<meta itemprop="dateModified" content="2018-05-31T16:08:07&#43;00:00" />
+<meta itemprop="wordCount" content="127">
+
+
+
+<meta itemprop="keywords" content="算法," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">BasicPaxos算法</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-05-31T16:08:07Z">2018-05-31</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<h2 id="cpa理论">CPA理论</h2>
+<p>分布式系统中有个经典的CAP理论，就是说任何分布式系统最多满足一致性(Consistency)，可用性(Availability)，分区容错性(Partition Tolerance)这三者中的两个。</p>
+<p>既然是分布式，必然将节点部署到不同的网络中，而这则会引起一致性问题。想解决一致性，就需要保证每次操作所有节点都成功执行，而这又会降低可用性。既然分区已经是事实，所以工程上应该尽量在保证一致性的前提下提高可用性。</p>
+<p>而一致性又可以分为：</p>
+<ul>
+<li>强一致性：上次写什么，下次就一定能读到什么，这需要牺牲可用性。</li>
+<li>弱一致性：并不保证更新后所有线程都能读到最新值，需要一段时间进行同步。</li>
+<li>最终一致性：弱一致性的一种特例。</li>
+</ul>
+<h2 id="二段提交和三段提交">二段提交和三段提交</h2>
+<p><strong>多个节点之间保持一致性的关键在于让当前节点知道其他节点的执行状态</strong>，所以最容易想到的就是引入一个“协调者”，于是出现了二段提交协议(Two Phase Commitment Protocol)和三段提交协议(Three Phase Commitment Protocol)。</p>
+<p>二段提交可以分成：</p>
+<h3 id="请求阶段">请求阶段</h3>
+<ol>
+<li>协调者节点向所有参与者节点询问是否可以执行提交操作(vote)，并开始等待各参与者节点的响应。</li>
+<li>参与者节点执行询问发起为止的所有事务操作，并将Undo信息和Redo信息写入日志。（注意：若成功这里其实每个参与者已经执行了事务操作）</li>
+<li>各参与者节点响应协调者节点发起的询问。如果参与者节点的事务操作实际执行成功，则它返回一个”同意”消息；如果参与者节点的事务操作实际执行失败，则它返回一个”中止”消息。</li>
+</ol>
+<h3 id="提交阶段">提交阶段</h3>
+<ol>
+<li>如果协调者节点从所有参与者节点获得的相应消息都为”同意”时:
+<ol>
+<li>协调者节点向所有参与者节点发出”正式提交(commit)”的请求。</li>
+<li>参与者节点正式完成操作，并释放在整个事务期间内占用的资源。</li>
+<li>参与者节点向协调者节点发送”完成”消息。</li>
+<li>协调者节点受到所有参与者节点反馈的”完成”消息后，完成事务。</li>
+</ol>
+</li>
+<li>如果任一参与者节点在第一阶段返回的响应消息为”中止”，或者协调者节点在第一阶段的询问超时之前无法获取所有参与者节点的响应消息时：
+<ol>
+<li>协调者节点向所有参与者节点发出”回滚操作(rollback)”的请求。</li>
+<li>参与者节点利用之前写入的Undo信息执行回滚，并释放在整个事务期间内占用的资源。</li>
+<li>参与者节点向协调者节点发送”回滚完成”消息。</li>
+<li>协调者节点受到所有参与者节点反馈的”回滚完成”消息后，取消事务。</li>
+</ol>
+</li>
+</ol>
+<p>但这种方式存在几个问题：</p>
+<ol>
+<li>同步阻塞问题。执行过程中，所有参与节点都是事务阻塞型的。当参与者占<strong>有公共资源</strong>时，其他第三方节点访问公共资源不得不处于阻塞状态。</li>
+<li>单点故障。由于协调者的重要性，一旦协调者发生故障。参与者会一直阻塞下去。尤其在第二阶段，协调者发生故障，那么所有的参与者还都处于锁定事务资源的状态中，而无法继续完成事务操作。（如果是协调者挂掉，可以重新选举一个协调者，但是无法解决因为协调者宕机导致的参与者处于阻塞状态的问题）</li>
+<li>数据不一致。在二阶段提交的阶段二中，当协调者向参与者发送commit请求之后，发生了局部网络异常或者在发送commit请求过程中协调者发生了故障，这回导致只有一部分参与者接受到了commit请求。而在这部分参与者接到commit请求之后就会执行commit操作。但是其他部分未接到commit请求的机器则无法执行事务提交。于是整个分布式系统便出现了数据部一致性的现象。</li>
+<li>二阶段无法解决的问题：协调者再发出commit消息之后宕机，而唯一接收到这条消息的参与者同时也宕机了。那么即使协调者通过选举协议产生了新的协调者，这条事务的状态也是不确定的，没人知道事务是否被已经提交。</li>
+</ol>
+<p>而三段提交则在二段提交的基础上增加了一个阶段，分为<code>CanCommit</code>、<code>PreCommit</code>、<code>DoCommit</code>三个阶段，并且参与者也引入了超时机制，而二段提交中只有协调者才有超时机制，这样解<strong>决了阻塞问题</strong>。</p>
+<h3 id="cancommit阶段">CanCommit阶段</h3>
+<p>3PC的CanCommit阶段其实和2PC的准备阶段很像。协调者向参与者发送commit请求，参与者如果可以提交就返回Yes响应，否则返回No响应。</p>
+<ol>
+<li><em>事务询问</em> 协调者向参与者发送CanCommit请求。询问是否可以执行事务提交操作。然后开始等待参与者的响应。</li>
+<li><em>响应反馈</em> 参与者接到CanCommit请求之后，正常情况下，如果其自身认为可以顺利执行事务，则返回Yes响应，并进入预备状态。否则反馈No</li>
+</ol>
+<h3 id="precommit阶段">PreCommit阶段</h3>
+<p>协调者根据参与者的反应情况来决定是否可以执行事务的PreCommit操作。根据响应情况，有以下两种可能。</p>
+<ol>
+<li>
+<p>假如协调者从所有的参与者获得的反馈都是Yes响应，那么就会执行事务的预执行。</p>
+<ol>
+<li><em>发送预提交请求</em> 协调者向参与者发送PreCommit请求，并进入Prepared阶段。</li>
+<li><em>事务预提交</em> 参与者接收到PreCommit请求后，会执行事务操作，并将undo和redo信息记录到事务日志中。</li>
+<li><em>响应反馈</em> 如果参与者成功的执行了事务操作，则返回ACK响应，同时开始等待最终指令。</li>
+</ol>
+</li>
+<li>
+<p>假如有任何一个参与者向协调者发送了No响应，或者等待超时之后，协调者都没有接到参与者的响应，那么就执行事务的中断。</p>
+<ol>
+<li><em>发送中断请求</em> 协调者向所有参与者发送abort请求。</li>
+<li><em>中断事务</em> 参与者收到来自协调者的abort请求之后（或超时之后，仍未收到协调者的请求），执行事务的中断。</li>
+</ol>
+</li>
+</ol>
+<h3 id="docommit阶段">DoCommit阶段</h3>
+<p>该阶段进行真正的事务提交，也可以分为以下两种情况。</p>
+<ol>
+<li>
+<p>执行提交</p>
+<ol>
+<li><em>发送提交请求</em> 协调接收到参与者发送的ACK响应，那么他将从预提交状态进入到提交状态。并向所有参与者发送DoCommit请求。</li>
+<li><em>事务提交</em> 参与者接收到DoCommit请求之后，执行正式的事务提交。并在完成事务提交之后释放所有事务资源。</li>
+<li><em>响应反馈</em> 事务提交完之后，向协调者发送Ack响应。</li>
+<li><em>完成事务</em> 协调者接收到所有参与者的ack响应之后，完成事务。</li>
+</ol>
+</li>
+<li>
+<p>中断事务 协调者没有接收到参与者发送的ACK响应（可能是接受者发送的不是ACK响应，也可能响应超时），那么就会执行中断事务。</p>
+<ol>
+<li><em>发送中断请求</em> 协调者向所有参与者发送abort请求</li>
+<li><em>事务回滚</em> 参与者接收到abort请求之后，利用其在阶段二记录的undo信息来执行事务的回滚操作，并在完成回滚之后释放所有的事务资源。</li>
+<li><em>反馈结果</em> 参与者完成事务回滚之后，向协调者发送ACK消息</li>
+<li><em>中断事务</em> 协调者接收到参与者反馈的ACK消息之后，执行事务的中断。</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>在DoCommit阶段，<strong>如果参与者无法及时接收到来自协调者的DoCommit或者rebort请求时，会在等待超时之后，会继续进行事务的提交。</strong>（其实这个应该是基于概率来决定的，当进入第三阶段时，说明参与者在第二阶段已经收到了PreCommit请求，那么协调者产生PreCommit请求的前提条件是他在第二阶段开始之前，收到所有参与者的CanCommit响应都是Yes。（一旦参与者收到了PreCommit，意味他知道大家其实都同意修改了）所以，一句话概括就是，当进入第三阶段时，由于网络超时等原因，虽然参与者没有收到commit或者abort响应，但是他有理由相信：成功提交的几率很大。 ）</p>
+</blockquote>
+<p>以上关于二段提交和三段提交的描述摘自<a href="http://www.hollischuang.com/archives/681">这里</a>，核心一点就是<strong>不论上述中的哪个方法，都没解决数据一致性的问题</strong>。</p>
+<p>另外我个人有个疑问——<strong>为什么二段提交是阻塞的而三段提交引入timeout就是非阻塞的了呢？换言之，为何二段提交中参与者不引入timeout机制？</strong></p>
+<p>猜测如下：</p>
+<p>如果二段提交中参与者引入超时机制，这里就假设超时后回滚。当提交阶段某些机器收到了协调者发来的提交确认，而某些参与者超时直接进行回滚，则会导致数据不一致。也就所说，阻塞问题缓解了，但一致性问题却更恶化了。</p>
+<p>而三段提交中，即便DoCommit阶段参与者没收到协调者发来的请求，也有极大的概率认为这个事务应该被提交，进而提高了一致性。</p>
+<p>以上纯属猜测，欢迎拍砖。</p>
+<h2 id="basicpaxos算法">BasicPaxos算法</h2>
+<p>Paxos算法有很多变种，这里记录最基本的BasicPaxos。</p>
+<p>Paxos算法中涉及到３种角色：</p>
+<h4 id="proposer提案者">Proposer:提案者</h4>
+<p>Proposer可以有多个，Proposer提出议案(value)。所谓value，在工程中可以是任何操作，例如“修改某个变量的值为某个值”、“设置当前primary为某个节点”等等。Paxos协议中统一将这些操作抽象为value。不同的Proposer可以提出不同的甚至矛盾的value，例如某个Proposer提议“将变量 X 设置为1”，另一个Proposer提议“将变量X设置为2”，但对同一轮Paxos过程，最多只有一个value被批准。</p>
+<h4 id="acceptor批准者">Acceptor:批准者</h4>
+<p>Acceptor有N个，Proposer提出的value必须获得超过半数(N/2+1)的Acceptor批准后才能通过。Acceptor之间完全对等独立。</p>
+<h4 id="learner学习者">Learner:学习者</h4>
+<p>Learner学习被批准的value。所谓学习就是通过读取各个Proposer对value的选择结果，如果某个value被超过半数Proposer通过，则Learner学习到了这个value。这里类似Quorum议会机制，某个value需要获得W=N/2 + 1的Acceptor批准，Learner需要至少读取N/2+1个Accpetor，至多读取N个Acceptor的结果后，能学习到一个通过的value。</p>
+<p>算法中涉及的主要是Proposer和Acceptor，简单说逻辑如下：</p>
+<p>准备阶段</p>
+<ol>
+<li>proposer向网络内超过半数的acceptor发送prepare消息</li>
+<li>acceptor正常情况下回复promise消息</li>
+</ol>
+<p>选举阶段</p>
+<ol>
+<li>在有足够多acceptor回复promise消息时，proposer发送accept消息</li>
+<li>正常情况下acceptor回复accepted消息</li>
+</ol>
+<p>我们假设最简单的情况2个Proposer和3个Acceptor，首先P1、P2分别向A1、A2、A3发送<code>perpare</code>请求，由于网络原因，A3接收不到P1的消息，A1接收不到P2的消息。
+<img src="http://mypic-1252424367.coshk.myqcloud.com/paxos/1.png" alt="1"></p>
+<p>Acceptor接收到请求后回复<code>promise</code>信息，这里我们假定A2先收到了P1的消息后收到P2的消息，所以A2此时存储的提案号是2：
+<img src="http://mypic-1252424367.coshk.myqcloud.com/paxos/2.png" alt="2"></p>
+<p>接下来进入选举阶段，Proposer分别向Acceptor提交<code>accept</code>请求并带上value，A1和A3这里不细说，分别存储了相应的value后返回<code>accepted</code>，重点是A2。由于A2中存储的提案号码大于P1发送的accept中的提案号1，所以返回了reject。而P2已经获得了大多数的accepted，达成了一致。
+<img src="http://mypic-1252424367.coshk.myqcloud.com/paxos/3.png" alt="3"></p>
+<p>由于P1没接受到大多数的accpeted，便增加提案号发送prepare消息：
+<img src="http://mypic-1252424367.coshk.myqcloud.com/paxos/4.png" alt="4"></p>
+<p>此时A1和A2发现新提案号大于自己以存在的提案号，于是更新并返回已经存在的提案号和对应的value。</p>
+<p>接下来，P1收到了<code>promise(1,p1)</code>和<code>promise(2,p2)</code>，2大于1,所以选择p2为接下来发送提案的值：
+<img src="http://mypic-1252424367.coshk.myqcloud.com/paxos/5.png" alt="5"></p>
+<p>A1和A2发现P1的提案号和存储的一致，于是返回<code>accepted</code>消息，此时P1也达成了一致。</p>
+<p>一个简单的BasicPaxos算法流程就结束了，但是真是环境多个节点时，很有可能出现&quot;活锁(live lock)&ldquo;的问题，即提案号不停增长但始终无法达成一致。于是便增加了一个新角色&rsquo;leader&rsquo;，multi paxos算法诞生了。但是呢，谁能保证选leader时候不会活锁呢？那就加个随机计时器吧——于是，raft算法诞生了。</p>
+<p>关于raft，那就又是另外一个故事了。</p>
+<hr>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://mp.weixin.qq.com/s/RkjtbHZN9ZDV7z0RhWS9yQ">https://mp.weixin.qq.com/s/RkjtbHZN9ZDV7z0RhWS9yQ</a></li>
+<li><a href="http://iunknown.iteye.com/blog/2246484?from=message&amp;isappinstalled=0">http://iunknown.iteye.com/blog/2246484?from=message&amp;isappinstalled=0</a></li>
+</ul>
+<p>Lamport的两篇论文《The Part-Time Parliament》和《Paxos Made Simple》</p>
+<p>视频《paxos和分布式系统》，这个很详细建议多看几遍。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E5%9F%BA%E4%BA%8Edocker%E7%9A%84%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">基于Docker的以太坊开发环境搭建</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-goroutines/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">GO语言学习笔记-Goroutines</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

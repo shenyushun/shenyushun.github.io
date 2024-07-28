@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>决策树 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="决策树" />
+<meta property="og:description" content="
+决策树是机器学习中一种简单明了的分类算法，用程序语言描述就是if...elif...else...，关键问题则是如何选择合适的特征对数据集进行切割，常见算法有： ID3、C4.5、CART等。
+今天主要记录一下ID3这个算法，想使用这个算法首先要了解信息增益，想了解信息增益则要先明白什么是&quot;熵&rdquo;。熵描述了一个系统的混乱复杂程度，有一个理论叫做&quot;熵增加&rdquo;，含义就是一个没有外力干涉的系统混乱程度总是增加的，比如一个房间如果没人打扫的话只会越来越混乱，而不会自己变得整洁。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E5%86%B3%E7%AD%96%E6%A0%91/" />
+<meta property="article:published_time" content="2017-10-17T20:55:02+00:00" />
+<meta property="article:modified_time" content="2017-10-17T20:55:02+00:00" />
+
+		<meta itemprop="name" content="决策树">
+<meta itemprop="description" content="
+决策树是机器学习中一种简单明了的分类算法，用程序语言描述就是if...elif...else...，关键问题则是如何选择合适的特征对数据集进行切割，常见算法有： ID3、C4.5、CART等。
+今天主要记录一下ID3这个算法，想使用这个算法首先要了解信息增益，想了解信息增益则要先明白什么是&quot;熵&rdquo;。熵描述了一个系统的混乱复杂程度，有一个理论叫做&quot;熵增加&rdquo;，含义就是一个没有外力干涉的系统混乱程度总是增加的，比如一个房间如果没人打扫的话只会越来越混乱，而不会自己变得整洁。">
+<meta itemprop="datePublished" content="2017-10-17T20:55:02&#43;00:00" />
+<meta itemprop="dateModified" content="2017-10-17T20:55:02&#43;00:00" />
+<meta itemprop="wordCount" content="420">
+
+
+
+<meta itemprop="keywords" content="python,机器学习,算法," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">决策树</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2017-10-17T20:55:02Z">2017-10-17</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="category">机器学习</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<!-- raw HTML omitted -->
+<p>决策树是机器学习中一种简单明了的分类算法，用程序语言描述就是<code>if...elif...else...</code>，关键问题则是如何选择合适的特征对数据集进行切割，常见算法有： ID3、C4.5、CART等。</p>
+<p>今天主要记录一下ID3这个算法，想使用这个算法首先要了解信息增益，想了解信息增益则要先明白什么是&quot;熵&rdquo;。熵描述了一个系统的混乱复杂程度，有一个理论叫做&quot;熵增加&rdquo;，含义就是一个没有外力干涉的系统混乱程度总是增加的，比如一个房间如果没人打扫的话只会越来越混乱，而不会自己变得整洁。</p>
+<p>计算熵的公式如下：</p>
+<p>$$H=-\sum_{i=i}^{n}P(x_i)log_2P(x_i)$$</p>
+<p>其中\(P(x_i)\) 表示P发生的概率。</p>
+<p>举个栗子，比如我们有下面这些数据：</p>
+<table>
+<thead>
+<tr>
+<th>饮料</th>
+<th>肉类</th>
+<th>水果</th>
+<th>闹肚子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>牛奶</td>
+<td>牛肉</td>
+<td>香蕉</td>
+<td>否</td>
+</tr>
+<tr>
+<td>可乐</td>
+<td>鸭肉</td>
+<td>苹果</td>
+<td>否</td>
+</tr>
+<tr>
+<td>可乐</td>
+<td>鸡肉</td>
+<td>香蕉</td>
+<td>是</td>
+</tr>
+<tr>
+<td>牛奶</td>
+<td>猪肉</td>
+<td>苹果</td>
+<td>否</td>
+</tr>
+<tr>
+<td>咖啡</td>
+<td>鱼肉</td>
+<td>香蕉</td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+<p>上面记录了食物和是否闹肚子之间的关系，那么闹肚子的概率<code>2/5</code>不闹肚子的概率是<code>3/5</code>，所以整个样本的熵就是：</p>
+<p>$$-{2 \over 5}log_2{2 \over 5} - {3 \over 5}log_2{3 \over 5}\approx0.971$$</p>
+<p>当水果吃香蕉的时候，闹肚子的概率为<code>2/3</code>不闹肚子的概率是<code>1/3</code>，所以当吃香蕉时候条件熵为： $$-{2 \over 3}log_2{2 \over 3} - {1 \over 3}log_2{1 \over 3}\approx0.918$$</p>
+<p>同理，吃苹果时候从来不闹肚子，所以条件熵为0。</p>
+<p>那么在特征&quot;水果&quot;上的信息增益就是：</p>
+<p><code>0.971 - ((3/5)*0.918+(2/5)*0) = 0.42</code></p>
+<p>注意计算信息增益时候需要将 <strong>条件熵乘以这个情形发生的概率</strong> 。</p>
+<p>同理可以求得特征&quot;饮料&quot;的信息增益：0.571和特征&quot;肉类&quot;的信息增益：0.971。</p>
+<p><strong>选择信息增益最大的特征来分割数据</strong>，所以选肉类。</p>
+<p>计算熵的代码如下:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> math <span style="color:#f92672">import</span> log
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_dataset</span>():
+    <span style="color:#e6db74">&#34;&#34;&#34;构造数据集&#34;&#34;&#34;</span>
+    <span style="color:#66d9ef">return</span> [
+        [<span style="color:#e6db74">&#39;milk&#39;</span>,<span style="color:#e6db74">&#39;beef&#39;</span>,<span style="color:#e6db74">&#39;banana&#39;</span>,<span style="color:#e6db74">&#39;N&#39;</span>],
+        [<span style="color:#e6db74">&#39;coca&#39;</span>,<span style="color:#e6db74">&#39;fish&#39;</span>,<span style="color:#e6db74">&#39;apple&#39;</span>,<span style="color:#e6db74">&#39;N&#39;</span>],
+        [<span style="color:#e6db74">&#39;coca&#39;</span>,<span style="color:#e6db74">&#39;beef&#39;</span>,<span style="color:#e6db74">&#39;banana&#39;</span>,<span style="color:#e6db74">&#39;Y&#39;</span>],
+        [<span style="color:#e6db74">&#39;milk&#39;</span>,<span style="color:#e6db74">&#39;pork&#39;</span>,<span style="color:#e6db74">&#39;apple&#39;</span>,<span style="color:#e6db74">&#39;N&#39;</span>],
+        [<span style="color:#e6db74">&#39;coffee&#39;</span>,<span style="color:#e6db74">&#39;fish&#39;</span>,<span style="color:#e6db74">&#39;banana&#39;</span>,<span style="color:#e6db74">&#39;Y&#39;</span>],
+    ],[<span style="color:#e6db74">&#39;drink&#39;</span>,<span style="color:#e6db74">&#39;meat&#39;</span>,<span style="color:#e6db74">&#39;fruit&#39;</span>]
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">split_dataset</span>(dataset,col,val):
+    <span style="color:#e6db74">&#34;&#34;&#34;切分col列值为val的数据集&#34;&#34;&#34;</span>
+    res_dataset <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> each <span style="color:#f92672">in</span> dataset:
+        <span style="color:#66d9ef">if</span> each[col] <span style="color:#f92672">==</span> val:
+            temp <span style="color:#f92672">=</span> each[:]
+            temp<span style="color:#f92672">.</span>remove(val)
+            res_dataset<span style="color:#f92672">.</span>append(temp)
+    <span style="color:#66d9ef">return</span> res_dataset
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">calc_shannon_ent</span>(dataset):
+    <span style="color:#e6db74">&#34;&#34;&#34;计算熵&#34;&#34;&#34;</span>
+    count <span style="color:#f92672">=</span> len(dataset)
+    labels <span style="color:#f92672">=</span> {}
+    <span style="color:#66d9ef">for</span> each <span style="color:#f92672">in</span> dataset:
+        label <span style="color:#f92672">=</span> each[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+        <span style="color:#66d9ef">if</span> label <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> labels<span style="color:#f92672">.</span>keys():
+            labels[label] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        labels[label] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+    ent <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">for</span> one <span style="color:#f92672">in</span> labels<span style="color:#f92672">.</span>keys():
+        prod <span style="color:#f92672">=</span> labels[one] <span style="color:#f92672">/</span> count
+        temp <span style="color:#f92672">=</span> prod <span style="color:#f92672">*</span> log(prod, <span style="color:#ae81ff">2</span>)
+        ent <span style="color:#f92672">+=</span> temp
+    <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span>ent
+
+
+dataset,labels <span style="color:#f92672">=</span> create_dataset()
+<span style="color:#66d9ef">print</span>(calc_shannon_ent(dataset))
+sub_data <span style="color:#f92672">=</span> split_dataset(dataset,<span style="color:#ae81ff">2</span>,<span style="color:#e6db74">&#39;banana&#39;</span>)
+<span style="color:#66d9ef">print</span>(sub_data)
+<span style="color:#66d9ef">print</span>(calc_shannon_ent(sub_data))
+</code></pre></div><p>输出如下：</p>
+<pre><code>0.9709505944546686
+[['milk', 'beef', 'N'], ['coca', 'chicken', 'Y'], ['coffee', 'fish', 'Y']]
+0.9182958340544896
+</code></pre><p>接下来就是计算信息增益：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">choose_feature2split</span>(dataset):
+    <span style="color:#e6db74">&#34;&#34;&#34;返回信息增益最高的特征是第几列&#34;&#34;&#34;</span>
+    best_infogain <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    best_feature_col <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+    all_count <span style="color:#f92672">=</span> len(dataset)
+    base_ent <span style="color:#f92672">=</span> calc_shannon_ent(dataset) <span style="color:#75715e"># 整个样本的熵</span>
+    feature_num <span style="color:#f92672">=</span> len(dataset[<span style="color:#ae81ff">0</span>]) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#75715e"># 这里有2个前提:数据集中列数相同，且最后一列为标签</span>
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(feature_num):
+        feat_list <span style="color:#f92672">=</span> set([each[i] <span style="color:#66d9ef">for</span> each <span style="color:#f92672">in</span> dataset]) <span style="color:#75715e"># 得到某特征有多少不同的值</span>
+        ent_temp <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">for</span> feat <span style="color:#f92672">in</span> feat_list:
+            sub_dataset <span style="color:#f92672">=</span> split_dataset(dataset,i,feat)
+            prob <span style="color:#f92672">=</span> len(sub_dataset) <span style="color:#f92672">/</span> all_count <span style="color:#75715e"># 计算这种条件发生的概率</span>
+            ent_temp <span style="color:#f92672">+=</span> prob <span style="color:#f92672">*</span> calc_shannon_ent(sub_dataset)
+        tmp_infogain <span style="color:#f92672">=</span> base_ent <span style="color:#f92672">-</span> ent_temp
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;col:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">,gain:</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (i,tmp_infogain))
+        <span style="color:#66d9ef">if</span> tmp_infogain <span style="color:#f92672">&gt;</span> best_infogain:
+            best_infogain <span style="color:#f92672">=</span> tmp_infogain
+            best_feature_col <span style="color:#f92672">=</span> i
+    <span style="color:#66d9ef">return</span> best_feature_col
+</code></pre></div><p>输出如下：</p>
+<pre><code>col:0,gain:0.5709505944546686
+col:1,gain:0.9709505944546686
+col:2,gain:0.4199730940219749
+</code></pre><p>ID3算法优点就是理解起来比较容易，缺点则是容易造成 <strong>过拟合</strong> 问题，另外在某些极端情况下，比如某个特征每一行值都独一无二(比如例子中的肉类)，这个算法倾向于优先根据此特征划分，效率极差。而且这个算法没法处理连续型数据，比较适合 <strong>类别较少的离散数据</strong>。</p>
+<p>也因为如此，所以C4.5算法中使用 <em><strong>信息增益率</strong></em> 替换了信息增益判断，具体细节以后再写。接下来构造树：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_tree</span>(dataset,labels):
+    cls_list <span style="color:#f92672">=</span> [each[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#66d9ef">for</span> each <span style="color:#f92672">in</span> dataset] <span style="color:#75715e"># 前提是最后一列为标签</span>
+    <span style="color:#66d9ef">if</span> len(set(cls_list)) <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+        <span style="color:#75715e"># 当标签只剩一种时候返回</span>
+        <span style="color:#66d9ef">return</span> cls_list[<span style="color:#ae81ff">0</span>]
+    best_feat_col <span style="color:#f92672">=</span> choose_feature2split(dataset)
+    best_feat_label <span style="color:#f92672">=</span> labels[best_feat_col]
+    tree <span style="color:#f92672">=</span> {best_feat_label:{}}
+    <span style="color:#66d9ef">for</span> val <span style="color:#f92672">in</span> set([each[best_feat_col] <span style="color:#66d9ef">for</span> each <span style="color:#f92672">in</span> dataset]):
+        sub_labels <span style="color:#f92672">=</span> labels[:]
+        <span style="color:#66d9ef">del</span>(sub_labels[best_feat_col])
+        tree[best_feat_label][val] <span style="color:#f92672">=</span> create_tree(split_dataset(dataset,best_feat_col,val),sub_labels)
+    <span style="color:#66d9ef">return</span> tree
+</code></pre></div><p>输出如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">dataset,labels <span style="color:#f92672">=</span> create_dataset()
+tree <span style="color:#f92672">=</span> create_tree(dataset,labels)
+
+{<span style="color:#e6db74">&#39;meat&#39;</span>: {<span style="color:#e6db74">&#39;beef&#39;</span>: <span style="color:#e6db74">&#39;N&#39;</span>, <span style="color:#e6db74">&#39;chicken&#39;</span>: <span style="color:#e6db74">&#39;Y&#39;</span>, <span style="color:#e6db74">&#39;duck&#39;</span>: <span style="color:#e6db74">&#39;N&#39;</span>, <span style="color:#e6db74">&#39;fish&#39;</span>: <span style="color:#e6db74">&#39;Y&#39;</span>, <span style="color:#e6db74">&#39;pork&#39;</span>: <span style="color:#e6db74">&#39;N&#39;</span>}}
+</code></pre></div><p>可以看出，根据上面示例构造出的决策树仅仅根据<code>meat</code>来决定。</p>
+<p>将原始数据集修改一下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_dataset</span>():
+    <span style="color:#66d9ef">return</span> [
+        [<span style="color:#e6db74">&#39;milk&#39;</span>, <span style="color:#e6db74">&#39;beef&#39;</span>, <span style="color:#e6db74">&#39;banana&#39;</span>, <span style="color:#e6db74">&#39;N&#39;</span>],
+        [<span style="color:#e6db74">&#39;coca&#39;</span>, <span style="color:#e6db74">&#39;fish&#39;</span>, <span style="color:#e6db74">&#39;apple&#39;</span>, <span style="color:#e6db74">&#39;N&#39;</span>],
+        [<span style="color:#e6db74">&#39;coca&#39;</span>, <span style="color:#e6db74">&#39;beef&#39;</span>, <span style="color:#e6db74">&#39;banana&#39;</span>, <span style="color:#e6db74">&#39;Y&#39;</span>],
+        [<span style="color:#e6db74">&#39;milk&#39;</span>, <span style="color:#e6db74">&#39;pork&#39;</span>, <span style="color:#e6db74">&#39;apple&#39;</span>, <span style="color:#e6db74">&#39;Y&#39;</span>],
+        [<span style="color:#e6db74">&#39;coffee&#39;</span>, <span style="color:#e6db74">&#39;fish&#39;</span>, <span style="color:#e6db74">&#39;banana&#39;</span>, <span style="color:#e6db74">&#39;Y&#39;</span>],
+    ],[<span style="color:#e6db74">&#39;drink&#39;</span>,<span style="color:#e6db74">&#39;meat&#39;</span>,<span style="color:#e6db74">&#39;fruit&#39;</span>]
+</code></pre></div><p>可以得到下面这中决策树：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">{<span style="color:#e6db74">&#39;drink&#39;</span>: {<span style="color:#e6db74">&#39;coca&#39;</span>: {<span style="color:#e6db74">&#39;meat&#39;</span>: {<span style="color:#e6db74">&#39;beef&#39;</span>: <span style="color:#e6db74">&#39;Y&#39;</span>, <span style="color:#e6db74">&#39;fish&#39;</span>: <span style="color:#e6db74">&#39;N&#39;</span>}},
+           <span style="color:#e6db74">&#39;coffee&#39;</span>: <span style="color:#e6db74">&#39;Y&#39;</span>,
+           <span style="color:#e6db74">&#39;milk&#39;</span>: {<span style="color:#e6db74">&#39;meat&#39;</span>: {<span style="color:#e6db74">&#39;beef&#39;</span>: <span style="color:#e6db74">&#39;N&#39;</span>, <span style="color:#e6db74">&#39;pork&#39;</span>: <span style="color:#e6db74">&#39;Y&#39;</span>}}}}
+</code></pre></div><p>接下来进行分类：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">classify</span>(tree, labels, test_vec):
+    root_label <span style="color:#f92672">=</span> list(tree<span style="color:#f92672">.</span>keys())[<span style="color:#ae81ff">0</span>]  <span style="color:#75715e"># py3中keys是一个生成器</span>
+    sub_tree <span style="color:#f92672">=</span> tree[root_label]
+    feat_col <span style="color:#f92672">=</span> labels<span style="color:#f92672">.</span>index(root_label)  <span style="color:#75715e"># 找到特征是第几列</span>
+    <span style="color:#66d9ef">for</span> key <span style="color:#f92672">in</span> sub_tree<span style="color:#f92672">.</span>keys():
+        <span style="color:#66d9ef">if</span> test_vec[feat_col] <span style="color:#f92672">==</span> key:
+            <span style="color:#66d9ef">if</span> isinstance(sub_tree[key], dict):
+                cls_label <span style="color:#f92672">=</span> classify(sub_tree[key], labels, test_vec)  <span style="color:#75715e"># 判断节点</span>
+            <span style="color:#66d9ef">else</span>:
+                cls_label <span style="color:#f92672">=</span> sub_tree[key]  <span style="color:#75715e"># 叶子节点</span>
+    <span style="color:#66d9ef">return</span> cls_label
+
+<span style="color:#66d9ef">print</span>(classify(tree,labels,[<span style="color:#e6db74">&#39;milk&#39;</span>,<span style="color:#e6db74">&#39;beef&#39;</span>,<span style="color:#e6db74">&#39;apple&#39;</span>]))
+N
+</code></pre></div><p>输出了N，但如果我们把beef改成fish这种不在决策树中的情况，则会报错。这点也说明了这个算法的过拟合缺点。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/python%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB6/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">python验证码识别6:kNN</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/10%E5%88%86%E9%92%9F%E5%85%A5%E9%97%A8pandas/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">10分钟入门Pandas</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

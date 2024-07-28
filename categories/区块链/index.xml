@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>区块链 on Hi~Roy!</title>
+    <link>/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/</link>
+    <description>Recent content in 区块链 on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 10 Oct 2018 15:26:16 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>IPFS初窥3</title>
+      <link>/posts/ipfs%E5%88%9D%E7%AA%A53/</link>
+      <pubDate>Wed, 10 Oct 2018 15:26:16 +0000</pubDate>
+      
+      <guid>/posts/ipfs%E5%88%9D%E7%AA%A53/</guid>
+      <description>&lt;p&gt;在&lt;a href=&#34;http://www.hi-roy.com/2018/09/19/IPFS%E5%88%9D%E7%AA%A52/&#34;&gt;上一篇文章&lt;/a&gt;中记录到了IPFS的&lt;code&gt;BitSwap&lt;/code&gt;协议，今天接着往下看关于&lt;code&gt;Object&lt;/code&gt;的部分。&lt;/p&gt;
+&lt;h2 id=&#34;merkle-dag&#34;&gt;Merkle DAG&lt;/h2&gt;
+&lt;p&gt;Merkle DAG是IPFS核心概念之一，在Git的数据结构上进行了改造。理解Merkle DAG之前先来了解下&lt;a href=&#34;https://en.wikipedia.org/wiki/Merkle_tree&#34;&gt;Merkle Tree&lt;/a&gt;。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>IPFS初窥2</title>
+      <link>/posts/ipfs%E5%88%9D%E7%AA%A52/</link>
+      <pubDate>Wed, 19 Sep 2018 10:52:06 +0000</pubDate>
+      
+      <guid>/posts/ipfs%E5%88%9D%E7%AA%A52/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;在&lt;a href=&#34;http://www.hi-roy.com/2018/09/04/IPFS%E5%88%9D%E7%AA%A5/&#34;&gt;上一篇文章&lt;/a&gt;中初步介绍了IPFS的基本概念和使用方法，今天更深入一些了解IPFS的设计理念。&lt;/p&gt;
+&lt;p&gt;根据 &lt;strong&gt;第三版&lt;/strong&gt; 白皮书，IPFS体系可以分为7层：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;身份：负责节点的身份生成和认证。&lt;/li&gt;
+&lt;li&gt;网络：负责节点间的网络连接，可以配置使用各种网络协议。&lt;/li&gt;
+&lt;li&gt;路由：维护路由信息来找出特定的节点和对象。默认使用DHT，可以替换。&lt;/li&gt;
+&lt;li&gt;交换：一个新型的块交换协议(BitSwap)来高效管理块分发。有点类似超市，对数据复制有激励。交易策略可以替换。&lt;/li&gt;
+&lt;li&gt;对象：带有链接的、内容寻址的不可变对象组成的Merkle DAG，可以代表任意数据结构。比如文件层级和通信系统。&lt;/li&gt;
+&lt;li&gt;文件：受到Git启发的版本控制文件层级系统。&lt;/li&gt;
+&lt;li&gt;命名：自验证的可变命名系统。&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
+    <item>
+      <title>IPFS初窥</title>
+      <link>/posts/ipfs%E5%88%9D%E7%AA%A5/</link>
+      <pubDate>Tue, 04 Sep 2018 10:41:30 +0000</pubDate>
+      
+      <guid>/posts/ipfs%E5%88%9D%E7%AA%A5/</guid>
+      <description>&lt;p&gt;虽然区块链有很多令人兴奋的特性，但是也有其固有的缺点。比如，文件或者长度较长的文本信息就不适合存储在链上。那么如何解决这个缺点呢？一个解决方案就是IPFS(Interplanetary File System)——星际文件系统。&lt;/p&gt;
+&lt;p&gt;本文作为简介篇不打算涉及网络及数据结构相关知识(比如什么是协议、什么是树、什么是图……)，不过我相信各位看官既然能找到本文网络基础应该不是问题。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>200行GO代码实现区块链3</title>
+      <link>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE3/</link>
+      <pubDate>Fri, 22 Jun 2018 17:35:36 +0000</pubDate>
+      
+      <guid>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE3/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://medium.com/@mycoralhealth/code-your-own-blockchain-mining-algorithm-in-go-82c6a71aba1f&#34;&gt;原文&lt;/a&gt;，阅读之前请先看&lt;a href=&#34;http://www.hi-roy.com/2018/05/18/200%E8%A1%8CGO%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE1/&#34;&gt;200行GO代码实现区块链1&lt;/a&gt; 和 &lt;a href=&#34;http://www.hi-roy.com/2018/05/21/200%E8%A1%8CGO%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE2/&#34;&gt;200行GO代码实现区块链2&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;如果看到这了相信你已经知道什么是加密算法等背景了，所以忽略关于这部分的翻译，直接从编码开始。这篇文章在前两篇的文章基础上添加了工作量证明(POW)挖矿算法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hyperledger-Fabric环境搭建笔记</title>
+      <link>/posts/hyperledger-fabric%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Fri, 15 Jun 2018 10:43:49 +0000</pubDate>
+      
+      <guid>/posts/hyperledger-fabric%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E7%AC%94%E8%AE%B0/</guid>
+      <description>&lt;h2 id=&#34;环境搭建&#34;&gt;环境搭建&lt;/h2&gt;
+&lt;p&gt;前提需要电脑中存在&lt;code&gt;git&lt;/code&gt;、&lt;code&gt;docker&lt;/code&gt;、&lt;code&gt;docker-compose&lt;/code&gt;命令以及有&lt;code&gt;golang&lt;/code&gt;开发环境。&lt;/p&gt;
+&lt;p&gt;首先创建目录存放Fabric代码，&lt;strong&gt;注意路径和权限&lt;/strong&gt;，在启动服务时候会向其中写一些文件，最开始我就是没注意到这点报错了。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;sudo mkdir /opt/gopath/src/github.com/hyperledger/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;进入刚才创建的目录后拉取代码：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cd /opt/gopath/src/github.com/hyperledger
+git clone https://github.com/hyperledger/fabric.git
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;当前版本是1.1。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>基于Docker的以太坊开发环境搭建</title>
+      <link>/posts/%E5%9F%BA%E4%BA%8Edocker%E7%9A%84%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Fri, 25 May 2018 21:06:00 +0000</pubDate>
+      
+      <guid>/posts/%E5%9F%BA%E4%BA%8Edocker%E7%9A%84%E4%BB%A5%E5%A4%AA%E5%9D%8A%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</guid>
+      <description>&lt;p&gt;本地开发环境可以使用&lt;code&gt;geth&lt;/code&gt;和&lt;code&gt;testrpc&lt;/code&gt;(已经改名成ganache-cli)2种，如果只是进行测试或者学习智能合约开发的话，建议使用第二个。至于docker怎么安装网上很多这里不再赘述。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>200行GO代码实现区块链2</title>
+      <link>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE2/</link>
+      <pubDate>Mon, 21 May 2018 21:32:59 +0000</pubDate>
+      
+      <guid>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE2/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://medium.com/@mycoralhealth/part-2-networking-code-your-own-blockchain-in-less-than-200-lines-of-go-17fe1dad46e1&#34;&gt;原文&lt;/a&gt;，需要科学上网。省略了一些无关的内容。&lt;/p&gt;
+&lt;p&gt;上篇文章我们学习了如何编写区块链并且对进行Hash运算和验证，但所有都运行在一个节点。我们如何让其他的节点连接到我们的主节点并让这些新节点贡献新区块呢？并且，我们如何通知所有的节点区块链有更新呢？&lt;/p&gt;
+&lt;p&gt;这篇文章将进行就解答。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>200行GO代码实现区块链1</title>
+      <link>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE1/</link>
+      <pubDate>Fri, 18 May 2018 14:42:11 +0000</pubDate>
+      
+      <guid>/posts/200%E8%A1%8Cgo%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8C%BA%E5%9D%97%E9%93%BE1/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://medium.com/@mycoralhealth/code-your-own-blockchain-in-less-than-200-lines-of-go-e296282bcffc&#34;&gt;原文&lt;/a&gt;，需要科学上网。省略了一些无关的内容。&lt;/p&gt;
+&lt;p&gt;世界上很多开发者听说过区块链却不知道它是怎么工作的，他们或许仅仅听过比特币或者智能合约一类的名词。这篇文章尝试用简明的语言说明区块链并且用不到200行的代码来实现你自己的区块链！文章的最后，你应该可以运行并且添加区块到区块链中并从浏览器中看到结果。&lt;/p&gt;
+&lt;p&gt;有什么学习区块链的方法比你亲自实现一个更好呢？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;文章讲了什么&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如何创建自己的区块链&lt;/li&gt;
+&lt;li&gt;如何使用Hash来维护区块链的完整性&lt;/li&gt;
+&lt;li&gt;如何添加新区块&lt;/li&gt;
+&lt;li&gt;如何解决多个节点同时生成区块导致冲突问题&lt;/li&gt;
+&lt;li&gt;如何在浏览器中查看区块链&lt;/li&gt;
+&lt;li&gt;如何生成新区块&lt;/li&gt;
+&lt;li&gt;了解区块链的基础知识后，你可以决定你的未来发展方向&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;文章没讲什么&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;为了保持简单，我们并没介绍更高级的概念比如pow和pos的对比，我们模拟了网络交互所以你可以看到区块链并且添加区块，但网络广播部分将以后再讲。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>区块链学习笔记1</title>
+      <link>/posts/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/</link>
+      <pubDate>Mon, 14 May 2018 16:39:02 +0000</pubDate>
+      
+      <guid>/posts/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/</guid>
+      <description>&lt;p&gt;&lt;em&gt;&lt;strong&gt;区块链不等于ＸＸ币!&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;区块链不等于ＸＸ币!&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;区块链不等于ＸＸ币!&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;区块链本质是一种 &lt;strong&gt;去中心化的不可修改的分布式数据库&lt;/strong&gt;，&lt;strong&gt;核心要解决的是信任问题&lt;/strong&gt;。 根据场景可以分为3类：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;公开链&lt;/li&gt;
+&lt;li&gt;私有链&lt;/li&gt;
+&lt;li&gt;联盟链&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;著名的BTC以及各种XX币大多都是基于公开链的第一代应用，而以太坊(Ethereum)则更进一步，可以说是第二代的区块链应用。基于以太坊，更是诞生了智能合约(Smart contracts)应用，大大简化了编写区块链应用的难度。&lt;/p&gt;
+&lt;p&gt;而联盟链，现在最火的就是Linux基金会旗下的超级账本(hyperledger)了，相对而言，我个人更看好这个。另外还有个叫做闪电网络的(个人觉得这货有点类似于资金池，略有违背去中心化的初衷)，也值得关注。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

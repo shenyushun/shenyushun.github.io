@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>python中and-or小技巧 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="python中and-or小技巧" />
+<meta property="og:description" content="首先，python中逻辑运算从左到右进行，and运算返回第一个假值，若都为真则返回最后一个真值。or运算返回第一个真值，若都为假则返回最后一个假值。
+其次，python中0,(),[],{},None,空字符串都是假。
+下面用简单的例子说明一下：
+def f():print &#34;in f&#34;return Falsedef t():print &#34;in t&#34;return Truedef n():print &#34;in n&#34;In [105]: r = t() and f() or n()in tin fin nIn [106]: rIn [107]: r = t() and n() or f()in tin nin fIn [108]: rOut[108]: FalseIn [111]: r = f() and n() or t()in fin tIn [112]: rOut[112]: True上面我们定义了3个函数，没返回值的情况下函数会默认返回None。这里有个地方需要注意，虽然函数可以返回true、false、none，但函数本身都是为真的，比如：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/python%E4%B8%ADand-or%E5%B0%8F%E6%8A%80%E5%B7%A7/" />
+<meta property="article:published_time" content="2014-09-11T16:22:43+00:00" />
+<meta property="article:modified_time" content="2014-09-11T16:22:43+00:00" />
+
+		<meta itemprop="name" content="python中and-or小技巧">
+<meta itemprop="description" content="首先，python中逻辑运算从左到右进行，and运算返回第一个假值，若都为真则返回最后一个真值。or运算返回第一个真值，若都为假则返回最后一个假值。
+其次，python中0,(),[],{},None,空字符串都是假。
+下面用简单的例子说明一下：
+def f():print &#34;in f&#34;return Falsedef t():print &#34;in t&#34;return Truedef n():print &#34;in n&#34;In [105]: r = t() and f() or n()in tin fin nIn [106]: rIn [107]: r = t() and n() or f()in tin nin fIn [108]: rOut[108]: FalseIn [111]: r = f() and n() or t()in fin tIn [112]: rOut[112]: True上面我们定义了3个函数，没返回值的情况下函数会默认返回None。这里有个地方需要注意，虽然函数可以返回true、false、none，但函数本身都是为真的，比如：">
+<meta itemprop="datePublished" content="2014-09-11T16:22:43&#43;00:00" />
+<meta itemprop="dateModified" content="2014-09-11T16:22:43&#43;00:00" />
+<meta itemprop="wordCount" content="140">
+
+
+
+<meta itemprop="keywords" content="python," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">python中and-or小技巧</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-09-11T16:22:43Z">2014-09-11</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>首先，python中逻辑运算从左到右进行，and运算返回第一个假值，若都为真则返回最后一个真值。or运算返回第一个真值，若都为假则返回最后一个假值。</p>
+<p>其次，python中0,(),[],{},None,空字符串都是假。</p>
+<p>下面用简单的例子说明一下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">f</span>():
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;in f&#34;</span>
+    <span style="color:#66d9ef">return</span> False
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">t</span>():
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;in t&#34;</span>
+    <span style="color:#66d9ef">return</span> True
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">n</span>():
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;in n&#34;</span>
+In [<span style="color:#ae81ff">105</span>]: r <span style="color:#f92672">=</span> t() <span style="color:#f92672">and</span> f() <span style="color:#f92672">or</span> n()
+<span style="color:#f92672">in</span> t
+<span style="color:#f92672">in</span> f
+<span style="color:#f92672">in</span> n
+In [<span style="color:#ae81ff">106</span>]: r
+In [<span style="color:#ae81ff">107</span>]: r <span style="color:#f92672">=</span> t() <span style="color:#f92672">and</span> n() <span style="color:#f92672">or</span> f()
+<span style="color:#f92672">in</span> t
+<span style="color:#f92672">in</span> n
+<span style="color:#f92672">in</span> f
+In [<span style="color:#ae81ff">108</span>]: r
+Out[<span style="color:#ae81ff">108</span>]: False
+In [<span style="color:#ae81ff">111</span>]: r <span style="color:#f92672">=</span> f() <span style="color:#f92672">and</span> n() <span style="color:#f92672">or</span> t()
+<span style="color:#f92672">in</span> f
+<span style="color:#f92672">in</span> t
+In [<span style="color:#ae81ff">112</span>]: r
+Out[<span style="color:#ae81ff">112</span>]: True
+</code></pre></div><p>上面我们定义了3个函数，没返回值的情况下函数会默认返回None。这里有个地方需要注意，虽然函数可以返回true、false、none，但函数本身都是为真的，比如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">127</span>]: rr <span style="color:#f92672">=</span> f <span style="color:#f92672">and</span> t <span style="color:#f92672">or</span> n
+In [<span style="color:#ae81ff">128</span>]: rr
+Out[<span style="color:#ae81ff">128</span>]: <span style="color:#f92672">&lt;</span>function __main__<span style="color:#f92672">.</span>t<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">&gt;</span>
+In [<span style="color:#ae81ff">129</span>]: rr <span style="color:#f92672">=</span> f <span style="color:#f92672">and</span> n <span style="color:#f92672">or</span> t
+In [<span style="color:#ae81ff">130</span>]: rr
+Out[<span style="color:#ae81ff">130</span>]: <span style="color:#f92672">&lt;</span>function __main__<span style="color:#f92672">.</span>n<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&lt;/</span>function<span style="color:#f92672">&gt;&lt;/</span>function<span style="color:#f92672">&gt;</span>
+</code></pre></div><p>再举个《python简明教程》的例子：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">processFunc <span style="color:#f92672">=</span> collapse <span style="color:#f92672">and</span> (<span style="color:#66d9ef">lambda</span> s: <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">.</span>join(s<span style="color:#f92672">.</span>split())) <span style="color:#f92672">or</span> (<span style="color:#66d9ef">lambda</span> s: s)
+</code></pre></div><p>processFunc 现在是一个函数，但是它到底是哪一个函数还要取决于 collapse 变量。如果 collapse 为真，processFunc(string) 将压缩空白；否则 processFunc(string) 将返回未改变的参数。</p>
+<p>假设我们有一个对象，我们需要先判断这个对象是否存在，如果存在的话则取它的id，就可以这么写:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">pid <span style="color:#f92672">=</span> user <span style="color:#f92672">and</span> user<span style="color:#f92672">.</span>id <span style="color:#f92672">or</span> False
+</code></pre></div>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/centos%E4%B8%8B%E9%83%A8%E7%BD%B2openerp7/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">centos下部署openerp7</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/tightvnc%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AEkali%E6%A1%8C%E9%9D%A2%E7%B3%BB%E7%BB%9F/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">tightvnc远程访问kali桌面系统</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

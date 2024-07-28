@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>centos安装denyhosts - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="centos安装denyhosts" />
+<meta property="og:description" content="最近不知道得罪了哪路大神，一直都有坏人暴力破解本站的SSH登录密码。想安安静静的写博客就这么难么&hellip;没办法，那就安个denyhosts吧。
+centos下直接使用Yum安装即可:yum install denyhosts.noarch
+当然也可以下载编译安装。安装好后，配置文件是/etc/denyhosts.conf,参数说明如下:
+SECURE_LOG = /var/log/secure#ssh日志文件
+HOSTS_DENY = /etc/hosts." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/centos%E5%AE%89%E8%A3%85denyhosts/" />
+<meta property="article:published_time" content="2014-10-20T17:37:42+00:00" />
+<meta property="article:modified_time" content="2014-10-20T17:37:42+00:00" />
+
+		<meta itemprop="name" content="centos安装denyhosts">
+<meta itemprop="description" content="最近不知道得罪了哪路大神，一直都有坏人暴力破解本站的SSH登录密码。想安安静静的写博客就这么难么&hellip;没办法，那就安个denyhosts吧。
+centos下直接使用Yum安装即可:yum install denyhosts.noarch
+当然也可以下载编译安装。安装好后，配置文件是/etc/denyhosts.conf,参数说明如下:
+SECURE_LOG = /var/log/secure#ssh日志文件
+HOSTS_DENY = /etc/hosts.">
+<meta itemprop="datePublished" content="2014-10-20T17:37:42&#43;00:00" />
+<meta itemprop="dateModified" content="2014-10-20T17:37:42&#43;00:00" />
+<meta itemprop="wordCount" content="158">
+
+
+
+<meta itemprop="keywords" content="centos," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">centos安装denyhosts</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2014-10-20T17:37:42Z">2014-10-20</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="category">操作系统</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>最近不知道得罪了哪路大神，一直都有坏人暴力破解本站的SSH登录密码。想安安静静的写博客就这么难么&hellip;没办法，那就安个denyhosts吧。</p>
+<p>centos下直接使用Yum安装即可:<code>yum install denyhosts.noarch</code></p>
+<p>当然也可以下载编译安装。安装好后，配置文件是<code>/etc/denyhosts.conf</code>,参数说明如下:</p>
+<p>SECURE_LOG = /var/log/secure#ssh日志文件</p>
+<p>HOSTS_DENY = /etc/hosts.deny #将阻止IP写入到hosts.deny</p>
+<p>PURGE_DENY =30m#过多久后清除已阻止IP</p>
+<p>BLOCK_SERVICE  = sshd#阻止服务名</p>
+<p>DENY_THRESHOLD_INVALID = 5//允许无效用户（在/etc/passwd未列出）登录失败次数,允许无效用户登录失败的次数.</p>
+<p>DENY_THRESHOLD_VALID = 10#允许普通用户登录失败的次数</p>
+<p>DENY_THRESHOLD_ROOT = 1//允许root登录失败的次数</p>
+<p>DENY_THRESHOLD_RESTRICTED = 1#设定 deny host 写入到该资料夹</p>
+<p>WORK_DIR = /usr/share/denyhosts/data #将deny的host或ip纪录到Work_dir中</p>
+<p>SUSPICIOUS_LOGIN_REPORT_ALLOWED_HOSTS=YES</p>
+<p>HOSTNAME_LOOKUP=YES #是否做域名反解</p>
+<p>LOCK_FILE = /var/lock/subsys/denyhosts #将DenyHOts启动的pid纪录到LOCK_FILE中，已确保服务正确启动，防止同时启动多个服务。</p>
+<p>ADMIN_EMAIL = <a href="mailto:a@b.com">a@b.com</a>  #设置管理员邮件地址</p>
+<p>SMTP_HOST = localhost</p>
+<p>SMTP_PORT = 25</p>
+<p>SMTP_FROM = DenyHosts <a href="mailto:nobody@localhost">nobody@localhost</a></p>
+<p>SMTP_SUBJECT = DenyHosts Report</p>
+<p>AGE_RESET_VALID=5d</p>
+<p>AGE_RESET_ROOT=25d</p>
+<p>AGE_RESET_RESTRICTED=25d</p>
+<p>AGE_RESET_INVALID=10d</p>
+<p>DAEMON_LOG = /var/log/denyhosts#自己的日志文件</p>
+<p>DAEMON_SLEEP = 30s</p>
+<p>DAEMON_PURGE = 1h#该项与PURGE_DENY 设置成一样，也是清除hosts.deniedssh 用户的时间</p>
+<p>配置完成后，启动服务并设置开机启动：</p>
+<pre><code>service denyhosts start
+chkconfig denyhosts on
+</code></pre><p>然后查看 <code>/etc/hosts.deny</code> 文件，发现里面已经有记录了：</p>
+<pre><code>[root@miss_yi ~]# tail /etc/hosts.deny
+# DenyHosts: Mon Oct 20 17:19:38 2014 | ALL: 74.221.172.28
+ALL: 74.221.172.28
+# DenyHosts: Mon Oct 20 17:19:38 2014 | ALL: 117.21.173.175
+ALL: 117.21.173.175
+# DenyHosts: Mon Oct 20 17:19:38 2014 | ALL: 112.78.3.196
+ALL: 112.78.3.196
+# DenyHosts: Mon Oct 20 17:19:38 2014 | ALL: 181.143.230.74
+ALL: 181.143.230.74
+# DenyHosts: Mon Oct 20 17:19:38 2014 | ALL: 216.151.221.194
+ALL: 216.151.221.194
+[root@miss_yi ~]# wc /etc/hosts.deny
+  771  4628 30294 /etc/hosts.deny
+</code></pre>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/centos/" rel="tag">centos</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/svn%E9%94%99%E8%AF%AF-a-peg-revision-is-not-allowed-here%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">svn错误:a peg revision is not allowed here解决方法</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/metasploit%E5%91%BD%E4%BB%A4%E5%8F%82%E8%80%83/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">metasploit命令参考</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>设计模式-工厂模式 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="设计模式-工厂模式" />
+<meta property="og:description" content="工厂模式又可以分为工厂方法模式和抽象工厂模式。
+工厂方法模式(Factory Method Pattern)
+工厂模式是指：定义一个接口用户创建对象，让子类决定实例化哪一个类。
+工厂模式中存在4个角色：
+
+抽象工厂
+具体工厂
+抽象产品
+具体产品
+
+抽象工厂产生抽象产品，具体工厂生产具体产品。 这句话很重要，理解了这句话就理解了工厂方法模式。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" />
+<meta property="article:published_time" content="2019-10-09T16:58:08+00:00" />
+<meta property="article:modified_time" content="2019-10-09T16:58:08+00:00" />
+
+		<meta itemprop="name" content="设计模式-工厂模式">
+<meta itemprop="description" content="工厂模式又可以分为工厂方法模式和抽象工厂模式。
+工厂方法模式(Factory Method Pattern)
+工厂模式是指：定义一个接口用户创建对象，让子类决定实例化哪一个类。
+工厂模式中存在4个角色：
+
+抽象工厂
+具体工厂
+抽象产品
+具体产品
+
+抽象工厂产生抽象产品，具体工厂生产具体产品。 这句话很重要，理解了这句话就理解了工厂方法模式。">
+<meta itemprop="datePublished" content="2019-10-09T16:58:08&#43;00:00" />
+<meta itemprop="dateModified" content="2019-10-09T16:58:08&#43;00:00" />
+<meta itemprop="wordCount" content="673">
+
+
+
+<meta itemprop="keywords" content="设计模式," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">设计模式-工厂模式</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-10-09T16:58:08Z">2019-10-09</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>工厂模式又可以分为工厂方法模式和抽象工厂模式。</p>
+<h2 id="工厂方法模式factory-method-pattern">工厂方法模式(Factory Method Pattern)</h2>
+<p>工厂模式是指：定义一个接口用户创建对象，让子类决定实例化哪一个类。</p>
+<p>工厂模式中存在4个角色：</p>
+<ol>
+<li>抽象工厂</li>
+<li>具体工厂</li>
+<li>抽象产品</li>
+<li>具体产品</li>
+</ol>
+<p><strong>抽象工厂产生抽象产品，具体工厂生产具体产品。</strong> 这句话很重要，理解了这句话就理解了工厂方法模式。</p>
+<p><img src="/images/design-pattern/factory.png" alt="factory.png"></p>
+<p>看定义还是略微抽象，这里我们以客户购买汽水为例，初学编程的人很有可能出现类似下面的代码段：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">require</span> <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Please enter your choice(cola,spirte,fanta): &#34;</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Scanln</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">require</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">require</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;cola&#34;</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;this is cola&#34;</span>)
+	} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">require</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;sprite&#34;</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;this is sprite&#34;</span>)
+	} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">require</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;fanta&#34;</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;this is fanta&#34;</span>)
+	} <span style="color:#66d9ef">else</span> {
+        panic(<span style="color:#e6db74">&#34;What you want?&#34;</span>)        
+	}
+}
+</code></pre></div><p>这段代码很好理解，用户输入他想要购买的汽水，然后程序返回他的选择，如果用户输入的不在上述3个选择内就报错<code>What you want?</code>。但基本上没有可维护性、扩展性，也不能方便的进行复用。为了实现高内聚低耦合的目标，我们做一些修改：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">showname</span> <span style="color:#66d9ef">interface</span> {
+    <span style="color:#a6e22e">show</span>()
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">cola</span> <span style="color:#66d9ef">struct</span> {}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">cola</span>) <span style="color:#a6e22e">show</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;this is cola&#34;</span>)
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">sprite</span> <span style="color:#66d9ef">struct</span> {}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">sprite</span>) <span style="color:#a6e22e">show</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;this is sprite&#34;</span>)
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">fanta</span> <span style="color:#66d9ef">struct</span> {}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">fanta</span>) <span style="color:#a6e22e">show</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;this is fanta&#34;</span>)
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">factory</span> <span style="color:#66d9ef">struct</span>{}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">factory</span>) <span style="color:#a6e22e">showname</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) <span style="color:#a6e22e">showname</span> {
+	<span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">name</span> {
+	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;cola&#34;</span>:
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">cola</span>{}
+	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;sprite&#34;</span>:
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">sprite</span>{}
+	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;fanta&#34;</span>:
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fanta</span>{}
+	<span style="color:#66d9ef">default</span>:
+        panic(<span style="color:#e6db74">&#34;What you want?&#34;</span>)
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">require</span> <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Please enter your choice(cola,spirte,fanta): &#34;</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Scanln</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">require</span>)
+	<span style="color:#a6e22e">fac</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">factory</span>{}
+	<span style="color:#a6e22e">fac</span>.<span style="color:#a6e22e">showname</span>(<span style="color:#a6e22e">require</span>).<span style="color:#a6e22e">show</span>()
+}
+</code></pre></div><p>由于golang中没有类、继承相关的概念，所以这里使用struct和interface来实现。采用上面这种修改后，看上去更复杂了，但却提高了代码的复用率。如果以后有其他地方也要用到这个功能，直接调用factory即可，而不是把那堆<code>if...else</code>复制过去。这种写法还有个学名叫做 <strong>简单工厂模式</strong> ，这个模式优点是工厂类中包含了逻辑判断，根据调用方传入的参数动态实例化相关的类，如果需要修改功能不需要修改调用方的代码。但问题也在这里，如果要新增一个类，那么是要修改<code>case</code>分支条件的，修改原有的类<strong>违反了开闭原则</strong>,这时候就该工厂方法模式出场了：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+<span style="color:#75715e">// 抽象工厂
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">showFactory</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">info</span>() <span style="color:#a6e22e">saleinfo</span>
+}
+
+<span style="color:#75715e">// 具体工厂
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">showColaFactory</span> <span style="color:#66d9ef">struct</span>{}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">showColaFactory</span>) <span style="color:#a6e22e">info</span>() <span style="color:#a6e22e">saleinfo</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">cola</span>{<span style="color:#a6e22e">soda</span>:<span style="color:#a6e22e">soda</span>{<span style="color:#a6e22e">name</span>:<span style="color:#e6db74">&#34;cola&#34;</span>,<span style="color:#a6e22e">price</span>:<span style="color:#ae81ff">5</span>}}
+}
+
+<span style="color:#75715e">// 具体工厂
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">showSpriteFactory</span> <span style="color:#66d9ef">struct</span>{}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">showSpriteFactory</span>) <span style="color:#a6e22e">info</span>() <span style="color:#a6e22e">saleinfo</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">cola</span>{<span style="color:#a6e22e">soda</span>:<span style="color:#a6e22e">soda</span>{<span style="color:#a6e22e">name</span>:<span style="color:#e6db74">&#34;sprite&#34;</span>,<span style="color:#a6e22e">price</span>:<span style="color:#ae81ff">5</span>}}
+}
+
+<span style="color:#75715e">// 具体工厂
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">showFantaFactory</span> <span style="color:#66d9ef">struct</span>{}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">showFantaFactory</span>) <span style="color:#a6e22e">info</span>() <span style="color:#a6e22e">saleinfo</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fanta</span>{<span style="color:#a6e22e">soda</span>:<span style="color:#a6e22e">soda</span>{<span style="color:#a6e22e">name</span>:<span style="color:#e6db74">&#34;fanta&#34;</span>,<span style="color:#a6e22e">price</span>:<span style="color:#ae81ff">5</span>}}
+}
+
+<span style="color:#75715e">// 抽象产品
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">saleinfo</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">getname</span>()
+	<span style="color:#a6e22e">getprice</span>()
+}
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">soda</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">name</span>  <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">price</span> <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#75715e">//具体产品
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">cola</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">soda</span>
+}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">cola</span>) <span style="color:#a6e22e">getname</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;this is %s&#34;</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">name</span>)
+}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">cola</span>) <span style="color:#a6e22e">getprice</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;price is %d&#34;</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">price</span>)
+}
+
+<span style="color:#75715e">//具体产品
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">sprite</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">soda</span>
+}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">sprite</span>) <span style="color:#a6e22e">getname</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;this is %s&#34;</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">name</span>)
+}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">sprite</span>) <span style="color:#a6e22e">getprice</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;price is %d&#34;</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">price</span>)
+}
+
+<span style="color:#75715e">//具体产品
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">fanta</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">soda</span>
+}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">fanta</span>) <span style="color:#a6e22e">getname</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;this is %s&#34;</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">name</span>)
+}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">fanta</span>) <span style="color:#a6e22e">getprice</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;price is %d&#34;</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">price</span>)
+}
+
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">require</span> <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Please enter your choice(cola,spirte,fanta): &#34;</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Scanln</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">require</span>)
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> <span style="color:#a6e22e">saleinfo</span>
+	<span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">require</span> {
+	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;cola&#34;</span>:
+		<span style="color:#a6e22e">s</span> = <span style="color:#a6e22e">showColaFactory</span>{}.<span style="color:#a6e22e">info</span>()
+	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;sprite&#34;</span>:
+		<span style="color:#a6e22e">s</span> = <span style="color:#a6e22e">showSpriteFactory</span>{}.<span style="color:#a6e22e">info</span>()
+	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;fanta&#34;</span>:
+		<span style="color:#a6e22e">s</span> = <span style="color:#a6e22e">showFantaFactory</span>{}.<span style="color:#a6e22e">info</span>()		
+	<span style="color:#66d9ef">default</span>:
+		panic(<span style="color:#e6db74">&#34;what you want?&#34;</span>)
+	}
+	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">getname</span>()
+	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">getprice</span>()
+}
+</code></pre></div><p>WoW，代码更复杂了，但这样修改后，如果以后需要新增一个新的<code>juice</code>，只需新增相关的具体工厂和具体产品即可，不用修改原来的工厂类，符合了开闭原则。不过，这种方法把判断逻辑又丢给了调用方，有没有什么办法更进一步呢？答案就是抽象工厂模式，这个下面再说。</p>
+<h3 id="工厂方法模式应用场景">工厂方法模式应用场景</h3>
+<ol>
+<li>当子类型有很多，以后需要不断添加不同子类实现时。</li>
+<li>一个系统在框架设计阶段，还不知道将来需要实例化哪些具体子类时。</li>
+<li>系统设计之初不需要具体对象的概念或没有具体对象的概念。</li>
+</ol>
+<h2 id="抽象工厂模式abstract-factory-pattern">抽象工厂模式(Abstract Factory Pattern)</h2>
+<p>抽象工厂模式：提供一个接口，用于创建相关或依赖对象的家族，而不需要指定具体实现类。</p>
+<p><img src="/images/design-pattern/absstact-factory.png" alt="absstact-factory.png"></p>
+<p>进一步说，抽象工厂模式中调用方使用抽象接口来创建一组相关产品，实现了与工厂类的解耦。我们将卖汽水的例子复杂化一点，可以在汽水中加冰，那么用抽象工厂模式写法就变成了：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#75715e">// 抽象汽水基类
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">soda</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">price</span> <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">sodaInfo</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">buy</span>()
+}
+
+<span style="color:#75715e">// 抽象可乐基类，继承soda并实现sodaInfo接口
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">cola</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">soda</span>
+}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">cola</span>) <span style="color:#a6e22e">buy</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;this is %s \n&#34;</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">name</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;price is %d \n&#34;</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">price</span>)
+}
+<span style="color:#75715e">// 具体可乐类，加冰
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">colaIce</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">cola</span>
+}
+
+<span style="color:#75715e">// 抽象雪碧基类，继承soda并实现sodaInfo接口
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">sprite</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">soda</span>
+}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">sprite</span>) <span style="color:#a6e22e">buy</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;this is %s \n&#34;</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">name</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;price is %d \n&#34;</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">price</span>)
+}
+<span style="color:#75715e">// 具体雪碧类，加冰
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">spriteIce</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">sprite</span>
+}
+
+<span style="color:#75715e">// 抽象芬达基类，继承soda并实现sodaInfo接口
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">fanta</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">soda</span>
+}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#a6e22e">fanta</span>) <span style="color:#a6e22e">buy</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;this is %s \n&#34;</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">name</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;price is %d \n&#34;</span>, <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">price</span>)
+}
+<span style="color:#75715e">// 具体芬达类，加冰
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">fantaIce</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">fanta</span>
+}
+
+<span style="color:#75715e">// 抽象汽水工厂，注意里面都是生产抽象汽水
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">sodaAbsFactory</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">createCola</span>() <span style="color:#a6e22e">sodaInfo</span>
+	<span style="color:#a6e22e">createSprite</span>() <span style="color:#a6e22e">sodaInfo</span>
+	<span style="color:#a6e22e">createFanta</span>() <span style="color:#a6e22e">sodaInfo</span>
+}
+
+<span style="color:#75715e">// 具体汽水工厂，生产具体汽水，实现抽象汽水工厂接口
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">sodaFactory</span> <span style="color:#66d9ef">struct</span> {}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">sodaFactory</span>) <span style="color:#a6e22e">createCola</span>() <span style="color:#a6e22e">sodaInfo</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">colaIce</span>{
+		<span style="color:#a6e22e">cola</span>:<span style="color:#a6e22e">cola</span>{
+			<span style="color:#a6e22e">soda</span>:<span style="color:#a6e22e">soda</span>{<span style="color:#a6e22e">name</span>:<span style="color:#e6db74">&#34;cola_with_ice&#34;</span>,<span style="color:#a6e22e">price</span>: <span style="color:#ae81ff">10</span>},
+		},
+	}
+}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">sodaFactory</span>) <span style="color:#a6e22e">createSprite</span>() <span style="color:#a6e22e">sodaInfo</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">colaIce</span>{
+		<span style="color:#a6e22e">cola</span>:<span style="color:#a6e22e">cola</span>{
+			<span style="color:#a6e22e">soda</span>:<span style="color:#a6e22e">soda</span>{<span style="color:#a6e22e">name</span>:<span style="color:#e6db74">&#34;sprice_with_ice&#34;</span>,<span style="color:#a6e22e">price</span>: <span style="color:#ae81ff">12</span>},
+		},
+	}
+}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">sodaFactory</span>) <span style="color:#a6e22e">createFanta</span>() <span style="color:#a6e22e">sodaInfo</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">colaIce</span>{
+		<span style="color:#a6e22e">cola</span>:<span style="color:#a6e22e">cola</span>{
+			<span style="color:#a6e22e">soda</span>:<span style="color:#a6e22e">soda</span>{<span style="color:#a6e22e">name</span>:<span style="color:#e6db74">&#34;fanta_with_ice&#34;</span>,<span style="color:#a6e22e">price</span>: <span style="color:#ae81ff">8</span>},
+		},
+	}
+}
+
+<span style="color:#75715e">// 消费者类，需要买汽水时候向汽水工厂请求
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">customer</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">sodafac</span> <span style="color:#a6e22e">sodaAbsFactory</span>
+}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">customer</span>) <span style="color:#a6e22e">Buycola</span>() {
+	<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">sodafac</span>.<span style="color:#a6e22e">createCola</span>().<span style="color:#a6e22e">buy</span>()
+}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">customer</span>) <span style="color:#a6e22e">Buysprite</span>() {
+	<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">sodafac</span>.<span style="color:#a6e22e">createSprite</span>().<span style="color:#a6e22e">buy</span>()
+}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">customer</span>) <span style="color:#a6e22e">Buyfanta</span>() {
+	<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">sodafac</span>.<span style="color:#a6e22e">createFanta</span>().<span style="color:#a6e22e">buy</span>()
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">customer</span>{<span style="color:#a6e22e">sodafac</span>: <span style="color:#a6e22e">sodaFactory</span>{}} <span style="color:#75715e">// 创建消费者，并把汽水工厂传递进去
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">require</span> <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Please enter your choice(cola,spirte,fanta): &#34;</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Scanln</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">require</span>)
+	<span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">require</span> {
+	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;cola&#34;</span>:
+		<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">buyCola</span>()
+	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;sprite&#34;</span>:
+		<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">buySprite</span>()
+	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;fanta&#34;</span>:
+		<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">buyFanta</span>()
+	<span style="color:#66d9ef">default</span>:
+		panic(<span style="color:#e6db74">&#34;what you want?&#34;</span>)
+	}
+}
+</code></pre></div><p>似乎更更更复杂了，但假设突然需要更换另一家卖汽水的，调用方仅仅修改创建消费者那行代码就可以了。（这里别陷入误区：改1行代码和改100行代码可不是一回事，减少修改!=不修改。）至于判断逻辑的问题，可以使用反射来解决：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">require</span> <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Please enter your choice(cola,spirte,fanta): &#34;</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Scanln</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">require</span>)
+	<span style="color:#a6e22e">methodName</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;Buy%s&#34;</span>,<span style="color:#a6e22e">require</span>)
+	<span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">customer</span>{<span style="color:#a6e22e">sodafac</span>: <span style="color:#a6e22e">sodaFactory</span>{}} <span style="color:#75715e">// 创建消费者，并把汽水工厂传递进去
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">getValue</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">ValueOf</span>(<span style="color:#a6e22e">c</span>)
+	<span style="color:#a6e22e">methodValue</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">getValue</span>.<span style="color:#a6e22e">MethodByName</span>(<span style="color:#a6e22e">methodName</span>) <span style="color:#75715e">// 注意所有的函数名都要大写开头，否则reflect找不到对应的函数会报错！
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">methodValue</span>.<span style="color:#a6e22e">String</span>() <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&lt;invalid Value&gt;&#34;</span> {
+	    <span style="color:#a6e22e">args</span> <span style="color:#f92672">:=</span> make([]<span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">Value</span>, <span style="color:#ae81ff">0</span>)
+	    <span style="color:#a6e22e">methodValue</span>.<span style="color:#a6e22e">Call</span>(<span style="color:#a6e22e">args</span>)
+    }<span style="color:#66d9ef">else</span> {
+		panic(<span style="color:#e6db74">&#34;what you want?&#34;</span>)
+	}
+}
+</code></pre></div><p>千万注意使用反射机制来调用函数时候的名称问题，非大写字母开头的函数<code>MethodbyName</code>是找不到的。虽然使用反射可以解决判断逻辑的问题，但是要不要在项目中这么使用则是见仁见智了。另外补充一句，这个反射行为在python中使用使用<code>getattr()</code>即可实现，或许这也是使用python时候并没怎么想到设计模式的原因之一吧。</p>
+<h3 id="抽象工厂模式应用场景">抽象工厂模式应用场景</h3>
+<ol>
+<li>创建产品家族，相关产品集合在一起使用的时候。</li>
+<li>提供一个产品类库，并只想显示其接口而不是实现的时候。</li>
+<li>通过组合的方使使用工厂时。</li>
+</ol>
+<h2 id="对比">对比</h2>
+<ol>
+<li>工厂方法模式通过继承的方式来解耦，抽象工厂模式则通过组合的方式实现解耦。</li>
+<li>工厂方法模式用来创建一个抽象产品，具体工厂实现工厂方法来创建具体产品，抽象工厂模式用组合来创建一个产品家族的抽象类型。</li>
+</ol>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%80%BB%E8%A7%88/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">设计模式-总览</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">设计模式-建造者模式</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

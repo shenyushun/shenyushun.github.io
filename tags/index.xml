@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Hi~Roy!</title>
+    <link>/tags/</link>
+    <description>Recent content in Tags on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 28 Jul 2024 15:15:03 +0800</lastBuildDate>
+    
+	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>telegram</title>
+      <link>/tags/telegram/</link>
+      <pubDate>Sun, 28 Jul 2024 15:15:03 +0800</pubDate>
+      
+      <guid>/tags/telegram/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>web3</title>
+      <link>/tags/web3/</link>
+      <pubDate>Sun, 28 Jul 2024 15:15:03 +0800</pubDate>
+      
+      <guid>/tags/web3/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mev</title>
+      <link>/tags/mev/</link>
+      <pubDate>Mon, 11 Sep 2023 03:15:03 +0800</pubDate>
+      
+      <guid>/tags/mev/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>golang</title>
+      <link>/tags/golang/</link>
+      <pubDate>Thu, 19 Jan 2023 11:10:48 +0800</pubDate>
+      
+      <guid>/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>DOCKER</title>
+      <link>/tags/docker/</link>
+      <pubDate>Wed, 14 Sep 2022 19:54:11 +0800</pubDate>
+      
+      <guid>/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>iptables</title>
+      <link>/tags/iptables/</link>
+      <pubDate>Thu, 14 Apr 2022 11:28:55 +0800</pubDate>
+      
+      <guid>/tags/iptables/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>eBPF</title>
+      <link>/tags/ebpf/</link>
+      <pubDate>Tue, 15 Feb 2022 19:49:25 +0800</pubDate>
+      
+      <guid>/tags/ebpf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>/tags/linux/</link>
+      <pubDate>Fri, 28 Jan 2022 15:15:03 +0800</pubDate>
+      
+      <guid>/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>openstack</title>
+      <link>/tags/openstack/</link>
+      <pubDate>Mon, 20 Jul 2020 17:46:29 +0000</pubDate>
+      
+      <guid>/tags/openstack/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>/tags/python/</link>
+      <pubDate>Mon, 20 Jul 2020 17:46:29 +0000</pubDate>
+      
+      <guid>/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>设计模式</title>
+      <link>/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 20 May 2020 16:58:08 +0000</pubDate>
+      
+      <guid>/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>爬虫</title>
+      <link>/tags/%E7%88%AC%E8%99%AB/</link>
+      <pubDate>Mon, 06 May 2019 16:31:37 +0000</pubDate>
+      
+      <guid>/tags/%E7%88%AC%E8%99%AB/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kears</title>
+      <link>/tags/kears/</link>
+      <pubDate>Thu, 14 Mar 2019 17:27:14 +0000</pubDate>
+      
+      <guid>/tags/kears/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ipfs</title>
+      <link>/tags/ipfs/</link>
+      <pubDate>Wed, 10 Oct 2018 15:26:16 +0000</pubDate>
+      
+      <guid>/tags/ipfs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>算法</title>
+      <link>/tags/%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Thu, 07 Jun 2018 22:26:33 +0000</pubDate>
+      
+      <guid>/tags/%E7%AE%97%E6%B3%95/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>redis</title>
+      <link>/tags/redis/</link>
+      <pubDate>Tue, 16 Jan 2018 10:56:48 +0000</pubDate>
+      
+      <guid>/tags/redis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>验证码识别</title>
+      <link>/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/</link>
+      <pubDate>Sat, 06 Jan 2018 16:27:04 +0000</pubDate>
+      
+      <guid>/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>机器学习</title>
+      <link>/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Thu, 21 Dec 2017 20:01:41 +0000</pubDate>
+      
+      <guid>/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>django</title>
+      <link>/tags/django/</link>
+      <pubDate>Fri, 28 Jul 2017 11:55:08 +0000</pubDate>
+      
+      <guid>/tags/django/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mysql</title>
+      <link>/tags/mysql/</link>
+      <pubDate>Mon, 24 Jul 2017 14:40:04 +0000</pubDate>
+      
+      <guid>/tags/mysql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>fedora</title>
+      <link>/tags/fedora/</link>
+      <pubDate>Tue, 02 May 2017 17:54:53 +0000</pubDate>
+      
+      <guid>/tags/fedora/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>centos</title>
+      <link>/tags/centos/</link>
+      <pubDate>Mon, 05 Sep 2016 16:05:32 +0000</pubDate>
+      
+      <guid>/tags/centos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>flask</title>
+      <link>/tags/flask/</link>
+      <pubDate>Thu, 04 Aug 2016 13:59:38 +0000</pubDate>
+      
+      <guid>/tags/flask/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>火焰图</title>
+      <link>/tags/%E7%81%AB%E7%84%B0%E5%9B%BE/</link>
+      <pubDate>Wed, 27 Jul 2016 10:46:53 +0000</pubDate>
+      
+      <guid>/tags/%E7%81%AB%E7%84%B0%E5%9B%BE/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kali</title>
+      <link>/tags/kali/</link>
+      <pubDate>Fri, 29 Apr 2016 13:54:35 +0000</pubDate>
+      
+      <guid>/tags/kali/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>java</title>
+      <link>/tags/java/</link>
+      <pubDate>Wed, 16 Mar 2016 17:02:02 +0000</pubDate>
+      
+      <guid>/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mac</title>
+      <link>/tags/mac/</link>
+      <pubDate>Sat, 17 Oct 2015 12:04:27 +0000</pubDate>
+      
+      <guid>/tags/mac/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>postgresql</title>
+      <link>/tags/postgresql/</link>
+      <pubDate>Wed, 27 May 2015 10:52:36 +0000</pubDate>
+      
+      <guid>/tags/postgresql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mongodb</title>
+      <link>/tags/mongodb/</link>
+      <pubDate>Tue, 03 Mar 2015 13:07:28 +0000</pubDate>
+      
+      <guid>/tags/mongodb/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

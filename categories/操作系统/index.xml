@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>操作系统 on Hi~Roy!</title>
+    <link>/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
+    <description>Recent content in 操作系统 on Hi~Roy!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 14 Apr 2022 11:28:55 +0800</lastBuildDate>
+    
+	<atom:link href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Iptables笔记</title>
+      <link>/posts/iptables%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Thu, 14 Apr 2022 11:28:55 +0800</pubDate>
+      
+      <guid>/posts/iptables%E7%AC%94%E8%AE%B0/</guid>
+      <description>&lt;p&gt;话不多说，先上图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/iptables-Flowchart.jpg&#34; alt=&#34;iptables&#34;&gt;&lt;/p&gt;
+&lt;p&gt;上图中的渐变色分别代表了iptables中的4个表：raw、nat、mangle、filter。按照功能来看：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;filter:负责过滤，防火墙。&lt;/li&gt;
+&lt;li&gt;nat:网络地址转换功能，也就是network address translate。&lt;/li&gt;
+&lt;li&gt;mangle:拆解报文，做出修改，并重新封装。&lt;/li&gt;
+&lt;li&gt;raw:关闭nat表上启用的连接追踪机制。&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>1分钟Linux性能分析</title>
+      <link>/posts/1%E5%88%86%E9%92%9Flinux%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/</link>
+      <pubDate>Fri, 28 Jan 2022 15:15:03 +0800</pubDate>
+      
+      <guid>/posts/1%E5%88%86%E9%92%9Flinux%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/</guid>
+      <description>&lt;p&gt;最近看ebpf相关技术，找到一篇2015年的老文，现在看依然不过时——&lt;a href=&#34;https://netflixtechblog.com/linux-performance-analysis-in-60-000-milliseconds-accc10403c55&#34;&gt;原文&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;当你为了性能问题而登录到Linux系统时，首先要检查哪些东西呢？&lt;/p&gt;
+&lt;p&gt;在奈飞有大量的Linux机器，并且有众多的工具去监控和分析性能。既包括负责整个云范围的监控工具Atlas，也包括单个实例分析的Vector。尽管这些工具帮助我们解决了很多问题，但是有些时候我们还是需要登录到实例上去执行一些标准Linux指令。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>fedora25批量转换NEF为JPG</title>
+      <link>/posts/fedora25%E6%89%B9%E9%87%8F%E8%BD%AC%E6%8D%A2nef%E4%B8%BAjpg/</link>
+      <pubDate>Tue, 02 May 2017 17:54:53 +0000</pubDate>
+      
+      <guid>/posts/fedora25%E6%89%B9%E9%87%8F%E8%BD%AC%E6%8D%A2nef%E4%B8%BAjpg/</guid>
+      <description>NEF格式是尼康相机的RAW拍摄照片格式，在Linux上转换NEF为JPG格式需要安装2个软件：
+yum install ufrawyum install ImageMagick安装完成后，可以使用convert DSC_0300.NEF test.jpg命令来进行单张转换，如果需要转换的图片很多的话，建议使用以下命令多进程处理：</description>
+    </item>
+    
+    <item>
+      <title>GPG使用记录</title>
+      <link>/posts/gpg%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Mon, 05 Sep 2016 16:05:32 +0000</pubDate>
+      
+      <guid>/posts/gpg%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</guid>
+      <description>&lt;p&gt;GPG简单来说是一种加密机制，可以用来加密文件、邮件等。这里以Centos为例记录一下生成密钥以及相关操作。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>centos7安装systemtap</title>
+      <link>/posts/centos7%E5%AE%89%E8%A3%85systemtap/</link>
+      <pubDate>Wed, 27 Jul 2016 10:46:53 +0000</pubDate>
+      
+      <guid>/posts/centos7%E5%AE%89%E8%A3%85systemtap/</guid>
+      <description>&lt;p&gt;这两天突然对火焰图起了兴趣，至于什么是systemtap、什么是火焰图这里我不多说了，网上有很多介绍，这里说记录一下我的安装过程以及
+碰到的坑。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>启用https提高网站安全性</title>
+      <link>/posts/%E5%90%AF%E7%94%A8https%E6%8F%90%E9%AB%98%E7%BD%91%E7%AB%99%E5%AE%89%E5%85%A8%E6%80%A7/</link>
+      <pubDate>Thu, 23 Jun 2016 14:12:01 +0000</pubDate>
+      
+      <guid>/posts/%E5%90%AF%E7%94%A8https%E6%8F%90%E9%AB%98%E7%BD%91%E7%AB%99%E5%AE%89%E5%85%A8%E6%80%A7/</guid>
+      <description>&lt;p&gt;细心的老读者可能发现，本站现在全面启用了https，为啥捏？因为好看！哇哈哈哈……&lt;/p&gt;
+&lt;p&gt;这里记录一下Centos6系统上的nginx配置方法。这里我使用 &lt;a href=&#34;http://letsencrypt.org&#34;&gt;letsencrypt&lt;/a&gt; 提供的免费证书，首先访问&lt;a href=&#34;https://certbot.eff.org/&#34;&gt;https://certbot.eff.org/&lt;/a&gt;，然后根据你的实际情况选择webserver和操作系统，这里为了通用性，我选择“Unspecified Webserver on Other UNIX”。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>linux系统的3种端口转发方式</title>
+      <link>/posts/linux%E7%B3%BB%E7%BB%9F%E7%9A%843%E7%A7%8D%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E6%96%B9%E5%BC%8F/</link>
+      <pubDate>Fri, 20 May 2016 11:47:08 +0000</pubDate>
+      
+      <guid>/posts/linux%E7%B3%BB%E7%BB%9F%E7%9A%843%E7%A7%8D%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E6%96%B9%E5%BC%8F/</guid>
+      <description>&lt;p&gt;很多情况下我们都需要进行端口转发，这里以centos为例记录一下linux系统上端口转发的3种方式。&lt;/p&gt;
+&lt;h2 id=&#34;iptables&#34;&gt;iptables&lt;/h2&gt;
+&lt;p&gt;想利用iptables进行端口转发，首先要打开内核转发功能：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;echo &amp;quot;net.ipv4.ip_forward = 1&amp;quot; &amp;gt;&amp;gt; /etc/sysctl.conf
+sysctl -p
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后编辑转发的服务器的/etc/sysconfig/iptables文件，添加&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+-A PREROUTING -d 转发服务器的ip -p tcp --dport 转发服务器的端口 -j DNAT --to-destination 目标ip：端口
+-A POSTROUTING -d 目标ip -p tcp --dport 目标端口 -j SNAT --to 转发服务器的Ip
+COMMIT
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;重启Iptables后即可生效，在我们本机链接转发服务器的ip和端口实际上就是链接目标机器的ip和端口了。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>VirtualBOX虚拟机网络互通同时访问外网</title>
+      <link>/posts/virtualbox%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%92%E9%80%9A%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91/</link>
+      <pubDate>Fri, 29 Apr 2016 13:54:35 +0000</pubDate>
+      
+      <guid>/posts/virtualbox%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%92%E9%80%9A%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91/</guid>
+      <description>&lt;p&gt;对于爱好网络安全而又不想非法入侵的小伙伴来说，VirtualBOX可是神器级别的工具，这里记录一下我是怎么配置网络使虚拟机之间可以互通同时可以通过物理机访问外网的。&lt;/p&gt;
+&lt;p&gt;第一台虚拟机是kali linux，启动之前需要在设置中启用2块网卡，&lt;strong&gt;第一块网卡设置为“Internal Network”，第二块设置为&amp;quot;Bridged Adapter&amp;rdquo;&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;第二台是OWASP提供的漏洞测试虚拟机镜像，基于ubuntu的系统，&lt;strong&gt;第一块网卡设置为“Internal Network”即可&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>centos7安装Metasploit框架</title>
+      <link>/posts/centos7%E5%AE%89%E8%A3%85metasploit%E6%A1%86%E6%9E%B6/</link>
+      <pubDate>Mon, 28 Dec 2015 17:56:42 +0000</pubDate>
+      
+      <guid>/posts/centos7%E5%AE%89%E8%A3%85metasploit%E6%A1%86%E6%9E%B6/</guid>
+      <description>Metasploit应该不用多说了吧？Kali自带、Win和Mac都提供了现成的安装包，不过我莫名的对apt系不感冒，这里记录一下在centos7上安装metasploit框架的步骤，理论上yum系的都应该通用。 首先执行
+curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb &amp;gt; msfinstallchmod 755 msfinstall./msfinstall然后安装postgresql：</description>
+    </item>
+    
+    <item>
+      <title>fedora21无缝升级到23</title>
+      <link>/posts/fedora21%E6%97%A0%E7%BC%9D%E5%8D%87%E7%BA%A7%E5%88%B023/</link>
+      <pubDate>Tue, 24 Nov 2015 17:36:16 +0000</pubDate>
+      
+      <guid>/posts/fedora21%E6%97%A0%E7%BC%9D%E5%8D%87%E7%BA%A7%E5%88%B023/</guid>
+      <description>今天看到消息说在12月1号后，fedora将停止对21及以前版本的yum源中软件的更新、新增，作为一个“尝鲜爱好者”当然必须使用最新版的软件了，于是决定对fedora进行升级，目前版本是21，直接升级到23。注意，本文只适用于21,22进行升级，而20及以前的版本命令是fedup而非dnf。
+首先执行：
+sudo dnf updatesudo dnf system-upgrade download --releasever 23经过漫长的等待后：</description>
+    </item>
+    
+    <item>
+      <title>MacOS读写ntfs格式硬盘</title>
+      <link>/posts/macos%E8%AF%BB%E5%86%99ntfs%E6%A0%BC%E5%BC%8F%E7%A1%AC%E7%9B%98/</link>
+      <pubDate>Sat, 17 Oct 2015 12:04:27 +0000</pubDate>
+      
+      <guid>/posts/macos%E8%AF%BB%E5%86%99ntfs%E6%A0%BC%E5%BC%8F%E7%A1%AC%E7%9B%98/</guid>
+      <description>系统OS X 10.11，之前就有发现ntfs格式的移动硬盘在mac上只能读不能写，通俗点说就是不能保存文件。
+总体而言解决方法不外乎4种：
+ 硬盘在Mac上格式化成ExFAT这种通用格式 安装第三方插件，比如Paragon NTFS for MAC（收费） 安装osxfuse+ntfs-3g（命令行） 修改配置文件打开原生支持方法  首先硬盘里有东西就把第一种方式排除了，缺钱也不想用破解版的第二种也排除，虽说mac也是类unix系统不过看网上改的文件内容也不是特别明白原理排除，所以使用第三种方式吧。</description>
+    </item>
+    
+    <item>
+      <title>解决SSL InsecurePlatformWarning问题</title>
+      <link>/posts/%E8%A7%A3%E5%86%B3ssl-insecureplatformwarning%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Tue, 13 Oct 2015 16:26:12 +0000</pubDate>
+      
+      <guid>/posts/%E8%A7%A3%E5%86%B3ssl-insecureplatformwarning%E9%97%AE%E9%A2%98/</guid>
+      <description>最近使用requests库进行操作时总出现如下警告:
+InsecurePlatformWarning: A true SSLContext object is not available. This prevents urllib3 from configuring SSL appropriately and may cause certain SSL connections to fail.</description>
+    </item>
+    
+    <item>
+      <title>fedora21架设minecraft服务器</title>
+      <link>/posts/fedora21%E6%9E%B6%E8%AE%BEminecraft%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+      <pubDate>Thu, 17 Sep 2015 23:58:41 +0000</pubDate>
+      
+      <guid>/posts/fedora21%E6%9E%B6%E8%AE%BEminecraft%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+      <description>上周刚刚从dota2的坑中跳出来，这周就又跳入了mincraft的大坑中。作为买不起官网服务的穷人，自己玩单机也未免过于孤单。虽然网上有很多现成的“私服”，不过又不想受别人限制，那就自己搭建一个呗！
+首先安装jdk，fedora执行： sudo yum install java-1.8.0-openjdk.x86_64 ubuntu则是： suso apt-get install openjdk-7-jre-headless 安装完成后可以执行java命令看是否成功，然后下载minecraft的服务端：</description>
+    </item>
+    
+    <item>
+      <title>fedora21使用ipv6访问google</title>
+      <link>/posts/fedora21%E4%BD%BF%E7%94%A8ipv6%E8%AE%BF%E9%97%AEgoogle/</link>
+      <pubDate>Mon, 14 Sep 2015 18:41:37 +0000</pubDate>
+      
+      <guid>/posts/fedora21%E4%BD%BF%E7%94%A8ipv6%E8%AE%BF%E9%97%AEgoogle/</guid>
+      <description>有传言ss、goagent作者被喝茶，不知真假，不过github上的项目确实被删除了，照这趋势大中华局域网指日可待啊。
+项目删除并不代表不能使用，如果你有好的ss、goagent服务端fq依然是没太大问题的。不过我最近用ss自己搭建的服务端经常出现时不时就断线的情况，不知道是不是GFW又升级了？作为一个google重度用户，这实在是难以忍受，而且某些情况下又不能直接使用vpn，之前有研究过使用ipv6访问google，但那时候各种fq方法都还不会受到严重干扰，也就没深入了解。ipv6访问google并不是神码新鲜玩意，几年之前就说有朝一日ipv6将取代ipv4，不过喊了几年也没什么动静。原理和废话不多说，想使用ipv6访问google，fedora21默认已经启用了ipv6支持，ubuntu还需要设置一下，具体操作自行百度。然后需要安装miredo： sudo yum install miredo
+然后 使用root权限 执行：/usr/local/sbin/miredo
+执行后会发现多出一个虚拟网卡：</description>
+    </item>
+    
+    <item>
+      <title>Fedora21使用vpn翻墙同时访问内网</title>
+      <link>/posts/fedora21%E4%BD%BF%E7%94%A8vpn%E7%BF%BB%E5%A2%99%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91/</link>
+      <pubDate>Thu, 16 Jul 2015 12:13:50 +0000</pubDate>
+      
+      <guid>/posts/fedora21%E4%BD%BF%E7%94%A8vpn%E7%BF%BB%E5%A2%99%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91/</guid>
+      <description>本来用浏览器插件+ss翻墙翻的好好的，结果最近不知道哪里抽风，一访问google就给我跳转到&amp;quot;We are sorry&amp;quot;页面，提示说电脑自动向google发送了一些奇怪的东西，不过使用vpn则没有这个问题。
+但使用vpn则无法访问公司内网，关于这点mac上处理的就非常好，当同时使用多个vpn时mac会自动根据访问目标不同而切换不同的vpn线路。既然fedora上没有自动切换功能，但同为的*unix系统肯定是有解决办法的。
+目标：使用vpn翻墙同时能访问公司内网
+达成目标的核心原理就是路由表，未使用vpn时路由表如下：
+Destination Gateway Genmask Flags Metric Ref Use Iface0.</description>
+    </item>
+    
+    <item>
+      <title>centos6升级docker1.6</title>
+      <link>/posts/centos6%E5%8D%87%E7%BA%A7docker1-6/</link>
+      <pubDate>Thu, 18 Jun 2015 14:32:59 +0000</pubDate>
+      
+      <guid>/posts/centos6%E5%8D%87%E7%BA%A7docker1-6/</guid>
+      <description>&lt;p&gt;最近饱受Python版本、Django版本、系统不同导致部署方法不同这一类问题的折磨，虽然之前也有接触过docker但一直没抽出时间仔细学习，正好趁这个机会学习docker使用方法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>centos6搭建在线web代理</title>
+      <link>/posts/centos6%E6%90%AD%E5%BB%BA%E5%9C%A8%E7%BA%BFweb%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Sun, 17 May 2015 16:12:00 +0000</pubDate>
+      
+      <guid>/posts/centos6%E6%90%AD%E5%BB%BA%E5%9C%A8%E7%BA%BFweb%E4%BB%A3%E7%90%86/</guid>
+      <description>最近有个需求需要搭建一个在线web代理，懒得自己写就找到两个php程序：
+ knProxy:https://github.com/jabbany/knProxy glype:https://www.glype.com/download.php  从部署角度来讲这两个都很简单，功能上也很类似，这里我就以第二个为例吧，使用nginx来部署。先来安装nginx和php-fpm
+yum install nginxyum install php-fpm&amp;lt;/pre&amp;gt;下载glype后解压到/var/www/html/glype目录，并在/etc/nginx/conf.</description>
+    </item>
+    
+    <item>
+      <title>使用firewalld-cmd配置防火墙</title>
+      <link>/posts/%E4%BD%BF%E7%94%A8firewalld-cmd%E9%85%8D%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99/</link>
+      <pubDate>Thu, 23 Apr 2015 17:44:52 +0000</pubDate>
+      
+      <guid>/posts/%E4%BD%BF%E7%94%A8firewalld-cmd%E9%85%8D%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99/</guid>
+      <description>CentOS7和fedora中的默认防火墙都变成了firewalld，当然你也可以选择禁用这个并自己安装iptables，下面内容原文：这里，而且只翻译我用到的部分文章。原文中还展示了如何使用图形界面进行配置，不过作为键盘爱好者，能不用鼠标的就尽量不用鼠标了，直接上命令行操作。
+ 4.5.4 理解域概念 firewalld可以根据不同的信任级别，将处于不同域内的设备进行分离。NetworkManager用于管理firewalld将接口分配到哪个域中，可以通过NetworkManager界面或filrewall-config工具来进行设置。
+默认的配置文件位于/etc/firewalld/可以快速的应用在网络接口上，这里有一份关于域的简短的说明：
+dorp:任何入站请求都被忽略，无任何回复，只有发起的网络链接请求被放行。
+block:任何入站请求都被拒绝，ipv4协议回复&amp;quot;icmp-host-prohibited&amp;quot;消息，ipv6协议回复&amp;quot;icmp6-adm-prohibited&amp;rdquo;，只有从系统内部发出的链接请求才被放行。
+（个人感觉上面两个区别就是在于有无回复，对内的话用block、对外用dorp好一些，让外部扫描费点劲才知道被防火墙过滤了）
+public:为在公共场所准备，你不相信网络中的其他电脑不会对你的电脑造成伤害，只有被选定的入站链接被接受。</description>
+    </item>
+    
+    <item>
+      <title>fedora21安装有道词典linux版</title>
+      <link>/posts/fedora21%E5%AE%89%E8%A3%85%E6%9C%89%E9%81%93%E8%AF%8D%E5%85%B8linux%E7%89%88/</link>
+      <pubDate>Wed, 22 Apr 2015 16:18:19 +0000</pubDate>
+      
+      <guid>/posts/fedora21%E5%AE%89%E8%A3%85%E6%9C%89%E9%81%93%E8%AF%8D%E5%85%B8linux%E7%89%88/</guid>
+      <description>今天发现有道词典出了linux版，不过万恶的只有deepin和ubuntu的安装包，作为忠实的红帽系用户只能下源码了。首先从 http://cidian.youdao.com/index-linux.html 选择二进制安装包并解压。
+这里注意2个地方，首先fedora21默认为qt4，python2.7，而有道词典需要qt5以及python3，所以先要去官网下载QT5离线安装版（个人建议，我这在线安装qt5慢的不可忍受）。下载完成我们得到qt-opensource-linux-x64-5.4.1.run添加执行权限后执行即可。
+安装完成后进入到解压后的有道词典目录，我这里叫youdao-dict_1.0.2~binary_amd64，给里面的install.sh添加执行权限并执行即可。
+接下来到了最纠结的地方了，我们要手动安装各个依赖，这里我就直接给出经过N次失败后成功的结果把，下面这些都要用yum命令安装：
+yum install python3-qt5yum install python3-requestsyum install python3-xlibyum install python3-lxmlyum install python3-pillowyum install tesseract-langpack-chi_simyum install tesseract-langpack-chi_trayum install qt5-qtquickcontrolsyum install qt5-qtgraphicaleffects都安装完成后就可以用了，支持取词、划词，不过取词识别度还有待提高，划词翻译比较好用。当然了，如果你想更geek一点，可以安装openyoudao也很酷。</description>
+    </item>
+    
+    <item>
+      <title>MacOS安装Wireshark-qt</title>
+      <link>/posts/macos%E5%AE%89%E8%A3%85wiresharkqt/</link>
+      <pubDate>Mon, 06 Apr 2015 11:29:54 +0000</pubDate>
+      
+      <guid>/posts/macos%E5%AE%89%E8%A3%85wiresharkqt/</guid>
+      <description>大名鼎鼎的Wireshark不必多说，在win、linux系统中安装也都比较便捷，不过在网上大多写MacOS中如何安装的都狠麻烦，因为他们写的都是安装gtk版本的方式，而wireshark早就投入了qt阵营的怀抱了。
+在brew中直接使用brew install wireshark --with-qt即可安装成功，不过安装后会提示:
+&amp;gt; If your list of available capture interfaces is empty&amp;gt; (default OS X behavior), try the following commands:&amp;gt; curl https://bugs.</description>
+    </item>
+    
+    <item>
+      <title>fedora21安装MITMf框架</title>
+      <link>/posts/fedora21%E5%AE%89%E8%A3%85mitmf%E6%A1%86%E6%9E%B6/</link>
+      <pubDate>Thu, 02 Apr 2015 14:42:02 +0000</pubDate>
+      
+      <guid>/posts/fedora21%E5%AE%89%E8%A3%85mitmf%E6%A1%86%E6%9E%B6/</guid>
+      <description>关于这大名鼎鼎的中间人攻击框架不多介绍了，如果是kali linux用户直接apt-get install mitmf即可;如果是win用户呢，基本就放弃吧;如果是os x用户呢，有几个依赖我始终安装失败，你要安装成功了请联系我。
+网上很多都是讲ubuntu怎么安装这个框架的，这里我记录一下在fedora21上我的安装记录。
+首先安装一些系统依赖，这里我系统原来就安装了很多杂七杂八的东西，不保证下面的就是齐全的：
+sudo yum install libnetfilter_queue-develsudo yum install libffi-develsudo yum install libpcap-devel接下来下载一个不能用pip安装的包</description>
+    </item>
+    
+    <item>
+      <title>HAPROXY&#43;KEEPALIVE构建高可用集群</title>
+      <link>/posts/haproxy-keepalive%E6%9E%84%E5%BB%BA%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4/</link>
+      <pubDate>Mon, 19 Jan 2015 17:43:32 +0000</pubDate>
+      
+      <guid>/posts/haproxy-keepalive%E6%9E%84%E5%BB%BA%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4/</guid>
+      <description>新增一台HA节点192.168.0.155，虚拟IP192.168.0.160，其它IP见上文。
+安装KEEPALIVE:yum install keepalived
+分别在151和155 安装完成后，修改/etc/keepalived/keepalived.conf，我使用151作为主节点，155为备节点。
+151配置如下：
+! Configuration File for keepalivedglobal_defs {notification_email {test@xxx.</description>
+    </item>
+    
+    <item>
+      <title>RMBP我的记录</title>
+      <link>/posts/rmbp%E6%88%91%E7%9A%84%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Sun, 18 Jan 2015 13:58:11 +0000</pubDate>
+      
+      <guid>/posts/rmbp%E6%88%91%E7%9A%84%E8%AE%B0%E5%BD%95/</guid>
+      <description>不出意料的，2015计划单中首先完成了“其它”——换台新电脑。新电脑已经入手半个多月了，记录一下这段时间我是怎么折腾的。
+作为一名忠实的键盘党，感觉MBP的触控板简直爽爆了，在告别鼠标的道路上又进一步，而且“合盖就走，无需关机”这点也让我很喜欢。最初的时候可能需要重新熟悉一下os x的快捷键（不改键盘键位映射的情况下），command键取代了ctrl键的大部分功能，比如复制、粘贴、切换输入法一类的。再比如网页刷新是command+r而非F5，这里推荐第一款软件——cheatsheet。
+这个小东西的作用就是当你长按command键时显示常用快捷键，不仅是系统级别的，而且还包含了软件层面的。
+第二个推荐的软件就是alfred，相信使用os x的没有不知道这个的吧？绝对是os x下的第一效率神器。
+另外，虽说os x也算是*unix家族的成员，但从习惯了linux的强大的包管理功能后还是希望能在ox s中也有类似功能，于是请出os x下的包管理大师——homebrew。</description>
+    </item>
+    
+    <item>
+      <title>fedora21开机执行某命令</title>
+      <link>/posts/fedora21%E5%BC%80%E6%9C%BA%E6%89%A7%E8%A1%8C%E6%9F%90%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Fri, 26 Dec 2014 09:54:17 +0000</pubDate>
+      
+      <guid>/posts/fedora21%E5%BC%80%E6%9C%BA%E6%89%A7%E8%A1%8C%E6%9F%90%E5%91%BD%E4%BB%A4/</guid>
+      <description>作为一名手贱党，昨天又把电脑折腾残废了。那就顺便升级成最新的fedora21吧。从18开始，fedora默认rc.local文件不存在，所以需要以root用户执行
+sudo touch /etc/rc.d/rc.localsudo chmod 755 /etc/rc.d/rc.local然后编辑这个文件，比如：
+#!/bin/shmount /dev/sdb1 /mnt/files/exit 0重启即可。</description>
+    </item>
+    
+    <item>
+      <title>centos部署Ganglia</title>
+      <link>/posts/centos%E9%83%A8%E7%BD%B2ganglia/</link>
+      <pubDate>Fri, 28 Nov 2014 17:01:10 +0000</pubDate>
+      
+      <guid>/posts/centos%E9%83%A8%E7%BD%B2ganglia/</guid>
+      <description>Ganglia+RRDTool这对组合可以说是不错的机群监控软件了，在centos6下安装是十分简单的，服务端安装
+yum install rrdtool-develyum install ganglia-gmetadyum install ganglia-web然后配置文件基本不用大量修改，位于/etc/ganglia/gmetad.</description>
+    </item>
+    
+    <item>
+      <title>iptables禁止某Ip</title>
+      <link>/posts/iptables%E7%A6%81%E6%AD%A2%E6%9F%90ip/</link>
+      <pubDate>Mon, 17 Nov 2014 09:55:58 +0000</pubDate>
+      
+      <guid>/posts/iptables%E7%A6%81%E6%AD%A2%E6%9F%90ip/</guid>
+      <description>今天登录服务器一看，好家伙：
+tcp 0 0 198.74.121.150:80 38.103.160.12:33873 TIME_WAIT - tcp 0 0 198.</description>
+    </item>
+    
+    <item>
+      <title>centos安装denyhosts</title>
+      <link>/posts/centos%E5%AE%89%E8%A3%85denyhosts/</link>
+      <pubDate>Mon, 20 Oct 2014 17:37:42 +0000</pubDate>
+      
+      <guid>/posts/centos%E5%AE%89%E8%A3%85denyhosts/</guid>
+      <description>最近不知道得罪了哪路大神，一直都有坏人暴力破解本站的SSH登录密码。想安安静静的写博客就这么难么&amp;hellip;没办法，那就安个denyhosts吧。
+centos下直接使用Yum安装即可:yum install denyhosts.noarch
+当然也可以下载编译安装。安装好后，配置文件是/etc/denyhosts.conf,参数说明如下:
+SECURE_LOG = /var/log/secure#ssh日志文件
+HOSTS_DENY = /etc/hosts.</description>
+    </item>
+    
+    <item>
+      <title>安装openfire后无法登录管理界面解决办法</title>
+      <link>/posts/%E5%AE%89%E8%A3%85openfire%E5%90%8E%E6%97%A0%E6%B3%95%E7%99%BB%E5%BD%95%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</link>
+      <pubDate>Sat, 11 Oct 2014 09:00:57 +0000</pubDate>
+      
+      <guid>/posts/%E5%AE%89%E8%A3%85openfire%E5%90%8E%E6%97%A0%E6%B3%95%E7%99%BB%E5%BD%95%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</guid>
+      <description>&lt;p&gt;最近需要搭建一套live chat，于是选中了openfire这个比较不错的开源软件。至于介绍、安装等步骤这里不再介绍，记录一下我搭建完毕后遇到一个奇葩的问题：建立管理员账户后却无法登录后台，提示帐号不存在或者密码错误，版本是3.9.3。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>centos搭建dns服务器</title>
+      <link>/posts/centos%E6%90%AD%E5%BB%BAdns%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+      <pubDate>Mon, 29 Sep 2014 11:17:13 +0000</pubDate>
+      
+      <guid>/posts/centos%E6%90%AD%E5%BB%BAdns%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+      <description>安装bind yum install bind
+编辑/etc/named.conf，添加域配置：
+zone &amp;quot;xxx.com&amp;quot; IN {type master;file &amp;quot;xxx.</description>
+    </item>
+    
+    <item>
+      <title>nessus使用记录</title>
+      <link>/posts/nessus%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Sun, 28 Sep 2014 09:34:55 +0000</pubDate>
+      
+      <guid>/posts/nessus%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</guid>
+      <description>至于介绍以及安装部分这里不再赘述，网上很多，可以直接下载rpm包进行安装。
+fedora20安装后需要启动服务：sudo service nessusd start
+浏览器访问 https://localhost:8834 即可看到nessus主界面。第一次使用时候需要注册码，翻墙去官方网站注册一个即可。
+首先我们需要创建一个Policy，点击policies标签页后选择new policy，会弹出一个Policy Wizards 选择，这里我选择web application tests。</description>
+    </item>
+    
+    <item>
+      <title>Nginx&#43;Uwsgi部署Django程序</title>
+      <link>/posts/nginx-uwsgi%E9%83%A8%E7%BD%B2django%E7%A8%8B%E5%BA%8F/</link>
+      <pubDate>Sat, 27 Sep 2014 17:44:03 +0000</pubDate>
+      
+      <guid>/posts/nginx-uwsgi%E9%83%A8%E7%BD%B2django%E7%A8%8B%E5%BA%8F/</guid>
+      <description>原来使用apache进行部署，感觉内存占用大以及速度比较慢就换成了nginx+uwsgi的方式，结果完爆apache啊！
+首先安装nginx以及uwsgi：
+yum install nginxpip install uwsgi然后编辑uwsgi的配置文件，这里我使用ini文件格式，示例如下：
+[uwsgi]socket = 127.</description>
+    </item>
+    
+    <item>
+      <title>tightvnc远程访问kali桌面系统</title>
+      <link>/posts/tightvnc%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AEkali%E6%A1%8C%E9%9D%A2%E7%B3%BB%E7%BB%9F/</link>
+      <pubDate>Fri, 26 Sep 2014 18:23:36 +0000</pubDate>
+      
+      <guid>/posts/tightvnc%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AEkali%E6%A1%8C%E9%9D%A2%E7%B3%BB%E7%BB%9F/</guid>
+      <description>安装完kali系统后应该已经默认安装了这个程序，如果没有的话使用apt-get install tightvncserver
+安装完成后执行
+tightvncserver -depth 24 -geometry 1440x900 :1-depth 24 使用24位颜色，这里一般用16或者24</description>
+    </item>
+    
+    <item>
+      <title>centos下部署openerp7</title>
+      <link>/posts/centos%E4%B8%8B%E9%83%A8%E7%BD%B2openerp7/</link>
+      <pubDate>Fri, 22 Aug 2014 11:26:53 +0000</pubDate>
+      
+      <guid>/posts/centos%E4%B8%8B%E9%83%A8%E7%BD%B2openerp7/</guid>
+      <description>首先需要注意的是openerp7需要python2.7+版本，而centos6下默认是python2.6，这里我使用centos7。
+首先安装postgresql
+yum install http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3-1.noarch.rpmyum install postgresql93-server postgresql93-contrib postgresql93-develcentos7中安装psql后初始化数据库和6不同，需要切换到postgres用户进入安装目录的bin文件夹执行手动初始化</description>
+    </item>
+    
+    <item>
+      <title>解决ipad未能找到使用指定主机名的服务器</title>
+      <link>/posts/%E8%A7%A3%E5%86%B3ipad%E6%9C%AA%E8%83%BD%E6%89%BE%E5%88%B0%E4%BD%BF%E7%94%A8%E6%8C%87%E5%AE%9A%E4%B8%BB%E6%9C%BA%E5%90%8D%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+      <pubDate>Wed, 25 Jun 2014 11:15:35 +0000</pubDate>
+      
+      <guid>/posts/%E8%A7%A3%E5%86%B3ipad%E6%9C%AA%E8%83%BD%E6%89%BE%E5%88%B0%E4%BD%BF%E7%94%A8%E6%8C%87%E5%AE%9A%E4%B8%BB%E6%9C%BA%E5%90%8D%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+      <description>最近联通不知道抽什么疯，Linux电脑只要访问二级域名就会跳转到恶心的DNS错误页面，甚至百度的二级域名都不行。那我玩ipad结果又访问不了App store，使用某些软件下东西又提示&#39;未能找到使用指定主机名的服务器&amp;rsquo;，但是微信又好用。
+愤怒了，一看就是dns的问题，那就把动态链接改成静态链接，IP地址子网掩码默认路由根据实际情况修改，dns设置为8.8.8.8。
+这样就能正常使用相关功能了。</description>
+    </item>
+    
+    <item>
+      <title>64位kali安装skype</title>
+      <link>/posts/64%E4%BD%8Dkali%E5%AE%89%E8%A3%85skype/</link>
+      <pubDate>Sun, 01 Jun 2014 08:36:23 +0000</pubDate>
+      
+      <guid>/posts/64%E4%BD%8Dkali%E5%AE%89%E8%A3%85skype/</guid>
+      <description>参考了debian7的安装方式,首先运行:
+# dpkg --add-architecture i386# apt-get update最初的时候64位系统是无法安装32位程序的。
+然后安装相关依赖:</description>
+    </item>
+    
+    <item>
+      <title>KaliLinux安装失败的解决方法</title>
+      <link>/posts/kalilinux%E5%AE%89%E8%A3%85%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Tue, 18 Mar 2014 12:38:47 +0000</pubDate>
+      
+      <guid>/posts/kalilinux%E5%AE%89%E8%A3%85%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid>
+      <description>不知道什么原因，安装kalilinux的时候总是安装失败，失败步骤：安装操作系统。偶尔这步通过了，又出现了grub无法安装的情况。
+下载了各个版本都是这样之后，对比了一下sha的值，发现和官网上给出的并不一样&amp;hellip;.什么情况？！然后根据http://cdimage.kali.org/kali-latest/amd64/这发现，正确的值应该是
+d859cc2798a24c48ddd37c6aafd88c5dc5e6e123 kali-linux-1.0.6-amd64-mini.iso281ddb3d14619a973e254b8f484b7fe27defa822 kali-linux-1.0.6-amd64.iso3cf383be7778d1676c015cb5430422e672ec59fa kali-linux-1.0.6-amd64-mini.torrentcfa0ad0dce1d4a170adf1cd342c622db23e785ef kali-linux-1.0.6-amd64.torrent又下载了sha值一样的镜像后，还是无法安装操作系统。</description>
+    </item>
+    
+    <item>
+      <title>fedora19升级20</title>
+      <link>/posts/fedora19%E5%8D%87%E7%BA%A720/</link>
+      <pubDate>Mon, 27 Jan 2014 13:14:09 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E5%8D%87%E7%BA%A720/</guid>
+      <description>不做死就不会死哈哈。
+首先yum安装fedup，然后先用update命令把已经安装的包升级，然后就是sudo fedup --network 20
+如果出现了 GPG KEY错误，我的做法是把三方源全都删掉，升级后再添加回来。
+不过升级了20后貌似也没什么吸引我的地方，而且中文汉化的不是非常好，干脆直接调整成英文版了。（有强迫症的伤不起啊～）
+如果你是重新安装的20，我之前19的美化记录以及软件安装方法都可以用。</description>
+    </item>
+    
+    <item>
+      <title>fedora19中VIM复制粘贴到系统剪切板</title>
+      <link>/posts/fedora19%E4%B8%ADvim%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4%E5%88%B0%E7%B3%BB%E7%BB%9F%E5%89%AA%E5%88%87%E6%9D%BF/</link>
+      <pubDate>Fri, 10 Jan 2014 14:42:30 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E4%B8%ADvim%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4%E5%88%B0%E7%B3%BB%E7%BB%9F%E5%89%AA%E5%88%87%E6%9D%BF/</guid>
+      <description>如果用的是fedoar，你会发现yum没有vim-gnomevim-gtk这类东西，而且使用:reg也没有+和*这两个寄存器。gvim又感觉太难看，难道fedora中vim复制到系统剪切板是个坑？？
+不过，咱们却有一个神器——vimx!这个就包含了+和*这两个寄存器了！(如果你没有这个vimx就安个gvim)
+使用VIMX打开编辑文件，想复制的时候，先按V进入可视模式，然后选中要复制的东西后 依次按“+y这三个按键就复制到剪贴版了。
+至于vim中寄存器介绍或者其他复制粘贴方式可以自行google，这里就不介绍了。</description>
+    </item>
+    
+    <item>
+      <title>fedora19更换fcitx输入法</title>
+      <link>/posts/fedora19%E6%9B%B4%E6%8D%A2fcitx%E8%BE%93%E5%85%A5%E6%B3%95/</link>
+      <pubDate>Fri, 06 Dec 2013 12:00:47 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E6%9B%B4%E6%8D%A2fcitx%E8%BE%93%E5%85%A5%E6%B3%95/</guid>
+      <description>今天上午实在是忍受不了ibus的折磨更换输入法，首先删除ibus
+sudo yum remove ibusgsettings set org.gnome.settings-daemon.plugins.keyboard active false之后安装fcitx:sudo yum install fcitx*</description>
+    </item>
+    
+    <item>
+      <title>linux用vps翻墙(ssh篇)</title>
+      <link>/posts/linux%E7%94%A8vps%E7%BF%BB%E5%A2%99-ssh%E7%AF%87/</link>
+      <pubDate>Fri, 06 Dec 2013 10:17:28 +0000</pubDate>
+      
+      <guid>/posts/linux%E7%94%A8vps%E7%BF%BB%E5%A2%99-ssh%E7%AF%87/</guid>
+      <description>最近买了一个VPS玩，提供了SSH功能，那就用它来翻翻墙吧。
+编写一个脚本文件，内容如下
+#!/usr/bin/expect -fset port 7070set user xxxxset host IP地址set password xxxxset timeout -1 spawn ssh -fND $port $user@$host expect &amp;#34;*assword:*&amp;#34; send &amp;#34;$passwordr&amp;#34; expect eof如果提示spawn命令不存在一类的错误则安装expect、spawn</description>
+    </item>
+    
+    <item>
+      <title>fedora19安装codeblocks</title>
+      <link>/posts/fedora19%E5%AE%89%E8%A3%85codeblocks/</link>
+      <pubDate>Wed, 04 Dec 2013 22:14:10 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E5%AE%89%E8%A3%85codeblocks/</guid>
+      <description>嫌麻烦的可以用yum install codeblocks安装，不过版本是10.05
+爱尝鲜的可以去官网下最新版本12.11，功能多了很多。目前没有fedora19的不过18的也可以用。
+下载codeblocks-12.11-1.el18.x86_64.tar.bz2后解压得到4个文件，全部安装即可。其实只安装codeblocks-12.11-1.el18.x86_64.rpm就可以使用了，全都安装后功能更多一些。
+如果是用yum安装的，运行程序时终端十分丑陋，可以设置
+Settings-&amp;gt;Environment-&amp;gt;&amp;quot;Terminal to launch console programs&amp;quot; 为 &amp;quot;gnome-terminal --geometry 80x20+100+100 --hide-menubar -t $TITLE -x&amp;quot;（不包含引号）。参数可以自己修改。</description>
+    </item>
+    
+    <item>
+      <title>fedora19装XMind</title>
+      <link>/posts/fedora19%E5%AE%89%E8%A3%85xmind/</link>
+      <pubDate>Tue, 03 Dec 2013 11:40:20 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E5%AE%89%E8%A3%85xmind/</guid>
+      <description>本来用bubbl这个在线的思维导图还凑合，不过他这个未付费用户只能存储3张，只好换回本地应用。
+安装freemind很简单，直接yum即可，不过界面和功能上有待加强。
+换成xmind这个强大的跨平台软件，发现只有deb包，那么想在fedora中使用进行下面操作即可：
+首先，下载对应版本的deb包，32bit系统下载32bit软件包，64bit系统下载64bit软件包
+ar -x xmind-xxxxx.deb解包，得到data.tar.gz 和control.tar.gz 两个归档文件
+解压data.tar.gz tar xf data.</description>
+    </item>
+    
+    <item>
+      <title>fedora19安装cairo-dock</title>
+      <link>/posts/fedora19%E5%AE%89%E8%A3%85cairo-dock/</link>
+      <pubDate>Sun, 17 Nov 2013 21:52:48 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E5%AE%89%E8%A3%85cairo-dock/</guid>
+      <description>最近又把电脑折腾残废了，没办法，只好重安装系统。本来想告别fedora回到opensuse的怀抱，不过却发现opensuse下用zypper安装的软件版本都比较低，为了能和我已经编好的程序保持一致性，只好又换回fedora19。
+安装过程还算顺利，添加国内源、三方源后更新系统却发现
+错误：软件包：perl-PathTools-3.2701-1.el5.rf.x86_64 (rpmforge)需要：perl(VMS::Filespec)您可以尝试用 --skip-broken 来解决该问题您可以尝试运行： rpm -Va --nofiles --nodigest即便安装了perl、使用了提示的命令也是不好使。折腾了很久都不知道结果，只好卸载了rpmforge源后问题解决。不过发现卸载了这个源后很多软件都yum找不到了&amp;hellip;&amp;hellip;直到刚才我才发现我居然用的是el5的架构&amp;hellip;&amp;hellip;眼残了阿&amp;hellip;&amp;hellip;而用yum erase rpmforge-release 这个命令居然把我的rpmfusion源也给删除了。不知道什么原理&amp;hellip;&amp;hellip;重新安rpmfusion源，却死活提示以经安装。</description>
+    </item>
+    
+    <item>
+      <title>fedora19安装skype</title>
+      <link>/posts/fedora19%E5%AE%89%E8%A3%85skype/</link>
+      <pubDate>Sat, 16 Nov 2013 19:09:40 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E5%AE%89%E8%A3%85skype/</guid>
+      <description>sudo yum -y install libXv.i686 libXScrnSaver.i686 qt.i686 qt-x11.i686 pulseaudio-libs.i686 pulseaudio-libs-glib2.i686 alsa-plugins-pulseaudio.</description>
+    </item>
+    
+    <item>
+      <title>如何为Gnome3添加自启动程序</title>
+      <link>/posts/%E5%A6%82%E4%BD%95%E4%B8%BAgnome3%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F/</link>
+      <pubDate>Thu, 14 Nov 2013 10:56:13 +0000</pubDate>
+      
+      <guid>/posts/%E5%A6%82%E4%BD%95%E4%B8%BAgnome3%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F/</guid>
+      <description>方法一 直接编辑配置文件 以开机自动启动pidgin为例：
+这里有一种方法可以使你自己的任意程序，随着Gnome3桌面的登陆自动启动。
+创建一个独立的文件在~/.config/autostart目录下，如果此目录不存在，则你应该自己创建它。（~代表当前用户的home目录）
+为这个文件起个名字叫做：appname.desktop; appname 是指你想伴随Gnome3启动的程序的名字。
+例如：我想 pidgin (一个免费的通讯工具）当Gnome3启动时自动启动，在我的Fedora系统中，所以我给这个文件命名：pidgin.</description>
+    </item>
+    
+    <item>
+      <title>fedora19美化</title>
+      <link>/posts/fedora19%E7%BE%8E%E5%8C%96/</link>
+      <pubDate>Fri, 01 Nov 2013 17:30:06 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E7%BE%8E%E5%8C%96/</guid>
+      <description>https://extensions.gnome.org
+安装 Gnome Tweak tool 调出最大化和最小化按钮以及更改主题
+yum install gnome-shell-theme* 安装所有主题</description>
+    </item>
+    
+    <item>
+      <title>fedora19源，rpmforge，fastestmirror</title>
+      <link>/posts/fedora19%E6%BA%90rpmforgefastestmirror/</link>
+      <pubDate>Fri, 01 Nov 2013 16:04:37 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E6%BA%90rpmforgefastestmirror/</guid>
+      <description>添加搜狐的源 进入网站http://mirrors.sohu.com/ ，在左边找到fedora目录，点击该行右边的help, 然后 下载fedora-sohu.repo和fedora-updates-sohu.repo, 放入/etc/yum.repos.d/ 运行yum makecache生成缓存
+添加163的源 进入网站 http://mirrors.</description>
+    </item>
+    
+    <item>
+      <title>fedora19安装ar8161网卡驱动</title>
+      <link>/posts/fedora19%E5%AE%89%E8%A3%85ar8161%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8/</link>
+      <pubDate>Fri, 01 Nov 2013 15:58:26 +0000</pubDate>
+      
+      <guid>/posts/fedora19%E5%AE%89%E8%A3%85ar8161%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8/</guid>
+      <description>换fedora19系统后发现网卡驱动没自动安装，解决办法如下：
+内核为
+$Linux 3.9.5-301.fc19.x86_64 SMP Tue Jun 11 19:39:38 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux试验了N多个驱动后发现下面这个可以用:</description>
+    </item>
+    
+    <item>
+      <title>Ubuntu下Gogant的简易破墙术</title>
+      <link>/posts/ubuntu%E4%B8%8Bgogant%E7%9A%84%E7%AE%80%E6%98%93%E7%A0%B4%E5%A2%99%E6%9C%AF/</link>
+      <pubDate>Tue, 12 Feb 2013 16:25:10 +0000</pubDate>
+      
+      <guid>/posts/ubuntu%E4%B8%8Bgogant%E7%9A%84%E7%AE%80%E6%98%93%E7%A0%B4%E5%A2%99%E6%9C%AF/</guid>
+      <description>本来是研究CentOS下的穿墙术的，可惜不知道为什么我的CentOS里面Python版本始终升不到2.7，只好转到Ubuntu（如果你有CentOS下Python升级经验欢迎和我交流）。
+Ubuntu我用的是12.10版本，安装完成后关于Python的版本问题是不用考虑了。
+工具：1gogant ，我用的是2.1-0.32版本。 如果需要的可以留个邮箱什么的 话说最近这个玩意版本更新挺快的
+2浏览器，自带的火狐就好。
+过程：
+ 下载gogant后解压，现在这个版本里面已经不用自己申请什么ID了，直接使用即可。 终端里进入你解压后的gogant目录中，执行命令 # python proxy.</description>
+    </item>
+    
+  </channel>
+</rss>

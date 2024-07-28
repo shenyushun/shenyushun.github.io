@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>我特么是如何利用Django, Django REST Framework, Angular 1.1.x和Webpack构建一个项目的 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="我特么是如何利用Django, Django REST Framework, Angular 1.1.x和Webpack构建一个项目的" />
+<meta property="og:description" content="原文地址，向原作者表示感谢。由于本人并没学习过angular，所以翻译有误的地方恳请指正。
+
+我已经受够了JS社区的那帮二货，我只是想使用Django作为后端结合Angular做一个简单的、可复用的项目，却没有一个简明的指导教我如何做到。如果你也为此挣扎，这里有一份指南教你如何构建一个由Django作为后端、Webpack进行组织的Angular程序。
+问题
+我想开发一个Angular1.1.x的项目并使用Django作为后端提供数据，我喜欢使用Django REST Framework(DRF)来构造RESTful API。我也想打包需要的JavaScript资源。目前，我打算使用单一的服务器上运行这个程序。
+依赖
+
+Python 2.x
+a virtual Python environment
+Django 1.9.x (pip install django)
+npm 2.15.8&#43;
+Webpack 1.13.x (sudo npm i -g webpack)
+ESLint 2.13.1&#43; (sudo npm i -g eslint)
+NodeJS 4.4.7&#43;
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E6%88%91%E7%89%B9%E4%B9%88%E6%98%AF%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8django-django-rest-framework-angular-1-1-x%E5%92%8Cwebpack%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE%E7%9A%84/" />
+<meta property="article:published_time" content="2016-11-08T13:50:46+00:00" />
+<meta property="article:modified_time" content="2016-11-08T13:50:46+00:00" />
+
+		<meta itemprop="name" content="我特么是如何利用Django, Django REST Framework, Angular 1.1.x和Webpack构建一个项目的">
+<meta itemprop="description" content="原文地址，向原作者表示感谢。由于本人并没学习过angular，所以翻译有误的地方恳请指正。
+
+我已经受够了JS社区的那帮二货，我只是想使用Django作为后端结合Angular做一个简单的、可复用的项目，却没有一个简明的指导教我如何做到。如果你也为此挣扎，这里有一份指南教你如何构建一个由Django作为后端、Webpack进行组织的Angular程序。
+问题
+我想开发一个Angular1.1.x的项目并使用Django作为后端提供数据，我喜欢使用Django REST Framework(DRF)来构造RESTful API。我也想打包需要的JavaScript资源。目前，我打算使用单一的服务器上运行这个程序。
+依赖
+
+Python 2.x
+a virtual Python environment
+Django 1.9.x (pip install django)
+npm 2.15.8&#43;
+Webpack 1.13.x (sudo npm i -g webpack)
+ESLint 2.13.1&#43; (sudo npm i -g eslint)
+NodeJS 4.4.7&#43;
+">
+<meta itemprop="datePublished" content="2016-11-08T13:50:46&#43;00:00" />
+<meta itemprop="dateModified" content="2016-11-08T13:50:46&#43;00:00" />
+<meta itemprop="wordCount" content="1109">
+
+
+
+<meta itemprop="keywords" content="django,python," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">我特么是如何利用Django, Django REST Framework, Angular 1.1.x和Webpack构建一个项目的</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2016-11-08T13:50:46Z">2016-11-08</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>, <a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p><a href="http://gregblogs.com/how-the-do-i-build-a-django-django-rest-framework-angular-1-1-x-and-webpack-project/#prereq">原文地址</a>，向原作者表示感谢。由于本人并没学习过angular，所以翻译有误的地方恳请指正。</p>
+<hr>
+<p>我已经受够了JS社区的那帮二货，我只是想使用Django作为后端结合Angular做一个简单的、可复用的项目，却没有一个简明的指导教我如何做到。如果你也为此挣扎，这里有一份指南教你如何构建一个由Django作为后端、Webpack进行组织的Angular程序。</p>
+<h2 id="问题">问题</h2>
+<p>我想开发一个Angular1.1.x的项目并使用Django作为后端提供数据，我喜欢使用Django REST Framework(DRF)来构造RESTful API。我也想打包需要的JavaScript资源。目前，我打算使用单一的服务器上运行这个程序。</p>
+<h2 id="依赖">依赖</h2>
+<ul>
+<li>Python 2.x</li>
+<li>a virtual Python environment</li>
+<li>Django 1.9.x (pip install django)</li>
+<li>npm 2.15.8+</li>
+<li>Webpack 1.13.x (sudo npm i -g webpack)</li>
+<li>ESLint 2.13.1+ (sudo npm i -g eslint)</li>
+<li>NodeJS 4.4.7+</li>
+</ul>
+<h2 id="0设定虚拟环境">0.设定虚拟环境</h2>
+<p><code>mkvirtualenv mysite</code>
+在这步，你需要确保安装了上面所有的依赖项，包括Django。</p>
+<h2 id="1创建目录">1.创建目录</h2>
+<p>我们在开发时候就需要聚焦于模块化，因此我们最终会用到许多目录，初始时我们的目录结构如下：</p>
+<pre><code>mysite  
+├── backend
+│   ├── docs
+│   ├── requirements
+└── frontend
+    ├── app
+    │   ├── components
+    │   └── shared
+    ├── assets
+    │   ├── css
+    │   ├── img
+    │   ├── js
+    │   └── libs
+    ├── config
+    ├── dist
+        └── js
+</code></pre><p>执行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkdir mysite <span style="color:#f92672">&amp;&amp;</span> cd mysite  
+mkdir -p backend/docs/ backend/requirements/ <span style="color:#ae81ff">\ </span> 
+         frontend/app/shared/ <span style="color:#ae81ff">\</span>
+         frontend/app/components/ <span style="color:#ae81ff">\</span>
+         frontend/config <span style="color:#ae81ff">\</span>
+         frontend/assets/img/ frontend/assets/css/ <span style="color:#ae81ff">\</span>
+         frontend/assets/js/ frontend/assets/libs/ <span style="color:#ae81ff">\</span>
+         frontend/dist/js/
+</code></pre></div><p>注意：这个项目结构的灵感来源几个不同的项目，我认为这个结构是十分理想的，但你并不必须按这种结构组织代码。不过你在跟随文档操作时最好保持这个结构以免出现问题。</p>
+<h2 id="2创建django项目">2.创建Django项目</h2>
+<p>进入<code>mysite/backend/</code>目录创建Django项目：</p>
+<pre><code>python django-admin.py startproject mysite
+</code></pre><p>并且创建在<code>requirements/</code>中<code>requirements.txt</code>文件：</p>
+<pre><code>pip freeze &gt; requirements/requirements.txt
+</code></pre><p>在<code>mysite/backend/mysite/</code>目录内创建存放API程序的目录：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkdir -p applications/api/v1/  
+touch applications/__init__.py applications/api/__init__.py <span style="color:#ae81ff">\ </span> 
+        applications/api/v1/__init__.py applications/api/v1/routes.py <span style="color:#ae81ff">\</span>
+        applications/api/v1/serializers.py applications/api/v1/viewsets.py
+</code></pre></div><p>接下来创建<code>settings</code>目录在<code>mysite/backend/mysite/</code>目录：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkdir -p mysite/settings/  
+touch mysite/settings/__init__.py <span style="color:#ae81ff">\ </span> 
+        mysite/settings/base.py mysite/settings/dev.py mysite/settings/prod.py <span style="color:#ae81ff">\</span>
+        mysite/dev.env mysite/prod.env
+</code></pre></div><h2 id="3设定django所需的环境变量">3.设定Django所需的环境变量</h2>
+<p>在这步我喜欢使用<code>django-environ</code>来管理环境变量，当然有很多其他方法来做这件事，不过<code>django-environ</code>极大的简化了这个过程，所以我在所有的项目中都使用它。</p>
+<p>安装</p>
+<pre><code>pip install django-environ
+</code></pre><p>在<code>mysite/dev.env</code>中添加：</p>
+<pre><code>DATABASE_URL=sqlite:///mysite.db  
+DEBUG=True  
+FRONTEND_ROOT=path/to/mysite/frontend/  
+SECRET_KEY=_some_secret_key
+</code></pre><p>接下来我们将在<code>settings</code>中使用这些变量，这种在单独文件中配置特定变量的好处就是提供了切换运行环境的简单方法。在这里，<code>dev.env</code>文件是一个我们在本地开发时候使用的变量列表，同样的<code>prod.env</code>包含了生产环境所需的变量。</p>
+<p>注意：<code>SECRET_KEY</code>可以在执行<code>django-admin.py startproject</code>后生成的<code>settings.py</code>中获取。</p>
+<h2 id="4安装django-rest-framework并配置django使用环境变量">4.安装Django REST Framework并配置Django使用环境变量</h2>
+<p>安装</p>
+<pre><code>pip install djangorestframework  
+</code></pre><p>编写<code>mysite/backend/mysite/settings/base.py</code>文件:</p>
+<p><em>告诉Django去哪里寻找环境变量</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> environ
+
+project_root <span style="color:#f92672">=</span> environ<span style="color:#f92672">.</span>Path(__file__) <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>  
+env <span style="color:#f92672">=</span> environ<span style="color:#f92672">.</span>Env(DEBUG<span style="color:#f92672">=</span>(bool, False),)  
+CURRENT_ENV <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;dev&#39;</span> <span style="color:#75715e"># &#39;dev&#39; is the default environment</span>
+
+<span style="color:#75715e"># read the .env file associated with the settings that&#39;re loaded</span>
+env<span style="color:#f92672">.</span>read_env(<span style="color:#e6db74">&#39;./mysite/{}.env&#39;</span><span style="color:#f92672">.</span>format(CURRENT_ENV))
+</code></pre></div><p><em>配置数据库，这里我们使用django-environ内置的sqlite配置</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">DATABASES <span style="color:#f92672">=</span> {  
+    <span style="color:#e6db74">&#39;default&#39;</span>: env<span style="color:#f92672">.</span>db()
+}
+</code></pre></div><p><em>指定SECRET_KEY和DEBUG选项</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">SECRET_KEY <span style="color:#f92672">=</span> env(<span style="color:#e6db74">&#39;SECRET_KEY&#39;</span>)  
+DEBUG <span style="color:#f92672">=</span> env(<span style="color:#e6db74">&#39;DEBUG&#39;</span>)
+</code></pre></div><p><em>添加DRF到项目中</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Application definition</span>
+INSTALLED_APPS <span style="color:#f92672">=</span> [
+    <span style="color:#f92672">...</span>
+    <span style="color:#75715e"># Django Packages</span>
+    <span style="color:#e6db74">&#39;rest_framework&#39;</span>,
+]
+</code></pre></div><p><em>配置URL</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">ROOT_URLCONF <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;mysite.urls&#39;</span>
+</code></pre></div><p><em>指定templates和静态资源目录</em></p>
+<pre><code class="language-pytnon" data-lang="pytnon">STATIC_URL = '/static/'  
+STATICFILES_FINDERS = [  
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+STATICFILES_DIRS = [  
+    env('FRONTEND_ROOT')
+]
+
+TEMPLATES = [  
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [env('FRONTEND_ROOT')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+</code></pre><p>根据<code>TEMPLATES</code>的配置，Django将在<code>frontend/</code>目录寻找模板文件，这里也是Angular项目存放的位置。我们提供入口指令让Django使用Angular提供的模板。如果你不明白我在说什么，继续往下看……</p>
+<p>编写<code>settings/dev.py</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> mysite.settings.base <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+CURRENT_ENV <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;dev&#39;</span>
+</code></pre></div><p>这里我们告诉Django这个配置文件继承自<code>base.py</code>并且覆盖了<code>CURRENT_ENV</code>变量，意思就是说“使用这里的变量值而不是base.py中的变量值。”</p>
+<h2 id="5创建api">5.创建API</h2>
+<p>我们需要数据来测试Angular服务，所以来创建一个简单的API。你可以跳过这一节，但我不建议你这么做。完全的知道Angular的工作设置细节去理解HTTP请求是很重要的。</p>
+<p><em>在<code>mysite/backend/mysite</code>中创建一个Django App</em></p>
+<pre><code>mkdir applications/games  
+manage.py startapp games applications/games  
+</code></pre><p><em>添加games app到settings文件中</em></p>
+<pre><code class="language-pyton" data-lang="pyton">INSTALLED_APPS = [  
+    ...
+    'applications.games'
+]
+</code></pre><p><em>在<code>mysite/backend/mysite/applications/games/models.py</code>中创建模型</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Game</span>(models<span style="color:#f92672">.</span>model):  
+    title <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">255</span>)
+    description <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">750</span>)
+</code></pre></div><p><em>在<code>mysite/backend/mysite/applications/api/v1/serializers.py</code>中创建serializer</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> rest_framework.serializers <span style="color:#f92672">import</span> ModelSerializer  
+<span style="color:#f92672">from</span> applications.games.models <span style="color:#f92672">import</span> Game
+
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GameSerializer</span>(ModelSerializer):
+
+    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Meta</span>:
+        model <span style="color:#f92672">=</span> Game
+</code></pre></div><p><em>在<code>mysite/backend/mysite/applications/api/v1/viewsets.py</code>中创建DRF viewset</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> rest_framework <span style="color:#f92672">import</span> viewsets  
+<span style="color:#f92672">from</span> applications.games.models <span style="color:#f92672">import</span> Game  
+<span style="color:#f92672">from</span> applications.api.v1.serializers <span style="color:#f92672">import</span> GameSerializer
+
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GameViewSet</span>(viewsets<span style="color:#f92672">.</span>ModelViewSet):  
+    queryset <span style="color:#f92672">=</span> Game<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>all()
+    serializer_class <span style="color:#f92672">=</span> GameSerializer
+</code></pre></div><p><em>利用DRF的路由注册特性来处理路由信息在<code>mysite/backend/mysite/applications/api/v1/routes.py</code>中</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> rest_framework <span style="color:#f92672">import</span> routers  
+<span style="color:#f92672">from</span> applications.api.v1.viewsets <span style="color:#f92672">import</span> GameViewSet
+
+
+api_router <span style="color:#f92672">=</span> routers<span style="color:#f92672">.</span>SimpleRouter()  
+api_router<span style="color:#f92672">.</span>register(<span style="color:#e6db74">&#39;games&#39;</span>, GameViewSet)  
+</code></pre></div><p><em>在<code>mysite/backend/mysite/mysite/urls.py</code>添加url配置</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.contrib <span style="color:#f92672">import</span> admin  
+<span style="color:#f92672">from</span> django.conf.urls <span style="color:#f92672">import</span> include, url  
+<span style="color:#f92672">from</span> applications.api.v1.routes <span style="color:#f92672">import</span> api_router
+
+urlpatterns <span style="color:#f92672">=</span> [  
+    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^admin/&#39;</span>, admin<span style="color:#f92672">.</span>site<span style="color:#f92672">.</span>urls),
+    <span style="color:#75715e"># API:V1</span>
+    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^api/v1/&#39;</span>, include(api_router<span style="color:#f92672">.</span>urls)),
+]
+</code></pre></div><h2 id="6运行django服务">6.运行Django服务</h2>
+<pre><code>manage.py runserver --settings=mysite.settings.dev  
+</code></pre><p>通过<code>DJANGO_SETTINGS_MODULE</code>我们告诉<code>runserver</code>命令使用特定的配置文件。</p>
+<p>如果一切正常，你可以访问<code>localhost:8000/api/v1/games</code>并看到DRF的响应，接下来我们开始构建Angular程序。如果你卡住了，在评论区提出你的问题，我将帮助你调试。</p>
+<h2 id="7初始化npm包并安装前端js依赖项">7.初始化npm包并安装前端JS依赖项</h2>
+<p>没正确安装依赖项时Angular程序不会正常工作，这里先安装一些所需的依赖。</p>
+<p><em>初始化NPM包。在<code>mysite/frontend/</code>目录中执行</em></p>
+<pre><code>npm init --yes  
+</code></pre><p>通过<code>--yes</code>参数，告诉NPM命令根据默认选项生成<code>package.json</code>，这样就不用回答那些无聊的问题了。</p>
+<p><em>安装开发依赖项</em></p>
+<pre><code>npm install --save-dev eslint eslint-loader  
+</code></pre><p><em>安装通用依赖项</em></p>
+<pre><code>npm install --save eslint eslint-loader angular angular-resource angular-route json-loader mustache-loader lodash  
+</code></pre><p>略微调整一下<code>mysite/frontend/</code>目录中的<code>package.json</code>文件，如下所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">{
+  <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;my-app&#34;</span>,
+  <span style="color:#e6db74">&#34;version&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;0.0.1&#34;</span>,
+  <span style="color:#e6db74">&#34;description&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;This is my first angular app.&#34;</span>,
+  <span style="color:#e6db74">&#34;main&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;app.js&#34;</span>,
+  <span style="color:#e6db74">&#34;scripts&#34;</span><span style="color:#f92672">:</span> {
+    <span style="color:#e6db74">&#34;test&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;echo \&#34;Error: no test specified\&#34; &amp;&amp; exit 1&#34;</span>
+  },
+  <span style="color:#e6db74">&#34;keywords&#34;</span><span style="color:#f92672">:</span> [],
+  <span style="color:#e6db74">&#34;author&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>,
+  <span style="color:#e6db74">&#34;license&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;ISC&#34;</span>,
+  <span style="color:#e6db74">&#34;devDependencies&#34;</span><span style="color:#f92672">:</span> {
+    <span style="color:#e6db74">&#34;eslint&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;^3.1.1&#34;</span>,
+    <span style="color:#e6db74">&#34;eslint-loader&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;^1.4.1&#34;</span>
+  },
+  <span style="color:#e6db74">&#34;dependencies&#34;</span><span style="color:#f92672">:</span> {
+    <span style="color:#e6db74">&#34;angular&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;^1.5.8&#34;</span>,
+    <span style="color:#e6db74">&#34;angular-resource&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;^1.5.8&#34;</span>,
+    <span style="color:#e6db74">&#34;angular-route&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;^1.5.8&#34;</span>,
+    <span style="color:#e6db74">&#34;eslint&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;^3.1.1&#34;</span>,
+    <span style="color:#e6db74">&#34;eslint-loader&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;^1.4.1&#34;</span>,
+    <span style="color:#e6db74">&#34;json-loader&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;^0.5.4&#34;</span>,
+    <span style="color:#e6db74">&#34;lodash&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;^4.13.1&#34;</span>,
+    <span style="color:#e6db74">&#34;mustache-loader&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;^0.3.1&#34;</span>
+  }
+}
+</code></pre></div><ul>
+<li>eslint - 语法检查器，保持javascript代码的整洁和一致。</li>
+<li>eslint-loader - 通过Webpack运行eslint。我将会稍微解释一下“加载器”的概念。</li>
+<li>angular - MVC框架，如果你不知道这个可以关闭页面了。</li>
+<li>angular-resource - 一款angular的HTTP库，是<code>$http</code>的抽象。</li>
+<li>json-loader - 一个加载器(同样的，给Webpack使用)，通过<code>require()</code>语法来提取<code>.json</code>文件中的JSON格式内容。</li>
+<li>mustache-loader - 一个加载器，用来解析mustache模板。mustache模板十分有趣。</li>
+</ul>
+<p>这里我假定你不知道如何将上面的程序配合使用，别担心老兄。</p>
+<h2 id="8创建angular程序入口声明依赖以及全局配置">8.创建Angular程序入口，声明依赖以及全局配置</h2>
+<p>在<code>mysite/frontend/app/app.js</code>文件中：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">/* Libs */</span>
+<span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;angular/angular&#34;</span>);  
+<span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;angular-route/angular-route&#34;</span>);  
+<span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;angular-resource/angular-resource&#34;</span>);
+
+<span style="color:#75715e">/* Globals */</span>
+<span style="color:#a6e22e">_</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;lodash&#34;</span>);  
+<span style="color:#a6e22e">_urlPrefixes</span> <span style="color:#f92672">=</span> {  
+  <span style="color:#a6e22e">API</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;api/v1/&#34;</span>,
+  <span style="color:#a6e22e">TEMPLATES</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;static/app/&#34;</span>
+};
+
+<span style="color:#75715e">/* Components */</span>
+
+<span style="color:#75715e">/* App Dependencies */</span>
+<span style="color:#a6e22e">angular</span>.<span style="color:#a6e22e">module</span>(<span style="color:#e6db74">&#34;myApp&#34;</span>, [  
+  <span style="color:#e6db74">&#34;ngResource&#34;</span>,
+  <span style="color:#e6db74">&#34;ngRoute&#34;</span>,
+]);
+
+<span style="color:#75715e">/* Config Vars */</span>
+<span style="color:#75715e">// @TODO in Step 13.
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">/* App Config */</span>
+<span style="color:#a6e22e">angular</span>.<span style="color:#a6e22e">module</span>(<span style="color:#e6db74">&#34;myApp&#34;</span>).<span style="color:#a6e22e">config</span>(<span style="color:#a6e22e">routesConfig</span>);  
+</code></pre></div><p><code>app.js</code>是Webpack寻找模块进行打包的入口点，我个人很欣赏这种声明的组织方式和函数调用方式，但这并不是必须的。这里有6部分：</p>
+<ul>
+<li>Libs - 所需要的通用库</li>
+<li>Globals - 所需要的全局变量</li>
+<li>Components - 项目需要的模块</li>
+<li>App Dependencies - 声明程序入口名以及依赖</li>
+<li>Config Vars - 配置变量，比如路由配置</li>
+<li>App Config - 我们程序所需要的变量配置</li>
+</ul>
+<p>为了正常使用全局变量，你需要告诉ESLint哪些变量是全局的。编辑<code>mysite/frontend/config/eslint.json</code>文件：</p>
+<pre><code>{
+    &quot;env&quot;: {
+        &quot;node&quot;: true
+    },
+    &quot;extends&quot;: &quot;eslint:recommended&quot;,
+    &quot;rules&quot;: {
+        &quot;indent&quot;: [
+            &quot;error&quot;,
+            2
+        ],
+        &quot;linebreak-style&quot;: [
+            &quot;error&quot;,
+            &quot;unix&quot;
+        ],
+        &quot;quotes&quot;: [
+            &quot;error&quot;,
+            &quot;double&quot;
+        ],
+        &quot;semi&quot;: [
+            &quot;error&quot;,
+            &quot;always&quot;
+        ],
+        &quot;no-console&quot;: 0
+    },
+    &quot;globals&quot;: {
+        &quot;_&quot;: true,
+        &quot;_urlPrefixes&quot;: true,
+        &quot;angular&quot;: true,
+        &quot;inject&quot;: true,
+        &quot;window&quot;: true
+    },
+    &quot;colors&quot;: true
+}
+</code></pre><p>我们告诉ESLint这里有几个全局变量：</p>
+<ul>
+<li><code>_</code>代表lodash</li>
+<li><code>_urlPrefixes</code>是我们将在程序URL中使用的一个对象，我将晚些解释</li>
+<li><code>angular</code>代表我们的应用中整个AngularJS对象</li>
+<li><code>inject</code>将在Angular依赖注入时使用</li>
+<li><code>window</code>代表JavaScript的<code>window</code>对象，这里代表了DOM</li>
+</ul>
+<h2 id="9配置webpack">9.配置Webpack</h2>
+<p>现在我们已经配置好了项目的依赖关系，可以创建Webpack配置文件了。Webpack将结合我们所依赖的所有文件和我们编写的模块进行打包。</p>
+<p><em>编辑<code>mysite/frontend/webpack.config.js</code></em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> {  
+    <span style="color:#a6e22e">entry</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;./app/app.js&#34;</span>,
+    <span style="color:#a6e22e">output</span><span style="color:#f92672">:</span> {
+        <span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;./dist/js/&#34;</span>,
+        <span style="color:#a6e22e">filename</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;bundle.js&#34;</span>,
+        <span style="color:#a6e22e">sourceMapFilename</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;bundle.js.map&#34;</span>,
+    },
+
+    <span style="color:#a6e22e">watch</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+
+    <span style="color:#75715e">// eslint config
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">eslint</span><span style="color:#f92672">:</span> {
+      <span style="color:#a6e22e">configFile</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;./config/eslint.json&#39;</span>
+    },
+
+    <span style="color:#a6e22e">module</span><span style="color:#f92672">:</span> {
+        <span style="color:#a6e22e">preLoaders</span><span style="color:#f92672">:</span> [{
+            <span style="color:#a6e22e">test</span><span style="color:#f92672">:</span> <span style="color:#e6db74">/\.js$/</span>,
+            <span style="color:#a6e22e">exclude</span><span style="color:#f92672">:</span> <span style="color:#e6db74">/node_modules/</span>,
+            <span style="color:#a6e22e">loader</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;eslint-loader&#34;</span>
+        }],
+        <span style="color:#a6e22e">loaders</span><span style="color:#f92672">:</span> [
+          { <span style="color:#a6e22e">test</span><span style="color:#f92672">:</span> <span style="color:#e6db74">/\.css$/</span>, <span style="color:#a6e22e">loader</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;style!css&#34;</span> },
+          { <span style="color:#a6e22e">test</span><span style="color:#f92672">:</span> <span style="color:#e6db74">/\.html$/</span>, <span style="color:#a6e22e">loader</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;mustache-loader&#34;</span> },
+          { <span style="color:#a6e22e">test</span><span style="color:#f92672">:</span> <span style="color:#e6db74">/\.json$/</span>, <span style="color:#a6e22e">loader</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;json-loader&#34;</span> }]
+    },
+
+    <span style="color:#a6e22e">resolve</span><span style="color:#f92672">:</span> {
+        <span style="color:#a6e22e">extensions</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;&#39;</span>, <span style="color:#e6db74">&#39;.js&#39;</span>]
+    }
+};
+</code></pre></div><p>为了让Webpack能够打包我们的静态依赖文件，我们需要告诉他去哪里获取这些文件、哪些文件需要被处理以及打包前如何管理它们。</p>
+<p>让我们概览一下你通过<code>webpack.config.js</code>告诉Webpack些什么了：</p>
+<ul>
+<li><code>entry</code>告诉Webpack从什么位置开始构建，这可以是一个绝对路径也可以是一个相对于<code>webpack.config.js</code>的相对路径。这里我使用后者。</li>
+<li><code>output</code>是一个对象，其中<code>path</code>表示打包后文件存放的位置，<code>filename</code>则是文件名，这里我们还使用了<code>sourceMapFilename</code>来指明什么source map应该被调用。</li>
+<li><code>watch</code>告诉Webpack在它运行时监控文件的变动，如果没设置成<code>true</code>，Webpack将仅打包一次并退出。</li>
+<li><code>eslint</code>包含ESLint具体的配置，用于<code>eslint-loader</code>。</li>
+<li><code>module</code>用于告诉Webpack如何处理模块。</li>
+<li><code>module.preLoaders</code>说明在打包前需要做什么，这里我们使用eslint去运行我们的模块。</li>
+<li><code>module.loaders</code>指定加载器的序列，这里我仅设定了<code>test</code>和<code>loader</code>。<code>test</code>表明哪些模块需要运行加载器(通过正则表达式匹配文件名)，<code>loader</code>则表明哪一个加载器将被使用。每个加载器都是字符串并且使用感叹号作为标记，比如<code>loader!another_loader!yet_another_loader</code>。</li>
+</ul>
+<p><em>但是老兄，preLoaders和loaders又特么的有什么区别？？？</em> 我假设你问了这个问题，爱骂人的朋友。</p>
+<p><em><strong>A preLoader</strong></em> 是在加载器运行之前执行的代码，这里我们检查JavaScript语法。</p>
+<p><em><strong>A loader</strong></em> 告诉Webpack如何打包 <em>require()</em> 文件。一个加载器就好象一个模块，说“当你打包这些文件到一个文件时，这些字符串应该如何转换”</p>
+<p><em><strong>A postLoader</strong></em> 是一个Webpack插件在打包完成后运行，为了简单这里我们没指定postLoader。</p>
+<h2 id="10告诉django加载app">10.告诉Django加载App</h2>
+<p>现在，你已经配置了Webpack什么需要创建并如何创建了。(见鬼，此时此刻，如果你运行Webpack命令并且不报错，我会十分惊讶。如果真的成功了，我就是王八蛋。)</p>
+<p>自从Django加强了URL管理后，我们常常在Django的摆布下管理用户在本地浏览器中访问的路径。然而我们现在使用另一个框架构建了一个单页面程序，并且希望拥有完全控制用户输入的能力，我们需要的仅仅是Django服务这个单页面程序正常运行。因此……</p>
+<p><em>编辑<code>mysite/backend/mysite/mysite/urls.py</code>添加下列代码到<code>urlpatterns</code>中</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Web App Entry</span>
+url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^$&#39;</span>, TemplateView<span style="color:#f92672">.</span>as_view(template_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app/index.html&#34;</span>), name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;index&#39;</span>),  
+</code></pre></div><p>这意味着在用户访问<code>mysite.com/</code>时，<code>env('FRONTEND_ROOT') + app/index.html</code>将被<code>STATICFILES_FINDERS</code>找到并渲染成普通HTML模板。</p>
+<h2 id="11创建angular-app模板">11.创建Angular app模板</h2>
+<p>我们的<code>mysite/frontend/app/components/app/index.html</code>看起来就像一个常规的Django模板：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">{% load staticfiles %}
+<span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>  
+&lt;<span style="color:#f92672">html</span> <span style="color:#a6e22e">ng-app</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;myApp&#34;</span>&gt;  
+  &lt;<span style="color:#f92672">head</span>&gt;
+    &lt;<span style="color:#f92672">title</span>&gt;My Site&lt;/<span style="color:#f92672">title</span>&gt;
+    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{% static &#39;dist/js/bundle.js&#39; %}&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+  &lt;/<span style="color:#f92672">head</span>&gt;
+  &lt;<span style="color:#f92672">body</span>&gt;
+  &lt;/<span style="color:#f92672">body</span>&gt;
+&lt;/<span style="color:#f92672">html</span>&gt;
+</code></pre></div><p>在此时，你应该能运行Webpack了。如果你运行了Django服务并访问<code>localhost:8000</code>将会看到一个空白页面。如果没有，请让我知道。</p>
+<h2 id="12写一个home组件">12.写一个home组件</h2>
+<p>让我们来编写第一个组件，它将在页面上展示文字当用户访问<code>localhost:8000</code>时。</p>
+<p><em>创建components目录和基本文件在<code>frontend/app/components/</code>中</em></p>
+<pre><code>mkdir home &amp;&amp; touch home/home-controller.js home/home.js home/home.html  
+</code></pre><p><em>编辑<code>mysite/frontend/app/components/home/home.html</code></em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">ng-controller</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;HomeController as ctrl&#34;</span>&gt;  
+    &lt;<span style="color:#f92672">div</span>&gt;
+        &lt;<span style="color:#f92672">h1</span>&gt;Home!&lt;/<span style="color:#f92672">h1</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;  
+</code></pre></div><p>接下来编写<code>mysite/frontend/app/components/home/home-controller.js</code>文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">HomeController</span>() {  
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">that</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>;
+  <span style="color:#a6e22e">that</span>.<span style="color:#a6e22e">foo</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Foo!&#34;</span>;
+  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">that</span>); <span style="color:#75715e">// should print out the controller object
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#a6e22e">angular</span>.<span style="color:#a6e22e">module</span>(<span style="color:#e6db74">&#34;Home&#34;</span>)  
+  .<span style="color:#a6e22e">controller</span>(<span style="color:#e6db74">&#34;HomeController&#34;</span>, [
+    <span style="color:#a6e22e">HomeController</span>
+  ]);
+</code></pre></div><p>关于<code>var that = this</code>可以参考<a href="http://krslynx.com/2016/07/11/This-that-and-the-Other.html">另一文章</a></p>
+<p>Angular模块定义应该在<code>home.js</code>中被声明：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">angular</span>.<span style="color:#a6e22e">module</span>(<span style="color:#e6db74">&#34;Home&#34;</span>, []);
+
+<span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;./home-controller&#34;</span>);  
+</code></pre></div><p>现在我们可以在定义模块依赖的地方指明&quot;Home&quot;了，让我们动手吧。</p>
+<p>编辑<code>mysite/frontend/app/app.js</code>文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">/* Components */</span>
+<span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;./components/home/home&#34;</span>);
+
+<span style="color:#75715e">/* App Dependencies */</span>
+<span style="color:#a6e22e">angular</span>.<span style="color:#a6e22e">module</span>(<span style="color:#e6db74">&#34;myApp&#34;</span>, [  
+  <span style="color:#e6db74">&#34;Home&#34;</span>, <span style="color:#75715e">// this is our component
+</span><span style="color:#75715e"></span>  <span style="color:#e6db74">&#34;ngResource&#34;</span>,
+  <span style="color:#e6db74">&#34;ngRoute&#34;</span>
+]);
+</code></pre></div><h2 id="13为home组件和404页面编写路由">13.为home组件和404页面编写路由</h2>
+<p>现在我们来配置路由，当用户访问<code>localhost:8000</code>时，Angular应该在Django渲染模板后接手控制。为了实现这一点，我们使用<code>angular-router</code>。</p>
+<p><em>编辑<code>mysite/frontend/app/routes.js</code>文件</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">routesConfig</span>(<span style="color:#a6e22e">$routeProvider</span>) {  
+  <span style="color:#a6e22e">$routeProvider</span>
+    .<span style="color:#a6e22e">when</span>(<span style="color:#e6db74">&#34;/&#34;</span>, {
+      <span style="color:#a6e22e">templateUrl</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">_urlPrefixes</span>.<span style="color:#a6e22e">TEMPLATES</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;components/home/home.html&#34;</span>,
+      <span style="color:#a6e22e">label</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Home&#34;</span>
+    })
+    .<span style="color:#a6e22e">otherwise</span>({
+      <span style="color:#a6e22e">templateUrl</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">_urlPrefixes</span>.<span style="color:#a6e22e">TEMPLATES</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;404.html&#34;</span>
+    });
+}
+
+<span style="color:#a6e22e">routesConfig</span>.<span style="color:#a6e22e">$inject</span> <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;$routeProvider&#34;</span>];
+
+<span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">routesConfig</span>;  
+</code></pre></div><p>如果我们不添加<code>_urlPrefixes.TEMPLATES</code>，angular-router将认为<code>components/home/home.html</code>是一个服务器提供的实际URL路径，因为Django中配置了<code>STATIC_URL</code>，<code>localhost:8000/components/home/home.html</code>将不会正常工作。</p>
+<p>同样，你应该注意到了<code>otherwise({...})</code>配置，这是用来控制404页面的。</p>
+<p><em>编辑<code>mysite/frontend/app/404.html</code></em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">h1</span>&gt;NOT FOUND&lt;/<span style="color:#f92672">h1</span>&gt;  
+</code></pre></div><p><em>最终在<code>mysite/frontend/app/app.js</code>添加如下代码</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">/* Config Vars */</span>
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">routesConfig</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;./routes&#34;</span>);  
+</code></pre></div><h2 id="14在入口页面添加angular-router指令">14.在入口页面添加angular-router指令</h2>
+<p>现在我们需要告诉Angular在用户点击导航时如何切换页面。为了做的这点，我们需要利用angular-router。</p>
+<p><em>在<code>mysite/frontend/app/index.html</code>的<!-- raw HTML omitted -->标签中添加下列代码</em></p>
+<pre><code>&lt;base href=&quot;/&quot;&gt;  
+</code></pre><p><em>在<!-- raw HTML omitted -->中添加</em></p>
+<pre><code>&lt;div ng-view&gt;&lt;/div&gt;
+</code></pre><p><em>你的<code>index.html</code>看起来应该类似这样：</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">{% load staticfiles %}
+<span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>  
+&lt;<span style="color:#f92672">html</span> <span style="color:#a6e22e">ng-app</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;myApp&#34;</span>&gt;  
+  &lt;<span style="color:#f92672">head</span>&gt;
+    &lt;<span style="color:#f92672">title</span>&gt;My Site&lt;/<span style="color:#f92672">title</span>&gt;
+      &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{% static &#39;dist/js/bundle.js&#39; %}&#34;</span> &gt;&lt;/<span style="color:#f92672">script</span>&gt;
+      &lt;<span style="color:#f92672">base</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/&#34;</span>&gt;
+  &lt;/<span style="color:#f92672">head</span>&gt;
+  &lt;<span style="color:#f92672">body</span>&gt;
+    &lt;<span style="color:#f92672">div</span>&gt;
+      &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">ng-view</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+  &lt;/<span style="color:#f92672">body</span>&gt;
+&lt;/<span style="color:#f92672">html</span>&gt;
+</code></pre></div><p>运行Webpack命令，访问<code>localhost:8000</code>,你应该看到<code>home/home.html</code>中的内容了。(如果没有让我知道)</p>
+<h2 id="15结合rest-api和angular-app">15.结合REST API和Angular app</h2>
+<p>如果上面的都没问题，现在应该可以为Django API写Angular服务了。让我们来编写一个简单的组件，这个组件用来展示游戏列表，我假设你已经在数据库中添加了数据，访问<code>localhost:8000/api/v1/games</code>可以得到游戏列表。</p>
+<p><em>在<code>frontend/app/components/</code>中创建组件</em></p>
+<pre><code>mkdir -p game/list/ &amp;&amp; touch game/list/game-list-controller.js game/list/game-list-controller_test.js game/game-service.js game/game.js game/game.html
+</code></pre><p><em>编辑<code>game/game-service.js</code></em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">GameService</span>(<span style="color:#a6e22e">$resource</span>) {  
+  <span style="color:#75715e">/**
+</span><span style="color:#75715e">   * @name GameService
+</span><span style="color:#75715e">   *
+</span><span style="color:#75715e">   * @description
+</span><span style="color:#75715e">   * A service providing game data.
+</span><span style="color:#75715e">   */</span>
+
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">that</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>;
+
+  <span style="color:#75715e">/**
+</span><span style="color:#75715e">   * A resource for retrieving game data.
+</span><span style="color:#75715e">   */</span>
+  <span style="color:#a6e22e">that</span>.<span style="color:#a6e22e">GameResource</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">$resource</span>(<span style="color:#a6e22e">_urlPrefixes</span>.<span style="color:#a6e22e">API</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;games/:game_id/&#34;</span>);
+
+  <span style="color:#75715e">/**
+</span><span style="color:#75715e">   * A convenience method for retrieving Game objects.
+</span><span style="color:#75715e">   * Retrieval is done via a GET request to the ../games/ endpoint.
+</span><span style="color:#75715e">   * @param {object} params - the query string object used for a GET request to ../games/ endpoint
+</span><span style="color:#75715e">   * @returns {object} $promise - a promise containing game-related data
+</span><span style="color:#75715e">   */</span>
+  <span style="color:#a6e22e">that</span>.<span style="color:#a6e22e">getGames</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">params</span>) {
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">that</span>.<span style="color:#a6e22e">GameResource</span>.<span style="color:#a6e22e">query</span>(<span style="color:#a6e22e">params</span>).<span style="color:#a6e22e">$promise</span>;
+  };
+}
+
+<span style="color:#a6e22e">angular</span>.<span style="color:#a6e22e">module</span>(<span style="color:#e6db74">&#34;Game&#34;</span>)  
+  .<span style="color:#a6e22e">service</span>(<span style="color:#e6db74">&#34;GameService&#34;</span>, [<span style="color:#e6db74">&#34;$resource&#34;</span>, <span style="color:#a6e22e">GameService</span>]);
+</code></pre></div><p>注意<code>$resource</code>的配置，这就是之前设定的HTTP请求的路径。</p>
+<p><em>编辑<code>game/list/game-list-controller.js</code></em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">GameListController</span>(<span style="color:#a6e22e">GameService</span>) {  
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">that</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>;
+
+  <span style="color:#75715e">/* Stored game objects. */</span>
+  <span style="color:#a6e22e">that</span>.<span style="color:#a6e22e">games</span> <span style="color:#f92672">=</span> [];
+
+  <span style="color:#75715e">/**
+</span><span style="color:#75715e">   * Initialize the game list controller.
+</span><span style="color:#75715e">   */</span>
+  <span style="color:#a6e22e">that</span>.<span style="color:#a6e22e">init</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>() {
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">GameService</span>.<span style="color:#a6e22e">getGames</span>().<span style="color:#a6e22e">then</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">games</span>) {
+      <span style="color:#a6e22e">that</span>.<span style="color:#a6e22e">games</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">games</span>;
+    });
+  };
+}
+
+<span style="color:#a6e22e">angular</span>.<span style="color:#a6e22e">module</span>(<span style="color:#e6db74">&#34;Game&#34;</span>)  
+  .<span style="color:#a6e22e">controller</span>(<span style="color:#e6db74">&#34;GameListController&#34;</span>, [
+    <span style="color:#e6db74">&#34;GameService&#34;</span>,
+    <span style="color:#a6e22e">GameListController</span>
+  ]);
+</code></pre></div><p><em>编辑<code>game/game.html</code></em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">ng-controller</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;GameListController as ctrl&#34;</span> <span style="color:#a6e22e">ng-init</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ctrl.init()&#34;</span>&gt;  
+    &lt;<span style="color:#f92672">div</span>&gt;
+        &lt;<span style="color:#f92672">h1</span>&gt;Games&lt;/<span style="color:#f92672">h1</span>&gt;
+        <span style="color:#75715e">&lt;!-- Test List --&gt;</span>
+        &lt;<span style="color:#f92672">ul</span>&gt;
+          &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">ng-repeat</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;game in ctrl.games&#34;</span>&gt;{{ game.title }}&lt;/<span style="color:#f92672">li</span>&gt;
+        &lt;/<span style="color:#f92672">ul</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+</code></pre></div><p><em>编辑<code>game/game.js</code></em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">angular</span>.<span style="color:#a6e22e">module</span>(<span style="color:#e6db74">&#34;Game&#34;</span>, []);
+
+<span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;./list/game-list-controller&#34;</span>);  
+<span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;./game-service&#34;</span>);  
+</code></pre></div><p>接下来修改<code>app.js</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">/* Components */</span>
+<span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;./components/game/game&#34;</span>);
+
+<span style="color:#75715e">/* App Dependencies */</span>
+<span style="color:#a6e22e">angular</span>.<span style="color:#a6e22e">module</span>(<span style="color:#e6db74">&#34;myApp&#34;</span>, [  
+  <span style="color:#e6db74">&#34;Home&#34;</span>,
+  <span style="color:#e6db74">&#34;Game&#34;</span>,
+  <span style="color:#e6db74">&#34;ngResource&#34;</span>,
+  <span style="color:#e6db74">&#34;ngRoute&#34;</span>
+]);
+</code></pre></div><p>最终，我们还需要游戏列表配置路由，在<code>mysite/frontend/app/routes.js</code>文件中添加下面的<code>$routeProvider</code>对象;</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">.<span style="color:#a6e22e">when</span>(<span style="color:#e6db74">&#34;/game&#34;</span>, {
+  <span style="color:#a6e22e">templateUrl</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">_urlPrefixes</span>.<span style="color:#a6e22e">TEMPLATES</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;components/game/list/game-list.html&#34;</span>,
+  <span style="color:#a6e22e">label</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Games&#34;</span>
+})
+</code></pre></div><p>再次运行webpack，所有编译都应该成功，如果没有，请让我知道。</p>
+<p>访问<code>localhost:8000/#/games</code>你将看到游戏列表。</p>
+<hr>
+<p>关于非主要部分这里我就不翻译了，各位可以去原博客中评论或提问。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/django/" rel="tag">django</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/django%E8%A7%A3%E6%9E%90%E7%94%A8%E6%88%B7%E4%B8%8A%E4%BC%A0%E7%9A%84excel%E6%96%87%E4%BB%B6/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">django解析用户上传的excel文件</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E5%B0%86django%E6%A8%A1%E6%9D%BF%E5%8F%98%E9%87%8F%E4%BC%A0%E9%80%92%E7%BB%99%E5%A4%96%E9%83%A8js%E8%B0%83%E7%94%A8%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">将Django模板变量传递给外部JS调用的几种方式</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

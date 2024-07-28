@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>django文件上传功能 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="django文件上传功能" />
+<meta property="og:description" content="今天需要一个文件上传功能，所以代码如下
+def ci_test(request):try:if request.POST.has_key(&#34;send&#34;):xml_string=&#34;&#34;final_xml = &#34;&#34;file_obj = request." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/django%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%8A%9F%E8%83%BD/" />
+<meta property="article:published_time" content="2013-12-04T17:13:50+00:00" />
+<meta property="article:modified_time" content="2013-12-04T17:13:50+00:00" />
+
+		<meta itemprop="name" content="django文件上传功能">
+<meta itemprop="description" content="今天需要一个文件上传功能，所以代码如下
+def ci_test(request):try:if request.POST.has_key(&#34;send&#34;):xml_string=&#34;&#34;final_xml = &#34;&#34;file_obj = request.">
+<meta itemprop="datePublished" content="2013-12-04T17:13:50&#43;00:00" />
+<meta itemprop="dateModified" content="2013-12-04T17:13:50&#43;00:00" />
+<meta itemprop="wordCount" content="224">
+
+
+
+<meta itemprop="keywords" content="django,python," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">django文件上传功能</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-12-04T17:13:50Z">2013-12-04</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>今天需要一个文件上传功能，所以代码如下</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">ci_test</span>(request):
+    <span style="color:#66d9ef">try</span>:
+        <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>POST<span style="color:#f92672">.</span>has_key(<span style="color:#e6db74">&#34;send&#34;</span>):
+            xml_string<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>
+            final_xml <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>
+            file_obj <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>FILES<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;file&#39;</span>, None)
+            <span style="color:#66d9ef">for</span> keys <span style="color:#f92672">in</span> request<span style="color:#f92672">.</span>POST:
+                <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>POST[keys]:
+                    <span style="color:#66d9ef">print</span> keys,request<span style="color:#f92672">.</span>POST[keys]
+                    xml_string <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&gt;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&lt;/</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&gt;n</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (keys,request<span style="color:#f92672">.</span>POST[keys],keys,xml_string)
+            final_xml <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;root&gt;n</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&lt;/root&gt;&#34;</span> <span style="color:#f92672">%</span> xml_string
+            dirname <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>abspath(__file__))
+            parent <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>split(dirname)[<span style="color:#ae81ff">0</span>]
+            <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>POST[<span style="color:#e6db74">&#34;source&#34;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;text&#34;</span> <span style="color:#f92672">and</span> file_obj:
+                <span style="color:#66d9ef">if</span> file_obj<span style="color:#f92672">.</span>name<span style="color:#f92672">.</span>endswith(<span style="color:#e6db74">&#34;.txt&#34;</span>):
+                    <span style="color:#75715e">#print parent</span>
+                    filepath <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">/core/emaillist.txt&#34;</span> <span style="color:#f92672">%</span> parent
+                    <span style="color:#75715e">#print filepath</span>
+                    open(filepath,<span style="color:#e6db74">&#39;w&#39;</span>)<span style="color:#f92672">.</span>write(file_obj<span style="color:#f92672">.</span>read())  <span style="color:#75715e">#注意这里</span>
+                <span style="color:#66d9ef">else</span>:
+                    <span style="color:#66d9ef">raise</span> forms<span style="color:#f92672">.</span>ValidationError(<span style="color:#e6db74">&#34;上传文件类型错误！&#34;</span>)
+            path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">/core/config/</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">.xml&#34;</span> <span style="color:#f92672">%</span> (parent,request<span style="color:#f92672">.</span>POST[<span style="color:#e6db74">&#39;txtDate&#39;</span>])
+            open(path,<span style="color:#e6db74">&#39;w&#39;</span>)<span style="color:#f92672">.</span>write(final_xml<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
+        <span style="color:#66d9ef">else</span>:
+            smtp <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>POST[<span style="color:#e6db74">&#39;smtp&#39;</span>]
+            username <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>POST[<span style="color:#e6db74">&#39;username&#39;</span>]
+            passwd <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>POST[<span style="color:#e6db74">&#39;passwd&#39;</span>]
+            title <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>POST[<span style="color:#e6db74">&#39;title&#39;</span>]  <span style="color:#75715e">#邮件标题</span>
+            content <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>POST[<span style="color:#e6db74">&#39;content&#39;</span>]  <span style="color:#75715e">#邮件内容</span>
+            attach <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>POST[<span style="color:#e6db74">&#39;useattach&#39;</span>]  <span style="color:#75715e">#是否是附件发送</span>
+            ctype <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>POST[<span style="color:#e6db74">&#39;c_type&#39;</span>]  <span style="color:#75715e">#邮件格式</span>
+            testsend <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>POST[<span style="color:#e6db74">&#39;testsend&#39;</span>]<span style="color:#75715e">#测试邮箱</span>
+            subtem <span style="color:#f92672">=</span> <span style="color:#e6db74">u</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">:  </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (<span style="color:#e6db74">u</span><span style="color:#e6db74">&#34;测试&#34;</span>,title)
+            conn <span style="color:#f92672">=</span> creat_conn(smtp, username, passwd)
+            tem <span style="color:#f92672">=</span> testsend<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;;&#39;</span>)
+            <span style="color:#66d9ef">if</span> ctype<span style="color:#f92672">.</span>upper() <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;HTML&#34;</span>:  
+                final_body <span style="color:#f92672">=</span> creat_htmlbody(content)
+                    <span style="color:#75715e">#测试发送，不用记录日志直接传列表</span>
+                final_testmail(subtem,final_body,username,tem,conn,attach)
+                <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;test send  to </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> sucess!&#34;</span> <span style="color:#f92672">%</span> tem
+            <span style="color:#66d9ef">else</span>:
+                final_testmail(subtem,content,username,tem,conn,<span style="color:#e6db74">&#34;test&#34;</span>)
+                <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;test send  to </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> sucess!&#34;</span> <span style="color:#f92672">%</span> tem
+        <span style="color:#66d9ef">return</span> render(request,<span style="color:#e6db74">&#39;test.html&#39;</span>,{<span style="color:#e6db74">&#34;msg&#34;</span>:<span style="color:#e6db74">&#34;请求已经提交，关闭本页面即可&#34;</span>})
+    <span style="color:#66d9ef">except</span> forms<span style="color:#f92672">.</span>ValidationError:
+        <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;in my error&#34;</span>
+        <span style="color:#66d9ef">return</span> render(request,<span style="color:#e6db74">&#39;test.html&#39;</span>,{{<span style="color:#e6db74">&#34;msg&#34;</span>:<span style="color:#e6db74">&#34;文件类型错误，请重新操作！&#34;</span>}})
+    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span>:
+        <span style="color:#66d9ef">return</span> render(request,<span style="color:#e6db74">&#39;test.html&#39;</span>,{{<span style="color:#e6db74">&#34;msg&#34;</span>:<span style="color:#e6db74">&#34;发生错误，请重新操作！&#34;</span>}})
+</code></pre></div><p>此处需要注意模版文件中form的写法：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">action</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ci_test&#34;</span> <span style="color:#a6e22e">method</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;post&#34;</span> <span style="color:#a6e22e">onsubmit</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;return validate_form(this);&#34;</span> <span style="color:#a6e22e">enctype</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;multipart/form-data&#34;</span>&gt;
+&lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;file&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;file&#34;</span>/&gt;
+&lt;/<span style="color:#f92672">form</span>&gt;
+</code></pre></div><p>不过此处有个奇怪的问题，根据流程来看，如果上传的不是.txt文件则引发异常，也确实输出了&quot;in my error&quot;这句话，不过随后就引发了下面的异常，不知道render为什么错误。</p>
+<pre><code>TypeError at /mailinfo/ci_test
+unhashable type: 'dict'
+Request Method:         POST
+Request URL:    http://127.0.0.1:8000/mailinfo/ci_test
+Django Version:         1.5.3
+Exception Type:         TypeError
+Exception Value:        
+unhashable type: 'dict'
+Exception Location:     /home/xingsongyan/workspace/send/mailinfo/views.py in ci_test, line 66
+Python Executable:      /usr/bin/python2.7
+Python Version:         2.7.5
+Python Path:    
+['/home/xingsongyan/workspace/send',
+ '/usr/lib/python2.7/site-packages/pip-1.4.1-py2.7.egg',
+ '/home/xingsongyan/workspace/send',
+ '/usr/share/eclipse/dropins/pydev/eclipse/plugins/org.python.pydev_2.8.2.2013090511/pysrc',
+ '/usr/lib64/python27.zip',
+ '/usr/lib64/python2.7',
+ '/usr/lib64/python2.7/plat-linux2',
+ '/usr/lib64/python2.7/lib-tk',
+ '/usr/lib64/python2.7/lib-old',
+ '/usr/lib64/python2.7/lib-dynload',
+ '/usr/lib64/python2.7/site-packages',
+ '/usr/lib64/python2.7/site-packages/gtk-2.0',
+ '/usr/lib64/python2.7/site-packages/wx-2.8-gtk2-unicode',
+ '/usr/lib/python2.7/site-packages',
+ '/usr/lib/python2.7/site-packages/setuptools-0.6c11-py2.7.egg-info',
+ '/usr/lib64/python2.7/site-packages/PIL']
+Server time:    Wed, 4 Dec 2013 16:05:25 +0800
+</code></pre>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/django/" rel="tag">django</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/python%E5%88%86%E7%A6%BB%E4%B8%AD%E8%8B%B1%E6%96%87/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">python分离中、英文</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/fedora19%E5%AE%89%E8%A3%85codeblocks/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">fedora19安装codeblocks</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

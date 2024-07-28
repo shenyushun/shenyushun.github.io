@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>在Golang中保持TCP链接 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="在Golang中保持TCP链接" />
+<meta property="og:description" content="原文地址：这里，省略了一些非重点片段。
+尽管目前大多数系统都是通过gRPC或HTTP进行通信的，但仍有相当多的应用程序使用自定义协议。而且这些自定义协议中的许多都没有类似net/http这样方便的包来管理TCP连接。
+这篇文章是为了那些直接和TCP连接打交道的人准备的。本文将讨论如何长期维护健康的TCP会话，以及如何对操持长链接的系统进行调优。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E5%9C%A8golang%E4%B8%AD%E4%BF%9D%E6%8C%81tcp%E9%93%BE%E6%8E%A5/" />
+<meta property="article:published_time" content="2022-07-11T14:26:27+08:00" />
+<meta property="article:modified_time" content="2022-07-11T14:26:27+08:00" />
+
+		<meta itemprop="name" content="在Golang中保持TCP链接">
+<meta itemprop="description" content="原文地址：这里，省略了一些非重点片段。
+尽管目前大多数系统都是通过gRPC或HTTP进行通信的，但仍有相当多的应用程序使用自定义协议。而且这些自定义协议中的许多都没有类似net/http这样方便的包来管理TCP连接。
+这篇文章是为了那些直接和TCP连接打交道的人准备的。本文将讨论如何长期维护健康的TCP会话，以及如何对操持长链接的系统进行调优。">
+<meta itemprop="datePublished" content="2022-07-11T14:26:27&#43;08:00" />
+<meta itemprop="dateModified" content="2022-07-11T14:26:27&#43;08:00" />
+<meta itemprop="wordCount" content="209">
+
+
+
+<meta itemprop="keywords" content="golang," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">在Golang中保持TCP链接</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2022-07-11T14:26:27&#43;08:00">2022-07-11</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>原文地址：<a href="https://madflojo.medium.com/keeping-tcp-connections-alive-in-golang-801a78b7cf1">这里</a>，省略了一些非重点片段。</p>
+<p>尽管目前大多数系统都是通过gRPC或HTTP进行通信的，但仍有相当多的应用程序使用自定义协议。而且这些自定义协议中的许多都没有类似<code>net/http</code>这样方便的包来管理TCP连接。</p>
+<p>这篇文章是为了那些直接和TCP连接打交道的人准备的。本文将讨论如何长期维护健康的TCP会话，以及如何对操持长链接的系统进行调优。</p>
+<h2 id="健康的链接">健康的链接</h2>
+<p>对于使用了长链接的应用来说最常见的问题就是如何保证这些链接的健康，很多情况都不利于长链接的保持。比如，防火墙管理员经常会设置最大空闲时间，当TCP链接中长时间没有数据传输时这些链接将被杀死。</p>
+<p>修改了客户端或者服务端也可能导致链接断开，虽然其中一方可能知道链接被断开，而另一方则不一定知道，直到他试图发送一条消息。</p>
+<p>一种有用的办法解决上面问题就是启用TCP存活消息机制。</p>
+<h2 id="tcp-keepalive">TCP Keepalive</h2>
+<p>keepalive是TCP一种特性，当长时间不活跃时将发送一个特殊的数据包。这个数据包不包含任何数据而是要求一个ACK响应，当对端收到这个keepalive数据包时，将发送一个ACK响应回去。</p>
+<p>这种设计的优点就是只需要一端开启TCP keepalive即可，因为keepalive是一个设置了ACK标志的数据包，所以TCP协议要求对端发送ACK，而不管对端的keepalive配置。</p>
+<h2 id="启用keepalive">启用Keepalive</h2>
+<p>启用Keepalive十分简单，在Golang中设置<code>net.TCPConn.SetKeepAlive()</code>为<code>true</code>即可。下面的代码展示了如何在服务端启用：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">
+	<span style="color:#75715e">// Resolve TCP Address
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">addr</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">ResolveTCPAddr</span>(<span style="color:#e6db74">&#34;tcp&#34;</span>, <span style="color:#e6db74">&#34;127.0.0.1:9000&#34;</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Unable to resolve IP&#34;</span>)
+	}
+
+	<span style="color:#75715e">// Start TCP Listener
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">l</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">ListenTCP</span>(<span style="color:#e6db74">&#34;tcp&#34;</span>, <span style="color:#a6e22e">addr</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Unable to start listener - %s&#34;</span>, <span style="color:#a6e22e">err</span>)
+	}
+
+	<span style="color:#75715e">// Wait for new connections and send them to reader()
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> {
+		<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">AcceptTCP</span>()
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Listener returned - %s&#34;</span>, <span style="color:#a6e22e">err</span>)
+			<span style="color:#66d9ef">break</span>
+		}
+
+		<span style="color:#75715e">// Enable Keepalives
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">SetKeepAlive</span>(<span style="color:#66d9ef">true</span>)
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Unable to set keepalive - %s&#34;</span>, <span style="color:#a6e22e">err</span>)	
+		}
+		
+		<span style="color:#66d9ef">go</span> <span style="color:#a6e22e">reader</span>(<span style="color:#a6e22e">c</span>)
+	}
+</code></pre></div><p>在客户端启用Keepalive示例代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">	<span style="color:#75715e">// Open TCP Connection
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">DialTCP</span>(<span style="color:#e6db74">&#34;tcp&#34;</span>, <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">addr</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Unable to dial to server - %s&#34;</span>, <span style="color:#a6e22e">err</span>)
+	}
+
+ 	<span style="color:#75715e">// Enable Keepalives
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">SetKeepAlive</span>(<span style="color:#66d9ef">true</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Unable to set keepalive - %s&#34;</span>, <span style="color:#a6e22e">err</span>)	
+	}
+</code></pre></div><h2 id="调整系统参数">调整系统参数</h2>
+<h3 id="keepalive-idle-time">Keepalive Idle Time</h3>
+<p><code>tcp_keepalive_time</code>这个系统参数决定了链接空闲多久之后才会发送keepalive数据包。</p>
+<p>Keepalives通过周期性的发送数据包来保持TCP链接的存活和健康，但这仅仅是TCP连接不会频繁发送数据的情况才需要开始保活。如果在使用频繁的TCP连接上发送了保活使用的数据包，反而会引起问题（因为缺少ACK响应甚至收到了对端的RST响应）。</p>
+<p>通常来说<code>tcp_keepalive_time</code>默认为7200秒（2小时），这意味着默认情况下只有连接空闲了2个小时后才会发送keepalive数据包。</p>
+<p>当然了，这个值也可以通过sysctl命令来进行修改:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sysctl -w net.ipv4.tcp_keepalive_time<span style="color:#f92672">=</span><span style="color:#ae81ff">300</span>
+</code></pre></div><p>如果想在机器重启后也保持这个修改后的值，需要去修改<code>/etc/sysctl.conf</code>文件。</p>
+<h3 id="keepalive-interval">Keepalive Interval</h3>
+<p><code>tcp_keepalive_intvl</code>这个参数决定了发送keepalive数据包之间的时间间隔。</p>
+<p>默认值是75秒，结合上面的参数，也就是说连接空闲了2个小时后，每隔75秒钟发送一个keepalive数据包。</p>
+<p>同样可以使用sysctl命令或<code>/etc/sysctl.conf</code>修改这个值：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sysctl -w net.ipv4.tcp_keepalive_intvl<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>
+</code></pre></div><h3 id="keepalive-failures">Keepalive failures</h3>
+<p><code>tcp_keepalive_probes</code>这个参数决定了发送多少keepalive数据包没有收到ACK响应后，通知应用层这个连接完蛋了。</p>
+<p>默认值是9次，结合上面2个参数，也就是说连接空闲了2个小时后，每隔75秒钟发送一个keepalive数据包，重试9次如果都得不到ACK响应（11分钟15秒）后内核将通知应用层这个连接不健康。</p>
+<p>同样可以使用sysctl命令或<code>/etc/sysctl.conf</code>修改这个值：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sysctl -w net.ipv4.tcp_keepalive_probes<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>
+</code></pre></div><h2 id="修改系统默认值">修改系统默认值</h2>
+<p><code>tcp_keepalive_probes</code>, <code>tcp_keepalive_intvl</code>, <code>tcp_keepalive_time</code>这三个参数都是启用Keepalive机制时系统的默认值，在golang中可以使用<code>net.TCPConn.SetKeepAlivePeriod()</code>方法来修改:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">	<span style="color:#75715e">// Set Keepalive time interval
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">SetKeepAlivePeriod</span>(<span style="color:#ae81ff">30</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Unable to set keepalive interval - %s&#34;</span>, <span style="color:#a6e22e">err</span>)	
+	}
+</code></pre></div><p>上面的代码通过修改了<code>tcp_keepalive_intvl</code>的值为30秒，同时也修改了<code>tcp_keepalive_time</code>为30秒。原理可以看<a href="%5Bhttps://%5D(https://github.com/golang/go/blob/release-branch.go1.18/src/net/tcpsockopt_unix.go#L21)">这里</a>。</p>
+<h2 id="总结">总结</h2>
+<p>正如前文所述，TCP KEEPALIVE是一种保持长连接健康和存活的好办法，对于大多数情况默认的2小时11分钟去识别一个”死“连接都可以接受，某些场景则需要一些修改。对于这些场景通过<code>net.TCPConn.SetKeepAlivePeriod()</code>来进行修改是一个不错的选择。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/golang/" rel="tag">golang</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/iptables%E7%AC%94%E8%AE%B0/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Iptables笔记</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/docker%E9%95%9C%E5%83%8F%E5%A4%9A%E6%9E%B6%E6%9E%84%E6%9E%84%E5%BB%BA/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Docker镜像多架构构建</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

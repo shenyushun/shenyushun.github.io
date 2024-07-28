@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Python关键字yield详解 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Python关键字yield详解" />
+<meta property="og:description" content="伯乐在线 –刘志军编译自stackoverflow Python标签中投票率最高的一个问题《The Python yield keyword explained》，e-satis 详细回答了关于yield 以及 generator、iterable、iterator、iteration之间的关系。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/python%E5%85%B3%E9%94%AE%E5%AD%97yield%E8%AF%A6%E8%A7%A3/" />
+<meta property="article:published_time" content="2013-12-01T23:04:54+00:00" />
+<meta property="article:modified_time" content="2013-12-01T23:04:54+00:00" />
+
+		<meta itemprop="name" content="Python关键字yield详解">
+<meta itemprop="description" content="伯乐在线 –刘志军编译自stackoverflow Python标签中投票率最高的一个问题《The Python yield keyword explained》，e-satis 详细回答了关于yield 以及 generator、iterable、iterator、iteration之间的关系。">
+<meta itemprop="datePublished" content="2013-12-01T23:04:54&#43;00:00" />
+<meta itemprop="dateModified" content="2013-12-01T23:04:54&#43;00:00" />
+<meta itemprop="wordCount" content="347">
+
+
+
+<meta itemprop="keywords" content="python," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Python关键字yield详解</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-12-01T23:04:54Z">2013-12-01</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p><a href="http://www.jobbole.com/">伯乐</a>在线 –<a href="http://blog.jobbole.com/author/%E5%88%98%E5%BF%97%E5%86%9B/">刘志军</a>编译自stackoverflow Python标签中投票率最高的一个问题《<a href="http://stackoverflow.com/questions/231767/the-python-yield-keyword-explained">The Python yield keyword explained</a>》，<a href="http://stackoverflow.com/users/9951/e-satis">e-satis</a> 详细回答了关于yield 以及 generator、iterable、iterator、iteration之间的关系。</p>
+<h3 id="迭代器iterator">迭代器(Iterator)</h3>
+<p>为了理解yield是什么，首先要明白生成器(generator)是什么，在讲生成器之前先说说迭代器(iterator)，当创建一个列表(list)时，你可以逐个的读取每一项，这就叫做迭代（iteration）。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">mylist <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> mylist :
+    <span style="color:#66d9ef">print</span>(i)
+<span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">2</span>
+<span style="color:#ae81ff">3</span>
+</code></pre></div><p>Mylist就是一个迭代器，不管是使用复杂的表达式列表，还是直接创建一个列表，都是可迭代的对象。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">mylist <span style="color:#f92672">=</span> [x<span style="color:#f92672">*</span>x <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">3</span>)]
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> mylist :
+    <span style="color:#66d9ef">print</span>(i)
+<span style="color:#ae81ff">0</span>
+<span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">4</span>
+</code></pre></div><p>你可以使用“for··· in ···”来操作可迭代对象，如：list,string,files,这些迭代对象非常方便我们使用，因为你可以按照你的意愿进行重复的读取。但是你不得不预先存储所有的元素在内存中，那些对象里有很多元素时，并不是每一项都对你有用。</p>
+<h3 id="生成器generators">生成器(Generators)</h3>
+<p>生成器同样是可迭代对象，但是你只能读取一次，因为它并没有把所有值存放内存中，它动态的生成值：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">mygenerator <span style="color:#f92672">=</span> (x<span style="color:#f92672">*</span>x <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">3</span>))
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> mygenerator :
+    <span style="color:#66d9ef">print</span>(i)
+<span style="color:#ae81ff">0</span>
+<span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">4</span>
+</code></pre></div><p>使用()和[]结果是一样的，但是，第二次执行“ for in mygenerator”不会有任何结果返回，因为它只能使用一次。首先计算0，然后计算1，之后计算4，依次类推。</p>
+<h3 id="yield">Yield</h3>
+<p>Yield是关键字， 用起来像return，yield在告诉程序，要求函数返回一个生成器。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">createGenerator</span>() :
+    mylist <span style="color:#f92672">=</span> range(<span style="color:#ae81ff">3</span>)
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> mylist :
+        <span style="color:#66d9ef">yield</span> i<span style="color:#f92672">*</span>i
+mygenerator <span style="color:#f92672">=</span> createGenerator() <span style="color:#75715e"># create a generator</span>
+<span style="color:#66d9ef">print</span>(mygenerator) <span style="color:#75715e"># mygenerator is an object!</span>
+<span style="color:#f92672">&lt;</span>generator object createGenerator at <span style="color:#ae81ff">0xb7555c34</span><span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> mygenerator:
+    <span style="color:#66d9ef">print</span>(i)
+<span style="color:#ae81ff">0</span>
+<span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">4</span>
+</code></pre></div><p>这个示例本身没什么意义，但是它很清晰地说明函数将返回一组仅能读一次的值，要想掌握yield，首先必须理解的是：当你调用生成器函数的时候，如 上例中的createGenerator()，程序并不会执行函数体内的代码，它仅仅只是返回生成器对象，这种方式颇为微妙。函数体内的代码只有直到每次 循环迭代(for)生成器的时候才会运行。 函数第一次运行时，它会从函数开始处直到碰到yield时，就返回循环的第一个值，然后，交互的运行、返回，直到没有值返回为止。如果函数在运行但是并没有遇到yield，就认为该生成器是空，原因可能是循环终止，或者没有满足任何”if/else”。</p>
+<p>接下来读一小段代码来理解生成器的优点：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Bank</span>(): <span style="color:#75715e"># 创建银行，构造ATM机</span>
+<span style="color:#f92672">...</span>    crisis <span style="color:#f92672">=</span> False
+<span style="color:#f92672">...</span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_atm</span>(self) :
+<span style="color:#f92672">...</span>        <span style="color:#66d9ef">while</span> <span style="color:#f92672">not</span> self<span style="color:#f92672">.</span>crisis :
+<span style="color:#f92672">...</span>            <span style="color:#66d9ef">yield</span> <span style="color:#e6db74">&#34;$100&#34;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> hsbc <span style="color:#f92672">=</span> Bank() <span style="color:#75715e"># 没有危机时，你想要多少，ATM就可以吐多少</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> corner_street_atm <span style="color:#f92672">=</span> hsbc<span style="color:#f92672">.</span>create_atm()
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(corner_street_atm<span style="color:#f92672">.</span>next())
+<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">100</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(corner_street_atm<span style="color:#f92672">.</span>next())
+<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">100</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>([corner_street_atm<span style="color:#f92672">.</span>next() <span style="color:#66d9ef">for</span> cash <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>)])
+[<span style="color:#e6db74">&#39;$100&#39;</span>, <span style="color:#e6db74">&#39;$100&#39;</span>, <span style="color:#e6db74">&#39;$100&#39;</span>, <span style="color:#e6db74">&#39;$100&#39;</span>, <span style="color:#e6db74">&#39;$100&#39;</span>]
+<span style="color:#f92672">&gt;&gt;&gt;</span> hsbc<span style="color:#f92672">.</span>crisis <span style="color:#f92672">=</span> True <span style="color:#75715e"># 危机来临，银行没钱了</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(corner_street_atm<span style="color:#f92672">.</span>next())
+<span style="color:#f92672">&lt;</span>type <span style="color:#e6db74">&#39;exceptions.StopIteration&#39;</span><span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> wall_street_atm <span style="color:#f92672">=</span> hsbc<span style="color:#f92672">.</span>ceate_atm() <span style="color:#75715e"># 新建ATM，银行仍然没钱</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(wall_street_atm<span style="color:#f92672">.</span>next())
+<span style="color:#f92672">&lt;</span>type <span style="color:#e6db74">&#39;exceptions.StopIteration&#39;</span><span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> hsbc<span style="color:#f92672">.</span>crisis <span style="color:#f92672">=</span> False <span style="color:#75715e"># 麻烦就是，即使危机过后银行还是空的</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(corner_street_atm<span style="color:#f92672">.</span>next())
+<span style="color:#f92672">&lt;</span>type <span style="color:#e6db74">&#39;exceptions.StopIteration&#39;</span><span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> brand_new_atm <span style="color:#f92672">=</span> hsbc<span style="color:#f92672">.</span>create_atm() <span style="color:#75715e"># 构造新的ATM，恢复业务</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">for</span> cash <span style="color:#f92672">in</span> brand_new_atm :
+<span style="color:#f92672">...</span>    <span style="color:#66d9ef">print</span> cash
+<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">100</span>
+<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">100</span>
+<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">100</span>
+<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">100</span>
+<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">100</span>
+<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">100</span>
+<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">100</span>
+<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">100</span>
+<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">100</span>
+</code></pre></div><p>对于访问控制资源，生成器显得非常有用。</p>
+<h3 id="迭代工具你最好的朋友">迭代工具，你最好的朋友</h3>
+<p>迭代工具模块包含了操做指定的函数用于操作迭代器。想复制一个迭代器出来？链接两个迭代器？以one liner（这里的one-liner只需一行代码能搞定的任务)用内嵌的列表组合一组值？不使用list创建Map/Zip？···，你要做的就是 import itertools，举个例子吧： 四匹马赛跑到达终点排名的所有可能性：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> horses <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>]
+<span style="color:#f92672">&gt;&gt;&gt;</span> races <span style="color:#f92672">=</span> itertools<span style="color:#f92672">.</span>permutations(horses)
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(races)
+<span style="color:#f92672">&lt;</span>itertools<span style="color:#f92672">.</span>permutations object at <span style="color:#ae81ff">0xb754f1dc</span><span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(list(itertools<span style="color:#f92672">.</span>permutations(horses)))
+[(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>),
+ (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">3</span>),
+ (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">4</span>),
+ (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">2</span>),
+ (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>),
+ (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>),
+ (<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>),
+ (<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">3</span>),
+ (<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>),
+ (<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">1</span>),
+ (<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>),
+ (<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>),
+ (<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">4</span>),
+ (<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">2</span>),
+ (<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>),
+ (<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">1</span>),
+ (<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>),
+ (<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>),
+ (<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>),
+ (<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>),
+ (<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>),
+ (<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>),
+ (<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>),
+ (<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>)]
+</code></pre></div><h3 id="理解迭代的内部机制">理解迭代的内部机制：</h3>
+<p>迭代(iteration）就是对可迭代对象（iterables，实现了<code>__iter__()</code>方法）和迭代器（iterators，实现了<code>__next__()</code>方法）的一个操作过程。可迭代对象是任何可返回一个迭代器的对象，迭代器是应用在迭代对象中迭代的对象，换一种方式说的话就 是：iterable对象的<code>__iter__()</code>方法可以返回iterator对象，iterator通过调用next()方法获取其中的每一个值(译者 注)，读者可以结合Java API中的 Iterable接口和Iterator接口进行类比。
+<a href="http://www.ibm.com/developerworks/cn/opensource/os-cn-python-yield/">http://www.ibm.com/developerworks/cn/opensource/os-cn-python-yield/</a> 这篇循序渐进，讲的挺好的。顺便分享下。</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/django%E4%B8%AD%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">django中静态文件的使用</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/python-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3yield/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Python 深入理解yield</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

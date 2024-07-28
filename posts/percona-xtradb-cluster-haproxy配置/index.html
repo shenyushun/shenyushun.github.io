@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Percona XtraDB Cluster&#43;HAProxy配置 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Percona XtraDB Cluster&#43;HAProxy配置" />
+<meta property="og:description" content="最近公司有个异地多机房数据同步需求，mysql原生支持双主同步，所以只能另寻他法，于是找到了Percona XtraDB Cluster。这个可以理解为给Mysql打了个补丁，以便支持多主同步。
+测试环境：centos 6.5
+IP分配:
+ 192.168.0.154(DB) 192.168.0.152(DB) 192.168.0.153(DB) 192." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/percona-xtradb-cluster-haproxy%E9%85%8D%E7%BD%AE/" />
+<meta property="article:published_time" content="2015-01-06T17:33:37+00:00" />
+<meta property="article:modified_time" content="2015-01-06T17:33:37+00:00" />
+
+		<meta itemprop="name" content="Percona XtraDB Cluster&#43;HAProxy配置">
+<meta itemprop="description" content="最近公司有个异地多机房数据同步需求，mysql原生支持双主同步，所以只能另寻他法，于是找到了Percona XtraDB Cluster。这个可以理解为给Mysql打了个补丁，以便支持多主同步。
+测试环境：centos 6.5
+IP分配:
+ 192.168.0.154(DB) 192.168.0.152(DB) 192.168.0.153(DB) 192.">
+<meta itemprop="datePublished" content="2015-01-06T17:33:37&#43;00:00" />
+<meta itemprop="dateModified" content="2015-01-06T17:33:37&#43;00:00" />
+<meta itemprop="wordCount" content="661">
+
+
+
+<meta itemprop="keywords" content="mysql," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Percona XtraDB Cluster&#43;HAProxy配置</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2015-01-06T17:33:37Z">2015-01-06</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="category">数据库</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>最近公司有个异地多机房数据同步需求，mysql原生支持双主同步，所以只能另寻他法，于是找到了Percona XtraDB Cluster。这个可以理解为给Mysql打了个补丁，以便支持多主同步。</p>
+<p>测试环境：centos 6.5</p>
+<p>IP分配:</p>
+<ol>
+<li>192.168.0.154(DB)</li>
+<li>192.168.0.152(DB)</li>
+<li>192.168.0.153(DB)</li>
+<li>192.168.0.151(HA)
+首先安装Percona XtraDB Cluster的源：
+<code>yum install http://www.percona.com/downloads/percona-release/percona-release-0.0-1.x86_64.rpm</code></li>
+</ol>
+<p>然后
+<code>yum install Percona-XtraDB-Cluster-56</code></p>
+<p>安装完毕后，修改/etc/my.cnf：</p>
+<pre><code>[mysqld]
+server_id=4
+datadir=/var/lib/mysql
+user=mysql
+# Path to Galeralibrary
+wsrep_provider=/usr/lib64/libgalera_smm.so
+# Cluster connectionURL contains the IPs of node#1, node#2 and node#3----所有节点的ip
+wsrep_cluster_address=gcomm://192.168.0.152,192.168.0.154,192.168.0.153
+# In order for Galerato work correctly binlog format should be ROW
+binlog_format=ROW
+# MyISAM storageengine has only experimental support
+default_storage_engine=InnoDB
+# This changes howInnoDB autoincrement locks are managed and is a requirement for Galera
+innodb_autoinc_lock_mode=2
+# Node #1 address----本机ip
+wsrep_node_address=192.168.0.154
+# SST method----节点间同步的方式
+wsrep_sst_method=xtrabackup-v2
+# Cluster name
+wsrep_cluster_name=my_centos_cluster
+# Authentication forSST method----来做节点间数据同步的账号密码
+wsrep_sst_auth=&quot;root:asdasd&quot;
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+</code></pre><p><strong>注意，修改不同节点的server_id以及 wsrep_node_address。</strong></p>
+<p>然后在192.168.0.152上执行<code>/etc/init.d/mysql bootstrap-pxc</code></p>
+<p>网上有些文章说需要修改 wsrep_cluster_address=gcomm://，在新版本中不需要了，上面这句就是初始化集群。结果如下：</p>
+<pre><code>[root@localhost ~]# /etc/init.d/mysql bootstrap-pxc
+Bootstrapping PXC (Percona XtraDB Cluster)Starting MySQL (Percona XtraDB Cluster).. SUCCESS!
+</code></pre><p>然后根据配置文件修改用于同步的用户名和密码，由于是实验环境我偷懒直接使用root了：</p>
+<pre><code>mysqladmin -u root password asdasd
+</code></pre><p>进入mysql终端后可以看当前信息：</p>
+<pre><code>mysql&gt; show status like 'wsrep%';
++----------------------------+--------------------------------------+
+| Variable_name              | Value                                |
++----------------------------+--------------------------------------+
+| wsrep_local_state_uuid     | c2883338-834d-11e2-0800-03c9c68e41ec |
+...
+| wsrep_local_state          | 4                                    |
+| wsrep_local_state_comment  | Synced                               |
+...
+| wsrep_incoming_addresses   | 192.168.0.152:3306                   |
+| wsrep_cluster_size         | 1                                    |
+| wsrep_cluster_status       | Primary                              |
+| wsrep_connected            | ON                                   |
+...
+| wsrep_ready                | ON                                   |
++----------------------------+--------------------------------------+
+</code></pre><p><strong>当第一个节点成功启动后，启动其他节点，注意此时命令是</strong></p>
+<pre><code>/etc/init.d/mysql start
+</code></pre><p>正常情况下很快就会启动完成，如果启动了很长时间后出现如下提示：</p>
+<pre><code>Shutting down MySQL (Percona XtraDB Cluster)..... SUCCESS!
+Starting MySQL (Percona XtraDB Cluster).................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................... ERROR!
+ ERROR! MySQL (Percona XtraDB Cluster) server startup failed!
+ ERROR! Failed to restart server.
+</code></pre><p>但日志里没相关错误信息，那么请 <strong>检查selinux是否关闭以及防火墙4444和4567端口</strong> ！！！（我就忘了防火墙的原因纠结了好久）</p>
+<p>启动成功提示如下：</p>
+<pre><code>[root@test4 ~]# service mysql start
+Starting MySQL (Percona XtraDB Cluster)...... SUCCESS!
+[root@test4 ~]# netstat -anp
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name   
+tcp        0      0 0.0.0.0:22                  0.0.0.0:*                   LISTEN      963/sshd            
+tcp        0      0 0.0.0.0:4567                0.0.0.0:*                   LISTEN      5184/mysqld         
+tcp        0      0 127.0.0.1:25                0.0.0.0:*                   LISTEN      1041/master         
+tcp        0      0 192.168.0.154:22            192.168.0.37:38500          ESTABLISHED 1080/sshd           
+tcp        0      0 192.168.0.154:4567          192.168.0.153:53681         ESTABLISHED 5184/mysqld         
+tcp        0      0 192.168.0.154:59348         192.168.0.152:4567          ESTABLISHED 5184/mysqld
+</code></pre><p>可以看出，4567端口也处于监听状态。此时，在任意机器上进行数据库操作其他2个也会自动同步了。</p>
+<p>此时，手动关闭152,然后在154上插入数据，153也同步了，同时自动把152从集群中删除了：</p>
+<pre><code>| wsrep_incoming_addresses     | 192.168.0.154:3306,192.168.0.153:3306 |
+</code></pre><p>再启动152后，数据也自动同步了。</p>
+<p>如果非常非常不幸，集群中所有节点都挂掉了，修复后需要在最后挂掉的节点上执行bootstrap-pxc命令，这样才能拯救多一些的数据。</p>
+<p>如果重启时候报错：</p>
+<pre><code>[root@test3 ~]# service mysql start
+ ERROR! MySQL (Percona XtraDB Cluster) is not running, but lock file (/var/lock/subsys/mysql) exists
+Stale sst_in_progress file in datadir
+Starting MySQL (Percona XtraDB Cluster)State transfer in progress, setting sleep higher
+.. ERROR! The server quit without updating PID file (/var/lib/mysql/test3.pid).
+ ERROR! MySQL (Percona XtraDB Cluster) server startup failed!
+</code></pre><p>直接删除/var/lock/subsys/mysql即可。还有一点需要注意的，数据库表需要使用INNODB而不是MYISAM引擎，否则会出现表结构同步了而数据无法同步的情况。</p>
+<p>安装HAproxy：<code>yum install haproxy</code></p>
+<p>修改配置文件，位于/etc/haproxy/haproxy.cfg:</p>
+<pre><code>#---------------------------------------------------------------------
+# Example configuration for a possibleweb application.  See the
+# full configuration options online.
+#  http://haproxy.1wt.eu/download/1.4/doc/configuration.txt
+#---------------------------------------------------------------------
+# Global settings
+#---------------------------------------------------------------------
+global
+   # to have these messages end up in /var/log/haproxy.log you will
+   # need to:
+   # 1) configure syslog to accept network log events.  This is done
+   #    by adding the '-r' option tothe SYSLOGD_OPTIONS in
+   #    /etc/sysconfig/syslog
+   # 2) configure local2 events to go to the /var/log/haproxy.log
+   #   file. A line like thefollowing can be added to
+   #   /etc/sysconfig/syslog
+   #
+   #    local2.*                       /var/log/haproxy.log
+   #
+   log         127.0.0.1      local0
+   log         127.0.0.1      local1 notice
+   chroot      /var/lib/haproxy
+   pidfile     /var/run/haproxy.pid
+   maxconn     4000
+   user        haproxy
+   group       haproxy
+   daemon
+   # turn on stats unix socket
+   stats socket /var/lib/haproxy/stats
+#---------------------------------------------------------------------
+# common defaults that all the'listen' and 'backend' sections will
+# use if not designated in their block
+#---------------------------------------------------------------------
+defaults
+   mode                    http
+   log                     global
+   option                  tcplog
+   option                 dontlognull
+#  option http-server-close
+#  option forwardfor       except127.0.0.0/8
+   option                  redispatch
+   retries                 3
+   maxconn                 2000
+   timeout connect         5s
+   timeout client          50s
+   timeout server          50s
+#  timeout http-keep-alive 10s
+   timeout check           10s
+listen mysql-cluster 0.0.0.0:3306
+    mode tcp
+    balance roundrobin
+    server node1 192.168.0.152:3306 check
+    server node2 192.168.0.153:3306 check
+    server node3 192.168.0.154:3306 check
+listen status 192.168.0.151:8080
+     stats enable
+     stats uri /status
+     stats auth admin:admin
+     stats realm (haproxy\ statistic)
+</code></pre><p>启动服务后，访问192.168.0.151：8080/status登录即可看到界面。对外则使用192.168.0.151：3306访问数据库即可。</p>
+<p>&mdash;-20150120更新&mdash;-</p>
+<p>对于上面的HA配置，默认是监控第4层，换言之如果由于某情况下3306端口开放而MYSQL实际并没提供服务时，HA就无法解决这种情况。为了模拟这种情况，停止某个节点的MYSQL服务后，使用NC监听3306端口，成功欺骗了HA。为了解决这中情况，我们就需要针对应用层进行监控。</p>
+<p>首先在节点上安装xinetd:<code>yum install -y xinetd</code></p>
+<p>然后编辑/etc/services，添加</p>
+<pre><code>mysqlchk        9200/tcp
+</code></pre><p>然后编辑/usr/bin/clustercheck，修改</p>
+<pre><code>MYSQL_USERNAME=&quot;${1-root}&quot;
+MYSQL_PASSWORD=&quot;${2-asdasd}&quot;
+</code></pre><p>这里我偷懒使用root，大家根据实际情况修改。保存后启动xinetd服务</p>
+<pre><code>[root@test4 ~]# /etc/init.d/xinetd start
+Starting xinetd:                                           [  OK  ]
+</code></pre><p>此时9200端口应该已经处于了监听状态，执行检测命令:</p>
+<pre><code>[root@test5 ~]# clustercheck
+HTTP/1.1 200 OK
+Content-Type: text/plain
+Connection: close
+Content-Length: 40
+Percona XtraDB Cluster Node is synced.
+</code></pre><p>接下来修改HA节点的配置文件，修改成：</p>
+<pre><code>    listen mysql-cluster 0.0.0.0:3306
+    mode tcp
+    balance roundrobin
+    option httpchk
+    server node1 192.168.0.152:3306 check port 9200 inter 12000 rise 3 fall 3
+    server node2 192.168.0.153:3306 check port 9200 inter 12000 rise 3 fall 3
+    server node3 192.168.0.154:3306 check port 9200 inter 12000 rise 3 fall 3
+</code></pre><p>保存后重启HAPROXY即可，如果使用了KEEPALIVE(<a href="http://dear-shen.com/?p=719">这里</a>)把备份HA配置也修改成一样的。此时就是基于应用层的监控了。</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/mysql/" rel="tag">mysql</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E4%BD%A0%E5%A5%BD2015/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">你好，2015！</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E9%80%89%E6%8B%A9%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F%E5%99%A8%E6%97%B6%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E5%87%A0%E7%82%B9%E7%BF%BB%E8%AF%91/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">选择漏洞扫描器时需要注意的几点（翻译）</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

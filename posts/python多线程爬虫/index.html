@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>python多线程爬虫 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="python多线程爬虫" />
+<meta property="og:description" content="原文链接：http://www.dongwm.com/archives/pa-chong-lian-xi/
+正好最近学习多线程、爬虫相关的东西，这篇文章写的十分不错！" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/python%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%88%AC%E8%99%AB/" />
+<meta property="article:published_time" content="2013-11-08T11:52:43+00:00" />
+<meta property="article:modified_time" content="2013-11-08T11:52:43+00:00" />
+
+		<meta itemprop="name" content="python多线程爬虫">
+<meta itemprop="description" content="原文链接：http://www.dongwm.com/archives/pa-chong-lian-xi/
+正好最近学习多线程、爬虫相关的东西，这篇文章写的十分不错！">
+<meta itemprop="datePublished" content="2013-11-08T11:52:43&#43;00:00" />
+<meta itemprop="dateModified" content="2013-11-08T11:52:43&#43;00:00" />
+<meta itemprop="wordCount" content="932">
+
+
+
+<meta itemprop="keywords" content="python," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">python多线程爬虫</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-08T11:52:43Z">2013-11-08</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>原文链接：http://www.dongwm.com/archives/pa-chong-lian-xi/</p>
+<p>正好最近学习多线程、爬虫相关的东西，这篇文章写的十分不错！</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/env python</span>
+<span style="color:#75715e">#coding=utf-8</span>
+<span style="color:#f92672">import</span> urllib2
+<span style="color:#f92672">import</span> Queue
+<span style="color:#f92672">import</span> sys
+<span style="color:#f92672">import</span> traceback
+<span style="color:#f92672">import</span> threading
+<span style="color:#f92672">import</span> re
+<span style="color:#f92672">import</span> datetime
+<span style="color:#f92672">import</span> lxml
+<span style="color:#f92672">import</span> chardet
+<span style="color:#f92672">import</span> logging
+<span style="color:#f92672">import</span> logging.handlers
+<span style="color:#f92672">from</span> time <span style="color:#f92672">import</span> sleep
+<span style="color:#f92672">from</span> urlparse <span style="color:#f92672">import</span> urlparse
+<span style="color:#f92672">from</span> lxml <span style="color:#f92672">import</span> etree
+<span style="color:#f92672">from</span> optparse <span style="color:#f92672">import</span> OptionParser
+<span style="color:#66d9ef">try</span>:
+    <span style="color:#f92672">from</span> sqlite3 <span style="color:#f92672">import</span> dbapi2 <span style="color:#66d9ef">as</span> sqlite
+<span style="color:#66d9ef">except</span>:
+    <span style="color:#f92672">from</span> pysqlite2 <span style="color:#f92672">import</span> dbapi2 <span style="color:#66d9ef">as</span> sqlite
+<span style="color:#75715e">#__doc__注释  执行脚本 -h 或者 --help  打印输出的内容</span>
+<span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">This script is used to crawl analyzing web!
+</span><span style="color:#e6db74">The Feature:
+</span><span style="color:#e6db74">1 可以指定抓取的深度
+</span><span style="color:#e6db74">2 将抓取到的关键字数据存放在sqlite
+</span><span style="color:#e6db74">3 使用logging记录日志
+</span><span style="color:#e6db74">4 并发线程池
+</span><span style="color:#e6db74">Required dependencies:
+</span><span style="color:#e6db74">1 chardet #分析抓取页面的字符集
+</span><span style="color:#e6db74">sudo easy_install chardet
+</span><span style="color:#e6db74">Usage:
+</span><span style="color:#e6db74">spider.py -u url -d deep -f logfile -l loglevel(1-5)  --testself -thread number --dbfile  filepath  --key=”HTML5”
+</span><span style="color:#e6db74">Writer: Dongweiming
+</span><span style="color:#e6db74">Date: 2012.10.22
+</span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+lock <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Lock() <span style="color:#75715e">#设置线程锁</span>
+LOGGER <span style="color:#f92672">=</span> logging<span style="color:#f92672">.</span>getLogger(<span style="color:#e6db74">&#39;Crawler&#39;</span>) <span style="color:#75715e">#设置logging模块的前缀</span>
+LEVELS<span style="color:#f92672">=</span>{   <span style="color:#75715e">#日志级别</span>
+        <span style="color:#ae81ff">1</span>:<span style="color:#e6db74">&#39;CRITICAL&#39;</span>,
+        <span style="color:#ae81ff">2</span>:<span style="color:#e6db74">&#39;ERROR&#39;</span>,
+        <span style="color:#ae81ff">3</span>:<span style="color:#e6db74">&#39;WARNING&#39;</span>,
+        <span style="color:#ae81ff">4</span>:<span style="color:#e6db74">&#39;INFO&#39;</span>,
+        <span style="color:#ae81ff">5</span>:<span style="color:#e6db74">&#39;DEBUG&#39;</span>,<span style="color:#75715e">#数字越大记录越详细</span>
+        }
+formatter <span style="color:#f92672">=</span> logging<span style="color:#f92672">.</span>Formatter(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%(name)s</span><span style="color:#e6db74"> </span><span style="color:#e6db74">%(asctime)s</span><span style="color:#e6db74"> </span><span style="color:#e6db74">%(levelname)s</span><span style="color:#e6db74"> </span><span style="color:#e6db74">%(message)s</span><span style="color:#e6db74">&#39;</span>) <span style="color:#75715e">#自定义日志格式</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">mySqlite</span>(object):
+    <span style="color:#66d9ef">def</span> __init__(self, path, logger, level):
+        <span style="color:#e6db74">&#39;&#39;&#39;初始化数据库连接.
+</span><span style="color:#e6db74">            from sqlite3 import dbapi2 as sqlite
+</span><span style="color:#e6db74">            conn = sqlite.connect(&#39;testdb&#39;)
+</span><span style="color:#e6db74">        &#39;&#39;&#39;</span>
+        <span style="color:#66d9ef">try</span>:
+            self<span style="color:#f92672">.</span>conn <span style="color:#f92672">=</span> sqlite<span style="color:#f92672">.</span>connect(path) <span style="color:#75715e">#连接sqlite</span>
+            self<span style="color:#f92672">.</span>cur <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>conn<span style="color:#f92672">.</span>cursor()  <span style="color:#75715e">#cursor是一个记录游标，用于一行一行迭代的访问查询返回的结果</span>
+        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span>, e:
+            myLogger(logger, self<span style="color:#f92672">.</span>loglevel, e, True)
+            <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+        self<span style="color:#f92672">.</span>logger <span style="color:#f92672">=</span> logger
+        self<span style="color:#f92672">.</span>loglevel <span style="color:#f92672">=</span> level
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create</span>(self, table):
+        <span style="color:#e6db74">&#39;&#39;&#39;创建table，我这里创建包含2个段 ID（数字型，自增长），Data（char 128字符）&#39;&#39;&#39;</span>
+        <span style="color:#66d9ef">try</span>:
+            self<span style="color:#f92672">.</span>cur<span style="color:#f92672">.</span>execute(<span style="color:#e6db74">&#34;CREATE TABLE IF NOT EXISTS </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">(Id INTEGER PRIMARY KEY AUTOINCREMENT, Data VARCHAR(40))&#34;</span><span style="color:#f92672">%</span> table)
+            self<span style="color:#f92672">.</span>done()
+        <span style="color:#66d9ef">except</span> sqlite<span style="color:#f92672">.</span>Error ,e: <span style="color:#75715e">#异常记录日志并且做事务回滚,以下相同</span>
+            myLogger(self<span style="color:#f92672">.</span>logger, self<span style="color:#f92672">.</span>loglevel, e, True)
+            self<span style="color:#f92672">.</span>conn<span style="color:#f92672">.</span>rollback()
+        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>loglevel <span style="color:#ae81ff">3</span>: <span style="color:#75715e">#设置在日志级别较高才记录,这样级别高的详细</span>
+                myLogger(self<span style="color:#f92672">.</span>logger, self<span style="color:#f92672">.</span>loglevel, <span style="color:#e6db74">&#39;创建表</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> table)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">insert</span>(self, table, data):
+        <span style="color:#e6db74">&#39;&#39;&#39;插入数据，指定表名，设置data的数据&#39;&#39;&#39;</span>
+        <span style="color:#66d9ef">try</span>:
+            self<span style="color:#f92672">.</span>cur<span style="color:#f92672">.</span>execute(<span style="color:#e6db74">&#34;INSERT INTO </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">(Data) VALUES(&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;)&#34;</span> <span style="color:#f92672">%</span> (table,data))
+            self<span style="color:#f92672">.</span>done()
+        <span style="color:#66d9ef">except</span> sqlite<span style="color:#f92672">.</span>Error ,e:
+            myLogger(self<span style="color:#f92672">.</span>logger, self<span style="color:#f92672">.</span>loglevel, e, True)
+            self<span style="color:#f92672">.</span>conn<span style="color:#f92672">.</span>rollback()
+        <span style="color:#66d9ef">else</span>:
+            <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>loglevel <span style="color:#ae81ff">4</span>:
+                myLogger(self<span style="color:#f92672">.</span>logger, self<span style="color:#f92672">.</span>loglevel, <span style="color:#e6db74">&#39;插入数据成功&#39;</span>)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">done</span>(self):
+        <span style="color:#e6db74">&#39;&#39;&#39;事务提交&#39;&#39;&#39;</span>
+        self<span style="color:#f92672">.</span>conn<span style="color:#f92672">.</span>commit()
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">close</span>(self):
+        <span style="color:#e6db74">&#39;&#39;&#39;关闭连接&#39;&#39;&#39;</span>
+        self<span style="color:#f92672">.</span>cur<span style="color:#f92672">.</span>close()
+        self<span style="color:#f92672">.</span>conn<span style="color:#f92672">.</span>close()
+        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>loglevel <span style="color:#ae81ff">3</span>:
+            myLogger(self<span style="color:#f92672">.</span>logger, self<span style="color:#f92672">.</span>loglevel, <span style="color:#e6db74">&#39;关闭sqlite操作&#39;</span>)
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Crawler</span>(object):
+    <span style="color:#66d9ef">def</span> __init__(self, args, app, table, logger):
+        self<span style="color:#f92672">.</span>deep <span style="color:#f92672">=</span> args<span style="color:#f92672">.</span>depth  <span style="color:#75715e">#指定网页的抓取深度        </span>
+        self<span style="color:#f92672">.</span>url <span style="color:#f92672">=</span> args<span style="color:#f92672">.</span>urlpth <span style="color:#75715e">#指定网站地址</span>
+        self<span style="color:#f92672">.</span>key <span style="color:#f92672">=</span> args<span style="color:#f92672">.</span>key <span style="color:#75715e">#要搜索的关键字</span>
+        self<span style="color:#f92672">.</span>logfile <span style="color:#f92672">=</span> args<span style="color:#f92672">.</span>logfile <span style="color:#75715e">#日志文件路径和名字</span>
+        self<span style="color:#f92672">.</span>loglevel <span style="color:#f92672">=</span> args<span style="color:#f92672">.</span>loglevel <span style="color:#75715e">#日志级别</span>
+        self<span style="color:#f92672">.</span>dbpth <span style="color:#f92672">=</span> args<span style="color:#f92672">.</span>dbpth <span style="color:#75715e">#指定sqlite数据文件路径和名字</span>
+        self<span style="color:#f92672">.</span>tp <span style="color:#f92672">=</span> app <span style="color:#75715e">#连接池回调实例</span>
+        self<span style="color:#f92672">.</span>table <span style="color:#f92672">=</span> table <span style="color:#75715e">#每次请求的table不同</span>
+        self<span style="color:#f92672">.</span>logger <span style="color:#f92672">=</span> logger <span style="color:#75715e">#logging模块实例</span>
+        self<span style="color:#f92672">.</span>visitedUrl <span style="color:#f92672">=</span> [] <span style="color:#75715e">#抓取的网页放入列表,防止重复抓取</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_hasCrawler</span>(self, url):
+        <span style="color:#e6db74">&#39;&#39;&#39;判断是否已经抓取过这个页面&#39;&#39;&#39;</span>
+        <span style="color:#66d9ef">return</span> (True <span style="color:#66d9ef">if</span> url <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>visitedUrl <span style="color:#66d9ef">else</span> False)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getPageSource</span>(self, url, key, deep):
+        <span style="color:#e6db74">&#39;&#39;&#39; 抓取页面,分析,入库.
+</span><span style="color:#e6db74">        &#39;&#39;&#39;</span>
+        headers <span style="color:#f92672">=</span> {  <span style="color:#75715e">#设计一个用户代理,更好防止被认为是爬虫</span>
+            <span style="color:#e6db74">&#39;User-Agent&#39;</span>:<span style="color:#e6db74">&#39;Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;</span>
+            rv:<span style="color:#ae81ff">1.9</span><span style="color:#f92672">.</span><span style="color:#ae81ff">1.6</span>) Gecko<span style="color:#f92672">/</span><span style="color:#ae81ff">20091201</span> Firefox<span style="color:#f92672">/</span><span style="color:#ae81ff">3.5</span><span style="color:#f92672">.</span><span style="color:#ae81ff">6</span><span style="color:#e6db74">&#39; }</span>
+        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>_hasCrawler(url): <span style="color:#75715e">#发现重复直接return</span>
+            <span style="color:#66d9ef">return</span>
+        <span style="color:#66d9ef">else</span>:
+            self<span style="color:#f92672">.</span>visitedUrl<span style="color:#f92672">.</span>append(url) <span style="color:#75715e">#发现新地址假如到这个列表</span>
+        <span style="color:#66d9ef">try</span>:
+            request <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>Request(url <span style="color:#f92672">=</span> url, headers <span style="color:#f92672">=</span> headers) <span style="color:#75715e">#创建一个访问请求,指定url,并且把访问请求保存在request</span>
+            result <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>urlopen(request)<span style="color:#f92672">.</span>read() <span style="color:#75715e">#打开这个请求,并保存读取数据</span>
+        <span style="color:#66d9ef">except</span> urllib2<span style="color:#f92672">.</span>HTTPError, e:  <span style="color:#75715e">#触发http异常记录日志并返回</span>
+            myLogger(self<span style="color:#f92672">.</span>logger, self<span style="color:#f92672">.</span>loglevel, e, True)
+            <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">try</span>:
+            encoding <span style="color:#f92672">=</span> chardet<span style="color:#f92672">.</span>detect(result)[<span style="color:#e6db74">&#39;encoding&#39;</span>] <span style="color:#75715e">#判断页面的编码</span>
+            <span style="color:#66d9ef">if</span> encoding<span style="color:#f92672">.</span>lower() <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;gb2312&#39;</span>:
+                encoding <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;gbk&#39;</span>  <span style="color:#75715e">#今天我抓取新浪是gb2312,但是其中有个&#39;蔡旻佑&#39;不能被识别,所以用gbk去解码gb2312的页面</span>
+            <span style="color:#66d9ef">if</span> encoding<span style="color:#f92672">.</span>lower() <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;utf-8&#39;</span>: <span style="color:#75715e">#发现不是默认编码就用应该的类型解码</span>
+                result <span style="color:#f92672">=</span> result<span style="color:#f92672">.</span>decode(encoding)
+        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span>, e:
+            myLogger(self<span style="color:#f92672">.</span>logger, self<span style="color:#f92672">.</span>loglevel, e, True)
+            <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">else</span>:
+            <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>loglevel <span style="color:#ae81ff">3</span>:
+                myLogger(self<span style="color:#f92672">.</span>logger, self<span style="color:#f92672">.</span>loglevel, <span style="color:#e6db74">&#39;抓取网页 </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> 成功&#39;</span> <span style="color:#f92672">%</span> url)
+        <span style="color:#66d9ef">try</span>:
+            self<span style="color:#f92672">.</span>_xpath(url, result, [<span style="color:#e6db74">&#39;a&#39;</span>], unicode(key, <span style="color:#e6db74">&#39;utf8&#39;</span>), deep) <span style="color:#75715e">#分析页面中的连接地址,以及它的内容</span>
+            self<span style="color:#f92672">.</span>_xpath(url, result, [<span style="color:#e6db74">&#39;title&#39;</span>, <span style="color:#e6db74">&#39;p&#39;</span>, <span style="color:#e6db74">&#39;li&#39;</span>, <span style="color:#e6db74">&#39;div&#39;</span>], unicode(key, <span style="color:#e6db74">&#34;utf8&#34;</span>), deep) <span style="color:#75715e">#分析这几个标签的内容</span>
+        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">TypeError</span>: <span style="color:#75715e">#对编码类型异常处理,有些深度页面和主页的编码不同</span>
+            self<span style="color:#f92672">.</span>_xpath(url, result, [<span style="color:#e6db74">&#39;a&#39;</span>], key, deep)
+            self<span style="color:#f92672">.</span>_xpath(url, result, [<span style="color:#e6db74">&#39;title&#39;</span>, <span style="color:#e6db74">&#39;p&#39;</span>, <span style="color:#e6db74">&#39;li&#39;</span>, <span style="color:#e6db74">&#39;div&#39;</span>], key, deep)
+        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span>, e:
+            myLogger(self<span style="color:#f92672">.</span>logger, self<span style="color:#f92672">.</span>loglevel, e, True)
+            <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">else</span>:
+            <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>loglevel <span style="color:#ae81ff">3</span>:
+                myLogger(self<span style="color:#f92672">.</span>logger, self<span style="color:#f92672">.</span>loglevel, <span style="color:#e6db74">&#39;分析网页 </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> 成功&#39;</span> <span style="color:#f92672">%</span> url)
+        <span style="color:#66d9ef">return</span> True
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_xpath</span>(self, weburl, data, xpath, key, deep):
+        sq <span style="color:#f92672">=</span> mySqlite(self<span style="color:#f92672">.</span>dbpth, self<span style="color:#f92672">.</span>logger, self<span style="color:#f92672">.</span>loglevel)
+        page <span style="color:#f92672">=</span> etree<span style="color:#f92672">.</span>HTML(data)
+        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> xpath:
+            hrefs <span style="color:#f92672">=</span> page<span style="color:#f92672">.</span>xpath(<span style="color:#e6db74">u</span><span style="color:#e6db74">&#34;//</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> i) <span style="color:#75715e">#根据xpath标签</span>
+            <span style="color:#66d9ef">if</span> deep <span style="color:#ae81ff">1</span>:
+                <span style="color:#66d9ef">for</span> href <span style="color:#f92672">in</span> hrefs:
+                    url <span style="color:#f92672">=</span> href<span style="color:#f92672">.</span>attrib<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;href&#39;</span>,<span style="color:#e6db74">&#39;&#39;</span>)
+                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> url<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#39;java&#39;</span>) <span style="color:#f92672">and</span> <span style="color:#f92672">not</span>  
+                        url<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#39;mailto&#39;</span>):  <span style="color:#75715e">#过滤javascript和发送邮件的链接</span>
+                            self<span style="color:#f92672">.</span>tp<span style="color:#f92672">.</span>add_job(self<span style="color:#f92672">.</span>getPageSource,url, key, deep<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#75715e">#递归调用,直到符合的深度</span>
+            <span style="color:#66d9ef">for</span> href <span style="color:#f92672">in</span> hrefs:
+                value <span style="color:#f92672">=</span> href<span style="color:#f92672">.</span>text  <span style="color:#75715e">#抓取相应标签的内容</span>
+                <span style="color:#66d9ef">if</span> value:
+                    m <span style="color:#f92672">=</span> re<span style="color:#f92672">.</span>compile(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;.*</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">.*&#39;</span> <span style="color:#f92672">%</span> key)<span style="color:#f92672">.</span>match(value) <span style="color:#75715e">#根据key匹配相应内容</span>
+                    <span style="color:#66d9ef">if</span> m:
+                        sq<span style="color:#f92672">.</span>insert(self<span style="color:#f92672">.</span>table, m<span style="color:#f92672">.</span>group()<span style="color:#f92672">.</span>strip()) <span style="color:#75715e">#将匹配的数据插入到sqlite</span>
+        sq<span style="color:#f92672">.</span>close()
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">work</span>(self):
+        <span style="color:#e6db74">&#39;&#39;&#39;主方法调用.
+</span><span style="color:#e6db74">         import datetime
+</span><span style="color:#e6db74">         logger = configLogger(&#39;test.log&#39;)
+</span><span style="color:#e6db74">         time = datetime.datetime.now().strftime(&#34;%m</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">%H%M%S&#34;)
+</span><span style="color:#e6db74">         sq = mySqlite(&#39;test.db&#39;, logger, 1)
+</span><span style="color:#e6db74">         table = &#39;d&#39; + str(time)
+</span><span style="color:#e6db74">         sq.create(table)
+</span><span style="color:#e6db74">         tp = ThreadPool(5)
+</span><span style="color:#e6db74">         def t():pass
+</span><span style="color:#e6db74">         t.depth=1
+</span><span style="color:#e6db74">         t.urlpth=&#39;http://www.baidu.com&#39;
+</span><span style="color:#e6db74">         t.logfile = &#39;test.log&#39;
+</span><span style="color:#e6db74">         t.loglevel = 1
+</span><span style="color:#e6db74">         t.dbpth = &#39;test.db&#39;
+</span><span style="color:#e6db74">         t.key = &#39;test&#39;
+</span><span style="color:#e6db74">         d = Crawler(t, tp, table, logger)
+</span><span style="color:#e6db74">         d.getPageSource(t.urlpth, t.key, t.depth)
+</span><span style="color:#e6db74">        &#39;&#39;&#39;</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> self<span style="color:#f92672">.</span>url<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#39;http://&#39;</span>): <span style="color:#75715e">#支持用户直接写域名,当然也支持带前缀</span>
+            self<span style="color:#f92672">.</span>url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;http://&#39;</span> <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>url
+        self<span style="color:#f92672">.</span>tp<span style="color:#f92672">.</span>add_job(self<span style="color:#f92672">.</span>getPageSource, self<span style="color:#f92672">.</span>url, self<span style="color:#f92672">.</span>key, self<span style="color:#f92672">.</span>deep)
+        self<span style="color:#f92672">.</span>tp<span style="color:#f92672">.</span>wait_for_complete() <span style="color:#75715e">#等待线程池完成</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyThread</span>(threading<span style="color:#f92672">.</span>Thread):
+    <span style="color:#66d9ef">def</span> __init__(self, workQueue, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>, <span style="color:#f92672">**</span>kwargs):
+        threading<span style="color:#f92672">.</span>Thread<span style="color:#f92672">.</span>__init__(self, kwargs<span style="color:#f92672">=</span>kwargs)
+        self<span style="color:#f92672">.</span>timeout <span style="color:#f92672">=</span> timeout <span style="color:#75715e">#线程在结束前等待任务队列多长时间</span>
+        self<span style="color:#f92672">.</span>setDaemon(True)  <span style="color:#75715e">#设置deamon,表示主线程死掉,子线程不跟随死掉</span>
+        self<span style="color:#f92672">.</span>workQueue <span style="color:#f92672">=</span> workQueue
+        self<span style="color:#f92672">.</span>start() <span style="color:#75715e">#初始化直接启动线程</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):
+        <span style="color:#e6db74">&#39;&#39;&#39;重载run方法&#39;&#39;&#39;</span>
+        <span style="color:#66d9ef">while</span> True:
+            <span style="color:#66d9ef">try</span>:
+                lock<span style="color:#f92672">.</span>acquire()   <span style="color:#75715e">#线程安全上锁</span>
+                callable, args <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>workQueue<span style="color:#f92672">.</span>get(timeout<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>timeout) <span style="color:#75715e">#从工作队列中获取一个任务</span>
+                res <span style="color:#f92672">=</span> callable(<span style="color:#f92672">*</span>args)  <span style="color:#75715e">#执行的任务</span>
+                lock<span style="color:#f92672">.</span>release()  <span style="color:#75715e">#执行完,释放锁</span>
+            <span style="color:#66d9ef">except</span> Queue<span style="color:#f92672">.</span>Empty: <span style="color:#75715e">#任务队列空的时候结束此线程</span>
+                <span style="color:#66d9ef">break</span>
+            <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span>, e:
+                myLogger(self<span style="color:#f92672">.</span>logger, self<span style="color:#f92672">.</span>loglevel, e, True)
+                <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ThreadPool</span>(object):
+    <span style="color:#66d9ef">def</span> __init__(self, num_of_threads):
+         self<span style="color:#f92672">.</span>workQueue <span style="color:#f92672">=</span> Queue<span style="color:#f92672">.</span>Queue()
+         self<span style="color:#f92672">.</span>threads <span style="color:#f92672">=</span> []
+         self<span style="color:#f92672">.</span>__createThreadPool(num_of_threads)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__createThreadPool</span>(self, num_of_threads):
+         <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(num_of_threads):
+             thread <span style="color:#f92672">=</span> MyThread(self<span style="color:#f92672">.</span>workQueue)
+             self<span style="color:#f92672">.</span>threads<span style="color:#f92672">.</span>append(thread)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">wait_for_complete</span>(self):
+         <span style="color:#e6db74">&#39;&#39;&#39;等待所有线程完成&#39;&#39;&#39;</span>
+         <span style="color:#66d9ef">while</span> len(self<span style="color:#f92672">.</span>threads):
+             thread <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>threads<span style="color:#f92672">.</span>pop()
+         <span style="color:#66d9ef">if</span> thread<span style="color:#f92672">.</span>isAlive():  <span style="color:#75715e">#判断线程是否还存活来决定是否调用join</span>
+             thread<span style="color:#f92672">.</span>join()
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add_job</span>( self, callable, <span style="color:#f92672">*</span>args):
+        <span style="color:#e6db74">&#39;&#39;&#39;增加任务,放到队列里面&#39;&#39;&#39;</span>
+        self<span style="color:#f92672">.</span>workQueue<span style="color:#f92672">.</span>put((callable, args))
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">configLogger</span>(logfile):
+    <span style="color:#e6db74">&#39;&#39;&#39;配置日志文件和记录等级&#39;&#39;&#39;</span>
+    <span style="color:#66d9ef">try</span>:
+        handler <span style="color:#f92672">=</span> logging<span style="color:#f92672">.</span>handlers<span style="color:#f92672">.</span>RotatingFileHandler(logfile,
+                                                       maxBytes<span style="color:#f92672">=</span><span style="color:#ae81ff">10240000</span>, <span style="color:#75715e">#文件最大字节数</span>
+                                                       backupCount<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>, <span style="color:#75715e">#会轮转5个文件，共6个</span>
+                                                        )
+    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">IOError</span>, e:
+        <span style="color:#66d9ef">print</span> e
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">else</span>:
+        handler<span style="color:#f92672">.</span>setFormatter(formatter)  <span style="color:#75715e">#设置日志格式</span>
+        LOGGER<span style="color:#f92672">.</span>addHandler(handler) <span style="color:#75715e">#增加处理器</span>
+        logging<span style="color:#f92672">.</span>basicConfig(level<span style="color:#f92672">=</span>logging<span style="color:#f92672">.</span>NOTSET) <span style="color:#75715e">#设置,不打印小于4级别的日志</span>
+    <span style="color:#66d9ef">return</span> LOGGER <span style="color:#75715e">#返回logging实例</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">myLogger</span>(logger, lv, mes, err<span style="color:#f92672">=</span>False):
+    <span style="color:#e6db74">&#39;&#39;&#39;记录日志函数&#39;&#39;&#39;</span>
+    getattr(logger, LEVELS<span style="color:#f92672">.</span>get(lv, <span style="color:#e6db74">&#39;WARNING&#39;</span>)<span style="color:#f92672">.</span>lower())(mes)
+    <span style="color:#66d9ef">if</span> err: <span style="color:#75715e">#当发现是错误日志,还会记录错误的堆栈信息</span>
+        getattr(logger, LEVELS<span style="color:#f92672">.</span>get(lv, <span style="color:#e6db74">&#39;WARNING&#39;</span>)<span style="color:#f92672">.</span>lower())(traceback<span style="color:#f92672">.</span>format_exc())
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">parse</span>():
+    parser <span style="color:#f92672">=</span> OptionParser(
+                  description<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;This script is used to crawl analyzing web!&#34;</span>)
+    parser<span style="color:#f92672">.</span>add_option(<span style="color:#e6db74">&#34;-u&#34;</span>, <span style="color:#e6db74">&#34;--url&#34;</span>, dest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;urlpth&#34;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;store&#34;</span>,
+                  help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Path you want to fetch&#34;</span>, metavar<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;www.sina.com.cn&#34;</span>)
+    parser<span style="color:#f92672">.</span>add_option(<span style="color:#e6db74">&#34;-d&#34;</span>, <span style="color:#e6db74">&#34;--deep&#34;</span>, dest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;depth&#34;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;store&#34;</span>,type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;int&#34;</span>,
+                  help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Url path&#39;s deep, default 1&#34;</span>, default<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+    parser<span style="color:#f92672">.</span>add_option(<span style="color:#e6db74">&#34;-k&#34;</span>, <span style="color:#e6db74">&#34;--key&#34;</span>, dest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;key&#34;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;store&#34;</span>,
+                  help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;You want to query keywords, For example &#39;test&#39;&#34;</span>)
+    parser<span style="color:#f92672">.</span>add_option(<span style="color:#e6db74">&#34;-f&#34;</span>, <span style="color:#e6db74">&#34;--file&#34;</span>, dest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;logfile&#34;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;store&#34;</span>,
+                  help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Record log file path and name, default spider.log&#34;</span>,
+                  default<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;spider.log&#39;</span>)
+    parser<span style="color:#f92672">.</span>add_option(<span style="color:#e6db74">&#34;-l&#34;</span>, <span style="color:#e6db74">&#34;--level&#34;</span>, dest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;loglevel&#34;</span>, action <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;store&#34;</span>,
+                  type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;int&#34;</span>,help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Log file level, default 1(CRITICAL)&#34;</span>,
+                  default<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+    parser<span style="color:#f92672">.</span>add_option(<span style="color:#e6db74">&#34;-t&#34;</span>, <span style="color:#e6db74">&#34;--thread&#34;</span>, dest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;thread&#34;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;store&#34;</span>,
+                  type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;int&#34;</span>,help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Specify the thread pool, default 10&#34;</span>,
+                  default<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+    parser<span style="color:#f92672">.</span>add_option(<span style="color:#e6db74">&#34;-q&#34;</span>, <span style="color:#e6db74">&#34;--dbfile&#34;</span>, dest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dbpth&#34;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;store&#34;</span>,
+                  help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Specify the the sqlite file directory and name,</span>
+                  default  test<span style="color:#f92672">.</span>db<span style="color:#e6db74">&#34;, metavar=&#39;test.db&#39;)</span>
+    parser<span style="color:#f92672">.</span>add_option(<span style="color:#e6db74">&#34;-s&#34;</span>, <span style="color:#e6db74">&#34;--testself&#34;</span>, dest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;testself&#34;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;store_true&#34;</span>,
+                  help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Test myself&#34;</span>, default<span style="color:#f92672">=</span>False)
+    (options, args) <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()  
+    <span style="color:#66d9ef">return</span> options
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    <span style="color:#e6db74">&#39;&#39;&#39;主函数&#39;&#39;&#39;</span>
+    options <span style="color:#f92672">=</span> parse()
+    <span style="color:#66d9ef">if</span> options<span style="color:#f92672">.</span>testself: <span style="color:#75715e">#如果testself,执行doctest</span>
+        <span style="color:#f92672">import</span> doctest
+        <span style="color:#66d9ef">print</span> doctest<span style="color:#f92672">.</span>testmod()
+        <span style="color:#66d9ef">return</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> options<span style="color:#f92672">.</span>urlpth <span style="color:#f92672">or</span> <span style="color:#f92672">not</span> options<span style="color:#f92672">.</span>key <span style="color:#f92672">or</span> <span style="color:#f92672">not</span> options<span style="color:#f92672">.</span>dbpth: <span style="color:#75715e">#判断必选项是否存在</span>
+        <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;Need to specify the parameters option &#34;-u &#34; or &#34;-k&#34; or &#34;-q&#34;!&#39;</span>
+        <span style="color:#66d9ef">return</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;-h&#39;</span> <span style="color:#f92672">in</span> sys<span style="color:#f92672">.</span>argv  <span style="color:#f92672">or</span> <span style="color:#e6db74">&#39;--help&#39;</span> <span style="color:#f92672">in</span> sys<span style="color:#f92672">.</span>argv:  <span style="color:#75715e">#选择帮助信息,打印__doc__</span>
+        <span style="color:#66d9ef">print</span> __doc__
+    logger <span style="color:#f92672">=</span> configLogger(options<span style="color:#f92672">.</span>logfile) <span style="color:#75715e">#实例化日志调用</span>
+    time <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>datetime<span style="color:#f92672">.</span>now()<span style="color:#f92672">.</span>strftime(<span style="color:#e6db74">&#34;%m</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">%H%M%S&#34;</span>) <span style="color:#75715e">#每次请求都会根据时间创建table</span>
+    tp <span style="color:#f92672">=</span> ThreadPool(options<span style="color:#f92672">.</span>thread)
+    sq <span style="color:#f92672">=</span> mySqlite(options<span style="color:#f92672">.</span>dbpth, logger, options<span style="color:#f92672">.</span>loglevel)
+    table <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;d&#39;</span> <span style="color:#f92672">+</span> str(time)
+    sq<span style="color:#f92672">.</span>create(table) <span style="color:#75715e">#创建table</span>
+    sq<span style="color:#f92672">.</span>close()
+    crawler <span style="color:#f92672">=</span> Crawler(options, tp, table, logger)
+    crawler<span style="color:#f92672">.</span>work()  <span style="color:#75715e">#主方法</span>
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    main()<span style="color:#f92672">&lt;/</span>pre<span style="color:#f92672">&gt;</span>
+</code></pre></div>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B9%B0%E7%9A%84%E6%95%B0%E9%87%8F%E8%B6%8A%E5%A4%9A%E5%BE%97%E5%88%B0%E7%9A%84%E6%8A%98%E6%89%A3%E5%8F%8D%E8%80%8C%E4%BD%8E%E4%BA%86/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">为什么买的数量越多，得到的折扣反而低了？</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E9%98%B3%E6%9C%94%E5%BD%92%E6%9D%A511-10/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">阳朔归来（11.10）</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

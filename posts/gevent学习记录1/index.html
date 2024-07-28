@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Gevent学习记录1 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Gevent学习记录1" />
+<meta property="og:description" content="关于Gevent出现URLError: &lt;urlopen error [Errno 66] unknown&gt;错误：
+学习的过程中，有些网址始终出现上面提示的那个错误，但用浏览器访问确实是正常的。
+有网友提示说把gevent.monkey.patch_all(dns=false)，经我实验后发现，这么改过后有些网址确实变得正常了，但有些网址却出现了其它比如time out、Network is unreachable等错误。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/gevent%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/" />
+<meta property="article:published_time" content="2013-11-07T15:55:48+00:00" />
+<meta property="article:modified_time" content="2013-11-07T15:55:48+00:00" />
+
+		<meta itemprop="name" content="Gevent学习记录1">
+<meta itemprop="description" content="关于Gevent出现URLError: &lt;urlopen error [Errno 66] unknown&gt;错误：
+学习的过程中，有些网址始终出现上面提示的那个错误，但用浏览器访问确实是正常的。
+有网友提示说把gevent.monkey.patch_all(dns=false)，经我实验后发现，这么改过后有些网址确实变得正常了，但有些网址却出现了其它比如time out、Network is unreachable等错误。">
+<meta itemprop="datePublished" content="2013-11-07T15:55:48&#43;00:00" />
+<meta itemprop="dateModified" content="2013-11-07T15:55:48&#43;00:00" />
+<meta itemprop="wordCount" content="181">
+
+
+
+<meta itemprop="keywords" content="python," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Gevent学习记录1</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2013-11-07T15:55:48Z">2013-11-07</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>关于Gevent出现<code>URLError: &lt;urlopen error [Errno 66] unknown&gt;</code>错误：</p>
+<p>学习的过程中，有些网址始终出现上面提示的那个错误，但用浏览器访问确实是正常的。</p>
+<p>有网友提示说把gevent.monkey.patch_all(dns=false)，经我实验后发现，这么改过后有些网址确实变得正常了，但有些网址却出现了其它比如time out、Network is unreachable等错误。</p>
+<p>最终发现，由于用PIP方式安装的是&rsquo;0.13.8'版本，最新的是1.0dev，更换版本后错误解决。</p>
+<p>按照官方教程，代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> gevent
+<span style="color:#f92672">from</span> gevent <span style="color:#f92672">import</span> monkey
+monkey<span style="color:#f92672">.</span>patch_all()<span style="color:#75715e"># 给标准socket打补丁</span>
+<span style="color:#f92672">import</span> urllib2
+urls <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;http://dear-shen.com&#34;</span>,<span style="color:#e6db74">&#34;http://www.baidu.com&#34;</span>,<span style="color:#e6db74">&#34;http://www.hao123.com&#34;</span>,<span style="color:#e6db74">&#34;http://www.sina.com&#34;</span>,<span style="color:#e6db74">&#34;http://www.python.org&#34;</span>]
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">print_head</span>(url):
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;start </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> &#34;</span> <span style="color:#f92672">%</span> url
+    data <span style="color:#f92672">=</span> urllib2<span style="color:#f92672">.</span>urlopen(url)<span style="color:#f92672">.</span>read()
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">: </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> bytes: </span><span style="color:#e6db74">%r</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> (url, len(data), data[:<span style="color:#ae81ff">50</span>])
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;begin&#34;</span>
+    jobs <span style="color:#f92672">=</span> [gevent<span style="color:#f92672">.</span>spawn(print_head, url) <span style="color:#66d9ef">for</span> url <span style="color:#f92672">in</span> urls] <span style="color:#75715e">#spawn 第一个参数为要转换的函数，后面的是函数的参数，具体请看源码</span>
+    gevent<span style="color:#f92672">.</span>joinall(jobs)
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;over&#34;</span>
+</code></pre></div><p>输出结果如下：</p>
+<pre><code>begin
+start http://dear-shen.com
+start http://www.baidu.com
+start http://www.hao123.com
+start http://www.sina.com
+start http://www.python.org
+http://www.baidu.com: 11314 bytes: '&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;&lt;head&gt;&lt;meta h'
+http://www.sina.com: 19845 bytes: '&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Trans'
+http://www.hao123.com: 223684 bytes: '&lt;!DOCTYPE html&gt;&lt;!--[if lt IE 7 ]&gt;&lt;html class=&quot;ie6&quot;'
+http://www.python.org: 20423 bytes: '&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Trans'
+http://dear-shen.com: 45559 bytes: '&lt;!DOCTYPE html&gt;n&lt;html lang=&quot;zh-CN&quot;&gt;n&lt;head&gt;n&lt;meta c'
+over
+</code></pre><p>如果不加monkey.patch_all()、from gevent import monkey这两句的话其实并没有利用多线程，输出变成了：</p>
+<pre><code>begin
+start http://dear-shen.com
+http://dear-shen.com: 45559 bytes: '&lt;!DOCTYPE html&gt;n&lt;html lang=&quot;zh-CN&quot;&gt;n&lt;head&gt;n&lt;meta c'
+start http://www.baidu.com
+http://www.baidu.com: 11314 bytes: '&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;&lt;head&gt;&lt;meta h'
+start http://www.hao123.com
+http://www.hao123.com: 223729 bytes: '&lt;!DOCTYPE html&gt;&lt;!--[if lt IE 7 ]&gt;&lt;html class=&quot;ie6&quot;'
+start http://www.sina.com
+http://www.sina.com: 19845 bytes: '&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Trans'
+start http://www.python.org
+http://www.python.org: 20423 bytes: '&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Trans'
+over
+</code></pre><p>从上面两个输出对比，可以很清楚的看出调用函数的顺序。</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/python%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">python异步任务队列、消息队列</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/%E9%82%A3%E4%B8%AA%E4%B8%8D%E5%AB%8C%E4%BD%A0%E7%A9%B7%E7%9A%84%E5%A7%91%E5%A8%98%E4%B8%BA%E4%BB%80%E4%B9%88%E6%B2%A1%E9%99%AA%E4%BD%A0%E8%B5%B0%E5%88%B0%E6%9C%80%E5%90%8E/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">那个不嫌你穷的姑娘，为什么没陪你走到最后</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

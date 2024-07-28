@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>GO语言学习笔记-缓冲区Channels和线程池 - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="GO语言学习笔记-缓冲区Channels和线程池" />
+<meta property="og:description" content="原文，这里为了方便理解我把worker pools翻译成线程池。
+什么是缓冲区Channel
+之前讨论的所有channel都是不带缓冲区的，因此读取和写入都会被阻塞。创建一个带缓冲区的channel也是可能的，这种channel只有在缓冲区满后再写入或者读取一个空的channel时才会被阻塞。
+创建一个带缓冲区的channel需要一个额外的参数容量来表明缓冲区大小：
+ch := make(chan type, capacity)  
+上面代码中的 capacity　需要大于０，如果等于０的话则是之前学习的无缓冲区channel。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%BC%93%E5%86%B2%E5%8C%BAchannels%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%B1%A0/" />
+<meta property="article:published_time" content="2018-06-04T22:11:55+00:00" />
+<meta property="article:modified_time" content="2018-06-04T22:11:55+00:00" />
+
+		<meta itemprop="name" content="GO语言学习笔记-缓冲区Channels和线程池">
+<meta itemprop="description" content="原文，这里为了方便理解我把worker pools翻译成线程池。
+什么是缓冲区Channel
+之前讨论的所有channel都是不带缓冲区的，因此读取和写入都会被阻塞。创建一个带缓冲区的channel也是可能的，这种channel只有在缓冲区满后再写入或者读取一个空的channel时才会被阻塞。
+创建一个带缓冲区的channel需要一个额外的参数容量来表明缓冲区大小：
+ch := make(chan type, capacity)  
+上面代码中的 capacity　需要大于０，如果等于０的话则是之前学习的无缓冲区channel。">
+<meta itemprop="datePublished" content="2018-06-04T22:11:55&#43;00:00" />
+<meta itemprop="dateModified" content="2018-06-04T22:11:55&#43;00:00" />
+<meta itemprop="wordCount" content="847">
+
+
+
+<meta itemprop="keywords" content="golang," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">GO语言学习笔记-缓冲区Channels和线程池</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2018-06-04T22:11:55Z">2018-06-04</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/" rel="category">编程技术</a>, <a class="meta__link" href="/categories/%E8%8F%9C%E9%B8%9F%E7%BF%BB%E8%AF%91%E5%B1%8B/" rel="category">菜鸟翻译屋</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p><a href="https://golangbot.com/buffered-channels-worker-pools/">原文</a>，这里为了方便理解我把worker pools翻译成线程池。</p>
+<h2 id="什么是缓冲区channel">什么是缓冲区Channel</h2>
+<p>之前讨论的所有channel都是不带缓冲区的，因此读取和写入都会被阻塞。创建一个带缓冲区的channel也是可能的，这种channel只有在缓冲区满后再写入或者读取一个空的channel时才会被阻塞。</p>
+<p>创建一个带缓冲区的channel需要一个额外的参数容量来表明缓冲区大小：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">type</span>, <span style="color:#a6e22e">capacity</span>)  
+</code></pre></div><p>上面代码中的 <em>capacity</em>　需要大于０，如果等于０的话则是之前学习的无缓冲区channel。</p>
+<h2 id="例子">例子</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (  
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">2</span>)
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;naveen&#34;</span>
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;paul&#34;</span>
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ch</span>)
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ch</span>)
+}
+</code></pre></div><p>上面的例子中，我们创建了一个容量为2的channel，所以在写入２个字符串之前的写操作不会被阻塞。然后分别在12、13行读取，程序输出如下：</p>
+<pre><code>naveen  
+paul
+</code></pre><h2 id="另一个例子">另一个例子</h2>
+<p>我们再来看一个例子，我们在并发执行的goroutine中进行写操作，然后在main goroutine中读取，这个例子帮助我们更好的理解缓冲区channel。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (  
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+    <span style="color:#e6db74">&#34;time&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">write</span>(<span style="color:#a6e22e">ch</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>) {  
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">5</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+        <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">i</span>
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;successfully wrote&#34;</span>, <span style="color:#a6e22e">i</span>, <span style="color:#e6db74">&#34;to ch&#34;</span>)
+    }
+    close(<span style="color:#a6e22e">ch</span>)
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">2</span>)
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">write</span>(<span style="color:#a6e22e">ch</span>)
+    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ch</span> {
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;read value&#34;</span>, <span style="color:#a6e22e">v</span>,<span style="color:#e6db74">&#34;from ch&#34;</span>)
+        <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
+
+    }
+}
+</code></pre></div><p>上面的代码，我们创建了一个容量是2的缓冲区channel，并把它作为参数传递给<code>write</code>函数，接下来sleep2秒钟。同时<code>write</code>函数并发的执行，在函数中使用<code>for</code>循环向<code>ch</code>写入0-4。由于容量是2，所以可以立即向channel中写入0和１，然后阻塞等待至少一个值被读取。所以程序会立即输出下面２行：</p>
+<pre><code>successfully wrote 0 to ch  
+successfully wrote 1 to ch  
+</code></pre><p>当main函数中sleep２秒后，进入<code>for range</code>循环中开始读取数据，然后继续sleep２秒钟。所以程序接下来会输出:</p>
+<pre><code>read value 0 from ch  
+successfully wrote 2 to ch  
+</code></pre><p>如此循环直到channel被关闭为止，程序最终输出结果如下：</p>
+<pre><code>successfully wrote 0 to ch  
+successfully wrote 1 to ch  
+read value 0 from ch  
+successfully wrote 2 to ch  
+read value 1 from ch  
+successfully wrote 3 to ch  
+read value 2 from ch  
+successfully wrote 4 to ch  
+read value 3 from ch  
+read value 4 from ch  
+</code></pre><h2 id="死锁">死锁</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (  
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">2</span>)
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;naveen&#34;</span>
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;paul&#34;</span>
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;steve&#34;</span>
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">ch</span>)
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">ch</span>)
+}
+</code></pre></div><p>上面的程序，我们想向容量为2的channel中写入３个字符串。程序执行到１１行时候将会被阻塞，因为此时channel缓冲区已经满了。如果没有其他goroutine从中读取数据，程序将会死锁。报错如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">fatal</span> <span style="color:#66d9ef">error</span>: <span style="color:#a6e22e">all</span> <span style="color:#a6e22e">goroutines</span> <span style="color:#a6e22e">are</span> <span style="color:#a6e22e">asleep</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">deadlock</span>!
+
+<span style="color:#a6e22e">goroutine</span> <span style="color:#ae81ff">1</span> [<span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">send</span>]:  
+<span style="color:#a6e22e">main</span>.<span style="color:#a6e22e">main</span>()  
+    <span style="color:#f92672">/</span><span style="color:#a6e22e">tmp</span><span style="color:#f92672">/</span><span style="color:#a6e22e">sandbox274756028</span><span style="color:#f92672">/</span><span style="color:#a6e22e">main</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">11</span> <span style="color:#f92672">+</span><span style="color:#ae81ff">0x100</span>
+</code></pre></div><h2 id="长度和容量">长度和容量</h2>
+<p>容量是指一个有缓冲区的channel能够最多同时存储多少数据，这个值在使用<code>make</code>关键字用在创建channel时。而长度则是指当前channel中已经存放了多少个数据。我们看下面的代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (  
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">3</span>)
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;naveen&#34;</span>
+    <span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;paul&#34;</span>
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;capacity is&#34;</span>, cap(<span style="color:#a6e22e">ch</span>))
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;length is&#34;</span>, len(<span style="color:#a6e22e">ch</span>))
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;read value&#34;</span>, <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">ch</span>)
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;new length is&#34;</span>, len(<span style="color:#a6e22e">ch</span>))
+}
+</code></pre></div><p>上面的代码中我们创建了一个容量为3的channel，然后向里面写入2个字符串，因此现在channel的长度是２。接下来从channel中读取１个字符串，所以现在长度是１。程序输出如下：</p>
+<pre><code>capacity is 3  
+length is 2  
+read value naveen  
+new length is 1
+</code></pre><h2 id="waitgroup">WaitGroup</h2>
+<p>下一节我们将要介绍线程池(worker pools)，为了更好的理解，我们需要先介绍<code>WaitGroup</code>，然后我们基于这个实现线程池。</p>
+<p>WaitGroup用来等待一组goroutine都执行完毕，在这之前程序都会被阻塞。假设我们有３个goroutine，主程序会等待这3个goroutine都执行结束才会退出。不多说看代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (  
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+    <span style="color:#e6db74">&#34;sync&#34;</span>
+    <span style="color:#e6db74">&#34;time&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">process</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">wg</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>) {  
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;started Goroutine &#34;</span>, <span style="color:#a6e22e">i</span>)
+    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Goroutine %d ended\n&#34;</span>, <span style="color:#a6e22e">i</span>)
+    <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#a6e22e">no</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">3</span>
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wg</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">no</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+        <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">1</span>)
+        <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">process</span>(<span style="color:#a6e22e">i</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">wg</span>)
+    }
+    <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;All go routines finished executing&#34;</span>)
+}
+</code></pre></div><p><a href="https://golang.org/pkg/sync/#WaitGroup">WaitGroup</a>是一种struct类型，我们在18行创建了一个默认值的WaitGroup，其内部是基于计数器实现的。我们调用<code>Add</code>方法并传递给其一个数字作为参数，计数器将增长传入参数的值。当调用<code>Done</code>方法，计数器将自减１。<code>Wait</code>方法阻塞goroutine直到计数器归零。</p>
+<p>上面的代码中通过在循环中调用<code>wg.Add(1)</code>来使计数器变成3，同时启动3个goroutine，然后掉用<code>wg.Wait()</code>阻塞主goroutine，直到计数器归零。在函数<code>process</code>中，调用<code>wg.Done()</code>来减小计数器，一旦三个goroutine执行结束，<code>wg.Done()</code>将被执行3次，计数器归零，主goroutine解除阻塞。</p>
+<p>** 传递<code>wg</code>的地址给goroutine是非常重要的！如果传递的不是地址，那么每个goroutine都将有一份拷贝，这样的话每个goroutine结束就不能通知到<code>main</code>函数了。 **</p>
+<p>程序输出如下：</p>
+<pre><code>started Goroutine  2  
+started Goroutine  0  
+started Goroutine  1  
+Goroutine 0 ended  
+Goroutine 2 ended  
+Goroutine 1 ended  
+All go routines finished executing  
+</code></pre><p>你的输出结果可能和上面略有不同。</p>
+<h2 id="线程池worker-pools">线程池(worker pools)</h2>
+<p>缓冲区channel一个重要的使用方法就是实现线程池。</p>
+<p>通常来说，线程池就是一组线程的集合等待任务分配给他们，一旦完成任务，则继续等待下一个任务。</p>
+<p>接下来我们实现一个线程池，来计算输入数字每一位的和。比如输入１２３，则返回９(1+2+3)，输入给线程池的数字由伪随机算法生成。</p>
+<p>下面是我们需要的核心步骤：</p>
+<ul>
+<li>创建一组goroutine集合监听缓冲区channel等待任务。</li>
+<li>向缓冲区channel添加任务。</li>
+<li>任务结束后向另一个缓冲区channel写入结果。</li>
+<li>从存储结果的channel读取数据并输出。</li>
+</ul>
+<p>首先我们创建存储任务和结果的结构：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Job</span> <span style="color:#66d9ef">struct</span> {  
+    <span style="color:#a6e22e">id</span>       <span style="color:#66d9ef">int</span>
+    <span style="color:#a6e22e">randomno</span> <span style="color:#66d9ef">int</span>
+}
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Result</span> <span style="color:#66d9ef">struct</span> {  
+    <span style="color:#a6e22e">job</span>         <span style="color:#a6e22e">Job</span>
+    <span style="color:#a6e22e">sumofdigits</span> <span style="color:#66d9ef">int</span>
+}
+</code></pre></div><p>每个<code>Job</code>都有一个<code>id</code>和一个<code>randomno</code>用来存储将要计算的随机数。而<code>Result</code>类型则包括<code>Job</code>属性和<code>sumofdigits</code>存储结果。</p>
+<p>接下来创建缓冲区channel来接收任务和结果：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">jobs</span> = make(<span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">Job</span>, <span style="color:#ae81ff">10</span>)  
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">results</span> = make(<span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">Result</span>, <span style="color:#ae81ff">10</span>)
+</code></pre></div><p>goroutine从jobs中获取任务，并向results写入结果。</p>
+<p>下面的<code>digits</code>函数用来计算求和并且返回结果，我们通过<code>Sleep</code>来模拟进行耗时的计算。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">digits</span>(<span style="color:#a6e22e">number</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {  
+    <span style="color:#a6e22e">sum</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#a6e22e">no</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">number</span>
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">no</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
+        <span style="color:#a6e22e">digit</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">no</span> <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>
+        <span style="color:#a6e22e">sum</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">digit</span>
+        <span style="color:#a6e22e">no</span> <span style="color:#f92672">/=</span> <span style="color:#ae81ff">10</span>
+    }
+    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">sum</span>
+}
+</code></pre></div><p>接下来的函数创建goroutine：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">worker</span>(<span style="color:#a6e22e">wg</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>) {  
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">job</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">jobs</span> {
+        <span style="color:#a6e22e">output</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Result</span>{<span style="color:#a6e22e">job</span>, <span style="color:#a6e22e">digits</span>(<span style="color:#a6e22e">job</span>.<span style="color:#a6e22e">randomno</span>)}
+        <span style="color:#a6e22e">results</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">output</span>
+    }
+    <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
+}
+</code></pre></div><p>通过读取<code>jobs</code>中的任务来创建<code>Result</code>结构，并存储函数<code>digits</code>计算后的结果，然后再将其写入<code>results</code>这个channel。这个函数接收一个WaitGroup类型的指针参数<code>wg</code>，并且在计算完成后调用<code>wg.Done()</code>。</p>
+<p><code>createWorkerPool</code>这个函数用来创建线程池：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">createWorkerPool</span>(<span style="color:#a6e22e">noOfWorkers</span> <span style="color:#66d9ef">int</span>) {  
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wg</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">noOfWorkers</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+        <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">1</span>)
+        <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">worker</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">wg</span>)
+    }
+    <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
+    close(<span style="color:#a6e22e">results</span>)
+}
+</code></pre></div><p>上面这个函数创建了包含<code>noOfWorkers</code>个goroutine的线程池，创建goroutine之前调用<code>wg.Add(1)</code>来增加计数器，然后将<code>wg</code>的地址传递给<code>worker</code>函数。创建完成后，使用<code>wg.Wait()</code>等待所有的goroutine执行完毕，然后又调用<code>close</code>函数关闭<code>results</code>这个channel，这样以后就没有任何goroutine能写入数据了。</p>
+<p>接下来，我们来编写函数向线程池分配任务：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">allocate</span>(<span style="color:#a6e22e">noOfJobs</span> <span style="color:#66d9ef">int</span>) {  
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">noOfJobs</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+        <span style="color:#a6e22e">randomno</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Intn</span>(<span style="color:#ae81ff">999</span>)
+        <span style="color:#a6e22e">job</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Job</span>{<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">randomno</span>}
+        <span style="color:#a6e22e">jobs</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">job</span>
+    }
+    close(<span style="color:#a6e22e">jobs</span>)
+}
+</code></pre></div><p>上面这个函数通过传入的参数决定写入的任务数量，随机数最大值是<code>998</code>，并且使用循环中的计数器<code>i</code>作为ID来创建<code>job</code>结构并写入<code>jobs</code>，完成后关闭<code>jobs</code>。</p>
+<p>接下来创建函数读取<code>results</code>这个channel并且打印输出:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">result</span>(<span style="color:#a6e22e">done</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>) {  
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">results</span> {
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Job id %d, input random no %d , sum of digits %d\n&#34;</span>, <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">job</span>.<span style="color:#a6e22e">id</span>, <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">job</span>.<span style="color:#a6e22e">randomno</span>, <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">sumofdigits</span>)
+    }
+    <span style="color:#a6e22e">done</span> <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">true</span>
+}
+</code></pre></div><p>上面这个函数读取<code>results</code>并且打印id、随机数和结果，最后向<code>done</code>这个channel写入数据表明其已经打印了全部的结果。</p>
+<p>万事具备，让我们完成<code>main</code>函数：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#a6e22e">startTime</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>()
+    <span style="color:#a6e22e">noOfJobs</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">100</span>
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">allocate</span>(<span style="color:#a6e22e">noOfJobs</span>)
+    <span style="color:#a6e22e">done</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>)
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">result</span>(<span style="color:#a6e22e">done</span>)
+    <span style="color:#a6e22e">noOfWorkers</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">10</span>
+    <span style="color:#a6e22e">createWorkerPool</span>(<span style="color:#a6e22e">noOfWorkers</span>)
+    <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">done</span>
+    <span style="color:#a6e22e">endTime</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>()
+    <span style="color:#a6e22e">diff</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">endTime</span>.<span style="color:#a6e22e">Sub</span>(<span style="color:#a6e22e">startTime</span>)
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;total time taken &#34;</span>, <span style="color:#a6e22e">diff</span>.<span style="color:#a6e22e">Seconds</span>(), <span style="color:#e6db74">&#34;seconds&#34;</span>)
+}
+</code></pre></div><p>首先我们记录程序开始执行的时间，最后用结束时间减去开始时间计算程序运行时常，我们需要这个时常来比较不同数量的线程池的差异。</p>
+<p>创建名为<code>done</code>的channel，并传递给<code>result</code>函数，这样就可以打印输出并且在完成全部输出后得到通知了。</p>
+<p>最后创建了10个goroutine的线程池，并通过读取<code>done</code>来等待计算全部完成。</p>
+<p>完整代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (  
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+    <span style="color:#e6db74">&#34;math/rand&#34;</span>
+    <span style="color:#e6db74">&#34;sync&#34;</span>
+    <span style="color:#e6db74">&#34;time&#34;</span>
+)
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Job</span> <span style="color:#66d9ef">struct</span> {  
+    <span style="color:#a6e22e">id</span>       <span style="color:#66d9ef">int</span>
+    <span style="color:#a6e22e">randomno</span> <span style="color:#66d9ef">int</span>
+}
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Result</span> <span style="color:#66d9ef">struct</span> {  
+    <span style="color:#a6e22e">job</span>         <span style="color:#a6e22e">Job</span>
+    <span style="color:#a6e22e">sumofdigits</span> <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">jobs</span> = make(<span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">Job</span>, <span style="color:#ae81ff">10</span>)  
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">results</span> = make(<span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">Result</span>, <span style="color:#ae81ff">10</span>)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">digits</span>(<span style="color:#a6e22e">number</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {  
+    <span style="color:#a6e22e">sum</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#a6e22e">no</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">number</span>
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">no</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
+        <span style="color:#a6e22e">digit</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">no</span> <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>
+        <span style="color:#a6e22e">sum</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">digit</span>
+        <span style="color:#a6e22e">no</span> <span style="color:#f92672">/=</span> <span style="color:#ae81ff">10</span>
+    }
+    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">sum</span>
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">worker</span>(<span style="color:#a6e22e">wg</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>) {  
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">job</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">jobs</span> {
+        <span style="color:#a6e22e">output</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Result</span>{<span style="color:#a6e22e">job</span>, <span style="color:#a6e22e">digits</span>(<span style="color:#a6e22e">job</span>.<span style="color:#a6e22e">randomno</span>)}
+        <span style="color:#a6e22e">results</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">output</span>
+    }
+    <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">createWorkerPool</span>(<span style="color:#a6e22e">noOfWorkers</span> <span style="color:#66d9ef">int</span>) {  
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wg</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">noOfWorkers</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+        <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">1</span>)
+        <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">worker</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">wg</span>)
+    }
+    <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
+    close(<span style="color:#a6e22e">results</span>)
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">allocate</span>(<span style="color:#a6e22e">noOfJobs</span> <span style="color:#66d9ef">int</span>) {  
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">noOfJobs</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+        <span style="color:#a6e22e">randomno</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Intn</span>(<span style="color:#ae81ff">999</span>)
+        <span style="color:#a6e22e">job</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Job</span>{<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">randomno</span>}
+        <span style="color:#a6e22e">jobs</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">job</span>
+    }
+    close(<span style="color:#a6e22e">jobs</span>)
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">result</span>(<span style="color:#a6e22e">done</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>) {  
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">results</span> {
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Job id %d, input random no %d , sum of digits %d\n&#34;</span>, <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">job</span>.<span style="color:#a6e22e">id</span>, <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">job</span>.<span style="color:#a6e22e">randomno</span>, <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">sumofdigits</span>)
+    }
+    <span style="color:#a6e22e">done</span> <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">true</span>
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {  
+    <span style="color:#a6e22e">startTime</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>()
+    <span style="color:#a6e22e">noOfJobs</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">100</span>
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">allocate</span>(<span style="color:#a6e22e">noOfJobs</span>)
+    <span style="color:#a6e22e">done</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>)
+    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">result</span>(<span style="color:#a6e22e">done</span>)
+    <span style="color:#a6e22e">noOfWorkers</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">10</span>
+    <span style="color:#a6e22e">createWorkerPool</span>(<span style="color:#a6e22e">noOfWorkers</span>)
+    <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">done</span>
+    <span style="color:#a6e22e">endTime</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>()
+    <span style="color:#a6e22e">diff</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">endTime</span>.<span style="color:#a6e22e">Sub</span>(<span style="color:#a6e22e">startTime</span>)
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;total time taken &#34;</span>, <span style="color:#a6e22e">diff</span>.<span style="color:#a6e22e">Seconds</span>(), <span style="color:#e6db74">&#34;seconds&#34;</span>)
+}
+</code></pre></div><p>运行结果如下：</p>
+<pre><code>Job id 1, input random no 636, sum of digits 15  
+Job id 0, input random no 878, sum of digits 23  
+Job id 9, input random no 150, sum of digits 6  
+...
+total time taken  20.01081009 seconds  
+</code></pre><p>程序会有100行的输出，因为我们创建了100个job，你的输出顺序可能和我不同，并且时间也可能不一样，这取决于硬件配置。在我这总共用时20秒。</p>
+<p>接下来提高<code>noOfWorkers</code>到20，我们提高了线程池中goroutine的数量(翻了一倍)，运行时间绝对应该减少(接近一半)。在我的机器上，程序输出如下：</p>
+<pre><code>...
+total time taken  10.004364685 seconds
+</code></pre><p>这样我们可以明白了，线程池中goroutine增加会让程序运行时间减少。你可以随意调整<code>main</code>中的<code>noOfJobs</code>和<code>noOfWorkers</code>的值来分析结果。</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/golang/" rel="tag">golang</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-channels/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">GO语言学习笔记-Channels</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-select/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">GO语言学习笔记-Select</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

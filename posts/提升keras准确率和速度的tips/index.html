@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>提升keras准确率和速度的小tips - Hi~Roy!</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="提升keras准确率和速度的小tips" />
+<meta property="og:description" content="这里记录一下对于新手(对,说的就是本人)学习kears框架时用来提升准确率的一些tip,但这里都是&quot;术&quot;的层面,而对于&quot;道&rdquo;,还是要看数学.全文以深度学习界的&quot;hello world&rdquo;-手写数字识别为例." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E6%8F%90%E5%8D%87keras%E5%87%86%E7%A1%AE%E7%8E%87%E5%92%8C%E9%80%9F%E5%BA%A6%E7%9A%84tips/" />
+<meta property="article:published_time" content="2019-03-14T17:27:14+00:00" />
+<meta property="article:modified_time" content="2019-03-14T17:27:14+00:00" />
+
+		<meta itemprop="name" content="提升keras准确率和速度的小tips">
+<meta itemprop="description" content="这里记录一下对于新手(对,说的就是本人)学习kears框架时用来提升准确率的一些tip,但这里都是&quot;术&quot;的层面,而对于&quot;道&rdquo;,还是要看数学.全文以深度学习界的&quot;hello world&rdquo;-手写数字识别为例.">
+<meta itemprop="datePublished" content="2019-03-14T17:27:14&#43;00:00" />
+<meta itemprop="dateModified" content="2019-03-14T17:27:14&#43;00:00" />
+<meta itemprop="wordCount" content="384">
+
+
+
+<meta itemprop="keywords" content="python,kears," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/roy.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-81207387-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Roy&#39;s Blog" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/logo.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Roy&#39;s Blog</div>
+					<div class="logo__tagline">From the moment I first saw you, All the darkness turned to light.</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/">
+				
+				<span class="menu__text">Home</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">提升keras准确率和速度的小tips</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Roy</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2019-03-14T17:27:14Z">2019-03-14</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="category">机器学习</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<p>这里记录一下对于新手(对,说的就是本人)学习kears框架时用来提升准确率的一些tip,但这里都是&quot;术&quot;的层面,而对于&quot;道&rdquo;,还是要看数学.全文以深度学习界的&quot;hello world&rdquo;-<a href="http://yann.lecun.com/exdb/mnist/">手写数字识别</a>为例.</p>
+<p>首先载入所需要的库:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">from</span> keras.datasets <span style="color:#f92672">import</span> mnist
+<span style="color:#f92672">from</span> keras.optimizers <span style="color:#f92672">import</span> SGD
+<span style="color:#f92672">from</span> keras.utils <span style="color:#f92672">import</span> np_utils
+<span style="color:#f92672">from</span> keras.models <span style="color:#f92672">import</span> Sequential
+<span style="color:#f92672">from</span> keras.layers.core <span style="color:#f92672">import</span> Dense,Dropout,Activation
+</code></pre></div><p>然后编写函数加载数据:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">load_data</span>():
+  (x_train,y_train),(x_test,y_test) <span style="color:#f92672">=</span> mnist<span style="color:#f92672">.</span>load_data()
+  number <span style="color:#f92672">=</span> <span style="color:#ae81ff">10000</span>
+  x_train <span style="color:#f92672">=</span> x_train[:number] <span style="color:#75715e"># 完整训练数据有6w,这里取前1w</span>
+  y_train <span style="color:#f92672">=</span> y_train[:number]  
+  x_train <span style="color:#f92672">=</span> x_train<span style="color:#f92672">.</span>reshape(number,<span style="color:#ae81ff">28</span><span style="color:#f92672">*</span><span style="color:#ae81ff">28</span>) <span style="color:#75715e"># 原始数据是3维,这里变成2维</span>
+  x_test<span style="color:#f92672">=</span>x_test<span style="color:#f92672">.</span>reshape(x_test<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>],<span style="color:#ae81ff">28</span><span style="color:#f92672">*</span><span style="color:#ae81ff">28</span>)
+  x_train <span style="color:#f92672">=</span> x_train<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;float32&#39;</span>)
+  x_test <span style="color:#f92672">=</span> x_test<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;float32&#39;</span>)
+  y_train <span style="color:#f92672">=</span> np_utils<span style="color:#f92672">.</span>to_categorical(y_train,<span style="color:#ae81ff">10</span>) <span style="color:#75715e"># 原始数据是1,2...9这样的数字,to_categorical将其变成向量,对应的数字位置为1,其余为0</span>
+  y_test <span style="color:#f92672">=</span> np_utils<span style="color:#f92672">.</span>to_categorical(y_test,<span style="color:#ae81ff">10</span>)
+  x_train <span style="color:#f92672">=</span> x_train <span style="color:#f92672">/</span> <span style="color:#ae81ff">255</span>
+  x_test <span style="color:#f92672">=</span> x_test <span style="color:#f92672">/</span> <span style="color:#ae81ff">255</span>
+  <span style="color:#66d9ef">return</span> (x_train,y_train),(x_test,y_test)
+
+(x_train,y_train),(x_test,y_test) <span style="color:#f92672">=</span> load_data()
+</code></pre></div><h2 id="选择合适的loss函数">选择合适的loss函数</h2>
+<p>对于loss函数,如果之前有学过经典机器学习的小伙伴一定最熟悉MSE(均方误差),所以先用这个实现一个版本:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">model <span style="color:#f92672">=</span> Sequential()
+model<span style="color:#f92672">.</span>add(Dense(input_dim<span style="color:#f92672">=</span><span style="color:#ae81ff">28</span><span style="color:#f92672">*</span><span style="color:#ae81ff">28</span>,units<span style="color:#f92672">=</span><span style="color:#ae81ff">689</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;sigmoid&#39;</span>))
+model<span style="color:#f92672">.</span>add(Dense(units<span style="color:#f92672">=</span><span style="color:#ae81ff">689</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;sigmoid&#39;</span>))
+model<span style="color:#f92672">.</span>add(Dense(units<span style="color:#f92672">=</span><span style="color:#ae81ff">689</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;sigmoid&#39;</span>))
+model<span style="color:#f92672">.</span>add(Dense(units<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;softmax&#39;</span>)) <span style="color:#75715e"># 输出层10个节点</span>
+model<span style="color:#f92672">.</span>compile(loss<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;mse&#39;</span>,optimizer<span style="color:#f92672">=</span>SGD(lr<span style="color:#f92672">=</span><span style="color:#ae81ff">0.1</span>),metrics<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;accuracy&#39;</span>])
+model<span style="color:#f92672">.</span>fit(x_train,y_train,batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>,epochs<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>)
+
+train_result <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>evaluate(x_train,y_train,batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">10000</span>)
+test_result <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>evaluate(x_test,y_test,batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">10000</span>)
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Train Accc:&#39;</span>,train_result[<span style="color:#ae81ff">1</span>])
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Test Accc:&#39;</span>,test_result[<span style="color:#ae81ff">1</span>])
+</code></pre></div><p>这里activation函数使用<code>sigmoid</code>,optimizer使用SGD(随机梯度下降),loss选择MSE,2个隐藏层,隐藏层节点数量689,程序输出如下:</p>
+<pre><code>Train Accc: 0.12860000133514404
+Test Accc: 0.1362999975681305
+</code></pre><p>这里可以看出,基本凉凉.不论是在测试集还是训练集准确度都很低.但是,如果把loss函数换成<code>categorical_crossentropy</code>,输出就变成:</p>
+<pre><code>Train Accc: 0.8550000190734863
+Test Accc: 0.8374000191688538
+</code></pre><p>很明显的提升,这也说明,MSE对于分类问题不是很有好.</p>
+<h2 id="合适的隐藏层数量">合适的隐藏层数量</h2>
+<p>对于初学者有种幻想,层数越多精度就会越高.这里增加一下层数试试:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">model <span style="color:#f92672">=</span> Sequential()
+model<span style="color:#f92672">.</span>add(Dense(input_dim<span style="color:#f92672">=</span><span style="color:#ae81ff">28</span><span style="color:#f92672">*</span><span style="color:#ae81ff">28</span>,units<span style="color:#f92672">=</span><span style="color:#ae81ff">689</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;sigmoid&#39;</span>))
+<span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">10</span>):
+    model<span style="color:#f92672">.</span>add(Dense(units<span style="color:#f92672">=</span><span style="color:#ae81ff">689</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;sigmoid&#39;</span>)) <span style="color:#75715e"># 来个10层</span>
+model<span style="color:#f92672">.</span>add(Dense(units<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;softmax&#39;</span>)) <span style="color:#75715e"># 输出层10个节点</span>
+model<span style="color:#f92672">.</span>compile(loss<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;categorical_crossentropy&#39;</span>,optimizer<span style="color:#f92672">=</span>SGD(lr<span style="color:#f92672">=</span><span style="color:#ae81ff">0.1</span>),metrics<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;accuracy&#39;</span>])
+model<span style="color:#f92672">.</span>fit(x_train,y_train,batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>,epochs<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>)
+
+train_result <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>evaluate(x_train,y_train,batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">10000</span>)
+test_result <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>evaluate(x_test,y_test,batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">10000</span>)
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Train Accc:&#39;</span>,train_result[<span style="color:#ae81ff">1</span>])
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Test Accc:&#39;</span>,test_result[<span style="color:#ae81ff">1</span>])
+</code></pre></div><p>结果如下:</p>
+<pre><code>Train Accc: 0.09910000115633011
+Test Accc: 0.10320000350475311
+</code></pre><p>WTF?!准确度反而降低了??这里其实和<code>sigmoid</code>这个函数有关,这个函数会导致vanish gradient problem.简言之就是使用这个函数进行训练时层数越多,每次参数变化引起结果变化的程度就越小,因为<code>sigmoid</code>函数会把不论大小的输入都转化到0-1这个区间中,具体看其<a href="https://baike.baidu.com/item/Sigmoid%E5%87%BD%E6%95%B0">函数图像</a>就可以明白了.</p>
+<h2 id="合适的激活函数">合适的激活函数</h2>
+<p><code>sigmoid</code>函数其实比较少用了,现在更常用的是<code>relu</code><a href="https://baike.baidu.com/item/ReLU%20%E5%87%BD%E6%95%B0">函数</a>,可以避免vanish gradient problem.此外,<code>relu</code>其实是<code>Maxout</code>的一个特例:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">model <span style="color:#f92672">=</span> Sequential()
+model<span style="color:#f92672">.</span>add(Dense(input_dim<span style="color:#f92672">=</span><span style="color:#ae81ff">28</span><span style="color:#f92672">*</span><span style="color:#ae81ff">28</span>,units<span style="color:#f92672">=</span><span style="color:#ae81ff">689</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>))
+<span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">10</span>):
+    model<span style="color:#f92672">.</span>add(Dense(units<span style="color:#f92672">=</span><span style="color:#ae81ff">689</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>)) <span style="color:#75715e"># 来个10层</span>
+model<span style="color:#f92672">.</span>add(Dense(units<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;softmax&#39;</span>)) <span style="color:#75715e"># 输出层10个节点</span>
+model<span style="color:#f92672">.</span>compile(loss<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;categorical_crossentropy&#39;</span>,optimizer<span style="color:#f92672">=</span>SGD(lr<span style="color:#f92672">=</span><span style="color:#ae81ff">0.1</span>),metrics<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;accuracy&#39;</span>])
+model<span style="color:#f92672">.</span>fit(x_train,y_train,batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>,epochs<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>)
+
+train_result <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>evaluate(x_train,y_train,batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">10000</span>)
+test_result <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>evaluate(x_test,y_test,batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">10000</span>)
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Train Accc:&#39;</span>,train_result[<span style="color:#ae81ff">1</span>])
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Test Accc:&#39;</span>,test_result[<span style="color:#ae81ff">1</span>])
+</code></pre></div><p>结果如下,可以看到增加10层使用<code>relu</code>函数不受影响.</p>
+<pre><code>Train Accc: 0.9959999918937683
+Test Accc: 0.9541000127792358
+</code></pre><h2 id="合适的batch_size">合适的batch_size</h2>
+<p>batch_size影响每次训练使用的数据量,比如极端情况下:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">model <span style="color:#f92672">=</span> Sequential()
+model<span style="color:#f92672">.</span>add(Dense(input_dim<span style="color:#f92672">=</span><span style="color:#ae81ff">28</span><span style="color:#f92672">*</span><span style="color:#ae81ff">28</span>,units<span style="color:#f92672">=</span><span style="color:#ae81ff">689</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>))
+<span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">10</span>):
+    model<span style="color:#f92672">.</span>add(Dense(units<span style="color:#f92672">=</span><span style="color:#ae81ff">689</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>)) <span style="color:#75715e"># 来个10层</span>
+model<span style="color:#f92672">.</span>add(Dense(units<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;softmax&#39;</span>)) <span style="color:#75715e"># 输出层10个节点</span>
+model<span style="color:#f92672">.</span>compile(loss<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;categorical_crossentropy&#39;</span>,optimizer<span style="color:#f92672">=</span>SGD(lr<span style="color:#f92672">=</span><span style="color:#ae81ff">0.1</span>),metrics<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;accuracy&#39;</span>])
+model<span style="color:#f92672">.</span>fit(x_train,y_train,batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">10000</span>,epochs<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>)
+
+train_result <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>evaluate(x_train,y_train,batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">10000</span>)
+test_result <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>evaluate(x_test,y_test,batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">10000</span>)
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Train Accc:&#39;</span>,train_result[<span style="color:#ae81ff">1</span>])
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Test Accc:&#39;</span>,test_result[<span style="color:#ae81ff">1</span>])
+</code></pre></div><p>这里把batch_size的值改成和整个训练集一样大,结果如下:</p>
+<pre><code>Train Accc: 0.2732999920845032
+Test Accc: 0.26249998807907104
+</code></pre><p>又凉凉了,所以 <strong>batch_size</strong> 过大速度快,但会影响精度.而过小则速度会慢,特别是使用GPU的时候,如果这个值设定的过小不能完全发挥GPU的加速功能.</p>
+<h2 id="合适的optimizer">合适的optimizer</h2>
+<p>目前最常用的优化函数是<code>adam</code>,<code>adam=RMSProp+Momentum</code>,这里替换掉SGD:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">model <span style="color:#f92672">=</span> Sequential()
+model<span style="color:#f92672">.</span>add(Dense(input_dim<span style="color:#f92672">=</span><span style="color:#ae81ff">28</span><span style="color:#f92672">*</span><span style="color:#ae81ff">28</span>,units<span style="color:#f92672">=</span><span style="color:#ae81ff">689</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>))
+<span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">10</span>):
+    model<span style="color:#f92672">.</span>add(Dense(units<span style="color:#f92672">=</span><span style="color:#ae81ff">689</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>)) <span style="color:#75715e"># 来个10层</span>
+model<span style="color:#f92672">.</span>add(Dense(units<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;softmax&#39;</span>)) <span style="color:#75715e"># 输出层10个节点</span>
+model<span style="color:#f92672">.</span>compile(loss<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;categorical_crossentropy&#39;</span>,optimizer<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;adam&#39;</span>,metrics<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;accuracy&#39;</span>])
+model<span style="color:#f92672">.</span>fit(x_train,y_train,batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>,epochs<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>)
+
+train_result <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>evaluate(x_train,y_train,batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">10000</span>)
+test_result <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>evaluate(x_test,y_test,batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">10000</span>)
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Train Accc:&#39;</span>,train_result[<span style="color:#ae81ff">1</span>])
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Test Accc:&#39;</span>,test_result[<span style="color:#ae81ff">1</span>])
+</code></pre></div><p>输出如下,精度差不多但是训练的速度提升了很多:</p>
+<pre><code>Train Accc: 0.9906999754905701
+Test Accc: 0.9217000007629395
+</code></pre><h2 id="dropout层">Dropout层</h2>
+<p>当训练样本过少时候,往往会出现过拟合的现象,这时可以使用Dropout层来&quot;限制学习能力&rdquo;.这个方法原理是在每次更新参数之前根据概率丢掉某些neuron,使整个网络结构发生了改变,在每一个mini-batch上重复这个行为,得到不同的结果,相当于训练出了很多个不同的网络,然后再把结果平均得到最终结果(ensemble的理念).这个方法会降低在训练集上的精准度.</p>
+<p>为了模拟过拟合,我们在处理数据集时候添加噪声:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">load_data</span>():
+  (x_train,y_train),(x_test,y_test) <span style="color:#f92672">=</span> mnist<span style="color:#f92672">.</span>load_data()
+  number <span style="color:#f92672">=</span> <span style="color:#ae81ff">10000</span>
+  x_train <span style="color:#f92672">=</span> x_train[:number] <span style="color:#75715e"># 完整训练数据有6w,这里取前1w</span>
+  y_train <span style="color:#f92672">=</span> y_train[:number]  
+  x_train <span style="color:#f92672">=</span> x_train<span style="color:#f92672">.</span>reshape(number,<span style="color:#ae81ff">28</span><span style="color:#f92672">*</span><span style="color:#ae81ff">28</span>) <span style="color:#75715e"># 原始数据是3维,这里变成2维</span>
+  x_test<span style="color:#f92672">=</span>x_test<span style="color:#f92672">.</span>reshape(x_test<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>],<span style="color:#ae81ff">28</span><span style="color:#f92672">*</span><span style="color:#ae81ff">28</span>)
+  x_train <span style="color:#f92672">=</span> x_train<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;float32&#39;</span>)
+  x_test <span style="color:#f92672">=</span> x_test<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;float32&#39;</span>)
+  y_train <span style="color:#f92672">=</span> np_utils<span style="color:#f92672">.</span>to_categorical(y_train,<span style="color:#ae81ff">10</span>) <span style="color:#75715e"># 原始数据是1,2...9这样的数字,to_categorical将其变成向量,对应的数字位置为1,其余为0</span>
+  y_test <span style="color:#f92672">=</span> np_utils<span style="color:#f92672">.</span>to_categorical(y_test,<span style="color:#ae81ff">10</span>)
+  x_train <span style="color:#f92672">=</span> x_train <span style="color:#f92672">/</span> <span style="color:#ae81ff">255</span>
+  x_test <span style="color:#f92672">=</span> x_test <span style="color:#f92672">/</span> <span style="color:#ae81ff">255</span>
+  x_test<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>normal(x_test) <span style="color:#75715e"># 加噪声</span>
+  <span style="color:#66d9ef">return</span> (x_train,y_train),(x_test,y_test)
+
+(x_train,y_train),(x_test,y_test) <span style="color:#f92672">=</span> load_data()
+</code></pre></div><p>然后经过2层<code>relu</code>+<code>adam</code>+<code>categorical_crossentropy</code>+<code>batch_size=100</code>结果如下:</p>
+<pre><code>Train Accc: 0.9894000291824341
+Test Accc:  0.5034999847412109
+</code></pre><p>可以看到训练集精度很高而测试集准确度一般,添加Dropout层:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">model <span style="color:#f92672">=</span> Sequential()
+model<span style="color:#f92672">.</span>add(Dense(input_dim<span style="color:#f92672">=</span><span style="color:#ae81ff">28</span><span style="color:#f92672">*</span><span style="color:#ae81ff">28</span>,units<span style="color:#f92672">=</span><span style="color:#ae81ff">689</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>))
+model<span style="color:#f92672">.</span>add(Dropout(<span style="color:#ae81ff">0.7</span>))
+model<span style="color:#f92672">.</span>add(Dense(units<span style="color:#f92672">=</span><span style="color:#ae81ff">689</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>))
+model<span style="color:#f92672">.</span>add(Dropout(<span style="color:#ae81ff">0.7</span>))
+model<span style="color:#f92672">.</span>add(Dense(units<span style="color:#f92672">=</span><span style="color:#ae81ff">689</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>))
+model<span style="color:#f92672">.</span>add(Dropout(<span style="color:#ae81ff">0.7</span>))
+model<span style="color:#f92672">.</span>add(Dense(units<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>,activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;softmax&#39;</span>)) <span style="color:#75715e"># 输出层10个节点</span>
+model<span style="color:#f92672">.</span>compile(loss<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;categorical_crossentropy&#39;</span>,optimizer<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;adam&#39;</span>,metrics<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;accuracy&#39;</span>])
+model<span style="color:#f92672">.</span>fit(x_train,y_train,batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>,epochs<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>)
+
+train_result <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>evaluate(x_train,y_train,batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">10000</span>)
+test_result <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>evaluate(x_test,y_test,batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">10000</span>)
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Train Accc:&#39;</span>,train_result[<span style="color:#ae81ff">1</span>])
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Test Accc:&#39;</span>,test_result[<span style="color:#ae81ff">1</span>])
+</code></pre></div><p>其中Dropout层添加到每个隐藏层之间,常用的概率值是0.5左右,结果如下:</p>
+<pre><code>Train Accc: 0.9824030212854031
+Test Accc: 0.6224999713897705
+</code></pre><p>可以看到测试集精度提升了一些.当然,除了Dropout之外可以<a href="https://keras.io/getting-started/faq/#how-can-i-interrupt-training-when-the-validation-loss-isnt-decreasing-anymore">Early Stopping</a>和Regularization(正则化,简单说就是使用某种方法使结果越来越接近0,Weight Decay,但这个帮助并不显著.)</p>
+<h2 id="特征工程">特征工程!</h2>
+<p>在上面的测试准确率可以达到90%以上,但细心的小伙伴应该发现了,在加载数据时候有这样2行代码:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">x_train <span style="color:#f92672">=</span> x_train <span style="color:#f92672">/</span> <span style="color:#ae81ff">255</span>
+x_test <span style="color:#f92672">=</span> x_test <span style="color:#f92672">/</span> <span style="color:#ae81ff">255</span>
+</code></pre></div><p>这两行代码就是对原始数据进行了缩放,将原始值在0-255之间的数据转化到0-1这个区间.如果没有这个处理,那么依然使用2层<code>relu</code>+<code>adam</code>+<code>categorical_crossentropy</code>+<code>batch_size=100</code>结果如下:</p>
+<pre><code>Train Accc: 0.10010000318288803
+Test Accc: 0.09799999743700027
+</code></pre><p>准确度居然降到和<code>sigmoid</code>+<code>SGD</code>+<code>mse</code>差不多的程度.所以,如果当程序在训练集上的准确度都很低的话,除了调整参数还需要进一步考虑特征工程是否合理合适了.</p>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">python</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/kears/" rel="tag">kears</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Roy avatar" src="/images/my.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Roy</span>
+	</div>
+	<div class="authorbox__description">
+		野生程序猿，略懂Python，略懂Golang，略懂云计算，略懂大数据，略懂拳击游泳钓鱼，略懂钢琴吉他摄影。
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E5%A6%82%E4%BD%95%E5%AF%B9go%E4%BB%A3%E7%A0%81%E8%A7%A3%E5%81%B6/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">如何对Go代码解偶</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/scrapy-redis%E7%BB%93%E5%90%88post%E8%AF%B7%E6%B1%82%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Scrapy-Redis结合POST请求获取数据</p>
+		</a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-hi-roy-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+<div class="footer__links">
+	<a class="footer__link" href="/about/">About</a>
+</div>
+		<div class="footer__copyright">
+			&copy; 2024 Roy.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>
